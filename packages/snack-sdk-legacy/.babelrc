@@ -1,0 +1,27 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            ">0.25%",
+            "not ie 11",
+            "not op_mini all",
+            "not android <= 4.4",
+            "not samsung <= 4"
+          ]
+        },
+        "useBuiltIns": true
+      }
+    ]
+  ],
+  "plugins": [
+    "dynamic-import-node",
+    "transform-flow-strip-types",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    ["transform-runtime", { "polyfill": false }]
+  ],
+  "sourceMaps": true
+}

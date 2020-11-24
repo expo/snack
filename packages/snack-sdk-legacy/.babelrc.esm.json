@@ -1,0 +1,30 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": [
+            ">0.25%",
+            "not ie 11",
+            "not op_mini all",
+            "not android <= 4.4",
+            "not samsung <= 4"
+          ]
+        },
+        "useBuiltIns": true
+      }
+    ]
+  ],
+  "plugins": [
+    "syntax-dynamic-import",
+    "transform-flow-strip-types",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "transform-runtime",
+    ["transform-runtime", { "polyfill": false }]
+  ],
+  "sourceMaps": true,
+  "babelrc": false
+}

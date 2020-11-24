@@ -1,0 +1,6 @@
+{
+  "testEnvironment": "node",
+  "testPathDirs": [
+    "src"
+  ]
+}
