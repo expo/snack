@@ -4,7 +4,14 @@
   "description": "The Expo Snack SDK",
   "main": "dist/snack.js",
   "module": "esm/snack.js",
-  "repository": "expo/snack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expo/snack.git",
+    "directory": "packages/snack-sdk-legacy"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/snack/issues"
+  },
   "files": [
     "dist",
     "esm"
@@ -20,7 +27,7 @@
     "flow-typed": "flow-typed install",
     "docs": "documentation readme --readme-file API.md --section \"Snack SDK API\" src/SnackSession.js"
   },
-  "author": "support@getexponent.com",
+  "author": "Expo <support@expo.io>",
   "license": "MIT",
   "volta": {
     "node": "12.18.4"
