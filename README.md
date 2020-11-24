@@ -1,4 +1,11 @@
-# Expo Snack
+<!-- Banner Image -->
+
+<h1 align="center">
+  <img src="./logo.svg" width="100px" />
+  <p align="center">
+    Expo Snack
+  </p>
+</h1>
 
 ## License
 
