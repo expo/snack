@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import Blob from '../__mocks__/Blob';
+import Blob from '../__mocks__/blob';
 import Snack from './snack-sdk';
 
 // @ts-ignore

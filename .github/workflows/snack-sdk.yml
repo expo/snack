@@ -28,7 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - run: yarn install --ignore-scripts --frozen-lockfile
-      - run: yarn test --maxWorkers 1
+      - run: yarn test:staging --maxWorkers 1
         working-directory: packages/snack-sdk
       - run: yarn lint --max-warnings 0
         working-directory: packages/snack-sdk
