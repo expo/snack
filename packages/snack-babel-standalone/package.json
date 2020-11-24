@@ -1,0 +1,8 @@
+{
+  "name": "snack-babel-standalone",
+  "version": "1.0.0",
+  "main": "node_modules/@expo/babel-standalone",
+  "dependencies": {
+    "@expo/babel-standalone": "^1.0.3"
+  }
+}
