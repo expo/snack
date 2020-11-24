@@ -1,0 +1,14 @@
+{
+  "name": "@expo/snack",
+  "private": true,
+  "author": "Expo",
+  "license": "MIT",
+  "workspaces": [
+    "packages/snack-sdk",
+    "packages/snack-babel-standalone"
+  ],
+  "devDependencies": {
+    "eslint": "^7.14.0",
+    "prettier": "^2.2.0"
+  }
+}
