@@ -1,0 +1,56 @@
+{
+  "name": "snack-sdk",
+  "version": "3.0.0-rc.24",
+  "description": "The Expo Snack SDK",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expo/snack.git",
+    "directory": "packages/snack-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/snack/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "yarn test:local",
+    "test:local": "SNACK_ENV=local yarn run jest",
+    "test:staging": "SNACK_ENV=staging yarn run jest",
+    "lint": "eslint src --ext '.ts'",
+    "doc": "yarn typedoc"
+  },
+  "author": "Expo <support@expo.io>",
+  "license": "MIT",
+  "volta": {
+    "node": "12.16.2"
+  },
+  "devDependencies": {
+    "@types/diff": "^4.0.2",
+    "@types/jest": "^26.0.13",
+    "@types/lodash.isequal": "^4.5.5",
+    "@types/lodash.mapvalues": "^4.6.6",
+    "@types/node-fetch": "^2.5.7",
+    "@types/pubnub": "^4.27.4",
+    "@types/semver": "^7.2.0",
+    "@types/ua-parser-js": "^0.7.33",
+    "@types/validate-npm-package-name": "^3.0.0",
+    "form-data": "^3.0.0",
+    "jest": "^26.4.2",
+    "jest-fetch-mock": "^3.0.3",
+    "ts-jest": "^26.3.0",
+    "typedoc": "^0.17.8",
+    "typedoc-plugin-markdown": "^2.3.1",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "diff": "^4.0.2",
+    "fetch-ponyfill": "^6.1.1",
+    "lodash": "^4.17.20",
+    "nanoid": "^3.1.16",
+    "pubnub": "^4.28.1",
+    "semver": "^7.3.2",
+    "ua-parser-js": "^0.7.21",
+    "validate-npm-package-name": "^3.0.0"
+  }
+}

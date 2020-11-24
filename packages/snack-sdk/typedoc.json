@@ -1,0 +1,18 @@
+{
+  "inputFiles": ["./src"],
+  "exclude": [
+    "**/*+(FileUploader|DevSession|DependencyResolver|Logger|Messaging|State|utils|defaultConfig|index).ts",
+    "**/sdks/**",
+    "**/transports/**"
+  ],
+  "mode": "file",
+  "out": "./docs",
+  "excludeExternals": true,
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "stripInternal": true,
+  "hideSources": true,
+  "theme": "markdown",
+  "hideBreadcrumbs": true
+}

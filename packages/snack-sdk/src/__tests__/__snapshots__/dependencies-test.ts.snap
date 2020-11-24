@@ -1,0 +1,216 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dependencies adds dependencies 1`] = `
+Object {
+  "@react-navigation/native": Object {
+    "handle": "snackager-1/@react-navigation~native@5.1.1",
+    "peerDependencies": Object {
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "5.1.1",
+  },
+  "expo-font": Object {
+    "version": "8.1.0",
+    "wantedVersion": "~8.3.0",
+  },
+  "react-native-paper": Object {
+    "handle": "snackager-1/react-native-paper@3.10.1",
+    "peerDependencies": Object {
+      "@expo/vector-icons": null,
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "3.10.1",
+  },
+}
+`;
+
+exports[`dependencies does not resolve * when disabled 1`] = `
+Object {
+  "expo-constants": Object {
+    "version": "*",
+  },
+}
+`;
+
+exports[`dependencies fails on invalid dependency name 1`] = `[Error: Invalid dependency '+-/.' (name can only contain URL-friendly characters)]`;
+
+exports[`dependencies fails on invalid dependency version 1`] = `[Error: Invalid dependency 'expo' (version '-- 2 4' is not a valid semver)]`;
+
+exports[`dependencies ignores resolved dependencies 1`] = `
+Object {
+  "expo-firebase-analytics": Object {
+    "handle": "snackager-1/expo-firebase-analytics@8.1.0",
+    "version": "8.1.0",
+    "wantedVersion": "~2.5.0",
+  },
+}
+`;
+
+exports[`dependencies loads peer dependencies 1`] = `
+Object {
+  "mobx": "^4.0.0",
+}
+`;
+
+exports[`dependencies loads peer dependencies 2`] = `
+Object {
+  "mobx": Object {
+    "dependents": Array [
+      "firestorter",
+    ],
+    "wantedVersion": "^4.0.0",
+  },
+}
+`;
+
+exports[`dependencies removes dependencies 1`] = `
+Object {
+  "@react-navigation/native": Object {
+    "handle": "snackager-1/@react-navigation~native@5.1.1",
+    "peerDependencies": Object {
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "5.1.1",
+  },
+  "react-native-paper": Object {
+    "handle": "snackager-1/react-native-paper@3.10.1",
+    "peerDependencies": Object {
+      "@expo/vector-icons": null,
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "3.10.1",
+  },
+}
+`;
+
+exports[`dependencies reports missing peer dependencies 1`] = `
+Object {
+  "@react-native-community/masked-view": Object {
+    "dependents": Array [
+      "@react-navigation/stack",
+    ],
+    "wantedVersion": "0.1.10",
+  },
+  "@react-navigation/native": Object {
+    "dependents": Array [
+      "@react-navigation/stack",
+      "@react-navigation/drawer",
+    ],
+    "wantedVersion": "5.0.6",
+  },
+  "react-native-gesture-handler": Object {
+    "dependents": Array [
+      "@react-navigation/stack",
+      "@react-navigation/drawer",
+    ],
+    "wantedVersion": "~1.7.0",
+  },
+  "react-native-reanimated": Object {
+    "dependents": Array [
+      "@react-navigation/drawer",
+    ],
+    "wantedVersion": "~1.13.0",
+  },
+  "react-native-safe-area-context": Object {
+    "dependents": Array [
+      "@react-navigation/stack",
+      "@react-navigation/drawer",
+    ],
+    "wantedVersion": "3.1.4",
+  },
+  "react-native-screens": Object {
+    "dependents": Array [
+      "@react-navigation/stack",
+      "@react-navigation/drawer",
+    ],
+    "wantedVersion": "~2.10.1",
+  },
+}
+`;
+
+exports[`dependencies resolves * after enabling 1`] = `
+Object {
+  "expo-constants": Object {
+    "version": "~9.0.0",
+    "wantedVersion": "~9.0.0",
+  },
+}
+`;
+
+exports[`dependencies resolves * to wanted version 1`] = `
+Object {
+  "expo-constants": Object {
+    "version": "~9.0.0",
+    "wantedVersion": "~9.0.0",
+  },
+}
+`;
+
+exports[`dependencies resolves dependency 1`] = `
+Object {
+  "expo-firebase-analytics": Object {
+    "handle": "snackager-1/expo-firebase-analytics@2.4.1",
+    "peerDependencies": Object {
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "2.4.1",
+    "wantedVersion": "~2.5.0",
+  },
+}
+`;
+
+exports[`dependencies resolves multiple dependencies 1`] = `
+Object {
+  "@react-navigation/native": Object {
+    "handle": "snackager-1/@react-navigation~native@5.1.1",
+    "peerDependencies": Object {
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "5.1.1",
+  },
+  "expo-font": Object {
+    "version": "8.1.0",
+    "wantedVersion": "~8.3.0",
+  },
+  "react-native-paper": Object {
+    "handle": "snackager-1/react-native-paper@3.10.1",
+    "peerDependencies": Object {
+      "@expo/vector-icons": null,
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "3.10.1",
+  },
+}
+`;
+
+exports[`dependencies updates preloaded module version when changing SDK version 1`] = `
+Object {
+  "expo-av": Object {
+    "handle": "snackager-1/expo-av@8.1.0",
+    "peerDependencies": Object {},
+    "version": "~8.1.0",
+    "wantedVersion": "~8.1.0",
+  },
+}
+`;
+
+exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
+Object {
+  "expo-av": Object {
+    "handle": "snackager-1/expo-av@8.2.1",
+    "peerDependencies": Object {
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "~8.2.1",
+    "wantedVersion": "~8.2.1",
+  },
+}
+`;

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pubnub accepts connections 1`] = `
+Object {
+  "{\\"platform\\":\\"ios\\",\\"id\\":\\"7682-1234\\",\\"name\\":\\"iPhone 8\\"}": Object {
+    "id": "7682-1234",
+    "name": "iPhone 8",
+    "platform": "ios",
+    "status": "ok",
+    "transport": "pubnub",
+  },
+}
+`;

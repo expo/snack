@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`code receives valid code diff 1`] = `
+Object {
+  "app.js": "Index: code
+===================================================================
+--- code	
++++ code	
+@@ -1,0 +1,1 @@
+\\\\ No newline at end of file
++hoi
+\\\\ No newline at end of file
+",
+}
+`;
+
+exports[`code receives valid dependencies 1`] = `
+Object {
+  "expo-firebase-analytics": Object {
+    "handle": "snackager-1/expo-font@8.1.1",
+    "resolved": "8.1.1",
+    "version": "~8.1.0",
+  },
+}
+`;
