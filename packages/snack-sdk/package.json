@@ -17,7 +17,7 @@
     "test": "yarn test:local",
     "test:local": "SNACK_ENV=local yarn run jest",
     "test:staging": "SNACK_ENV=staging yarn run jest",
-    "lint": "eslint src --ext '.ts'",
+    "lint": "eslint .",
     "doc": "yarn typedoc"
   },
   "author": "Expo <support@expo.io>",
