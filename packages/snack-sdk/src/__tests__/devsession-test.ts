@@ -1,16 +1,9 @@
 import fetch from 'node-fetch';
 
-import Blob from '../__mocks__/blob';
+import '../__mocks__/blob';
 import Snack from './snack-sdk';
 
-// @ts-ignore
-global.Blob = Blob;
-
 jest.mock('node-fetch');
-
-beforeEach(() => {
-  Blob.instances = [];
-});
 
 // @ts-ignore
 fetch.mockReturnValue(

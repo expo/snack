@@ -1,9 +1,6 @@
+import '../__mocks__/fetch';
 import PubNub from '../__mocks__/pubnub';
 import Snack from './snack-sdk';
-
-beforeEach(() => {
-  PubNub.instances = [];
-});
 
 describe('pubnub', () => {
   it('is disabled by default', async () => {

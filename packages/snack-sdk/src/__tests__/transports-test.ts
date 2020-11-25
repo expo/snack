@@ -1,3 +1,4 @@
+import '../__mocks__/fetch';
 import { SnackTransportOptions } from '../transports';
 import Snack from './snack-sdk';
 

@@ -3,7 +3,7 @@ import { Snack, defaultConfig } from '..';
 switch (process.env.SNACK_ENV) {
   case 'local':
     defaultConfig.apiURL = 'http://localhost:3000';
-    defaultConfig.snackagerURL = 'https://snackager.expo.io';
+    defaultConfig.snackagerURL = 'https://localhost:3001';
     defaultConfig.host = 'localhost:3000';
     break;
   case 'staging':

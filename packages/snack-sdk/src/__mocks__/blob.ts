@@ -8,3 +8,10 @@ export default class Blob {
     Blob.instances.push(this);
   }
 }
+
+// @ts-ignore
+global.Blob = Blob;
+
+beforeEach(() => {
+  Blob.instances = [];
+});
