@@ -1,3 +1,4 @@
+import '../__mocks__/fetch';
 import Snack from './snack-sdk';
 
 describe('save', () => {

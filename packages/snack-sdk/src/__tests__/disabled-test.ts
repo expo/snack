@@ -1,22 +1,5 @@
-import fetch from 'node-fetch';
-
+import fetch from '../__mocks__/fetch';
 import Snack from './snack-sdk';
-
-jest.mock('node-fetch');
-
-// @ts-ignore
-fetch.mockReturnValue(
-  Promise.resolve({
-    ok: true,
-    status: 200,
-    json: async () => ({ pending: false }),
-  })
-);
-
-beforeEach(() => {
-  // @ts-ignore
-  fetch.mockClear();
-});
 
 describe('disabled', () => {
   it('is enabled by default', async () => {

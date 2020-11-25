@@ -1,3 +1,4 @@
+import '../__mocks__/fetch';
 import Snack, { SnackOptions } from './snack-sdk';
 
 const host = 'expo.io';

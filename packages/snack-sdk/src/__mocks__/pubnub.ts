@@ -102,3 +102,7 @@ export default class PubNub {
     });
   }
 }
+
+beforeEach(() => {
+  PubNub.instances = [];
+});

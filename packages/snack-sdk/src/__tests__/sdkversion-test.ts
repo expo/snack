@@ -1,3 +1,4 @@
+import '../__mocks__/fetch';
 import Snack, {
   getSupportedSDKVersions,
   isValidSemver,

@@ -1,10 +1,7 @@
+import '../__mocks__/fetch';
 import PubNub from '../__mocks__/pubnub';
 import { ProtocolStatusMessage } from '../transports/Protocol';
 import Snack from './snack-sdk';
-
-beforeEach(() => {
-  PubNub.instances = [];
-});
 
 describe('preview', () => {
   it('sends preview request once per transport', async () => {

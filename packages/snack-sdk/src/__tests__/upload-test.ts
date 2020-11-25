@@ -1,21 +1,12 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
-import fetch from 'node-fetch';
 
+import fetch from '../__mocks__/fetch';
 import PubNub from '../__mocks__/pubnub';
 import Snack from './snack-sdk';
-
-jest.mock('node-fetch');
-
-beforeEach(() => {
-  PubNub.instances = [];
-  // @ts-ignore
-  fetch.mockClear();
-});
 
 describe('upload', () => {
   it('uploads code for too large messages', async () => {
     const uploadURL = 'https://snack-code-uploads.s3.us-west-1.amazonaws.com/~code/whoop';
-    // @ts-ignore
     fetch.mockReturnValue(
       Promise.resolve({
         ok: true,

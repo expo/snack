@@ -1,6 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import formData from 'form-data';
 
+import '../__mocks__/fetch';
 import PubNub from '../__mocks__/pubnub';
 import { ProtocolErrorMessage, ProtocolResendCodeMessage } from '../transports/Protocol';
 import Snack, { SnackFile } from './snack-sdk';
