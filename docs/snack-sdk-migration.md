@@ -1,4 +1,4 @@
-# SDK Migration Guide
+# Snack SDK Migration Guide
 
 This guide helps with migration from snack-sdk@2 to snack-sdk@3.
 

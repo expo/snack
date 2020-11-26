@@ -1,7 +1,7 @@
 {
   "inputFiles": ["./src"],
   "exclude": [
-    "**/*+(FileUploader|DevSession|DependencyResolver|Logger|Messaging|State|utils|defaultConfig|index).ts",
+    "**/*+(FileUploader|DevSession|DependencyResolver|Logger|WantedVersions|State|utils|defaultConfig|index).ts",
     "**/sdks/**",
     "**/transports/**"
   ],
