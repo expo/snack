@@ -1,9 +1,8 @@
-# Migration Guide
+# SDK Migration Guide
 
 This guide helps with migration from snack-sdk@2 to snack-sdk@3.
 
-Conceptually, v3 is similar to v2 and exposes a Snack Session class which can be used to create Snacks, save them and connect to them using the Expo client.
-The API and types have however been overhauled to provide a leaner and more consistent API. V3 also supports first class TypeScript support, but the flow typings have been removed.
+Conceptually, v3 is similar to v2 and exposes a Snack Session class which can be used to create Snacks, save them and connect to them using the Expo client. The API and types have however been overhauled to provide a leaner and more consistent API. V3 also supports first class TypeScript support, but the flow typings have been removed.
 
 ## Imports
 
@@ -86,11 +85,11 @@ const snack = new Snack({
 | Version 2             | Version 3                   | Description                                          |
 | --------------------- | --------------------------- | ---------------------------------------------------- |
 | `SDKVersions`         | `getSupportedSDKVersions`   | Updated to method called `getSupportedSDKVersions`.  |
+| `isModulePreloaded`   | `isModulePreloaded`         | Has been extended with optional 3rd parameter `coreModulesOnly`.                                          |
 | `preloadedModules`    | `getPreloadedModules`       | Updated to method called `getPreloadedModules`.      |
 | `dependencyUtils`     |                             | Field has been removed                               |
 | `supportedModules`    |                             | Field has been removed.                              |
-| `isModulePreloaded`   | `isModulePreloaded`         | No changes.                                          |
-| `getSupportedVersion` | `getPreloadedModuleVersion` | Renamed to `getPreloadedModuleVersion`.              |
+| `getSupportedVersion` |  | Method has been removed.              |
 |                       | `isValidSemver`             | Checks whether a string is a valid semantic version. |
 
 ## Types
