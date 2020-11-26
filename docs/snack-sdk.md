@@ -24,6 +24,7 @@ Check out https://forums.expo.io/c/snack for assistance and to receive updates a
 - [Saving the Snack](#saving-the-snack)
   - [Downloading as a Zip file](#downloading-as-a-zip-file)
 - [Example App](#example-app)
+- [API Reference](#api-reference)
 
 # Basic usage
 
@@ -433,3 +434,7 @@ cd ./example
 yarn
 yarn start
 ```
+
+# API Reference
+
+[API Reference documentation](./snack-sdk-api/README.md)

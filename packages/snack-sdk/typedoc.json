@@ -3,10 +3,13 @@
   "exclude": [
     "**/*+(FileUploader|DevSession|DependencyResolver|Logger|WantedVersions|State|utils|defaultConfig|index).ts",
     "**/sdks/**",
-    "**/transports/**"
+    "**/transports/**",
+    "**/__tests__/**",
+    "**/__mocks__/**",
+    "**/__fixtures__/**"
   ],
   "mode": "file",
-  "out": "./docs",
+  "out": "../../docs/snack-sdk-api",
   "excludeExternals": true,
   "excludeNotExported": true,
   "excludePrivate": true,
@@ -14,5 +17,6 @@
   "stripInternal": true,
   "hideSources": true,
   "theme": "markdown",
+  "readme": "none",
   "hideBreadcrumbs": true
 }
