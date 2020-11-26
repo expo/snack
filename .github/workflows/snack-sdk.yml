@@ -34,3 +34,5 @@ jobs:
         working-directory: packages/snack-sdk
       - run: yarn build
         working-directory: packages/snack-sdk
+      - run: yarn doc:ci
+        working-directory: packages/snack-sdk

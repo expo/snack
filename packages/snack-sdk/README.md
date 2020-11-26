@@ -22,10 +22,11 @@ yarn start
 
 ## 👏 Contributing
 
-Make sure that all code lints and builds correctly before commiting; and that all tests pass.
+Make sure that all code lints and builds and that all tests pass and the docs are updated, before committing.
 
 ```sh
 yarn lint
 yarn build
 yarn test
+yarn doc
 ```

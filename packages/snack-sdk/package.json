@@ -20,7 +20,8 @@
     "test:staging": "SNACK_ENV=staging yarn run jest",
     "test:prod": "SNACK_ENV=production yarn run jest",
     "lint": "eslint .",
-    "doc": "yarn typedoc"
+    "doc": "yarn typedoc",
+    "doc:ci": "yarn doc && node ./scripts/checkUncommittedDocChanges.js"
   },
   "author": "Expo <support@expo.io>",
   "license": "MIT",
@@ -28,6 +29,7 @@
     "node": "12.16.2"
   },
   "devDependencies": {
+    "@expo/spawn-async": "^1.5.0",
     "@koa/router": "^10.0.0",
     "@types/diff": "^4.0.2",
     "@types/jest": "^26.0.13",
