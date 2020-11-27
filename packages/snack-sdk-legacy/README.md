@@ -1,14 +1,10 @@
-# Legacy Snack SDK (v2)
+# snack-sdk-legacy (v2)
 
-**This package is deprecated and has been superceded by [snack-sdk](../packages/snack-sdk).**
+This package contains the code and documentation for the legacy snack-sdk v2.
 
-The Expo Snack SDK. Use this to create a custom web interface for https://snack.expo.io/.  For brevity, these docs assume you are targeting the most recent version of Expo SDK
+## DEPRECATED This package has been superceded by [packages/snack-sdk (v3)](../snack-sdk).
 
-Have a problem with the code in this repository? Please file issues & bug reports
-at https://github.com/expo/expo. Thanks!
-
-Interested in integrating the Snack SDK into your project?
-Check out https://forums.expo.io/c/snack for assistance and to receive updates about any upgrades to the SDK.
+Users of `snack-sdk@2` are required to upgrade to `snack-sdk@3` by **MID 2021**. After that `snack-sdk@2` will no longer be updated and no new Expo SDK versions will be supported. The V3 package has new cleaner API and upgrading can be done using the [Migration Guide](../../docs/snack-sdk-migration.md).
 
 ## Documentation
 
