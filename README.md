@@ -39,11 +39,9 @@ Expo Snack is an open-source platform for running React Native apps in the brows
 - [`runtime`](/runtime) *The Snack runtime app and web-player.*
 -->
 
-<!--
 ## 👏 Contributing
 
-Want to contribute? Report an issue? Read the [contributing guide](./docs/contributing.md) to get started.
--->
+If you like Expo Snack and want to help make it better then check out our [contributing guide](./CONTRIBUTING.md)!
 
 ## License
 

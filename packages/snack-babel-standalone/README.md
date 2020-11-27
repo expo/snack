@@ -2,4 +2,4 @@
 
 Standalone babel compiler used by the Snack runtime.
 
-[@expo/babel-standalone](https://github.com/expo/babel-standalone)
+Source code can be found at https://github.com/expo/babel-standalone
