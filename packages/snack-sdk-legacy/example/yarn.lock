@@ -5709,13 +5709,12 @@ smart-buffer@^1.0.13:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-1.1.15.tgz#7f114b5b65fab3e2a35aa775bb12f0d1c649bf16"
   integrity sha1-fxFLW2X6s+KjWqd1uxLw0cZJvxY=
 
-snack-sdk@^1.0.0:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/snack-sdk/-/snack-sdk-1.0.11.tgz#efeef0994634add3e817de638330c888f466064a"
-  integrity sha512-l9eEwPaYjfIrsCqQy/PLJdxYF1Cac4821GE6wJOafZVKz79rVtHwtI6UVhX7wmOEUitWAwq1xWt+3bF+EdKbvA==
+snack-sdk@^2.3.6:
+  version "2.6.5"
+  resolved "https://registry.yarnpkg.com/snack-sdk/-/snack-sdk-2.6.5.tgz#4aed5fe7297bc64be9f76dbef27982dc346f723e"
+  integrity sha512-qauWm32ykmRX65jxrSheO3V13DKC5Ib700xNFkmtinzpj16FUSduYsfgPDvke4Taet4YeNEU1Me81Rj0ZblAbQ==
   dependencies:
     babel-runtime "^6.23.0"
-    babylon "^6.17.2"
     diff "^3.2.0"
     lodash "^4.16.1"
     platform "^1.3.4"
@@ -5723,7 +5722,6 @@ snack-sdk@^1.0.0:
     recast "^0.12.4"
     semver "^5.3.0"
     shortid "^2.2.8"
-    source-map-support "^0.4.2"
     validate-npm-package-name "^3.0.0"
 
 sntp@1.x.x:

@@ -13,16 +13,16 @@ The Expo Snack SDK. Use this to create a custom web interface for https://snack.
 Running the example app.
 
 ```sh
-yarn
 yarn build
 cd ./example
-yarn
 yarn start
 ```
 
 ## 👏 Contributing
 
-Make sure that all code lints and builds and that all tests pass and the docs are updated, before committing.
+Insta
+
+Make sure that all code lints, builds, all tests pass and the docs are updated, before committing.
 
 ```sh
 yarn lint
