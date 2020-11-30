@@ -441,4 +441,33 @@ export const dependencies = {
     'expo-image-picker': '9.1.1',
     'expo-linear-gradient': '8.3.0',
   },
+  '40.0.0': {
+    ...aliases,
+    expo: '40.0.0',
+    react: '16.13.1',
+    'react-native': '0.63.2',
+    'react-dom': '16.13.1',
+    'react-native-web': '0.13.12',
+
+    // Packages that require special initialisation (see Modules.tsx)
+    'expo-asset': '8.2.1',
+    'expo-font': '8.4.0',
+    'react-native-gesture-handler': '1.8.0',
+    'react-native-safe-area-context': '3.1.9',
+    //'react-native-vector-icons': '10.0.0',
+    '@expo/vector-icons': '10.2.0',
+
+    // Packages that are used internally by the runtime
+    'expo-constants': '9.3.1',
+    'expo-file-system': '9.3.0',
+    'expo-permissions': '10.0.0',
+    'expo-updates': '0.4.1',
+    '@react-native-community/async-storage': '1.12.0',
+
+    // Common packages that are included for easy of use
+    'prop-types': '15.7.2',
+    '@unimodules/core': '6.0.0',
+    '@unimodules/react-native-adapter': '5.7.0',
+    'unimodules-permissions-interface': '5.4.0',
+  },
 };

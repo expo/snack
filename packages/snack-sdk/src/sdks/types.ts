@@ -1,4 +1,4 @@
-export type SDKVersion = '36.0.0' | '37.0.0' | '38.0.0' | '39.0.0';
+export type SDKVersion = '36.0.0' | '37.0.0' | '38.0.0' | '39.0.0' | '40.0.0';
 
 export type SDKSpec = {
   version: SDKVersion;
