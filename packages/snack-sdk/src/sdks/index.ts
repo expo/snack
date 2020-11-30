@@ -158,6 +158,38 @@ const sdks: { [version: string]: SDKSpec } = {
       'expo-linear-gradient': '*',
     },
   },
+  '40.0.0': {
+    version: '40.0.0',
+    coreModules: {
+      ...aliases,
+      expo: '39.0.2',
+      react: '16.13.1',
+      'react-native': '0.63.2',
+      'react-dom': '16.13.1',
+      'react-native-web': '0.13.12',
+    },
+    bundledModules: {
+      ...unimodules,
+
+      // Packages that require special initialisation (see Modules.tsx)
+      'expo-asset': '*',
+      'expo-font': '*',
+      'react-native-gesture-handler': '*',
+      'react-native-safe-area-context': '*',
+      //'react-native-vector-icons': '*',
+      '@expo/vector-icons': '*',
+
+      // Packages that are used internally by the runtime
+      'expo-constants': '*',
+      'expo-file-system': '*',
+      'expo-permissions': '*',
+      'expo-updates': '*',
+      '@react-native-community/async-storage': '*',
+
+      // Common packages that are included for easy of use
+      'prop-types': '*',
+    },
+  },
 };
 
 export default sdks;
