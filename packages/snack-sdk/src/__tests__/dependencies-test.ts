@@ -4,6 +4,7 @@ import Snack from './snack-sdk';
 describe('dependencies', () => {
   it('resolves dependency', async () => {
     const snack = new Snack({
+      sdkVersion: '39.0.0',
       dependencies: {
         'expo-firebase-analytics': { version: '2.4.1' },
       },
@@ -15,6 +16,7 @@ describe('dependencies', () => {
 
   it('resolves multiple dependencies', async () => {
     const snack = new Snack({
+      sdkVersion: '39.0.0',
       dependencies: {
         'expo-font': { version: '8.1.0' },
         '@react-navigation/native': { version: '5.1.1' },
@@ -28,6 +30,7 @@ describe('dependencies', () => {
 
   it('ignores resolved dependencies', async () => {
     const snack = new Snack({
+      sdkVersion: '39.0.0',
       dependencies: {
         'expo-firebase-analytics': {
           version: '8.1.0',
@@ -54,7 +57,9 @@ describe('dependencies', () => {
   });
 
   it('adds dependencies', async () => {
-    const snack = new Snack({});
+    const snack = new Snack({
+      sdkVersion: '39.0.0',
+    });
     snack.updateDependencies({
       'expo-font': { version: '8.1.0' },
       '@react-navigation/native': { version: '5.1.1' },
@@ -217,6 +222,7 @@ describe('dependencies', () => {
 
   it('reports missing peer dependencies', async () => {
     const snack = new Snack({
+      sdkVersion: '39.0.0',
       dependencies: {
         '@react-navigation/stack': {
           handle: 'snackager-1/@react-navigation~stack@5.10.0',
