@@ -162,7 +162,7 @@ const sdks: { [version: string]: SDKSpec } = {
     version: '40.0.0',
     coreModules: {
       ...aliases,
-      expo: '39.0.2',
+      expo: '40.0.0',
       react: '16.13.1',
       'react-native': '0.63.2',
       'react-dom': '16.13.1',
