@@ -1,7 +1,7 @@
 import { Logger } from './Logger';
+import sdks from './sdks';
 import { SDKVersion, SnackDependencyVersions, SnackError } from './types';
 import { fetch } from './utils';
-import sdks from './sdks';
 
 export type WantedDependencyVersionsCallback = (
   sdkVersion: SDKVersion,
