@@ -51,6 +51,19 @@ describe('sdkVersion', () => {
       snack.setSDKVersion('thisaintright')
     ).toThrowError();
   });
+
+  getSupportedSDKVersions().forEach((sdkVersion) => {
+    it(`fetches wantedDependencyVersions for SDK ${sdkVersion}`, async () => {
+      const snack = new Snack({
+        sdkVersion,
+        dependencies: {
+          'expo-blur': { version: '*' },
+        },
+      });
+      const { wantedDependencyVersions } = await snack.getStateAsync();
+      expect(Object.keys(wantedDependencyVersions || {}).length).toBeGreaterThan(0);
+    });
+  });
 });
 
 describe('getSupportedSDKVersions', () => {
