@@ -85,9 +85,7 @@ describe('getPreloadedModules', () => {
   it('returns valid modules', () => {
     const result = getPreloadedModules('37.0.0');
     expect(Object.keys(result).length).toBeGreaterThan(10);
-    Object.values(result).map((version) =>
-      expect(isValidSemver(version) || version === 'image').toBe(true)
-    );
+    Object.values(result).map((version) => expect(isValidSemver(version)).toBe(true));
   });
   it('returns different results for other SDK', () => {
     const result = getPreloadedModules('37.0.0');
@@ -99,5 +97,20 @@ describe('getPreloadedModules', () => {
     const internal = getPreloadedModules('37.0.0', true);
     expect(Object.keys(internal).length).toBeLessThan(Object.keys(result).length);
     expect(result).toMatchObject(internal);
+  });
+});
+
+describe('isValidSemver', () => {
+  it('is valid for *', () => {
+    expect(isValidSemver('*')).toBe(true);
+  });
+  it('is valid for latest', () => {
+    expect(isValidSemver('latest')).toBe(true);
+  });
+  it('is valid for version', () => {
+    expect(isValidSemver('1.2.3')).toBe(true);
+  });
+  it('is invalid for random string', () => {
+    expect(isValidSemver('random-string')).toBe(false);
   });
 });
