@@ -1,9 +1,9 @@
 import { SDKSpec } from './types';
 
-const aliases = {
+const assets = {
   // @expo/snack-static/react-native-logo.png is an alias that is
   // implemented in the runtime, and uses by the react-native image docs
-  '@expo/snack-static/react-native-logo.png': 'image',
+  '@expo/snack-static/react-native-logo.png': '*',
 };
 
 const unimodules: { [name: string]: '*' } = {
@@ -25,15 +25,15 @@ const sdks: { [version: string]: SDKSpec } = {
   '36.0.0': {
     version: '36.0.0',
     coreModules: {
-      ...aliases,
-      expo: '36.0.0',
+      ...assets,
+      ...unimodules,
+      expo: '36.0.2',
       react: '16.9.0',
       'react-native': '0.61.4',
-      'react-dom': '16.9.0',
-      'react-native-web': '0.11.7',
+      'react-dom': '*',
+      'react-native-web': '*',
     },
     bundledModules: {
-      ...unimodules,
       '@expo/vector-icons': '*',
       'expo-asset': '*',
       'expo-auth-session': '*',
@@ -52,15 +52,15 @@ const sdks: { [version: string]: SDKSpec } = {
   '37.0.0': {
     version: '37.0.0',
     coreModules: {
-      ...aliases,
-      expo: '37.0.0',
+      ...assets,
+      ...unimodules,
+      expo: '37.0.12',
       react: '16.9.0',
       'react-native': '0.61.4',
-      'react-dom': '16.9.0',
-      'react-native-web': '0.11.7',
+      'react-dom': '*',
+      'react-native-web': '*',
     },
     bundledModules: {
-      ...unimodules,
       '@expo/vector-icons': '*',
       'expo-asset': '*',
       'expo-barcode-scanner': '*',
@@ -78,15 +78,15 @@ const sdks: { [version: string]: SDKSpec } = {
   '38.0.0': {
     version: '38.0.0',
     coreModules: {
-      ...aliases,
-      expo: '38.0.1',
+      ...assets,
+      ...unimodules,
+      expo: '38.0.9',
       react: '16.11.0',
       'react-native': '0.62.2',
-      'react-dom': '16.11.0',
-      'react-native-web': '0.11.7',
+      'react-dom': '*',
+      'react-native-web': '*',
     },
     bundledModules: {
-      ...unimodules,
       // Packages that require special initialisation (see Modules.tsx)
       'expo-asset': '*',
       'react-native-gesture-handler': '*',
@@ -116,16 +116,15 @@ const sdks: { [version: string]: SDKSpec } = {
   '39.0.0': {
     version: '39.0.0',
     coreModules: {
-      ...aliases,
-      expo: '39.0.2',
+      ...assets,
+      ...unimodules,
+      expo: '39.0.5',
       react: '16.13.1',
       'react-native': '0.63.2',
-      'react-dom': '16.13.1',
-      'react-native-web': '0.13.12',
+      'react-dom': '*',
+      'react-native-web': '*',
     },
     bundledModules: {
-      ...unimodules,
-
       // Packages that require special initialisation (see Modules.tsx)
       'expo-asset': '*',
       'react-native-gesture-handler': '*',
@@ -161,16 +160,15 @@ const sdks: { [version: string]: SDKSpec } = {
   '40.0.0': {
     version: '40.0.0',
     coreModules: {
-      ...aliases,
+      ...assets,
+      ...unimodules,
       expo: '40.0.0',
       react: '16.13.1',
       'react-native': '0.63.2',
-      'react-dom': '16.13.1',
-      'react-native-web': '0.13.12',
+      'react-dom': '*',
+      'react-native-web': '*',
     },
     bundledModules: {
-      ...unimodules,
-
       // Packages that require special initialisation (see Modules.tsx)
       'expo-asset': '*',
       'expo-font': '*',
