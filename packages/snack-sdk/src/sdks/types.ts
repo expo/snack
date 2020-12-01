@@ -1,7 +1,11 @@
 export type SDKVersion = '36.0.0' | '37.0.0' | '38.0.0' | '39.0.0' | '40.0.0';
 
 export type SDKSpec = {
-  version: SDKVersion;
+  // Version-spec for the published "expo" package. This version is
+  // used to fetch compatible package versions. The value is typically
+  // in the form of "^39.0.0" but may also contain custom specs, such
+  // as "40.0.0-beta.2".
+  version: string;
 
   // Modules that are pre-loaded by the Snack runtime, and which
   // the user does not need to add to `package.json`.

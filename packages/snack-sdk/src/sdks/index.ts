@@ -23,7 +23,7 @@ const unimodules: { [name: string]: '*' } = {
 
 const sdks: { [version: string]: SDKSpec } = {
   '36.0.0': {
-    version: '36.0.0',
+    version: '^36.0.0',
     coreModules: {
       ...assets,
       ...unimodules,
@@ -50,7 +50,7 @@ const sdks: { [version: string]: SDKSpec } = {
     },
   },
   '37.0.0': {
-    version: '37.0.0',
+    version: '^37.0.0',
     coreModules: {
       ...assets,
       ...unimodules,
@@ -76,7 +76,7 @@ const sdks: { [version: string]: SDKSpec } = {
     },
   },
   '38.0.0': {
-    version: '38.0.0',
+    version: '^38.0.0',
     coreModules: {
       ...assets,
       ...unimodules,
@@ -114,7 +114,7 @@ const sdks: { [version: string]: SDKSpec } = {
     },
   },
   '39.0.0': {
-    version: '39.0.0',
+    version: '^39.0.0',
     coreModules: {
       ...assets,
       ...unimodules,
@@ -158,11 +158,11 @@ const sdks: { [version: string]: SDKSpec } = {
     },
   },
   '40.0.0': {
-    version: '40.0.0',
+    version: '40.0.0-beta.2',
     coreModules: {
       ...assets,
       ...unimodules,
-      expo: '40.0.0',
+      expo: '40.0.0-beta.2',
       react: '16.13.1',
       'react-native': '0.63.2',
       'react-dom': '*',

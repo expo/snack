@@ -1,6 +1,7 @@
 import { Logger } from './Logger';
 import { SDKVersion, SnackDependencyVersions, SnackError } from './types';
 import { fetch } from './utils';
+import sdks from './sdks';
 
 export type WantedDependencyVersionsCallback = (
   sdkVersion: SDKVersion,
@@ -35,11 +36,14 @@ export class WantedDependencyVersions {
     let json: any;
     try {
       this.logger?.module('fetching bundledNativeModules for SDK', sdkVersion, '...');
-      const url = `https://cdn.jsdelivr.net/npm/expo@${sdkVersion}/bundledNativeModules.json`;
+      const url = `https://cdn.jsdelivr.net/npm/expo@${encodeURIComponent(
+        sdks[sdkVersion]?.version || sdkVersion
+      )}/bundledNativeModules.json`;
       const response = await fetch(url);
       json = await response.json();
     } catch (e) {
       if (this.sdkVersion === sdkVersion) {
+        this.logger?.error(e);
         this.callback(sdkVersion, undefined, e);
       }
       return;
