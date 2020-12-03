@@ -7,12 +7,12 @@
   "dependencies": {
     "deep-object-diff": "^1.1.0",
     "qrcode.react": "^1.0.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "snack-sdk": "link:../"
   },
   "devDependencies": {
-    "@snowpack/app-scripts-react": "^1.10.0",
-    "snowpack": "^2.10.3"
+    "@snowpack/app-scripts-react": "^1.12.6",
+    "snowpack": "^2.18.0"
   }
 }
