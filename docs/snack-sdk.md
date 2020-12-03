@@ -29,7 +29,7 @@ Check out https://forums.expo.io/c/snack for assistance and to receive updates a
 # Basic usage
 
 ```sh
-yarn install snack-sdk
+yarn add snack-sdk
 ```
 
 ```ts
