@@ -11,6 +11,7 @@ import {
   isValidSemver,
   getSupportedSDKVersions,
   isFeatureSupported,
+  standardizeDependencies,
 } from './sdk';
 
 export * from './transports';
@@ -25,6 +26,7 @@ export {
   isValidSemver,
   getSupportedSDKVersions,
   isFeatureSupported,
+  standardizeDependencies,
   defaultConfig,
   Snack,
 };

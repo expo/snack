@@ -88,7 +88,7 @@ const snack = new Snack({
 | `SDKVersions.sdkSupportsFeature` | `isFeatureSupported` | Updated to method called `isFeatureSupported`. |
 | `isModulePreloaded`   | `isModulePreloaded`         | Has been extended with optional 3rd parameter `coreModulesOnly`.                                          |
 | `preloadedModules`    | `getPreloadedModules`       | Updated to method called `getPreloadedModules`.      |
-| `dependencyUtils`     |                             | Field has been removed                               |
+| `dependencyUtils`     | `standardizeDependencies`   | Replaced by method `standardizeDependencies`.        |
 | `supportedModules`    |                             | Field has been removed.                              |
 | `getSupportedVersion` |  | Method has been removed.              |
 |                       | `isValidSemver`             | Checks whether a string is a valid semantic version. |

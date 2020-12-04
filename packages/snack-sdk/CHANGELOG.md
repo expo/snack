@@ -7,6 +7,7 @@
 ### 🎉 New features
 
 - Add `isFeatureSupported` helper function. ([#10](https://github.com/expo/snack/pull/10) by [@IjzerenHein](https://github.com/IjzerenHein))
+- Add `standardizeDependencies` helper function. ([#11](https://github.com/expo/snack/pull/11) by [@IjzerenHein](https://github.com/IjzerenHein))
 
 ### 🐛 Bug fixes
 

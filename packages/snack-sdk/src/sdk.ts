@@ -2,7 +2,7 @@ import semver from 'semver';
 
 import sdks from './sdks';
 import features from './sdks/features';
-import { SDKVersion, SDKFeature } from './types';
+import { SDKVersion, SDKFeature, SnackDependencies, SnackDependencyVersions } from './types';
 
 /**
  * Checks whether a specific module/dependency is preloaded for the given SDK version.
@@ -68,4 +68,59 @@ export function isFeatureSupported(feature: SDKFeature, sdkVersion: string): boo
     );
   }
   return semver.gte(sdkVersion, featureVersion);
+}
+
+/**
+ * @internal
+ */
+function standardizePeerDependencies(peerDependencies: any): SnackDependencyVersions {
+  if (!peerDependencies) {
+    return peerDependencies;
+  }
+  let result: SnackDependencyVersions = peerDependencies;
+  for (const name in peerDependencies) {
+    const peerDep = peerDependencies[name];
+    if (typeof peerDep === 'string' || peerDep === null) {
+      // :thumbsup: regular peer-dependency
+    } else if (typeof peerDep === 'object' && typeof peerDep.version === 'string') {
+      result = result === peerDependencies ? { ...peerDependencies } : result;
+      result[name] = peerDep.version;
+    } else {
+      // Invalid peer-dependency
+      result = result === peerDependencies ? { ...peerDependencies } : result;
+      delete result[name];
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Converts older dependency formats into the SnackDependencies type.
+ */
+export function standardizeDependencies(dependencies: any): SnackDependencies {
+  let result: SnackDependencies = dependencies;
+  for (const name in dependencies) {
+    const dep = dependencies[name];
+    if (typeof dep === 'string') {
+      result = result === dependencies ? { ...dependencies } : result;
+      result[name] = {
+        version: dep,
+      };
+    } else if (typeof dep === 'object') {
+      const peerDependencies = standardizePeerDependencies(dep.peerDependencies);
+      if (dep.peerDependencies !== peerDependencies) {
+        result = result === dependencies ? { ...dependencies } : result;
+        result[name] = {
+          ...dep,
+          peerDependencies,
+        };
+      }
+    } else {
+      // Invalid dependency
+      result = result === dependencies ? { ...dependencies } : result;
+      delete result[name];
+    }
+  }
+  return result;
 }
