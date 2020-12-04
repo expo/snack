@@ -10,6 +10,7 @@ import {
   getPreloadedModules,
   isValidSemver,
   getSupportedSDKVersions,
+  isFeatureSupported,
 } from './sdk';
 
 export * from './transports';
@@ -23,6 +24,7 @@ export {
   getPreloadedModules,
   isValidSemver,
   getSupportedSDKVersions,
+  isFeatureSupported,
   defaultConfig,
   Snack,
 };

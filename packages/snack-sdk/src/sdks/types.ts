@@ -1,5 +1,9 @@
+/**
+ * Version of the sdk to use (e.g. "37.0.0").
+ */
 export type SDKVersion = '36.0.0' | '37.0.0' | '38.0.0' | '39.0.0' | '40.0.0';
 
+/** @internal */
 export type SDKSpec = {
   // Version-spec for the published "expo" package. This version is
   // used to fetch compatible package versions. The value is typically
@@ -25,3 +29,14 @@ export type SDKSpec = {
     [name: string]: '*';
   };
 };
+
+/**
+ * Feature that is supported by the SDK (e.g. "TYPESCRIPT").
+ */
+export type SDKFeature =
+  | 'MULTIPLE_FILES'
+  | 'PROJECT_DEPENDENCIES'
+  | 'TYPESCRIPT'
+  | 'UNIMODULE_IMPORTS'
+  | 'POSTMESSAGE_TRANSPORT'
+  | 'VERSIONED_SNACKAGER';

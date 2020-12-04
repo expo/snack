@@ -84,7 +84,8 @@ const snack = new Snack({
 
 | Version 2             | Version 3                   | Description                                          |
 | --------------------- | --------------------------- | ---------------------------------------------------- |
-| `SDKVersions`         | `getSupportedSDKVersions`   | Updated to method called `getSupportedSDKVersions`.  |
+| `SDKVersions.version`         | `getSupportedSDKVersions`   | Updated to method called `getSupportedSDKVersions`.  |
+| `SDKVersions.sdkSupportsFeature` | `isFeatureSupported` | Updated to method called `isFeatureSupported`. |
 | `isModulePreloaded`   | `isModulePreloaded`         | Has been extended with optional 3rd parameter `coreModulesOnly`.                                          |
 | `preloadedModules`    | `getPreloadedModules`       | Updated to method called `getPreloadedModules`.      |
 | `dependencyUtils`     |                             | Field has been removed                               |

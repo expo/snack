@@ -6,6 +6,8 @@
 
 ### 🎉 New features
 
+- Add `isFeatureSupported` helper function. ([#10](https://github.com/expo/snack/pull/10) by [@IjzerenHein](https://github.com/IjzerenHein))
+
 ### 🐛 Bug fixes
 
 ## 3.0.0 — 2020-12-04

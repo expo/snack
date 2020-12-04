@@ -2,8 +2,6 @@
 
 The Expo Snack SDK. Use this to create a custom web interface for https://snack.expo.io/. 
 
-<!--Interested in integrating the Snack SDK into your project?
-Check out https://forums.expo.io/c/snack for assistance and to receive updates about any upgrades to the SDK.-->
 
 ## Index <!-- omit in toc -->
 

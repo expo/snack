@@ -1,11 +1,7 @@
-import { SDKVersion } from './sdks/types';
+import { SDKVersion, SDKFeature } from './sdks/types';
 import { SnackTransport } from './transports';
 
-/**
- * @type SDKVersion
- * Version of the sdk to use (e.g. "37.0.0").
- */
-export { SDKVersion };
+export { SDKVersion, SDKFeature };
 
 /**
  * A non asset file that is included with the project.

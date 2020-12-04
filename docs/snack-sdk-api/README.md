@@ -14,6 +14,8 @@
 
 ### Type aliases
 
+* [SDKFeature](README.md#sdkfeature)
+* [SDKVersion](README.md#sdkversion)
 * [SnackAssetFile](README.md#snackassetfile)
 * [SnackCodeFile](README.md#snackcodefile)
 * [SnackConnectedClient](README.md#snackconnectedclient)
@@ -40,11 +42,28 @@
 
 * [getPreloadedModules](README.md#getpreloadedmodules)
 * [getSupportedSDKVersions](README.md#getsupportedsdkversions)
+* [isFeatureSupported](README.md#isfeaturesupported)
 * [isModulePreloaded](README.md#ismodulepreloaded)
 * [isValidSemver](README.md#isvalidsemver)
 * [validateSDKVersion](README.md#validatesdkversion)
 
 ## Type aliases
+
+### SDKFeature
+
+Ƭ  **SDKFeature**: \"MULTIPLE\_FILES\" \| \"PROJECT\_DEPENDENCIES\" \| \"TYPESCRIPT\" \| \"UNIMODULE\_IMPORTS\" \| \"POSTMESSAGE\_TRANSPORT\" \| \"VERSIONED\_SNACKAGER\"
+
+Feature that is supported by the SDK (e.g. "TYPESCRIPT").
+
+___
+
+### SDKVersion
+
+Ƭ  **SDKVersion**: \"36.0.0\" \| \"37.0.0\" \| \"38.0.0\" \| \"39.0.0\" \| \"40.0.0\"
+
+Version of the sdk to use (e.g. "37.0.0").
+
+___
 
 ### SnackAssetFile
 
@@ -232,7 +251,7 @@ ___
 
 ### SnackOptions
 
-Ƭ  **SnackOptions**: { apiURL?: undefined \| string ; channel?: undefined \| string ; codeChangesDelay?: undefined \| number ; createTransport?: undefined \| (options: SnackTransportOptions) => SnackTransport ; dependencies?: [SnackDependencies](README.md#snackdependencies) ; description?: undefined \| string ; deviceId?: undefined \| string ; disabled?: undefined \| false \| true ; files?: [SnackFiles](README.md#snackfiles) ; host?: undefined \| string ; id?: undefined \| string ; name?: undefined \| string ; online?: undefined \| false \| true ; previewTimeout?: undefined \| number ; reloadTimeout?: undefined \| number ; sdkVersion?: SDKVersion ; snackagerURL?: undefined \| string ; transports?: undefined \| { [id:string]: SnackTransport;  } ; user?: [SnackUser](README.md#snackuser) ; verbose?: undefined \| false \| true  }
+Ƭ  **SnackOptions**: { apiURL?: undefined \| string ; channel?: undefined \| string ; codeChangesDelay?: undefined \| number ; createTransport?: undefined \| (options: SnackTransportOptions) => SnackTransport ; dependencies?: [SnackDependencies](README.md#snackdependencies) ; description?: undefined \| string ; deviceId?: undefined \| string ; disabled?: undefined \| false \| true ; files?: [SnackFiles](README.md#snackfiles) ; host?: undefined \| string ; id?: undefined \| string ; name?: undefined \| string ; online?: undefined \| false \| true ; previewTimeout?: undefined \| number ; reloadTimeout?: undefined \| number ; sdkVersion?: [SDKVersion](README.md#sdkversion) ; snackagerURL?: undefined \| string ; transports?: undefined \| { [id:string]: SnackTransport;  } ; user?: [SnackUser](README.md#snackuser) ; verbose?: undefined \| false \| true  }
 
 #### Type declaration:
 
@@ -253,7 +272,7 @@ Name | Type |
 `online?` | undefined \| false \| true |
 `previewTimeout?` | undefined \| number |
 `reloadTimeout?` | undefined \| number |
-`sdkVersion?` | SDKVersion |
+`sdkVersion?` | [SDKVersion](README.md#sdkversion) |
 `snackagerURL?` | undefined \| string |
 `transports?` | undefined \| { [id:string]: SnackTransport;  } |
 `user?` | [SnackUser](README.md#snackuser) |
@@ -291,7 +310,7 @@ ___
 
 ### SnackState
 
-Ƭ  **SnackState**: { channel: string ; connectedClients: [SnackConnectedClients](README.md#snackconnectedclients) ; dependencies: [SnackDependencies](README.md#snackdependencies) ; description: string ; deviceId?: undefined \| string ; disabled: boolean ; files: [SnackFiles](README.md#snackfiles) ; id?: undefined \| string ; missingDependencies: [SnackMissingDependencies](README.md#snackmissingdependencies) ; name: string ; online: boolean ; onlineName?: undefined \| string ; saveURL?: undefined \| string ; savedSDKVersion?: undefined \| string ; sdkVersion: SDKVersion ; sendBeaconCloseRequest?: [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) ; unsaved: boolean ; url: string ; user?: [SnackUser](README.md#snackuser) ; wantedDependencyVersions?: [SnackDependencyVersions](README.md#snackdependencyversions)  }
+Ƭ  **SnackState**: { channel: string ; connectedClients: [SnackConnectedClients](README.md#snackconnectedclients) ; dependencies: [SnackDependencies](README.md#snackdependencies) ; description: string ; deviceId?: undefined \| string ; disabled: boolean ; files: [SnackFiles](README.md#snackfiles) ; id?: undefined \| string ; missingDependencies: [SnackMissingDependencies](README.md#snackmissingdependencies) ; name: string ; online: boolean ; onlineName?: undefined \| string ; saveURL?: undefined \| string ; savedSDKVersion?: undefined \| string ; sdkVersion: [SDKVersion](README.md#sdkversion) ; sendBeaconCloseRequest?: [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) ; unsaved: boolean ; url: string ; user?: [SnackUser](README.md#snackuser) ; wantedDependencyVersions?: [SnackDependencyVersions](README.md#snackdependencyversions)  }
 
 #### Type declaration:
 
@@ -311,7 +330,7 @@ Name | Type | Description |
 `onlineName?` | undefined \| string | Name of the Snack as shown in the "Recently in Development" section in the Expo client. The online-name will be empty when the Snack is not "online". |
 `saveURL?` | undefined \| string | URL of the saved Snack. The URL is empty when no save "id" is available. |
 `savedSDKVersion?` | undefined \| string | Last saved (non-draft) Expo SDK version. |
-`sdkVersion` | SDKVersion | Expo SDK version. |
+`sdkVersion` | [SDKVersion](README.md#sdkversion) | Expo SDK version. |
 `sendBeaconCloseRequest?` | [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) | A close request that should be send using the browser `sendBeacon` API whenever the browser session is unloaded. This gives the Snack a last opportunity to gracefully close its connections so that the "Recently in Development" section in the Expo client no longer shows the Snack. |
 `unsaved` | boolean | Unsaved status of the Snack. Becomes `true` when the Snack code is changed and `false` whenever the Snack is saved. |
 `url` | string | Unique experience url which can be used to open the Expo client and connect to the Snack (e.g. "exp://expo.io/@snack/sdk.38.0.0-78173941"). |
@@ -342,7 +361,7 @@ Name | Type |
 
 ### getPreloadedModules
 
-▸ **getPreloadedModules**(`sdkVersion`: SDKVersion, `coreModulesOnly?`: undefined \| false \| true): object
+▸ **getPreloadedModules**(`sdkVersion`: [SDKVersion](README.md#sdkversion), `coreModulesOnly?`: undefined \| false \| true): object
 
 Returns the list of pre-loaded modules for the given SDK version.
 
@@ -350,7 +369,7 @@ Returns the list of pre-loaded modules for the given SDK version.
 
 Name | Type |
 ------ | ------ |
-`sdkVersion` | SDKVersion |
+`sdkVersion` | [SDKVersion](README.md#sdkversion) |
 `coreModulesOnly?` | undefined \| false \| true |
 
 **Returns:** object
@@ -359,17 +378,34 @@ ___
 
 ### getSupportedSDKVersions
 
-▸ **getSupportedSDKVersions**(): SDKVersion[]
+▸ **getSupportedSDKVersions**(): [SDKVersion](README.md#sdkversion)[]
 
 Returns the list of supported SDK versions.
 
-**Returns:** SDKVersion[]
+**Returns:** [SDKVersion](README.md#sdkversion)[]
+
+___
+
+### isFeatureSupported
+
+▸ **isFeatureSupported**(`feature`: [SDKFeature](README.md#sdkfeature), `sdkVersion`: string): boolean
+
+Checks whether a feature is supported by the given SDK version.
+
+#### Parameters:
+
+Name | Type |
+------ | ------ |
+`feature` | [SDKFeature](README.md#sdkfeature) |
+`sdkVersion` | string |
+
+**Returns:** boolean
 
 ___
 
 ### isModulePreloaded
 
-▸ **isModulePreloaded**(`name`: string, `sdkVersion`: SDKVersion, `coreModulesOnly?`: undefined \| false \| true): boolean
+▸ **isModulePreloaded**(`name`: string, `sdkVersion`: [SDKVersion](README.md#sdkversion), `coreModulesOnly?`: undefined \| false \| true): boolean
 
 Checks whether a specific module/dependency is preloaded for the given SDK version.
 
@@ -378,7 +414,7 @@ Checks whether a specific module/dependency is preloaded for the given SDK versi
 Name | Type |
 ------ | ------ |
 `name` | string |
-`sdkVersion` | SDKVersion |
+`sdkVersion` | [SDKVersion](README.md#sdkversion) |
 `coreModulesOnly?` | undefined \| false \| true |
 
 **Returns:** boolean
@@ -403,12 +439,12 @@ ___
 
 ### validateSDKVersion
 
-▸ **validateSDKVersion**(`sdkVersion`: SDKVersion): SDKVersion
+▸ **validateSDKVersion**(`sdkVersion`: [SDKVersion](README.md#sdkversion)): [SDKVersion](README.md#sdkversion)
 
 #### Parameters:
 
 Name | Type |
 ------ | ------ |
-`sdkVersion` | SDKVersion |
+`sdkVersion` | [SDKVersion](README.md#sdkversion) |
 
-**Returns:** SDKVersion
+**Returns:** [SDKVersion](README.md#sdkversion)
