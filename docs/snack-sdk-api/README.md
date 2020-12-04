@@ -45,6 +45,7 @@
 * [isFeatureSupported](README.md#isfeaturesupported)
 * [isModulePreloaded](README.md#ismodulepreloaded)
 * [isValidSemver](README.md#isvalidsemver)
+* [standardizeDependencies](README.md#standardizedependencies)
 * [validateSDKVersion](README.md#validatesdkversion)
 
 ## Type aliases
@@ -434,6 +435,22 @@ Name | Type |
 `version` | string |
 
 **Returns:** boolean
+
+___
+
+### standardizeDependencies
+
+▸ **standardizeDependencies**(`dependencies`: any): [SnackDependencies](README.md#snackdependencies)
+
+Converts older dependency formats into the SnackDependencies type.
+
+#### Parameters:
+
+Name | Type |
+------ | ------ |
+`dependencies` | any |
+
+**Returns:** [SnackDependencies](README.md#snackdependencies)
 
 ___
 
