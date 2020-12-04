@@ -1,7 +1,8 @@
 import semver from 'semver';
 
 import sdks from './sdks';
-import { SDKVersion } from './types';
+import features from './sdks/features';
+import { SDKVersion, SDKFeature } from './types';
 
 /**
  * Checks whether a specific module/dependency is preloaded for the given SDK version.
@@ -54,4 +55,17 @@ export function getSupportedSDKVersions(): SDKVersion[] {
  */
 export function isValidSemver(version: string): boolean {
   return version === 'latest' || !!semver.validRange(version);
+}
+
+/**
+ * Checks whether a feature is supported by the given SDK version.
+ */
+export function isFeatureSupported(feature: SDKFeature, sdkVersion: string): boolean {
+  const featureVersion = features[feature];
+  if (!featureVersion) {
+    throw new Error(
+      `Invalid SDKFeature, the following versions are supported: ${Object.keys(features)}`
+    );
+  }
+  return semver.gte(sdkVersion, featureVersion);
 }

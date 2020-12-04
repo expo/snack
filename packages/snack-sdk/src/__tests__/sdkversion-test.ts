@@ -5,6 +5,7 @@ import Snack, {
   defaultConfig,
   isModulePreloaded,
   getPreloadedModules,
+  isFeatureSupported,
 } from './snack-sdk';
 
 describe('sdkVersion', () => {
@@ -125,5 +126,23 @@ describe('isValidSemver', () => {
   });
   it('is invalid for random string', () => {
     expect(isValidSemver('random-string')).toBe(false);
+  });
+});
+
+describe('isFeatureSupported', () => {
+  it('returns true for supported feature', () => {
+    expect(isFeatureSupported('TYPESCRIPT', '38.0.0')).toBe(true);
+  });
+  it('returns false for supported feature', () => {
+    expect(isFeatureSupported('TYPESCRIPT', '21.0.0')).toBe(false);
+  });
+  it('throws for invalid feature', () => {
+    expect(() =>
+      // @ts-ignore Type '"Bogus"' is not assignable to type 'SDKFeature'
+      isFeatureSupported('Bogus', '37.0.0')
+    ).toThrowError();
+  });
+  it('throws for invalid version', () => {
+    expect(() => isFeatureSupported('TYPESCRIPT', 'foo')).toThrowError();
   });
 });

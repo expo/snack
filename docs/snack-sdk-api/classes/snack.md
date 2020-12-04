@@ -325,7 +325,7 @@ ___
 
 ### setSDKVersion
 
-▸ **setSDKVersion**(`sdkVersion`: SDKVersion): void
+▸ **setSDKVersion**(`sdkVersion`: [SDKVersion](../README.md#sdkversion)): void
 
 Sets the Expo SDK version.
 
@@ -333,7 +333,7 @@ Sets the Expo SDK version.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`sdkVersion` | SDKVersion | Valid SDK version (e.g. "38.0.0")  |
+`sdkVersion` | [SDKVersion](../README.md#sdkversion) | Valid SDK version (e.g. "38.0.0")  |
 
 **Returns:** void
 
