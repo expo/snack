@@ -18,20 +18,20 @@ describe('sdkVersion', () => {
 
   it('can be provided initially', async () => {
     const snack = new Snack({
-      sdkVersion: '36.0.0',
+      sdkVersion: '39.0.0',
     });
     expect(snack.getState()).toMatchObject({
       unsaved: false,
-      sdkVersion: '36.0.0',
+      sdkVersion: '39.0.0',
     });
   });
 
   it('can be changed', async () => {
     const snack = new Snack({});
-    snack.setSDKVersion('36.0.0');
+    snack.setSDKVersion('39.0.0');
     expect(snack.getState()).toMatchObject({
       unsaved: true,
-      sdkVersion: '36.0.0',
+      sdkVersion: '39.0.0',
     });
   });
 

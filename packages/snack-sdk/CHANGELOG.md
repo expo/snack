@@ -4,6 +4,8 @@
 
 ### 🛠 Breaking changes
 
+- Remove support for SDK 36 and set default versio to SDK 40 ([#12](https://github.com/expo/snack/pull/12) by [@IjzerenHein](https://github.com/IjzerenHein))
+
 ### 🎉 New features
 
 ### 🐛 Bug fixes
