@@ -14,14 +14,13 @@ const minFeatureVersion = {
 
 // special casing of features that have been backported to particular SDK versions
 export const versions = {
-  '36.0.0': [],
   '37.0.0': [],
   '38.0.0': [],
   '39.0.0': [],
   '40.0.0': [],
 };
 
-export const defaultSDKVersion = '39.0.0';
+export const defaultSDKVersion = '40.0.0';
 
 export type Feature = $Keys<typeof minFeatureVersion>;
 export type SDKVersion = $Keys<typeof versions>;
