@@ -3,7 +3,7 @@ import Snack, { SnackOptions } from './snack-sdk';
 
 const host = 'expo.io';
 const channel = '10spnBnPxi';
-const sdkVersion = '36.0.0';
+const sdkVersion = '39.0.0';
 const id = '7816837218';
 const config: SnackOptions = {
   host,
