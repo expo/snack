@@ -5,7 +5,7 @@ The Expo Snack SDK. Use this to create a custom web interface for https://snack.
 ## 📚 Documentation
 
 - [Documentation](https://github.com/expo/snack/blob/main/docs/snack-sdk.md)
-- [API Reference](https://github.com/expo/snack/blob/main/docs/snack-sdk-api.md)
+- [API Reference](https://github.com/expo/snack/blob/main/docs/snack-sdk-api/README.md)
 - [Migration Guide](https://github.com/expo/snack/blob/main/docs/snack-sdk-migration.md)
 
 ## 🔎 Example
