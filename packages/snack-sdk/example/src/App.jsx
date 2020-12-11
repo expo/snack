@@ -1,29 +1,69 @@
 import deepObjectDiff from 'deep-object-diff';
 import QRCode from 'qrcode.react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // Snowpack has an issue importing named exports from commonjs modules11
 import SnackNamespace from 'snack-sdk';
 
 import { Button, Toolbar } from './Components';
 import { INITIAL_CODE } from './Defaults';
+import createSnackTransport from './transports/snackTransports';
 
 const { Snack, getSupportedSDKVersions } = SnackNamespace;
-
 const { diff } = deepObjectDiff;
 
 const INITIAL_CODE_CHANGES_DELAY = 500;
+const VERBOSE = true;
+const USE_WORKERS = false;
+
+/* Web preview has been disabled as it it currently not allowed
+   to communiate with the web-player from a different domain. */
+const USE_WEB_PLAYER = false;
+const WEB_PLAYER_URL = 'https://snack.expo.io/web-player/%SDK-VERSION%/index.html?';
+const WEB_PLAYER_ORIGIN = 'https://snack.expo.io';
+//const WEB_PLAYER_URL = 'http://localhost:19006?';
+//const WEB_PLAYER_ORIGIN = 'http://localhost:19006';
 
 function App() {
+  const iframeRef = useRef(null);
   const [snack] = useState(
     () =>
       new Snack({
         codeChangesDelay: INITIAL_CODE_CHANGES_DELAY,
+        verbose: VERBOSE,
         files: {
           'App.js': {
             type: 'CODE',
             contents: INITIAL_CODE,
           },
         },
+        // Optionally you can run the transports inside a web-worker.
+        // Encoding data messages for large apps might take several milliseconds
+        // and can cause stutter when executed often.
+        ...(USE_WORKERS
+          ? {
+              createTransport: (options) =>
+                createSnackTransport(options, { isWorker: USE_WORKERS }),
+            }
+          : {}),
+        // When using the web-player, create a transport that sends and receives
+        // messages to and from the iframe.
+        ...(USE_WEB_PLAYER
+          ? {
+              transports: {
+                'web-player': createSnackTransport(
+                  { name: 'web-player', verbose: VERBOSE },
+                  {
+                    isWorker: USE_WORKERS,
+                    webPlayer: {
+                      window,
+                      ref: iframeRef,
+                      origin: WEB_PLAYER_ORIGIN,
+                    },
+                  }
+                ),
+              },
+            }
+          : {}),
       })
   );
   const [snackState, setSnackState] = useState(snack.getState());
@@ -73,6 +113,22 @@ function App() {
         />
         <p>Open the Developer Console of your Browser to view logs.</p>
       </div>
+      {USE_WEB_PLAYER ? (
+        <div style={styles.preview}>
+          <Toolbar title="Preview" />
+          <div style={styles.previewContainer}>
+            <iframe
+              ref={(c) => (iframeRef.current = c?.contentWindow ?? null)}
+              style={styles.previewFrame}
+              src={`${WEB_PLAYER_URL.replace(
+                '%SDK-VERSION%',
+                sdkVersion.split('.')[0]
+              )}initialUrl=${encodeURIComponent(url)}&verbose=${VERBOSE}`}
+              allow="geolocation; camera; microphone"
+            />
+          </div>
+        </div>
+      ) : undefined}
       <div style={styles.right}>
         <div style={styles.settingsContainer}>
           <Toolbar>
@@ -200,6 +256,25 @@ const styles = {
     flexDirection: 'column',
     width: 300,
     marginLeft: 20,
+  },
+  preview: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: 20,
+    width: 240,
+  },
+  previewContainer: {
+    flex: 1,
+    ...sharedStyles.pane,
+    overflow: 'hidden',
+  },
+  previewFrame: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    border: 0,
+    zIndex: 1,
+    backgroundColor: 'white',
   },
   code: {
     display: 'flex',
