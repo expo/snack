@@ -3,12 +3,7 @@ import * as React from 'react';
 export const Button = (props) => {
   const { label, loading, style = {}, ...rest } = props;
   return (
-    <a
-      style={{ ...styles.button, ...style }}
-      href="#"
-      {...rest}
-      disabled={loading}
-    >
+    <a style={{ ...styles.button, ...style }} href="#" {...rest} disabled={loading}>
       {label}
     </a>
   );

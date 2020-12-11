@@ -3,10 +3,11 @@ import QRCode from 'qrcode.react';
 import React, { useState, useEffect } from 'react';
 // Snowpack has an issue importing named exports from commonjs modules11
 import SnackNamespace from 'snack-sdk';
-const { Snack, getSupportedSDKVersions } = SnackNamespace;
 
 import { Button, Toolbar } from './Components';
 import { INITIAL_CODE } from './Defaults';
+
+const { Snack, getSupportedSDKVersions } = SnackNamespace;
 
 const { diff } = deepObjectDiff;
 
@@ -23,14 +24,12 @@ function App() {
             contents: INITIAL_CODE,
           },
         },
-      }),
+      })
   );
   const [snackState, setSnackState] = useState(snack.getState());
   const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [codeChangesDelay, setCodeChangesDelay] = useState(
-    INITIAL_CODE_CHANGES_DELAY,
-  );
+  const [codeChangesDelay, setCodeChangesDelay] = useState(INITIAL_CODE_CHANGES_DELAY);
 
   // Listen for state changes and log messages
   useEffect(() => {
@@ -125,8 +124,7 @@ function App() {
             <label>SDK Version</label>
             <select
               value={sdkVersion}
-              onChange={(event) => snack.setSDKVersion(event.target.value)}
-            >
+              onChange={(event) => snack.setSDKVersion(event.target.value)}>
               {getSupportedSDKVersions().map((ver) => (
                 <option key={ver} value={ver}>
                   {ver}
@@ -156,30 +154,20 @@ function App() {
               onChange={(event) => {
                 snack.setCodeChangesDelay(Number(event.target.value));
                 setCodeChangesDelay(Number(event.target.value));
-              }}
-            >
+              }}>
               <option value={-1}>Disabled (-1)</option>
               <option value={0}>Immediately (0)</option>
               <option value={500}>Debounced (after 500ms)</option>
             </select>
             {codeChangesDelay === -1 ? (
-              <Button
-                label="Send Code changes"
-                onClick={() => snack.sendCodeChanges()}
-              />
+              <Button label="Send Code changes" onClick={() => snack.sendCodeChanges()} />
             ) : undefined}
             <label>{`Status: ${online ? 'Online' : 'Offline'}`}</label>
-            {online ? (
-              <QRCode style={styles.qrcode} value={url} />
-            ) : undefined}
+            {online ? <QRCode style={styles.qrcode} value={url} /> : undefined}
             {online ? <a href={url}>{url}</a> : undefined}
+            {online ? <label>{`Online name: ${onlineName}`}</label> : undefined}
             {online ? (
-              <label>{`Online name: ${onlineName}`}</label>
-            ) : undefined}
-            {online ? (
-              <label>{`${
-                Object.keys(connectedClients).length
-              } connected client(s)`}</label>
+              <label>{`${Object.keys(connectedClients).length} connected client(s)`}</label>
             ) : undefined}
           </div>
         </div>
