@@ -13,7 +13,7 @@ const { diff } = deepObjectDiff;
 
 const INITIAL_CODE_CHANGES_DELAY = 500;
 const VERBOSE = true;
-const USE_WORKERS = true;
+const USE_WORKERS = false; // TODO: fix web-workers with Snowpack
 
 function App() {
   const webPreviewRef = useRef(null);
@@ -114,7 +114,7 @@ function App() {
           />
           {!webPreviewURL && (
             <div style={styles.previewNotSupported}>
-              <label>Web preview is supported on SDK 40 and higher</label>
+              <label>Set the SDK Version to 40.0.0 or higher to use Web preview</label>
             </div>
           )}
         </div>
