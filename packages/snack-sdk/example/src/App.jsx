@@ -6,7 +6,7 @@ import SnackNamespace from 'snack-sdk';
 
 import { Button, Toolbar } from './Components';
 import { INITIAL_CODE } from './Defaults';
-import createSnackTransport from './transports/snackTransports';
+import createWorkerTransport from './transports/createWorkerTransport';
 
 const { Snack, getSupportedSDKVersions } = SnackNamespace;
 const { diff } = deepObjectDiff;
@@ -14,17 +14,10 @@ const { diff } = deepObjectDiff;
 const INITIAL_CODE_CHANGES_DELAY = 500;
 const VERBOSE = true;
 const USE_WORKERS = false;
-
-/* Web preview has been disabled as it it currently not allowed
-   to communiate with the web-player from a different domain. */
-const USE_WEB_PLAYER = false;
-const WEB_PLAYER_URL = 'https://snack.expo.io/web-player/%SDK-VERSION%/index.html?';
-const WEB_PLAYER_ORIGIN = 'https://snack.expo.io';
-//const WEB_PLAYER_URL = 'http://localhost:19006?';
-//const WEB_PLAYER_ORIGIN = 'http://localhost:19006';
+const USE_WEB_PLAYER = true;
 
 function App() {
-  const iframeRef = useRef(null);
+  const webPreviewRef = useRef(null);
   const [snack] = useState(
     () =>
       new Snack({
@@ -35,35 +28,34 @@ function App() {
             type: 'CODE',
             contents: INITIAL_CODE,
           },
+          'assets/image.png': {
+            type: 'ASSET',
+            contents:
+              'https://snack-code-uploads.s3.us-west-1.amazonaws.com/~asset/2f7d32b1787708aba49b3586082d327b',
+          },
+          'assets/audio.mp3': {
+            type: 'ASSET',
+            contents:
+              'https://snack-code-uploads.s3.us-west-1.amazonaws.com/~asset/c9c43b458d6daa9771a7287cae9f5b47',
+          },
+          'assets/fonts/Inter-Black.otf': {
+            type: 'ASSET',
+            contents:
+              'https://snack-code-uploads.s3.us-west-1.amazonaws.com/~asset/44b1541a96341780b29112665c66ac67',
+          },
+        },
+        dependencies: {
+          'expo-av': { version: '*' },
+          'expo-font': { version: '*' },
+          'expo-app-loading': { version: '*' },
         },
         // Optionally you can run the transports inside a web-worker.
         // Encoding data messages for large apps might take several milliseconds
         // and can cause stutter when executed often.
-        ...(USE_WORKERS
-          ? {
-              createTransport: (options) =>
-                createSnackTransport(options, { isWorker: USE_WORKERS }),
-            }
-          : {}),
+        ...(USE_WORKERS ? { createTransport: createWorkerTransport } : {}),
         // When using the web-player, create a transport that sends and receives
         // messages to and from the iframe.
-        ...(USE_WEB_PLAYER
-          ? {
-              transports: {
-                'web-player': createSnackTransport(
-                  { name: 'web-player', verbose: VERBOSE },
-                  {
-                    isWorker: USE_WORKERS,
-                    webPlayer: {
-                      window,
-                      ref: iframeRef,
-                      origin: WEB_PLAYER_ORIGIN,
-                    },
-                  }
-                ),
-              },
-            }
-          : {}),
+        ...(USE_WEB_PLAYER ? { webPreviewRef } : {}),
       })
   );
   const [snackState, setSnackState] = useState(snack.getState());
@@ -94,6 +86,7 @@ function App() {
     name,
     description,
     sdkVersion,
+    webPreviewURL,
   } = snackState;
   return (
     <div style={styles.container}>
@@ -118,14 +111,16 @@ function App() {
           <Toolbar title="Preview" />
           <div style={styles.previewContainer}>
             <iframe
-              ref={(c) => (iframeRef.current = c?.contentWindow ?? null)}
+              ref={(c) => (webPreviewRef.current = c?.contentWindow ?? null)}
               style={styles.previewFrame}
-              src={`${WEB_PLAYER_URL.replace(
-                '%SDK-VERSION%',
-                sdkVersion.split('.')[0]
-              )}initialUrl=${encodeURIComponent(url)}&verbose=${VERBOSE}`}
+              src={webPreviewURL}
               allow="geolocation; camera; microphone"
             />
+            {!webPreviewURL && (
+              <div style={styles.previewNotSupported}>
+                <label>Web preview is supported from SDK 40 and higher</label>
+              </div>
+            )}
           </div>
         </div>
       ) : undefined}
@@ -266,6 +261,7 @@ const styles = {
   previewContainer: {
     flex: 1,
     ...sharedStyles.pane,
+    position: 'relative',
     overflow: 'hidden',
   },
   previewFrame: {
@@ -273,8 +269,18 @@ const styles = {
     width: '100%',
     height: '100%',
     border: 0,
-    zIndex: 1,
     backgroundColor: 'white',
+  },
+  previewNotSupported: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    top: 20,
+    bottom: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   code: {
     display: 'flex',

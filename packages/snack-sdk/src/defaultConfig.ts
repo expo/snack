@@ -3,6 +3,8 @@ import { SDKVersion, SnackState } from './types';
 export const apiURL: string = 'https://exp.host';
 export const snackagerURL: string = 'https://snackager.expo.io';
 export const host: string = 'expo.io';
+export const webPlayerURL: string =
+  'https://snack-web-player.s3.us-west-1.amazonaws.com/v2/%%SDK_VERSION%%';
 
 export const sdkVersion: SDKVersion = '40.0.0';
 
@@ -27,6 +29,7 @@ const defaultConfig = {
   snackagerURL,
   host,
   sdkVersion,
+  webPlayerURL,
 };
 
 export default defaultConfig;

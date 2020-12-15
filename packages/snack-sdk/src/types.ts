@@ -145,6 +145,10 @@ export type SnackLogEvent = {
   error?: SnackError;
 };
 
+export type SnackWindowRef = {
+  current: Window | null;
+};
+
 export type SnackState = {
   /**
    * Expo SDK version.
@@ -270,4 +274,13 @@ export type SnackState = {
    * Last saved (non-draft) Expo SDK version.
    */
   savedSDKVersion?: string;
+
+  /**
+   * URL to use to when loading the web-preview in an iframe.
+   *
+   * Web-preview is supported from SDK 40 and higher.
+   * To enable it, set the `webPreviewRef` to the contentWindow
+   * of the iframe.
+   */
+  webPreviewURL?: string;
 };
