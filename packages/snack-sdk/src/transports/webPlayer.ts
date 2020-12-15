@@ -76,7 +76,7 @@ export function getWebPlayerIFrameURL(
   initialURL: string,
   verbose: boolean
 ) {
-  if (sdkVersion < '40.0.0') {
+  if (sdkVersion < '40.0.0' || typeof window === 'undefined') {
     return undefined;
   }
 

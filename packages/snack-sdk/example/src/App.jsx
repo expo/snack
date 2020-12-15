@@ -13,8 +13,7 @@ const { diff } = deepObjectDiff;
 
 const INITIAL_CODE_CHANGES_DELAY = 500;
 const VERBOSE = true;
-const USE_WORKERS = false;
-const USE_WEB_PLAYER = true;
+const USE_WORKERS = true;
 
 function App() {
   const webPreviewRef = useRef(null);
@@ -49,13 +48,11 @@ function App() {
           'expo-font': { version: '*' },
           'expo-app-loading': { version: '*' },
         },
+        webPreviewRef,
         // Optionally you can run the transports inside a web-worker.
         // Encoding data messages for large apps might take several milliseconds
         // and can cause stutter when executed often.
         ...(USE_WORKERS ? { createTransport: createWorkerTransport } : {}),
-        // When using the web-player, create a transport that sends and receives
-        // messages to and from the iframe.
-        ...(USE_WEB_PLAYER ? { webPreviewRef } : {}),
       })
   );
   const [snackState, setSnackState] = useState(snack.getState());
@@ -106,24 +103,22 @@ function App() {
         />
         <p>Open the Developer Console of your Browser to view logs.</p>
       </div>
-      {USE_WEB_PLAYER ? (
-        <div style={styles.preview}>
-          <Toolbar title="Preview" />
-          <div style={styles.previewContainer}>
-            <iframe
-              ref={(c) => (webPreviewRef.current = c?.contentWindow ?? null)}
-              style={styles.previewFrame}
-              src={webPreviewURL}
-              allow="geolocation; camera; microphone"
-            />
-            {!webPreviewURL && (
-              <div style={styles.previewNotSupported}>
-                <label>Web preview is supported from SDK 40 and higher</label>
-              </div>
-            )}
-          </div>
+      <div style={styles.preview}>
+        <Toolbar title="Preview" />
+        <div style={styles.previewContainer}>
+          <iframe
+            ref={(c) => (webPreviewRef.current = c?.contentWindow ?? null)}
+            style={styles.previewFrame}
+            src={webPreviewURL}
+            allow="geolocation; camera; microphone"
+          />
+          {!webPreviewURL && (
+            <div style={styles.previewNotSupported}>
+              <label>Web preview is supported on SDK 40 and higher</label>
+            </div>
+          )}
         </div>
-      ) : undefined}
+      </div>
       <div style={styles.right}>
         <div style={styles.settingsContainer}>
           <Toolbar>
