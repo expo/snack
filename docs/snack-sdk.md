@@ -21,6 +21,8 @@ The Expo Snack SDK. Use this to create a custom web interface for https://snack.
   - [Requesting previews](#requesting-previews)
 - [Saving the Snack](#saving-the-snack)
   - [Downloading as a Zip file](#downloading-as-a-zip-file)
+- [Transports](#transports)
+  - [Previewing the Snack on Web](#previewing-the-snack-on-web)
 - [Example App](#example-app)
 - [API Reference](#api-reference)
 
@@ -419,6 +421,45 @@ Once a Snack has been saved, it can be downloaded as a Zip file. The `getDownloa
 const url = snack.getDownloadURLAsync();
 console.log('Download URL: ' + url); // https://exp.host/--/api/v2/snack/download/12345678
 ```
+
+# Transports
+
+The snack-sdk communicates with the Expo Runtime using Transports. When setting `online` to true, the default PubNub based transport is enabled and it is possible to connect to the Snack using the Expo Client. Additionally, a "web-preview" transport may be created, which communicates with the Snack web-player. The web-player is the Expo Runtime running on the web using [react-native-web](https://github.com/necolas/react-native-web).
+
+## Previewing the Snack on Web
+
+To use web-preview, create an iframe and pass it's `contentWindow` ref to the Snack. This creates a `webplayer` transport and `webPreviewURL` will be updated with the URL for the iframe. This URL may change, for instance when changing the SDK version, so make sure to update the iframe source.
+
+> Web-preview is supported as of SDK 40. On older SDKs, `webPreviewURL` will always be `undefined`.
+
+```jsx
+import * as React from 'react';
+import { Snack } from 'snack-sdk';
+
+export default () => {
+  const webPreviewRef = React.useRef(null);
+  const [snack] = React.useState(() =>
+    new Snack({
+      ...
+      webPreviewRef,
+    })
+  );
+  const { webPreviewURL } = snack.getState();
+  return (
+    <div>
+      ...
+      <iframe
+        ref={(c) => (webPreviewRef.current = c?.contentWindow ?? null)}
+        src={webPreviewURL}
+        allow="geolocation; camera; microphone"
+      />
+    </div>
+  );
+};
+```
+
+See the [Example App](/packages/snack-sdk/example) for a working demo.
+
 
 # Example App
 

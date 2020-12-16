@@ -106,15 +106,3 @@ describe('webpreview', () => {
     expect(Object.keys(snack.getState().connectedClients).length).toBe(0);
   });
 });
-
-/*
-parent?.postMessage(JSON.stringify({ type: 'DISCONNECT', device }), origin);
-parent?.postMessage(JSON.stringify({ type: 'CONNECT', device }), origin);
-parent?.postMessage(
-      JSON.stringify({
-        type: 'MESSAGE',
-        message: { ...message, device },
-      }),
-      origin
-    );
-*/
