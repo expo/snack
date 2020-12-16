@@ -9,6 +9,8 @@ const device = {
   platform: 'ios',
 };
 
+const origin = 'https://snack-web-player.s3.us-west-1.amazonaws.com';
+
 describe('webpreview', () => {
   it('does not create a webplayer transport by default', async () => {
     const snack = new Snack({});
@@ -45,7 +47,6 @@ describe('webpreview', () => {
   });
 
   it('allows connects from default web-player domain', async () => {
-    const origin = 'https://snack-web-player.s3.us-west-1.amazonaws.com';
     const contentWindow = new Window({ location: origin });
     // @ts-ignore 'snack' is declared but its value is never read.
     const snack = new Snack({
@@ -59,7 +60,6 @@ describe('webpreview', () => {
   });
 
   it('ignores messages from other domains', async () => {
-    const origin = 'https://snack-web-player.s3.us-west-1.amazonaws.com';
     const contentWindow = new Window({ location: origin });
     // @ts-ignore 'snack' is declared but its value is never read.
     const snack = new Snack({
@@ -73,7 +73,6 @@ describe('webpreview', () => {
   });
 
   it('sends code upon request', async () => {
-    const origin = 'https://snack-web-player.s3.us-west-1.amazonaws.com';
     const contentWindow = new Window({ location: origin });
     // @ts-ignore 'snack' is declared but its value is never read.
     const snack = new Snack({
@@ -89,6 +88,22 @@ describe('webpreview', () => {
     );
     // Snack-sdk sends CODE in response
     expect(contentWindow.postMessage).toHaveBeenCalled();
+  });
+
+  it('succesfully disconnects clients', async () => {
+    const contentWindow = new Window({ location: origin });
+    // @ts-ignore 'snack' is declared but its value is never read.
+    const snack = new Snack({
+      webPreviewRef: {
+        current: contentWindow as any,
+      },
+    });
+    // Simulate CONNECT by web-player
+    postMessage(JSON.stringify({ type: 'CONNECT', device }), origin);
+    expect(Object.keys(snack.getState().connectedClients).length).toBe(1);
+    // Simulate DISCONNECT by web-player
+    postMessage(JSON.stringify({ type: 'DISCONNECT', device }), origin);
+    expect(Object.keys(snack.getState().connectedClients).length).toBe(0);
   });
 });
 
