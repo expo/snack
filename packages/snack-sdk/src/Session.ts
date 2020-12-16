@@ -134,7 +134,7 @@ export default class Snack {
           ref: options.webPreviewRef,
           verbose: options.verbose,
           createTransport: this.createTransport,
-          window: nullthrows(typeof window !== 'undefined' ? window : undefined),
+          window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
           webPlayerURL: this.webPlayerURL,
         })
       );

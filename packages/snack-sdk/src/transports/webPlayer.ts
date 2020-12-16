@@ -25,7 +25,7 @@ export function createWebPlayerTransport(config: {
     return transport;
   }
 
-  const { origin } = new URL(config.webPlayerURL);
+  let { origin } = new URL(config.webPlayerURL);
 
   let windowListener: ((event: any) => void) | undefined;
   let transportListener: ((event: any) => void) | undefined;
@@ -67,6 +67,8 @@ export function createWebPlayerTransport(config: {
       }
     },
     postMessage: (message: SnackTransportMessage) => getTransport().postMessage(message),
+    // @ts-ignore: Dirty hack to allow snack web to to communicate with older web-players
+    updateOrigin: (newOrigin: string) => (origin = newOrigin),
   };
 }
 
