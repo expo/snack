@@ -11,8 +11,8 @@
     "packages/snack-babel-standalone"
   ],
   "devDependencies": {
-    "eslint": "^7.14.0",
-    "eslint-config-universe": "^6.0.0",
+    "eslint": "^7.16.0",
+    "eslint-config-universe": "^6.0.1",
     "prettier": "^2.2.1"
   }
 }
