@@ -7,17 +7,17 @@ on:
     paths:
       - .github/workflows/snack-sdk.yml
       - packages/snack-sdk/**
-      - /.eslint*
-      - /.prettier*
-      - /yarn.lock
+      - .eslint*
+      - .prettier*
+      - yarn.lock
   pull_request:
     branches: [main]
     paths:
       - .github/workflows/snack-sdk.yml
       - packages/snack-sdk/**
-      - /.eslint*
-      - /.prettier*
-      - /yarn.lock
+      - .eslint*
+      - .prettier*
+      - yarn.lock
 
 jobs:
   build:
