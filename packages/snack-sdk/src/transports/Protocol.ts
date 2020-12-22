@@ -40,15 +40,15 @@ export type ProtocolCodeMessage = {
   metadata: {
     expoSDKVersion: SDKVersion;
     webSnackSDKVersion: string;
-    webHostname?: string; //window.location.hostname,
-    webOSArchitecture?: string; //os.architecture,
-    webOSFamily?: string; //os.family,
-    webOSVersion?: string; //os.version,
-    webLayoutEngine?: string; //platformInfo.layout,
-    webDeviceType?: string; //platformInfo.product,
-    webBrowser?: string; //platformInfo.name,
-    webBrowserVersion?: string; //platformInfo.version,
-    webDescription?: string; //platformInfo.description,
+    webHostname?: string; // window.location.hostname,
+    webOSArchitecture?: string; // os.architecture,
+    webOSFamily?: string; // os.family,
+    webOSVersion?: string; // os.version,
+    webLayoutEngine?: string; // platformInfo.layout,
+    webDeviceType?: string; // platformInfo.product,
+    webBrowser?: string; // platformInfo.name,
+    webBrowserVersion?: string; // platformInfo.version,
+    webDescription?: string; // platformInfo.description,
   };
 };
 

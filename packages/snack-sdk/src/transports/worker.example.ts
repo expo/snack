@@ -28,7 +28,7 @@ onmessage = (event) => {
 };
 */
 
-/*export default class SnackTransportWorker implements SnackTransport {
+/* export default class SnackTransportWorker implements SnackTransport {
   private readonly eventListeners: any[] = [];
   private readonly worker: any;
 
@@ -64,4 +64,4 @@ onmessage = (event) => {
   postMessage(message: any) {
     this.worker.postMessage(message);
   }
-}*/
+} */

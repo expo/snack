@@ -142,7 +142,7 @@ export function getMissingDependencies(
             result[peerName] = {
               dependents: [name],
               wantedVersion:
-                wantedDependencyVersions?.[peerName] || dep.peerDependencies[peerName] || '*',
+                wantedDependencyVersions?.[peerName] ?? dep.peerDependencies[peerName] ?? '*',
             };
           } else {
             let wantedVersion: string | undefined = wantedDependencyVersions?.[peerName];

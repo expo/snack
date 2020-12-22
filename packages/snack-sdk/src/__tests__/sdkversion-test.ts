@@ -62,7 +62,7 @@ describe('sdkVersion', () => {
         },
       });
       const { wantedDependencyVersions } = await snack.getStateAsync();
-      expect(Object.keys(wantedDependencyVersions || {}).length).toBeGreaterThan(0);
+      expect(Object.keys(wantedDependencyVersions ?? {}).length).toBeGreaterThan(0);
     });
   });
 });

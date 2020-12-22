@@ -63,20 +63,20 @@ const sdks: { [version: string]: SDKSpec } = {
       // Packages that require special initialisation (see Modules.tsx)
       'expo-asset': '*',
       'react-native-gesture-handler': '*',
-      //'react-native-vector-icons': '*',
+      // 'react-native-vector-icons': '*',
       '@expo/vector-icons': '*',
       // Packages that are used internally by the runtime
-      //'expo-analytics-amplitude': '*',
+      // 'expo-analytics-amplitude': '*',
       'expo-barcode-scanner': '*',
       'expo-constants': '*',
       'expo-file-system': '*',
-      //'expo-keep-awake': '*',
+      // 'expo-keep-awake': '*',
       'react-native-view-shot': '*',
       // Packages that are depended on by one of the packages above
       'expo-font': '*', // used by "expo"
-      //'expo-linking': '*', // used by "expo"
-      //'expo-permissions': '*', // used by "expo"
-      //'expo-splash-screen': '*', // used by "expo"
+      // 'expo-linking': '*', // used by "expo"
+      // 'expo-permissions': '*', // used by "expo"
+      // 'expo-splash-screen': '*', // used by "expo"
       'prop-types': '*', // *
       // Packages that are not really required
       // TODO: THESE SHOULD BE REMOVED ONCE THE SNACK-SDK HANDLES ADDING/REMOVING/UPDATING DEPENDENCIES BETTER
@@ -101,7 +101,7 @@ const sdks: { [version: string]: SDKSpec } = {
       // Packages that require special initialisation (see Modules.tsx)
       'expo-asset': '*',
       'react-native-gesture-handler': '*',
-      //'react-native-vector-icons': '*',
+      // 'react-native-vector-icons': '*',
       '@expo/vector-icons': '*',
 
       // Packages that are used internally by the runtime
@@ -147,7 +147,7 @@ const sdks: { [version: string]: SDKSpec } = {
       'expo-font': '*',
       'react-native-gesture-handler': '*',
       'react-native-safe-area-context': '*',
-      //'react-native-vector-icons': '*',
+      // 'react-native-vector-icons': '*',
       '@expo/vector-icons': '*',
 
       // Packages that are used internally by the runtime

@@ -3,9 +3,6 @@
   "private": true,
   "author": "Expo",
   "license": "MIT",
-  "scripts": {
-    "lint": "eslint ."
-  },
   "workspaces": [
     "packages/snack-sdk",
     "packages/snack-babel-standalone"
