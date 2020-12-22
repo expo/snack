@@ -1198,8 +1198,8 @@ export default class Snack {
       type: message.method,
       connectedClient: this.state.connectedClients[connectedClientId],
       message: payload.join(' '),
-      //error?
-      //arguments: payload,
+      // error?
+      // arguments: payload,
     };
 
     this.logListeners.forEach((listener) => listener(event));

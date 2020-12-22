@@ -85,6 +85,6 @@ describe('files', () => {
     const state = await snack.getStateAsync();
     expect(Object.keys(state.files).length).toBe(1);
     expect(typeof state.files['assets/logo'].contents).toBe('string');
-    //expect(state.files['assets/logo']?.contents?.length).toBeGreaterThan(0);
+    // expect(state.files['assets/logo']?.contents?.length).toBeGreaterThan(0);
   });
 });
