@@ -15,11 +15,11 @@ export function addObjects<T>(
   let newState: StateObject<T> | null = null;
   for (const key in content) {
     if (filter ? filter(content[key], state[key]) : !isEqual(content[key], state[key])) {
-      newState = newState || { ...state };
+      newState = newState ?? { ...state };
       newState[key] = content[key];
     }
   }
-  return newState || state;
+  return newState ?? state;
 }
 
 export function addObject<T>(
@@ -36,11 +36,11 @@ export function removeObjects<T>(state: StateObject<T>, keys: string[]): StateOb
   let newState: StateObject<T> | null = null;
   keys.forEach((key) => {
     if (state[key]) {
-      newState = newState || { ...state };
+      newState = newState ?? { ...state };
       delete newState[key];
     }
   });
-  return newState || state;
+  return newState ?? state;
 }
 
 export function removeObject<T>(state: StateObject<T>, key: string): StateObject<T> {
@@ -57,15 +57,15 @@ export function updateObjects<T>(
     const val = content[key];
     if (val === null) {
       if (state[key]) {
-        newState = newState || { ...state };
+        newState = newState ?? { ...state };
         delete newState[key];
       }
     } else if (!compareFn(val, state[key])) {
-      newState = newState || { ...state };
+      newState = newState ?? { ...state };
       newState[key] = val;
     }
   }
-  return newState || state;
+  return newState ?? state;
 }
 
 export function isBusy(state: SnackState): boolean {

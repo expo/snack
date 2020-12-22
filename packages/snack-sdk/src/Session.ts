@@ -96,30 +96,30 @@ export default class Snack {
 
   constructor(options: SnackOptions) {
     const channel = createChannel(options.channel);
-    const sdkVersion = validateSDKVersion(options.sdkVersion || defaultConfig.sdkVersion);
-    const dependencies = options.dependencies || {};
-    this.apiURL = options.apiURL || defaultConfig.apiURL;
-    this.host = options.host || defaultConfig.host;
+    const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion);
+    const dependencies = options.dependencies ?? {};
+    this.apiURL = options.apiURL ?? defaultConfig.apiURL;
+    this.host = options.host ?? defaultConfig.host;
     this.logger = options.verbose ? createLogger(true) : undefined;
-    this.codeChangesDelay = options.codeChangesDelay || 0;
-    this.reloadTimeout = options.reloadTimeout || 0;
-    this.previewTimeout = options.previewTimeout || 10000;
-    this.createTransport = options.createTransport || createTransport;
+    this.codeChangesDelay = options.codeChangesDelay ?? 0;
+    this.reloadTimeout = options.reloadTimeout ?? 0;
+    this.previewTimeout = options.previewTimeout ?? 10000;
+    this.createTransport = options.createTransport ?? createTransport;
 
     this.state = this.updateDerivedState(
       {
         disabled: !!options.disabled,
         unsaved: false,
-        name: options.name || '',
-        description: options.description || '',
+        name: options.name ?? '',
+        description: options.description ?? '',
         sdkVersion,
-        files: options.files || {},
+        files: options.files ?? {},
         dependencies,
         missingDependencies: getMissingDependencies(dependencies, sdkVersion),
         connectedClients: {},
         transports: options.online
           ? State.addObject(
-              options.transports || {},
+              options.transports ?? {},
               'pubnub',
               this.createTransport({
                 name: 'pubnub',
@@ -128,7 +128,7 @@ export default class Snack {
                 apiURL: this.apiURL,
               })
             )
-          : options.transports || {},
+          : options.transports ?? {},
         user: options.user,
         id: options.id,
         saveURL: options.id ? createURL(this.host, sdkVersion, undefined, options.id) : undefined,
@@ -147,7 +147,7 @@ export default class Snack {
       callback: this.onWantedDependencyVersions,
     });
     this.dependencyResolver = new DependencyResolver({
-      snackagerURL: options.snackagerURL || defaultConfig.snackagerURL,
+      snackagerURL: options.snackagerURL ?? defaultConfig.snackagerURL,
       logger: this.logger,
       callback: this.onDependencyResolved,
     });
@@ -326,7 +326,7 @@ export default class Snack {
           delete dep.error;
           return dep;
         }),
-        isDraft: options?.isDraft || false,
+        isDraft: options?.isDraft ?? false,
       };
 
       this.logger?.info('Saving...', payload);
@@ -366,7 +366,7 @@ export default class Snack {
       previewPromise.then((connectedClients) => {
         const conns = Object.values(connectedClients)
           .filter((c) => c.previewURL)
-          .sort((a, b) => (a.previewTimestamp || 0) - (b.previewTimestamp || 0));
+          .sort((a, b) => (a.previewTimestamp ?? 0) - (b.previewTimestamp ?? 0));
         if (conns.length) {
           this.uploadPreview(id, conns[0].previewURL as string, conns[0].status !== 'error');
         }
@@ -418,9 +418,7 @@ export default class Snack {
       if (data.id) {
         this.logger?.info('Uploaded preview', data);
       } else {
-        throw new Error(
-          (data.errors && data.errors[0] && data.errors[0].message) || 'Unknown error'
-        );
+        throw new Error(data.errors?.[0]?.message ?? 'Unknown error');
       }
     } catch (e) {
       this.logger?.error('Failed to upload preview', e);
@@ -678,7 +676,7 @@ export default class Snack {
     ) {
       for (const name in state.dependencies) {
         const dep = state.dependencies[name];
-        const wantedVersion = state.wantedDependencyVersions?.[name] || undefined;
+        const wantedVersion = state.wantedDependencyVersions?.[name];
         if (dep.wantedVersion !== wantedVersion) {
           state.dependencies =
             state.dependencies === prevState.dependencies

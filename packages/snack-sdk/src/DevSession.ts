@@ -123,7 +123,7 @@ export default class DevSession {
               session: {
                 url: onlineURL,
               },
-              ...(json.data && json.data.auth
+              ...(json.data?.auth
                 ? {
                     auth: json.data.auth,
                   }

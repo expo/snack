@@ -68,37 +68,37 @@ export default class PubNub {
   );
 
   connect(uuid?: string): string {
-    const device = TEST_DEVICES[uuid || 'ios'];
+    const device = TEST_DEVICES[uuid ?? 'ios'];
     uuid = device ? JSON.stringify(device) : uuid;
     // @ts-expect-error
     this.listener.presence({
       action: 'join',
-      uuid: uuid || '',
+      uuid: uuid ?? '',
       channel: this.channel,
     });
-    return uuid || '';
+    return uuid ?? '';
   }
 
   disconnect(uuid?: string, timeout?: boolean) {
-    const device = TEST_DEVICES[uuid || 'ios'];
+    const device = TEST_DEVICES[uuid ?? 'ios'];
     uuid = device ? JSON.stringify(device) : uuid;
     // @ts-expect-error
     this.listener.presence({
       action: timeout ? 'timeout' : 'leave',
-      uuid: uuid || '',
+      uuid: uuid ?? '',
       channel: this.channel,
     });
-    return uuid || '';
+    return uuid ?? '';
   }
 
   sendMessage(message: any, uuid?: string) {
-    const device = TEST_DEVICES[uuid || 'ios'];
+    const device = TEST_DEVICES[uuid ?? 'ios'];
     uuid = device ? JSON.stringify(device) : uuid;
     // @ts-expect-error
     this.listener.message({
       channel: this.channel,
       message,
-      publisher: uuid || '',
+      publisher: uuid ?? '',
     });
   }
 }

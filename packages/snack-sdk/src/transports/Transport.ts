@@ -35,7 +35,7 @@ export default class Transport implements SnackTransport {
 
   constructor(options: SnackTransportOptions) {
     const { apiURL, channel, verbose } = options;
-    this.channel = channel || '';
+    this.channel = channel ?? '';
     this.logger = verbose ? createLogger(true) : undefined;
     this.logSuffix = options.name ? ` (${options.name})` : '';
 

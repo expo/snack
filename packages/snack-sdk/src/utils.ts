@@ -11,7 +11,7 @@ const VALID_CHANNEL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNO
 const generateChannel = customAlphabet(VALID_CHANNEL_CHARS, 10);
 
 export function createChannel(channel?: string): string {
-  channel = channel || generateChannel();
+  channel = channel ?? generateChannel();
 
   if (channel.length < 6) {
     throw new Error('Please use a channel id with more entropy');

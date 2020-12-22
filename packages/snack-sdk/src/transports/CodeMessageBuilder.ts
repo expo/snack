@@ -146,10 +146,8 @@ export default class CodeMessageBuilder {
       } else {
         if (file.type === 'CODE') {
           if (
-            prevCodeMessage &&
-            prevCodeMessage.diff[path] &&
-            prevCode &&
-            prevCode.files[path].contents === code.files[path].contents
+            prevCodeMessage?.diff[path] &&
+            prevCode?.files[path].contents === code.files[path].contents
           ) {
             diff[path] = prevCodeMessage.diff[path];
           } else {
