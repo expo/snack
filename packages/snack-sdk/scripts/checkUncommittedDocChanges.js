@@ -9,7 +9,7 @@ function checkUncommittedDocChanges() {
     if (lines.length > 0) {
       console.error(`The following doc files need to be rebuilt and committed:`);
       lines.map(function (line) {
-        console.warn(line.replace(/^\s*\S+\s*/g));
+        console.warn(line.replace(/^\s*\S+\s*/g, ''));
       });
 
       throw new Error(
