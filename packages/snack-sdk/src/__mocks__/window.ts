@@ -52,5 +52,5 @@ beforeEach(() => {
 });
 
 export function postMessage(message: any, origin?: string) {
-  globalWindowMock.postMessage(message, origin || 'https://snack.expo.io');
+  globalWindowMock.postMessage(message, origin ?? 'https://snack.expo.io');
 }
