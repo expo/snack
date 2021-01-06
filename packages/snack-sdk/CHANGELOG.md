@@ -6,7 +6,11 @@
 
 ### 🎉 New features
 
-- Add Web-preview support ([#3](https://github.com/expo/snack/pull/13) by [@IjzerenHein](https://github.com/IjzerenHein))
+## 3.3.0 — 2021-01-06
+
+### 🎉 New features
+
+- Add Web-preview support ([#17](https://github.com/expo/snack/pull/17) by [@IjzerenHein](https://github.com/IjzerenHein))
 
 ### 🐛 Bug fixes
 
