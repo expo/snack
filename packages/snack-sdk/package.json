@@ -1,6 +1,6 @@
 {
   "name": "snack-sdk",
-  "version": "3.2.0",
+  "version": "3.3.0-rc.2",
   "description": "The Expo Snack SDK",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -58,6 +58,7 @@
     "fetch-ponyfill": "^7.0.0",
     "lodash": "^4.17.20",
     "nanoid": "^3.1.20",
+    "nullthrows": "^1.1.1",
     "pubnub": "^4.29.10",
     "semver": "^7.3.4",
     "ua-parser-js": "^0.7.22",

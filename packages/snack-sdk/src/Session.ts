@@ -1,4 +1,5 @@
 import mapValues from 'lodash/mapValues';
+import nullthrows from 'nullthrows';
 
 import DependencyResolver, {
   DependencyResolverCallback,
@@ -27,6 +28,7 @@ import {
   ProtocolStatusMessage,
   ProtocolRequestStatusMessage,
 } from './transports/Protocol';
+import { createWebPlayerTransport, getWebPlayerIFrameURL } from './transports/webPlayer';
 import {
   SDKVersion,
   SnackDependencies,
@@ -39,6 +41,7 @@ import {
   SnackListenerSubscription,
   SnackDependency,
   SnackConnectedClients,
+  SnackWindowRef,
 } from './types';
 import { createChannel, fetch, createURL, createError } from './utils';
 
@@ -63,6 +66,8 @@ export type SnackOptions = {
   previewTimeout?: number;
   user?: SnackUser;
   id?: string;
+  webPlayerURL?: string;
+  webPreviewRef?: SnackWindowRef;
 };
 
 export type SnackSaveOptions = {
@@ -89,6 +94,7 @@ export default class Snack {
   private codeChangesTimer: any;
   private readonly reloadTimeout: number;
   private readonly previewTimeout: number;
+  private readonly webPlayerURL: string;
   private pruneConnectionsTimer: any;
   private readonly transportListeners: {
     [key: string]: (event: any) => void;
@@ -105,6 +111,34 @@ export default class Snack {
     this.reloadTimeout = options.reloadTimeout ?? 0;
     this.previewTimeout = options.previewTimeout ?? 10000;
     this.createTransport = options.createTransport ?? createTransport;
+    this.webPlayerURL = options.webPlayerURL ?? defaultConfig.webPlayerURL;
+
+    let transports = options.transports ?? {};
+    if (options.online) {
+      transports = State.addObject(
+        transports,
+        'pubnub',
+        this.createTransport({
+          name: 'pubnub',
+          channel,
+          verbose: options.verbose,
+          apiURL: this.apiURL,
+        })
+      );
+    }
+    if (options.webPreviewRef) {
+      transports = State.addObject(
+        transports,
+        'webplayer',
+        createWebPlayerTransport({
+          ref: options.webPreviewRef,
+          verbose: options.verbose,
+          createTransport: this.createTransport,
+          window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
+          webPlayerURL: this.webPlayerURL,
+        })
+      );
+    }
 
     this.state = this.updateDerivedState(
       {
@@ -117,18 +151,7 @@ export default class Snack {
         dependencies,
         missingDependencies: getMissingDependencies(dependencies, sdkVersion),
         connectedClients: {},
-        transports: options.online
-          ? State.addObject(
-              options.transports ?? {},
-              'pubnub',
-              this.createTransport({
-                name: 'pubnub',
-                channel,
-                verbose: options.verbose,
-                apiURL: this.apiURL,
-              })
-            )
-          : options.transports ?? {},
+        transports,
         user: options.user,
         id: options.id,
         saveURL: options.id ? createURL(this.host, sdkVersion, undefined, options.id) : undefined,
@@ -490,6 +513,7 @@ export default class Snack {
     // Update other derived states
     this.updateDerivedOnlineState(state, prevState);
     this.updateDerivedDependenciesState(state, prevState);
+    this.updateDerivedWebPreviewState(state, prevState);
 
     return state;
   }
@@ -676,7 +700,7 @@ export default class Snack {
     ) {
       for (const name in state.dependencies) {
         const dep = state.dependencies[name];
-        const wantedVersion = state.wantedDependencyVersions?.[name];
+        const wantedVersion = state.wantedDependencyVersions?.[name] ?? undefined;
         if (dep.wantedVersion !== wantedVersion) {
           state.dependencies =
             state.dependencies === prevState.dependencies
@@ -891,6 +915,15 @@ export default class Snack {
         savedSDKVersion && savedSDKVersion !== sdkVersion ? undefined : id
       );
       state.onlineName = `${name || 'Unnamed Snack'}`;
+    }
+  }
+
+  private updateDerivedWebPreviewState(state: SnackState, prevState: SnackState) {
+    const { transports, sdkVersion, url } = state;
+    if ((url && !prevState.url) || sdkVersion !== prevState.sdkVersion) {
+      state.webPreviewURL = transports['webplayer']
+        ? getWebPlayerIFrameURL(this.webPlayerURL, sdkVersion, url, !!this.logger)
+        : undefined;
     }
   }
 

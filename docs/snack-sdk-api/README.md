@@ -37,6 +37,7 @@
 * [SnackState](README.md#snackstate)
 * [SnackStateListener](README.md#snackstatelistener)
 * [SnackUser](README.md#snackuser)
+* [SnackWindowRef](README.md#snackwindowref)
 
 ### Functions
 
@@ -60,7 +61,7 @@ ___
 
 ### SDKVersion
 
-Ƭ  **SDKVersion**: \"36.0.0\" \| \"37.0.0\" \| \"38.0.0\" \| \"39.0.0\" \| \"40.0.0\"
+Ƭ  **SDKVersion**: \"37.0.0\" \| \"38.0.0\" \| \"39.0.0\" \| \"40.0.0\"
 
 Version of the sdk to use (e.g. "37.0.0").
 
@@ -252,7 +253,7 @@ ___
 
 ### SnackOptions
 
-Ƭ  **SnackOptions**: { apiURL?: undefined \| string ; channel?: undefined \| string ; codeChangesDelay?: undefined \| number ; createTransport?: undefined \| (options: SnackTransportOptions) => SnackTransport ; dependencies?: [SnackDependencies](README.md#snackdependencies) ; description?: undefined \| string ; deviceId?: undefined \| string ; disabled?: undefined \| false \| true ; files?: [SnackFiles](README.md#snackfiles) ; host?: undefined \| string ; id?: undefined \| string ; name?: undefined \| string ; online?: undefined \| false \| true ; previewTimeout?: undefined \| number ; reloadTimeout?: undefined \| number ; sdkVersion?: [SDKVersion](README.md#sdkversion) ; snackagerURL?: undefined \| string ; transports?: undefined \| { [id:string]: SnackTransport;  } ; user?: [SnackUser](README.md#snackuser) ; verbose?: undefined \| false \| true  }
+Ƭ  **SnackOptions**: { apiURL?: undefined \| string ; channel?: undefined \| string ; codeChangesDelay?: undefined \| number ; createTransport?: undefined \| (options: SnackTransportOptions) => SnackTransport ; dependencies?: [SnackDependencies](README.md#snackdependencies) ; description?: undefined \| string ; deviceId?: undefined \| string ; disabled?: undefined \| false \| true ; files?: [SnackFiles](README.md#snackfiles) ; host?: undefined \| string ; id?: undefined \| string ; name?: undefined \| string ; online?: undefined \| false \| true ; previewTimeout?: undefined \| number ; reloadTimeout?: undefined \| number ; sdkVersion?: [SDKVersion](README.md#sdkversion) ; snackagerURL?: undefined \| string ; transports?: undefined \| { [id:string]: SnackTransport;  } ; user?: [SnackUser](README.md#snackuser) ; verbose?: undefined \| false \| true ; webPlayerURL?: undefined \| string ; webPreviewRef?: [SnackWindowRef](README.md#snackwindowref)  }
 
 #### Type declaration:
 
@@ -278,6 +279,8 @@ Name | Type |
 `transports?` | undefined \| { [id:string]: SnackTransport;  } |
 `user?` | [SnackUser](README.md#snackuser) |
 `verbose?` | undefined \| false \| true |
+`webPlayerURL?` | undefined \| string |
+`webPreviewRef?` | [SnackWindowRef](README.md#snackwindowref) |
 
 ___
 
@@ -311,7 +314,7 @@ ___
 
 ### SnackState
 
-Ƭ  **SnackState**: { channel: string ; connectedClients: [SnackConnectedClients](README.md#snackconnectedclients) ; dependencies: [SnackDependencies](README.md#snackdependencies) ; description: string ; deviceId?: undefined \| string ; disabled: boolean ; files: [SnackFiles](README.md#snackfiles) ; id?: undefined \| string ; missingDependencies: [SnackMissingDependencies](README.md#snackmissingdependencies) ; name: string ; online: boolean ; onlineName?: undefined \| string ; saveURL?: undefined \| string ; savedSDKVersion?: undefined \| string ; sdkVersion: [SDKVersion](README.md#sdkversion) ; sendBeaconCloseRequest?: [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) ; unsaved: boolean ; url: string ; user?: [SnackUser](README.md#snackuser) ; wantedDependencyVersions?: [SnackDependencyVersions](README.md#snackdependencyversions)  }
+Ƭ  **SnackState**: { channel: string ; connectedClients: [SnackConnectedClients](README.md#snackconnectedclients) ; dependencies: [SnackDependencies](README.md#snackdependencies) ; description: string ; deviceId?: undefined \| string ; disabled: boolean ; files: [SnackFiles](README.md#snackfiles) ; id?: undefined \| string ; missingDependencies: [SnackMissingDependencies](README.md#snackmissingdependencies) ; name: string ; online: boolean ; onlineName?: undefined \| string ; saveURL?: undefined \| string ; savedSDKVersion?: undefined \| string ; sdkVersion: [SDKVersion](README.md#sdkversion) ; sendBeaconCloseRequest?: [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) ; unsaved: boolean ; url: string ; user?: [SnackUser](README.md#snackuser) ; wantedDependencyVersions?: [SnackDependencyVersions](README.md#snackdependencyversions) ; webPreviewURL?: undefined \| string  }
 
 #### Type declaration:
 
@@ -337,6 +340,7 @@ Name | Type | Description |
 `url` | string | Unique experience url which can be used to open the Expo client and connect to the Snack (e.g. "exp://expo.io/@snack/sdk.38.0.0-78173941"). |
 `user?` | [SnackUser](README.md#snackuser) |  |
 `wantedDependencyVersions?` | [SnackDependencyVersions](README.md#snackdependencyversions) | Collection of packages and versions that are compatible with the selected SDK version. This is similar to using `expo install`, which ensures the latest compatible version is installed. |
+`webPreviewURL?` | undefined \| string | URL to use to when loading the web-preview in an iframe.  Web-preview is supported from SDK 40 and higher. To enable it, set the `webPreviewRef` to the contentWindow of the iframe.  |
 
 ___
 
@@ -357,6 +361,18 @@ User that is used for communicating with the Expo servers.
 Name | Type |
 ------ | ------ |
 `sessionSecret?` | undefined \| string |
+
+___
+
+### SnackWindowRef
+
+Ƭ  **SnackWindowRef**: { current: Window \| null  }
+
+#### Type declaration:
+
+Name | Type |
+------ | ------ |
+`current` | Window \| null |
 
 ## Functions
 
