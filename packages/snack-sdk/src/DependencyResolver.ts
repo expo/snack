@@ -182,6 +182,10 @@ export function verifyDependency(name: string, version: string): SnackError | un
       const result = validate(names[0]);
       validForOldPackages = result.validForNewPackages;
       errors = result.errors;
+    } else if (names.length >= 2 && name.startsWith('@')) {
+      const result = validate(names[0] + '/' + names[1]);
+      validForOldPackages = result.validForNewPackages;
+      errors = result.errors;
     }
 
     if (!validForOldPackages) {

@@ -103,7 +103,7 @@ export default class Snack {
   constructor(options: SnackOptions) {
     const channel = createChannel(options.channel);
     const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion);
-    const dependencies = options.dependencies ?? {};
+    const dependencies = options.dependencies ? { ...options.dependencies } : {};
     this.apiURL = options.apiURL ?? defaultConfig.apiURL;
     this.host = options.host ?? defaultConfig.host;
     this.logger = options.verbose ? createLogger(true) : undefined;

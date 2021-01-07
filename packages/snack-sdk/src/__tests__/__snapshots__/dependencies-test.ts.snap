@@ -34,6 +34,8 @@ Object {
 }
 `;
 
+exports[`dependencies fails on incomplete scoped names 1`] = `[Error: Invalid dependency '@scopeonly' (name can only contain URL-friendly characters)]`;
+
 exports[`dependencies fails on invalid dependency name 1`] = `[Error: Invalid dependency '+-/.' (name can only contain URL-friendly characters)]`;
 
 exports[`dependencies fails on invalid dependency version 1`] = `[Error: Invalid dependency 'expo' (version '-- 2 4' is not a valid semver)]`;

@@ -109,9 +109,32 @@ describe('dependencies', () => {
     expect(state.dependencies[name].error).toMatchSnapshot();
   });
 
+  it('fails on incomplete scoped names', async () => {
+    const snack = new Snack({});
+    const name = '@scopeonly';
+    snack.updateDependencies({
+      [name]: { version: '1.0.0' },
+    });
+    const state = snack.getState();
+    expect(Object.keys(state.dependencies).length).toBe(1);
+    expect(state.dependencies[name].error).toBeDefined();
+    expect(state.dependencies[name].error).toMatchSnapshot();
+  });
+
   it('succeeds on dependency name with subpath', async () => {
     const snack = new Snack({});
     const name = 'react-native-gesture-handler/DrawerLayout';
+    snack.updateDependencies({
+      [name]: { version: '1.6.0' },
+    });
+    const state = snack.getState();
+    expect(Object.keys(state.dependencies).length).toBe(1);
+    expect(state.dependencies[name].error).toBeUndefined();
+  });
+
+  it('succeeds on scoped dependency name with subpath', async () => {
+    const snack = new Snack({});
+    const name = '@expo/vector-icons/FontAwesome.ttf';
     snack.updateDependencies({
       [name]: { version: '1.6.0' },
     });
