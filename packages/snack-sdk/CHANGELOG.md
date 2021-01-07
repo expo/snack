@@ -8,6 +8,10 @@
 
 ### 🐛 Bug fixes
 
+## 3.3.1 — 2021-01-07
+
+### 🐛 Bug fixes
+
 - Fix initial dependencies object modification ([#37](https://github.com/expo/snack/pull/37) by [@IjzerenHein](https://github.com/IjzerenHein))
 - Fix scoped dependency names with subpaths not recognized as valid ([#37](https://github.com/expo/snack/pull/37) by [@IjzerenHein](https://github.com/IjzerenHein))
 
