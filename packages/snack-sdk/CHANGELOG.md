@@ -6,6 +6,11 @@
 
 ### 🎉 New features
 
+### 🐛 Bug fixes
+
+- Fix initial dependencies object modification ([#18](https://github.com/expo/snack/pull/18) by [@IjzerenHein](https://github.com/IjzerenHein))
+- Fix scoped dependency names with subpaths not recognized as valid ([#18](https://github.com/expo/snack/pull/18) by [@IjzerenHein](https://github.com/IjzerenHein))
+
 ## 3.3.0 — 2021-01-06
 
 ### 🎉 New features
