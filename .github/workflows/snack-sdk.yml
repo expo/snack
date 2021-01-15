@@ -1,5 +1,9 @@
 name: SnackSDK
 
+defaults:
+  run:
+    working-directory: packages/snack-sdk
+
 on:
   workflow_dispatch: {}
   push:
@@ -35,10 +39,6 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: yarn install --ignore-scripts --frozen-lockfile
       - run: yarn test --maxWorkers 1
-        working-directory: packages/snack-sdk
       - run: yarn lint --max-warnings 0
-        working-directory: packages/snack-sdk
       - run: yarn build
-        working-directory: packages/snack-sdk
       - run: yarn doc:ci
-        working-directory: packages/snack-sdk
