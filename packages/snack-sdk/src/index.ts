@@ -16,11 +16,8 @@ import {
 
 export * from './transports';
 export * from './types';
+export type { SnackOptions, SnackSaveOptions, SnackStateListener, SnackLogListener };
 export {
-  SnackOptions,
-  SnackSaveOptions,
-  SnackStateListener,
-  SnackLogListener,
   isModulePreloaded,
   getPreloadedModules,
   isValidSemver,

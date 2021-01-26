@@ -1,7 +1,7 @@
 import { SDKVersion, SDKFeature } from './sdks/types';
 import { SnackTransport } from './transports';
 
-export { SDKVersion, SDKFeature };
+export type { SDKVersion, SDKFeature };
 
 /**
  * A non asset file that is included with the project.
