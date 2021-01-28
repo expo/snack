@@ -45,7 +45,7 @@ Now you can access the web app at [localhost:3011](http://localhost:3011) or thr
 
 ### Using the `snack.expo.test` domain
 
-We develop Snack under [snack.expo.test](https://snack/expo.test). We use [chalet](https://github.com/jeansaad/chalet) to do that. To set it up, open the file `~/.chalet/conf.json` and make sure you have the `tld` set to `test`:
+We develop Snack under [snack.expo.test](https://snack.expo.test). We use [chalet](https://github.com/jeansaad/chalet) to do that. To set it up, open the file `~/.chalet/conf.json` and make sure you have the `tld` set to `test`:
 
 ```json
 {
