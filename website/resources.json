@@ -1,0 +1,5 @@
+{
+  "normalize": "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css",
+  "babel-polyfill": "https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js",
+  "typescript": "https://cdnjs.cloudflare.com/ajax/libs/typescript/2.4.2/typescript.min.js"
+}

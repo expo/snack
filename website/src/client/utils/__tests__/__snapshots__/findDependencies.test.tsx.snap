@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`finds all required modules with version comments 1`] = `
+Object {
+  "base64": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 37,
+      "endLineNumber": 2,
+      "fileName": "index.js",
+      "startColumn": 20,
+      "startLineNumber": 2,
+    },
+    "version": "2.4.1",
+  },
+  "react-redux": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 47,
+      "endLineNumber": 3,
+      "fileName": "index.js",
+      "startColumn": 25,
+      "startLineNumber": 3,
+    },
+    "version": "3.5.2",
+  },
+}
+`;
+
+exports[`finds dependencies in JSX files 1`] = `
+Object {
+  "mod1": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 25,
+      "endLineNumber": 4,
+      "fileName": "index.js",
+      "startColumn": 19,
+      "startLineNumber": 4,
+    },
+    "version": "2.4.1",
+  },
+  "mod2": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 31,
+      "endLineNumber": 5,
+      "fileName": "index.js",
+      "startColumn": 25,
+      "startLineNumber": 5,
+    },
+    "version": "3.5.2",
+  },
+  "mod3": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 27,
+      "endLineNumber": 6,
+      "fileName": "index.js",
+      "startColumn": 21,
+      "startLineNumber": 6,
+    },
+    "version": "4.6.3",
+  },
+  "mod4": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 33,
+      "endLineNumber": 7,
+      "fileName": "index.js",
+      "startColumn": 27,
+      "startLineNumber": 7,
+    },
+    "version": "5.7.4",
+  },
+  "mod5": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 18,
+      "endLineNumber": 8,
+      "fileName": "index.js",
+      "startColumn": 12,
+      "startLineNumber": 8,
+    },
+    "version": "6.8.5",
+  },
+  "react": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 35,
+      "endLineNumber": 2,
+      "fileName": "index.js",
+      "startColumn": 28,
+      "startLineNumber": 2,
+    },
+    "version": undefined,
+  },
+  "react-native": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 46,
+      "endLineNumber": 3,
+      "fileName": "index.js",
+      "startColumn": 32,
+      "startLineNumber": 3,
+    },
+    "version": undefined,
+  },
+}
+`;
+
+exports[`finds dependencies with version comments 1`] = `
+Object {
+  "mod1": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 25,
+      "endLineNumber": 2,
+      "fileName": "index.js",
+      "startColumn": 19,
+      "startLineNumber": 2,
+    },
+    "version": "2.4.1",
+  },
+  "mod2": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 31,
+      "endLineNumber": 3,
+      "fileName": "index.js",
+      "startColumn": 25,
+      "startLineNumber": 3,
+    },
+    "version": "3.5.2",
+  },
+  "mod3": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 27,
+      "endLineNumber": 4,
+      "fileName": "index.js",
+      "startColumn": 21,
+      "startLineNumber": 4,
+    },
+    "version": "4.6.3",
+  },
+  "mod4": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 33,
+      "endLineNumber": 5,
+      "fileName": "index.js",
+      "startColumn": 27,
+      "startLineNumber": 5,
+    },
+    "version": "5.7.4",
+  },
+  "mod5": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 18,
+      "endLineNumber": 6,
+      "fileName": "index.js",
+      "startColumn": 12,
+      "startLineNumber": 6,
+    },
+    "version": "6.8.5",
+  },
+  "mod6": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 27,
+      "endLineNumber": 8,
+      "fileName": "index.js",
+      "startColumn": 21,
+      "startLineNumber": 8,
+    },
+    "version": "7.9.6",
+  },
+  "mod7": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 32,
+      "endLineNumber": 9,
+      "fileName": "index.js",
+      "startColumn": 26,
+      "startLineNumber": 9,
+    },
+    "version": "8.0.7",
+  },
+  "mod8": Object {
+    "isPackage": true,
+    "location": Object {
+      "endColumn": 25,
+      "endLineNumber": 10,
+      "fileName": "index.js",
+      "startColumn": 19,
+      "startLineNumber": 10,
+    },
+    "version": "9.1.8",
+  },
+}
+`;

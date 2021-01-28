@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders children 1`] = `
+<FileListEntry
+  actions={
+    Array [
+      Object {
+        "handler": [Function],
+        "label": "New file",
+      },
+      Object {
+        "handler": [Function],
+        "label": "New folder",
+      },
+      Object {
+        "combo": Array [
+          13,
+        ],
+        "handler": [Function],
+        "label": "Expand",
+      },
+      Object {
+        "combo": Array [
+          17,
+          67,
+        ],
+        "handler": [Function],
+        "label": "Copy",
+      },
+      Object {
+        "combo": Array [
+          17,
+          68,
+        ],
+        "handler": [Function],
+        "label": "Duplicate",
+      },
+      undefined,
+      Object {
+        "combo": Array [
+          113,
+        ],
+        "handler": [Function],
+        "label": "Rename",
+      },
+      Object {
+        "combo": Array [
+          8,
+        ],
+        "handler": [Function],
+        "label": "Delete",
+      },
+    ]
+  }
+  draggable={true}
+  entry={
+    Object {
+      "item": Object {
+        "path": "app",
+        "type": "folder",
+      },
+      "state": Object {},
+    }
+  }
+  onExpand={[Function]}
+  onFocus={[Function]}
+  onOpen={[Function]}
+  onRename={[Function]}
+  renderItem={[Function]}
+  renderMenuIcon={[Function]}
+  renderTree={[Function]}
+  rest={Array []}
+  theme="light"
+/>
+`;

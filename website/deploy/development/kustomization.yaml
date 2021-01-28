@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: default
+bases:
+- ../staging
+patchesStrategicMerge:
+- ingress-spec.yaml
+- deployment-probes.yaml
+- deployment-increase-memory-limit.yaml
+configMapGenerator:
+- name: snack
+  behavior: merge
+  envs:
+  - snack.env
