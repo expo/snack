@@ -305,12 +305,20 @@ export function withDependencyManager<Props extends EditorViewProps>(
                 [name]: { version: dependencies[name].wantedVersion as string },
               })),
           };
-        } else {
+        } else if (dependencies[name].error?.message.includes('not found in the registry')) {
           return {
             title: 'Remove dependency',
             run: () =>
               this.updateDependencies(() => ({
                 [name]: null,
+              })),
+          };
+        } else {
+          return {
+            title: 'Retry',
+            run: () =>
+              this.updateDependencies(() => ({
+                [name]: { version },
               })),
           };
         }

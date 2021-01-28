@@ -4,6 +4,7 @@ import type { RouterData, QueryParams, QueryStateParams } from '../types';
 
 export type ReloadURLOptions = {
   noEmbedded?: boolean;
+  useAllQueryParamsWhenPossible?: boolean;
 };
 
 declare const __INITIAL_DATA__: {
@@ -38,7 +39,11 @@ function pickQueryStateParams(queryParams: QueryParams) {
 export function getReloadURL(queryParams?: QueryParams, options?: ReloadURLOptions) {
   const { origin } = window.location;
   let { pathname } = window.location;
-  const allQueryParams: any = pickQueryStateParams(__INITIAL_DATA__.queryParams);
+  const allQueryParams: any =
+    options?.useAllQueryParamsWhenPossible &&
+    (!pathname || pathname === '/' || pathname === '/embedded' || pathname === '/embedded/')
+      ? { ...__INITIAL_DATA__.queryParams }
+      : pickQueryStateParams(__INITIAL_DATA__.queryParams);
   if (queryParams) {
     for (const [key, value] of Object.entries(queryParams)) {
       if (value === undefined) {
@@ -56,6 +61,8 @@ export function getReloadURL(queryParams?: QueryParams, options?: ReloadURLOptio
 }
 
 export function reload() {
-  const url = getReloadURL();
+  const url = getReloadURL(undefined, {
+    useAllQueryParamsWhenPossible: true,
+  });
   window.location.replace(url);
 }
