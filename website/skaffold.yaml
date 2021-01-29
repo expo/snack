@@ -61,8 +61,7 @@ profiles:
     local:
       push: true
   activation:
-  - env: GITHUB_HEAD_REF=@hein/website
-  # -env: GITHUB_REF=refs/heads/main
+  - env: GITHUB_REF=refs/heads/main
 - name: local
   deploy:
     kustomize:
