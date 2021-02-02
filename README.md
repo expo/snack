@@ -19,6 +19,7 @@ Expo Snack is an open-source platform for running React Native apps in the brows
 
 ## 📚 Documentation
 
+- [Contributing to Snack](./CONTRIBUTING.md)
 - [Embedding Snacks](./docs/embedding-snacks.md)
 - [URLs and Query parameters](./docs/url-query-parameters.md)
 - [Dependencies and Bundling](./docs/dependencies-bundling.md)
