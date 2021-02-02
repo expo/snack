@@ -3,13 +3,22 @@
 ## 📦 Download and Setup
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device. (`git remote add upstream git@github.com:expo/snack.git` 😉)
-2. Make sure you have [node](https://nodejs.org/), [yarn](https://yarnpkg.com/) and [PM2](https://pm2.keymetrics.io/) installed on your system.
+2. Make sure you have the following packages globally installed on your system:
+   - [node](https://nodejs.org/) (node 12 or higher is recommended)
+   - [yarn](https://yarnpkg.com/)
+   - [PM2](https://pm2.keymetrics.io/)
+   - [direnv](https://direnv.net/docs/installation.html)
 3. Install the Node packages (`yarn install`)
-4. That's it!
+4. [chalet](https://github.com/jeansaad/chalet) is used to to run local services on the `expo.test` domain.
+   - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
+   - Configure your system or browser to use the chalet proxy `http://localhost:2000/proxy.pac`
+   - Restart or refresh your network settings to apply the chalet changes
 
 ## 🏎️ Start the Development environment
 
-Run `yarn start` from the root to start the Snack development services locally. 
+> Before starting, make sure [direnv](https://direnv.net/docs/installation.html) is installed and `direnv allow` completes successfully.
+
+Run `yarn start` from the root to start the Snack development services.
 
 ```
 ┌─ Process List ──────────────────────────────────────┐┌──  exp-web-proxy Logs  ──────
@@ -20,7 +29,7 @@ Run `yarn start` from the root to start the Snack development services locally.
 
 > Some services like the Expo API server and the Expo website are hosted elsewhere and are proxied. The proxies log all incoming requests and auto-redirect to locally running instances when possible. 
 
-To view the website, open http://snack.expo.test.
+To view the website, open http://snack.expo.test or http://localhost:3011.
 
 ## ✅ Testing
 
