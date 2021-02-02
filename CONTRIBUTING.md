@@ -3,13 +3,19 @@
 ## 📦 Download and Setup
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device. (`git remote add upstream git@github.com:expo/snack.git` 😉)
-2. Make sure you have [node](https://nodejs.org/), [yarn](https://yarnpkg.com/) and [PM2](https://pm2.keymetrics.io/) installed on your system.
+2. Make sure you have the following packages globally installed on your system:
+   - [node](https://nodejs.org/) (node 12 or higher is recommended)
+   - [yarn](https://yarnpkg.com/)
+   - [PM2](https://pm2.keymetrics.io/)
+   - [direnv](https://direnv.net/docs/installation.html)
 3. Install the Node packages (`yarn install`)
 4. That's it!
 
 ## 🏎️ Start the Development environment
 
-Run `yarn start` from the root to start the Snack development services locally. 
+> Before starting, make sure [direnv](https://direnv.net/docs/installation.html) is installed and `direnv allow` completes successfully.
+
+Run `yarn start` from the root to start the Snack development services.
 
 ```
 ┌─ Process List ──────────────────────────────────────┐┌──  exp-web-proxy Logs  ──────
