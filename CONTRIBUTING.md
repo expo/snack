@@ -11,7 +11,7 @@
 3. Install the Node packages (`yarn install`)
 4. [chalet](https://github.com/jeansaad/chalet) is used to to run local services on the `expo.test` domain.
    - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
-   - Configure your system or browser to use the chalet proxy `http://localhost:2000/proxy.pac`
+   - [Configure your system or browser to use the `.test` domain](https://github.com/jeansaad/chalet/blob/master/docs/README.md#system-configuration-recommended)
    - Restart or refresh your network settings to apply the chalet changes
 
 ## 🏎️ Start the Development environment
