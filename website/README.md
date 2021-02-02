@@ -1,69 +1,92 @@
-# Snack
+# website
 
-Snack lets you to run complete React Native projects in the browser. This is the web app for [snack.expo.io](https://snack.expo.io/).
-
-## NOTE: This README still assumes that you have access to the `expo/universe` repository in order to develop the Snack web-app. We are in the process of removing these dependencies, after which local development will be possible using merely the `expo/snack` monorepo.
-
-## Pre-requisites
-
-Before running the web app, make sure to have the following packages installed globally on your system:
-
-- [nodejs](https://nodejs.org/)
-- [yarn](https://yarnpkg.com/lang/en/)
-- [docker](https://docker.com)
-- [chalet](https://github.com/jeansaad/chalet)
+This is the web app for [snack.expo.io](https://snack.expo.io/) and for [embedded Snacks](https://snack.expo.io/embedded).
 
 ## Getting started
 
-### Quick start
+Before running the web app, make sure you have followed **all the steps** in the [Contributing Guide](../CONTRIBUTING.md).
 
-After cloning the repo, open a terminal in the directory and run following to install the dependencies and start the server:
+Start the website by running `yarn start` from the root of the repository.
+
+## Running development services locally
+
+When you have access to the Expo Universe repository, you can choose to run certain Expo services locally.
+
+### Expo API server (www)
+
+Start the `www` server. `expo-www-proxy` automatically detects the local server and routes all trafic to localhost:3000 when possible.
 
 ```sh
-cd website
+# expo/universe
+cd server/www
 yarn
 yarn start
 ```
 
-By default, the Snack server will try to connect to your local `www` server, so you'll need to start that in a separate terminal as well.
+### Expo Website
+
+Start the Expo website. `expo-website-proxy` automatically detects the local server and routes all trafic to localhost:3001 when possible.
+When testing authentication, it is important that the chalet `expo.test` domain is used, otherwise authentication credentials cannot be accessed by `snack.expo.test`.
 
 ```sh
-cd {universe}/server/www
+# expo/universe
+cd server/website
 yarn
 yarn start
 ```
 
-If you want to use authentication or other website features, also start the "website" in a separate terminal.
+### Snackager (package bundler)
+
+Start the `snackager` server and append `local_snackager=true` to the query arguments of the URL.
 
 ```sh
-cd {universe}/server/website
+# expo/universe
+cd server/snackager
 yarn
 yarn start
 ```
 
-Now you can access the web app at [localhost:3011](http://localhost:3011) or through [snack.expo.test](http://snack.expo.test) if the test domain was correctly setup.
+And open http://snack.expo.test?local_snackager=true
 
-### Using the `snack.expo.test` domain
+### Snack web-player
 
-We develop Snack under [snack.expo.test](https://snack.expo.test). We use [chalet](https://github.com/jeansaad/chalet) to do that. To set it up, open the file `~/.chalet/conf.json` and make sure you have the `tld` set to `test`:
+By default, the web player is loaded from s3 and a CDN. When developing locally, specify the `SNACK_WEBPLAYER_URL` and `SNACK_WEBPLAYER_CDN` environment variables to use the local instance of the web player.
 
-```json
-{
-  "tld": "test"
-}
+```sh
+# expo/universe
+cd apps/snack
+expo start:web
 ```
 
-Also add the following to `~/.chalet/servers/snack.expo.json`:
+Uncomment the `SNACK_WEBPLAYER_URL` and `SNACK_WEBPLAYER_CDN` lines in [./envrc](../.envrc);
 
-```json
-{
-  "target": "http://localhost:3011"
-}
+```sh
+# .envrc
+SNACK_WEBPLAYER_URL=http://localhost:19006
+SNACK_WEBPLAYER_CDN=http://localhost:19006
 ```
 
-Configure your system to use configure proxies automatically following [these instructions](https://github.com/jeansaad/chalet/blob/master/docs/README.md#system-configuration-recommended).
+And restart
 
-Now you should be able to access the snack server at [http://snack.expo.test](http://snack/expo.test).
+```sh
+# expo/snack
+yarn start
+```
+
+### Testing local Snack runtime on device
+
+Use ngrok to set up a tunnel to your locally-running www instance.
+
+1. Replace 'staging.snack.expo.io' with your ngrok url, in the host of the Snack constructor (client/components/App.tsx).
+2. Restart local snack server.
+3. Send to device.
+
+Note that a some Expo client APIs are hardcoded to prod so they won't hit the ngrok tunnel.
+
+
+### Disabling cache with Service Worker
+
+In chrome devtools, check "Bypass for network" under `Application` > `Service workers` to skip the service worker cache when working on the page. Remember to keep the devtools open so this takes effect.
 
 ### Setting up HTTPS with self-signed certifcate
 
@@ -110,55 +133,9 @@ The web server is under `src/server/`. The build scripts also generate a `build`
 
 The code for the client is located under `src/client/`. The webpack build creates a `dist/` folder which is ignored from version control.
 
-Scripts related to deployment, like the Dockerfile, are under `deploy`. Note: even though the scripts are under `deploy`, you must run them from the root directory; they are sensitive to `cwd`.
+Scripts related to deployment, like the Dockerfile, are under `deploy`. Note: even though the scripts are under `deploy`, you must run them from the **root of the repository**; they are sensitive to `cwd`.
 
-### Disabling cache with Service Worker
-
-In chrome devtools, check "Bypass for network" under `Application` > `Service workers` to skip the service worker cache when working on the page. Remember to keep the devtools open so this takes effect.
-
-### Testing the web player locally
-
-By default, the web player is loaded from s3 and a CDN. When developing locally, specify the `SNACK_WEBPLAYER_URL` and `SNACK_WEBPLAYER_CDN` environment variables to use the local instance of the web player.
-
-Example:
-
-```sh
-# Start the web-player
-cd {universe}/apps/snack
-expo start:web
-
-# Start server using localhost web-player
-cd website
-SNACK_WEBPLAYER_URL=http://localhost:19006 SNACK_WEBPLAYER_CDN=http://localhost:19006 yarn start
-```
-
-### Testing Snackager locally
-
-By default, Snackager is used from staging. When developing locally append `local_snackager=true` to the query arguments of the URL.
-
-Example:
-
-```sh
-# Start Snackager locally
-cd {universe}/server/snackager
-yarn start
-
-# Start server and use local Snackager
-cd website
-yarn start
-open "http://snack.expo.test?local_snackager=true"
-```
-
-### Running the tests
+## Running the tests
 
 We run unit tests with Jest. Run `yarn test` in another terminal to start Jest and have it continuously watch for changes. You also can run `yarn jest` if you want to run Jest without the watcher. Keep unit tests fast so that the feedback loop from them is fast.
 
-### Testing local snack on device
-
-Use ngrok to set up a tunnel to your locally-running www instance.
-
-1. Replace 'staging.snack.expo.io' with your ngrok url, in the host of the Snack constructor (client/components/App.tsx).
-2. Restart local snack server.
-3. Send to device.
-
-Note that a lot of expo client APIs are hardcoded to prod so they won't hit the ngrok tunnel.

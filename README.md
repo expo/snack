@@ -35,7 +35,7 @@ Expo Snack is an open-source platform for running React Native apps in the brows
   - [`snack-sdk-legacy`](/packages/snack-sdk-legacy) *Legacy snack-sdk provided for completeness.*
   - [`expo-www-proxy`](/packages/expo-www-proxy) *Proxy for the Expo API endpoints*
   - [`expo-website-proxy`](/packages/expo-website-proxy) *Proxy for the Expo website & Authentication*
-- [`website`](/website) *The Snack website at **https://snack.expo.io**.*
+- [`website`](/website) *The web-app for **https://snack.expo.io** and for **[embedded Snacks](https://snack.expo.io/embedded).***
 
 > The Snack code-base consists of many more services and apps. These will be open sourced incrementally, so stay tuned for more!
 
