@@ -1,5 +1,5 @@
 import { StyleSheet, css } from 'aphrodite';
-import { request } from 'graphql-request';
+import { request, gql } from 'graphql-request';
 import debounce from 'lodash/debounce';
 import nullthrows from 'nullthrows';
 import * as React from 'react';
@@ -10,8 +10,6 @@ import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import { c } from '../ThemeProvider';
 import ProgressIndicator from '../shared/ProgressIndicator';
 import SearchPlaceholder from './SearchPlaceholder';
-
-const gql = String.raw;
 
 const ENDPOINT = `${nullthrows(process.env.API_SERVER_URL)}/--/graphql`;
 
