@@ -3,12 +3,24 @@
   "private": true,
   "author": "Expo",
   "license": "MIT",
+  "volta": {
+    "node": "12.16.2",
+    "pm2": "4.5.1"
+  },
+  "scripts": {
+    "start": "yarn domain && pm2 start ecosystem.config.js && pm2 monit && yarn stop",
+    "stop": "pm2 stop ecosystem.config.js",
+    "domain": "chalet start && chalet add http://localhost:3011 -n snack.expo -f && chalet add http://localhost:3021 -n expo -f"
+  },
   "workspaces": [
     "packages/snack-sdk",
     "packages/snack-babel-standalone",
+    "packages/expo-www-proxy",
+    "packages/expo-website-proxy",
     "website"
   ],
   "devDependencies": {
+    "chalet": "^0.9.0",
     "eslint": "^7.16.0",
     "eslint-config-universe": "^6.0.1",
     "prettier": "^2.2.1"

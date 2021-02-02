@@ -6,6 +6,22 @@
 2. Install the Node packages (`yarn install`)
 3. That's it!
 
+## 🏎️ Start the Development environment
+
+Run `yarn start` to start the Snack development services locally. 
+
+```
+┌─ Process List ──────────────────────────────────────┐┌──  exp-web-proxy Logs  ──────
+│[ 2] exp-web-proxy   Mem: 217 MB  CPU:   0 %  online ││ exp-web-proxy > Listening ...
+│[ 1] exp-www-proxy   Mem: 228 MB  CPU:   0 %  online ││                              
+│[ 0] snack-website   Mem: 501 MB  CPU: 128 %  online ││                              
+```
+
+> Some services like the Expo API server and the Expo website are hosted elsewhere and are proxied. The proxies log all incoming requests and auto-redirect to locally running instances when possible. 
+
+To view the website, open http://snack.expo.test.
+
+
 ## ✅ Testing
 
 Testing is done using [Jest](https://jestjs.io/https://jestjs.io/), the delightful JavaScript Testing Framework.

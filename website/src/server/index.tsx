@@ -15,7 +15,7 @@ import createLogger from './utils/createLogger';
 
 type ShutdownSignal = 'SIGHUP' | 'SIGINT' | 'SIGTERM' | 'SIGUSR2';
 
-const port = parseInt(process.env.SNACK_PORT ?? '', 10) || 3011;
+const port = 3011;
 const host = '::';
 const backlog = 511;
 const timeout = 30000;
