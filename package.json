@@ -5,7 +5,8 @@
   "license": "MIT",
   "workspaces": [
     "packages/snack-sdk",
-    "packages/snack-babel-standalone"
+    "packages/snack-babel-standalone",
+    "website"
   ],
   "devDependencies": {
     "eslint": "^7.16.0",

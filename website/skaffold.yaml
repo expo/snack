@@ -1,0 +1,91 @@
+apiVersion: skaffold/v2beta1
+kind: Config
+metadata:
+  name: snack
+build:
+  artifacts:
+  - image: gcr.io/exponentjs/snack
+    sync:
+      manual:
+      - src: src/**/*
+        dest: /snack/app
+    docker:
+      dockerfile: website/Dockerfile
+      buildArgs:
+        node_version: 12.18.4
+        SERVER_URL: https://staging.expo.io
+        API_SERVER_URL: https://staging.exp.host
+        APP_VERSION: staging-{{.GITHUB_SHA}}
+        DEPLOY_ENVIRONMENT: staging
+        IMPORT_SERVER_URL: https://staging.snackager.expo.io
+        SNACK_SERVER_URL: https://staging.snack.expo.io
+        SNACK_SEGMENT_KEY: dxul6twMnfpyguF8w4W2qUpFnhxEUSV6
+        SNACK_AMPLITUDE_KEY: 512bcbce69eae77fee77be53ec230088
+        SNACK_WEBPLAYER_URL: https://snack-web-player-staging.s3.us-west-1.amazonaws.com
+        SNACK_WEBPLAYER_CDN: https://d1qt8af2b3kxj0.cloudfront.net
+  tagPolicy:
+    sha256: {}
+  local:
+    push: false
+deploy:
+  kustomize:
+    paths:
+    - website/deploy/staging
+profiles:
+- name: prod
+  build:
+    artifacts:
+    - image: gcr.io/exponentjs/snack
+      docker:
+        dockerfile: website/Dockerfile
+        buildArgs:
+          node_version: 12.18.4
+          SERVER_URL: https://expo.io
+          API_SERVER_URL: https://expo.io
+          APP_VERSION: production-{{.GITHUB_SHA}}
+          DEPLOY_ENVIRONMENT: production
+          IMPORT_SERVER_URL: https://snackager.expo.io
+          SNACK_SERVER_URL: https://snack.expo.io
+          SNACK_SEGMENT_KEY: Ha0swpI6s2CVEMxK84cEmKmUVmBa1USu
+          SNACK_AMPLITUDE_KEY: e91121c19a5bdcccd852cd032dc911fe
+          SNACK_WEBPLAYER_URL: https://snack-web-player.s3.us-west-1.amazonaws.com
+          SNACK_WEBPLAYER_CDN: https://dwmszb351h4q.cloudfront.net
+  deploy:
+    kustomize:
+      paths:
+      - website/deploy/production
+  activation:
+  - env: ENVIRONMENT=production
+- name: main
+  build:
+    local:
+      push: true
+  activation:
+  - env: GITHUB_REF=refs/heads/main
+- name: local
+  deploy:
+    kustomize:
+      paths:
+      - website/deploy/development
+    statusCheckDeadlineSeconds: 10
+    kubeContext: minikube
+  patches:
+  - op: replace
+    path: /build/artifacts/0/docker/buildArgs/APP_VERSION
+    value: development
+  - op: replace
+    path: /build/artifacts/0/docker/buildArgs/DEPLOY_ENVIRONMENT
+    value: local
+  - op: replace
+    path: /build/artifacts/0/docker/buildArgs/SNACK_SEGMENT_KEY
+    value: ""
+  activation:
+  - command: dev
+  - command: debug
+- name: development
+  patches:
+  - op: add
+    path: /build/artifacts/0/docker/target
+    value: dev
+  activation:
+  - command: dev

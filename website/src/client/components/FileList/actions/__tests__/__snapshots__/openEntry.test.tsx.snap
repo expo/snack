@@ -1,0 +1,186 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`toggles entry state 1`] = `
+Array [
+  Object {
+    "item": Object {
+      "path": "test",
+      "type": "folder",
+    },
+    "state": Object {},
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "test/App.js",
+      "type": "file",
+    },
+    "state": Object {
+      "isFocused": true,
+      "isOpen": true,
+      "isSelected": true,
+    },
+  },
+  Object {
+    "item": Object {
+      "path": "components",
+      "type": "folder",
+    },
+    "state": Object {
+      "isExpanded": true,
+      "isSelected": false,
+    },
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "components/App.js",
+      "type": "file",
+    },
+    "state": Object {
+      "isFocused": false,
+      "isOpen": true,
+      "isSelected": false,
+    },
+  },
+  Object {
+    "item": Object {
+      "path": "static",
+      "type": "folder",
+    },
+    "state": Object {},
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "static/file.png",
+      "type": "file",
+    },
+    "state": Object {
+      "isFocused": false,
+      "isOpen": true,
+    },
+  },
+]
+`;
+
+exports[`toggles entry state 2`] = `
+Array [
+  Object {
+    "item": Object {
+      "path": "test",
+      "type": "folder",
+    },
+    "state": Object {},
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "test/App.js",
+      "type": "file",
+    },
+    "state": Object {},
+  },
+  Object {
+    "item": Object {
+      "path": "components",
+      "type": "folder",
+    },
+    "state": Object {
+      "isExpanded": false,
+      "isSelected": true,
+    },
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "components/App.js",
+      "type": "file",
+    },
+    "state": Object {
+      "isFocused": true,
+      "isOpen": true,
+      "isSelected": false,
+    },
+  },
+  Object {
+    "item": Object {
+      "path": "static",
+      "type": "folder",
+    },
+    "state": Object {},
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "static/file.png",
+      "type": "file",
+    },
+    "state": Object {
+      "isFocused": false,
+      "isOpen": true,
+    },
+  },
+]
+`;
+
+exports[`toggles entry state 3`] = `
+Array [
+  Object {
+    "item": Object {
+      "path": "test",
+      "type": "folder",
+    },
+    "state": Object {},
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "test/App.js",
+      "type": "file",
+    },
+    "state": Object {},
+  },
+  Object {
+    "item": Object {
+      "path": "components",
+      "type": "folder",
+    },
+    "state": Object {
+      "isExpanded": true,
+      "isSelected": false,
+    },
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "components/App.js",
+      "type": "file",
+    },
+    "state": Object {
+      "isFocused": false,
+      "isOpen": true,
+      "isSelected": false,
+    },
+  },
+  Object {
+    "item": Object {
+      "path": "static",
+      "type": "folder",
+    },
+    "state": Object {},
+  },
+  Object {
+    "item": Object {
+      "content": "",
+      "path": "static/file.png",
+      "type": "file",
+    },
+    "state": Object {
+      "isFocused": true,
+      "isOpen": true,
+      "isSelected": true,
+    },
+  },
+]
+`;
