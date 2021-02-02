@@ -3,8 +3,24 @@
 ## 📦 Download and Setup
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device. (`git remote add upstream git@github.com:expo/snack.git` 😉)
-2. Install the Node packages (`yarn install`)
-3. That's it!
+2. Make sure you have [node](https://nodejs.org/), [yarn](https://yarnpkg.com/) and [PM2](https://pm2.keymetrics.io/) installed on your system.
+3. Install the Node packages (`yarn install`)
+4. That's it!
+
+## 🏎️ Start the Development environment
+
+Run `yarn start` from the root to start the Snack development services locally. 
+
+```
+┌─ Process List ──────────────────────────────────────┐┌──  exp-web-proxy Logs  ──────
+│[ 2] exp-web-proxy   Mem: 217 MB  CPU:   0 %  online ││ exp-web-proxy > Listening ...
+│[ 1] exp-www-proxy   Mem: 228 MB  CPU:   0 %  online ││                              
+│[ 0] snack-website   Mem: 501 MB  CPU: 128 %  online ││                              
+```
+
+> Some services like the Expo API server and the Expo website are hosted elsewhere and are proxied. The proxies log all incoming requests and auto-redirect to locally running instances when possible. 
+
+To view the website, open http://snack.expo.test.
 
 ## ✅ Testing
 

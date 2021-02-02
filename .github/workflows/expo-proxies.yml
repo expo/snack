@@ -1,0 +1,45 @@
+name: ExpoProxies
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/expo-proxies.yml
+      - packages/expo-www-proxy/**
+      - packages/expo-website-proxy/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+  pull_request:
+    paths:
+      - .github/workflows/expo-proxies.yml
+      - packages/expo-www-proxy/**
+      - packages/expo-website-proxy/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: yarn install --ignore-scripts --frozen-lockfile
+      - run: yarn lint --max-warnings 0
+        working-directory: ./packages/expo-www-proxy
+      - run: yarn tsc
+        working-directory: ./packages/expo-www-proxy
+      - run: yarn lint --max-warnings 0
+        working-directory: ./packages/expo-website-proxy
+      - run: yarn tsc
+        working-directory: ./packages/expo-website-proxy
