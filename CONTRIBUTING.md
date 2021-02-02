@@ -9,7 +9,10 @@
    - [PM2](https://pm2.keymetrics.io/)
    - [direnv](https://direnv.net/docs/installation.html)
 3. Install the Node packages (`yarn install`)
-4. That's it!
+4. [chalet](https://github.com/jeansaad/chalet) is used to to run local services on the `expo.test` domain.
+   - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
+   - Configure your system or browser to use the chalet proxy `http://localhost:2000/proxy.pac`
+   - Restart or refresh your network settings to apply the chalet changes
 
 ## 🏎️ Start the Development environment
 
@@ -26,7 +29,7 @@ Run `yarn start` from the root to start the Snack development services.
 
 > Some services like the Expo API server and the Expo website are hosted elsewhere and are proxied. The proxies log all incoming requests and auto-redirect to locally running instances when possible. 
 
-To view the website, open http://snack.expo.test.
+To view the website, open http://snack.expo.test or http://localhost:3011.
 
 ## ✅ Testing
 
