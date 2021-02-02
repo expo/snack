@@ -32,7 +32,7 @@
     "@expo/spawn-async": "^1.5.0",
     "@koa/router": "^10.0.0",
     "@types/diff": "^4.0.2",
-    "@types/jest": "^26.0.16",
+    "@types/jest": "^26.0.20",
     "@types/koa": "^2.11.6",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa__router": "^8.0.3",
@@ -48,7 +48,7 @@
     "jest-fetch-mock": "^3.0.3",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
-    "ts-jest": "^26.4.4",
+    "ts-jest": "^26.5.0",
     "typedoc": "^0.19.2",
     "typedoc-plugin-markdown": "^3.0.11",
     "typescript": "^4.1.2"
