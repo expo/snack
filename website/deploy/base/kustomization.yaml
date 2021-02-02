@@ -8,8 +8,6 @@ commonLabels:
   app: snack
 configMapGenerator:
 - name: snack
-  envs:
-  - snack.env
 secretGenerator:
 - name: snack
   envs:
