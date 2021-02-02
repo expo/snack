@@ -75,5 +75,5 @@ jobs:
         with:
           channel: '#snack'
           status: ${{ job.status }}
-          author_name: Build and Deploy Snack website to Staging
+          author_name: Deploy Snack website to Staging
           fields: message,commit,author,took
