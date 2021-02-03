@@ -9,8 +9,10 @@ module.exports = {
       script: './src/server/index.tsx',
       interpreter,
       interpreter_args: '--require tsconfig-paths/register',
-      watch: true,
       cwd: 'website',
+      watch: ['.'],
+      watch_delay: 1000,
+      ignore_watch: ['node_modules'],
     },
     /* {
       name: 'snack-bundler',
