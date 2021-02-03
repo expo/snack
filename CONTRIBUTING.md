@@ -9,7 +9,7 @@
    - [PM2](https://pm2.keymetrics.io/)
    - [direnv](https://direnv.net/docs/installation.html)
 3. Install the Node packages (`yarn install`)
-4. [chalet](https://github.com/jeansaad/chalet) is used to to run local services on the `expo.test` domain.
+4. [chalet](https://github.com/jeansaad/chalet) is used to run local services on the `expo.test` domain.
    - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
    - [Configure your system or browser to use the `.test` domain](https://github.com/jeansaad/chalet/blob/master/docs/README.md#system-configuration-recommended)
    - Restart or refresh your network settings to apply the chalet changes
@@ -36,7 +36,7 @@ To view the website, open http://snack.expo.test or http://localhost:3011.
 Testing is done using [Jest](https://jestjs.io/https://jestjs.io/), the delightful JavaScript Testing Framework.
 
 1. Create a test for your feature in the appropriate `src/__tests__` directory (if the file doesn't exist already, create it with the `*-test.ts` or `*-test.tsx` extension).
-2. Run the test with `yarn test` and ensure it completes succesfully. Use mocks when possible to reduce dependencies on online services and to speed up the test.
+2. Run the test with `yarn test` and ensure it completes successfully. Use mocks when possible to reduce dependencies on online services and to speed up the test.
 
 ## 📝 Writing a Commit Message
 
