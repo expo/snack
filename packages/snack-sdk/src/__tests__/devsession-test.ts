@@ -107,7 +107,7 @@ describe('devsession', () => {
       expect.any(String),
       expect.objectContaining({
         headers: expect.objectContaining({
-          Authorization: 'bearer sometoken',
+          Authorization: 'Bearer sometoken',
         }),
       }),
     );
