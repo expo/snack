@@ -69,7 +69,7 @@ export function createUserHeader(user?: SnackUser): { [key: string]: string } {
   }
 
   if (user?.accessToken) {
-    return { Authorization: `bearer ${user.accessToken}` };
+    return { Authorization: `Bearer ${user.accessToken}` };
   }
 
   return {};
