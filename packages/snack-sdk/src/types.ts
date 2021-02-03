@@ -121,6 +121,7 @@ export type SnackConnectedClients = {
  */
 export type SnackUser = {
   sessionSecret?: string;
+  accessToken?: string;
 };
 
 /**

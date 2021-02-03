@@ -1,6 +1,6 @@
 import { Logger } from './Logger';
 import { SnackState, SnackUser, SnackSendBeaconRequest } from './types';
-import { fetch } from './utils';
+import { createUserHeader, fetch } from './utils';
 
 export default class DevSession {
   private apiURL: string;
@@ -66,8 +66,8 @@ export default class DevSession {
       url,
       method: 'post',
       headers: {
-        ...(user?.sessionSecret ? { 'Expo-Session': user.sessionSecret } : {}),
         'Content-Type': 'application/json',
+        ...createUserHeader(user),
       },
     };
   }
