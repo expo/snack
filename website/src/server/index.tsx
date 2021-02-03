@@ -13,6 +13,9 @@ import routes from './routes';
 import sw from './sw';
 import createLogger from './utils/createLogger';
 
+const startTime = Date.now();
+console.log(`Starting Snack web server using NODE_ENV=${process.env.NODE_ENV} ...`);
+
 type ShutdownSignal = 'SIGHUP' | 'SIGINT' | 'SIGTERM' | 'SIGUSR2';
 
 const port = 3011;
@@ -104,7 +107,9 @@ const httpServer = app.listen(port, host, backlog, () => {
   const { address, port } = server.address() as AddressInfo;
 
   console.log(
-    `The Snack web server is listening on http://${address}:${port} using NODE_ENV=${process.env.NODE_ENV}`
+    `The Snack web server is listening on http://${address}:${port}, took ${
+      (Date.now() - startTime) / 1000
+    } seconds`
   );
 });
 
