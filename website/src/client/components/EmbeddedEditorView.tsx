@@ -203,7 +203,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
               target="_blank"
               rel="noopener noreferrer"
               href={isAndroid(userAgent) ? constants.links.playstore : constants.links.itunes}>
-              Download Expo client
+              Download Expo Go
             </a>
           </div>
         ) : null}

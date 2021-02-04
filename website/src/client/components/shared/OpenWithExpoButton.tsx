@@ -15,7 +15,7 @@ const OpenWithExpoButton = ({ experienceURL, onDeviceConnectionAttempt }: Props)
     href={experienceURL}
     className={css(styles.button)}
     onClick={onDeviceConnectionAttempt}>
-    Open with Expo client
+    Open with Expo Go
   </ButtonLink>
 );
 
