@@ -5,6 +5,7 @@ import * as React from 'react';
 import constants from '../../configs/constants';
 import { SDKVersion, Device, Platform } from '../../types';
 import * as PlatformOptions from '../../utils/PlatformOptions';
+import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import ToggleButtons from '../shared/ToggleButtons';
 import AppetizeFrame from './AppetizeFrame';
@@ -21,7 +22,7 @@ type Props = {
   name: string;
   onAppLaunch?: () => void;
   onChangePlatform: (platform: Platform) => void;
-  onClickRunOnPhone: () => void;
+  onShowModal: (modal: EditorModal) => void;
   onReloadSnack: () => void;
   onSendCode: () => void;
   onToggleSendCode: () => void;
@@ -128,7 +129,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
       name,
       onAppLaunch,
       onChangePlatform,
-      onClickRunOnPhone,
+      onShowModal,
       onReloadSnack,
       onSendCode,
       onToggleSendCode,
@@ -198,7 +199,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
             payerCode={payerCode}
             isPopupOpen={isPopupOpen}
             onPopupUrl={this.handlePopupUrl}
-            onClickRunOnPhone={onClickRunOnPhone}
+            onShowModal={onShowModal}
             onAppLaunch={onAppLaunch}
           />
         )}

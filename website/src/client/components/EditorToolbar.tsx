@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import { SaveStatus, SaveHistory, Viewer, SaveOptions } from '../types';
 import EditorTitle from './EditorTitle';
+import type { EditorModal } from './EditorViewProps';
 import usePreferences from './Preferences/usePreferences';
 import SearchButton from './Search/SearchButton';
 import ToolbarShell from './Shell/ToolbarShell';
@@ -20,14 +21,11 @@ type Props = {
   viewer: Viewer | undefined;
   isDownloading: boolean;
   isResolving: boolean;
-  isEditModalVisible: boolean;
+  visibleModal: EditorModal | null;
   onSubmitMetadata: (details: { name: string; description: string }) => void;
-  onShowPreviousSaves: () => void;
-  onShowEditModal: () => void;
-  onDismissEditModal: () => void;
-  onShowEmbedCode: () => void;
+  onShowModal: (modal: EditorModal) => void;
+  onHideModal: () => void;
   onDownloadCode: () => Promise<void>;
-  onShowQRCode: () => void;
   onPublishAsync: (options?: SaveOptions) => Promise<void>;
 };
 
@@ -43,14 +41,11 @@ export default function EditorToolbar(props: Props) {
     viewer,
     isDownloading,
     isResolving,
-    isEditModalVisible,
+    visibleModal,
     onSubmitMetadata,
-    onShowPreviousSaves,
-    onShowEditModal,
-    onDismissEditModal,
-    onShowEmbedCode,
+    onShowModal,
+    onHideModal,
     onDownloadCode,
-    onShowQRCode,
     onPublishAsync,
   } = props;
   const { theme } = preferences;
@@ -77,11 +72,10 @@ export default function EditorToolbar(props: Props) {
           saveHistory={saveHistory}
           saveStatus={saveStatus}
           viewer={viewer}
-          isEditModalVisible={isEditModalVisible}
+          visibleModal={visibleModal}
           onSubmitMetadata={onSubmitMetadata}
-          onShowPreviousSaves={onShowPreviousSaves}
-          onShowEditModal={onShowEditModal}
-          onDismissEditModal={onDismissEditModal}
+          onShowModal={onShowModal}
+          onHideModal={onHideModal}
         />
       </ToolbarTitleShell>
       <div className={css(styles.buttons)}>
@@ -93,7 +87,10 @@ export default function EditorToolbar(props: Props) {
           className={css(styles.saveButton)}>
           {isPublishing ? 'Saving…' : isPublished ? 'Saved' : 'Save'}
         </Button>
-        <IconButton responsive title="Run on device" onClick={onShowQRCode}>
+        <IconButton
+          responsive
+          title="Run on device"
+          onClick={() => onShowModal('device-instructions')}>
           <svg width="20" height="20" viewBox="0 0 20 20">
             <path d="M8.333 7.083v5.667l4.534-2.833-4.534-2.834z" stroke="none" />
             <path d="M8.333 10H2.5" strokeWidth="1.25" strokeLinecap="round" />
@@ -115,7 +112,17 @@ export default function EditorToolbar(props: Props) {
             <path d="M2.5 18.333h15M10 10V1.667" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </IconButton>
-        <IconButton responsive title="Show embed code" onClick={onShowEmbedCode}>
+        <IconButton responsive title="Show embed code" onClick={() => onShowModal('embed')}>
+          <svg width="20px" height="18px" viewBox="0 0 20 18" fill="none">
+            <path
+              d="M13.333 15l5-5-5-5M6.667 5l-5 5 5 5"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </IconButton>
+        <IconButton responsive title="Help" onClick={() => onShowModal('help')}>
           <svg width="20px" height="18px" viewBox="0 0 20 18" fill="none">
             <path
               d="M13.333 15l5-5-5-5M6.667 5l-5 5 5 5"
