@@ -75,7 +75,7 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
               className={css(styles.link)}
               href={`${process.env.SERVER_URL}/client`}
               target="blank">
-              Expo Client
+              Expo Go app
             </a>{' '}
             and
             <br />
@@ -211,7 +211,7 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
         <>
           {viewer ? (
             <p className={css(styles.notConnectedText)}>
-              This app is visible on the "Projects" tab of your signed in Expo client
+              This Snack is visible on the "Projects" tab of your signed in Expo Go app
               {deviceId ? ', and on device ' : '. Or set a '}
               <button onClick={this.onClickDeviceId} className={css(styles.link)}>
                 {deviceId ? (
@@ -224,7 +224,7 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
             </p>
           ) : (
             <p className={css(styles.notConnectedText)}>
-              This app is visible on the "Projects" tab of Expo client with device ID
+              This Snack is visible on the "Projects" tab of Expo Go with device ID
               <span> </span>
               <button onClick={this.onClickDeviceId} className={css(styles.link)}>
                 <span className={css(styles.deviceIDText)}>{deviceId}</span>
