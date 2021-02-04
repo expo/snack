@@ -13,7 +13,7 @@ export default function QRCodeTab({ experienceURL }: Props) {
   return (
     <div className={css(styles.container)}>
       <WhyNoQrBanner />
-      <p>Download the Expo app on your device and scan this QR code to get started.</p>
+      <p>Download Expo Go on your device and scan this QR code to get started.</p>
       <div className={css(styles.qrcode)}>
         <QRCode size={200} experienceURL={experienceURL} />
       </div>

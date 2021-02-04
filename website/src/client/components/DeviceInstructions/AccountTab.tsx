@@ -12,8 +12,8 @@ function AccountTab(props: Props) {
   return (
     <>
       <p>
-        Download the Expo app, sign in with your Expo account and open the project from the
-        “Projects” tab.
+        Download Expo Go, sign in with your Expo account and open the project from the “Projects”
+        tab.
       </p>
       <p>
         {viewer ? (

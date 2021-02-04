@@ -79,14 +79,14 @@ export default class DeviceIDTab extends React.Component<Props, State> {
             Save
           </Button>
         </form>
-        <p>You can find the Device ID at the bottom of the "Projects" tab in the Expo app.</p>
+        <p>You can find the Device ID at the bottom of the "Projects" tab in Expo Go.</p>
         <img
           className={css(styles.screenshot)}
           src={require('../../assets/device-id-screenshot.png')}
         />
         <Banner type="success" visible={this.state.status === 'success'}>
-          Check the "Recently in development" section in the "Projects" tab of the Expo app to find
-          this Snack!
+          Check the "Recently in development" section in the "Projects" tab of Expo Go to find this
+          Snack!
         </Banner>
         <Banner type="error" visible={this.state.status === 'error'}>
           An error occurred! Please try another method or try after sometime.
