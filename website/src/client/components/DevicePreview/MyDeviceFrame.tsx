@@ -70,16 +70,16 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
         <Banner visible={copiedToClipboard}>Copied to clipboard!</Banner>
         <div className={css(styles.frame)}>
           <h3 className={css(styles.title)}>
-            Download the{' '}
+            Download{' '}
             <a
               className={css(styles.link)}
               href={`${process.env.SERVER_URL}/client`}
               target="blank">
-              Expo Go app
+              Expo Go
             </a>{' '}
-            and
+            and scan
             <br />
-            scan the QR code to get started.
+            the QR code to get started.
           </h3>
           <div className={css(styles.qrcode)} style={{ width: width - 20, height: width - 20 }}>
             <QRCode size={width - 40} experienceURL={experienceURL} />
@@ -248,7 +248,7 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
           <button onClick={this.onClickDeviceId} className={css(styles.link)}>
             Device ID
           </button>
-          <span> </span>to open this snack from the Expo app on your device or simulator.
+          <span> </span>to open this Snack from Expo Go on your device or simulator.
         </p>
       );
     }

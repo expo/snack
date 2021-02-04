@@ -48,7 +48,7 @@ export default function AppDetails({
         <div className={css(styles.section)}>
           <div className={css(styles.details)}>
             <h1 className={css(styles.title)}>Need Expo?</h1>
-            <p>Don't have the Expo app? Download the app to try this snack.</p>
+            <p>Don't have the Expo Go? Download the app to try this Snack.</p>
           </div>
           <div className={css(styles.downloadButtons)}>
             {isAndroid(userAgent) ? (
@@ -80,7 +80,7 @@ export default function AppDetails({
         <div className={css(styles.section, styles.qrcodeSection)}>
           <div className={css(styles.qrcodeDetails)}>
             <h1 className={css(styles.title)}>Scan with Expo</h1>
-            <p>Scan the QRCode with the Expo app to try out this snack on your phone.</p>
+            <p>Scan the QRCode with Expo Go to try out this Snack on your phone.</p>
           </div>
           <QRCode className={css(styles.qrcode)} size={160} experienceURL={experienceURL} />
         </div>

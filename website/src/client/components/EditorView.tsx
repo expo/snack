@@ -733,7 +733,7 @@ class EditorView extends React.Component<Props, State> {
                   You might need to do some manual changes to make the Snack work correctly.
                 </Banner>
                 <Banner type="info" visible={currentBanner === 'reconnect'}>
-                  Please close and reopen the Expo app on your phone to see the Expo version change.
+                  Please close and reopen Expo Go on your phone to see the Expo version change.
                 </Banner>
                 <Banner type="info" visible={currentBanner === 'slow-connection'}>
                   Slow network detected. Trying to load a basic version of the editor. Some features
