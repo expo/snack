@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node-dev --inspect=9220 src/index.ts",
     "lint": "eslint ./src"
   },
   "volta": {
