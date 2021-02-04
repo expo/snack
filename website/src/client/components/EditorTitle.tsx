@@ -6,6 +6,7 @@ import { getLoginHref } from '../auth/login';
 import { c } from '../components/ThemeProvider';
 import { SaveStatus, Viewer, SaveHistory } from '../types';
 import EditorTitleName from './EditorTitleName';
+import type { EditorModal } from './EditorViewProps';
 import ModalEditTitleAndDescription from './ModalEditTitleAndDescription';
 
 type Props = {
@@ -15,10 +16,9 @@ type Props = {
   saveHistory: SaveHistory;
   saveStatus: SaveStatus;
   viewer: Viewer | undefined;
-  isEditModalVisible: boolean;
-  onShowPreviousSaves: () => void;
-  onShowEditModal: () => void;
-  onDismissEditModal: () => void;
+  visibleModal: EditorModal | null;
+  onShowModal: (modal: EditorModal) => void;
+  onHideModal: () => void;
   onSubmitMetadata: (details: { name: string; description: string }) => void;
 };
 
@@ -37,11 +37,10 @@ export default function EditorTitle(props: Props) {
     saveHistory,
     saveStatus,
     viewer,
-    isEditModalVisible,
-    onShowPreviousSaves,
-    onShowEditModal,
+    visibleModal,
+    onShowModal,
+    onHideModal,
     onSubmitMetadata,
-    onDismissEditModal,
   } = props;
 
   const lastSave = saveHistory.length ? saveHistory[0] : null;
@@ -79,7 +78,7 @@ export default function EditorTitle(props: Props) {
       <>
         <span className={css(styles.statusText)}>{statusText}.</span>{' '}
         {hasPermanentHistory ? (
-          <button onClick={onShowPreviousSaves} className={css(styles.textButton)}>
+          <button onClick={() => onShowModal('previous-saves')} className={css(styles.textButton)}>
             See previous saves.
           </button>
         ) : null}
@@ -104,7 +103,7 @@ export default function EditorTitle(props: Props) {
           name={name}
           description={description}
           onSubmitMetadata={onSubmitMetadata}
-          onShowEditModal={onShowEditModal}
+          onShowEditModal={() => onShowModal('edit-info')}
         />
         <div className={css(styles.metadata)}>
           <p className={css(styles.status)}>{statusText}</p>
@@ -122,11 +121,11 @@ export default function EditorTitle(props: Props) {
       <ModalEditTitleAndDescription
         title="Edit Snack Details"
         action="Done"
-        visible={isEditModalVisible}
-        onDismiss={onDismissEditModal}
+        visible={visibleModal === 'edit-info'}
+        onDismiss={onHideModal}
         onSubmit={(details) => {
           onSubmitMetadata(details);
-          onDismissEditModal();
+          onHideModal();
         }}
         description={description}
         name={name}

@@ -11,6 +11,7 @@ import {
   isInsideFolder,
   isESLintConfig,
 } from '../../utils/fileUtilities';
+import type { EditorModal } from '../EditorViewProps';
 import ImportExportMenu from '../Import/ImportExportMenu';
 import ImportFilesManager from '../Import/ImportFilesManager';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
@@ -45,8 +46,7 @@ type Props = {
   onRenameFile: (oldPath: string, newPath: string) => void;
   uploadFileAsync: (file: File) => Promise<string>;
   onDownloadCode: () => Promise<void>;
-  onImportRepo: () => void;
-  onImportProduction: () => void;
+  onShowModal: (modal: EditorModal) => void;
   hasSnackId: boolean;
   saveStatus: SaveStatus;
   sdkVersion: SDKVersion;
@@ -437,8 +437,8 @@ class FileList extends React.PureComponent<Props, State> {
                     <ImportExportMenu
                       key="menu"
                       onImportFilesClick={onImportStart}
-                      onImportRepoClick={this.props.onImportRepo}
-                      onImportProductionClick={this.props.onImportProduction}
+                      onImportRepoClick={() => this.props.onShowModal('import-repo')}
+                      onImportProductionClick={() => this.props.onShowModal('import-production')}
                       onExportClick={this.props.onDownloadCode}
                       saveStatus={this.props.saveStatus}
                       hasSnackId={this.props.hasSnackId}

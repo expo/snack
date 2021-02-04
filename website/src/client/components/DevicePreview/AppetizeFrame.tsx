@@ -7,6 +7,7 @@ import constants from '../../configs/constants';
 import { SDKVersion, Viewer } from '../../types';
 import Analytics from '../../utils/Analytics';
 import constructAppetizeURL from '../../utils/constructAppetizeURL';
+import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import { c, s } from '../ThemeProvider';
 import Button from '../shared/Button';
@@ -21,7 +22,7 @@ type Props = AuthProps & {
   payerCode?: string;
   isPopupOpen: boolean;
   onPopupUrl: (url: string) => void;
-  onClickRunOnPhone: () => void;
+  onShowModal: (modal: EditorModal) => void;
   onAppLaunch?: () => void;
   theme: ThemeName;
 };
@@ -253,9 +254,13 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
     this.iframe.current?.contentWindow?.postMessage('endSession', '*');
   };
 
+  private onClickRunOnPhone = () => {
+    this.props.onShowModal('device-instructions');
+  };
+
   render() {
     const { appetizeStatus, payerCodeFormStatus, viewer, appetizeURL } = this.state;
-    const { width, isEmbedded, onClickRunOnPhone, isPopupOpen } = this.props;
+    const { width, isEmbedded, isPopupOpen } = this.props;
 
     return (
       <>
@@ -283,7 +288,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
                 <a
                   className={css(styles.largeButton)}
                   style={{ top: 250 }}
-                  onClick={onClickRunOnPhone}>
+                  onClick={this.onClickRunOnPhone}>
                   <div className={css(styles.buttonFrame)}>
                     <span className={css(styles.buttonText)}>Run on your device</span>
                   </div>
@@ -353,7 +358,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
 
               <ButtonLink
                 variant="primary"
-                onClick={onClickRunOnPhone}
+                onClick={this.onClickRunOnPhone}
                 className={css(styles.blockButton)}>
                 Run it on your phone
               </ButtonLink>

@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import constants from '../configs/constants';
 import { Device, Annotation, SDKVersion } from '../types';
+import type { EditorModal } from './EditorViewProps';
 import { Shortcuts } from './KeyboardShortcuts';
 import type { PanelType } from './Preferences/PreferencesProvider';
 import SDKVersionSwitcher from './SDKVersionSwitcher';
@@ -31,7 +32,7 @@ type Props = {
   onToggleSendCode: () => void;
   onToggleVimMode?: () => void;
   onChangeSDKVersion: (sdkVersion: SDKVersion) => void;
-  onShowShortcuts: () => void;
+  onShowModal: (modal: EditorModal) => void;
   onPrettifyCode: () => void;
   onSendCode: () => void;
   onReloadSnack: () => void;
@@ -57,7 +58,7 @@ export default function EditorFooter(props: Props) {
     onToggleSendCode,
     onToggleVimMode,
     onChangeSDKVersion,
-    onShowShortcuts,
+    onShowModal,
     onPrettifyCode,
     theme,
   } = props;
@@ -141,7 +142,7 @@ export default function EditorFooter(props: Props) {
                 small
                 title="Show keyboard shortcuts"
                 label="Shortcuts"
-                onClick={onShowShortcuts}>
+                onClick={() => onShowModal('shortcuts')}>
                 <svg width="18px" height="18px" viewBox="0 0 18 18">
                   <path d="M3,0 L15,0 C16.6568542,-3.04359188e-16 18,1.34314575 18,3 L18,15 C18,16.6568542 16.6568542,18 15,18 L3,18 C1.34314575,18 -2.46162913e-15,16.6568542 -2.66453526e-15,15 L-1.77635684e-15,3 C-1.97926296e-15,1.34314575 1.34314575,-5.83819232e-16 3,-8.8817842e-16 Z M7.41949521,8.19170984 L7.41949521,5 L6,5 L6,13 L7.41949521,13 L7.41949521,9.68911917 L7.71192341,9.44041451 L11.0992167,13 L13,13 L8.7232376,8.62176166 L12.975631,5 L11.0809399,5 L7.41949521,8.19170984 Z" />
                 </svg>
