@@ -53,7 +53,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
-      expo: '38.0.9',
+      expo: '38.0.10',
       react: '16.11.0',
       'react-native': '0.62.2',
       'react-dom': '*',
@@ -131,11 +131,11 @@ const sdks: { [version: string]: SDKSpec } = {
     },
   },
   '40.0.0': {
-    version: '40.0.0-beta.2',
+    version: '^40.0.0',
     coreModules: {
       ...assets,
       ...unimodules,
-      expo: '40.0.0-beta.2',
+      expo: '40.0.1',
       react: '16.13.1',
       'react-native': '0.63.2',
       'react-dom': '*',
