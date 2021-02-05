@@ -326,10 +326,11 @@ export default class Snack {
    */
   async saveAsync(options?: SnackSaveOptions) {
     const prevState = this.state;
-    const { name, description, sdkVersion, files, dependencies, user } = this.state;
 
     // Wait for any pending asset uploads the complete before saving
     await this.fileUploader.waitForCompletion();
+
+    const { name, description, sdkVersion, files, dependencies, user } = this.state;
 
     try {
       const payload: any = {
