@@ -20,7 +20,7 @@ import {
   getPackageJsonDependencies,
 } from '../utils/dependencies';
 import { openEmbeddedSessionFullScreen } from '../utils/embeddedSession';
-import { isScript, isPackageJson } from '../utils/fileUtilities';
+import { isScript, isPackageJson, isTest } from '../utils/fileUtilities';
 import type { FileDependencies } from '../utils/findDependencies';
 import { EditorViewProps } from './EditorViewProps';
 import Toast from './shared/Toast';
@@ -87,6 +87,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
           if (
             file.type === 'CODE' &&
             isScript(path) &&
+            !isTest(path) &&
             file.contents !== state.files[path]?.contents
           ) {
             uncheckedFiles.add(path);
