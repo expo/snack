@@ -133,28 +133,30 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { status } = this.state;
-    const importing = status === 'importing';
-    const error = status === 'error';
+    const { status, url, repo, path, branch, advanced } = this.state;
+    const isImporting = status === 'importing';
+    const isError = status === 'error';
 
     return (
       <ModalDialog
         visible={this.props.visible}
         onDismiss={this._hideImportModal}
         title="Import git repository">
-        {importing ? <ProgressIndicator duration={45000} className={css(styles.progress)} /> : null}
+        {isImporting ? (
+          <ProgressIndicator duration={45000} className={css(styles.progress)} />
+        ) : null}
         <form onSubmit={this._handleImportRepoClick}>
-          <p className={!error ? css(styles.paragraph) : css(styles.errorParagraph)}>
-            {!error
+          <p className={!isError ? css(styles.paragraph) : css(styles.errorParagraph)}>
+            {!isError
               ? 'Import an Expo project from a Git repository.'
               : 'An error occurred during import. This could be because the data provided was invalid, or because the repository referenced is not a properly formatted Expo project.'}
           </p>
-          {this.state.advanced ? (
+          {advanced ? (
             <>
               <h4 className={css(styles.subtitle)}>Repository URL</h4>
               <LargeInput
                 name="repo"
-                value={this.state.repo}
+                value={repo}
                 onChange={this._handleChange}
                 placeholder="https://github.com/ide/love-languages.git"
                 autoFocus
@@ -162,16 +164,16 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
               <h4 className={css(styles.subtitle)}>Folder path</h4>
               <LargeInput
                 name="path"
-                value={this.state.path}
+                value={path}
                 onChange={this._handleChange}
                 placeholder="/example/app"
               />
               <h4 className={css(styles.subtitle)}>Branch name</h4>
               <LargeInput
                 name="branch"
-                value={this.state.branch}
+                value={branch}
                 onChange={this._handleChange}
-                placeholder="master"
+                placeholder="main"
               />
             </>
           ) : (
@@ -179,9 +181,9 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
               <h4 className={css(styles.subtitle)}>Git URL</h4>
               <LargeTextArea
                 minRows={2}
-                value={this.state.url}
+                value={url}
                 onChange={this._handleChangeUrl}
-                placeholder="https://github.com/ide/love-languages/tree/master/example/app"
+                placeholder="https://github.com/ide/love-languages/tree/main/app"
                 autoFocus
               />
             </>
@@ -190,16 +192,11 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
             type="button"
             onClick={() => this.setState((state) => ({ advanced: !state.advanced }))}
             className={css(styles.advanced)}>
-            {this.state.advanced ? 'Hide' : 'Show'} advanced options
+            {advanced ? 'Hide' : 'Show'} advanced options
           </button>
           <div className={css(styles.buttons)}>
-            <Button
-              large
-              disabled={!this.state.url}
-              loading={importing}
-              type="submit"
-              variant="primary">
-              {importing ? 'Importing repository…' : 'Import repository'}
+            <Button large disabled={!repo} loading={isImporting} type="submit" variant="primary">
+              {isImporting ? 'Importing repository…' : 'Import repository'}
             </Button>
           </div>
         </form>
