@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Viewer, SnackFiles, Annotation, SDKVersion } from '../types';
 import Analytics from '../utils/Analytics';
 import { isMobile } from '../utils/detectPlatform';
-import { isScript, isJson } from '../utils/fileUtilities';
+import { isScript, isJson, isTest } from '../utils/fileUtilities';
 import lintFile from '../utils/lintFile';
 import prettierCode from '../utils/prettierCode';
 import AssetViewer from './AssetViewer';
@@ -195,7 +195,7 @@ class EditorView extends React.Component<Props, State> {
     // Lint other files if they have changed
     for (const path in files) {
       const file = files[path];
-      if (file.type === 'CODE' && file.contents !== lintedFiles[path]?.code) {
+      if (!isTest(path) && file.type === 'CODE' && file.contents !== lintedFiles[path]?.code) {
         const annotations = await lintFile(path, files);
         newLintedFiles = newLintedFiles ?? { ...lintedFiles };
         newLintedFiles[path] = {
@@ -230,7 +230,7 @@ class EditorView extends React.Component<Props, State> {
     const { selectedFile, files } = this.props;
     const file = files[selectedFile];
 
-    if (file && file.type === 'CODE') {
+    if (file?.type === 'CODE') {
       let code: string;
       if (isJson(selectedFile)) {
         code = JSON.stringify(JSON.parse(file.contents), null, 2);

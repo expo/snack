@@ -66,3 +66,14 @@ export function isJS(name: string): boolean {
 export function isTS(name: string): boolean {
   return isScript(name) && !isJS(name);
 }
+
+export function isTest(name: string): boolean {
+  name = name.toLocaleLowerCase();
+  return (
+    name.includes('__tests__') ||
+    name.includes('__integration-tests__') ||
+    name.includes('__mocks__') ||
+    name.includes('.test') ||
+    name.includes('.spec')
+  );
+}
