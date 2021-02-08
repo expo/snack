@@ -8,6 +8,13 @@
 
 ### 🐛 Bug fixes
 
+## 3.3.3 — 2021-02-05
+
+### 🐛 Bug fixes
+
+- Fix save corruption when providing asset files using FormData ([#77](https://github.com/expo/snack/pull/77) by [@IjzerenHein](https://github.com/IjzerenHein))
+- Update expo dependency using the beta of SDK 40 ([#76](https://github.com/expo/snack/pull/76) by [@IjzerenHein](https://github.com/IjzerenHein))
+
 ## 3.3.1 — 2021-01-07
 
 ### 🐛 Bug fixes
