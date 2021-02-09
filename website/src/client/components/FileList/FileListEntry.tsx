@@ -2,7 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
 import { SDKVersion } from '../../types';
-import { isEntryPoint, getParentPath } from '../../utils/fileUtilities';
+import { isEntryPoint, getParentPath, isTest } from '../../utils/fileUtilities';
 import { ThemeName } from '../Preferences/withThemeName';
 import { c } from '../ThemeProvider';
 import { Action } from '../shared/ContextMenu';
@@ -275,7 +275,12 @@ export default class FileListEntry extends React.Component<Props, State> {
           <div className={css(styles.error)}>{this.state.error.message}</div>
         ) : null}
         <FileListEntryIcon entry={entry} />
-        <span className={css(styles.label, entry.state.isError ? styles.labelError : undefined)}>
+        <span
+          className={css(
+            styles.label,
+            isTest(entry.item.path) ? styles.labelTest : undefined,
+            entry.state.isError ? styles.labelError : undefined
+          )}>
           {displayName}
         </span>
         {isRenaming ? (
@@ -387,6 +392,10 @@ const styles = StyleSheet.create({
 
   labelError: {
     color: c('error'),
+  },
+
+  labelTest: {
+    color: c('soft'),
   },
 
   input: {

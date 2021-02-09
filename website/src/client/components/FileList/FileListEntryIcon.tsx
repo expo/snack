@@ -1,7 +1,7 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { isEntryPoint, isPackageJson, isImage } from '../../utils/fileUtilities';
+import { isEntryPoint, isPackageJson, isImage, isTest } from '../../utils/fileUtilities';
 import { c } from '../ThemeProvider';
 import { FileSystemEntry } from './types';
 
@@ -54,7 +54,11 @@ export default function FileListEntryIcon({ entry }: Props) {
 
   return (
     <svg
-      className={css(styles.icon, entry.state.isError ? styles.error : undefined)}
+      className={css(
+        styles.icon,
+        isTest(entry.item.path) ? styles.test : undefined,
+        entry.state.isError ? styles.error : undefined
+      )}
       viewBox="0 0 16 16">
       {icon}
     </svg>
@@ -76,6 +80,9 @@ const styles = StyleSheet.create({
   },
   error: {
     fill: c('error'),
+  },
+  test: {
+    color: c('soft'),
   },
   spinner: {
     display: 'inline-block',
