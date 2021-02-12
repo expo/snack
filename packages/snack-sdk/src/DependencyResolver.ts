@@ -203,3 +203,12 @@ export function verifyDependency(name: string, version: string): SnackError | un
   }
   return undefined;
 }
+
+export function getPackageName(name: string): string {
+  const names = name.split('/');
+  if (names[0].startsWith('@') && names.length >= 2) {
+    return `${names[0]}/${names[1]}`;
+  } else {
+    return names[0];
+  }
+}

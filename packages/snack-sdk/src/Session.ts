@@ -5,6 +5,7 @@ import DependencyResolver, {
   DependencyResolverCallback,
   verifyDependency,
   getMissingDependencies,
+  getPackageName,
 } from './DependencyResolver';
 import DevSession from './DevSession';
 import FileUploader, { FileUploaderCallback } from './FileUploader';
@@ -701,7 +702,10 @@ export default class Snack {
     ) {
       for (const name in state.dependencies) {
         const dep = state.dependencies[name];
-        const wantedVersion = state.wantedDependencyVersions?.[name] ?? undefined;
+        const wantedVersion =
+          state.wantedDependencyVersions?.[name] ??
+          state.wantedDependencyVersions?.[getPackageName(name)] ??
+          undefined;
         if (dep.wantedVersion !== wantedVersion) {
           state.dependencies =
             state.dependencies === prevState.dependencies
