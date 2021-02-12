@@ -20,8 +20,6 @@ yarn start
 
 ## 👏 Contributing
 
-Insta
-
 Make sure that all code lints, builds, all tests pass and the docs are updated, before committing.
 
 ```sh
