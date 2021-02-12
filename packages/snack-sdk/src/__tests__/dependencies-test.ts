@@ -127,9 +127,10 @@ describe('dependencies', () => {
     snack.updateDependencies({
       [name]: { version: '1.6.0' },
     });
-    const state = snack.getState();
+    const state = await snack.getStateAsync();
     expect(Object.keys(state.dependencies).length).toBe(1);
     expect(state.dependencies[name].error).toBeUndefined();
+    expect(state.dependencies).toMatchSnapshot();
   });
 
   it('succeeds on scoped dependency name with subpath', async () => {

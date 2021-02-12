@@ -192,6 +192,19 @@ Object {
 }
 `;
 
+exports[`dependencies succeeds on dependency name with subpath 1`] = `
+Object {
+  "react-native-gesture-handler/DrawerLayout": Object {
+    "handle": "snackager-1/react-native-gesture-handler~DrawerLayout@1.6.0",
+    "peerDependencies": Object {
+      "react-native-gesture-handler": "1.6.0",
+    },
+    "version": "1.6.0",
+    "wantedVersion": "~1.8.0",
+  },
+}
+`;
+
 exports[`dependencies updates preloaded module version when changing SDK version 1`] = `
 Object {
   "expo-av": Object {
