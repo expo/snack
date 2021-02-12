@@ -8,6 +8,8 @@
 
 ### 🐛 Bug fixes
 
+- Fix dependencies with subpath not using bundledNativeModules.json ([#81](https://github.com/expo/snack/pull/81) by [@IjzerenHein](https://github.com/IjzerenHein))
+
 ## 3.3.3 — 2021-02-05
 
 ### 🐛 Bug fixes
