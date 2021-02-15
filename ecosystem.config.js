@@ -12,25 +12,11 @@ module.exports = {
       cwd: 'website',
     },
     {
-      name: 'exp-www-proxy',
+      name: 'snack-proxies',
       script: `./src/index.ts`,
       interpreter,
       interpreter_args: '--inspect=9220',
-      cwd: 'packages/expo-www-proxy',
+      cwd: 'packages/snack-proxies',
     },
-    {
-      name: 'exp-web-proxy',
-      script: `./src/index.ts`,
-      interpreter,
-      interpreter_args: '--inspect=9221',
-      cwd: 'packages/expo-website-proxy',
-    },
-    /* {
-      name: 'snack-bundler-proxy',
-      script: './src/index.ts',
-      interpreter,
-      interpreter_args: '--inspect=9222',
-      cwd: 'packages/snack-bundler-proxy',
-    }, */
   ],
 };

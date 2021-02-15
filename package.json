@@ -15,8 +15,7 @@
   "workspaces": [
     "packages/snack-sdk",
     "packages/snack-babel-standalone",
-    "packages/expo-www-proxy",
-    "packages/expo-website-proxy",
+    "packages/snack-proxies",
     "website"
   ],
   "devDependencies": {

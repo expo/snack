@@ -14,7 +14,7 @@ When you have access to the Expo Universe repository, you can choose to run cert
 
 ### Expo API server (www)
 
-Start the `www` server. `expo-www-proxy` automatically detects the local server and routes all trafic to localhost:3000 when possible.
+Start the `www` server. `snack-proxies` automatically detects the local server and routes all trafic to localhost:3000 when possible.
 
 ```sh
 # expo/universe
@@ -25,7 +25,7 @@ yarn start
 
 ### Expo Website
 
-Start the Expo website. `expo-website-proxy` automatically detects the local server and routes all trafic to localhost:3001 when possible.
+Start the Expo website. `snack-proxies` automatically detects the local server and routes all trafic to localhost:3001 when possible.
 When testing authentication, it is important that the chalet `expo.test` domain is used, otherwise authentication credentials cannot be accessed by `snack.expo.test`.
 
 ```sh
