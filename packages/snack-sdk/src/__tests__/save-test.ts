@@ -1,4 +1,4 @@
-import '../__mocks__/fetch';
+import fetch from '../__mocks__/fetch';
 import Snack from './snack-sdk';
 
 describe('save', () => {
@@ -123,5 +123,49 @@ describe('save', () => {
       },
     });
     await expect(snack.saveAsync()).rejects.toBeDefined();
+  });
+
+  it('saves snack with user session secret', async () => {
+    const snack = new Snack({
+      online: true,
+      user: { sessionSecret: '{"some":"json"}' },
+      files: {
+        'App.js': {
+          type: 'CODE',
+          contents: `console.log('hello world');`,
+        },
+      },
+    });
+    await snack.saveAsync();
+    expect(fetch).toBeCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'Expo-Session': '{"some":"json"}',
+        }),
+      }),
+    );
+  });
+
+  it('saves snack with user access token', async () => {
+    const snack = new Snack({
+      online: true,
+      user: { accessToken: 'sometoken' },
+      files: {
+        'App.js': {
+          type: 'CODE',
+          contents: `console.log('hello world');`,
+        },
+      },
+    });
+    await snack.saveAsync();
+    expect(fetch).toBeCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          Authorization: 'Bearer sometoken',
+        }),
+      }),
+    );
   });
 });
