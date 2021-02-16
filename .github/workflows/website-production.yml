@@ -19,15 +19,6 @@ on:
       - .eslint*
       - .prettier*
       - yarn.lock
-  pull_request:
-    branches: [main]
-    paths:
-      - .github/workflows/website-production.yml
-      - website/**
-      - packages/snack-sdk/**
-      - .eslint*
-      - .prettier*
-      - yarn.lock
 
 jobs:
   build:
