@@ -125,9 +125,8 @@ describe('save', () => {
     await expect(snack.saveAsync()).rejects.toBeDefined();
   });
 
-  it('saves snack with user session secret', async () => {
+  it('saves with session secret', async () => {
     const snack = new Snack({
-      online: true,
       user: { sessionSecret: '{"some":"json"}' },
       files: {
         'App.js': {
@@ -143,13 +142,12 @@ describe('save', () => {
         headers: expect.objectContaining({
           'Expo-Session': '{"some":"json"}',
         }),
-      }),
+      })
     );
   });
 
-  it('saves snack with user access token', async () => {
+  it('saves with access token', async () => {
     const snack = new Snack({
-      online: true,
       user: { accessToken: 'sometoken' },
       files: {
         'App.js': {
@@ -165,7 +163,7 @@ describe('save', () => {
         headers: expect.objectContaining({
           Authorization: 'Bearer sometoken',
         }),
-      }),
+      })
     );
   });
 });
