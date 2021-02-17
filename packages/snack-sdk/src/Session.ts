@@ -44,7 +44,7 @@ import {
   SnackConnectedClients,
   SnackWindowRef,
 } from './types';
-import { createChannel, fetch, createURL, createError } from './utils';
+import { createChannel, fetch, createURL, createError, createUserHeader } from './utils';
 
 export type SnackOptions = {
   sdkVersion?: SDKVersion;
@@ -364,9 +364,7 @@ export default class Snack {
         body: JSON.stringify(payload),
         headers: {
           'Content-Type': 'application/json',
-          ...(user?.sessionSecret && !options?.ignoreUser
-            ? { 'Expo-Session': user.sessionSecret }
-            : {}),
+          ...(options?.ignoreUser ? {} : createUserHeader(user)),
         },
       });
       const data = await response.json();

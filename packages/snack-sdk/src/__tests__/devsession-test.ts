@@ -78,4 +78,40 @@ describe('devsession', () => {
     snack.setOnline(false);
     expect(fetch).toBeCalledTimes(3);
   });
+
+  it('sends notify with user session secret', async () => {
+    const snack = new Snack({
+      apiURL: 'https://exp.host',
+      online: true,
+      deviceId: '1234',
+      user: { sessionSecret: '{"some":"json"}' },
+    });
+    expect(fetch).toBeCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'Expo-Session': '{"some":"json"}',
+        }),
+      })
+    );
+    snack.setOnline(false);
+  });
+
+  it('sends notify with user access token', async () => {
+    const snack = new Snack({
+      apiURL: 'https://exp.host',
+      online: true,
+      deviceId: '1234',
+      user: { accessToken: 'sometoken' },
+    });
+    expect(fetch).toBeCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          Authorization: 'Bearer sometoken',
+        }),
+      })
+    );
+    snack.setOnline(false);
+  });
 });

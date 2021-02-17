@@ -1,7 +1,7 @@
 import fetchPonyfill from 'fetch-ponyfill';
 import { customAlphabet } from 'nanoid';
 
-import { SDKVersion, SnackError } from './types';
+import { SDKVersion, SnackError, SnackUser } from './types';
 
 const { fetch } = fetchPonyfill();
 export { fetch };
@@ -61,4 +61,16 @@ export function createError(config: {
   if (config.columnNumber) error.columnNumber = config.columnNumber;
   if (config.stack) error.stack = config.stack;
   return error;
+}
+
+export function createUserHeader(user?: SnackUser): { [key: string]: string } {
+  if (user?.sessionSecret) {
+    return { 'Expo-Session': user.sessionSecret };
+  }
+
+  if (user?.accessToken) {
+    return { Authorization: `Bearer ${user.accessToken}` };
+  }
+
+  return {};
 }
