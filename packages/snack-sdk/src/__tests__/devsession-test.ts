@@ -80,7 +80,7 @@ describe('devsession', () => {
   });
 
   it('sends notify with user session secret', async () => {
-    new Snack({
+    const snack = new Snack({
       apiURL: 'https://exp.host',
       online: true,
       deviceId: '1234',
@@ -92,12 +92,13 @@ describe('devsession', () => {
         headers: expect.objectContaining({
           'Expo-Session': '{"some":"json"}',
         }),
-      }),
+      })
     );
+    snack.setOnline(false);
   });
 
   it('sends notify with user access token', async () => {
-    new Snack({
+    const snack = new Snack({
       apiURL: 'https://exp.host',
       online: true,
       deviceId: '1234',
@@ -109,7 +110,8 @@ describe('devsession', () => {
         headers: expect.objectContaining({
           Authorization: 'Bearer sometoken',
         }),
-      }),
+      })
     );
-  })
+    snack.setOnline(false);
+  });
 });
