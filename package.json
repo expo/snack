@@ -8,7 +8,7 @@
     "pm2": "4.5.1"
   },
   "scripts": {
-    "start": "yarn domain && pm2 start ecosystem.config.js && pm2 monit && yarn stop",
+    "start": "yarn domain && env-cmd -f website/deploy/development/snack.env pm2 start ecosystem.config.js && pm2 monit && yarn stop",
     "stop": "pm2 stop ecosystem.config.js",
     "domain": "chalet start && chalet add http://localhost:3011 -n snack.expo -f && chalet add http://localhost:3021 -n expo -f"
   },
@@ -20,6 +20,7 @@
   ],
   "devDependencies": {
     "chalet": "^0.9.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.16.0",
     "eslint-config-universe": "^6.0.1",
     "prettier": "^2.2.1"

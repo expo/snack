@@ -17,6 +17,7 @@ COPY website/jest ./jest
 COPY website/src ./src
 COPY website/typings ./typings
 COPY website/package.json website/resources.json website/favicon.ico ./
+COPY website/.env-cmdrc.json ./
 COPY website/.eslintignore website/.eslintrc.js ./
 COPY website/babel.config.js website/tsconfig.json website/webpack.config.js ./
 
