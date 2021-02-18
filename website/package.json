@@ -7,8 +7,8 @@
   "scripts": {
     "start": "yarn domain && yarn watch",
     "domain": "chalet start && chalet add http://localhost:3011 -n snack.expo -f",
-    "watch": "ts-node-dev --require tsconfig-paths/register --inspect=9211 src/server/index.tsx",
-    "build": "cross-env NODE_ENV=production yarn build:server && yarn build:client",
+    "watch": "env-cmd -f deploy/development/snack.env ts-node-dev --require tsconfig-paths/register --inspect=9211 src/server/index.tsx",
+    "build": "env-cmd -e production yarn build:server && yarn build:client",
     "build:server": "babel --source-maps --extensions '.ts,.tsx' --out-dir build/ src/",
     "build:client": "webpack",
     "build:start": "yarn build && node .",
@@ -16,7 +16,7 @@
     "clean:server": "del build/",
     "clean:client": "del dist/",
     "lint": "eslint src typings --ext '.js,.ts,.tsx'",
-    "test": "cross-env NODE_ENV=test jest --config jest/unit.config.js",
+    "test": "env-cmd -e test jest --config jest/unit.config.js",
     "prebuild": "yarn clean"
   },
   "author": "Expo",
@@ -141,7 +141,6 @@
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-webpack-chunkname": "^1.2.0",
-    "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
     "del-cli": "^3.0.1",
     "enzyme": "^3.11.0",

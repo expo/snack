@@ -9,9 +9,10 @@ export async function createProxy(config: {
   name: string;
   port: number;
   localURL: string;
+  localPathResolver?: (ctx: Koa.Context, path: string) => string;
   stagingURL: string;
 }) {
-  const { name, port, localURL, stagingURL } = config;
+  const { name, port, localURL, stagingURL, localPathResolver } = config;
 
   console.log(chalk.green(`Starting "${name}" proxy on port ${port}...`));
 
@@ -37,7 +38,8 @@ export async function createProxy(config: {
       filter: () => useLocalhost,
       proxyReqPathResolver: async (ctx) => {
         console.log(chalk.yellow(`${ctx.request.method} ${ctx.url} (local)`));
-        return url.parse(ctx.url).path!;
+        const path = url.parse(ctx.url).path!;
+        return localPathResolver ? localPathResolver(ctx, path) : path!;
       },
     })
   );

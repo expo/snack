@@ -204,7 +204,7 @@ export default function routes() {
     );
 
     const url = new URL(
-      `${baseURL}${!baseURL.startsWith('http://localhost') ? `/${ctx.params.version}` : ''}`
+      `${baseURL}${!baseURL.startsWith('http://localhost:19006') ? `/${ctx.params.version}` : ''}`
     );
     url.pathname = url.pathname + ctx.request.path.replace(/^\/web-player\/[0-9]+/, '');
     url.search = ctx.request.search;

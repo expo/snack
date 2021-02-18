@@ -58,10 +58,9 @@ cd apps/snack
 expo start:web
 ```
 
-Uncomment the `SNACK_WEBPLAYER_URL` and `SNACK_WEBPLAYER_CDN` lines in [./envrc](../.envrc);
+Replace the `SNACK_WEBPLAYER_URL` and `SNACK_WEBPLAYER_CDN` values in [./deploy/development/snack.env](./deploy/development/snack.env);
 
 ```sh
-# .envrc
 SNACK_WEBPLAYER_URL=http://localhost:19006
 SNACK_WEBPLAYER_CDN=http://localhost:19006
 ```
