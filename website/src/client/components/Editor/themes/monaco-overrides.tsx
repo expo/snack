@@ -84,8 +84,11 @@ export default css`
 
   .snack-monaco-editor .monaco-menu .monaco-action-bar .keybinding {
     color: inherit;
-    font-size: inherit;
-    opacity: 0.3;
+    font-size: 80%;
+    font-family: monospace;
+    line-height: 18px;
+    opacity: 0.45;
+    margin-left: 8px
   }
 
   .snack-monaco-editor .monaco-menu .monaco-action-bar .keybinding,

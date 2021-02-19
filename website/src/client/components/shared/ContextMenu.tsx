@@ -73,9 +73,7 @@ class ContextMenu extends React.PureComponent<Props> {
               }}>
               <div>{label}</div>
               {combo ? (
-                <kbd className={css(styles.hint)}>
-                  <ShortcutLabel combo={combo} />
-                </kbd>
+                <ShortcutLabel combo={combo} className={css(styles.hint)} />
               ) : null}
             </button>
           </li>
@@ -140,12 +138,7 @@ const styles = StyleSheet.create({
   },
 
   hint: {
-    color: 'inherit',
-    fontFamily: 'inherit',
-    fontSize: 'inherit',
-    backgroundColor: 'transparent',
-    boxShadow: 'none',
     marginLeft: 24,
-    opacity: 0.3,
+    lineHeight: '24px',
   },
 });
