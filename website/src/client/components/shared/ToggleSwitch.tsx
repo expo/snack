@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   active: {
     ':before': {
       transform: 'translateX(16px)',
-      backgroundColor: c('active'),
+      backgroundColor: c('primary'),
     },
   },
   check: {
