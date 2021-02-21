@@ -1,4 +1,4 @@
-import { StyleSheet } from 'aphrodite';
+import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
 type Props = {
@@ -13,7 +13,7 @@ const QRCode = ({ experienceURL, size, className }: Props) => {
   return (
     <div className={className}>
       <ReactQRCode value={experienceURL} size={size ?? 200} />
-      <div style={styles.screenReaderUrl}>{experienceURL}</div>
+      <div className={css(styles.screenReaderUrl)}>{experienceURL}</div>
     </div>
   );
 };
