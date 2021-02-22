@@ -88,7 +88,7 @@ export default css`
     font-family: monospace;
     line-height: 18px;
     opacity: 0.45;
-    margin-left: 8px
+    margin-left: 8px;
   }
 
   .snack-monaco-editor .monaco-menu .monaco-action-bar .keybinding,

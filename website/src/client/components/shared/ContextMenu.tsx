@@ -72,9 +72,7 @@ class ContextMenu extends React.PureComponent<Props> {
                 onHide();
               }}>
               <div>{label}</div>
-              {combo ? (
-                <ShortcutLabel combo={combo} className={css(styles.hint)} />
-              ) : null}
+              {combo ? <ShortcutLabel combo={combo} className={css(styles.hint)} /> : null}
             </button>
           </li>
         ))}

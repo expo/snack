@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
   buttonItemShortcut: {
     userSelect: 'none',
     cursor: 'pointer',
-    marginLeft: 12
+    marginLeft: 12,
   },
 
   buttonItemEditorPane: {
