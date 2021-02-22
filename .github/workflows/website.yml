@@ -53,4 +53,4 @@ jobs:
       - run: yarn tsc --noEmit
       - run: yarn test --maxWorkers 1
       - run: yarn lint --max-warnings 0
-      - run: yarn build
+      - run: ../node_modules/.bin/env-cmd -f deploy/development/snack.env yarn build
