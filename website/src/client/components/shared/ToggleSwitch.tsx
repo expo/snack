@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 12,
     border: `1px solid ${c('border')}`,
+    backgroundColor: c('background'),
 
     ':before': {
       content: '""',
@@ -60,10 +61,9 @@ const styles = StyleSheet.create({
     },
   },
   active: {
-    backgroundColor: c('content'),
     ':before': {
       transform: 'translateX(16px)',
-      backgroundColor: c('selected'),
+      backgroundColor: c('primary'),
     },
   },
   check: {
