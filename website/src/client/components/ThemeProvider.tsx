@@ -76,7 +76,7 @@ const darkColors: Colors = {
   'soft-text': colors.black,
   background: darkGray[900],
   content: darkGray[800],
-  hover: darkGray[600],
+  hover: darkGray[700],
   disabled: darkGray[600],
   selected: colors.white,
   'selected-text': darkGray[800],
@@ -84,7 +84,7 @@ const darkColors: Colors = {
 };
 
 const darkShadows: Shadows = {
-  popover: 'none',
+  popover: shadows.popover,
   small: 'none',
 };
 
