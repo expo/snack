@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
     border: `1px solid ${c(`border`)}`,
     borderBottomWidth: 2,
     borderRadius: 3,
-    fontSize: '85%',
     opacity: 0.66,
   },
 });
