@@ -40,7 +40,7 @@ class KeyboardShortcuts extends React.PureComponent {
           {Object.entries(Shortcuts).map(([type, binding]) => (
             <tr key={type}>
               <td className={css(styles.shortcutCell, styles.shortcutLabelCell)}>
-                <ShortcutLabel combo={binding.combo} />
+                <ShortcutLabel boxed combo={binding.combo} />
               </td>
               <td className={css(styles.shortcutCell, styles.shortcutDescriptionCell)}>
                 {binding.description}

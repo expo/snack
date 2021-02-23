@@ -3,11 +3,13 @@ import classnames from 'classnames';
 import findKey from 'lodash/findKey';
 import * as React from 'react';
 
+import { c } from '../ThemeProvider';
 import { KeyMap } from './KeybindingsManager';
 
 type Props = {
   combo: number[];
   className?: string;
+  boxed?: boolean;
 };
 
 type KeyName = keyof typeof KeyMap;
@@ -25,9 +27,14 @@ const KeyLabels: Partial<{ [key in KeyName]: string }> = {
   Tilde: '`',
 };
 
-export default function ShortcutLabel({ combo, className }: Props): any {
+export default function ShortcutLabel({ combo, className, boxed = false }: Props): any {
   return (
-    <kbd className={classnames(css(styles.shortcutLabel), className)}>
+    <kbd
+      className={classnames(
+        css(styles.shortcutLabel),
+        boxed && css(styles.boxedShortcut),
+        className
+      )}>
       {combo
         .map((code) => {
           const name = findKey(KeyMap, (c) => c === code);
@@ -48,10 +55,19 @@ export default function ShortcutLabel({ combo, className }: Props): any {
 const styles = StyleSheet.create({
   shortcutLabel: {
     color: 'inherit',
-    fontFamily: 'monospace',
-    fontSize: '80%',
-    opacity: 0.45,
+    fontFamily: 'var(--font-monospace)',
+    fontSize: '90%',
+    opacity: 0.5,
     boxShadow: `none`,
     display: 'inline-block',
+    lineHeight: 'initial',
+  },
+  boxedShortcut: {
+    padding: '0.2rem 0.4rem',
+    border: `1px solid ${c(`border`)}`,
+    borderBottomWidth: 2,
+    borderRadius: 3,
+    fontSize: '85%',
+    opacity: 0.66,
   },
 });

@@ -71,8 +71,7 @@ export default function Document(props: Props) {
             __html: css`
               :root {
                 --font-normal: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                --font-monospace: 'Fira Code', 'Fira Mono', Monaco, Menlo, 'Ubuntu Mono', Consolas,
-                  source-code-pro, monospace;
+                --font-monospace: Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
               }
 
               html {
