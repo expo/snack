@@ -249,10 +249,14 @@ const styles = StyleSheet.create({
     width: '100%',
     background: 'none',
     outline: 0,
-    borderWidth: '1px 0 0 0',
-    borderColor: c('border'),
-    color: c('selected'),
+    border: 'none',
+    borderTop: `1px solid ${c('border')}`,
+    color: c('primary'),
     padding: '8px 16px',
     fontWeight: 'bold',
+
+    ':hover': {
+      backgroundColor: c('hover'),
+    },
   },
 });
