@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   button: {
     appearance: 'none',
     background: 'transparent',
-    color: c('selected'),
+    color: c('primary'),
     border: '0',
     textTransform: 'uppercase',
     fontSize: '.9em',
