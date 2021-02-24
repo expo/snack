@@ -7,9 +7,7 @@
     "node": "12.16.2"
   },
   "scripts": {
-    "start": "yarn domain && yarn term",
-    "term": "cd packages/snack-term && yarn start && cd ..",
-    "domain": "chalet start && chalet add http://localhost:3011 -n snack.expo -f && chalet add http://localhost:3021 -n expo -f"
+    "start": "cd packages/snack-term && yarn start && cd .."
   },
   "workspaces": [
     "packages/snack-sdk",
