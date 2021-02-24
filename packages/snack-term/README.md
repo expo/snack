@@ -1,6 +1,6 @@
 # snack-term
 
-TODO
+Runs the Snack services and proxies in an easy to start terminal.
 
 ## Usage
 
