@@ -25,7 +25,6 @@ function pickQueryStateParams(queryParams: QueryParams) {
       case 'platform':
       case 'theme':
       case 'supportedPlatforms':
-      case 'local_snackager':
       case 'appetizePayerCode':
       case 'verbose':
       case 'hideQueryParams':
