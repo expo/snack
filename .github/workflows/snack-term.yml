@@ -1,0 +1,50 @@
+name: SnackTerm
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/snack-term.yml
+      - packages/snack-term/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+  pull_request:
+    paths:
+      - .github/workflows/snack-term.yml
+      - packages/snack-term/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - run: yarn install --ignore-scripts --frozen-lockfile
+      - run: yarn lint --max-warnings 0
+        working-directory: ./packages/snack-term
+      - run: yarn tsc
+        working-directory: ./packages/snack-term

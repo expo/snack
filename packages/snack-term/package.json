@@ -1,0 +1,22 @@
+{
+  "name": "snack-term",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/index.tsx",
+    "lint": "eslint ./src"
+  },
+  "volta": {
+    "node": "12.16.2"
+  },
+  "dependencies": {
+    "@expo/spawn-async": "^1.5.0",
+    "ink": "^3.0.8",
+    "react": "^17.0.1",
+    "strip-ansi": "^6.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node12": "^1.0.7"
+  }
+}
