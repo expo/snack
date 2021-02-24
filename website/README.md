@@ -37,7 +37,7 @@ yarn start
 
 ### Snackager (package bundler)
 
-Start the `snackager` server and append `local_snackager=true` to the query arguments of the URL.
+Start the `snackager` server. `snack-proxies` automatically detects the locally running Snackager server and routes all trafic to it when possible.
 
 ```sh
 # expo/universe
@@ -45,8 +45,6 @@ cd server/snackager
 yarn
 yarn start
 ```
-
-And open http://snack.expo.test?local_snackager=true
 
 ### Snack web-player
 

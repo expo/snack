@@ -190,10 +190,7 @@ class Main extends React.Component<Props, State> {
     const isWorker = true;
     const sendCodeOnChangeEnabled = true;
     const sessionSecret = props.getSessionSecret();
-    const snackagerURL =
-      props.query.local_snackager === 'true'
-        ? 'http://localhost:3001'
-        : nullthrows(process.env.IMPORT_SERVER_URL);
+    const snackagerURL = nullthrows(process.env.IMPORT_SERVER_URL);
 
     this._snack = new Snack({
       disabled: true,
