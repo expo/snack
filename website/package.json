@@ -8,6 +8,7 @@
     "start": "yarn domain && yarn watch",
     "domain": "chalet start && chalet add http://localhost:3011 -n snack.expo -f",
     "watch": "env-cmd -f deploy/development/snack.env tsnd --require tsconfig-paths/register --inspect=9211 --quiet src/server/index.tsx",
+    "build:dev": "env-cmd -f deploy/development/snack.env yarn build",
     "build": "env-cmd -e production yarn build:server && yarn build:client",
     "build:server": "babel --source-maps --extensions '.ts,.tsx' --out-dir build/ src/",
     "build:client": "webpack",
