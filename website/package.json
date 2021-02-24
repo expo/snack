@@ -25,7 +25,7 @@
     "node": "12.18.4"
   },
   "dependencies": {
-    "@babel/parser": "^7.11.5",
+    "@babel/parser": "^7.12.16",
     "@expo/styleguide": "^1.1.0",
     "aphrodite": "^2.2.3",
     "babel-plugin-file-loader": "^2.0.0",
@@ -81,14 +81,14 @@
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.10.2",
-    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/cli": "^7.12.16",
+    "@babel/core": "^7.12.16",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-modules-commonjs": "^7.10.1",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/preset-react": "^7.10.1",
-    "@babel/preset-typescript": "^7.10.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.13",
+    "@babel/preset-env": "^7.12.16",
+    "@babel/preset-react": "^7.12.13",
+    "@babel/preset-typescript": "^7.12.16",
     "@tsconfig/node12": "^1.0.7",
     "@types/amplitude-js": "^6.0.0",
     "@types/aphrodite": "^0.5.13",
