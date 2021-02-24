@@ -1,0 +1,168 @@
+#!/usr/bin/env python
+
+import argparse
+import json
+import logging
+import os
+import re
+import subprocess
+
+from datetime import datetime, timedelta
+
+
+def main():
+    default_project = get_default_project()
+
+    parser = argparse.ArgumentParser(
+        description="Prune old Docker images from the Google Container Registry. Example usage:\nprune-gcr www"
+    )
+    parser.add_argument(
+        "--project",
+        required=default_project is None,
+        default=default_project,
+        help="name of the Google Cloud project. {}".format(
+            "Defaults to {}.".format(default_project)
+            if default_project is not None
+            else "Must be specified."
+        ),
+    )
+    parser.add_argument(
+        "repository",
+        help="short name of the GCR image repository (as in: gcr.io/<project>/<repository>)",
+    )
+    parser.add_argument(
+        "--older-than",
+        default=datetime.today().date() - timedelta(90),
+        type=date,
+        metavar="CUTOFF",
+        help="prune images older than CUTOFF. Must be formatted as YYYY-MM-DD. Uses GCP's time zone. Defaults to 90 days ago.",
+    )
+    parser.add_argument(
+        "--keep-at-least",
+        default=50,
+        type=int,
+        metavar="N",
+        help="keep at least N images, even if they are older than the cutoff date. Defaults to 50.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="don't actually remove the old images, just print them",
+    )
+    args = parser.parse_args()
+
+    repository = "gcr.io/{project}/{name}".format(
+        project=args.project, name=args.repository
+    )
+    print "Querying GCP for images in {}...".format(repository)
+    digests = get_digests_to_prune(
+        repository, args.older_than, keep_at_least=args.keep_at_least
+    )
+
+    if args.dry_run:
+        if len(digests) > 0:
+            print "This is a dry run mode. Run without --dry-run to remove the following images:"
+        for digest in digests:
+            print "- {}".format(digest)
+    else:
+        delete_images(repository, digests)
+
+
+def get_default_project():
+    with open(os.devnull, "w") as devnull:
+        project = subprocess.check_output(
+            ["gcloud", "config", "get-value", "project"], stderr=devnull
+        )
+    return project.strip() if project else None
+
+
+def date(date_string):
+    return datetime.strptime(date_string, "%Y-%m-%d").date()
+
+
+def get_digests_to_prune(repository, older_than, keep_at_least=0):
+    entries = get_all_image_entries(repository)
+
+    try:
+        retention_index = last_index_older_than(entries, older_than)
+    except ValueError as error:
+        print error
+        # All of the entries are older than the specified date so we want to keep all of
+        # them
+        return []
+
+    retention_count = max(
+        len(entries) - retention_index, min(keep_at_least, len(entries))
+    )
+    retention_index = len(entries) - retention_count
+
+    print "{} out of {} images are eligible to be pruned".format(
+        retention_index, len(entries)
+    )
+    return [entry["digest"] for entry in entries[:retention_index]]
+
+
+def get_all_image_entries(repository):
+    json_array = subprocess.check_output(
+        [
+            "gcloud",
+            "container",
+            "images",
+            "list-tags",
+            repository,
+            "--limit",
+            "999999",
+            "--sort-by",
+            "timestamp",
+            "--format",
+            "json(digest, timestamp)",
+            "--quiet",
+        ]
+    )
+    return json.loads(json_array)
+
+
+def last_index_older_than(entries, older_than):
+    # The entries are ordered from oldest to most recent, so iterate through them
+    # backwards to find the first one older than the specified date
+    for index, entry in reversed(list(enumerate(entries))):
+        # Reformat the timestamp so Python can parse it
+        timestamp = re.sub(r"[-+](\d\d):(\d\d)$", r"", entry["timestamp"]["datetime"])
+        entry_time = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S").date()
+        if entry_time < older_than:
+            return index + 1
+    raise ValueError(
+        "There are no entries older than {cutoff}".format(
+            cutoff=older_than.strftime("%Y-%m-%d")
+        )
+    )
+
+
+def delete_images(repository, digests):
+    if len(digests) is 0:
+        print "There are no images to prune; skipping pruning"
+        return
+
+    print "Deleting {count} images...".format(count=len(digests))
+    for digest_chunk in chunks(digests, 100):
+        subprocess.check_output(
+            ["gcloud", "container", "images", "delete"]
+            + ["{}@{}".format(repository, digest) for digest in digest_chunk]
+            + ["--force-delete-tags", "--quiet"]
+        )
+    print "Finished pruning images in {}".format(repository)
+
+
+def chunks(seq, size):
+    return (seq[index : index + size] for index in xrange(0, len(seq), size))
+
+
+if __name__ == "__main__":
+    main()
+
+# To delete an entire Google Cloud Storage folder for a repository, ONLY after deleting
+# all images for a repository, run:
+#
+# gsutil -m rm -r gs://artifacts.<project>.appspot.com/containers/repositories/library/<repository>
+#
+# BE VERY CAREFUL!
