@@ -105,7 +105,6 @@ export type QueryStateParams = {
   preview?: 'true' | 'false';
   platform?: Platform;
   theme?: ThemeName;
-  local_snackager?: 'true' | 'false';
   supportedPlatforms?: string;
   appetizePayerCode?: string;
   verbose?: 'true' | 'false';

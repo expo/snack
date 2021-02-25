@@ -6,7 +6,6 @@
 2. Make sure you have the following packages globally installed on your system:
    - [node](https://nodejs.org/) (node 12 or higher is recommended)
    - [yarn](https://yarnpkg.com/)
-   - [PM2](https://pm2.keymetrics.io/)
 3. Install the Node packages (`yarn install`)
 4. [chalet](https://github.com/jeansaad/chalet) is used to run local services on the `expo.test` domain.
    - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
@@ -16,13 +15,6 @@
 ## 🏎️ Start the Development environment
 
 Run `yarn start` from the root to start the Snack development services.
-
-```
-┌─ Process List ──────────────────────────────────────┐┌──  exp-web-proxy Logs  ──────
-│[ 2] exp-web-proxy   Mem: 217 MB  CPU:   0 %  online ││ exp-web-proxy > Listening ...
-│[ 1] exp-www-proxy   Mem: 228 MB  CPU:   0 %  online ││                              
-│[ 0] snack-website   Mem: 501 MB  CPU: 128 %  online ││                              
-```
 
 > Some services like the Expo API server and the Expo website are hosted elsewhere and are proxied. The proxies log all incoming requests and auto-redirect to locally running instances when possible. 
 

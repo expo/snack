@@ -4,18 +4,16 @@
   "author": "Expo",
   "license": "MIT",
   "volta": {
-    "node": "12.16.2",
-    "pm2": "4.5.1"
+    "node": "12.16.2"
   },
   "scripts": {
-    "start": "yarn domain && env-cmd -f website/deploy/development/snack.env pm2 start ecosystem.config.js && pm2 monit && yarn stop",
-    "stop": "pm2 stop ecosystem.config.js",
-    "domain": "chalet start && chalet add http://localhost:3011 -n snack.expo -f && chalet add http://localhost:3021 -n expo -f"
+    "start": "cd packages/snack-term && yarn start && cd .."
   },
   "workspaces": [
     "packages/snack-sdk",
     "packages/snack-babel-standalone",
     "packages/snack-proxies",
+    "packages/snack-term",
     "website"
   ],
   "devDependencies": {

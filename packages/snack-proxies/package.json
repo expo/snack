@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn domain && yarn watch",
     "domain": "chalet start && chalet add http://localhost:3021 -n expo -f",
-    "watch": "ts-node-dev --inspect=9221 src/index.ts",
+    "watch": "tsnd --inspect=9221 --quiet src/index.ts",
     "lint": "eslint ./src"
   },
   "volta": {
