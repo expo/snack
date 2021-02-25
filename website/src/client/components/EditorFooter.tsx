@@ -161,7 +161,11 @@ export default function EditorFooter(props: Props) {
           </>
         }
       />
-      <SDKVersionSwitcher sdkVersion={sdkVersion} onChange={onChangeSDKVersion} />
+      <SDKVersionSwitcher
+        sdkVersion={sdkVersion}
+        onChange={onChangeSDKVersion}
+        selectClassName={(isErrorFatal && css(styles.errorBorder)) || undefined}
+      />
       <MenuButton
         label={
           <>
@@ -306,6 +310,10 @@ const styles = StyleSheet.create({
 
   errorTextFatal: {
     backgroundImage: `url(${require('../assets/cross-light.png')})`,
+  },
+
+  errorBorder: {
+    borderColor: c('error-text'),
   },
 
   devicesCount: {
