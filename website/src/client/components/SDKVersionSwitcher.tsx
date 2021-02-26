@@ -1,4 +1,5 @@
 import { StyleSheet, css } from 'aphrodite';
+import classnames from 'classnames';
 import * as React from 'react';
 
 import { versions } from '../configs/sdk';
@@ -8,9 +9,10 @@ import { c } from './ThemeProvider';
 type Props = {
   sdkVersion: SDKVersion;
   onChange: (sdkVersion: SDKVersion) => void;
+  selectClassName?: string;
 };
 
-export default function SDKVersionSwitcher({ sdkVersion, onChange }: Props) {
+export default function SDKVersionSwitcher({ sdkVersion, onChange, selectClassName }: Props) {
   return (
     <div className={css(styles.container)}>
       <span className={css(styles.label)}>Expo</span>
@@ -18,7 +20,7 @@ export default function SDKVersionSwitcher({ sdkVersion, onChange }: Props) {
         <select
           value={sdkVersion}
           onChange={(e) => onChange(e.target.value as any)}
-          className={css(styles.select)}>
+          className={classnames(css(styles.select), selectClassName)}>
           {Object.keys(versions)
             .filter((v) => versions[v as SDKVersion] || v === sdkVersion)
             .map((v) => (
@@ -45,10 +47,11 @@ const styles = StyleSheet.create({
 
     ':after': {
       content: '"▼"',
+      color: c('soft'),
       position: 'absolute',
       fontSize: '0.6em',
       right: '2em',
-      top: '1em',
+      top: '0.66em',
       pointerEvents: 'none',
     },
   },
@@ -66,6 +69,7 @@ const styles = StyleSheet.create({
     padding: '0 2em 0 1em',
     borderRadius: 12,
     outline: 0,
+    cursor: 'pointer',
     border: `1px solid ${c('border')}`,
   },
   option: {

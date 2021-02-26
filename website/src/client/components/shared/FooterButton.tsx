@@ -40,9 +40,11 @@ const styles = StyleSheet.create({
     backgroundPosition: 'center right 8px',
     ':active': {
       backgroundColor: c('hover'),
+      color: c('soft'),
     },
     ':hover': {
       backgroundColor: c('hover'),
+      color: c('soft'),
     },
   },
 
@@ -54,5 +56,6 @@ const styles = StyleSheet.create({
 
   active: {
     backgroundColor: c('hover'),
+    color: c('soft'),
   },
 });
