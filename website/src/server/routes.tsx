@@ -202,11 +202,17 @@ export default function routes() {
         ? process.env.SNACK_WEBPLAYER_CDN
         : process.env.SNACK_WEBPLAYER_URL
     );
-
+    const isLocalhost =
+      ctx.params.version === 'localhost' && process.env.NODE_ENV === 'development';
     const url = new URL(
-      `${baseURL}${!baseURL.startsWith('http://localhost:19006') ? `/${ctx.params.version}` : ''}`
+      isLocalhost ? 'http://localhost:19006' : `${baseURL}/${ctx.params.version}`
     );
-    url.pathname = url.pathname + ctx.request.path.replace(/^\/web-player\/[0-9]+/, '');
+    url.pathname =
+      url.pathname +
+      ctx.request.path.replace(
+        isLocalhost ? /^\/web-player\/localhost/ : /^\/web-player\/[0-9]+/,
+        ''
+      );
     url.search = ctx.request.search;
 
     // Redirect all files, except for `index.html` which is loaded

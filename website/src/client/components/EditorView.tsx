@@ -387,6 +387,7 @@ class EditorView extends React.Component<Props, State> {
       isResolving,
       sendCodeOnChangeEnabled,
       sdkVersion,
+      isLocalWebPreview,
       userAgent,
       connectedDevices,
       deviceLogs,
@@ -660,6 +661,7 @@ class EditorView extends React.Component<Props, State> {
                   editorMode={preferences.editorMode}
                   sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
                   sdkVersion={sdkVersion}
+                  isLocalWebPreview={isLocalWebPreview}
                   onSendCode={onSendCode}
                   onReloadSnack={onReloadSnack}
                   onToggleTheme={this._toggleTheme}

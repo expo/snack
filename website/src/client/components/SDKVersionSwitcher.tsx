@@ -2,32 +2,47 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
-import { versions } from '../configs/sdk';
+import { DEFAULT_SDK_VERSION, versions } from '../configs/sdk';
 import { SDKVersion } from '../types';
 import { c } from './ThemeProvider';
 
 type Props = {
   sdkVersion: SDKVersion;
-  onChange: (sdkVersion: SDKVersion) => void;
+  isLocalWebPreview: boolean;
+  onChange: (sdkVersion: SDKVersion, isLocalhost: boolean) => void;
   selectClassName?: string;
 };
 
-export default function SDKVersionSwitcher({ sdkVersion, onChange, selectClassName }: Props) {
+export default function SDKVersionSwitcher({
+  sdkVersion,
+  isLocalWebPreview,
+  onChange,
+  selectClassName,
+}: Props) {
+  const options = Object.keys(versions).filter(
+    (v) => versions[v as SDKVersion] || v === sdkVersion
+  );
+  if (process.env.NODE_ENV === 'development' || isLocalWebPreview) {
+    options.push('localhost');
+  }
   return (
     <div className={css(styles.container)}>
       <span className={css(styles.label)}>Expo</span>
       <span className={css(styles.switcher)}>
         <select
-          value={sdkVersion}
-          onChange={(e) => onChange(e.target.value as any)}
+          value={isLocalWebPreview ? 'localhost' : sdkVersion}
+          onChange={(e) =>
+            onChange(
+              e.target.value === 'localhost' ? DEFAULT_SDK_VERSION : (e.target.value as SDKVersion),
+              e.target.value === 'localhost'
+            )
+          }
           className={classnames(css(styles.select), selectClassName)}>
-          {Object.keys(versions)
-            .filter((v) => versions[v as SDKVersion] || v === sdkVersion)
-            .map((v) => (
-              <option className={css(styles.option)} key={v} value={v}>
-                v{v}
-              </option>
-            ))}
+          {options.map((option) => (
+            <option className={css(styles.option)} key={option} value={option}>
+              {option === 'localhost' ? option : `v${option}`}
+            </option>
+          ))}
         </select>
       </span>
     </div>

@@ -35,6 +35,7 @@ export type EditorViewProps = {
   experienceName: string;
   sdkVersion: SDKVersion;
   sendCodeOnChangeEnabled: boolean;
+  isLocalWebPreview: boolean;
   onSendCode: () => void;
   onReloadSnack: () => void;
   onToggleSendCode: () => void;
@@ -43,7 +44,7 @@ export type EditorViewProps = {
   onDeviceConnectionAttempt: () => void;
   onClearDeviceLogs: () => void;
   onSubmitMetadata: (details: { name: string; description: string }) => void;
-  onChangeSDKVersion: (sdkVersion: SDKVersion) => void;
+  onChangeSDKVersion: (sdkVersion: SDKVersion, isLocalWebPreview?: boolean) => void;
   onPublishAsync: (options?: SaveOptions) => Promise<void>;
   onDownloadAsync: () => Promise<void>;
   onSelectFile: (path: string) => void;

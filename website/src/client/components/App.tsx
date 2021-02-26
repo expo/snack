@@ -90,6 +90,7 @@ type State = {
   devicePreviewPlatform: Platform;
   devicePreviewPlatformOptions: PlatformOption[];
   webPreviewURL: string;
+  isLocalWebPreview: boolean;
   verbose: boolean;
   annotations: Annotation[];
   snackagerURL: string;
@@ -191,6 +192,7 @@ class Main extends React.Component<Props, State> {
     const sendCodeOnChangeEnabled = true;
     const sessionSecret = props.getSessionSecret();
     const snackagerURL = nullthrows(process.env.IMPORT_SERVER_URL);
+    const isLocalWebPreview = false;
 
     this._snack = new Snack({
       disabled: true,
@@ -218,8 +220,7 @@ class Main extends React.Component<Props, State> {
       webPreviewRef: typeof window !== 'undefined' ? this._previewRef : undefined,
       // Serve local web-player through `/web-player` end-point to prevent CORS issues
       webPlayerURL:
-        typeof window !== 'undefined' &&
-        nullthrows(process.env.SNACK_WEBPLAYER_URL).startsWith('http://localhost:')
+        typeof window !== 'undefined' && isLocalWebPreview
           ? `${window.location.origin}/web-player/%%SDK_VERSION%%`
           : nullthrows(process.env.SNACK_WEBPLAYER_URL) + '/v2/%%SDK_VERSION%%',
     });
@@ -265,6 +266,7 @@ class Main extends React.Component<Props, State> {
       connectedDevices: [],
       deviceLogs: [],
       isPreview,
+      isLocalWebPreview,
       wasUpgraded,
       initialSdkVersion,
       isDownloading: false,
@@ -286,7 +288,13 @@ class Main extends React.Component<Props, State> {
       // For lower SDK versions we fallback to the legacy URL which is served by
       // the Snack `/web-player/..` end-point.
       // TODO: Remove this one SDK 39 has been deprecated
-      if (state.session.sdkVersion <= '39.0.0') {
+      if (state.isLocalWebPreview) {
+        webPreviewURL = `${
+          window.location.origin
+        }/web-player/localhost/index.html?initialUrl=${encodeURIComponent(
+          state.session.url
+        )}&origin=${encodeURIComponent(window.location.origin)}&verbose=true`;
+      } else if (state.session.sdkVersion <= '39.0.0') {
         webPreviewURL = `${window.location.origin}/web-player/${
           state.session.sdkVersion.split('.')[0]
         }/index.html?initialUrl=${encodeURIComponent(state.session.url)}`;
@@ -608,9 +616,12 @@ class Main extends React.Component<Props, State> {
     this._snack.setDescription(details.description);
   };
 
-  _handleChangeSDKVersion = (sdkVersion: SDKVersion) => {
+  _handleChangeSDKVersion = (sdkVersion: SDKVersion, isLocalWebPreview?: boolean) => {
     this.edited = true;
     this._snack.setSDKVersion(sdkVersion);
+    if (this.state.isLocalWebPreview !== !!isLocalWebPreview) {
+      this.setState({ isLocalWebPreview: !!isLocalWebPreview });
+    }
   };
 
   _handleClearDeviceLogs = () =>
@@ -883,6 +894,7 @@ class Main extends React.Component<Props, State> {
               experienceName={this.state.session.onlineName ?? this.state.session.name}
               files={this.state.session.files}
               isDownloading={this.state.isDownloading}
+              isLocalWebPreview={this.state.isLocalWebPreview}
               isResolving={isResolving}
               name={this.state.session.name}
               id={this.state.session.id}
