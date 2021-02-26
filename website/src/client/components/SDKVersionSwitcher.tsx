@@ -2,7 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
-import { DEFAULT_SDK_VERSION, versions } from '../configs/sdk';
+import { versions } from '../configs/sdk';
 import { SDKVersion } from '../types';
 import { c } from './ThemeProvider';
 
@@ -19,9 +19,8 @@ export default function SDKVersionSwitcher({
   onChange,
   selectClassName,
 }: Props) {
-  const options = Object.keys(versions).filter(
-    (v) => versions[v as SDKVersion] || v === sdkVersion
-  );
+  const vers = Object.keys(versions).sort();
+  const options = vers.filter((v) => versions[v as SDKVersion] || v === sdkVersion);
   if (process.env.NODE_ENV === 'development' || isLocalWebPreview) {
     options.push('localhost');
   }
@@ -33,7 +32,9 @@ export default function SDKVersionSwitcher({
           value={isLocalWebPreview ? 'localhost' : sdkVersion}
           onChange={(e) =>
             onChange(
-              e.target.value === 'localhost' ? DEFAULT_SDK_VERSION : (e.target.value as SDKVersion),
+              (e.target.value === 'localhost'
+                ? vers[vers.length - 1]
+                : e.target.value) as SDKVersion,
               e.target.value === 'localhost'
             )
           }
