@@ -3,4 +3,5 @@ kind: Deployment
 metadata:
   name: snack
 spec:
-  replicas: 2
+  replicas: 4
+  minReplicas: 4
