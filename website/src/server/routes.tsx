@@ -202,11 +202,17 @@ export default function routes() {
         ? process.env.SNACK_WEBPLAYER_CDN
         : process.env.SNACK_WEBPLAYER_URL
     );
-
+    const isLocalhost =
+      ctx.params.version === 'localhost' && process.env.NODE_ENV === 'development';
     const url = new URL(
-      `${baseURL}${!baseURL.startsWith('http://localhost:19006') ? `/${ctx.params.version}` : ''}`
+      isLocalhost ? 'http://localhost:19006' : `${baseURL}/${ctx.params.version}`
     );
-    url.pathname = url.pathname + ctx.request.path.replace(/^\/web-player\/[0-9]+/, '');
+    url.pathname =
+      url.pathname +
+      ctx.request.path.replace(
+        isLocalhost ? /^\/web-player\/localhost/ : /^\/web-player\/[0-9]+/,
+        ''
+      );
     url.search = ctx.request.search;
 
     // Redirect all files, except for `index.html` which is loaded
@@ -253,6 +259,12 @@ export default function routes() {
       ctx.body = stream;
       ctx.status = response.status;
     } catch (e) {
+      if (isLocalhost && e.message.includes('ECONNREFUSED')) {
+        ctx.body =
+          'Local web-player is not running.\n\nStart it using "expo start" from the "universe/apps/snack" directory.';
+        ctx.status = 200;
+        return;
+      }
       console.log(e);
       ctx.throw(e);
     }

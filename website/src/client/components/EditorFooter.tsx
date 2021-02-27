@@ -24,13 +24,14 @@ type Props = {
   panelsShown: boolean;
   sendCodeOnChangeEnabled: boolean;
   sdkVersion: SDKVersion;
+  isLocalWebPreview: boolean;
   onToggleTheme: () => void;
   onTogglePanels: (panelType?: PanelType) => void;
   onToggleFileTree: () => void;
   onTogglePreview: () => void;
   onToggleSendCode: () => void;
   onToggleVimMode?: () => void;
-  onChangeSDKVersion: (sdkVersion: SDKVersion) => void;
+  onChangeSDKVersion: (sdkVersion: SDKVersion, isLocalWebPreview?: boolean) => void;
   onShowShortcuts: () => void;
   onPrettifyCode: () => void;
   onSendCode: () => void;
@@ -48,6 +49,7 @@ export default function EditorFooter(props: Props) {
     sendCodeOnChangeEnabled,
     editorMode,
     sdkVersion,
+    isLocalWebPreview,
     onSendCode,
     onReloadSnack,
     onToggleTheme,
@@ -163,6 +165,7 @@ export default function EditorFooter(props: Props) {
       />
       <SDKVersionSwitcher
         sdkVersion={sdkVersion}
+        isLocalWebPreview={isLocalWebPreview}
         onChange={onChangeSDKVersion}
         selectClassName={(isErrorFatal && css(styles.errorBorder)) || undefined}
       />

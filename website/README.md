@@ -48,26 +48,12 @@ yarn start
 
 ### Snack web-player
 
-By default, the web player is loaded from s3 and a CDN. When developing locally, specify the `SNACK_WEBPLAYER_URL` and `SNACK_WEBPLAYER_CDN` environment variables to use the local instance of the web player.
+By default, the web player is loaded from s3 and a CDN. When developing locally, start the web-player locally and select "localhost" in the SDK versions picker.
 
 ```sh
 # expo/universe
 cd apps/snack
 expo start:web
-```
-
-Replace the `SNACK_WEBPLAYER_URL` and `SNACK_WEBPLAYER_CDN` values in [./deploy/development/snack.env](./deploy/development/snack.env);
-
-```sh
-SNACK_WEBPLAYER_URL=http://localhost:19006
-SNACK_WEBPLAYER_CDN=http://localhost:19006
-```
-
-And restart
-
-```sh
-# expo/snack
-yarn start
 ```
 
 ### Testing local Snack runtime on device
