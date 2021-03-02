@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   active: {
     backgroundColor: c('primary'),
     borderColor: c('primary'),
-    color: c('text'),
+    color: c('primary-text'),
     ':hover': {
       backgroundColor: c('primary'),
     },
