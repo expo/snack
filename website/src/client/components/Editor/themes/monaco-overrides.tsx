@@ -84,8 +84,11 @@ export default css`
 
   .snack-monaco-editor .monaco-menu .monaco-action-bar .keybinding {
     color: inherit;
-    font-size: inherit;
-    opacity: 0.3;
+    font-size: 85%;
+    font-family: 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    line-height: 18px;
+    opacity: 0.5;
+    margin-left: 8px;
   }
 
   .snack-monaco-editor .monaco-menu .monaco-action-bar .keybinding,

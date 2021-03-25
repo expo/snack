@@ -40,9 +40,7 @@ class KeyboardShortcuts extends React.PureComponent {
           {Object.entries(Shortcuts).map(([type, binding]) => (
             <tr key={type}>
               <td className={css(styles.shortcutCell, styles.shortcutLabelCell)}>
-                <kbd className={css(styles.shortcutLabel)}>
-                  <ShortcutLabel combo={binding.combo} />
-                </kbd>
+                <ShortcutLabel boxed combo={binding.combo} />
               </td>
               <td className={css(styles.shortcutCell, styles.shortcutDescriptionCell)}>
                 {binding.description}
@@ -69,19 +67,10 @@ const styles = StyleSheet.create({
 
   shortcutLabelCell: {
     textAlign: 'right',
+    marginRight: 8,
   },
 
   shortcutDescriptionCell: {
     textAlign: 'left',
-  },
-
-  shortcutLabel: {
-    color: 'inherit',
-    fontFamily: 'inherit',
-    fontSize: 'inherit',
-    backgroundColor: 'transparent',
-    boxShadow: 'none',
-    padding: 0,
-    display: 'inline-block',
   },
 });
