@@ -88,11 +88,11 @@ const styles = StyleSheet.create({
   },
 
   active: {
-    backgroundColor: c('selected'),
-    borderColor: c('selected'),
-    color: c('selected-text'),
+    backgroundColor: c('primary'),
+    borderColor: c('primary'),
+    color: c('primary-text'),
     ':hover': {
-      backgroundColor: c('selected'),
+      backgroundColor: c('primary'),
     },
   },
 

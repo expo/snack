@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     transition: 'background .2s',
     padding: '0 4px',
     fontSize: 12,
-    height: 26,
   },
 
   footerLoading: {
