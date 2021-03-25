@@ -22,7 +22,8 @@ export default function SnackTerminal(props: Props) {
   const [logs, setLogs] = React.useState<Log[]>([]);
   const [exitCode, setExitCode] = React.useState<number | undefined>();
   const { isFocused } = useFocus();
-  const maxLogCount = height - 3;
+  const logCount = height - 3;
+  const maxLogCount = 100;
 
   React.useEffect(() => {
     const promise = spawnAsync(command, args, {
@@ -76,7 +77,7 @@ export default function SnackTerminal(props: Props) {
         width={width}
         height={height - 1}
         paddingX={1}>
-        {logs.map(({ message, color }) => (
+        {logs.slice(Math.max(0, logs.length - logCount)).map(({ message, color }) => (
           <Text color={color}>{message}</Text>
         ))}
       </Box>
