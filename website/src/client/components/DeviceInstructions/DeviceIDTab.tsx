@@ -1,6 +1,7 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import { c } from '../ThemeProvider';
 import Banner from '../shared/Banner';
 import Button from '../shared/Button';
 import LargeInput from '../shared/LargeInput';
@@ -57,13 +58,14 @@ export default class DeviceIDTab extends React.Component<Props, State> {
   };
 
   render() {
+    const { props, state } = this;
     return (
       <>
         <form onSubmit={this._handleSubmit}>
           <h4 className={css(styles.title)}>Your Device ID</h4>
           <LargeInput
             autoFocus
-            value={this.state.deviceId}
+            value={state.deviceId}
             type="text"
             onChange={this._handleChange}
             placeholder="XXXX-XXXX"
@@ -72,23 +74,24 @@ export default class DeviceIDTab extends React.Component<Props, State> {
             large
             variant="primary"
             type="submit"
-            loading={this.state.status === 'loading'}
-            disabled={
-              this.state.status !== 'loading' && this.props.deviceId === this.state.deviceId
-            }>
+            loading={state.status === 'loading'}
+            disabled={state.status !== 'loading' && props.deviceId === state.deviceId}>
             Save
           </Button>
         </form>
         <p>You can find the Device ID at the bottom of the "Projects" tab in Expo Go.</p>
-        <img
-          className={css(styles.screenshot)}
-          src={require('../../assets/device-id-screenshot.png')}
-        />
-        <Banner type="success" visible={this.state.status === 'success'}>
+        <div className={css(styles.deviceIdExample)}>
+          <p>
+            Device ID: <strong>XXXX-XXXX</strong>
+          </p>
+          <p>Client version: 2.18.4.1010552</p>
+          <p>Supported SDKs: 37, 38, 39, 40</p>
+        </div>
+        <Banner type="success" visible={state.status === 'success'}>
           Check the "Recently in development" section in the "Projects" tab of Expo Go to find this
           Snack!
         </Banner>
-        <Banner type="error" visible={this.state.status === 'error'}>
+        <Banner type="error" visible={state.status === 'error'}>
           An error occurred! Please try another method or try after sometime.
         </Banner>
       </>
@@ -97,18 +100,19 @@ export default class DeviceIDTab extends React.Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-  screenshot: {
-    height: 136,
-    display: 'block',
-    margin: '16px auto',
-    borderRadius: 3,
-    border: '1px solid rgba(0, 0, 0, .08)',
-  },
   title: {
     fontSize: 16,
     fontWeight: 500,
     padding: 0,
     lineHeight: '22px',
     margin: '16px 0 6px',
+  },
+  deviceIdExample: {
+    fontSize: 13,
+    color: c('soft'),
+    padding: 8,
+    lineHeight: '11px',
+    borderRadius: 3,
+    border: `1px solid ${c('border')}`,
   },
 });
