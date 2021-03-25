@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   previewScreenshot: {
     height: '246px',
     width: '302px',
+    borderBottom: `1px solid ${c('border')}`,
   },
   logInLink: {
     color: c('text'),
