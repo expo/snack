@@ -1,0 +1,307 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`git imports basic repository 1`] = `
+Array [
+  "noop/--/api/v2/snack/save",
+  Object {
+    "body": Object {
+      "code": Object {
+        "App.js": Object {
+          "contents": "console.log('Hello World');",
+          "type": "CODE",
+        },
+        "app.json": Object {
+          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"39.0.0\\"}}",
+          "type": "CODE",
+        },
+      },
+      "dependencies": Object {
+        "expo-asset": Object {
+          "version": "latest",
+        },
+      },
+      "isDraft": false,
+      "manifest": Object {
+        "dependencies": Object {
+          "expo-asset": "latest",
+        },
+        "description": "test1 @ Jan 1, 2020",
+        "name": "test1",
+        "sdkVersion": "39.0.0",
+      },
+    },
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`git imports repository created with main branch 1`] = `
+Array [
+  "noop/--/api/v2/snack/save",
+  Object {
+    "body": Object {
+      "code": Object {
+        "App.js": Object {
+          "contents": "console.log('Hello World');",
+          "type": "CODE",
+        },
+        "app.json": Object {
+          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"39.0.0\\"}}",
+          "type": "CODE",
+        },
+      },
+      "dependencies": Object {
+        "expo-asset": Object {
+          "version": "latest",
+        },
+      },
+      "isDraft": false,
+      "manifest": Object {
+        "dependencies": Object {
+          "expo-asset": "latest",
+        },
+        "description": "test1 @ Jan 1, 2020",
+        "name": "test1",
+        "sdkVersion": "39.0.0",
+      },
+    },
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`git imports repository with app.config.js 1`] = `
+Array [
+  "noop/--/api/v2/snack/save",
+  Object {
+    "body": Object {
+      "code": Object {
+        "App.js": Object {
+          "contents": "console.log('Hello World');",
+          "type": "CODE",
+        },
+        "app.config.js": Object {
+          "contents": "export default {\\"name\\":\\"some-example\\",\\"sdkVersion\\":\\"39.0.0\\"};",
+          "type": "CODE",
+        },
+      },
+      "dependencies": Object {
+        "expo-asset": Object {
+          "version": "latest",
+        },
+      },
+      "isDraft": false,
+      "manifest": Object {
+        "dependencies": Object {
+          "expo-asset": "latest",
+        },
+        "description": "some-example @ Jan 1, 2020",
+        "name": "some-example",
+        "sdkVersion": "39.0.0",
+      },
+    },
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`git imports repository with assets 1`] = `"noop/--/api/v2/snack/uploadAsset"`;
+
+exports[`git imports repository with assets 2`] = `
+Array [
+  "noop/--/api/v2/snack/save",
+  Object {
+    "body": Object {
+      "code": Object {
+        "App.js": Object {
+          "contents": "console.log('Hello World');",
+          "type": "CODE",
+        },
+        "app.json": Object {
+          "contents": "{\\"expo\\":{\\"name\\":\\"some-example\\",\\"sdkVersion\\":\\"39.0.0\\"}}",
+          "type": "CODE",
+        },
+        "assets/image.png": Object {
+          "contents": "https://myuploadedasset.com/777",
+          "type": "ASSET",
+        },
+      },
+      "dependencies": Object {
+        "expo-asset": Object {
+          "version": "latest",
+        },
+      },
+      "isDraft": false,
+      "manifest": Object {
+        "dependencies": Object {
+          "expo-asset": "latest",
+        },
+        "description": "some-example @ Jan 1, 2020",
+        "name": "some-example",
+        "sdkVersion": "39.0.0",
+      },
+    },
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`git imports repository with custom branch 1`] = `
+Array [
+  "noop/--/api/v2/snack/save",
+  Object {
+    "body": Object {
+      "code": Object {
+        "App.js": Object {
+          "contents": "console.log('Hello World');",
+          "type": "CODE",
+        },
+        "app.json": Object {
+          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"39.0.0\\"}}",
+          "type": "CODE",
+        },
+      },
+      "dependencies": Object {
+        "expo-asset": Object {
+          "version": "latest",
+        },
+      },
+      "isDraft": false,
+      "manifest": Object {
+        "dependencies": Object {
+          "expo-asset": "latest",
+        },
+        "description": "test1@feature-a @ Jan 1, 2020",
+        "name": "test1@feature-a",
+        "sdkVersion": "39.0.0",
+      },
+    },
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`git imports repository with no sdkVersion 1`] = `
+Array [
+  "noop/--/api/v2/snack/save",
+  Object {
+    "body": Object {
+      "code": Object {
+        "App.js": Object {
+          "contents": "console.log('Hello World');",
+          "type": "CODE",
+        },
+        "app.json": Object {
+          "contents": "{\\"expo\\":{\\"name\\":\\"test2\\"}}",
+          "type": "CODE",
+        },
+      },
+      "dependencies": Object {
+        "expo-asset": Object {
+          "version": "latest",
+        },
+      },
+      "isDraft": false,
+      "manifest": Object {
+        "dependencies": Object {
+          "expo-asset": "latest",
+        },
+        "description": "test2 @ Jan 1, 2020",
+        "name": "test2",
+        "sdkVersion": "40.0.0",
+      },
+    },
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`git imports repository with too old sdkVersion 1`] = `
+Array [
+  "noop/--/api/v2/snack/save",
+  Object {
+    "body": Object {
+      "code": Object {
+        "App.js": Object {
+          "contents": "console.log('Hello World');",
+          "type": "CODE",
+        },
+        "app.json": Object {
+          "contents": "{\\"expo\\":{\\"name\\":\\"test3\\",\\"sdkVersion\\":\\"22.0.0\\"}}",
+          "type": "CODE",
+        },
+      },
+      "dependencies": Object {
+        "expo-asset": Object {
+          "version": "latest",
+        },
+      },
+      "isDraft": false,
+      "manifest": Object {
+        "dependencies": Object {
+          "expo-asset": "latest",
+        },
+        "description": "test3 @ Jan 1, 2020",
+        "name": "test3",
+        "sdkVersion": "40.0.0",
+      },
+    },
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`git imports repository without app.json 1`] = `
+Array [
+  "noop/--/api/v2/snack/save",
+  Object {
+    "body": Object {
+      "code": Object {
+        "App.js": Object {
+          "contents": "console.log('Hello World');",
+          "type": "CODE",
+        },
+      },
+      "dependencies": Object {
+        "expo-asset": Object {
+          "version": "latest",
+        },
+      },
+      "isDraft": false,
+      "manifest": Object {
+        "dependencies": Object {
+          "expo-asset": "latest",
+        },
+        "description": "some-example @ Jan 1, 2020",
+        "name": "some-example",
+        "sdkVersion": "40.0.0",
+      },
+    },
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;

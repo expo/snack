@@ -1,0 +1,9 @@
+schemaVersion: 2.0.0
+
+commandTests:
+  - name: "lodash"
+    command: node
+    args: [ "build/cli.js", "lodash" ]
+  - name: "native-base"
+    command: node
+    args: [ "build/cli.js", "native-base" ]

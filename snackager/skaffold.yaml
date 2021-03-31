@@ -1,0 +1,53 @@
+apiVersion: skaffold/v2beta1
+kind: Config
+metadata:
+  name: snackager
+build:
+  artifacts:
+  - image: gcr.io/exponentjs/snackager
+    sync:
+      manual:
+      - src: src/**/*.js
+        dest: /app
+    docker:
+      dockerfile: snackager/Dockerfile
+      buildArgs:
+        node_version: 12.18.4
+  tagPolicy:
+    sha256: {}
+  local:
+    push: false
+deploy:
+  kustomize:
+    paths:
+    - snackager/k8s/staging
+profiles:
+- name: prod
+  deploy:
+    kustomize:
+      paths:
+      - snackager/k8s/production
+  activation:
+  - env: ENVIRONMENT=production
+- name: main
+  build:
+    local:
+      push: true
+  activation:
+  - env: GITHUB_REF=refs/heads/main
+- name: development
+  deploy:
+    kustomize:
+      paths:
+        - snackager/k8s/development
+    kubeContext: minikube
+  activation:
+    - command: dev
+    - command: debug
+- name: dev
+  patches:
+    - op: add
+      path: /build/artifacts/0/docker/target
+      value: dev
+  activation:
+    - command: dev

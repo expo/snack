@@ -8,22 +8,31 @@ function SnackTerminal() {
   return (
     <FullScreen>
       {(size) => (
-        <Box flexDirection="column">
+        <Box flexDirection="row">
+          <Box flexDirection="column">
+            <Terminal
+              cwd="website"
+              command="yarn"
+              args={['start']}
+              width={Math.round(size.width / 2)}
+              height={Math.round((size.height - 1) / 2)}
+            />
+            <Terminal
+              cwd="snackager"
+              command="yarn"
+              args={['start']}
+              width={Math.round(size.width / 2)}
+              height={size.height - 1 - Math.round((size.height - 1) / 2)}
+            />
+            <Text color="cyan">Press Ctrl+C to exit</Text>
+          </Box>
           <Terminal
             cwd="packages/snack-proxies"
             command="yarn"
             args={['start']}
-            width={size.width}
-            height={Math.round((size.height - 1) / 2)}
+            width={size.width - Math.round(size.width / 2)}
+            height={size.height - 1}
           />
-          <Terminal
-            cwd="website"
-            command="yarn"
-            args={['start']}
-            width={size.width}
-            height={size.height - 1 - Math.round((size.height - 1) / 2)}
-          />
-          <Text color="cyan">Press Ctrl+C to exit</Text>
         </Box>
       )}
     </FullScreen>

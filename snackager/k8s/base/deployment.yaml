@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snackager
+spec:
+  minReadySeconds: 10
+  progressDeadlineSeconds: 500
+  revisionHistoryLimit: 10
+  strategy:
+    type: 'RollingUpdate'
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 5
+  template:
+    spec:
+      restartPolicy: Always
+      volumes:
+      - name: tempdir
+        emptyDir: { medium: Memory }
+      - name: instance-credentials
+        secret:
+          secretName: git-account-credentials
+          defaultMode: 0600
+      - name: redislabs-tls
+        secret:
+          secretName: redislabs-tls
+      containers:
+        - name: snackager
+          image: "gcr.io/exponentjs/snackager:SetInKustomizeYaml"
+          volumeMounts:
+          - mountPath: /tmp
+            name: tempdir
+          - mountPath: /var/secrets/github
+            name: instance-credentials
+          - name: redislabs-tls
+            mountPath: '/var/run/config/redislabs-tls'
+            readOnly: true
+          env:
+            - name: PORT
+              value: "3000"
+            - name: TMPDIR
+              value: /tmp
+          envFrom:
+          - configMapRef:
+              name: snackager-config
+          - secretRef:
+              name: snackager-config
+          ports:
+          - containerPort: 3000
+            name: http
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 4Gi
+            requests:
+              cpu: 750m
+              memory: 2Gi
+          livenessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /status
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 90
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /status
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 90

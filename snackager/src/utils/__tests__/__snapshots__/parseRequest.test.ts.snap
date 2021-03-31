@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gets all fields from request 1`] = `
+Object {
+  "bypassCache": false,
+  "deep": "bounce/index",
+  "id": "lodash",
+  "platforms": Array [
+    "ios",
+  ],
+  "qualified": "@scoped/lodash",
+  "rebuild": false,
+  "scope": "scoped",
+  "tag": "14.5.2",
+  "versionSnackager": false,
+}
+`;
+
+exports[`gets deep path and tag from request 1`] = `
+Object {
+  "bypassCache": false,
+  "deep": "bounce/index",
+  "id": "lodash",
+  "platforms": Array [
+    "ios",
+    "android",
+    "web",
+  ],
+  "qualified": "lodash",
+  "rebuild": false,
+  "scope": undefined,
+  "tag": "14.5.2",
+  "versionSnackager": false,
+}
+`;
+
+exports[`gets deep path from request 1`] = `
+Object {
+  "bypassCache": false,
+  "deep": "bounce/index",
+  "id": "lodash",
+  "platforms": Array [
+    "ios",
+    "android",
+    "web",
+  ],
+  "qualified": "lodash",
+  "rebuild": false,
+  "scope": undefined,
+  "tag": "latest",
+  "versionSnackager": false,
+}
+`;
+
+exports[`gets id from request 1`] = `
+Object {
+  "bypassCache": false,
+  "deep": undefined,
+  "id": "lodash",
+  "platforms": Array [
+    "ios",
+    "android",
+    "web",
+  ],
+  "qualified": "lodash",
+  "rebuild": false,
+  "scope": undefined,
+  "tag": "latest",
+  "versionSnackager": false,
+}
+`;
+
+exports[`gets platforms from request 1`] = `
+Object {
+  "bypassCache": false,
+  "deep": "bounce/index",
+  "id": "lodash",
+  "platforms": Array [
+    "ios",
+    "android",
+  ],
+  "qualified": "lodash",
+  "rebuild": false,
+  "scope": undefined,
+  "tag": "latest",
+  "versionSnackager": false,
+}
+`;
+
+exports[`gets tag from request 1`] = `
+Object {
+  "bypassCache": false,
+  "deep": undefined,
+  "id": "lodash",
+  "platforms": Array [
+    "ios",
+    "android",
+    "web",
+  ],
+  "qualified": "lodash",
+  "rebuild": false,
+  "scope": undefined,
+  "tag": "14.5.2",
+  "versionSnackager": false,
+}
+`;
+
+exports[`gets tag from request 2`] = `
+Object {
+  "bypassCache": false,
+  "deep": "bounce/index",
+  "id": "lodash",
+  "platforms": Array [
+    "ios",
+  ],
+  "qualified": "lodash",
+  "rebuild": false,
+  "scope": undefined,
+  "tag": "latest",
+  "versionSnackager": false,
+}
+`;
+
+exports[`gets user from request 1`] = `
+Object {
+  "bypassCache": false,
+  "deep": undefined,
+  "id": "lodash",
+  "platforms": Array [
+    "ios",
+    "android",
+    "web",
+  ],
+  "qualified": "@scoped/lodash",
+  "rebuild": false,
+  "scope": "scoped",
+  "tag": "latest",
+  "versionSnackager": false,
+}
+`;

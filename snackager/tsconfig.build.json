@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "sourceMap": true,
+    "outDir": "build"
+  },
+  "exclude": [
+    "**/__fixtures__",
+    "**/__integration-tests__",
+    "**/__mocks__",
+    "**/__tests__"
+  ]
+}
+

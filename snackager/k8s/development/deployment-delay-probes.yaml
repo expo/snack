@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snackager
+spec:
+  template:
+    spec:
+      containers:
+      - name: snackager
+        livenessProbe:
+          initialDelaySeconds: 10
