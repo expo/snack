@@ -1,0 +1,7 @@
+node_modules/
+build/
+Dockerfile
+.dockerignore
+build_image.sh
+/skaffold.yaml
+/k8s/

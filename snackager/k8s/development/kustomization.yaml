@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: default
+resources:
+- ../staging
+patchesStrategicMerge:
+- ingress-spec.yaml
+- deployment-delay-probes.yaml
+configMapGenerator:
+- name: snackager-config
+  behavior: merge
+  literals:
+  - DEBUG_LOCAL_FILES=true
+  - DISABLE_INSTRUMENTATION=1
+  - NODE_ENV=development

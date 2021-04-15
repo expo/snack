@@ -14,7 +14,8 @@
     "packages/snack-babel-standalone",
     "packages/snack-proxies",
     "packages/snack-term",
-    "website"
+    "website",
+    "snackager"
   ],
   "devDependencies": {
     "chalet": "^0.9.0",

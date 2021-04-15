@@ -1,0 +1,92 @@
+name: SnackagerStaging
+
+defaults:
+  run:
+    working-directory: snackager
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/snackager-staging.yml
+      - snackager/**
+      - packages/snack-sdk/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/snackager-staging.yml
+      - snackager/**
+      - packages/snack-sdk/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Decrypt secrets
+        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: Install Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+        with:
+          project_id: exponentjs
+          service_account_key: ${{ secrets.GCLOUD_KEY }}
+          export_default_credentials: true
+
+      - name: Install Google Cloud components
+        run: gcloud components install kubectl kustomize skaffold
+
+      - name: Configure Google Cloud SDK
+        run: |
+          gcloud config set project exponentjs
+          gcloud config set compute/zone us-central1-f
+          gcloud config set container/cluster exp-central
+          gcloud container clusters get-credentials exp-central
+          gcloud auth configure-docker gcr.io
+
+      - run: yarn install --ignore-scripts --frozen-lockfile
+      - run: yarn tsc --noEmit
+      - run: yarn lint --max-warnings 0
+      - run: yarn test --ci --maxWorkers 15%
+
+      - name: Build
+        run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
+        working-directory: ./
+
+      - name: Add change cause
+        run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
+        working-directory: snackager/k8s/staging
+
+      - name: Deploy to staging
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: skaffold deploy --filename snackager/skaffold.yaml --status-check --build-artifacts snackager/build.json
+        working-directory: ./
+
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Snackager to Staging
+          fields: message,commit,author,took

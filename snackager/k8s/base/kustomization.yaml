@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: snackager
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+configMapGenerator:
+- name: snackager-config
+  envs:
+  - snackager.env
+  literals:
+  - API_SERVER_URL=http://www-main
+  - NODE_ENV=production
+secretGenerator:
+- name: redislabs-tls
+  files:
+    - redislabs_ca.pem
+- name: snackager-config
+  files:
+  - secrets/SENTRY_DSN
+- name: git-account-credentials
+  files:
+  - id_rsa=secrets/github-key.pem
