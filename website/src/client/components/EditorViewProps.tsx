@@ -55,7 +55,7 @@ export type EditorViewProps = {
   uploadFileAsync: (file: File) => Promise<string>;
   setDeviceId: (deviceId: string) => void;
   deviceId: string | undefined;
-  wasUpgraded: boolean;
+  upgradedFromSDKVersion?: string;
   autosaveEnabled: boolean;
   payerCode: string | undefined;
   userAgent: string;

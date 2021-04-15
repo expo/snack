@@ -63,8 +63,8 @@ type BannerName =
   | 'reconnect'
   | 'autosave-disabled'
   | 'sdk-upgraded'
+  | 'sdk-downgraded'
   | 'embed-unavailable'
-  | 'export-unavailable'
   | 'slow-connection';
 
 type LintedFile = {
@@ -126,9 +126,12 @@ class EditorView extends React.Component<Props, State> {
       prettierCode(isScript(this.props.selectedFile) ? this.props.selectedFile : 'index.md', '');
     }, 5000);
 
-    if (this.props.wasUpgraded) {
-      // eslint-disable-next-line react/no-did-mount-set-state
-      this._showBanner('sdk-upgraded', BANNER_TIMEOUT_LONG);
+    if (this.props.upgradedFromSDKVersion) {
+      if (this.props.upgradedFromSDKVersion > this.props.sdkVersion) {
+        this._showBanner('sdk-downgraded');
+      } else {
+        this._showBanner('sdk-upgraded');
+      }
     }
   }
 
@@ -160,11 +163,11 @@ class EditorView extends React.Component<Props, State> {
     }
 
     if (prevProps.sdkVersion !== this.props.sdkVersion && this.props.connectedDevices.length) {
-      this._showBanner('reconnect', BANNER_TIMEOUT_LONG);
+      this._showBanner('reconnect');
     }
 
     if (prevProps.autosaveEnabled !== this.props.autosaveEnabled && !this.props.autosaveEnabled) {
-      this._showBanner('autosave-disabled', BANNER_TIMEOUT_LONG);
+      this._showBanner('autosave-disabled');
     }
   }
 
@@ -248,12 +251,11 @@ class EditorView extends React.Component<Props, State> {
     }
   };
 
-  _showBanner = (name: BannerName, duration: number) => {
+  _showBanner = (name: BannerName, duration: number = BANNER_TIMEOUT_LONG) => {
     this.setState({ currentBanner: name });
 
     setTimeout(() => {
-      // @ts-ignore
-      this.setState((state) => (state.currentBanner === name ? { currentBanner: null } : state));
+      this.setState((state) => (state.currentBanner === name ? { currentBanner: null } : null));
     }, duration);
   };
 
@@ -299,7 +301,7 @@ class EditorView extends React.Component<Props, State> {
 
   _handleShowEmbedCode = () => {
     if (!this.props.id) {
-      this._showBanner('embed-unavailable', BANNER_TIMEOUT_LONG);
+      this._showBanner('embed-unavailable');
       return;
     }
 
@@ -513,7 +515,7 @@ class EditorView extends React.Component<Props, State> {
                           // Fallback to simple editor if monaco editor takes too long to load
                           const SimpleEditorPromise = new Promise((resolve, reject) => {
                             timeout = setTimeout(() => {
-                              this._showBanner('slow-connection', BANNER_TIMEOUT_LONG);
+                              this._showBanner('slow-connection');
 
                               import('./Editor/SimpleEditor').then(resolve, reject);
                             }, EDITOR_LOAD_FALLBACK_TIMEOUT);
@@ -734,6 +736,11 @@ class EditorView extends React.Component<Props, State> {
                   have upgraded the Expo version to {sdkVersion}.<br />
                   You might need to do some manual changes to make the Snack work correctly.
                 </Banner>
+                <Banner type="info" visible={currentBanner === 'sdk-downgraded'}>
+                  The requested Expo version is not yet supported. We have downgraded the Expo
+                  version to {sdkVersion}.<br />
+                  You might need to do some manual changes to make the Snack work correctly.
+                </Banner>
                 <Banner type="info" visible={currentBanner === 'reconnect'}>
                   Please close and reopen Expo Go on your phone to see the Expo version change.
                 </Banner>
@@ -743,9 +750,6 @@ class EditorView extends React.Component<Props, State> {
                 </Banner>
                 <Banner type="info" visible={currentBanner === 'embed-unavailable'}>
                   You need to save the Snack first to get an Embed code!
-                </Banner>
-                <Banner type="info" visible={currentBanner === 'export-unavailable'}>
-                  You need to save the Snack first to export the code!
                 </Banner>
               </>
             );

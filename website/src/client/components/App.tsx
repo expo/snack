@@ -928,7 +928,9 @@ class Main extends React.Component<Props, State> {
               uploadFileAsync={this._uploadAssetAsync}
               userAgent={this.props.userAgent}
               verbose={this.state.verbose}
-              wasUpgraded={this.state.wasUpgraded}
+              upgradedFromSDKVersion={
+                this.state.wasUpgraded ? this.state.initialSdkVersion : undefined
+              }
             />
           ) : isEmbedded ? (
             <EmbeddedShell />
