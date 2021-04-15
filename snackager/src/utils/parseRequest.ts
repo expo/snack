@@ -11,7 +11,7 @@ export type BundleRequest = {
   deep?: string | null;
   platforms: string[];
   rebuild: boolean;
-  bypassCache: boolean;
+  bypassMetadataCache: boolean;
   versionSnackager: boolean;
 };
 
@@ -73,8 +73,11 @@ export default function parseRequest(url: string): BundleRequest {
     tag,
     deep,
     platforms,
-    rebuild: Boolean(query && query.rebuild === 'true' && process.env.DEBUG_LOCAL_FILES),
-    bypassCache: Boolean(query && query.bypassCache === 'true'),
-    versionSnackager: Boolean(query && query.version_snackager === 'true'),
+    rebuild: Boolean(
+      query?.rebuild === 'true' &&
+        (process.env.DEBUG_LOCAL_FILES || process.env.NODE_ENV === 'development')
+    ),
+    bypassMetadataCache: Boolean(query?.bypassCache === 'true'),
+    versionSnackager: Boolean(query?.version_snackager === 'true'),
   };
 }

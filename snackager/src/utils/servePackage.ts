@@ -16,10 +16,15 @@ export default async function servePackage({
   deep,
   platforms,
   rebuild,
-  bypassCache,
+  bypassMetadataCache,
   versionSnackager,
 }: BundleRequest): Promise<BundleResponse> {
-  const meta = await fetchMetadata(qualified, { scope, id, bypassCache, redisClient });
+  const meta = await fetchMetadata(qualified, {
+    scope,
+    id,
+    bypassCache: bypassMetadataCache,
+    redisClient,
+  });
   const { version, isLatest } = findVersion(qualified, meta, tag);
   const { pkg, dependencies, hash, latestHash } = resolveDependencies(
     meta,

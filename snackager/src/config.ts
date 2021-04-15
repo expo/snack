@@ -25,11 +25,11 @@ type Config = {
 };
 
 function env(varName: string): string {
-  if (process.env.NODE_ENV === 'test') {
-    return 'noop';
-  }
   const envVar = process.env[varName];
   if (!envVar) {
+    if (process.env.NODE_ENV === 'test' || process.argv[1].endsWith('cli.js')) {
+      return 'noop';
+    }
     throw new Error(`environment variable ${varName} isn't specified`);
   }
   return envVar;
@@ -62,7 +62,7 @@ const config: Config = {
   },
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (!process.env.DISABLE_INSTRUMENTATION && process.env.NODE_ENV === 'production') {
   config.sentry = {
     dsn: env('SENTRY_DSN'),
   };

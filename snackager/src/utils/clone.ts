@@ -2,7 +2,7 @@ import spawnAsync from '@expo/spawn-async';
 import path from 'path';
 
 // Use the identity file provided by k8s in deployed environments
-const isDeployed = process.env.NODE_ENV === 'production';
+const isDeployed = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging';
 const gitEnv = isDeployed
   ? {
       GIT_SSH_COMMAND: 'ssh -i /var/secrets/github/id_rsa -o "StrictHostKeyChecking no"', // eslint-disable-line
