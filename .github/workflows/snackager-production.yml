@@ -30,6 +30,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Use Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 2.7
+
       - name: Decrypt secrets
         uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
         env:
@@ -72,7 +77,9 @@ jobs:
         working-directory: ./
 
       - name: Prune docker images
-        run: prune-gcr snackager
+        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        run: ./bin/prune-gcr snackager
+        working-directory: ./
 
       - name: Notify build on Slack
         uses: 8398a7/action-slack@v3
