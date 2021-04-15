@@ -33,6 +33,16 @@ export default function createApp(): SnackagerExpressApp {
     res.send('OK');
   });
 
+  app.get('/version', (_req, res) => {
+    res.status(200);
+    res.end(
+      JSON.stringify({
+        version: process.env.APP_VERSION ?? 'development',
+        timestamp: process.env.BUILD_TIMESTAMP ?? '',
+      })
+    );
+  });
+
   if (process.env.DEBUG_LOCAL_FILES) {
     app.use('/serve', express.static(path.join(config.tmpdir, 'output')));
   }
