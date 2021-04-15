@@ -5,6 +5,11 @@ defaults:
     working-directory: snackager
 
 on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'type "deploy" to confirm deploy to production (main branch only)'
+        required: false
   push:
     branches: [main]
     paths:
