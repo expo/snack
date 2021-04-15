@@ -13,6 +13,7 @@ build:
       dockerfile: snackager/Dockerfile
       buildArgs:
         node_version: 12.18.4
+        APP_VERSION: v{{.GITHUB_SHA}}
   tagPolicy:
     sha256: {}
   local:

@@ -37,6 +37,9 @@ CMD ["yarn", "start"]
 
 FROM dev as builder
 
+ARG APP_VERSION
+ENV APP_VERSION ${APP_VERSION}
+
 # Build
 RUN yarn build
 
