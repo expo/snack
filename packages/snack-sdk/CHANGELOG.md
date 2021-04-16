@@ -9,6 +9,7 @@
 ### 🐛 Bug fixes
 
 - Fix dependencies with subpath not using bundledNativeModules.json ([#81](https://github.com/expo/snack/pull/81) by [@IjzerenHein](https://github.com/IjzerenHein))
+- Upgrade to Expo SDK 41 ([#121](https://github.com/expo/snack/pull/121) by [@bycedric](https://github.com/bycedric))
 
 ## 3.3.3 — 2021-02-05
 

@@ -161,6 +161,37 @@ const sdks: { [version: string]: SDKSpec } = {
       'prop-types': '*',
     },
   },
+  '41.0.0': {
+    version: '^41.0.0',
+    coreModules: {
+      ...assets,
+      ...unimodules,
+      expo: '41.0.0',
+      react: '16.13.1',
+      'react-native': '0.63.2',
+      'react-dom': '*',
+      'react-native-web': '*',
+    },
+    bundledModules: {
+      // Packages that require special initialisation (see Modules.tsx)
+      'expo-asset': '*',
+      'expo-font': '*',
+      'react-native-gesture-handler': '*',
+      'react-native-safe-area-context': '*',
+      // 'react-native-vector-icons': '*',
+      '@expo/vector-icons': '*',
+
+      // Packages that are used internally by the runtime
+      'expo-constants': '*',
+      'expo-file-system': '*',
+      'expo-permissions': '*',
+      'expo-updates': '*',
+      '@react-native-async-storage/async-storage': '*',
+
+      // Common packages that are included for easy of use
+      'prop-types': '*',
+    },
+  },
 };
 
 export default sdks;
