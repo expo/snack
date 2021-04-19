@@ -1,7 +1,7 @@
 /**
- * Version of the sdk to use (e.g. "37.0.0").
+ * Version of the sdk to use (e.g. "38.0.0").
  */
-export type SDKVersion = '37.0.0' | '38.0.0' | '39.0.0' | '40.0.0' | '41.0.0';
+export type SDKVersion = '38.0.0' | '39.0.0' | '40.0.0' | '41.0.0';
 
 /** @internal */
 export type SDKSpec = {

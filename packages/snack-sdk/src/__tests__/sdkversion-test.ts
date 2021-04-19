@@ -79,36 +79,36 @@ describe('getSupportedSDKVersions', () => {
 
 describe('isModulePreloaded', () => {
   it('returns true for internal modules', () => {
-    expect(isModulePreloaded('react-native', '37.0.0')).toBe(true);
+    expect(isModulePreloaded('react-native', '38.0.0')).toBe(true);
   });
 
   it('returns true for bundled modules', () => {
-    expect(isModulePreloaded('expo-asset', '37.0.0')).toBe(true);
+    expect(isModulePreloaded('expo-asset', '38.0.0')).toBe(true);
   });
 
   it('returns false when internalOnly is true', () => {
-    expect(isModulePreloaded('expo-asset', '37.0.0', true)).toBe(false);
+    expect(isModulePreloaded('expo-asset', '38.0.0', true)).toBe(false);
   });
 
   it('returns false for unknown modules', () => {
-    expect(isModulePreloaded('firestorter', '37.0.0')).toBe(false);
+    expect(isModulePreloaded('firestorter', '38.0.0')).toBe(false);
   });
 });
 
 describe('getPreloadedModules', () => {
   it('returns valid modules', () => {
-    const result = getPreloadedModules('37.0.0');
+    const result = getPreloadedModules('38.0.0');
     expect(Object.keys(result).length).toBeGreaterThan(10);
     Object.values(result).map((version) => expect(isValidSemver(version)).toBe(true));
   });
   it('returns different results for other SDK', () => {
-    const result = getPreloadedModules('37.0.0');
-    const result2 = getPreloadedModules('38.0.0');
+    const result = getPreloadedModules('38.0.0');
+    const result2 = getPreloadedModules('39.0.0');
     expect(result).not.toMatchObject(result2);
   });
   it('returns subset for internal modules', () => {
-    const result = getPreloadedModules('37.0.0');
-    const internal = getPreloadedModules('37.0.0', true);
+    const result = getPreloadedModules('38.0.0');
+    const internal = getPreloadedModules('38.0.0', true);
     expect(Object.keys(internal).length).toBeLessThan(Object.keys(result).length);
     expect(result).toMatchObject(internal);
   });
@@ -139,7 +139,7 @@ describe('isFeatureSupported', () => {
   it('throws for invalid feature', () => {
     expect(() =>
       // @ts-ignore Type '"Bogus"' is not assignable to type 'SDKFeature'
-      isFeatureSupported('Bogus', '37.0.0')
+      isFeatureSupported('Bogus', '38.0.0')
     ).toThrowError();
   });
   it('throws for invalid version', () => {
