@@ -108,8 +108,7 @@ const styles = StyleSheet.create({
     margin: '0 4px',
     verticalAlign: 1,
     wordBreak: 'break-word',
-    //@ts-ignore
-    whiteSpace: 'break-spaces',
+    whiteSpace: 'normal',
   },
   triangle: {
     display: 'inline-block',
