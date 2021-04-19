@@ -137,8 +137,8 @@ Object {
 exports[`dependencies resolves * after enabling 1`] = `
 Object {
   "expo-constants": Object {
-    "version": "~9.0.0",
-    "wantedVersion": "~9.0.0",
+    "version": "~9.1.1",
+    "wantedVersion": "~9.1.1",
   },
 }
 `;
@@ -146,8 +146,8 @@ Object {
 exports[`dependencies resolves * to wanted version 1`] = `
 Object {
   "expo-constants": Object {
-    "version": "~9.0.0",
-    "wantedVersion": "~9.0.0",
+    "version": "~9.1.1",
+    "wantedVersion": "~9.1.1",
   },
 }
 `;
@@ -208,17 +208,6 @@ Object {
 exports[`dependencies updates preloaded module version when changing SDK version 1`] = `
 Object {
   "expo-av": Object {
-    "handle": "snackager-1/expo-av@8.1.0",
-    "peerDependencies": Object {},
-    "version": "~8.1.0",
-    "wantedVersion": "~8.1.0",
-  },
-}
-`;
-
-exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
-Object {
-  "expo-av": Object {
     "handle": "snackager-1/expo-av@8.2.1",
     "peerDependencies": Object {
       "react": "*",
@@ -226,6 +215,20 @@ Object {
     },
     "version": "~8.2.1",
     "wantedVersion": "~8.2.1",
+  },
+}
+`;
+
+exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
+Object {
+  "expo-av": Object {
+    "handle": "snackager-1/expo-av@8.6.0",
+    "peerDependencies": Object {
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "~8.6.0",
+    "wantedVersion": "~8.6.0",
   },
 }
 `;

@@ -196,7 +196,7 @@ describe('dependencies', () => {
 
   it('resolves * to wanted version', async () => {
     const snack = new Snack({
-      sdkVersion: '37.0.0',
+      sdkVersion: '38.0.0',
     });
     snack.updateDependencies({
       'expo-constants': { version: '*' },
@@ -207,7 +207,7 @@ describe('dependencies', () => {
 
   it('does not resolve * when disabled', async () => {
     const snack = new Snack({
-      sdkVersion: '37.0.0',
+      sdkVersion: '38.0.0',
       disabled: true,
     });
     snack.updateDependencies({
@@ -219,7 +219,7 @@ describe('dependencies', () => {
 
   it('resolves * after enabling', async () => {
     const snack = new Snack({
-      sdkVersion: '37.0.0',
+      sdkVersion: '38.0.0',
       disabled: true,
     });
     snack.updateDependencies({
@@ -233,12 +233,12 @@ describe('dependencies', () => {
 
   it('updates preloaded module version when changing SDK version', async () => {
     const snack = new Snack({
-      sdkVersion: '37.0.0',
+      sdkVersion: '38.0.0',
       dependencies: { 'expo-av': { version: '*' } },
     });
     const state1 = await snack.getStateAsync();
     expect(state1.dependencies).toMatchSnapshot();
-    snack.setSDKVersion('38.0.0');
+    snack.setSDKVersion('39.0.0');
     const state2 = await snack.getStateAsync();
     expect(state2.dependencies).toMatchSnapshot();
     expect(state1).not.toMatchObject(state2);

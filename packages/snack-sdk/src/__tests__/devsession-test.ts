@@ -51,7 +51,7 @@ describe('devsession', () => {
       apiURL: 'https://exp.host',
       host: 'expo.io',
       channel: '10spnBnPxi',
-      sdkVersion: '37.0.0',
+      sdkVersion: '38.0.0',
     });
     expect(snack.getState().sendBeaconCloseRequest).toBeUndefined();
     expect(fetch).not.toBeCalled();

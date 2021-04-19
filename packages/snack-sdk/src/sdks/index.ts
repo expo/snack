@@ -22,32 +22,6 @@ const unimodules: { [name: string]: '*' } = {
 };
 
 const sdks: { [version: string]: SDKSpec } = {
-  '37.0.0': {
-    version: '^37.0.0',
-    coreModules: {
-      ...assets,
-      ...unimodules,
-      expo: '37.0.12',
-      react: '16.9.0',
-      'react-native': '0.61.4',
-      'react-dom': '*',
-      'react-native-web': '*',
-    },
-    bundledModules: {
-      '@expo/vector-icons': '*',
-      'expo-asset': '*',
-      'expo-barcode-scanner': '*',
-      'expo-camera': '*',
-      'expo-constants': '*',
-      'expo-file-system': '*',
-      'expo-font': '*',
-      'expo-gl': '*',
-      'expo-image-picker': '*',
-      'expo-linear-gradient': '*',
-      'prop-types': '*',
-      'react-native-gesture-handler': '*',
-    },
-  },
   '38.0.0': {
     version: '^38.0.0',
     coreModules: {
