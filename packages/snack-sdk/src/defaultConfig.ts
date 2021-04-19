@@ -6,7 +6,7 @@ export const host: string = 'expo.io';
 export const webPlayerURL: string =
   'https://snack-web-player.s3.us-west-1.amazonaws.com/v2/%%SDK_VERSION%%';
 
-export const sdkVersion: SDKVersion = '40.0.0';
+export const sdkVersion: SDKVersion = '41.0.0';
 
 export const SnackIdentityState: SnackState = {
   sdkVersion,

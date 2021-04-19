@@ -137,8 +137,8 @@ Object {
 exports[`dependencies resolves * after enabling 1`] = `
 Object {
   "expo-constants": Object {
-    "version": "~9.0.0",
-    "wantedVersion": "~9.0.0",
+    "version": "~9.1.1",
+    "wantedVersion": "~9.1.1",
   },
 }
 `;
@@ -146,8 +146,8 @@ Object {
 exports[`dependencies resolves * to wanted version 1`] = `
 Object {
   "expo-constants": Object {
-    "version": "~9.0.0",
-    "wantedVersion": "~9.0.0",
+    "version": "~9.1.1",
+    "wantedVersion": "~9.1.1",
   },
 }
 `;
@@ -200,23 +200,12 @@ Object {
       "react-native-gesture-handler": "1.6.0",
     },
     "version": "1.6.0",
-    "wantedVersion": "~1.8.0",
+    "wantedVersion": "~1.10.2",
   },
 }
 `;
 
 exports[`dependencies updates preloaded module version when changing SDK version 1`] = `
-Object {
-  "expo-av": Object {
-    "handle": "snackager-1/expo-av@8.1.0",
-    "peerDependencies": Object {},
-    "version": "~8.1.0",
-    "wantedVersion": "~8.1.0",
-  },
-}
-`;
-
-exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
 Object {
   "expo-av": Object {
     "handle": "snackager-1/expo-av@8.2.1",
@@ -226,6 +215,20 @@ Object {
     },
     "version": "~8.2.1",
     "wantedVersion": "~8.2.1",
+  },
+}
+`;
+
+exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
+Object {
+  "expo-av": Object {
+    "error": [Error: Failed to resolve dependency 'expo-av@~8.6.0' (Package 'expo-av@~8.6.0' not found in the registry)],
+    "peerDependencies": Object {
+      "react": "*",
+      "react-native": "*",
+    },
+    "version": "~8.6.0",
+    "wantedVersion": "~8.6.0",
   },
 }
 `;
