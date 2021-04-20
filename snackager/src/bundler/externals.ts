@@ -23,7 +23,7 @@ const CORE_EXTERNALS = [
   'react-native/Libraries/BatchedBridge/BatchedBridge', // Used by react-native-webview
   'react-native/Libraries/ReactNative/AppContainer', // Used by react-native-screens
   'react-native/Libraries/Utilities/dismissKeyboard', // used by @react-native-community/viewpager@4.2.0
-  'react-native/Libraries/Renderer/shims/ReactNative', // used by moti
+  'react-native/Libraries/Renderer/shims/ReactNative', // Used by moti
   // TODO: decide whether to treat prop-types as an external or not
   // previously it was always installed as a dependency and not treated as an external.
   // This however caused packages to be slightly larger than needed to be.
