@@ -61,7 +61,12 @@ export default async function bundleAsync(
   testedPackages.push(packageSpec);
   const cacheHit = await restoreLockfile(packageSpec, packagedir);
   if (cacheHit) {
-    await installPackage(packagedir, ['--frozen-lockfile']);
+    await installPackage(packagedir, [
+      // CI is running Linux, while we develop on MacOS/Windows.
+      // Don't quit when there is a platform mismatch
+      '--ignore-platform',
+      '--frozen-lockfile',
+    ]);
   } else {
     await installPackage(packagedir);
     await saveLockfile(packageSpec, packagedir);
