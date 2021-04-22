@@ -1,7 +1,6 @@
 import path from 'path';
 
 type Config = {
-  snackager_version: number;
   port: number;
   registry: string;
   tmpdir: string;
@@ -36,7 +35,6 @@ function env(varName: string): string {
 }
 
 const config: Config = {
-  snackager_version: 1,
   registry: 'https://registry.yarnpkg.com',
   port: parseInt(process.env.PORT ?? '3012', 10),
   tmpdir: path.join(process.env.TMPDIR ?? '/tmp', 'snackager'),

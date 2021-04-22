@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import path from 'path';
 import raven from 'raven';
 
+import getCachePrefix from '../cache-busting';
 import config from '../config';
 import { createRedisClient } from '../external/redis';
 import logger from '../logger';
@@ -60,17 +61,16 @@ export default async function fetchBundle({
   versionSnackager,
 }: Options): Promise<BundleResponse> {
   const fullName = `${pkg.name}${deep ? `/${deep}` : ''}`;
+  const cachePrefix = getCachePrefix(fullName);
   const buildStatusRedisId =
-    `snackager/buildStatus/${config.snackager_version}/` +
+    `snackager/buildStatus/${cachePrefix}/` +
     `${fullName}@${version}-${platforms.join(',')}`.replace(/\//g, '~');
   const latestCompletedVersionRedisId =
-    `snackager/latestVersion/${config.snackager_version}/` + fullName.replace(/\//g, '~');
+    `snackager/latestVersion/${cachePrefix}/` + fullName.replace(/\//g, '~');
 
-  const handle = versionSnackager ? `snackager-${config.snackager_version}/${hash}` : hash;
+  const handle = versionSnackager ? `snackager-${cachePrefix}/${hash}` : hash;
   const latestHandle =
-    versionSnackager && latestHash
-      ? `snackager-${config.snackager_version}/${latestHash}`
-      : latestHash;
+    versionSnackager && latestHash ? `snackager-${cachePrefix}/${latestHash}` : latestHash;
 
   const logMetadata = { pkg, redisId: buildStatusRedisId };
 
