@@ -119,7 +119,9 @@ async function packageBundleUnsafe({
       // This is currently only done for the reanimated package itsself, but
       // in the future third-party packages may also contain worklets that would
       // need to be converted.
-      reanimatedPlugin: pkg.name === 'react-native-reanimated' && pkg.version >= '2',
+      reanimatedPlugin:
+        (pkg.name === 'react-native-reanimated' && pkg.version >= '2') ||
+        externals.includes('react-native-reanimated'),
     })
   );
 
