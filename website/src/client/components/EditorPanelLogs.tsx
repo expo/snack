@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    whiteSpace: 'pre',
   },
   item: {
     marginRight: 8,
