@@ -43,12 +43,13 @@ jobs:
       - run: yarn tsc --noEmit
       - run: yarn lint --max-warnings 0
       # - run: yarn test --ci --maxWorkers 15%
-      - run: expo build:web
 
-      # - name: Deploy to staging
-      #  if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-      #  run: skaffold deploy --filename snackager/skaffold.yaml --status-check --build-artifacts snackager/build.json
-      #  working-directory: ./
+      - name: Build web
+        run: expo build:web
+
+      - name: Deploy to staging
+        #  if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: yarn deploy:web:staging
 
       #- name: Notify Slack
       #  uses: 8398a7/action-slack@v3
