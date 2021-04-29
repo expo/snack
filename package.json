@@ -9,14 +9,16 @@
   "scripts": {
     "start": "cd packages/snack-term && yarn start && cd .."
   },
-  "workspaces": [
-    "packages/snack-sdk",
-    "packages/snack-babel-standalone",
-    "packages/snack-proxies",
-    "packages/snack-term",
-    "website",
-    "snackager"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/snack-sdk",
+      "packages/snack-babel-standalone",
+      "packages/snack-proxies",
+      "packages/snack-term",
+      "website",
+      "snackager"
+    ]
+  },
   "devDependencies": {
     "chalet": "^0.9.0",
     "env-cmd": "^10.1.0",

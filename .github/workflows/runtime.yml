@@ -1,0 +1,62 @@
+name: Runtime
+
+defaults:
+  run:
+    working-directory: runtime
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/runtime.yml
+      - runtime/**
+      - .eslint*
+      - .prettier*
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/runtime.yml
+      - runtime/**
+      - .eslint*
+      - .prettier*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-version: 4.x
+
+      - run: yarn install --ignore-scripts --frozen-lockfile
+      - run: yarn tsc --noEmit
+      - run: yarn lint --max-warnings 0
+      # - run: yarn test --ci --maxWorkers 15%
+      - run: expo build:web
+
+      # - name: Deploy to staging
+      #  if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      #  run: skaffold deploy --filename snackager/skaffold.yaml --status-check --build-artifacts snackager/build.json
+      #  working-directory: ./
+
+      #- name: Notify Slack
+      #  uses: 8398a7/action-slack@v3
+      #  if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      #  env:
+      #    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+      #  with:
+      #    channel: '#snack'
+      #    status: ${{ job.status }}
+      #    author_name: Deploy Runtime to Staging
+      #    fields: message,commit,author,took
