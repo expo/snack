@@ -120,10 +120,7 @@ export default async function fetchBundle({
   await Promise.all(
     platforms.map(async (platform) => {
       if (rebuild) {
-        logger.info(
-          { ...logMetadata, platform },
-          `requested rebuilding the package for platform: ${platform}`
-        );
+        logger.info({ ...logMetadata, platform }, `requested rebuild for platform: ${platform}`);
 
         unavailable.push(platform);
         return;
