@@ -1,6 +1,5 @@
 name: "\U0001F64B Feature Request"
-about: 'Want us to add something to Expo Snack?'
-issue_body: false
+description: 'Want us to add something to Expo Snack?'
 body:
   - type: markdown
     attributes:
@@ -9,6 +8,6 @@ body:
     attributes:
       label: Do you understand that any feature requests opened in the core Expo Snack repository will be closed?
       options:
-        - "Yes"
+        - 'Yes'
     validations:
       required: true
