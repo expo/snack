@@ -149,16 +149,15 @@ describe('bundler', () => {
     expect(bundle.files['android']['bundle.js'].code!.match(/worklet/g)!.length).toBe(150);
   });
 
-  it('compiles dependents of reanimated2', async () => {
+  it('compiles packages that use reanimated2', async () => {
     const bundle = await bundleAsync('moti@0.10.0', undefined, true);
-    // verify that the number of expected worklet instances appear in the
-    // generated bundle.
-    expect(bundle.files['ios']['bundle.js'].code!.match(/worklet/g)!.length).toBe(11);
-    expect(bundle.files['android']['bundle.js'].code!.match(/worklet/g)!.length).toBe(11);
-    expect(bundle.files['web']['bundle.js'].code!.match(/worklet/g)!.length).toBe(11);
-    expect(bundle.files['ios']['bundle.js'].size).toBeLessThanOrEqual(200000);
-    expect(bundle.files['android']['bundle.js'].size).toBeLessThanOrEqual(200000);
-    expect(bundle.files['web']['bundle.js'].size).toBeLessThanOrEqual(200000);
+    ['ios', 'android', 'web'].forEach((platform) => {
+      expect(bundle.files[platform]['bundle.js'].code!.match(/worklet/g)!.length).toBe(11);
+      expect(bundle.files[platform]['bundle.js'].size).toBeLessThanOrEqual(200000);
+      expect(bundle.files[platform]['bundle.js'].externals).toEqual(
+        expect.arrayContaining(['react-native-reanimated'])
+      );
+    });
   });
 
   it('filter aliased react-native dependencies', async () => {
