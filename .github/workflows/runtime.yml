@@ -23,6 +23,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      EXPO_STAGING: 1
     strategy:
       matrix:
         node-version: [12.x]
@@ -54,7 +56,7 @@ jobs:
 
       - name: Deploy runtime to staging
         #  if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: EXPO_STAGING=1 expo publish --clear
+        run: expo publish --clear
 
       #- name: Notify Slack
       #  uses: 8398a7/action-slack@v3
