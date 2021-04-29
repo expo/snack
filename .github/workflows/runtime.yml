@@ -38,18 +38,23 @@ jobs:
       - uses: expo/expo-github-action@v5
         with:
           expo-version: 4.x
+          expo-token: ${{ secrets.EXPO_STAGING }}
 
       - run: yarn install --ignore-scripts --frozen-lockfile
       - run: yarn tsc --noEmit
       - run: yarn lint --max-warnings 0
       # - run: yarn test --ci --maxWorkers 15%
 
-      - name: Build web
+      - name: Build web-player
         run: expo build:web
 
-      - name: Deploy to staging
+      - name: Deploy web-player to staging
         #  if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: yarn deploy:web:staging
+        run: s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player-staging --filePrefix v2/$(node -pe \"require('./app.json').expo.sdkVersion.split('.')[0]\")
+
+      - name: Deploy runtime to staging
+        #  if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: EXPO_STAGING=1 expo publish --clear
 
       #- name: Notify Slack
       #  uses: 8398a7/action-slack@v3
