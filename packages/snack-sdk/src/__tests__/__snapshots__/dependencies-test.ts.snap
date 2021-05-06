@@ -200,7 +200,7 @@ Object {
       "react-native-gesture-handler": "1.6.0",
     },
     "version": "1.6.0",
-    "wantedVersion": "~1.8.0",
+    "wantedVersion": "~1.10.2",
   },
 }
 `;

@@ -223,7 +223,7 @@ Array [
         },
         "description": "test2 @ Jan 1, 2020",
         "name": "test2",
-        "sdkVersion": "40.0.0",
+        "sdkVersion": "41.0.0",
       },
     },
     "headers": Object {
@@ -261,7 +261,7 @@ Array [
         },
         "description": "test3 @ Jan 1, 2020",
         "name": "test3",
-        "sdkVersion": "40.0.0",
+        "sdkVersion": "41.0.0",
       },
     },
     "headers": Object {
@@ -295,7 +295,7 @@ Array [
         },
         "description": "some-example @ Jan 1, 2020",
         "name": "some-example",
-        "sdkVersion": "40.0.0",
+        "sdkVersion": "41.0.0",
       },
     },
     "headers": Object {
