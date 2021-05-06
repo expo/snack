@@ -2,7 +2,7 @@
 
 exports[`git imports basic repository 1`] = `
 Array [
-  "noop/--/api/v2/snack/save",
+  "https://test.exp.host/--/api/v2/snack/save",
   Object {
     "body": Object {
       "code": Object {
@@ -40,7 +40,7 @@ Array [
 
 exports[`git imports repository created with main branch 1`] = `
 Array [
-  "noop/--/api/v2/snack/save",
+  "https://test.exp.host/--/api/v2/snack/save",
   Object {
     "body": Object {
       "code": Object {
@@ -78,7 +78,7 @@ Array [
 
 exports[`git imports repository with app.config.js 1`] = `
 Array [
-  "noop/--/api/v2/snack/save",
+  "https://test.exp.host/--/api/v2/snack/save",
   Object {
     "body": Object {
       "code": Object {
@@ -114,11 +114,11 @@ Array [
 ]
 `;
 
-exports[`git imports repository with assets 1`] = `"noop/--/api/v2/snack/uploadAsset"`;
+exports[`git imports repository with assets 1`] = `"https://test.exp.host/--/api/v2/snack/uploadAsset"`;
 
 exports[`git imports repository with assets 2`] = `
 Array [
-  "noop/--/api/v2/snack/save",
+  "https://test.exp.host/--/api/v2/snack/save",
   Object {
     "body": Object {
       "code": Object {
@@ -160,7 +160,7 @@ Array [
 
 exports[`git imports repository with custom branch 1`] = `
 Array [
-  "noop/--/api/v2/snack/save",
+  "https://test.exp.host/--/api/v2/snack/save",
   Object {
     "body": Object {
       "code": Object {
@@ -198,7 +198,7 @@ Array [
 
 exports[`git imports repository with no sdkVersion 1`] = `
 Array [
-  "noop/--/api/v2/snack/save",
+  "https://test.exp.host/--/api/v2/snack/save",
   Object {
     "body": Object {
       "code": Object {
@@ -236,7 +236,7 @@ Array [
 
 exports[`git imports repository with too old sdkVersion 1`] = `
 Array [
-  "noop/--/api/v2/snack/save",
+  "https://test.exp.host/--/api/v2/snack/save",
   Object {
     "body": Object {
       "code": Object {
@@ -274,7 +274,7 @@ Array [
 
 exports[`git imports repository without app.json 1`] = `
 Array [
-  "noop/--/api/v2/snack/save",
+  "https://test.exp.host/--/api/v2/snack/save",
   Object {
     "body": Object {
       "code": Object {
