@@ -61,6 +61,23 @@ export default function SnackTerminal(props: Props) {
     };
   }, []);
 
+  // Wrap logs to new lines
+  const lines: Log[] = [];
+  const maxLineWidth = width - 4;
+  for (let i = 0; i < logs.length; i++) {
+    const log = logs[i];
+    if (log.message.length < maxLineWidth) {
+      lines.push(log);
+    } else {
+      let { message, color } = logs[i];
+      while (message.length > maxLineWidth) {
+        lines.push({ message: message.slice(0, maxLineWidth), color });
+        message = message.slice(maxLineWidth);
+      }
+      lines.push({ message, color });
+    }
+  }
+
   return (
     <Box flexDirection="column" width={width} height={height}>
       <Box flexDirection="row" justifyContent="flex-start">
@@ -77,7 +94,7 @@ export default function SnackTerminal(props: Props) {
         width={width}
         height={height - 1}
         paddingX={1}>
-        {logs.slice(Math.max(0, logs.length - logCount)).map(({ message, color }) => (
+        {lines.slice(Math.max(0, lines.length - logCount)).map(({ message, color }) => (
           <Text color={color}>{message}</Text>
         ))}
       </Box>
