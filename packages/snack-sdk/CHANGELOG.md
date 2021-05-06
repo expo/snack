@@ -4,7 +4,7 @@
 
 ### 🛠 Breaking changes
 
-- Derive `host` from `apiURL` when not specified in options. ([#136](https://github.com/expo/snack/pull/136) by [@IjzerenHein](https://github.com/IjzerenHein))
+- Use `exp.host` for experience URLs when no host is specified in options ([#136](https://github.com/expo/snack/pull/136) by [@IjzerenHein](https://github.com/IjzerenHein))
 
 ### 🎉 New features
 

@@ -41,7 +41,7 @@ profiles:
         buildArgs:
           node_version: 12.18.4
           SERVER_URL: https://expo.io
-          API_SERVER_URL: https://expo.io
+          API_SERVER_URL: https://exp.host
           APP_VERSION: production-{{.GITHUB_SHA}}
           DEPLOY_ENVIRONMENT: production
           IMPORT_SERVER_URL: https://snackager.expo.io
