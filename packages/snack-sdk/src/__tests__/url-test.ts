@@ -1,12 +1,13 @@
 import '../__mocks__/fetch';
 import Snack, { SnackOptions } from './snack-sdk';
 
-const host = 'expo.io';
+const host = 'test.exp.host';
+const apiURL = `https://${host}`;
 const channel = '10spnBnPxi';
 const sdkVersion = '39.0.0';
 const id = '7816837218';
 const config: SnackOptions = {
-  host,
+  apiURL,
   channel,
   sdkVersion,
 };

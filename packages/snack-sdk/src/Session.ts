@@ -106,7 +106,7 @@ export default class Snack {
     const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion);
     const dependencies = options.dependencies ? { ...options.dependencies } : {};
     this.apiURL = options.apiURL ?? defaultConfig.apiURL;
-    this.host = options.host ?? defaultConfig.host;
+    this.host = options.host ?? new URL(this.apiURL).host;
     this.logger = options.verbose ? createLogger(true) : undefined;
     this.codeChangesDelay = options.codeChangesDelay ?? 0;
     this.reloadTimeout = options.reloadTimeout ?? 0;

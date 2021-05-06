@@ -60,7 +60,7 @@ expo start:web
 
 Use ngrok to set up a tunnel to your locally-running www instance.
 
-1. Replace 'staging.snack.expo.io' with your ngrok url, in the host of the Snack constructor (client/components/App.tsx).
+1. Replace 'staging.exp.host' with your ngrok url, in the host of the Snack constructor (client/components/App.tsx).
 2. Restart local snack server.
 3. Send to device.
 

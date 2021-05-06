@@ -27,12 +27,6 @@ export function createChannel(channel?: string): string {
 }
 
 export function createURL(host: string, sdkVersion: SDKVersion, channel?: string, id?: string) {
-  if (host.includes('snack.expo.io')) {
-    host = host.replace('snack.expo.io', 'exp.host');
-  } else if (host.includes('next-snack.expo.io')) {
-    host = host.replace('next-snack.expo.io', 'exp.host');
-  }
-
   if (channel) {
     return id
       ? id.startsWith('@')

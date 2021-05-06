@@ -23,11 +23,11 @@ type Config = {
   sentry?: { dsn: string };
 };
 
-function env(varName: string): string {
+function env(varName: string, testValue?: string): string {
   const envVar = process.env[varName];
   if (!envVar) {
     if (process.env.NODE_ENV === 'test' || process.argv[1].endsWith('cli.js')) {
-      return 'noop';
+      return testValue ?? 'noop';
     }
     throw new Error(`environment variable ${varName} isn't specified`);
   }
@@ -56,7 +56,7 @@ const config: Config = {
     url: env('CLOUDFRONT_URL'),
   },
   api: {
-    url: env('API_SERVER_URL'),
+    url: env('API_SERVER_URL', 'https://test.exp.host'),
   },
 };
 
