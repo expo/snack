@@ -24,7 +24,13 @@ function SnackTerminal() {
               width={Math.round(size.width / 2)}
               height={size.height - 1 - Math.round((size.height - 1) / 2)}
             />
-            <Text color="cyan">Press Ctrl+C to exit</Text>
+            <Text color="cyan">
+              Open{' '}
+              <Text bold underline>
+                snack.expo.test
+              </Text>{' '}
+              or press Ctrl+C to exit
+            </Text>
           </Box>
           <Terminal
             cwd="packages/snack-proxies"
