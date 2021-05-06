@@ -4,6 +4,14 @@
 
 ### 🛠 Breaking changes
 
+### 🎉 New features
+
+### 🐛 Bug fixes
+
+## 3.4.1 — 2021-05-06
+
+### 🛠 Breaking changes
+
 - Use `exp.host` for experience URLs when no host is specified in options ([#136](https://github.com/expo/snack/pull/136) by [@IjzerenHein](https://github.com/IjzerenHein))
 - Remove support for SDK 37 ([#124](https://github.com/expo/snack/pull/124) by [@bycedric](https://github.com/bycedric))
 
@@ -14,6 +22,7 @@
 ### 🐛 Bug fixes
 
 - Fix dependencies with subpath not using bundledNativeModules.json ([#81](https://github.com/expo/snack/pull/81) by [@IjzerenHein](https://github.com/IjzerenHein))
+- Reduce size of published NPM package
 
 ## 3.3.3 — 2021-02-05
 
