@@ -49,7 +49,6 @@ describe('devsession', () => {
   it('receives sendBeaconCloseRequest', async () => {
     const snack = new Snack({
       apiURL: 'https://exp.host',
-      host: 'expo.io',
       channel: '10spnBnPxi',
       sdkVersion: '38.0.0',
     });

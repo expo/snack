@@ -221,7 +221,7 @@ export type SnackState = {
 
   /**
    * Unique experience url which can be used to open the Expo client and connect
-   * to the Snack (e.g. "exp://expo.io/@snack/sdk.38.0.0-78173941").
+   * to the Snack (e.g. "exp://exp.host/@snack/sdk.38.0.0-78173941").
    */
   url: string;
 

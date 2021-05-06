@@ -4,7 +4,7 @@ exports[`devsession receives sendBeaconCloseRequest 1`] = `
 Object {
   "data": Blob {
     "config": Array [
-      "{\\"session\\":{\\"url\\":\\"exp://expo.io/@snack/sdk.38.0.0-10spnBnPxi\\"}}",
+      "{\\"session\\":{\\"url\\":\\"exp://exp.host/@snack/sdk.38.0.0-10spnBnPxi\\"}}",
     ],
   },
   "url": "https://exp.host/--/api/v2/development-sessions/notify-close?deviceId=1234",
