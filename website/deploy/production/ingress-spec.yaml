@@ -6,9 +6,17 @@ spec:
   tls:
   - hosts:
     - snack.expo.io
+    - snack.expo.dev
     secretName: snack-tls
   rules:
   - host: snack.expo.io
+    http:
+      paths:
+      - backend:
+          serviceName: snack
+          servicePort: 80
+        path: /
+  - host: snack.expo.dev
     http:
       paths:
       - backend:
