@@ -1,0 +1,28 @@
+{
+  "name": "Snack",
+  "expo": {
+    "name": "Snack",
+    "description": "Write code in Expo's online editor and instantly use it on your phone",
+    "owner": "exponent",
+    "slug": "snack",
+    "sdkVersion": "41.0.0",
+    "version": "1.0.0",
+    "primaryColor": "#000",
+    "icon": "https://s3.amazonaws.com/exp-brand-assets/SnackIcon_200.png",
+    "notification": {
+      "icon": "https://s3.amazonaws.com/exp-us-standard/placeholder-push-icon-blue-circle.png",
+      "color": "#000000"
+    },
+    "splash": {
+      "image": "./assets/splash.png"
+    },
+    "developmentClient": {
+      "silentLaunch": true
+    },
+    "platforms": ["android", "ios", "web"],
+    "assetBundlePatterns": ["**/*"],
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

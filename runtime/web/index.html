@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="%LANG_ISO_CODE%">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <!-- 
+      This viewport works for phones with notches.
+      It's optimized for gestures by disabling global zoom.
+     -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover"
+    />
+    <title>%WEB_TITLE%</title>
+    <style>
+      /**
+       * Extend the react-native-web reset:
+       * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js
+       */
+      html,
+      body,
+      #root {
+        width: 100%;
+        /* To smooth any scrolling behavior */
+        -webkit-overflow-scrolling: touch;
+        margin: 0px;
+        padding: 0px;
+        /* Allows content to fill the viewport and go beyond the bottom */
+        min-height: 100%;
+      }
+      #root {
+        flex-shrink: 0;
+        flex-basis: auto;
+        flex-grow: 1;
+        display: flex;
+        flex: 1;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+        -webkit-text-size-adjust: 100%;
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        /* Allows you to scroll below the viewport; default value is visible */
+        overflow-y: auto;
+        overscroll-behavior-y: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -ms-overflow-style: scrollbar;
+      }
+      /* Enable for apps that support dark-theme */
+      /*@media (prefers-color-scheme: dark) {
+        body {
+          background-color: black;
+        }
+      }*/
+    </style>
+  </head>
+
+  <body>
+    <noscript>%NO_SCRIPT%</noscript>
+
+    <!-- The root element for your Expo app. -->
+    <div id="root">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          background-color: #fff;
+          width: 100%;
+        "
+      >
+        <img
+          id="loading"
+          src="https://s3.amazonaws.com/exp-brand-assets/SnackIcon_200.png"
+          alt="Snack logo"
+          style="
+            width: 100px;
+            height: 100px;
+            opacity: 0;
+            align-self: center;
+            transition-duration: 2s;
+          "
+        />
+      </div>
+    </div>
+
+    <script>
+      var verbose = new URL(document.URL).searchParams.get('verbose');
+      if (verbose === '1' || verbose === 'true')
+        console.log(`%c INFO `, `background: #2196f3; color: #fff`, 'Loading runtime...');
+      // Only show the initial logo when the code could not be fetched immediately
+      setTimeout(function () {
+        var elm = document.getElementById('loading');
+        if (elm) elm.style.opacity = 0.5;
+      }, 2000);
+    </script>
+  </body>
+</html>

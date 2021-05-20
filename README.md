@@ -43,12 +43,9 @@ Internal documentation
   - [`snack-proxies`](/packages/snack-proxies) *Proxies for doing local development*
 - [`website`](/website) *The web-app for **https://snack.expo.io** and for **[embedded Snacks](https://snack.expo.io/embedded).***
 - [`snackager`](/snackager) *The Snack package bundler at **https://snackager.expo.io**.*
+- [`runtime`](/runtime) *The Snack runtime app and web-player.*
 
 > The Snack code-base consists of many more services and apps. These will be open sourced incrementally, so stay tuned for more!
-
-<!--
-- [`runtime`](/runtime) *The Snack runtime app and web-player.*
--->
 
 ## ❓ Getting in touch
 
