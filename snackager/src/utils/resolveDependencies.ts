@@ -21,13 +21,7 @@ export default function resolveDependencies(
   deep?: string | null
 ): ResolvedDependencies {
   const pkg = meta.versions[version];
-
-  // TODO: unimodulePeerDependencies is not returned in the meta data
-  // figure out whether this should be removed here
-  const peerDependencies = {
-    ...pkg.peerDependencies,
-    ...pkg.unimodulePeerDependencies,
-  };
+  const { peerDependencies = {} } = pkg;
   const dependencies: { [key: string]: string | null } = {};
 
   for (const name in peerDependencies) {
