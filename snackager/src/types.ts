@@ -3,7 +3,6 @@ export type Package = {
   version: string;
   description?: string;
   main?: string;
-  unimodulePeerDependencies?: { [key: string]: string };
   peerDependencies?: { [key: string]: string };
   devDependencies?: { [key: string]: string };
   dependencies?: { [key: string]: string };
