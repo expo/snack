@@ -28,7 +28,7 @@ export default function constructAppetizeURL({
     scale,
     autoplay: !!autoplay,
     embed: true,
-    device: platform === 'ios' ? 'iphone5' : 'nexus5',
+    device: platform === 'ios' ? 'iphone12' : 'pixel4',
     launchUrl: platform === 'android' ? experienceURL : undefined,
     xdocMsg: true,
     deviceColor,
