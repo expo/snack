@@ -5,6 +5,27 @@ The Snack runtime is an Expo App that loads and runs the Snack code from https:/
 - A web-player for running Snacks in the browser
 
 
+## Development
+
+To start the runtime in development mode, install the dependencies and start it as a regular Expo app.
+
+- `cd runtime`
+- `yarn install`
+- `expo start`
+
+### Web player development
+
+Start the runtime as a web-player by using `expo start --web` or choosing `Run in web browser` after running `expo start`.
+
+In the Snack website, select the `localhost` option from the Expo version picker at the bottom. This will cause the development web-player to load within the "Web" iframe of `http://snack.expo.test`.
+
+### Native runtime development
+
+Use `expo start` to start the runtime and scan the QR-code with your device.
+
+This loads the runtime into Expo Go and displays another QR-code scanner. Now, use this QR-code scanner to load any Snack by scanning the QR-code from the `My Device` tab. This will cause the Snack to load using the development runtime. By shaking your device and choosing "Reload" you can return to the runtime QR-code scanner.
+
+
 ## Loading states
 
 | Visible state                    | Process state                                                                                                               |
