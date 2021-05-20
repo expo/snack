@@ -24,6 +24,10 @@ To view the website, open http://snack.expo.test or http://localhost:3011.
 
 All contributors can [test package bundling](./snackager/README#test-package-bundling) and [run the tests](./snackager/README#run-tests). It is currently only possible for Expo developers to run the full Snackager server, which requires access to API keys. *We are working on making this possible for external contributors.*
 
+### Runtime
+
+By default, the latest deployed runtime from Staging is used. To starts the runtime in development, see  [Runtime development](runtime/README.md#development).
+
 ## ✅ Testing
 
 Testing is done using [Jest](https://jestjs.io/https://jestjs.io/), the delightful JavaScript Testing Framework.
