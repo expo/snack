@@ -26,7 +26,7 @@ All contributors can [test package bundling](./snackager/README#test-package-bun
 
 ### Runtime
 
-By default, the latest deployed runtime from Staging is used. To starts the runtime in development, see  [Runtime development](runtime/README.md#development).
+By default, the latest runtime that was deployed to staging is used. To start the runtime in development, see  [Runtime development](runtime/README.md#development).
 
 ## ✅ Testing
 
