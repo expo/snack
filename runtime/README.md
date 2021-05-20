@@ -26,6 +26,11 @@ Use `expo start` to start the runtime and scan the QR-code with your device.
 This loads the runtime into Expo Go and displays another QR-code scanner. Now, use this QR-code scanner to load any Snack by scanning the QR-code from the `My Device` tab. This will cause the Snack to load using the development runtime. By shaking your device and choosing "Reload" you can return to the runtime QR-code scanner.
 
 
+## Deployment
+
+The runtime is not yet auto-deployed in CI. To manually deploy the runtime, see the [Deployment guide](./__internal__/DEPLOYING.md).
+
+
 ## Loading states
 
 | Visible state                    | Process state                                                                                                               |
