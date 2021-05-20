@@ -40,8 +40,8 @@ yarn start
 Start the `snackager` server. `snack-proxies` automatically detects the locally running Snackager server and routes all trafic to it when possible.
 
 ```sh
-# expo/universe
-cd server/snackager
+# expo/snack
+cd snackager
 yarn
 yarn start
 ```
@@ -51,8 +51,8 @@ yarn start
 By default, the web player is loaded from s3 and a CDN. When developing locally, start the web-player locally and select "localhost" in the SDK versions picker.
 
 ```sh
-# expo/universe
-cd apps/snack
+# expo/snack
+cd runtime
 expo start:web
 ```
 

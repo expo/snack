@@ -261,7 +261,7 @@ export default function routes() {
     } catch (e) {
       if (isLocalhost && e.message.includes('ECONNREFUSED')) {
         ctx.body =
-          'Local web-player is not running.\n\nStart it using "expo start" from the "universe/apps/snack" directory.';
+          'Local web-player is not running.\n\nStart it using "expo start" from the "snack/runtime" directory.';
         ctx.status = 200;
         return;
       }

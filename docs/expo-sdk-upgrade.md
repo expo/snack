@@ -25,8 +25,6 @@ Update the Snack runtime (managed Expo app), snack-sdk and website to the latest
 
 ### runtime
 
-> The runtime is located in `universe/apps/snack` and is only accessible to Expo team members.
-
 - Either run `expo update <version>` or upgrade the dependencies in `package.json` to match those in `bundledNativeModules.json`.
 - Set `expo.sdkVersion` in `app.json` to the new version.
 - Update the patched packages in `./patches`.
@@ -59,7 +57,7 @@ Testing Snack should be done for all platforms: iOS, Android and Web!
 
 ### Web
 
-- Start the runtime web-player locally `expo start:web` (in `universe/apps/snack`)
+- Start the runtime web-player locally `expo start:web` (in `snack/runtime`)
 - Run the Snack website locally and select "localhost" in the SDK versions picker
 - Verify that the logs panel does not contain any runtime errors or warnings
 - Open the web-player full-screen and use Ctrl+I to inspect the console logs
