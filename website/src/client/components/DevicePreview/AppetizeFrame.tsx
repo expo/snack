@@ -58,9 +58,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
       autoplay,
       platform,
       previewQueue: isEmbedded ? 'secondary' : 'main',
-      screenOnly: isEmbedded,
       deviceColor: theme === 'dark' ? 'white' : 'black',
-      scale: isEmbedded ? (platform === 'android' ? 80 : 76) : undefined,
+      scale: platform === 'android' ? (isEmbedded ? 73 : 81) : isEmbedded ? 66 : 73,
       payerCode: viewer?.user_metadata?.appetize_code ?? payerCode,
     });
   }
@@ -254,7 +253,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { appetizeStatus, payerCodeFormStatus, viewer, appetizeURL } = this.state;
+    const { appetizeStatus, payerCodeFormStatus, viewer, appetizeURL, platform } = this.state;
     const { width, isEmbedded, onClickRunOnPhone, isPopupOpen } = this.props;
 
     return (
@@ -270,20 +269,24 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
           />
           {appetizeStatus.type === 'unknown' ? (
             <div
-              className={css(isEmbedded ? styles.buttonContainerEmbedded : styles.buttonContainer)}>
-              <a
-                className={css(styles.largeButton)}
-                style={{ top: 160 }}
-                onClick={this.handleTapToPlay}>
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: isEmbedded ? 4 : 12,
+                bottom: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                paddingTop:
+                  platform === 'android' ? (isEmbedded ? 95 : 110) : isEmbedded ? 60 : 110,
+              }}>
+              <a className={css(styles.largeButton)} onClick={this.handleTapToPlay}>
                 <div className={css(styles.buttonFrame)}>
                   <span className={css(styles.buttonText)}>Tap to play</span>
                 </div>
               </a>
               {isPopupOpen ? null : (
-                <a
-                  className={css(styles.largeButton)}
-                  style={{ top: 250 }}
-                  onClick={onClickRunOnPhone}>
+                <a className={css(styles.largeButton)} onClick={onClickRunOnPhone}>
                   <div className={css(styles.buttonFrame)}>
                     <span className={css(styles.buttonText)}>Run on your device</span>
                   </div>
@@ -384,7 +387,7 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
-    height: 653,
+    height: 670,
     overflow: 'hidden',
     margin: 'auto',
     marginLeft: 10,
@@ -392,7 +395,7 @@ const styles = StyleSheet.create({
   },
   containerEmbedded: {
     position: 'relative',
-    height: 508,
+    height: 610,
     overflow: 'hidden',
     margin: 'auto',
     zIndex: 2,
@@ -451,24 +454,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: c('success'),
   },
-  buttonContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 12,
-    bottom: 0,
-  },
-  buttonContainerEmbedded: {
-    position: 'absolute',
-    top: -70,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
   largeButton: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
+    marginTop: 20,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
