@@ -1,0 +1,63 @@
+name: RuntimeProduction
+
+defaults:
+  run:
+    working-directory: runtime
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'type "deploy" to confirm deploy to production (main branch only)'
+        required: false
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/runtime-production.yml
+      - runtime/**
+      - .eslint*
+      - .prettier*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-version: 4.x
+          expo-token: ${{ secrets.EXPO_PRODUCTION }}
+
+      - run: yarn install --frozen-lockfile
+      - run: yarn tsc --noEmit
+      - run: yarn lint --max-warnings 0
+      # - run: yarn test --ci --maxWorkers 15%
+
+      - name: Deploy web-player
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        run: yarn deploy:web:prod
+
+      - name: Deploy native runtime
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        run: yarn deploy:prod
+
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Runtime to Production
+          fields: message,commit,author,took
