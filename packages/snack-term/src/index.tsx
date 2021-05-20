@@ -27,7 +27,7 @@ function SnackTerminal() {
             <Text color="cyan">
               Open{' '}
               <Text bold underline>
-                snack.expo.test
+                http://snack.expo.test
               </Text>{' '}
               or press Ctrl+C to exit
             </Text>
