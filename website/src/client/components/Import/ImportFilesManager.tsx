@@ -299,7 +299,6 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
                   <input
                     multiple
                     type="file"
-                    accept=".js"
                     onChange={this._handleFilesChange}
                     className={css(styles.fileInput)}
                   />
