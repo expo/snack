@@ -12,9 +12,9 @@ import type {
 } from '../../types';
 import { c } from '../ThemeProvider';
 import Button from '../shared/Button';
-import LargeInput from '../shared/LargeInput';
 import ModalDialog from '../shared/ModalDialog';
 import ProgressIndicator from '../shared/ProgressIndicator';
+import TextInput from '../shared/TextInput';
 import ToggleSwitch from '../shared/ToggleSwitch';
 
 type Props = {
@@ -158,7 +158,7 @@ export default class ImportProductionModal extends React.PureComponent<Props, St
               ? 'Import a saved Snack from production. This will overwrite all your current files and dependencies with the contents of the saved Snack.'
               : `An error occurred during import. ${error}`}
           </p>
-          <LargeInput
+          <TextInput
             name="url"
             value={url}
             onChange={this._handleChange}

@@ -13,7 +13,7 @@ type Props = {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-export default function LargeTextArea({ ...rest }: Props) {
+export default function TextArea({ ...rest }: Props) {
   return <Textarea className={css(styles.input)} {...rest} />;
 }
 

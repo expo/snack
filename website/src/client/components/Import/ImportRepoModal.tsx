@@ -6,10 +6,10 @@ import * as React from 'react';
 import Analytics from '../../utils/Analytics';
 import { c } from '../ThemeProvider';
 import Button from '../shared/Button';
-import LargeInput from '../shared/LargeInput';
-import LargeTextArea from '../shared/LargeTextArea';
 import ModalDialog from '../shared/ModalDialog';
 import ProgressIndicator from '../shared/ProgressIndicator';
+import TextArea from '../shared/TextArea';
+import TextInput from '../shared/TextInput';
 
 type Props = {
   visible: boolean;
@@ -154,7 +154,7 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
           {advanced ? (
             <>
               <h4 className={css(styles.subtitle)}>Repository URL</h4>
-              <LargeInput
+              <TextInput
                 name="repo"
                 value={repo}
                 onChange={this._handleChange}
@@ -162,14 +162,14 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
                 autoFocus
               />
               <h4 className={css(styles.subtitle)}>Folder path</h4>
-              <LargeInput
+              <TextInput
                 name="path"
                 value={path}
                 onChange={this._handleChange}
                 placeholder="/example/app"
               />
               <h4 className={css(styles.subtitle)}>Branch name</h4>
-              <LargeInput
+              <TextInput
                 name="branch"
                 value={branch}
                 onChange={this._handleChange}
@@ -179,7 +179,7 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
           ) : (
             <>
               <h4 className={css(styles.subtitle)}>Git URL</h4>
-              <LargeTextArea
+              <TextArea
                 minRows={2}
                 value={url}
                 onChange={this._handleChangeUrl}
