@@ -94,6 +94,10 @@ export function getCoreExternals(): string[] {
   return CORE_EXTERNALS;
 }
 
+export function getPackageExternals(): string[] {
+  return PACKAGE_EXTERNALS;
+}
+
 export function isExternal(spec: string): boolean {
   if (CORE_EXTERNALS.includes(spec)) {
     return true;

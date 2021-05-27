@@ -1,7 +1,7 @@
 import uniq from 'lodash/uniq';
 import webpack from 'webpack';
 
-import { getCoreExternals } from './externals';
+import { getCoreExternals, getPackageExternals } from './externals';
 import getResolverConfig from './getResolverConfig';
 
 type Options = {
@@ -76,7 +76,7 @@ export default ({
       ],
     },
     externals: [
-      ...uniq([...externals, ...getCoreExternals()]),
+      ...uniq([...externals, ...getCoreExternals(), ...getPackageExternals()]),
       (_context: any, request: any, callback: Function) => {
         // Mark imports such as react-native-gesture-handler/DrawerLayout to be external
         // Otherwise it will pull in the whole library

@@ -13,6 +13,7 @@ const cacheBusting: { version: number; packages: { [name: string]: number } } = 
   packages: {
     'react-native-reanimated': 1,
     moti: 1,
+    '@drafbit/ui': 1,
   },
 };
 
