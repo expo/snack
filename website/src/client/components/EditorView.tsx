@@ -434,6 +434,7 @@ class EditorView extends React.Component<Props, State> {
                   createdAt={createdAt}
                   saveHistory={saveHistory}
                   saveStatus={saveStatus}
+                  sdkVersion={sdkVersion}
                   viewer={viewer}
                   isDownloading={isDownloading}
                   isResolving={isResolving}

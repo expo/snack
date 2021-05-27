@@ -1,11 +1,11 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { SaveStatus, SaveHistory, Viewer, SaveOptions } from '../types';
+import { SaveStatus, SaveHistory, Viewer, SaveOptions, SDKVersion } from '../types';
 import EditorTitle from './EditorTitle';
 import type { EditorModal } from './EditorViewProps';
 import usePreferences from './Preferences/usePreferences';
-import SearchButton from './Search/SearchButton';
+import SearchBar from './Search/SearchBar';
 import ToolbarShell from './Shell/ToolbarShell';
 import ToolbarTitleShell from './Shell/ToolbarTitleShell';
 import UserMenu from './UserMenu';
@@ -18,6 +18,7 @@ type Props = {
   createdAt: string | undefined;
   saveStatus: SaveStatus;
   saveHistory: SaveHistory;
+  sdkVersion: SDKVersion;
   viewer: Viewer | undefined;
   isDownloading: boolean;
   isResolving: boolean;
@@ -38,6 +39,7 @@ export default function EditorToolbar(props: Props) {
     createdAt,
     saveHistory,
     saveStatus,
+    sdkVersion,
     viewer,
     isDownloading,
     isResolving,
@@ -79,6 +81,7 @@ export default function EditorToolbar(props: Props) {
         />
       </ToolbarTitleShell>
       <div className={css(styles.buttons)}>
+        <SearchBar sdkVersion={sdkVersion} />
         <Button
           variant="secondary"
           onClick={() => onPublishAsync()}
@@ -122,7 +125,6 @@ export default function EditorToolbar(props: Props) {
             />
           </svg>
         </IconButton>
-        <SearchButton responsive />
         <UserMenu />
       </div>
     </ToolbarShell>
