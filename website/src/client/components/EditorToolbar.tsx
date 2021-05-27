@@ -122,16 +122,6 @@ export default function EditorToolbar(props: Props) {
             />
           </svg>
         </IconButton>
-        <IconButton responsive title="Help" onClick={() => onShowModal('help')}>
-          <svg width="20px" height="18px" viewBox="0 0 20 18" fill="none">
-            <path
-              d="M13.333 15l5-5-5-5M6.667 5l-5 5 5 5"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </IconButton>
         <SearchButton responsive />
         <UserMenu />
       </div>

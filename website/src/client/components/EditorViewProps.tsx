@@ -22,8 +22,7 @@ export type EditorModal =
   | 'shortcuts'
   | 'previous-saves'
   | 'import-repo'
-  | 'import-production'
-  | 'help';
+  | 'import-production';
 
 export type EditorViewProps = {
   createdAt: string | undefined;
