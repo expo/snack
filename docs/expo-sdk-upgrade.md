@@ -156,4 +156,4 @@ Appetize.io is used for running the Expo Go app in the cloud, in your browser. W
 4. Upload to Appetize Embedded Queue (Use credentials from 1password - Appetize Embedded Queue)
   - Android is at https://appetize.io/manage/private_cg1109cch61mzkhyq7cx67qprg
   - iOS is at https://appetize.io/manage/private_wpak1hhfkbv8czpx4k48gz5664
-5. Check that they are working! (Android emulator will only work from staging.snack.expo.io, not through ngrok)
+5. Check that they are working! (Android emulator will only work from staging.snack.expo.dev, not through ngrok)
