@@ -406,6 +406,59 @@ Object {
 }
 `;
 
+exports[`bundler externalizes package-externals of dependencies 1`] = `
+Object {
+  "files": Object {
+    "android": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react-native",
+          "react",
+          "@expo/vector-icons",
+          "react-native-safe-area-context",
+          "expo-av",
+          "react-native/Libraries/BatchedBridge/BatchedBridge",
+          "react-native-svg",
+        ],
+        "size": 294732,
+      },
+    },
+    "ios": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react-native",
+          "react",
+          "react-native-safe-area-context",
+          "@expo/vector-icons",
+          "expo-av",
+          "react-native-svg",
+        ],
+        "size": 292431,
+      },
+    },
+    "web": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+          "@expo/vector-icons",
+          "react-native-safe-area-context",
+          "expo-av",
+          "react-native-svg",
+        ],
+        "size": 776828,
+      },
+    },
+  },
+  "name": "@draftbit/ui",
+  "peerDependencies": Object {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "40.34.4",
+}
+`;
+
 exports[`bundler externalizes references to react-native-gesture-handler/DrawerLayout 1`] = `
 Object {
   "files": Object {
