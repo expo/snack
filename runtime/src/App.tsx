@@ -2,6 +2,7 @@ import './polyfill';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
+import Constants from 'expo-constants';
 import { activateKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
 import * as Updates from 'expo-updates';
@@ -22,7 +23,8 @@ import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 
-const expoApiUrl = 'https://expo.io';
+const API_SERVER_URL_STAGING = 'https://staging.exp.host';
+const API_SERVER_URL_PROD = 'https://exp.host';
 
 type State = {
   initialLoad: boolean;
@@ -293,7 +295,11 @@ export default class App extends React.Component<object, State> {
   };
 
   _uploadPreviewToS3 = async (asset: string, height: number, width: number) => {
-    const url = `${expoApiUrl}/--/api/v2/snack/uploadPreview`;
+    const url = `${
+      Constants.manifest.extra?.cloudEnv !== 'production'
+        ? API_SERVER_URL_STAGING
+        : API_SERVER_URL_PROD
+    }/--/api/v2/snack/uploadPreview`;
     const body = JSON.stringify({ asset, height, width });
     try {
       Logger.info('Uploading preview...', 'width', width, 'height', height);

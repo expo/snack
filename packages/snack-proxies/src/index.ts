@@ -13,7 +13,7 @@ Promise.all([
     name: 'expo-website',
     port: 3021,
     localURL: 'http://localhost:3001',
-    stagingURL: 'https://staging.expo.io',
+    stagingURL: 'https://staging.expo.dev',
   }),
   createProxy({
     name: 'snackager',

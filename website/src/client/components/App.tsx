@@ -334,7 +334,7 @@ class Main extends React.Component<Props, State> {
       Analytics.getInstance().verbose = true;
     }
 
-    if (window.location.host.includes('expo.io')) {
+    if (window.location.host.includes('expo.io') || window.location.host.includes('expo.dev')) {
       Raven.config('https://6501f7d527764d85b045b0ce31927c75@sentry.io/191351').install();
       const build_date = new Date(process.env.BUILD_TIMESTAMP ?? 0).toUTCString();
       Raven.setTagsContext({ build_date });
