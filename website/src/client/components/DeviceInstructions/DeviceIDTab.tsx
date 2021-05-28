@@ -4,7 +4,7 @@ import * as React from 'react';
 import { c } from '../ThemeProvider';
 import Banner from '../shared/Banner';
 import Button from '../shared/Button';
-import LargeInput from '../shared/LargeInput';
+import TextInput from '../shared/TextInput';
 
 type Props = {
   deviceId: string | undefined;
@@ -63,7 +63,7 @@ export default class DeviceIDTab extends React.Component<Props, State> {
       <>
         <form onSubmit={this._handleSubmit}>
           <h4 className={css(styles.title)}>Your Device ID</h4>
-          <LargeInput
+          <TextInput
             autoFocus
             value={state.deviceId}
             type="text"

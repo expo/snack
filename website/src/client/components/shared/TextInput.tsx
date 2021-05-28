@@ -18,7 +18,7 @@ type State = {
   focused: boolean;
 };
 
-export default class LargeInput extends React.Component<Props, State> {
+export default class TextInput extends React.Component<Props, State> {
   state = {
     focused: true,
   };

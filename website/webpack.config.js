@@ -84,11 +84,6 @@ module.exports = {
   module: {
     rules: [
       {
-        // graphql-request includes this polyfill
-        test: path.resolve(__dirname, 'node_modules/cross-fetch/dist/browser-polyfill.js'),
-        use: 'null-loader',
-      },
-      {
         test: /\.(js|tsx?)$/,
         exclude: /(node_modules|(vendor\/.+\.js))/,
         use: {

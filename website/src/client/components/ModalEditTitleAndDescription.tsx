@@ -7,9 +7,9 @@ import withStatus from './Form/withStatus';
 import withValidation from './Form/withValidation';
 import { c } from './ThemeProvider';
 import Button from './shared/Button';
-import LargeInput from './shared/LargeInput';
-import LargeTextArea from './shared/LargeTextArea';
 import ModalDialog from './shared/ModalDialog';
+import TextArea from './shared/TextArea';
+import TextInput from './shared/TextInput';
 
 type Props = {
   visible: boolean;
@@ -31,7 +31,7 @@ type State = {
 // @ts-ignore
 const FormButton = withStatus(Button);
 // @ts-ignore
-const ValidatedInput = withValidation(LargeInput);
+const ValidatedInput = withValidation(TextInput);
 
 export default class ModalEditTitleAndDescription extends React.Component<Props, State> {
   static getDerivedStateFromProps(props: Props, state: State) {
@@ -88,7 +88,7 @@ export default class ModalEditTitleAndDescription extends React.Component<Props,
             validate={this._validateName}
           />
           <h4 className={css(styles.subtitle)}>Description</h4>
-          <LargeTextArea
+          <TextArea
             value={this.state.description}
             onChange={(e) => this.setState({ description: e.target.value })}
             minRows={4}

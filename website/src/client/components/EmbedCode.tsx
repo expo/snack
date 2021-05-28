@@ -100,15 +100,6 @@ class EmbedCode extends React.PureComponent<Props, State> {
 
   _handleChangePlatform = (platform: Platform) => this.setState({ platform });
 
-  _openSnackEmbedDocs = () => {
-    const link = document.createElement('a');
-
-    link.target = '_blank';
-    link.href = constants.links.authorDocs;
-
-    link.click();
-  };
-
   render() {
     const { platform, preview, theme, copied, url } = this.state;
     const html = `<div data-snack-id="${
