@@ -28,9 +28,11 @@ type Props = PreferencesContextType &
     theme: ThemeName;
   };
 
+type ModalName = 'device-instructions';
+
 type State = {
   deviceConnectionMethod: EmbeddedConnectionMethod;
-  currentModal: 'device-instructions' | null;
+  currentModal: ModalName | null;
 };
 
 class EmbeddedEditorView extends React.PureComponent<Props, State> {
@@ -48,9 +50,13 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
     };
   }
 
-  _handleClickRunOnPhone = () => {
-    this.props.onDeviceConnectionAttempt();
-    this.setState({ currentModal: 'device-instructions' });
+  _handleShowModal = (modal: ModalName) => {
+    switch (modal) {
+      case 'device-instructions':
+        this.props.onDeviceConnectionAttempt();
+        break;
+    }
+    this.setState({ currentModal: modal });
   };
 
   _handleHideModal = () => {
@@ -151,7 +157,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
                     name={name}
                     onAppLaunch={onDeviceConnectionAttempt}
                     onChangePlatform={onChangePlatform}
-                    onClickRunOnPhone={this._handleClickRunOnPhone}
+                    onShowModal={this._handleShowModal as any}
                     onReloadSnack={onReloadSnack}
                     onSendCode={onSendCode}
                     onToggleSendCode={onToggleSendCode}

@@ -15,6 +15,15 @@ import {
 } from '../types';
 import { PlatformOption } from '../utils/PlatformOptions';
 
+export type EditorModal =
+  | 'device-instructions'
+  | 'embed'
+  | 'edit-info'
+  | 'shortcuts'
+  | 'previous-saves'
+  | 'import-repo'
+  | 'import-production';
+
 export type EditorViewProps = {
   createdAt: string | undefined;
   saveHistory: SaveHistory;

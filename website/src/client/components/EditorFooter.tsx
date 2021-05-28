@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import constants from '../configs/constants';
 import { Device, Annotation, SDKVersion } from '../types';
+import type { EditorModal } from './EditorViewProps';
 import { Shortcuts } from './KeyboardShortcuts';
 import type { PanelType } from './Preferences/PreferencesProvider';
 import SDKVersionSwitcher from './SDKVersionSwitcher';
@@ -32,7 +33,7 @@ type Props = {
   onToggleSendCode: () => void;
   onToggleVimMode?: () => void;
   onChangeSDKVersion: (sdkVersion: SDKVersion, isLocalWebPreview?: boolean) => void;
-  onShowShortcuts: () => void;
+  onShowModal: (modal: EditorModal) => void;
   onPrettifyCode: () => void;
   onSendCode: () => void;
   onReloadSnack: () => void;
@@ -59,7 +60,7 @@ export default function EditorFooter(props: Props) {
     onToggleSendCode,
     onToggleVimMode,
     onChangeSDKVersion,
-    onShowShortcuts,
+    onShowModal,
     onPrettifyCode,
     theme,
   } = props;
@@ -140,7 +141,7 @@ export default function EditorFooter(props: Props) {
           <>
             <div
               className={css(styles.buttonItem, styles.buttonItemEditorPane)}
-              onClick={onShowShortcuts}>
+              onClick={() => onShowModal('shortcuts')}>
               <IconButton small title="Show keyboard shortcuts" label="Shortcuts" />
               <ShortcutLabel
                 combo={Shortcuts.shortcuts.combo}

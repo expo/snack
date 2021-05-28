@@ -19,7 +19,7 @@ import { EditorProps } from './Editor/EditorProps';
 import EditorFooter from './EditorFooter';
 import EditorPanels from './EditorPanels';
 import EditorToolbar from './EditorToolbar';
-import { EditorViewProps } from './EditorViewProps';
+import { EditorViewProps, EditorModal } from './EditorViewProps';
 import EmbedCode from './EmbedCode';
 import FileList from './FileList/FileList';
 import ImportProductionModal from './Import/ImportProductionModal';
@@ -48,15 +48,7 @@ export type Props = PreferencesContextType &
     viewer?: Viewer;
   };
 
-type ModalName =
-  | PublishModals
-  | 'device-instructions'
-  | 'embed'
-  | 'edit-info'
-  | 'shortcuts'
-  | 'previous-saves'
-  | 'import-repo'
-  | 'import-production';
+type ModalName = PublishModals | EditorModal;
 type BannerName =
   | 'connected'
   | 'disconnected'
@@ -259,55 +251,35 @@ class EditorView extends React.Component<Props, State> {
     }, duration);
   };
 
-  _handleDismissEditModal = () => {
-    Analytics.getInstance().logEvent('DISMISSED_AUTH_MODAL', {
-      currentModal: this.state.currentModal,
-    });
-    this.setState({ currentModal: null });
-  };
-
-  _handleShowTitleDescriptionModal = () => {
-    this.setState({ currentModal: 'edit-info' });
-  };
-
-  _handleShowDeviceInstructions = () => {
-    Analytics.getInstance().logEvent('REQUESTED_QR_CODE');
-    this.setState({ currentModal: 'device-instructions' });
-  };
-
-  _handleShowShortcuts = () => {
-    this.setState({ currentModal: 'shortcuts' });
-  };
-
-  _handleShowPreviousSaves = () => {
-    this.setState({ currentModal: 'previous-saves' });
-  };
-
-  _handleShowImportRepoModal = () => {
-    this.setState({ currentModal: 'import-repo' });
-  };
-
-  _handleShowImportProductionModal = () => {
-    this.setState({ currentModal: 'import-production' });
-  };
-
   _handleHideModal = () => {
+    switch (this.state.currentModal) {
+      case 'edit-info':
+        Analytics.getInstance().logEvent('DISMISSED_AUTH_MODAL', {
+          currentModal: this.state.currentModal,
+        });
+        break;
+    }
     this.setState({ currentModal: null });
   };
 
-  _handleShowModal = (name: any) => {
+  _handleShowModal = (name: ModalName) => {
+    switch (name) {
+      case 'device-instructions':
+        Analytics.getInstance().logEvent('REQUESTED_QR_CODE');
+        break;
+      case 'embed':
+        if (!this.props.id) {
+          this._showBanner('embed-unavailable', BANNER_TIMEOUT_LONG);
+          return;
+        }
+        Analytics.getInstance().logEvent('REQUESTED_EMBED');
+        break;
+    }
     this.setState({ currentModal: name });
   };
 
-  _handleShowEmbedCode = () => {
-    if (!this.props.id) {
-      this._showBanner('embed-unavailable');
-      return;
-    }
-
-    Analytics.getInstance().logEvent('REQUESTED_EMBED');
-
-    this.setState({ currentModal: 'embed' });
+  _handleShowShortcuts = () => {
+    this._handleShowModal('shortcuts');
   };
 
   _handleRemoveFile = (path: string) => {
@@ -465,13 +437,10 @@ class EditorView extends React.Component<Props, State> {
                   viewer={viewer}
                   isDownloading={isDownloading}
                   isResolving={isResolving}
-                  isEditModalVisible={currentModal === 'edit-info'}
-                  onShowPreviousSaves={this._handleShowPreviousSaves}
-                  onShowEditModal={this._handleShowTitleDescriptionModal}
-                  onDismissEditModal={this._handleDismissEditModal}
+                  visibleModal={currentModal as EditorModal}
+                  onShowModal={this._handleShowModal}
+                  onHideModal={this._handleHideModal}
                   onSubmitMetadata={this.props.onSubmitMetadata}
-                  onShowQRCode={this._handleShowDeviceInstructions}
-                  onShowEmbedCode={this._handleShowEmbedCode}
                   onDownloadCode={this.props.onDownloadAsync}
                   onPublishAsync={onPublishAsync}
                 />
@@ -489,8 +458,7 @@ class EditorView extends React.Component<Props, State> {
                         onRenameFile={this._handleRenameFile}
                         uploadFileAsync={uploadFileAsync}
                         onDownloadCode={this.props.onDownloadAsync}
-                        onImportRepo={this._handleShowImportRepoModal}
-                        onImportProduction={this._handleShowImportProductionModal}
+                        onShowModal={this._handleShowModal}
                         hasSnackId={!!id}
                         saveStatus={saveStatus}
                         sdkVersion={sdkVersion}
@@ -640,7 +608,7 @@ class EditorView extends React.Component<Props, State> {
                       experienceName={experienceName}
                       name={name}
                       onChangePlatform={onChangePlatform}
-                      onClickRunOnPhone={this._handleShowDeviceInstructions}
+                      onShowModal={this._handleShowModal}
                       onReloadSnack={onReloadSnack}
                       onSendCode={onSendCode}
                       onToggleSendCode={onToggleSendCode}
@@ -675,7 +643,7 @@ class EditorView extends React.Component<Props, State> {
                     this.state.loadedEditor === 'monaco' ? this._toggleEditorMode : undefined
                   }
                   onChangeSDKVersion={this.props.onChangeSDKVersion}
-                  onShowShortcuts={this._handleShowShortcuts}
+                  onShowModal={this._handleShowModal}
                   onPrettifyCode={this._prettier}
                   theme={this.props.preferences.theme}
                 />
