@@ -149,7 +149,7 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
           <p className={!isError ? css(styles.paragraph) : css(styles.errorParagraph)}>
             {!isError
               ? 'Import an Expo project from a Git repository.'
-              : 'An error occurred during import. This could be because the data provided was invalid, or because the repository referenced is not a properly formatted Expo project.'}
+              : 'An error occurred during import. This could be because the data provided was invalid, because the provided repository is private, or because the provided repository is not a properly formatted Expo project.'}
           </p>
           {advanced ? (
             <>
