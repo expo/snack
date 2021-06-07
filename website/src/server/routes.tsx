@@ -11,7 +11,6 @@ import ReactDOMServer from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 import { standardizeDependencies } from 'snack-sdk';
-import { transitionToExpoDev } from 'src/expo-dev-migration';
 import { URL } from 'url';
 
 import { getAuthStorageKey } from '../client/auth/config';
@@ -22,6 +21,7 @@ import ThemeProvider from '../client/components/ThemeProvider';
 import createStore from '../client/redux/createStore';
 import type { RouterData, SnackDefaults, QueryParams } from '../client/types';
 import { getSnackName } from '../client/utils/projectNames';
+import { transitionToExpoDev } from '../expo-dev-migration';
 import * as EmbeddedSnackScript from './EmbeddedSnackScript';
 import Document from './pages/Document';
 import getSplitTests from './utils/getSplitTests';
