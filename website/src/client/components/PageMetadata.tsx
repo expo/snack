@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Helmet from 'react-helmet-async';
 
-import { isDevDomainEnabled } from '../../expo-dev-migration';
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_METADATA_NAME,
   DEFAULT_METADATA_DESCRIPTION_EMPTY,
   DEFAULT_METADATA_DESCRIPTION_SAVED,
 } from '../configs/defaults';
+import { getSnackWebsiteURL } from '../utils/getWebsiteURL';
 import { isIntentionallyNamed } from '../utils/projectNames';
 
 type Props = {
@@ -25,9 +25,7 @@ export function getPageMetadata(props: Props) {
         ? DEFAULT_METADATA_DESCRIPTION_SAVED
         : DEFAULT_METADATA_DESCRIPTION_EMPTY
       : props.description;
-  const url = `${
-    isDevDomainEnabled() ? process.env.SNACK_SERVER_URL : process.env.LEGACY_SNACK_SERVER_URL
-  }${props.id ? `/${props.id}` : ''}`;
+  const url = `${getSnackWebsiteURL()}${props.id ? `/${props.id}` : ''}`;
   const image = 'https://s3.amazonaws.com/exp-brand-assets/SnackIcon_200.png';
 
   const meta = [

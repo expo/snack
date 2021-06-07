@@ -1,5 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
+import { getWebsiteURL } from 'src/client/utils/getWebsiteURL';
 
 import { Viewer } from '../../types';
 import Analytics from '../../utils/Analytics';
@@ -45,7 +46,7 @@ class ModalSuccessfulPublish extends React.PureComponent<Props> {
         {this.props.viewer ? (
           <p className={css(styles.caption)}>
             <a
-              href={`${process.env.SERVER_URL}/@${this.props.viewer.username}/snacks`}
+              href={`${getWebsiteURL()}/@${this.props.viewer.username}/snacks`}
               onClick={this._dismissModal}
               target="blank">
               View your Snacks
