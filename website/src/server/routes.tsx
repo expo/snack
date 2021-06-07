@@ -11,6 +11,7 @@ import ReactDOMServer from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 import { standardizeDependencies } from 'snack-sdk';
+import { transitionToExpoDev } from 'src/expo-dev-migration';
 import { URL } from 'url';
 
 import { getAuthStorageKey } from '../client/auth/config';
@@ -32,6 +33,10 @@ const createChannel = customAlphabet(
 );
 
 const render = async (ctx: Context) => {
+  const transitionIsSuccessful = transitionToExpoDev(ctx);
+
+  if (transitionIsSuccessful) return;
+
   const id = ctx.params
     ? ctx.params.id
       ? ctx.params.id
