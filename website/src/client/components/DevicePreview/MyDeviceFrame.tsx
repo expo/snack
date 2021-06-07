@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import { getWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
 import { Device, SDKVersion } from '../../types';
@@ -10,7 +11,6 @@ import { Shortcuts } from '../KeyboardShortcuts';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import QRCode from '../QRCode';
 import { c, s } from '../ThemeProvider';
-import { getWebsiteURL } from '../client/utils/getWebsiteURL';
 import Banner from '../shared/Banner';
 import IconButton from '../shared/IconButton';
 import MenuButton from '../shared/MenuButton';

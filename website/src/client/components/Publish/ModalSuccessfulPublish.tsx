@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import { getWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { Viewer } from '../../types';
 import Analytics from '../../utils/Analytics';
-import { getWebsiteURL } from '../client/utils/getWebsiteURL';
 import Avatar from '../shared/Avatar';
 import ModalDialog from '../shared/ModalDialog';
 

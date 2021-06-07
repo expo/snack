@@ -1,11 +1,11 @@
 import * as React from 'react';
 
+import { getSnackWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
 import type { SDKVersion, SaveOptions } from '../../types';
 import { isIntentionallyNamed } from '../../utils/projectNames';
 import ModalEditTitleAndDescription from '../ModalEditTitleAndDescription';
-import { getSnackWebsiteURL } from '../client/utils/getWebsiteURL';
 import ModalPublishOverwriteError from './ModalPublishOverwriteError';
 import ModalPublishToProfile from './ModalPublishToProfile';
 import ModalPublishUnknownError from './ModalPublishUnknownError';
