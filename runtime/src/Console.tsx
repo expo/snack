@@ -7,9 +7,6 @@ const ignoredWarnings = [
   // TODO: These should probably be removed
   'Require cycle',
   'Following APIs have moved',
-
-  // TODO(cedric): Move away from Constants.installationId
-  'Constants.installationId has been deprecated',
 ];
 
 LogBox.ignoreLogs(ignoredWarnings);

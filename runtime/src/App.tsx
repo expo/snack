@@ -20,6 +20,7 @@ import * as Messaging from './Messaging';
 import * as Modules from './Modules';
 import Linking from './NativeModules/Linking';
 import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
+import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 
@@ -61,6 +62,10 @@ export default class App extends React.Component<object, State> {
   async componentDidMount() {
     Profiling.checkpoint('`App.componentDidMount()` start');
 
+    // Generate unique device-id
+    const deviceId = await getDeviceIdAsync();
+    Messaging.init(deviceId);
+
     // Initialize various things
     this._awaitingModulesInitialization = Modules.initialize();
     Console.initialize((method: string, payload: unknown[]) => {
@@ -83,7 +88,7 @@ export default class App extends React.Component<object, State> {
         }),
       });
     });
-    this._listenForUpdates();
+    this._listenForUpdates(deviceId);
 
     // Keep the device awake so the user doesn't have to keep waking it while coding
     activateKeepAwake();
@@ -316,7 +321,7 @@ export default class App extends React.Component<object, State> {
   };
 
   // Listen for Snack updates
-  _listenForUpdates() {
+  _listenForUpdates(deviceId: string) {
     Messaging.listen(async ({ message }) => {
       Logger.comm_recv('Message received', message);
 
@@ -330,7 +335,8 @@ export default class App extends React.Component<object, State> {
           Profiling.checkpoint('`CODE` message recv');
           this._lastCodeUpdatePromise = this._handleCodeUpdate(
             message,
-            this._lastCodeUpdatePromise
+            this._lastCodeUpdatePromise,
+            deviceId
           );
           break;
         }
@@ -374,10 +380,10 @@ export default class App extends React.Component<object, State> {
 
   _lastCodeUpdatePromise = Promise.resolve();
 
-  _handleCodeUpdate = async (message: any, waitForPromise: Promise<any>) => {
+  _handleCodeUpdate = async (message: any, waitForPromise: Promise<any>, deviceId: string) => {
     await waitForPromise;
     await Profiling.section(`'CODE' message`, async () => {
-      Analytics.receivedCode({ message });
+      Analytics.receivedCode({ message, deviceId });
 
       this.setState(() => ({ isLoading: true }));
 
