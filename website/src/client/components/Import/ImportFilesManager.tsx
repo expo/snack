@@ -6,7 +6,7 @@ import convertDataTransferItemsToFiles, {
   WebkitDirectoryEntry,
 } from '../../utils/convertDataTransferItemsToFiles';
 import dragEventIncludes from '../../utils/dragEventIncludes';
-import { getUniquePath, isESLintConfig } from '../../utils/fileUtilities';
+import { getUniquePath, isESLintConfig, isAsset } from '../../utils/fileUtilities';
 import { FileSystemEntry, TextFileEntry, AssetFileEntry } from '../FileList/types';
 import { c, s } from '../ThemeProvider';
 import Button from '../shared/Button';
@@ -84,9 +84,17 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
     ) {
       const dataTransfer = e.dataTransfer;
       e.preventDefault();
-      const entries: FileItem[] = dataTransfer.items
-        ? Array.from(dataTransfer.items).map((it) => it.webkitGetAsEntry())
-        : Array.from(dataTransfer.files);
+      let entries: FileItem[] = [];
+      // Use items when possible because it supports subdirectories
+      if (dataTransfer.items) {
+        entries = Array.from(dataTransfer.items).map((it) => {
+          const entry = it.webkitGetAsEntry();
+          const file = Array.from(dataTransfer.files).find((file) => file.name === entry.name);
+          return entry.isFile && file ? file : entry;
+        });
+      } else {
+        entries = Array.from(dataTransfer.files);
+      }
       this._handleSelectFilesForImport(entries);
     }
   };
@@ -139,7 +147,7 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
       files.map(async ({ file, path }) => {
         try {
           const entry =
-            /\.(md|json|js|tsx?)$/.test(path) || isESLintConfig(path)
+            !isAsset(path) || isESLintConfig(path)
               ? await new Promise<TextFileEntry>((resolve, reject) => {
                   const reader = new FileReader();
                   reader.onload = (e: ProgressEvent) =>
@@ -266,10 +274,6 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
           visible={isImportModalShown}
           onDismiss={this._hideImportModal}
           title="Import files">
-          <p className={css(styles.paragraph)}>
-            Import JavaScript files from your computer or a GitHub repository to use in your expo
-            project.
-          </p>
           <div className={css(styles.dropzoneSmall)}>
             {itemsToImport.length ? (
               <ul className={css(styles.fileList)}>
@@ -311,7 +315,9 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
             variant="primary"
             onClick={this._handleImportClick}
             disabled={!itemsToImport.length}>
-            Import
+            {itemsToImport.length
+              ? `Import ${itemsToImport.length} item${itemsToImport.length >= 2 ? 's' : ''}`
+              : 'Import'}
           </Button>
         </ModalDialog>
       </div>
@@ -340,9 +346,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  paragraph: {
-    margin: '8px 0 16px',
-  },
   fileInputLabel: {
     margin: 0,
     paddingLeft: 4,
@@ -361,6 +364,7 @@ const styles = StyleSheet.create({
     listStyle: 'none',
     textAlign: 'left',
     padding: 0,
+    margin: 0,
     height: '100%',
     width: '100%',
     overflow: 'auto',
