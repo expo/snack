@@ -20,6 +20,7 @@ type Props = {
 
 type State = {
   status: 'idle' | 'importing' | 'error';
+  error?: string;
   advanced: boolean;
   url: string;
   repo: string;
@@ -103,6 +104,7 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
 
     if (didFail) {
       this.setState({
+        error: snackId,
         status: 'error',
       });
       Analytics.getInstance().logEvent('IMPORT_COMPLETED', { reason: 'error' }, 'importStart');
@@ -133,7 +135,7 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { status, url, repo, path, branch, advanced } = this.state;
+    const { status, error, url, repo, path, branch, advanced } = this.state;
     const isImporting = status === 'importing';
     const isError = status === 'error';
 
@@ -148,9 +150,10 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
         <form onSubmit={this._handleImportRepoClick}>
           <p className={!isError ? css(styles.paragraph) : css(styles.errorParagraph)}>
             {!isError
-              ? 'Import an Expo project from a Git repository.'
+              ? 'Import an Expo project from a Public Git repository.'
               : 'An error occurred during import. This could be because the data provided was invalid, or because the repository referenced is not a properly formatted Expo project.'}
           </p>
+          {isError && <p className={css(styles.errorParagraph)}>{error}</p>}
           {advanced ? (
             <>
               <h4 className={css(styles.subtitle)}>Repository URL</h4>
