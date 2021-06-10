@@ -59,6 +59,14 @@ export function isJson(name: string): boolean {
   return name.endsWith('.json');
 }
 
+export function isMarkdown(name: string): boolean {
+  return name.endsWith('.md');
+}
+
+export function isAsset(name: string): boolean {
+  return !(isScript(name) || isJson(name) || isMarkdown(name));
+}
+
 export function isJS(name: string): boolean {
   return name.endsWith('.js');
 }

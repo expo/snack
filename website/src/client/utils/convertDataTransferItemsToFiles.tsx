@@ -38,6 +38,8 @@ const blacklist = [
   /^yarn-error\.log$/, // yarn error log
   /^yarn\.lock$/, // yarn package metadata
   /^__tests__$/, // jest tests
+  /^__integration-tests__$/, // jest tests
+  /^__mocks__$/, // jest tests
   /~$/, // hidden and backup files
 ];
 
