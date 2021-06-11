@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { isDevDomainEnabled } from '../../../expo-dev-migration';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
 import type { SDKVersion, SaveOptions } from '../../types';
@@ -137,7 +138,15 @@ class PublishManager extends React.Component<Props, State> {
         />
         <ModalPublishToProfile
           visible={isPublishInProgress && currentModal === 'publish-prompt-save'}
-          snackUrl={id ? `${process.env.SNACK_SERVER_URL}/${id}` : undefined}
+          snackUrl={
+            id
+              ? `${
+                  isDevDomainEnabled()
+                    ? process.env.SNACK_SERVER_URL
+                    : process.env.LEGACY_SNACK_SERVER_URL
+                }/${id}`
+              : undefined
+          }
           onPublish={this._handleSaveToProfile}
           isPublishing={this.state.isPublishing}
           onDismiss={this._handlePublishAbort}

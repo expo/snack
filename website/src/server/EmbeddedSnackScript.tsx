@@ -2,7 +2,11 @@ import crypto from 'crypto';
 import nullthrows from 'nullthrows';
 import process from 'process';
 
-const url = nullthrows(process.env.SNACK_SERVER_URL);
+import { isDevDomainEnabled } from '../expo-dev-migration';
+
+const url = nullthrows(
+  isDevDomainEnabled() ? process.env.SNACK_SERVER_URL : process.env.LEGACY_SNACK_SERVER_URL
+);
 
 // options has fields:
 //   id, platform, preview, sdkVersion, code, name, description

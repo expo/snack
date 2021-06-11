@@ -21,7 +21,7 @@ import ThemeProvider from '../client/components/ThemeProvider';
 import createStore from '../client/redux/createStore';
 import type { RouterData, SnackDefaults, QueryParams } from '../client/types';
 import { getSnackName } from '../client/utils/projectNames';
-import { transitionToExpoDev } from '../expo-dev-migration';
+import { isDevDomainEnabled, redirectToDevDomain } from '../expo-dev-migration';
 import * as EmbeddedSnackScript from './EmbeddedSnackScript';
 import Document from './pages/Document';
 import getSplitTests from './utils/getSplitTests';
@@ -33,9 +33,7 @@ const createChannel = customAlphabet(
 );
 
 const render = async (ctx: Context) => {
-  const transitionIsSuccessful = transitionToExpoDev(ctx);
-
-  if (transitionIsSuccessful) return;
+  if (redirectToDevDomain(ctx)) return;
 
   const id = ctx.params
     ? ctx.params.id
@@ -183,7 +181,9 @@ export default function routes() {
         data-snack-sdkVersion="38.0.0"
         data-snack-loading="lazy"
         style="overflow:hidden;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:4px;height:503px;width:788px"></div>
-        <script async src="${process.env.SNACK_SERVER_URL}/embed.js"></script>
+        <script async src="${
+          isDevDomainEnabled() ? process.env.SNACK_SERVER_URL : process.env.LEGACY_SNACK_SERVER_URL
+        }/embed.js"></script>
       </body></html>
       `;
     });

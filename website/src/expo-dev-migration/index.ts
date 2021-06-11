@@ -1,6 +1,6 @@
 import { Context } from 'koa';
 
-export function isExpoDevEnabled(): boolean {
+export function isDevDomainEnabled(): boolean {
   const DEPLOY_ENVIRONMENT = process.env.DEPLOY_ENVIRONMENT;
 
   if (!DEPLOY_ENVIRONMENT) return false;
@@ -11,32 +11,26 @@ export function isExpoDevEnabled(): boolean {
   return false;
 }
 
-// if returns `true`, you were redirected and we should exit parent function
-// if returns `false` continue executing routing code
-export function transitionToExpoDev(ctx: Context): boolean {
-  const isExpoDevRedirectEnabled = isExpoDevEnabled();
-
+export function redirectToDevDomain(ctx: Context): boolean {
   if (
-    isExpoDevRedirectEnabled &&
-    `${ctx.protocol}://${ctx.hostname}` === process.env.SNACK_SERVER_URL &&
-    process.env.SNACK_DOT_DEV_SERVER_URL
+    isDevDomainEnabled() &&
+    `${ctx.protocol}://${ctx.hostname}` === process.env.LEGACY_SNACK_SERVER_URL &&
+    process.env.SNACK_SERVER_URL
   ) {
-    ctx.redirect(`${process.env.SNACK_DOT_DEV_SERVER_URL}${ctx.req.url}`);
+    ctx.redirect(`${process.env.SNACK_SERVER_URL}${ctx.req.url}`);
     return true;
   } else {
     return false;
   }
 }
 
-// if returns `true`, you were redirected and we should exit parent function
-// if returns `false` continue executing routing code
-export function undoTransitionToExpoDev(ctx: Context): boolean {
-  const isExpoDevRedirectEnabled = isExpoDevEnabled();
-
+// in the case that we need to rollback the domain redirect,
+// run this function in place of redirectToDevDomain
+export function redirectToIoDomain(ctx: Context): boolean {
   if (
-    isExpoDevRedirectEnabled &&
-    `${ctx.protocol}://${ctx.hostname}` === process.env.SNACK_DOT_DEV_SERVER_URL &&
-    process.env.SNACK_SERVER_URL
+    isDevDomainEnabled() &&
+    `${ctx.protocol}://${ctx.hostname}` === process.env.SNACK_SERVER_URL &&
+    process.env.LEGACY_SNACK_SERVER_URL
   ) {
     ctx.redirect(`${process.env.SNACK_SERVER_URL}${ctx.req.url}`);
     return true;
