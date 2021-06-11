@@ -48,6 +48,8 @@ const allowedOrigins = [
   'https://jackdaw.codecademy.com',
   'https://staging.codecademy.com',
   'https://production.codecademy.com',
+  // Sizze
+  'https://dashboard.sizze.io',
 ];
 
 function isAllowedOrigin(origin: string): boolean {
