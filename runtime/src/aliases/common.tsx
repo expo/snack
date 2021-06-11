@@ -18,7 +18,7 @@ const aliases: { [key: string]: any } = {
   // Packages that are used internally by the runtime
   'expo-constants': require('expo-constants'),
   'expo-file-system': require('expo-file-system'),
-  'expo-permissions': require('expo-permissions'),
+  'expo-permissions': require('expo-permissions'), // TODO, remove this for SDK 42
   'expo-updates': require('expo-updates'),
   '@react-native-async-storage/async-storage': require('@react-native-async-storage/async-storage'),
 

@@ -1,6 +1,5 @@
 import { BarCodeScanner, BarCodeScannedCallback } from 'expo-barcode-scanner';
 import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
@@ -27,7 +26,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
   }
 
   _openCameraAsync = async () => {
-    const { status } = await Permissions.askAsync('camera');
+    const { status } = await BarCodeScanner.requestPermissionsAsync();
 
     this.setState({
       waitingForPermission: false,
