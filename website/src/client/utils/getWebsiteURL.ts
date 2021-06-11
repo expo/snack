@@ -1,15 +1,9 @@
-import { isExpoDevEnabled } from 'src/expo-dev-migration';
+import { isDevDomainEnabled } from '../../expo-dev-migration';
 
 export function getWebsiteURL() {
-  const isExpoDevRedirectEnabled = isExpoDevEnabled();
-
-  return isExpoDevRedirectEnabled ? process.env.WEBSITE_URL : process.env.SERVER_URL;
+  return isDevDomainEnabled() ? process.env.SERVER_URL : process.env.LEGACY_SERVER_URL;
 }
 
 export function getSnackWebsiteURL() {
-  const isExpoDevRedirectEnabled = isExpoDevEnabled();
-
-  return isExpoDevRedirectEnabled
-    ? process.env.SNACK_DOT_DEV_SERVER_URL
-    : process.env.SNACK_SERVER_URL;
+  return isDevDomainEnabled() ? process.env.SNACK_SERVER_URL : process.env.LEGACY_SNACK_SERVER_URL;
 }
