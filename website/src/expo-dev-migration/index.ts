@@ -12,6 +12,7 @@ export function isDevDomainEnabled(): boolean {
 }
 
 export function redirectToDevDomain(ctx: Context): boolean {
+  // if the incoming request is from snack.expo.io, redirect to snack.expo.dev
   if (
     isDevDomainEnabled() &&
     `${ctx.protocol}://${ctx.hostname}` === process.env.LEGACY_SNACK_SERVER_URL &&
@@ -27,6 +28,7 @@ export function redirectToDevDomain(ctx: Context): boolean {
 // in the case that we need to rollback the domain redirect,
 // run this function in place of redirectToDevDomain
 export function redirectToIoDomain(ctx: Context): boolean {
+  // if the incoming request is from snack.expo.dev, redirect to snack.expo.io
   if (
     isDevDomainEnabled() &&
     `${ctx.protocol}://${ctx.hostname}` === process.env.SNACK_SERVER_URL &&
