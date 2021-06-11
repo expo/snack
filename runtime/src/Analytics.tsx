@@ -10,10 +10,16 @@ Amplitude.initializeAsync(AMPLITUDE_KEY);
 
 let loggedReceivedFirstCode = false;
 
-export const receivedCode = ({ message: { metadata } }: { message: { metadata: object } }) => {
+export const receivedCode = ({
+  message: { metadata },
+  deviceId,
+}: {
+  message: { metadata: object };
+  deviceId: string;
+}) => {
   if (!loggedReceivedFirstCode) {
     Amplitude.logEventWithPropertiesAsync('RECEIVED_FIRST_CODE', {
-      phoneId: Constants.installationId,
+      phoneId: deviceId,
       phoneName: Constants.deviceName,
       ...metadata,
     });

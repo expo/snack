@@ -6,7 +6,7 @@ import * as Logger from './Logger';
 type Listener = (payload: { message: any }) => void;
 
 const device = {
-  id: Constants.installationId,
+  id: '', // async, populated in init
   name: Constants.deviceName,
   platform: Platform.OS,
 };
@@ -76,6 +76,10 @@ const onMessage = (event: MessageEvent) => {
   } catch (e) {
     Logger.comm_error('Failed to parse message', event.data);
   }
+};
+
+export const init = (deviceId: string) => {
+  device.id = deviceId;
 };
 
 export const unsubscribe = () => {

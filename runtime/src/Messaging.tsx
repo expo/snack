@@ -9,27 +9,32 @@ import * as Logger from './Logger';
 const PRESENCE_TIMEOUT = 600;
 const HEARTBEAT_INTERVAL = 60;
 
-const pubnub = new PubNub({
-  publishKey: 'pub-c-2a7fd67b-333d-40db-ad2d-3255f8835f70',
-  subscribeKey: 'sub-c-0b655000-d784-11e6-b950-02ee2ddab7fe',
-  uuid: JSON.stringify({
-    id: Constants.installationId,
-    name: Constants.deviceName,
-    platform: Platform.OS,
-  }),
-  ssl: true,
-  presenceTimeout: PRESENCE_TIMEOUT,
-  heartbeatInterval: HEARTBEAT_INTERVAL,
-});
+let pubnub: PubNub;
 
 // Device metadata that is sent with every message from us
 const device = {
-  id: Constants.installationId,
+  id: '', // async, populated in init
   name: Constants.deviceName,
   platform: Platform.OS,
 };
 
 let currentChannel: string | null = null;
+
+export const init = (deviceId: string) => {
+  pubnub = new PubNub({
+    publishKey: 'pub-c-2a7fd67b-333d-40db-ad2d-3255f8835f70',
+    subscribeKey: 'sub-c-0b655000-d784-11e6-b950-02ee2ddab7fe',
+    uuid: JSON.stringify({
+      id: deviceId,
+      name: Constants.deviceName,
+      platform: Platform.OS,
+    }),
+    ssl: true,
+    presenceTimeout: PRESENCE_TIMEOUT,
+    heartbeatInterval: HEARTBEAT_INTERVAL,
+  });
+  device.id = deviceId;
+};
 
 // End existing PubNub subscription, if any
 export const unsubscribe = () => {
