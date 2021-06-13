@@ -18,6 +18,7 @@ build:
           APP_VERSION: staging-{{.GITHUB_SHA}}
           DEPLOY_ENVIRONMENT: staging
           IMPORT_SERVER_URL: https://staging.snackager.expo.io
+          LEGACY_SNACK_SERVER_URL: https://staging.snack.expo.dev
           SNACK_SERVER_URL: https://staging.snack.expo.dev
           SNACK_SEGMENT_KEY: dxul6twMnfpyguF8w4W2qUpFnhxEUSV6
           SNACK_AMPLITUDE_KEY: 512bcbce69eae77fee77be53ec230088
@@ -45,7 +46,8 @@ profiles:
               APP_VERSION: production-{{.GITHUB_SHA}}
               DEPLOY_ENVIRONMENT: production
               IMPORT_SERVER_URL: https://snackager.expo.io
-              SNACK_SERVER_URL: https://snack.expo.io
+              LEGACY_SNACK_SERVER_URL: https://snack.expo.io
+              SNACK_SERVER_URL: https://snack.expo.dev
               SNACK_SEGMENT_KEY: Ha0swpI6s2CVEMxK84cEmKmUVmBa1USu
               SNACK_AMPLITUDE_KEY: e91121c19a5bdcccd852cd032dc911fe
               SNACK_WEBPLAYER_URL: https://snack-web-player.s3.us-west-1.amazonaws.com
