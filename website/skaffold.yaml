@@ -18,7 +18,7 @@ build:
           APP_VERSION: staging-{{.GITHUB_SHA}}
           DEPLOY_ENVIRONMENT: staging
           IMPORT_SERVER_URL: https://staging.snackager.expo.io
-          LEGACY_SNACK_SERVER_URL: https://staging.snack.expo.dev
+          LEGACY_SNACK_SERVER_URL: https://staging.snack.expo.io
           SNACK_SERVER_URL: https://staging.snack.expo.dev
           SNACK_SEGMENT_KEY: dxul6twMnfpyguF8w4W2qUpFnhxEUSV6
           SNACK_AMPLITUDE_KEY: 512bcbce69eae77fee77be53ec230088
