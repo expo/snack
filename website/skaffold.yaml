@@ -13,7 +13,7 @@ build:
         dockerfile: website/Dockerfile
         buildArgs:
           node_version: 12.18.4
-          LEGACY_SERVER_URL: https://staging.expo.dev
+          LEGACY_SERVER_URL: https://staging.expo.io
           SERVER_URL: https://staging.expo.dev
           API_SERVER_URL: https://staging.exp.host
           APP_VERSION: staging-{{.GITHUB_SHA}}
