@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import { getLoginHref } from '../auth/login';
 import withAuth, { AuthProps } from '../auth/withAuth';
+import { getWebsiteURL } from '../utils/getWebsiteURL';
 import { c } from './ThemeProvider';
 import Avatar from './shared/Avatar';
 import ContextMenu from './shared/ContextMenu';
@@ -59,6 +60,8 @@ class UserMenu extends React.Component<Props, State> {
   render() {
     const { viewer, legacyLogout } = this.props;
 
+    const websiteURL = getWebsiteURL();
+
     return (
       <div className={css(styles.container)}>
         <button ref={this._avatar} className={css(styles.button)}>
@@ -72,12 +75,11 @@ class UserMenu extends React.Component<Props, State> {
               ? [
                   {
                     label: 'My Snacks',
-                    handler: () =>
-                      window.open(`${process.env.SERVER_URL}/@${viewer.username}/snacks`),
+                    handler: () => window.open(`${websiteURL}/@${viewer.username}/snacks`),
                   },
                   {
                     label: 'Account Settings',
-                    handler: () => window.open(`${process.env.SERVER_URL}/settings`),
+                    handler: () => window.open(`${websiteURL}/settings`),
                   },
                   ...(legacyLogout ? [{ label: 'Log out', handler: legacyLogout }] : []),
                 ]

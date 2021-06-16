@@ -49,6 +49,7 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         SERVER_URL: JSON.stringify(env('SERVER_URL')),
+        LEGACY_SERVER_URL: JSON.stringify(env('LEGACY_SERVER_URL')),
         API_SERVER_URL: JSON.stringify(env('API_SERVER_URL')),
         SNACK_SEGMENT_KEY: JSON.stringify(env('SNACK_SEGMENT_KEY')),
         SNACK_AMPLITUDE_KEY: JSON.stringify(env('SNACK_AMPLITUDE_KEY')),

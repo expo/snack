@@ -1,3 +1,4 @@
+import { getWebsiteURL } from '../utils/getWebsiteURL';
 import { getReloadURL } from '../utils/reloadURL';
 
 type LoginHrefOptions = {
@@ -9,5 +10,5 @@ export function getLoginHref(options?: LoginHrefOptions) {
     hideQueryParams: 'true',
     ...(options?.saveToAccount ? { saveToAccount: 'true' } : {}),
   });
-  return `${process.env.SERVER_URL}/login?redirect_uri=${encodeURIComponent(reloadURL)}`;
+  return `${getWebsiteURL()}/login?redirect_uri=${encodeURIComponent(reloadURL)}`;
 }

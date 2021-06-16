@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import constants from '../configs/constants';
 import { isMobile, isAndroid } from '../utils/detectPlatform';
 import { openEmbeddedSessionFullScreen } from '../utils/embeddedSession';
+import { getWebsiteURL } from '../utils/getWebsiteURL';
 import { withDependencyManager } from './DependencyManager';
 import DeviceInstructionsModal, {
   EmbeddedConnectionMethod,
@@ -115,7 +116,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
             onOpenFullEditor={this.handleOpenFullEditor}
           />
           <a
-            href={process.env.SERVER_URL}
+            href={getWebsiteURL()}
             target="_blank"
             rel="noopener noreferrer"
             className={css(styles.logo)}>
