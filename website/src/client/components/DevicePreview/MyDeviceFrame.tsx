@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import { getWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
 import { Device, SDKVersion } from '../../types';
@@ -71,10 +72,7 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
         <div className={css(styles.frame)}>
           <h3 className={css(styles.title)}>
             Download{' '}
-            <a
-              className={css(styles.link)}
-              href={`${process.env.SERVER_URL}/client`}
-              target="blank">
+            <a className={css(styles.link)} href={`${getWebsiteURL()}/client`} target="blank">
               Expo Go
             </a>{' '}
             and scan
@@ -239,7 +237,7 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
       return (
         <p className={css(styles.notConnectedText)}>
           <a
-            href={isEmbedded ? `${process.env.SERVER_URL}/login` : getLoginHref()}
+            href={isEmbedded ? `${getWebsiteURL()}/login` : getLoginHref()}
             target={isEmbedded ? '_blank' : undefined}
             className={css(styles.link)}>
             Log in

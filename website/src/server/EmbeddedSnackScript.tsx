@@ -1,8 +1,9 @@
 import crypto from 'crypto';
 import nullthrows from 'nullthrows';
-import process from 'process';
 
-const url = nullthrows(process.env.SNACK_SERVER_URL);
+import { getSnackWebsiteURL } from '../client/utils/getWebsiteURL';
+
+const url = nullthrows(getSnackWebsiteURL());
 
 // options has fields:
 //   id, platform, preview, sdkVersion, code, name, description
