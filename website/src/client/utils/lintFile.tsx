@@ -9,7 +9,7 @@ async function lintCode(path: string, code: string, files: SnackFiles): Promise<
       // Use the babel-eslint parser by default since it's what we bundle
       // This avoids having to specify the parser which might not be obvious
       // @ts-ignore
-      config = { parser: 'babel-eslint', ...JSON.parse(files[eslintrc].contents) };
+      config = { parser: '@babel/eslint-parser', ...JSON.parse(files[eslintrc].contents) };
     } catch (e) {
       return [
         {
