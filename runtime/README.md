@@ -28,7 +28,10 @@ This loads the runtime into Expo Go and displays another QR-code scanner. Now, u
 
 ## Deployment
 
-The runtime is not yet auto-deployed in CI. To manually deploy the runtime, see the [Deployment guide](./__internal__/DEPLOYING.md).
+The runtime is auto-deployed to Staging upon mergin to main. 
+To deploy to production, run the `deploy` dispatch trigger of the `RuntimeProduction` Github Action workflow.
+
+To manually deploy or learn more about deploying, see the [Deployment guide](./__internal__/DEPLOYING.md).
 
 
 ## Loading states
