@@ -10,6 +10,7 @@ const CORE_EXTERNALS = [
   'react-native',
   'react-native-web',
   'react-native-windows',
+  'react-dom',
   'expo',
   '@unimodules/core',
   '@unimodules/react-native-adapter',

@@ -420,7 +420,7 @@ Object {
           "react-native/Libraries/BatchedBridge/BatchedBridge",
           "react-native-svg",
         ],
-        "size": 294732,
+        "size": 294734,
       },
     },
     "ios": Object {
@@ -441,12 +441,13 @@ Object {
         "externals": Array [
           "react",
           "react-native",
+          "react-dom",
           "@expo/vector-icons",
           "react-native-safe-area-context",
           "expo-av",
           "react-native-svg",
         ],
-        "size": 776828,
+        "size": 652485,
       },
     },
   },
