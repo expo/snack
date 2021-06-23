@@ -191,4 +191,13 @@ describe('bundler', () => {
       );
     });
   });
+
+  it('creates bundle for graphql@14.0.0', async () => {
+    // This library was causing issues in aws-amplify because of mjs files.
+    // It's imported by @aws-amplify/api -> @aws-amplify/api-graphql -> graphql,
+    // because aws-amplify is HUGE, we are only testing `graphql@14.0.0` here.
+    // see: https://github.com/graphql/graphql-js/issues/1272
+    const bundle = await bundleAsync('graphql@14.0.0');
+    expect(bundle).toMatchSnapshot();
+  });
 });
