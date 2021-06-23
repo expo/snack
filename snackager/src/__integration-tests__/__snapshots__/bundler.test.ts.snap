@@ -200,6 +200,61 @@ Object {
 }
 `;
 
+exports[`bundler creates bundle for graphql@14.0.0 1`] = `
+Object {
+  "files": Object {
+    "android": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "./graphql",
+          "./type",
+          "./language",
+          "./execution",
+          "./subscription",
+          "./validation",
+          "./error",
+          "./utilities",
+        ],
+        "size": 20124,
+      },
+    },
+    "ios": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "./graphql",
+          "./type",
+          "./language",
+          "./execution",
+          "./subscription",
+          "./validation",
+          "./error",
+          "./utilities",
+        ],
+        "size": 20120,
+      },
+    },
+    "web": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "./graphql",
+          "./type",
+          "./language",
+          "./execution",
+          "./subscription",
+          "./validation",
+          "./error",
+          "./utilities",
+        ],
+        "size": 20120,
+      },
+    },
+  },
+  "name": "graphql",
+  "peerDependencies": Object {},
+  "version": "14.0.0",
+}
+`;
+
 exports[`bundler creates bundle for react-native-screens/native-stack 1`] = `
 Object {
   "files": Object {
