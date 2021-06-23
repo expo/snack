@@ -67,6 +67,11 @@ export default ({
           },
         },
         {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        },
+        {
           test: /\.(bmp|gif|jpg|jpeg|png|svg|mp4|ttf|otf)$/,
           use: {
             loader: require.resolve('./assetLoader'),
