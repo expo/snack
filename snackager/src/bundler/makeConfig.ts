@@ -53,7 +53,7 @@ export default ({
       rules: [
         { parser: { requireEnsure: false } },
         {
-          test: /\.(js|tsx?)$/,
+          test: /\.(m?js|tsx?)$/,
           use: {
             loader: require.resolve('babel-loader'),
             options: {
@@ -65,11 +65,6 @@ export default ({
               ],
             },
           },
-        },
-        {
-          test: /\.mjs$/,
-          include: /node_modules/,
-          type: 'javascript/auto',
         },
         {
           test: /\.(bmp|gif|jpg|jpeg|png|svg|mp4|ttf|otf)$/,
