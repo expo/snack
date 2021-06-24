@@ -48,10 +48,6 @@ export default ({
         'process.env': { NODE_ENV: JSON.stringify('production') },
         __DEV__: JSON.stringify(false),
       }),
-      new webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: false,
-      }),
     ],
     module: {
       rules: [
