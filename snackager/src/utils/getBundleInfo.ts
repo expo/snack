@@ -1,3 +1,5 @@
+import uniq from 'lodash/uniq';
+
 export type BundleInfo = {
   size: number;
   externals?: string[];
@@ -14,7 +16,9 @@ export default function getBundleInfo(
   }
   const code: string = buffer.toString();
   return {
-    externals: Array.from(code.matchAll(/require\("([^"]+)"\)/g)).map((match) => match[1]),
+    externals: uniq(
+      Array.from(code.matchAll(/require\("([^"]+)"\)/g)).map((match) => match[1])
+    ).sort(),
     size: code.length,
     ...(includeCode ? { code } : {}),
   };
