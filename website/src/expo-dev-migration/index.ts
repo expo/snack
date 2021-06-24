@@ -3,7 +3,7 @@ import { Context } from 'koa';
 export function isDevDomainEnabled(): boolean {
   const DEPLOY_ENVIRONMENT = process.env.DEPLOY_ENVIRONMENT;
 
-  console.log('DEPLOY_ENVIRONMENT', DEPLOY_ENVIRONMENT);
+  console.log('.DEV REDIRECT: DEPLOY_ENVIRONMENT', DEPLOY_ENVIRONMENT);
 
   if (!DEPLOY_ENVIRONMENT) return false;
 
