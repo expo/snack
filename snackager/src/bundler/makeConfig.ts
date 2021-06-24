@@ -1,5 +1,6 @@
 import uniq from 'lodash/uniq';
 import webpack from 'webpack';
+import TerserPlugin from 'terser-webpack-plugin';
 
 import { getCoreExternals, getPackageExternals } from './externals';
 import getResolverConfig from './getResolverConfig';
@@ -36,8 +37,11 @@ export default ({
       libraryTarget: 'commonjs',
     },
     optimization: {
-      noEmitOnErrors: true,
+      emitOnErrors: false,
       minimize: true,
+      // Explicitly configure the Terser plugin to not generate "bundle.js.LICENSE.txt" files
+      // https://stackoverflow.com/questions/64818489/webpack-omit-creation-of-license-txt-files
+      minimizer: [new TerserPlugin({ extractComments: false })],
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -78,21 +82,21 @@ export default ({
     },
     externals: [
       ...uniq([...externals, ...getCoreExternals(), ...getPackageExternals()]),
-      (_context: any, request: any, callback: Function) => {
+      ({ request }, callback) => {
         // Mark imports such as react-native-gesture-handler/DrawerLayout to be external
         // Otherwise it will pull in the whole library
-        if (/^react-native-gesture-handler\/[^/]+$/.test(request)) {
-          return callback(null, 'commonjs ' + request);
+        if (/^react-native-gesture-handler\/[^/]+$/.test(request!)) {
+          return callback(undefined, 'commonjs ' + request);
         }
 
         // Mark both the `react-native-vector-icons` _and_ `@expo/vector-icons` as external, including any nested require
         // This allows us to mark `react-native-vector-icons/MaterialCommunityIcons` as external
         // Both these libraries have special hardcoded handling in the Snack runtime (in modules)
-        if (/react-native-vector-icons(\/.*)?/.test(request)) {
-          return callback(null, 'commonjs ' + request);
+        if (/react-native-vector-icons(\/.*)?/.test(request!)) {
+          return callback(undefined, 'commonjs ' + request);
         }
-        if (/@expo\/vector-icons(\/.*)?/.test(request)) {
-          return callback(null, 'commonjs ' + request);
+        if (/@expo\/vector-icons(\/.*)?/.test(request!)) {
+          return callback(undefined, 'commonjs ' + request);
         }
 
         callback();

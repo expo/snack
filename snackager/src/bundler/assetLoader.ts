@@ -1,7 +1,6 @@
 import fs from 'fs';
-import utils from 'loader-utils';
 import path from 'path';
-import { loader } from 'webpack';
+import { RawLoaderDefinitionFunction } from 'webpack';
 
 import AssetResolver from './AssetResolver';
 
@@ -27,11 +26,11 @@ type AssetPair = {
   content: Buffer;
 };
 
-async function assetLoader(this: loader.LoaderContext): Promise<void> {
+const assetLoader: RawLoaderDefinitionFunction = async function (this) {
   this.cacheable();
 
-  const callback = this.async()!;
-  const config: Config = utils.getOptions(this) as any;
+  const callback = this.async();
+  const config: Config = this.getOptions() as any;
 
   let info: ImageSize | null = null;
 
@@ -131,7 +130,7 @@ async function assetLoader(this: loader.LoaderContext): Promise<void> {
       module.exports = ${publicPath} + ${JSON.stringify(`/${longname}.${type}`)};
       `
     );
-    return;
+    return '';
   }
 
   callback(
@@ -150,7 +149,8 @@ async function assetLoader(this: loader.LoaderContext): Promise<void> {
     });
   `
   );
-}
+  return '';
+};
 
 module.exports = assetLoader;
 module.exports.raw = true;

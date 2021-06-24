@@ -1,8 +1,8 @@
-import { Resolve } from 'webpack';
+import { ResolveOptions } from 'webpack';
 
 import AssetResolver from './AssetResolver';
 
-export default function getResolverConfig(platform: string): Resolve {
+export default function getResolverConfig(platform: string): ResolveOptions {
   return {
     plugins: [new AssetResolver({ platform })],
     mainFields: [...(platform !== 'web' ? ['react-native'] : []), 'browser', 'module', 'main'],
