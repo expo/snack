@@ -1,6 +1,6 @@
 import uniq from 'lodash/uniq';
-import webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
+import webpack from 'webpack';
 
 import { getCoreExternals, getPackageExternals } from './externals';
 import getResolverConfig from './getResolverConfig';

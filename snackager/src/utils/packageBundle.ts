@@ -163,9 +163,7 @@ async function packageBundleUnsafe({
   const result = status.toJson();
 
   if (result.errors?.length) {
-    throw result.errors.length > 1
-      ? new Error(result.errors.map((error) => error.message).join('\n'))
-      : result.errors[0];
+    throw new Error(result.errors.map((error) => error.message).join('\n'));
   }
 
   logger.info({ pkg }, `bundle generated`);
