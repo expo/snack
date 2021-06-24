@@ -34,7 +34,9 @@ const createChannel = customAlphabet(
 );
 
 const render = async (ctx: Context) => {
+  console.log('.DEV REDIRECT: render() started');
   if (redirectToDevDomain(ctx)) return;
+  console.log('.DEV REDIRECT: render() continued after redirectToDevDomain()');
 
   const id = ctx.params
     ? ctx.params.id
