@@ -17,9 +17,13 @@ export function redirectToDevDomain(ctx: Context): boolean {
   console.log(`.DEV REDIRECT: ${ctx.protocol}://${ctx.hostname}`);
 
   console.log('.DEV REDIRECT: isDevDomainEnabled', isDevDomainEnabled());
+  console.log('.DEV REDIRECT: ctx', ctx);
   console.log('.DEV REDIRECT: ctx.protocol', ctx.protocol);
   console.log('.DEV REDIRECT: ctx.hostname', ctx.hostname);
+  console.log('.DEV REDIRECT: ctx.origin', ctx.origin);
   console.log('.DEV REDIRECT: ctx.req.url', ctx.req.url);
+  console.log('.DEV REDIRECT: ctx.req.headers', ctx.req.headers);
+  console.log('.DEV REDIRECT: ctx.req', ctx.req);
   console.log(
     '.DEV REDIRECT: process.env.LEGACY_SNACK_SERVER_URL',
     process.env.LEGACY_SNACK_SERVER_URL
