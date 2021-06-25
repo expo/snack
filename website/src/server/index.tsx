@@ -43,6 +43,9 @@ if (require.main === module) {
 
 const app = new Koa();
 
+// trust incoming header fields from nginx
+app.proxy = true;
+
 app.on('error', (err, ctx: Koa.Context) => {
   // We get EPIPE and ECONNRESET errors if the client terminates the connection. Log these but
   // don't report them as errors.
