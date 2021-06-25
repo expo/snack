@@ -53,7 +53,7 @@ export default ({
       rules: [
         { parser: { requireEnsure: false } },
         {
-          test: /\.(m?js|tsx?)$/,
+          test: /\.(js|tsx?)$/,
           use: {
             loader: require.resolve('babel-loader'),
             options: {
