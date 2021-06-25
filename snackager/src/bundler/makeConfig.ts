@@ -52,6 +52,7 @@ export default ({
     module: {
       rules: [
         { parser: { requireEnsure: false } },
+        { test: /\.mjs/, type: 'javascript/auto' }, // TODO(cedric): remove this once we land webpack 5
         {
           test: /\.(js|tsx?)$/,
           use: {

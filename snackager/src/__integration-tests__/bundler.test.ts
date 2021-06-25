@@ -200,7 +200,7 @@ describe('bundler', () => {
     const bundle = await bundleAsync('graphql@14.0.0');
     expect(bundle).toMatchSnapshot();
     // Also validate that we don't have any relative extenals
-    ['android', 'ios', 'web'].forEach(platform => {
+    ['android', 'ios', 'web'].forEach((platform) => {
       expect(bundle.files[platform]['bundle.js'].externals).not.toEqual(
         expect.arrayContaining([expect.stringContaining('./')])
       );
@@ -213,7 +213,7 @@ describe('bundler', () => {
     const bundle = await bundleAsync('graphql@15.5.1');
     expect(bundle).toMatchSnapshot();
     // Also validate that we don't have any relative extenals
-    ['android', 'ios', 'web'].forEach(platform => {
+    ['android', 'ios', 'web'].forEach((platform) => {
       expect(bundle.files[platform]['bundle.js'].externals).not.toEqual(
         expect.arrayContaining([expect.stringContaining('./')])
       );

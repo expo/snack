@@ -205,47 +205,20 @@ Object {
   "files": Object {
     "android": Object {
       "bundle.js": Object {
-        "externals": Array [
-          "./graphql",
-          "./type",
-          "./language",
-          "./execution",
-          "./subscription",
-          "./validation",
-          "./error",
-          "./utilities",
-        ],
-        "size": 20124,
+        "externals": Array [],
+        "size": 175864,
       },
     },
     "ios": Object {
       "bundle.js": Object {
-        "externals": Array [
-          "./graphql",
-          "./type",
-          "./language",
-          "./execution",
-          "./subscription",
-          "./validation",
-          "./error",
-          "./utilities",
-        ],
-        "size": 20120,
+        "externals": Array [],
+        "size": 175860,
       },
     },
     "web": Object {
       "bundle.js": Object {
-        "externals": Array [
-          "./graphql",
-          "./type",
-          "./language",
-          "./execution",
-          "./subscription",
-          "./validation",
-          "./error",
-          "./utilities",
-        ],
-        "size": 20120,
+        "externals": Array [],
+        "size": 175860,
       },
     },
   },
