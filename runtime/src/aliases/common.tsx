@@ -28,15 +28,7 @@ const aliases: { [key: string]: any } = {
   'prop-types': require('prop-types'),
   '@unimodules/core': require('@unimodules/core'),
   '@unimodules/react-native-adapter': require('@unimodules/react-native-adapter'),
-  'unimodules-barcode-scanner-interface': require('unimodules-barcode-scanner-interface'),
-  'unimodules-camera-interface': require('unimodules-camera-interface'),
-  'unimodules-constants-interface': require('unimodules-constants-interface'),
-  'unimodules-face-detector-interface': require('unimodules-face-detector-interface'),
-  'unimodules-file-system-interface': require('unimodules-file-system-interface'),
-  'unimodules-font-interface': require('unimodules-font-interface'),
-  'unimodules-image-loader-interface': require('unimodules-image-loader-interface'),
-  'unimodules-permissions-interface': require('unimodules-permissions-interface'),
-  'unimodules-sensors-interface': require('unimodules-sensors-interface'),
+  'expo-modules-core': require('expo-modules-core'),
   'unimodules-task-manager-interface': require('unimodules-task-manager-interface'),
 
   // Aliases for the image examples in react native docs
