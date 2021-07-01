@@ -12,6 +12,7 @@ import {
   getSupportedSDKVersions,
   isFeatureSupported,
   standardizeDependencies,
+  getDeprecatedModule,
 } from './sdk';
 
 export * from './transports';
@@ -24,6 +25,7 @@ export {
   getSupportedSDKVersions,
   isFeatureSupported,
   standardizeDependencies,
+  getDeprecatedModule,
   defaultConfig,
   Snack,
 };

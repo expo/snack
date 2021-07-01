@@ -1,5 +1,10 @@
 import mapValues from 'lodash/mapValues';
-import { isModulePreloaded, SnackFiles, SnackMissingDependencies } from 'snack-sdk';
+import {
+  isModulePreloaded,
+  SnackFiles,
+  SnackMissingDependencies,
+  getDeprecatedModule,
+} from 'snack-sdk';
 
 import {
   SDKVersion,
@@ -133,6 +138,7 @@ export function getDependencyAnnotations(
   // Add annotations for package.json
   for (const name in dependencies) {
     const { error, handle, version, wantedVersion } = dependencies[name];
+    const deprecated = getDeprecatedModule(name, sdkVersion);
     if (error) {
       annotations.push({
         message: error.message,
@@ -158,6 +164,14 @@ export function getDependencyAnnotations(
         action: getDependencyAction(name, version, dependencies, sdkVersion),
       });
     }
+    if (deprecated) {
+      annotations.push({
+        message: `'${name}' is deprecated. ${deprecated}`,
+        location: getPackageJsonLocation(name, lines, false),
+        severity: 2,
+        source: 'Dependencies',
+      });
+    }
   }
 
   // Add annotations for all missing (peer) dependencies
@@ -178,7 +192,7 @@ export function getDependencyAnnotations(
     });
   }
 
-  // Add annotations for all files that are missing dependencies
+  // Add annotations for all files that have missing dependencies
   for (const path in filesDependencies) {
     const fileDeps = filesDependencies[path];
     for (const name in fileDeps) {

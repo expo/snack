@@ -165,6 +165,12 @@ const sdks: { [version: string]: SDKSpec } = {
       // Common packages that are included for easy of use
       'prop-types': '*',
     },
+    deprecatedModules: {
+      '@react-native-community/async-storage':
+        'Async Storage has moved to new organization: https://github.com/react-native-async-storage/async-storage',
+      'expo-permissions':
+        'Use permissions getters and requesters in specific modules instead, such as MediaLibrary.getPermissionsAsync() and MediaLibrary.requestPermissionsAsync().',
+    },
   },
 };
 

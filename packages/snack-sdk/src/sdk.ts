@@ -44,6 +44,15 @@ export function validateSDKVersion(sdkVersion: SDKVersion): SDKVersion {
 }
 
 /**
+ * Checks whether the module is deprecated for the given sdk-version and returns
+ * the alternative module or error description instead. If the module is not deprecated
+ * `undefined` is returned.
+ */
+export function getDeprecatedModule(name: string, sdkVersion: SDKVersion): string | undefined {
+  return sdks[sdkVersion]?.deprecatedModules?.[name];
+}
+
+/**
  * Returns the list of supported SDK versions.
  */
 export function getSupportedSDKVersions(): SDKVersion[] {

@@ -28,6 +28,13 @@ export type SDKSpec = {
   bundledModules: {
     [name: string]: '*';
   };
+
+  // Modules that have been deprecated. The value represents a valid
+  // a description providing a solution or explanation (eg.
+  // "expo-permissions": "Use permissions getters and requesters in specific modules instead...""
+  deprecatedModules?: {
+    [name: string]: string;
+  };
 };
 
 /**
