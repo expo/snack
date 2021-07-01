@@ -9,6 +9,8 @@ const assets = {
 const unimodules: { [name: string]: '*' } = {
   '@unimodules/core': '*',
   '@unimodules/react-native-adapter': '*',
+};
+const legacyUnimoduleInterfaces: { [name: string]: '*' } = {
   'unimodules-barcode-scanner-interface': '*',
   'unimodules-camera-interface': '*',
   'unimodules-constants-interface': '*',
@@ -27,6 +29,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
+      ...legacyUnimoduleInterfaces,
       expo: '38.0.10',
       react: '16.11.0',
       'react-native': '0.62.2',
@@ -65,6 +68,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
+      ...legacyUnimoduleInterfaces,
       expo: '39.0.5',
       react: '16.13.1',
       'react-native': '0.63.2',
@@ -109,6 +113,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
+      ...legacyUnimoduleInterfaces,
       expo: '40.0.1',
       react: '16.13.1',
       'react-native': '0.63.2',
@@ -140,6 +145,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
+      ...legacyUnimoduleInterfaces,
       expo: '41.0.0',
       react: '16.13.1',
       'react-native': '0.63.2',

@@ -28,8 +28,6 @@ const aliases: { [key: string]: any } = {
   'prop-types': require('prop-types'),
   '@unimodules/core': require('@unimodules/core'),
   '@unimodules/react-native-adapter': require('@unimodules/react-native-adapter'),
-  'expo-modules-core': require('expo-modules-core'),
-  'unimodules-task-manager-interface': require('unimodules-task-manager-interface'),
 
   // Aliases for the image examples in react native docs
   '@expo/snack-static/react-native-logo.png': require('../react-native-logo.png'),
