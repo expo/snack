@@ -69,7 +69,7 @@ GestureHandler; // eslint-disable-line @babel/no-unused-expressions,@typescript-
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
 
 const manifest = Constants.manifest;
-let projectDependencies: Dependencies = manifest.extra?.dependencies ?? {};
+let projectDependencies: Dependencies = manifest?.extra?.dependencies ?? {};
 
 // replacement for String.prototype.startsWith with consistent behaviour on iOS & Android
 const startsWith = (base: string, search: string) => String(base).indexOf(String(search)) === 0;
@@ -267,7 +267,7 @@ const fetchPipeline = async (load: Load) => {
         } else {
           // In development, try fetching from staging cloudfront first
           const cloudFrontUrls =
-            Constants.manifest.extra?.cloudEnv !== 'production'
+            Constants.manifest?.extra?.cloudEnv !== 'production'
               ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
               : [SNACKAGER_CDN_PROD];
           for (const url of cloudFrontUrls) {
