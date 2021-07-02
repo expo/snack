@@ -3,15 +3,17 @@ import { isVerbose } from './NativeModules/Linking';
 
 const verbose = isVerbose();
 
-const logger = (type: string, color: string, textColor?: string) => (...messages: unknown[]) => {
-  if (verbose) {
-    originalConsole.log(
-      `%c ${type.toUpperCase()} `,
-      `background: ${color}; color: ${textColor ?? '#fff'}`,
-      ...messages
-    );
-  }
-};
+const logger =
+  (type: string, color: string, textColor?: string) =>
+  (...messages: unknown[]) => {
+    if (verbose) {
+      originalConsole.log(
+        `%c ${type.toUpperCase()} `,
+        `background: ${color}; color: ${textColor ?? '#fff'}`,
+        ...messages
+      );
+    }
+  };
 
 export const info = logger('info', '#2196f3');
 export const warn = logger('warn', '#FF9800');

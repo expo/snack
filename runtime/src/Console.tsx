@@ -1,13 +1,6 @@
 import LogBox from './NativeModules/LogBox';
 
-const ignoredWarnings = [
-  'Setting a timer for a long period of time',
-
-  // The following warnings don't seem to occur by default anymore.
-  // TODO: These should probably be removed
-  'Require cycle',
-  'Following APIs have moved',
-];
+const ignoredWarnings = ['Setting a timer for a long period of time'];
 
 LogBox.ignoreLogs(ignoredWarnings);
 

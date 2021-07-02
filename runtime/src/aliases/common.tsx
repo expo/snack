@@ -18,7 +18,6 @@ const aliases: { [key: string]: any } = {
   // Packages that are used internally by the runtime
   'expo-constants': require('expo-constants'),
   'expo-file-system': require('expo-file-system'),
-  'expo-permissions': require('expo-permissions'), // TODO, remove this for SDK 42
   'expo-updates': require('expo-updates'),
   '@react-native-async-storage/async-storage': require('@react-native-async-storage/async-storage'),
 
@@ -29,16 +28,6 @@ const aliases: { [key: string]: any } = {
   'prop-types': require('prop-types'),
   '@unimodules/core': require('@unimodules/core'),
   '@unimodules/react-native-adapter': require('@unimodules/react-native-adapter'),
-  'unimodules-barcode-scanner-interface': require('unimodules-barcode-scanner-interface'),
-  'unimodules-camera-interface': require('unimodules-camera-interface'),
-  'unimodules-constants-interface': require('unimodules-constants-interface'),
-  'unimodules-face-detector-interface': require('unimodules-face-detector-interface'),
-  'unimodules-file-system-interface': require('unimodules-file-system-interface'),
-  'unimodules-font-interface': require('unimodules-font-interface'),
-  'unimodules-image-loader-interface': require('unimodules-image-loader-interface'),
-  'unimodules-permissions-interface': require('unimodules-permissions-interface'),
-  'unimodules-sensors-interface': require('unimodules-sensors-interface'),
-  'unimodules-task-manager-interface': require('unimodules-task-manager-interface'),
 
   // Aliases for the image examples in react native docs
   '@expo/snack-static/react-native-logo.png': require('../react-native-logo.png'),

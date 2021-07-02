@@ -18,6 +18,8 @@ import { Platform, PixelRatio } from 'react-native';
 import * as GestureHandler from 'react-native-gesture-handler';
 // @ts-ignore: Could not find a declaration file for module 'react-native-reanimated/plugin'
 import Reanimated2Plugin from 'react-native-reanimated/plugin';
+// Highest supported version of source-map is 0.6.1. As of 7.x source-map uses
+// web-assembly which is not yet supported on react-native.
 import { SourceMapConsumer, RawSourceMap } from 'source-map';
 
 import System from '../vendor/system.src';
@@ -69,7 +71,7 @@ GestureHandler; // eslint-disable-line @babel/no-unused-expressions,@typescript-
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
 
 const manifest = Constants.manifest;
-let projectDependencies: Dependencies = manifest.extra?.dependencies ?? {};
+let projectDependencies: Dependencies = manifest?.extra?.dependencies ?? {};
 
 // replacement for String.prototype.startsWith with consistent behaviour on iOS & Android
 const startsWith = (base: string, search: string) => String(base).indexOf(String(search)) === 0;
@@ -267,7 +269,7 @@ const fetchPipeline = async (load: Load) => {
         } else {
           // In development, try fetching from staging cloudfront first
           const cloudFrontUrls =
-            Constants.manifest.extra?.cloudEnv !== 'production'
+            Constants.manifest?.extra?.cloudEnv !== 'production'
               ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
               : [SNACKAGER_CDN_PROD];
           for (const url of cloudFrontUrls) {
@@ -374,11 +376,6 @@ const translatePipeline = async (load: Load) => {
                 ? [Reanimated2Plugin]
                 : []),
             ],
-            // ...(load.source.includes('@shotReloadComponents')
-            //   ? {
-            //       plugins: [require('react-hot-loader/babel')],
-            //     }
-            //   : {}),
             moduleIds: false,
             sourceMaps: true,
             compact: false,
@@ -522,15 +519,6 @@ const _initialize = async () => {
       await System.set(`react-native-vector-icons/${name}`, iconSetModule);
     })
   );
-
-  // HMR
-  // await System.set(
-  //   'react-hot-loader/patch',
-  //   System.newModule({
-  //     __useDefault: true,
-  //     default: require('react-hot-loader/lib/patch.dev'),
-  //   })
-  // );
 
   // Fix SystemJS path normalization to handle Snack-related special cases
   const oldResolve = System.resolve;

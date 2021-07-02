@@ -301,7 +301,7 @@ export default class App extends React.Component<object, State> {
 
   _uploadPreviewToS3 = async (asset: string, height: number, width: number) => {
     const url = `${
-      Constants.manifest.extra?.cloudEnv !== 'production'
+      Constants.manifest?.extra?.cloudEnv !== 'production'
         ? API_SERVER_URL_STAGING
         : API_SERVER_URL_PROD
     }/--/api/v2/snack/uploadPreview`;

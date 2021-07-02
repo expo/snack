@@ -27,7 +27,7 @@ const files: { [key: string]: File } = {};
 // Initialize by reading from `extra.code` in manifest if present
 const manifest = Constants.manifest;
 
-if (manifest.extra?.code) {
+if (manifest?.extra?.code) {
   const initialCode = manifest.extra.code;
   Object.keys(initialCode).forEach((path) => {
     const initialFile = initialCode[path];

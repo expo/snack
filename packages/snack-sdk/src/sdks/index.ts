@@ -9,6 +9,8 @@ const assets = {
 const unimodules: { [name: string]: '*' } = {
   '@unimodules/core': '*',
   '@unimodules/react-native-adapter': '*',
+};
+const legacyUnimoduleInterfaces: { [name: string]: '*' } = {
   'unimodules-barcode-scanner-interface': '*',
   'unimodules-camera-interface': '*',
   'unimodules-constants-interface': '*',
@@ -27,6 +29,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
+      ...legacyUnimoduleInterfaces,
       expo: '38.0.10',
       react: '16.11.0',
       'react-native': '0.62.2',
@@ -65,6 +68,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
+      ...legacyUnimoduleInterfaces,
       expo: '39.0.5',
       react: '16.13.1',
       'react-native': '0.63.2',
@@ -109,6 +113,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
+      ...legacyUnimoduleInterfaces,
       expo: '40.0.1',
       react: '16.13.1',
       'react-native': '0.63.2',
@@ -140,6 +145,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
+      ...legacyUnimoduleInterfaces,
       expo: '41.0.0',
       react: '16.13.1',
       'react-native': '0.63.2',
@@ -163,6 +169,36 @@ const sdks: { [version: string]: SDKSpec } = {
       '@react-native-async-storage/async-storage': '*',
 
       // Common packages that are included for easy of use
+      'prop-types': '*',
+    },
+    deprecatedModules: {
+      '@react-native-community/async-storage':
+        'Async Storage has moved to new organization: https://github.com/react-native-async-storage/async-storage',
+      'expo-permissions':
+        'Use permissions getters and requesters in specific modules instead, such as MediaLibrary.getPermissionsAsync() and MediaLibrary.requestPermissionsAsync().',
+    },
+  },
+  '42.0.0': {
+    version: '^42.0.0',
+    coreModules: {
+      ...assets,
+      ...unimodules,
+      expo: '42.0.0',
+      react: '16.13.1',
+      'react-native': '0.63.4',
+      'react-dom': '*',
+      'react-native-web': '*',
+    },
+    bundledModules: {
+      'expo-asset': '*',
+      'expo-font': '*',
+      'react-native-gesture-handler': '*',
+      'react-native-safe-area-context': '*',
+      '@expo/vector-icons': '*',
+      'expo-constants': '*',
+      'expo-file-system': '*',
+      'expo-updates': '*',
+      '@react-native-async-storage/async-storage': '*',
       'prop-types': '*',
     },
     deprecatedModules: {
