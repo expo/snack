@@ -1,10 +1,19 @@
 import '../__mocks__/fetch';
+import { SDKVersion } from '../sdks/types';
 import Snack, { standardizeDependencies } from './snack-sdk';
+
+// A set of SDK versions to test against.
+// When upgrading SDK version, make sure to update this list.
+const sdkVersions: { [key: string]: SDKVersion } = {
+  prev: '39.0.0',
+  current: '40.0.0',
+  next: '41.0.0',
+};
 
 describe('dependencies', () => {
   it('resolves dependency', async () => {
     const snack = new Snack({
-      sdkVersion: '39.0.0',
+      sdkVersion: sdkVersions.current,
       dependencies: {
         'expo-firebase-analytics': { version: '2.4.1' },
       },
@@ -16,7 +25,7 @@ describe('dependencies', () => {
 
   it('resolves multiple dependencies', async () => {
     const snack = new Snack({
-      sdkVersion: '39.0.0',
+      sdkVersion: sdkVersions.current,
       dependencies: {
         'expo-font': { version: '8.1.0' },
         '@react-navigation/native': { version: '5.1.1' },
@@ -30,7 +39,7 @@ describe('dependencies', () => {
 
   it('ignores resolved dependencies', async () => {
     const snack = new Snack({
-      sdkVersion: '39.0.0',
+      sdkVersion: sdkVersions.current,
       dependencies: {
         'expo-firebase-analytics': {
           version: '8.1.0',
@@ -58,7 +67,7 @@ describe('dependencies', () => {
 
   it('adds dependencies', async () => {
     const snack = new Snack({
-      sdkVersion: '39.0.0',
+      sdkVersion: sdkVersions.current,
     });
     snack.updateDependencies({
       'expo-font': { version: '8.1.0' },
@@ -196,7 +205,7 @@ describe('dependencies', () => {
 
   it('resolves * to wanted version', async () => {
     const snack = new Snack({
-      sdkVersion: '38.0.0',
+      sdkVersion: sdkVersions.current,
     });
     snack.updateDependencies({
       'expo-constants': { version: '*' },
@@ -207,7 +216,7 @@ describe('dependencies', () => {
 
   it('does not resolve * when disabled', async () => {
     const snack = new Snack({
-      sdkVersion: '38.0.0',
+      sdkVersion: sdkVersions.current,
       disabled: true,
     });
     snack.updateDependencies({
@@ -219,7 +228,7 @@ describe('dependencies', () => {
 
   it('resolves * after enabling', async () => {
     const snack = new Snack({
-      sdkVersion: '38.0.0',
+      sdkVersion: sdkVersions.current,
       disabled: true,
     });
     snack.updateDependencies({
@@ -233,12 +242,12 @@ describe('dependencies', () => {
 
   it('updates preloaded module version when changing SDK version', async () => {
     const snack = new Snack({
-      sdkVersion: '38.0.0',
+      sdkVersion: sdkVersions.current,
       dependencies: { 'expo-av': { version: '*' } },
     });
     const state1 = await snack.getStateAsync();
     expect(state1.dependencies).toMatchSnapshot();
-    snack.setSDKVersion('39.0.0');
+    snack.setSDKVersion(sdkVersions.next);
     const state2 = await snack.getStateAsync();
     expect(state2.dependencies).toMatchSnapshot();
     expect(state1).not.toMatchObject(state2);
@@ -246,7 +255,7 @@ describe('dependencies', () => {
 
   it('reports missing peer dependencies', async () => {
     const snack = new Snack({
-      sdkVersion: '39.0.0',
+      sdkVersion: sdkVersions.current,
       dependencies: {
         '@react-navigation/stack': {
           handle: 'snackager-1/@react-navigation~stack@5.10.0',
