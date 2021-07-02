@@ -6,6 +6,7 @@ import Snack, {
   isModulePreloaded,
   getPreloadedModules,
   isFeatureSupported,
+  getDeprecatedModule,
 } from './snack-sdk';
 
 describe('sdkVersion', () => {
@@ -144,5 +145,16 @@ describe('isFeatureSupported', () => {
   });
   it('throws for invalid version', () => {
     expect(() => isFeatureSupported('TYPESCRIPT', 'foo')).toThrowError();
+  });
+});
+
+describe('getDeprecatedModule', () => {
+  it('returns undefined for non deprecated modules', () => {
+    expect(getDeprecatedModule('expo-constants', '41.0.0')).toBe(undefined);
+  });
+  it('returns description for deprecated modules', () => {
+    expect(getDeprecatedModule('@react-native-community/async-storage', '41.0.0')).toBe(
+      'Async Storage has moved to new organization: https://github.com/react-native-async-storage/async-storage'
+    );
   });
 });
