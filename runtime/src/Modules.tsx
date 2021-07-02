@@ -376,11 +376,6 @@ const translatePipeline = async (load: Load) => {
                 ? [Reanimated2Plugin]
                 : []),
             ],
-            // ...(load.source.includes('@shotReloadComponents')
-            //   ? {
-            //       plugins: [require('react-hot-loader/babel')],
-            //     }
-            //   : {}),
             moduleIds: false,
             sourceMaps: true,
             compact: false,
@@ -524,15 +519,6 @@ const _initialize = async () => {
       await System.set(`react-native-vector-icons/${name}`, iconSetModule);
     })
   );
-
-  // HMR
-  // await System.set(
-  //   'react-hot-loader/patch',
-  //   System.newModule({
-  //     __useDefault: true,
-  //     default: require('react-hot-loader/lib/patch.dev'),
-  //   })
-  // );
 
   // Fix SystemJS path normalization to handle Snack-related special cases
   const oldResolve = System.resolve;
