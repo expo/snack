@@ -42,8 +42,8 @@ describe('url', () => {
 
   it('updates url when changing sdk-version', async () => {
     const snack = new Snack(config);
-    snack.setSDKVersion('38.0.0');
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.38.0.0-${channel}`);
+    snack.setSDKVersion('40.0.0');
+    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.40.0.0-${channel}`);
   });
 
   it('reverts to unnamed url after changing sdk-version', async () => {
@@ -51,7 +51,7 @@ describe('url', () => {
       ...config,
       id,
     });
-    snack.setSDKVersion('38.0.0');
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.38.0.0-${channel}`);
+    snack.setSDKVersion('40.0.0');
+    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.40.0.0-${channel}`);
   });
 });

@@ -50,7 +50,6 @@ describe('devsession', () => {
     const snack = new Snack({
       apiURL: 'https://exp.host',
       channel: '10spnBnPxi',
-      sdkVersion: '38.0.0',
     });
     expect(snack.getState().sendBeaconCloseRequest).toBeUndefined();
     expect(fetch).not.toBeCalled();

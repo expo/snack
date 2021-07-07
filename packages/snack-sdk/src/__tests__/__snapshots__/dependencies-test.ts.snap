@@ -12,7 +12,7 @@ Object {
   },
   "expo-font": Object {
     "version": "8.1.0",
-    "wantedVersion": "~8.3.0",
+    "wantedVersion": "~8.4.0",
   },
   "react-native-paper": Object {
     "handle": "snackager-1/react-native-paper@3.10.1",
@@ -45,7 +45,7 @@ Object {
   "expo-firebase-analytics": Object {
     "handle": "snackager-1/expo-firebase-analytics@8.1.0",
     "version": "8.1.0",
-    "wantedVersion": "~2.5.0",
+    "wantedVersion": "~2.6.0",
   },
 }
 `;
@@ -109,7 +109,7 @@ Object {
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
-    "wantedVersion": "~1.7.0",
+    "wantedVersion": "~1.8.0",
   },
   "react-native-reanimated": Object {
     "dependents": Array [
@@ -122,14 +122,14 @@ Object {
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
-    "wantedVersion": "3.1.4",
+    "wantedVersion": "3.1.9",
   },
   "react-native-screens": Object {
     "dependents": Array [
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
-    "wantedVersion": "~2.10.1",
+    "wantedVersion": "~2.15.0",
   },
 }
 `;
@@ -137,8 +137,8 @@ Object {
 exports[`dependencies resolves * after enabling 1`] = `
 Object {
   "expo-constants": Object {
-    "version": "~9.1.1",
-    "wantedVersion": "~9.1.1",
+    "version": "~9.3.1",
+    "wantedVersion": "~9.3.1",
   },
 }
 `;
@@ -146,8 +146,8 @@ Object {
 exports[`dependencies resolves * to wanted version 1`] = `
 Object {
   "expo-constants": Object {
-    "version": "~9.1.1",
-    "wantedVersion": "~9.1.1",
+    "version": "~9.3.1",
+    "wantedVersion": "~9.3.1",
   },
 }
 `;
@@ -161,7 +161,7 @@ Object {
       "react-native": "*",
     },
     "version": "2.4.1",
-    "wantedVersion": "~2.5.0",
+    "wantedVersion": "~2.6.0",
   },
 }
 `;
@@ -178,7 +178,7 @@ Object {
   },
   "expo-font": Object {
     "version": "8.1.0",
-    "wantedVersion": "~8.3.0",
+    "wantedVersion": "~8.4.0",
   },
   "react-native-paper": Object {
     "handle": "snackager-1/react-native-paper@3.10.1",
@@ -208,13 +208,13 @@ Object {
 exports[`dependencies updates preloaded module version when changing SDK version 1`] = `
 Object {
   "expo-av": Object {
-    "handle": "snackager-1/expo-av@8.2.1",
+    "handle": "snackager-1/expo-av@8.7.0",
     "peerDependencies": Object {
       "react": "*",
       "react-native": "*",
     },
-    "version": "~8.2.1",
-    "wantedVersion": "~8.2.1",
+    "version": "~8.7.0",
+    "wantedVersion": "~8.7.0",
   },
 }
 `;
@@ -222,13 +222,13 @@ Object {
 exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
 Object {
   "expo-av": Object {
-    "handle": "snackager-1/expo-av@8.6.0",
+    "handle": "snackager-1/expo-av@9.1.2",
     "peerDependencies": Object {
       "react": "*",
       "react-native": "*",
     },
-    "version": "~8.6.0",
-    "wantedVersion": "~8.6.0",
+    "version": "~9.1.2",
+    "wantedVersion": "~9.1.2",
   },
 }
 `;
