@@ -14,10 +14,14 @@ const cacheBusting: { version: number; packages: { [name: string]: number } } = 
     'react-native-reanimated': 1,
     moti: 1,
     '@draftbit/ui': 1,
+    '@expo-google-fonts/.*': 1,
   },
 };
 
 export default function getCachePrefix(name: string): string {
-  const packageVersion = cacheBusting.packages[name];
+  const match = Object.keys(cacheBusting.packages).find((spec) =>
+    new RegExp(`^${spec}$`).test(name)
+  );
+  const packageVersion = match ? cacheBusting.packages[match] : undefined;
   return `${cacheBusting.version}${packageVersion ? `-${packageVersion}` : ''}`;
 }
