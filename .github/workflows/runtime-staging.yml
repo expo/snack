@@ -33,6 +33,7 @@ jobs:
       - uses: expo/expo-github-action@v6
         with:
           expo-version: 4.x
+          expo-cache: true
           token: ${{ secrets.EXPO_STAGING }}
 
       - run: yarn install --frozen-lockfile
