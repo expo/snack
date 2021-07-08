@@ -43,6 +43,7 @@ type State = {
   isPublishInProgress: boolean;
   isPublishing: boolean;
   hasShownEditNameDialog: boolean;
+  hasShownAccountSaveModal: boolean;
 };
 
 class PublishManager extends React.Component<Props, State> {
@@ -50,6 +51,7 @@ class PublishManager extends React.Component<Props, State> {
     isPublishInProgress: false,
     isPublishing: false,
     hasShownEditNameDialog: false,
+    hasShownAccountSaveModal: false,
   };
 
   _publishWithOptionsAsync = async (options: SaveOptions) => {
@@ -105,11 +107,17 @@ class PublishManager extends React.Component<Props, State> {
       this.setState({ hasShownEditNameDialog: true });
     } else {
       await this._publishWithOptionsAsync(options);
-      this.props.onShowModal(this.props.viewer ? 'publish-success' : 'publish-prompt-save');
+
+      if (!this.props.viewer) {
+        this.props.onShowModal('publish-prompt-save');
+      } else if (!this.state.hasShownAccountSaveModal) {
+        this.setState({ hasShownAccountSaveModal: true });
+        this.props.onShowModal('publish-success');
+      }
     }
   };
 
-  _handlePublishAbort = () => {
+  _handleDismissModal = () => {
     this.props.onHideModal();
 
     // When publish flow ends, we don't need to show any modals
@@ -134,34 +142,34 @@ class PublishManager extends React.Component<Props, State> {
           name={name}
           description={description}
           onSubmit={this._handleSubmitMetadata}
-          onDismiss={this._handlePublishAbort}
+          onDismiss={this._handleDismissModal}
         />
         <ModalPublishToProfile
           visible={isPublishInProgress && currentModal === 'publish-prompt-save'}
           snackUrl={id ? `${getSnackWebsiteURL()}/${id}` : undefined}
           onPublish={this._handleSaveToProfile}
           isPublishing={this.state.isPublishing}
-          onDismiss={this._handlePublishAbort}
+          onDismiss={this._handleDismissModal}
         />
         <ModalSuccessfulPublish
           visible={isPublishInProgress && currentModal === 'publish-success'}
           viewer={viewer}
-          onDismiss={this._handlePublishAbort}
+          onDismiss={this._handleDismissModal}
         />
         <ModalPublishUnknownError
           visible={isPublishInProgress && currentModal === 'publish-unknown-error'}
-          onDismiss={this._handlePublishAbort}
+          onDismiss={this._handleDismissModal}
         />
         <ModalPublishing
           visible={isPublishInProgress && currentModal === 'publish-working'}
-          onDismiss={this._handlePublishAbort}
+          onDismiss={this._handleDismissModal}
         />
         <ModalPublishOverwriteError
           visible={isPublishInProgress && currentModal === 'publish-overwrite-experience-error'}
           slug={name}
           username={viewer?.username}
           onEditName={() => this.props.onShowModal('publish-edit-name')}
-          onDismiss={this._handlePublishAbort}
+          onDismiss={this._handleDismissModal}
         />
       </>
     );
