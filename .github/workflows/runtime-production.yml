@@ -46,6 +46,9 @@ jobs:
       - name: Deploy web-player
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
         run: yarn deploy:web:prod
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_PRODUCTION }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_PRODUCTION }}
 
       - name: Deploy native runtime
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
