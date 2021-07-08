@@ -159,7 +159,7 @@ export function getDependencyAnnotations(
       annotations.push({
         message: `'${name}@${version}' is not the recommended version for SDK ${sdkVersion}.`,
         location: getPackageJsonLocation(name, lines, false),
-        severity: isModulePreloaded(name, sdkVersion) ? 2 : 3,
+        severity: isModulePreloaded(name, sdkVersion, true) ? 2 : 3,
         source: 'Dependencies',
         action: getDependencyAction(name, version, dependencies, sdkVersion),
       });
@@ -181,7 +181,11 @@ export function getDependencyAnnotations(
         ','
       )}' requires peer-dependency '${name}'.`,
       location: getPackageJsonLocation(missingDependencies[name].dependents[0], lines, false),
-      severity: isModulePreloaded(name, sdkVersion) ? 2 : 4,
+      severity: isModulePreloaded(name, sdkVersion, true)
+        ? 2
+        : isModulePreloaded(name, sdkVersion)
+        ? 3
+        : 4,
       source: 'Dependencies',
       action: getDependencyAction(
         name,
@@ -204,7 +208,7 @@ export function getDependencyAnnotations(
           annotations.push({
             message: `'${name}' is not defined in dependencies.`,
             location: fileDep.location,
-            severity: isPreloaded ? 2 : 4,
+            severity: isPreloaded ? 3 : 4,
             source: 'Dependencies',
             action: getDependencyAction(name, fileDep.version ?? '*', dependencies, sdkVersion),
           });
