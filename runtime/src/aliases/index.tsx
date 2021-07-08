@@ -13,6 +13,7 @@ const aliases: { [key: string]: any } = {
   'react-native/Libraries/ReactNative/AppContainer': require('react-native/Libraries/ReactNative/AppContainer'),
   'react-native/Libraries/Utilities/dismissKeyboard': require('react-native/Libraries/Utilities/dismissKeyboard'), // for @react-native-community/viewpager
   'react-native/Libraries/Renderer/shims/ReactNative': require('react-native/Libraries/Renderer/shims/ReactNative'), // for react-native-reanimated
+  'react-native/Libraries/Components/UnimplementedViews/UnimplementedView': require('react-native/Libraries/Components/UnimplementedViews/UnimplementedView'), // for @react-native-picker/picker@1.9.11
 };
 
 export default aliases;
