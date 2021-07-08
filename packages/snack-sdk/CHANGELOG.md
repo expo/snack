@@ -4,7 +4,12 @@
 
 ### 🛠 Breaking changes
 
+- Remove support for SDK 38 ([#175](https://github.com/expo/snack/pull/175) by [@bycedric](https://github.com/bycedric))
+
 ### 🎉 New features
+
+- Add support for SDK 42 ([#174](https://github.com/expo/snack/pull/174) by [@IjzerenHein](https://github.com/IjzerenHein))
+- Allow checking for deprecated modules using `getDeprecatedModule` ([#172](https://github.com/expo/snack/pull/172) by [@IjzerenHein](https://github.com/IjzerenHein))
 
 ### 🐛 Bug fixes
 
