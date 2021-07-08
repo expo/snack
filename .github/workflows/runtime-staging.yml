@@ -1,0 +1,64 @@
+name: RuntimeStaging
+
+defaults:
+  run:
+    working-directory: runtime
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/runtime-staging.yml
+      - runtime/**
+      - .eslint*
+      - .prettier*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      EXPO_STAGING: 1
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - uses: expo/expo-github-action@v6
+        with:
+          expo-version: 4.x
+          expo-cache: true
+          token: ${{ secrets.EXPO_STAGING }}
+
+      - run: yarn install --frozen-lockfile
+      - run: yarn tsc --noEmit
+      - run: yarn lint --max-warnings 0
+      # - run: yarn test --ci --maxWorkers 15%
+
+      - name: Deploy web-player
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: yarn deploy:web:
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
+
+      - name: Deploy native runtime
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: yarn deploy:staging
+
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Runtime to Staging
+          fields: message,commit,author,took
