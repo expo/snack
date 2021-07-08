@@ -43,7 +43,7 @@ jobs:
 
       - name: Deploy web-player
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: yarn deploy:web
+        run: yarn deploy:web:staging
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
