@@ -116,7 +116,7 @@ class Main extends React.Component<Props, State> {
 
     let name = props.defaults.name;
     let description = DEFAULT_DESCRIPTION;
-    let sdkVersion: SDKVersion = DEFAULT_SDK_VERSION;
+    let sdkVersion = DEFAULT_SDK_VERSION;
     let code: SnackFiles | string = props.files;
     let dependencies =
       props.files === DEFAULT_CODE && !props.snack?.code ? DEFAULT_DEPENDENCIES : {};
