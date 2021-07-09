@@ -14,7 +14,7 @@ const cacheBusting: { version: number; packages: { [name: string]: number } } = 
     'react-native-reanimated': 1,
     moti: 1,
     '@draftbit/ui': 1,
-    '@expo-google-fonts/.*': 1,
+    '@expo-google-fonts/.*': 2,
   },
 };
 
