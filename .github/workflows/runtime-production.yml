@@ -11,7 +11,9 @@ on:
         description: 'type "deploy" to confirm deploy to production (main branch only)'
         required: false
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'sdk-**'
     paths:
       - .github/workflows/runtime-production.yml
       - runtime/**
@@ -45,23 +47,23 @@ jobs:
       # - run: yarn test --ci --maxWorkers 15%
 
       - name: Deploy web-player
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        if: github.event.inputs.deploy == 'deploy'
         run: yarn deploy:web:prod
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_PRODUCTION }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_PRODUCTION }}
 
       - name: Deploy native runtime
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        if: github.event.inputs.deploy == 'deploy'
         run: yarn deploy:prod
 
       - name: Notify Slack
         uses: 8398a7/action-slack@v3
-        if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        if: always() && github.event.inputs.deploy == 'deploy'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
         with:
           channel: '#snack'
           status: ${{ job.status }}
           author_name: Deploy Runtime to Production
-          fields: message,commit,author,took
+          fields: message,commit,author,ref
