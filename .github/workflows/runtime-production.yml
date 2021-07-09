@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       deploy:
-        description: 'type "deploy" to confirm deploy to production (main branch only)'
+        description: 'type "deploy" to confirm deploy to production (main or sdk-* branches only)'
         required: false
   push:
     branches:
