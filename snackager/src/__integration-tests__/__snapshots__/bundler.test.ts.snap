@@ -495,18 +495,6 @@ Object {
     "web": Object {
       "bundle.js": Object {
         "externals": Array [
-          "./arrayWithHoles.js",
-          "./arrayWithoutHoles.js",
-          "./assertThisInitialized.js",
-          "./iterableToArray.js",
-          "./iterableToArrayLimit.js",
-          "./nonIterableRest.js",
-          "./nonIterableSpread.js",
-          "./objectWithoutPropertiesLoose.js",
-          "./setPrototypeOf.js",
-          "./unsupportedIterableToArray.js",
-          "@babel/runtime/helpers/interopRequireDefault",
-          "@babel/runtime/helpers/typeof",
           "@expo/vector-icons",
           "expo-av",
           "react",
@@ -515,7 +503,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-svg",
         ],
-        "size": 646122,
+        "size": 641502,
       },
     },
   },
