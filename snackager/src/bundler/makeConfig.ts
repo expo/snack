@@ -2,6 +2,7 @@ import uniq from 'lodash/uniq';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
+import RewriteImportsPlugin from './RewriteImportsPlugin';
 import { getCoreExternals, getPackageExternals } from './externals';
 import getResolverConfig from './getResolverConfig';
 
@@ -65,6 +66,7 @@ export default ({
               configFile: false,
               presets: [require.resolve('metro-react-native-babel-preset')],
               plugins: [
+                RewriteImportsPlugin,
                 ...(reanimatedPlugin ? [require.resolve('react-native-reanimated/plugin')] : []),
               ],
             },
