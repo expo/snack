@@ -20,7 +20,6 @@ export default function getResolverConfig(platform: string): ResolveOptions {
       ...(platform !== 'web' ? ['.native.tsx', '.native.ts', '.native.js'] : []),
       '.tsx',
       '.ts',
-      '.mjs', // TODO(cedric): remove this when we land webpack 5, use `fullySpecified: false` instead
       '.js',
     ],
   };
