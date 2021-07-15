@@ -9,7 +9,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 57805,
+        "size": 57384,
       },
     },
     "ios": Object {
@@ -18,7 +18,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 55989,
+        "size": 55584,
       },
     },
     "web": Object {
@@ -27,7 +27,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 122739,
+        "size": 121557,
       },
     },
   },
@@ -110,7 +110,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 96062,
+        "size": 95049,
       },
     },
     "ios": Object {
@@ -143,7 +143,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 97053,
+        "size": 96030,
       },
     },
     "web": Object {
@@ -162,7 +162,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 105577,
+        "size": 104675,
       },
     },
   },
@@ -188,7 +188,7 @@ Object {
         "externals": Array [
           "mobx",
         ],
-        "size": 43744,
+        "size": 43729,
       },
     },
   },
@@ -206,19 +206,19 @@ Object {
     "android": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 223078,
+        "size": 221714,
       },
     },
     "ios": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 223078,
+        "size": 221714,
       },
     },
     "web": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 223078,
+        "size": 221714,
       },
     },
   },
@@ -268,7 +268,7 @@ Object {
           "react-native-screens",
           "react-native/Libraries/ReactNative/AppContainer",
         ],
-        "size": 7201,
+        "size": 7106,
       },
     },
     "ios": Object {
@@ -280,7 +280,7 @@ Object {
           "react-native-screens",
           "react-native/Libraries/ReactNative/AppContainer",
         ],
-        "size": 7201,
+        "size": 7106,
       },
     },
     "web": Object {
@@ -292,7 +292,7 @@ Object {
           "react-native-screens",
           "react-native/Libraries/ReactNative/AppContainer",
         ],
-        "size": 8426,
+        "size": 8347,
       },
     },
   },
@@ -315,7 +315,7 @@ Object {
           "react-native",
           "react-native/Libraries/BatchedBridge/BatchedBridge",
         ],
-        "size": 11493,
+        "size": 11424,
       },
     },
     "ios": Object {
@@ -324,7 +324,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 11154,
+        "size": 11089,
       },
     },
     "web": Object {
@@ -333,7 +333,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 916,
+        "size": 891,
       },
     },
   },
@@ -354,7 +354,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 38168,
+        "size": 37884,
       },
     },
     "ios": Object {
@@ -363,7 +363,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 38168,
+        "size": 37884,
       },
     },
     "web": Object {
@@ -372,7 +372,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 104844,
+        "size": 103845,
       },
     },
   },
@@ -388,19 +388,19 @@ Object {
     "android": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 6003,
+        "size": 5978,
       },
     },
     "ios": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 6003,
+        "size": 5978,
       },
     },
     "web": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 6003,
+        "size": 5978,
       },
     },
   },
@@ -424,7 +424,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 13602,
+        "size": 13512,
       },
     },
     "ios": Object {
@@ -435,7 +435,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 13602,
+        "size": 13512,
       },
     },
     "web": Object {
@@ -446,7 +446,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 13602,
+        "size": 13512,
       },
     },
   },
@@ -476,7 +476,7 @@ Object {
           "react-native-svg",
           "react-native/Libraries/BatchedBridge/BatchedBridge",
         ],
-        "size": 289002,
+        "size": 286220,
       },
     },
     "ios": Object {
@@ -489,7 +489,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-svg",
         ],
-        "size": 296330,
+        "size": 293538,
       },
     },
     "web": Object {
@@ -503,7 +503,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-svg",
         ],
-        "size": 641502,
+        "size": 635044,
       },
     },
   },
@@ -548,7 +548,7 @@ Object {
           "react-native-gesture-handler/DrawerLayout",
           "react-native-screens",
         ],
-        "size": 215192,
+        "size": 212957,
       },
     },
   },
@@ -570,7 +570,7 @@ Object {
         "externals": Array [
           "react-native",
         ],
-        "size": 12350,
+        "size": 12254,
       },
     },
     "ios": Object {
@@ -579,7 +579,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 8314,
+        "size": 8203,
       },
     },
     "web": Object {
@@ -588,7 +588,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 797,
+        "size": 772,
       },
     },
   },
@@ -611,7 +611,7 @@ Object {
           "react-native",
           "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 6650,
+        "size": 6541,
       },
     },
     "ios": Object {
@@ -621,7 +621,7 @@ Object {
           "react-native",
           "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 6650,
+        "size": 6541,
       },
     },
     "web": Object {
@@ -631,7 +631,7 @@ Object {
           "react-native",
           "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 6650,
+        "size": 6541,
       },
     },
   },
@@ -653,7 +653,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 18280,
+        "size": 18138,
       },
     },
     "ios": Object {
@@ -662,7 +662,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 18280,
+        "size": 18138,
       },
     },
     "web": Object {
@@ -671,7 +671,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 18280,
+        "size": 18138,
       },
     },
   },
@@ -691,7 +691,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 7345,
+        "size": 7235,
       },
     },
     "ios": Object {
@@ -701,7 +701,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 6726,
+        "size": 6619,
       },
     },
     "web": Object {
@@ -710,7 +710,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 14102,
+        "size": 13953,
       },
     },
   },
