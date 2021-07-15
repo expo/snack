@@ -4,8 +4,6 @@
   "main": "build/index.js",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/generator": "^7.12.15",
     "@expo/config": "^3.3.28",
     "@expo/spawn-async": "^1.5.0",
     "aws-sdk": "^2.487.0",
@@ -24,7 +22,7 @@
     "lodash": "^4.17.11",
     "md5": "^2.2.1",
     "memory-fs": "^0.4.1",
-    "metro-react-native-babel-preset": "^0.59.0",
+    "metro-react-native-babel-preset": "^0.66.1",
     "node-fetch": "^2.6.0",
     "querystring": "^0.2.0",
     "raven": "^2.6.4",
