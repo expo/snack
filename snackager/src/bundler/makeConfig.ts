@@ -38,7 +38,7 @@ export default ({
       libraryTarget: 'commonjs',
     },
     optimization: {
-      moduleIds: 'natural',
+      moduleIds: 'size',
       emitOnErrors: false,
       minimize: true,
       // Explicitly configure the Terser plugin to not generate "bundle.js.LICENSE.txt" files
