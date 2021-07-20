@@ -5,8 +5,7 @@ export function isDevDomainEnabled(): boolean {
 
   if (!DEPLOY_ENVIRONMENT) return false;
 
-  if (['staging'].includes(DEPLOY_ENVIRONMENT)) return true;
-  if (['production'].includes(DEPLOY_ENVIRONMENT)) return false;
+  if (['staging', 'production'].includes(DEPLOY_ENVIRONMENT)) return true;
 
   return false;
 }
