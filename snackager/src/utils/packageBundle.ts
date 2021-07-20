@@ -141,11 +141,9 @@ async function packageBundleUnsafe({
 
   const compiler = webpack(configs);
   const memoryFs = new MemoryFS();
-
-  // @ts-ignore TODO: check why this property "doesnt exists on type 'MultiCompiler'"
   compiler.outputFileSystem = memoryFs;
 
-  let status: webpack.compilation.MultiStats;
+  let status: webpack.MultiStats;
 
   try {
     status = await new Promise((resolve, reject) =>
@@ -153,7 +151,7 @@ async function packageBundleUnsafe({
         if (err) {
           reject(err);
         } else {
-          resolve(stats);
+          resolve(stats!);
         }
       })
     );
@@ -164,8 +162,8 @@ async function packageBundleUnsafe({
 
   const result = status.toJson();
 
-  if (result.errors.length) {
-    throw new Error(result.errors.join('\n'));
+  if (result.errors?.length) {
+    throw new Error(result.errors.map((error) => error.message).join('\n'));
   }
 
   logger.info({ pkg }, `bundle generated`);

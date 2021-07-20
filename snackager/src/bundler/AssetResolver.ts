@@ -2,9 +2,9 @@ import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs';
 import path from 'path';
 
-type Request = {
-  path: string;
-  relativePath: string;
+type ResolveRequest = {
+  path: string | false;
+  relativePath?: string;
 };
 
 type Options = {
@@ -20,6 +20,13 @@ type CollectedAssets = {
 };
 
 export default class AssetResolver {
+  /**
+   * TODO: It is unclear whether AssetResolver as a plugin is still needed. No tests are
+   * affected by disabling the AssetResolver plugin. It looks like `assetLoader.ts`
+   * resolves all file suffixes for all current tests. AssetResolver as a plugin does seem
+   * to cover more file-extensions, which may explain why it's needed. It is not clear though
+   * which packages have assets that need to be resolved this way.
+   */
   static test = /\.(bmp|gif|jpg|jpeg|png|psd|svg|webp|m4v|aac|aiff|caf|m4a|mp3|wav|html|pdf)$/;
 
   constructor(private options: Options) {}
@@ -28,52 +35,61 @@ export default class AssetResolver {
     const platform = this.options.platform;
     const testPath = this.options.test ?? AssetResolver.test;
 
-    resolver.plugin('file', (request: Request, callback: Function) => {
-      if (testPath.test(request.path)) {
-        (resolver.fileSystem as typeof fs).readdir(path.dirname(request.path), (error, result) => {
-          if (error) {
-            callback();
-            return;
-          }
+    resolver
+      .getHook('file')
+      .tapAsync(
+        'SnackagerAssetResolverPlugin',
+        (request: ResolveRequest, _context: any, callback: Function) => {
+          if (typeof request.path === 'string' && testPath.test(request.path)) {
+            const requestPath = request.path;
+            (resolver.fileSystem as typeof fs).readdir(
+              path.dirname(request.path),
+              (error, result) => {
+                if (error) {
+                  callback();
+                  return;
+                }
 
-          const name = path.basename(request.path).replace(/\.[^.]+$/, '');
-          const type = request.path.split('.').pop()!;
+                const name = path.basename(requestPath).replace(/\.[^.]+$/, '');
+                const type = requestPath.split('.').pop()!;
 
-          let resolved = result.includes(path.basename(request.path)) ? request.path : null;
+                let resolved = result.includes(path.basename(requestPath)) ? request.path : null;
 
-          if (!resolved) {
-            const map = AssetResolver.collect(result, {
-              name,
-              type,
-              platform,
-            });
-            const key = map['@1x']
-              ? '@1x'
-              : Object.keys(map).sort(
-                  (a, b) => Number(a.replace(/[^\d.]/g, '')) - Number(b.replace(/[^\d.]/g, ''))
-                )[0];
-            resolved = map[key]?.name
-              ? path.resolve(path.dirname(request.path), map[key].name)
-              : null;
-          }
+                if (!resolved) {
+                  const map = AssetResolver.collect(result, {
+                    name,
+                    type,
+                    platform,
+                  });
+                  const key = map['@1x']
+                    ? '@1x'
+                    : Object.keys(map).sort(
+                        (a, b) =>
+                          Number(a.replace(/[^\d.]/g, '')) - Number(b.replace(/[^\d.]/g, ''))
+                      )[0];
+                  resolved = map[key]?.name
+                    ? path.resolve(path.dirname(requestPath), map[key].name)
+                    : null;
+                }
 
-          if (resolved) {
-            callback(
-              null,
-              Object.assign({}, request, {
-                path: resolved,
-                relativePath: request.relativePath && resolver.join(request.relativePath, resolved),
-                file: true,
-              })
+                if (resolved) {
+                  callback(null, {
+                    ...request,
+                    path: resolved,
+                    relativePath:
+                      request.relativePath && resolver.join(request.relativePath, resolved),
+                    file: true,
+                  });
+                } else {
+                  callback();
+                }
+              }
             );
           } else {
             callback();
           }
-        });
-      } else {
-        callback();
-      }
-    });
+        }
+      );
   }
 
   static collect = (
