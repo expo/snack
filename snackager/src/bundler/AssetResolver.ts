@@ -33,7 +33,6 @@ export default class AssetResolver {
       .tapAsync(
         'SnackagerAssetResolverPlugin',
         (request: ResolveRequest, _context: any, callback: Function) => {
-          // console.log('FILE', request.path);
           if (typeof request.path === 'string' && testPath.test(request.path)) {
             const requestPath = request.path;
             (resolver.fileSystem as typeof fs).readdir(
