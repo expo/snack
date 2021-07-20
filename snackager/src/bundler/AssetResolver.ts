@@ -20,6 +20,13 @@ type CollectedAssets = {
 };
 
 export default class AssetResolver {
+  /**
+   * TODO: It is unclear whether AssetResolver as a plugin is still needed. No tests are
+   * affected by disabling the AssetResolver plugin. It looks like `assetLoader.ts`
+   * resolves all file suffixes for all current tests. AssetResolver as a plugin does seem
+   * to cover more file-extensions, which may explain why it's needed. It is not clear though
+   * which packages have assets that need to be resolved this way.
+   */
   static test = /\.(bmp|gif|jpg|jpeg|png|psd|svg|webp|m4v|aac|aiff|caf|m4a|mp3|wav|html|pdf)$/;
 
   constructor(private options: Options) {}
