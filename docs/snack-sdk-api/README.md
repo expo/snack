@@ -337,7 +337,7 @@ Name | Type | Description |
 `sdkVersion` | [SDKVersion](README.md#sdkversion) | Expo SDK version. |
 `sendBeaconCloseRequest?` | [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) | A close request that should be send using the browser `sendBeacon` API whenever the browser session is unloaded. This gives the Snack a last opportunity to gracefully close its connections so that the "Recently in Development" section in the Expo client no longer shows the Snack. |
 `unsaved` | boolean | Unsaved status of the Snack. Becomes `true` when the Snack code is changed and `false` whenever the Snack is saved. |
-`url` | string | Unique experience url which can be used to open the Expo client and connect to the Snack (e.g. "exp://expo.io/@snack/sdk.38.0.0-78173941"). |
+`url` | string | Unique experience url which can be used to open the Expo client and connect to the Snack (e.g. "exp://exp.host/@snack/sdk.38.0.0-78173941"). |
 `user?` | [SnackUser](README.md#snackuser) |  |
 `wantedDependencyVersions?` | [SnackDependencyVersions](README.md#snackdependencyversions) | Collection of packages and versions that are compatible with the selected SDK version. This is similar to using `expo install`, which ensures the latest compatible version is installed. |
 `webPreviewURL?` | undefined \| string | URL to use to when loading the web-preview in an iframe.  Web-preview is supported from SDK 40 and higher. To enable it, set the `webPreviewRef` to the contentWindow of the iframe.  |

@@ -8,10 +8,13 @@
 </p>
 
 <p align="center">
-  <a href="https://snack.expo.io">Try Expo Snack at snack.expo.io</a>
+  <a href="https://snack.expo.dev">Try Expo Snack at snack.expo.dev</a>
 </p>
 
 Expo Snack is an open-source platform for running React Native apps in the browser. It dynamically bundles and compiles code and runs it in the Expo Client or in a web-player. Code can be saved as "Snacks" and easily shared with others. Snacks can also be embedded to show "live" previews as used by the [React Native documentation](https://reactnative.dev/docs/getting-started).
+
+> Snack has a new domain: snack.expo.dev!
+> [Read more about it here!](https://blog.expo.io/introducing-expo-dev-a70818bf336e)
 
 <!--
 > Requesting snacks in bug reports gives your users an easy, lightweight way to give you a minimal, complete, and verifiable example (https://stackoverflow.com/help/minimal-reproducible-example) and allows you to spend more time fixing real issues in your project rather than staring at copy pasted code or cloning someone's repository that may or may not demonstrate a real issue with your project.
@@ -38,10 +41,10 @@ Internal documentation
 
 - [`docs`](/docs) *Documentation and guides.*
 - [`packages`](/packages) *Shared packages.*
-  - [`snack-sdk`](/packages/snack-sdk) *Package for creating (custom) Snack experiences (used by [snack.expo.io](https://snack.expo.io)).*
+  - [`snack-sdk`](/packages/snack-sdk) *Package for creating (custom) Snack experiences (used by [snack.expo.dev](https://snack.expo.dev)).*
   - [`snack-sdk-legacy`](/packages/snack-sdk-legacy) *Legacy snack-sdk provided for completeness.*
   - [`snack-proxies`](/packages/snack-proxies) *Proxies for doing local development*
-- [`website`](/website) *The web-app for **https://snack.expo.io** and for **[embedded Snacks](https://snack.expo.io/embedded).***
+- [`website`](/website) *The web-app for **https://snack.expo.dev** and for **[embedded Snacks](https://snack.expo.dev/embedded).***
 - [`snackager`](/snackager) *The Snack package bundler at **https://snackager.expo.io**.*
 - [`runtime`](/runtime) *The Snack runtime app and web-player.*
 

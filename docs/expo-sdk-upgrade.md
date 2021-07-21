@@ -89,14 +89,14 @@ The Expo documentation contains excellent examples for verifying Snack. The easi
 
 ### Checklist
 
-- Test snack.expo.io (with no id!)
+- Test snack.expo.dev (with no id!)
   - Open unsaved snack in app, make some changes, then hit save
-- Test existing snack.expo.io/ID (https://snack.expo.io/r1Xun_7eb)
+- Test existing snack.expo.dev/ID (https://snack.expo.dev/r1Xun_7eb)
   - Open that in the app, make some changes, save, and reload
-- Test existing permanent snack snack.expo.io/@username/project
+- Test existing permanent snack snack.expo.dev/@username/project
   - Open that in the app, make some changes, save, and reload
-- Open snack directly on phone without website open (https://expo.io/@snack/r1Xun_7eb)
-- Open permanent snack directly on phone without website open (https://expo.io/@username/project)
+- Open snack directly on phone without website open (https://expo.dev/@snack/r1Xun_7eb)
+- Open permanent snack directly on phone without website open (https://expo.dev/@username/project)
 - Open `website/snack-embed.html` to test embeds
 
 ## Pre-release snack-sdk

@@ -1,6 +1,6 @@
 # snack-sdk
 
-The Expo Snack SDK. Use this to create a custom web interface for https://snack.expo.io/. 
+The Expo Snack SDK. Use this to create a custom web interface for https://snack.expo.dev/. 
 
 ## 📚 Documentation
 

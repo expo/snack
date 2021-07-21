@@ -47,7 +47,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
         <View style={styles.container}>
           <Text style={styles.initialURL}>{`Launch URL: ${initialURL}`}</Text>
           <Text style={styles.paragraph}>
-            Open up https://snack.expo.io and scan the QR code to get started!
+            Open up https://snack.expo.dev and scan the QR code to get started!
             {'\n'}
             {'\n'}
             Make sure to leave the web page open while you are running the project.

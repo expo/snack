@@ -43,7 +43,7 @@ let globalWindowMock: any;
 
 beforeEach(() => {
   globalWindowMock = new Window({
-    location: 'https://snack.expo.io',
+    location: 'https://snack.expo.dev',
   });
   Object.keys(globalWindowMock).forEach((key) => {
     // @ts-ignore
@@ -52,5 +52,5 @@ beforeEach(() => {
 });
 
 export function postMessage(message: any, origin?: string) {
-  globalWindowMock.postMessage(message, origin ?? 'https://snack.expo.io');
+  globalWindowMock.postMessage(message, origin ?? 'https://snack.expo.dev');
 }

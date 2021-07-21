@@ -27,7 +27,7 @@ Snacks are a great way to show off what your library can do and let users explor
 </div>
 
 <!-- Load the embed.js script -->
-<script async src="https://snack.expo.io/embed.js"></script>
+<script async src="https://snack.expo.dev/embed.js"></script>
 ```
 
 The `embed.js` script scans the DOM and populates any elements containing a `data-snack-id` or `data-snack-code` attribute with an `<iframe>` displaying an embedded Snack. Attributes that start with `data-snack-` are converted to [Parameters](./url-query-parameters.md#parameters) and can be used to provide the contents of the Snack or override defaults.
@@ -51,7 +51,7 @@ The `embed.js` script scans the DOM and populates any elements containing a `dat
 ## Via link
 
 ```url
-https://snack.expo.io/?platform=android&name=Hello%20World&dependencies=react-navigation%40%5E4.0.10%2Creact-navigation-tabs%40%5E2.5.6%2Creact-navigation-stack%40%5E1.10.3%2Creact-navigation-drawer%40%5E2.3.3&sourceUrl=https%3A%2F%2Freactnavigation.org%2Fexamples%2F4.x%2Fhello-react-navigation.js
+https://snack.expo.dev/?platform=android&name=Hello%20World&dependencies=react-navigation%40%5E4.0.10%2Creact-navigation-tabs%40%5E2.5.6%2Creact-navigation-stack%40%5E1.10.3%2Creact-navigation-drawer%40%5E2.3.3&sourceUrl=https%3A%2F%2Freactnavigation.org%2Fexamples%2F4.x%2Fhello-react-navigation.js
 ```
 
 See [URLs and Parameters](./url-query-parameters.md#parameters) for all supported query arguments.
