@@ -40,7 +40,7 @@ export default class ImportProductionModal extends React.PureComponent<Props, St
     isLoading: false,
     error: '',
     url: '',
-    resetDependencies: false,
+    resetDependencies: true,
   };
 
   _hideImportModal = () => {
@@ -48,7 +48,7 @@ export default class ImportProductionModal extends React.PureComponent<Props, St
       isLoading: false,
       error: '',
       url: '',
-      resetDependencies: false,
+      resetDependencies: true,
     });
     this.props.onHide();
   };
@@ -61,11 +61,11 @@ export default class ImportProductionModal extends React.PureComponent<Props, St
     });
 
     try {
-      const match = this.state.url.match(/^https:\/\/snack\.expo\.io\/(.*)/);
+      const match = this.state.url.match(/^https:\/\/snack\.expo\.(io|dev)\/(.*)/);
       if (!match) {
         throw new Error('Invalid url');
       }
-      const id = match[1];
+      const id = match[2];
       const response = await fetch(`https://exp.host/--/api/v2/snack/${id}`, {
         headers: { 'Snack-Api-Version': '3.0.0' },
       });
@@ -162,7 +162,7 @@ export default class ImportProductionModal extends React.PureComponent<Props, St
             name="url"
             value={url}
             onChange={this._handleChange}
-            placeholder="https://snack.expo.io/82kWr6arT"
+            placeholder="https://snack.expo.dev/82kWr6arT"
             autoFocus
           />
           <div className={css(styles.switch)}>
@@ -200,6 +200,8 @@ const styles = StyleSheet.create({
   switch: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
+    textAlign: 'initial',
   },
 
   buttons: {
