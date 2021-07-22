@@ -23,6 +23,13 @@
     "assetBundlePatterns": ["**/*"],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.expodevclient"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.expodevclient.expodevclient"
     }
   }
 }
