@@ -1,6 +1,7 @@
 /* eslint-disable import/no-commonjs */
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
@@ -65,11 +66,11 @@ module.exports = {
       /^((fs)|(path)|(os)|(crypto)|(source-map-support))$/,
       /vs(\/|\\)language(\/|\\)typescript(\/|\\)lib/
     ),
-    new webpack.ContextReplacementPlugin(
-      /monaco-editor(\\|\/)esm(\\|\/)vs(\\|\/)editor(\\|\/)common(\\|\/)services/
-    ),
-    new WorkerPlugin(),
     new MiniCssExtractPlugin(),
+    new MonacoWebpackPlugin({
+      languages: ['json', 'javascript', 'typescript', 'markdown', 'css'],
+    }),
+    new WorkerPlugin(),
     new StatsWriterPlugin({
       filename: 'build-stats.js',
       fields: ['hash', 'assets', 'assetsByChunkName'],
