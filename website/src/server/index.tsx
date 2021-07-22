@@ -78,29 +78,16 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
 } else {
   // Use webpack dev middleware in development
   const webpack = require('webpack');
-  const dev = require('webpack-dev-middleware');
+  const middleware = require('webpack-dev-middleware');
   const config = require('../../webpack.config');
 
   const compiler = webpack(config);
-  const middleware = dev(compiler, {
-    publicPath: '/dist/',
-    stats: 'minimal',
-  });
-
-  app.use(async (ctx, next) => {
-    await middleware(
-      ctx.req,
-      {
-        end: (content: string) => {
-          ctx.body = content;
-        },
-        setHeader: (name: string, value: string) => {
-          ctx.set(name, value);
-        },
-      },
-      next
-    );
-  });
+  app.use(
+    middleware(compiler, {
+      publicPath: '/dist/',
+      stats: 'minimal',
+    })
+  );
 }
 
 app.use(bodyParser());
