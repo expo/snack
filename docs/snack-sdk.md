@@ -1,6 +1,6 @@
 # Snack SDK Documentation <!-- omit in toc -->
 
-The Expo Snack SDK. Use this to create a custom web interface for https://snack.expo.io/. 
+The Expo Snack SDK. Use this to create a custom web interface for https://snack.expo.dev/. 
 
 
 ## Index <!-- omit in toc -->
@@ -387,7 +387,7 @@ const snack = new Snack({
 });
 
 const { id, url } = await snack.saveAsync();
-console.log(url); // "exp://expo.io/@jsghakdshgs"
+console.log(url); // "exp://exp.host/@jsghakdshgs"
 ```
 
 To save the Snack to your user account, set the user in the constructor or using `setUser`.

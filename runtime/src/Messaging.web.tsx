@@ -27,8 +27,8 @@ const listeners: Listener[] = [];
  * - Origin is checked against a white-list of allowed origins.
  *
  * Scenarios:
- * [snack.expo.io] -> [https://s3.webplayer?origin=snack.expo.io] (allowed)
- * [snack.expo.io] -> [https://s3.webplayer?origin=expo.io] (allowed, but fails on postMessage & recv message check)
+ * [snack.expo.dev] -> [https://s3.webplayer?origin=snack.expo.dev] (allowed)
+ * [snack.expo.dev] -> [https://s3.webplayer?origin=expo.dev] (allowed, but fails on postMessage & recv message check)
  * [badsite.com] -> [https://s3.webplayer?origin=badsite.com] (disallowed)
  * [badsite.com] -> [https://s3.webplayer?origin=snack.expo.io] (allowed, but fails on postMessage & recv message check)
  */
