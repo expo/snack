@@ -504,6 +504,7 @@ export default withThemeName(FileList);
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
+    flex: 1,
     flexDirection: 'column',
   },
   list: {

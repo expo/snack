@@ -40,6 +40,7 @@ import KeybindingsManager from './shared/KeybindingsManager';
 import LazyLoad from './shared/LazyLoad';
 import ModalDialog from './shared/ModalDialog';
 import ProgressIndicator from './shared/ProgressIndicator';
+import DependenciesPanel from './Dependencies/DependenciesPanel';
 
 const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000;
 
@@ -73,7 +74,6 @@ type State = {
   currentBanner: BannerName | null;
   loadedEditor: 'monaco' | 'simple' | null;
   isMarkdownPreview: boolean;
-  deviceLogsShown: boolean;
   lintedFiles: LintedFiles;
   lintAnnotations: Annotation[];
   shouldPreventRedirectWarning: boolean;
@@ -88,7 +88,6 @@ class EditorView extends React.Component<Props, State> {
     currentBanner: null,
     loadedEditor: null,
     isMarkdownPreview: true,
-    deviceLogsShown: false,
     lintedFiles: {},
     lintAnnotations: [],
     shouldPreventRedirectWarning: false,
@@ -448,22 +447,30 @@ class EditorView extends React.Component<Props, State> {
                 <div className={css(styles.editorAreaOuterWrapper)}>
                   <div className={css(styles.editorAreaOuter)}>
                     <LayoutShell>
-                      <FileList
-                        annotations={annotations}
-                        visible={preferences.fileTreeShown}
-                        files={files}
-                        selectedFile={selectedFile}
-                        updateFiles={this.props.updateFiles}
-                        onSelectFile={this.props.onSelectFile}
-                        onRemoveFile={this._handleRemoveFile}
-                        onRenameFile={this._handleRenameFile}
-                        uploadFileAsync={uploadFileAsync}
-                        onDownloadCode={this.props.onDownloadAsync}
-                        onShowModal={this._handleShowModal}
-                        hasSnackId={!!id}
-                        saveStatus={saveStatus}
-                        sdkVersion={sdkVersion}
-                      />
+                      <div className={css(styles.leftPanel)}>
+                        <FileList
+                          annotations={annotations}
+                          visible={preferences.fileTreeShown}
+                          files={files}
+                          selectedFile={selectedFile}
+                          updateFiles={this.props.updateFiles}
+                          onSelectFile={this.props.onSelectFile}
+                          onRemoveFile={this._handleRemoveFile}
+                          onRenameFile={this._handleRenameFile}
+                          uploadFileAsync={uploadFileAsync}
+                          onDownloadCode={this.props.onDownloadAsync}
+                          onShowModal={this._handleShowModal}
+                          hasSnackId={!!id}
+                          saveStatus={saveStatus}
+                          sdkVersion={sdkVersion}
+                        />
+                        <DependenciesPanel
+                          dependencies={dependencies}
+                          updateDependencies={this.props.updateDependencies}
+                          sdkVersion={sdkVersion}
+                          missingDependencies={this.props.missingDependencies}
+                        />
+                      </div>
                       {/* Don't load it conditionally since we need the _EditorComponent object to be available */}
                       <LazyLoad
                         load={async (): Promise<{ default: React.ComponentType<EditorProps> }> => {
@@ -750,6 +757,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     minHeight: 0,
     minWidth: 0,
+  },
+
+  leftPanel: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 
   embedModal: {
