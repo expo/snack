@@ -53,7 +53,10 @@ export default ({
     ],
     module: {
       rules: [
-        { parser: { requireEnsure: false } },
+        {
+          test: /\.[cm]?(js|tsx?)$/,
+          parser: { requireEnsure: false },
+        },
         {
           test: /\.mjs/,
           resolve: { fullySpecified: false },
