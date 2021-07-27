@@ -52,8 +52,10 @@ export default ({
       }),
     ],
     module: {
+      parser: {
+        javascript: { requireEnsure: false },
+      },
       rules: [
-        { parser: { requireEnsure: false } },
         {
           test: /\.mjs/,
           resolve: { fullySpecified: false },
