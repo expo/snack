@@ -1,5 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`bundler bundles packages with json imports 1`] = `
+Object {
+  "files": Object {
+    "android": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+          "react-native/Libraries/Image/resolveAssetSource",
+        ],
+        "size": 556221,
+      },
+    },
+    "ios": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+          "react-native/Libraries/Image/resolveAssetSource",
+        ],
+        "size": 556221,
+      },
+    },
+    "web": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+        ],
+        "size": 18197,
+      },
+    },
+  },
+  "name": "react-native-svg",
+  "peerDependencies": Object {
+    "react": "*",
+    "react-native": "^0.50.0",
+  },
+  "version": "12.1.1",
+}
+`;
+
 exports[`bundler created bundle for react-native-gesture-handler 1`] = `
 Object {
   "files": Object {
