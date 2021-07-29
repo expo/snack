@@ -41,7 +41,7 @@ const emotions = [
   'smiling',
   'grounded',
   'trusting',
-  'sponaneous',
+  'spontaneous',
   'healthy',
   'laughing',
   'graceful',
