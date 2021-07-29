@@ -32,6 +32,7 @@ module.exports = {
     publicPath: '/dist/',
     filename: '[name].bundle.js',
     chunkFilename: '[id].[fullhash].chunk.js',
+    assetModuleFilename: 'assets/[hash][ext][query]',
   },
   optimization: {
     emitOnErrors: false,
@@ -96,12 +97,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            outputPath: 'assets/',
-          },
-        },
+        type: 'asset/resource',
       },
     ],
   },

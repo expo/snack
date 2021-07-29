@@ -78,16 +78,29 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
 } else {
   // Use webpack dev middleware in development
   const webpack = require('webpack');
-  const middleware = require('webpack-dev-middleware');
+  const dev = require('webpack-dev-middleware');
   const config = require('../../webpack.config');
 
   const compiler = webpack(config);
-  app.use(
-    middleware(compiler, {
-      publicPath: '/dist/',
-      stats: 'minimal',
-    })
-  );
+  const middleware = dev(compiler, {
+    publicPath: '/dist/',
+    stats: 'minimal',
+  });
+
+  app.use(async (ctx, next) => {
+    await middleware(
+      ctx.req,
+      // webpack-dev-middleware supports Express and Node style API's, but not koa
+      // Implement a bridge between koa -> webpack-dev-middleware
+      {
+        end: (content: string) => (ctx.body = content),
+        setHeader: (name: string, value: string) => ctx.set(name, value),
+        getHeader: (name: string) => ctx.get(name),
+        // locals: ctx.state,
+      },
+      next
+    );
+  });
 }
 
 app.use(bodyParser());
