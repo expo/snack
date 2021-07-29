@@ -17,22 +17,7 @@ export function redirectToDevDomain(ctx: Context): boolean {
     `${ctx.protocol}://${ctx.hostname}` === process.env.LEGACY_SNACK_SERVER_URL &&
     process.env.SNACK_SERVER_URL
   ) {
-    ctx.redirect(`${process.env.SNACK_SERVER_URL}${ctx.req.url}`);
-    return true;
-  } else {
-    return false;
-  }
-}
-
-// in the case that we need to rollback the domain redirect,
-// run this function in place of redirectToDevDomain
-export function redirectToIoDomain(ctx: Context): boolean {
-  // if the incoming request is from snack.expo.dev, redirect to snack.expo.io
-  if (
-    isDevDomainEnabled() &&
-    `${ctx.protocol}://${ctx.hostname}` === process.env.SNACK_SERVER_URL &&
-    process.env.LEGACY_SNACK_SERVER_URL
-  ) {
+    ctx.status = 308;
     ctx.redirect(`${process.env.SNACK_SERVER_URL}${ctx.req.url}`);
     return true;
   } else {
