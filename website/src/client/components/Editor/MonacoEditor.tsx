@@ -651,7 +651,7 @@ class MonacoEditor extends React.Component<Props, State> {
     }
   };
 
-  _handleResize = debounce(() => this._editor?.layout(), 50, {
+  _handleResize = debounce((_width?: number, _height?: number) => this._editor?.layout(), 50, {
     leading: true,
     trailing: true,
   });
