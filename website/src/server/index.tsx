@@ -88,6 +88,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   });
 
   app.use(async (ctx, next) => {
+    console.log('REQUEST: ', ctx.url);
     await middleware(
       ctx.req,
       // webpack-dev-middleware supports Express and Node style API's, but not koa

@@ -7,6 +7,8 @@
     "isolatedModules": true,
     "jsx": "react",
     "lib": ["webworker", "dom", "esnext", "scripthost"],
+    "module": "esnext",
+    "moduleResolution": "node",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
