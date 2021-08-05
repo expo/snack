@@ -650,10 +650,7 @@ class MonacoEditor extends React.Component<Props, State> {
     }
   };
 
-  _handleResize = (_width?: number, _height?: number) => {
-    console.log('onResize', _width, _height);
-    this._editor?.layout();
-  };
+  _handleResize = (_width?: number, _height?: number) => this._editor?.layout();
 
   _typingsWorker: Worker | undefined;
   _disposables: monaco.IDisposable[] = [];
