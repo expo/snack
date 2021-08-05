@@ -27,7 +27,7 @@ SimpleEditorModelResolverService.prototype.findModel = function (_: any, resourc
 };
 
 // @ts-ignore
-/* global.MonacoEnvironment = {
+global.MonacoEnvironment = {
   getWorker(_: string, label: string) {
     switch (label) {
       case 'json':
@@ -46,7 +46,7 @@ SimpleEditorModelResolverService.prototype.findModel = function (_: any, resourc
         return new Worker('monaco-editor/esm/vs/editor/editor.worker', { type: 'module' });
     }
   },
-}; */
+};
 
 monaco.editor.defineTheme('light', light);
 monaco.editor.defineTheme('dark', dark);
