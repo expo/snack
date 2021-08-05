@@ -1,6 +1,5 @@
 import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
-import debounce from 'lodash/debounce';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
 import { SimpleEditorModelResolverService } from 'monaco-editor/esm/vs/editor/standalone/browser/simpleServices';
 import { StaticServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices';
@@ -651,10 +650,10 @@ class MonacoEditor extends React.Component<Props, State> {
     }
   };
 
-  _handleResize = debounce((_width?: number, _height?: number) => this._editor?.layout(), 50, {
-    leading: true,
-    trailing: true,
-  });
+  _handleResize = (_width?: number, _height?: number) => {
+    console.log('onResize', _width, _height);
+    this._editor?.layout();
+  };
 
   _typingsWorker: Worker | undefined;
   _disposables: monaco.IDisposable[] = [];
