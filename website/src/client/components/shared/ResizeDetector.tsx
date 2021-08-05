@@ -8,7 +8,15 @@ type Props = {
 };
 
 export default function ResizeDetector(props: Props) {
-  const { ref } = useResizeDetector({ onResize: props.onResize });
+  const { ref } = useResizeDetector({
+    onResize: props.onResize,
+    refreshMode: 'debounce',
+    refreshRate: 50,
+    refreshOptions: {
+      leading: true,
+      trailing: true,
+    },
+  });
   return (
     <div ref={ref} className={css(styles.container)}>
       {props.children}
