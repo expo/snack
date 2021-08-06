@@ -1,6 +1,14 @@
 import Head from 'next/head';
 
-export default function Home() {
+import { RouterData } from '../components/types';
+
+type Props = {
+  isEmbedded?: boolean;
+  data?: RouterData;
+};
+
+export default function Home(props: Props) {
+  const { isEmbedded, data } = props;
   return (
     <>
       <Head>
@@ -47,6 +55,8 @@ export default function Home() {
         />*/}
       </Head>
       <main>
+        <div>{`isEmbedded = ${isEmbedded}`}</div>
+        <div>{`data = ${JSON.stringify(data)}`}</div>
         {/* isEmbedded || !isAuthenticated ? (
           <Amplitude />
         ) : (
