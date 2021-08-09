@@ -1,0 +1,162 @@
+name: Appetize
+
+on:
+  workflow_dispatch:
+    inputs:
+      appetizeQueue:
+        description: Appetize queue to use (main/embed/all)
+        default: main
+        required: true
+      sdkPlatform:
+        description: Platform to use (android/ios/all)
+        default: all
+        required: true
+      sdkVersion:
+        description: SDK version to resolve Expo Go version (e.g. 42.0.0)
+        required: false
+      deploy:
+        description: type "deploy" to update Appetize (without this it only checks the version)
+        required: false
+
+jobs:
+  android:
+    if: contains('all android', github.event.inputs.sdkPlatform)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve Appetize (main) version
+        if: contains('all main', github.event.inputs.appetizeQueue)
+        # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
+        run: |
+          curl --silent -o appetize.json https://$APPETIZE_TOKEN@api.appetize.io/v1/apps/$APPETIZE_APP > /dev/null
+          echo "Appetize is running $(cat appetize.json | jq .appVersionName)"
+          rm -rf appetize.json
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_MAIN_TOKEN }}
+          APPETIZE_APP: ${{ secrets.APPETIZE_MAIN_ANDROID }}
+      
+      - name: Resolve Appetize (embed) version
+        if: contains('all embed', github.event.inputs.appetizeQueue)
+        # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
+        run: |
+          curl --silent -o appetize.json https://$APPETIZE_TOKEN@api.appetize.io/v1/apps/$APPETIZE_APP > /dev/null
+          echo "Appetize is running $(cat appetize.json | jq .appVersionName)"
+          rm -rf appetize.json
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_EMBED_TOKEN }}
+          APPETIZE_APP: ${{ secrets.APPETIZE_EMBED_ANDROID }}
+
+      - name: Resolve Android client
+        if: github.event.inputs.sdkVersion
+        id: android
+        run: |
+          curl --silent -o versions.json https://exp.host/--/api/v2/versions
+
+          VERSION=${{ github.event.inputs.sdkVersion }}
+          CLIENT_URL=$(cat versions.json | jq .sdkVersions[\"$VERSION\"].androidClientUrl)
+          CLIENT_VERSION=$(cat versions.json | jq .sdkVersions[\"$VERSION\"].androidClientVersion)
+          
+          if [ "${CLIENT_URL}" == "null" ]; then echo "No client url for SDK '$VERSION'"; exit 1; fi
+          if [ "${CLIENT_VERSION}" == "null" ]; then echo "No client version for SDK '$VERSION'"; exit 1; fi
+
+          echo "Resolved client $CLIENT_VERSION from SDK $VERSION"
+          echo "::set-output name=url::$CLIENT_URL"
+          echo "::set-output name=version::$CLIENT_VERSION"
+      
+      - name: Download Android client
+        if: github.event.inputs.deploy == 'deploy' && github.event.inputs.sdkVersion
+        run: curl -o exponent-android.apk ${{ steps.android.outputs.url }}
+
+      - name: Upload to Appetize (main)
+        if: contains('all main', github.event.inputs.appetizeQueue) && github.event.inputs.deploy == 'deploy' && github.event.inputs.sdkVersion
+        # This step MUST NOT output anything, the endpoint returns the public and private app keys
+        run: |
+          curl --silent --http1.1 https://$APPETIZE_TOKEN@api.appetize.io/v1/apps/$APPETIZE_APP -F "file=@exponent-android.apk" -F "platform=android" > /dev/null
+          rm -rf exponent-android.apk
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_MAIN_TOKEN }}
+          APPETIZE_APP: ${{ secrets.APPETIZE_MAIN_ANDROID }}
+
+      - name: Upload to Appetize (embed)
+        if: contains('all embed', github.event.inputs.appetizeQueue) && github.event.inputs.deploy == 'deploy' && github.event.inputs.sdkVersion
+        # This step MUST NOT output anything, the endpoint returns the public and private app keys
+        run: |
+          curl --silent --http1.1 https://$APPETIZE_TOKEN@api.appetize.io/v1/apps/$APPETIZE_APP -F "file=@exponent-android.apk" -F "platform=android" > /dev/null
+          rm -rf exponent-android.apk
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_EMBED_TOKEN }}
+          APPETIZE_APP: ${{ secrets.APPETIZE_EMBED_ANDROID }}
+  
+  ios:
+    if: contains('all ios', github.event.inputs.sdkPlatform)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve Appetize (main) version
+        if: contains('all main', github.event.inputs.appetizeQueue)
+        # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
+        run: |
+          curl --silent -o appetize.json https://$APPETIZE_TOKEN@api.appetize.io/v1/apps/$APPETIZE_APP > /dev/null
+          echo "Appetize is running $(cat appetize.json | jq .appVersionName)"
+          rm -rf appetize.json
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_MAIN_TOKEN }}
+          APPETIZE_APP: ${{ secrets.APPETIZE_MAIN_IOS }}
+      
+      - name: Resolve Appetize (embed) version
+        if: contains('all embed', github.event.inputs.appetizeQueue)
+        # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
+        run: |
+          curl --silent -o appetize.json https://$APPETIZE_TOKEN@api.appetize.io/v1/apps/$APPETIZE_APP > /dev/null
+          echo "Appetize is running $(cat appetize.json | jq .appVersionName)"
+          rm -rf appetize.json
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_EMBED_TOKEN }}
+          APPETIZE_APP: ${{ secrets.APPETIZE_EMBED_IOS }}
+      
+      - name: Resolve iOS client
+        if: github.event.inputs.sdkVersion
+        id: ios
+        run: |
+          curl --silent -o versions.json https://exp.host/--/api/v2/versions
+
+          VERSION=${{ github.event.inputs.sdkVersion }}
+          CLIENT_URL=$(cat versions.json | jq .sdkVersions[\"$VERSION\"].iosClientUrl)
+          CLIENT_VERSION=$(cat versions.json | jq .sdkVersions[\"$VERSION\"].iosClientVersion)
+          
+          if [ "${CLIENT_URL}" == "null" ]; then echo "No client url for SDK '$VERSION'"; exit 1; fi
+          if [ "${CLIENT_VERSION}" == "null" ]; then echo "No client version for SDK '$VERSION'"; exit 1; fi
+
+          echo "Resolved client $CLIENT_VERSION from SDK $VERSION"
+          echo "::set-output name=url::$CLIENT_URL"
+          echo "::set-output name=version::$CLIENT_VERSION"
+
+      - name: Download iOS client
+        if: github.event.inputs.deploy == 'deploy' && github.event.inputs.sdkVersion
+        run: curl -o exponent-ios.tar.gz ${{ steps.ios.outputs.url }}
+
+      - name: Prepare iOS package
+        if: github.event.inputs.deploy == 'deploy' && github.event.inputs.sdkVersion
+        run: |
+          mkdir exponent-ios.app
+          tar -xf exponent-ios.tar.gz -C exponent-ios.app
+          zip -q -r exponent-ios.zip exponent-ios.app
+          rm -rf exponent-ios.app exponent-ios.tar.gz
+
+      - name: Upload to Appetize (main)
+        if: contains('all main', github.event.inputs.appetizeQueue) && github.event.inputs.deploy == 'deploy' && github.event.inputs.sdkVersion
+        # This step MUST NOT output anything, the endpoint returns the public and private app keys
+        run: |
+          curl --silent --http1.1 https://$APPETIZE_TOKEN@api.appetize.io/v1/apps/$APPETIZE_APP -F "file=@exponent-ios.zip" -F "platform=ios" > /dev/null
+          rm -rf exponent-ios.zip
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_MAIN_TOKEN }}
+          APPETIZE_APP: ${{ secrets.APPETIZE_MAIN_IOS }}
+
+      - name: Upload to Appetize (embed)
+        if: contains('all embed', github.event.inputs.appetizeQueue) && github.event.inputs.deploy == 'deploy' && github.event.inputs.sdkVersion
+        # This step MUST NOT output anything, the endpoint returns the public and private app keys
+        run: |
+          curl --silent --http1.1 https://$APPETIZE_TOKEN@api.appetize.io/v1/apps/$APPETIZE_APP -F "file=@exponent-ios.zip" -F "platform=ios" > /dev/null
+          rm -rf exponent-ios.zip
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_EMBED_TOKEN }}
+          APPETIZE_APP: ${{ secrets.APPETIZE_EMBED_IOS }}
