@@ -18,6 +18,6 @@ export default {
     },
   },
   preview: {
-    minWidth: 700,
+    minWidth: 600,
   },
 };
