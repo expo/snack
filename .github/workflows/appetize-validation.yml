@@ -3,6 +3,7 @@ name: AppetizeValidation
 on:
   workflow_dispatch:
   schedule:
+    # daily at 14:00h UTC
     - cron: 0 14 * * *
 
 jobs:
