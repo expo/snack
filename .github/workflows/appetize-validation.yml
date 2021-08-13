@@ -51,7 +51,7 @@ jobs:
             const config = require('./website/src/client/configs/sdk')
             const versions = Object.keys(config.versions)
             
-            core.info(`Resolved suppored website SDKs`)
+            core.info(`Resolved supported website SDKs`)
             for (const version of versions) {
               core.info(`  - ${version} ${version === config.DEFAULT_SDK_VERSION ? '(default)' : ''}`)
             }
