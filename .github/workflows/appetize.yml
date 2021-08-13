@@ -39,9 +39,8 @@ jobs:
 
             if (!sdk) throw new Error(`Could not find SDK "${version}"`)
 
-            core.info(`Resolved client versions for SDK "${version}"`)
-            core.info(`  - Android: ${sdk.androidClientVersion}`)
-            core.info(`  - iOS: ${sdk.iosClientVersion}`)
+            core.notice(`Found Android ${sdk.androidClientVersion} for SDK "${version}"`)
+            core.notice(`Found iOS ${sdk.androidClientVersion} for SDK "${version}"`)
 
             for (const key of ['androidClientVersion', 'androidClientUrl', 'iosClientUrl', 'iosClientVersion']) {
               core.setOutput(key, sdk && sdk[key] ? sdk[key] : '')
@@ -89,7 +88,7 @@ jobs:
           script: |
             const { appVersionName } = require('./appetize.json') || {};
             if (!appVersionName) throw new Error('Invalid Appetize response')
-            core.info(`Appetize (${{ matrix.appetize }}) is running Android ${appVersionName}`)
+            core.notice(`Appetize (${{ matrix.appetize }}) is running Android ${appVersionName}`)
             core.setOutput('oldVersion', appVersionName)
 
       - name: 📱 Download Android client (${{ matrix.androidVersion }})
