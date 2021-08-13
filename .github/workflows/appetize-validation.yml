@@ -37,7 +37,7 @@ jobs:
         working-directory: website
         run: yarn install --ignore-scripts --frozen-lockfile
 
-      # This command might fail on other dependencies, we just want to peak in the configs
+      # This command might fail on other dependencies, we just want to peek in the configs
       - name: 👷‍♀️ Build sdk config
         working-directory: website
         continue-on-error: true
