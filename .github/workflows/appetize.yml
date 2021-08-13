@@ -71,8 +71,8 @@ jobs:
     needs: prepare
     name: Deploy Android on ${{ matrix.appetize }}
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
       - name: 📋 Download Appetize information
@@ -89,6 +89,7 @@ jobs:
           script: |
             const { appVersionName } = require('./appetize.json') || {};
             if (!appVersionName) throw new Error('Invalid Appetize response')
+            core.info(`Appetize (${{ matrix.appetize }}) is running Android ${appVersionName}`)
             core.setOutput('oldVersion', appVersionName)
 
       - name: 📱 Download Android client (${{ matrix.androidVersion }})
@@ -121,8 +122,8 @@ jobs:
     needs: prepare
     name: Deploy iOS on ${{ matrix.appetize }}
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
       - name: 📋 Download Appetize information
@@ -139,6 +140,7 @@ jobs:
           script: |
             const { appVersionName } = require('./appetize.json') || {};
             if (!appVersionName) throw new Error('Invalid Appetize response')
+            core.info(`Appetize (${{ matrix.appetize }}) is running iOS ${appVersionName}`)
             core.setOutput('oldVersion', appVersionName)
       
       - name: 📱 Download iOS client (${{ matrix.iosVersion }})
