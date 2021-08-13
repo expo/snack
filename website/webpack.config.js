@@ -51,6 +51,8 @@ module.exports = {
         SERVER_URL: JSON.stringify(env('SERVER_URL')),
         LEGACY_SERVER_URL: JSON.stringify(env('LEGACY_SERVER_URL')),
         API_SERVER_URL: JSON.stringify(env('API_SERVER_URL')),
+        RUDDERSTACK_DATA_PLANE_URL: JSON.stringify(env('RUDDERSTACK_DATA_PLANE_URL')),
+        RUDDERSTACK_WRITE_KEY: JSON.stringify(env('RUDDERSTACK_WRITE_KEY')),
         SNACK_SEGMENT_KEY: JSON.stringify(env('SNACK_SEGMENT_KEY')),
         SNACK_AMPLITUDE_KEY: JSON.stringify(env('SNACK_AMPLITUDE_KEY')),
         LEGACY_SNACK_SERVER_URL: JSON.stringify(env('LEGACY_SNACK_SERVER_URL')),
