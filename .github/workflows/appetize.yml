@@ -1,0 +1,175 @@
+name: Appetize
+
+on:
+  workflow_dispatch:
+    inputs:
+      appetizeQueue:
+        description: Appetize queue to use (main/embed/all)
+        default: main
+        required: true
+      sdkPlatform:
+        description: Platform to use (android/ios/all)
+        default: all
+        required: true
+      sdkVersion:
+        description: SDK version to resolve Expo Go version (e.g. 42.0.0)
+        required: false
+      deploy:
+        description: type "deploy" to update Appetize (without this it only checks the version)
+        required: false
+
+jobs:
+  prepare:
+    name: Preparing deploy
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.result }}
+    steps:
+      - name: 📋 Download SDK information
+        run: curl --silent -o versions.json https://exp.host/--/api/v2/versions
+      - name: 🔍 Resolve SDK versions
+        uses: actions/github-script@v4
+        if: github.event.inputs.sdkVersion
+        id: sdk
+        with:
+          script: |
+            const { sdkVersions } = require('./versions.json')
+            const version = '${{ github.event.inputs.sdkVersion }}'
+            const sdk = sdkVersions[version];
+
+            if (!sdk) throw new Error(`Could not find SDK "${version}"`)
+
+            core.info(`Resolved client versions for SDK "${version}"`)
+            core.info(`  - Android: ${sdk.androidClientVersion}`)
+            core.info(`  - iOS: ${sdk.iosClientVersion}`)
+
+            for (const key of ['androidClientVersion', 'androidClientUrl', 'iosClientUrl', 'iosClientVersion']) {
+              core.setOutput(key, sdk && sdk[key] ? sdk[key] : '')
+            }
+      - name: 👷‍♀️ Prepare tasks
+        uses: actions/github-script@v4
+        id: matrix
+        with:
+          script: |
+            const allQueues = ['main', 'embed']
+            const queue = '${{ github.event.inputs.appetizeQueue }}'
+
+            return {
+              include: allQueues
+                .filter(name => queue === 'all' || queue === name)
+                .map(name => ({
+                  appetize: name.toUpperCase(),
+                  androidUrl: '${{ steps.sdk.outputs.androidClientUrl }}',
+                  androidVersion: '${{ steps.sdk.outputs.androidClientVersion }}',
+                  iosUrl: '${{ steps.sdk.outputs.iosClientUrl }}',
+                  iosVersion: '${{ steps.sdk.outputs.iosClientVersion }}',
+                }))
+            }
+
+  android:
+    if: contains('all android', github.event.inputs.sdkPlatform)
+    needs: prepare
+    name: Deploy Android on ${{ matrix.appetize }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: 📋 Download Appetize information
+        # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
+        run: curl --silent --fail -o appetize.json https://$TOKEN@api.appetize.io/v1/apps/$APP > /dev/null
+        env:
+          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('APPETIZE_{0}_ANDROID', matrix.appetize)] }}
+
+      - name: 🔍 Resolve Appetize version
+        uses: actions/github-script@v4
+        id: appetize
+        with:
+          script: |
+            const { appVersionName } = require('./appetize.json') || {};
+            if (!appVersionName) throw new Error('Invalid Appetize response')
+            core.setOutput('oldVersion', appVersionName)
+
+      - name: 📱 Download Android client (${{ matrix.androidVersion }})
+        if: github.event.inputs.deploy == 'deploy'
+        run: curl -o exponent-android.apk ${{ matrix.androidUrl }}
+      
+      - name: 🚀 Upload to Appetize
+        if: github.event.inputs.deploy == 'deploy'
+        # This step MUST NOT output anything, the endpoint returns the public and private app keys
+        run: |
+          curl --silent --fail --http1.1 https://$TOKEN@api.appetize.io/v1/apps/$APP -F "file=@exponent-android.apk" -F "platform=android" > /dev/null
+          rm -rf exponent-android.apk appetize.json
+        env:
+          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('APPETIZE_{0}_ANDROID', matrix.appetize)] }}
+
+      - name: 📢 Notify on Slack
+        uses: 8398a7/action-slack@v3
+        if: always() && github.event.inputs.deploy == 'deploy'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Android (${{ steps.appetize.outputs.oldVersion }} -> ${{ matrix.androidVersion }}) on ${{ matrix.appetize }} 
+          fields: author
+
+  ios:
+    if: contains('all ios', github.event.inputs.sdkPlatform)
+    needs: prepare
+    name: Deploy iOS on ${{ matrix.appetize }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: 📋 Download Appetize information
+        # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
+        run: curl --silent --fail -o appetize.json https://$TOKEN@api.appetize.io/v1/apps/$APP > /dev/null
+        env:
+          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('APPETIZE_{0}_IOS', matrix.appetize)] }}
+
+      - name: 🔍 Resolve Appetize version
+        uses: actions/github-script@v4
+        id: appetize
+        with:
+          script: |
+            const { appVersionName } = require('./appetize.json') || {};
+            if (!appVersionName) throw new Error('Invalid Appetize response')
+            core.setOutput('oldVersion', appVersionName)
+      
+      - name: 📱 Download iOS client (${{ matrix.iosVersion }})
+        if: github.event.inputs.deploy == 'deploy'
+        run: curl -o exponent-ios.tar.gz ${{ matrix.iosUrl }}
+
+      - name: 📦 Prepare iOS package
+        if: github.event.inputs.deploy == 'deploy'
+        run: |
+          mkdir exponent-ios.app
+          tar -xf exponent-ios.tar.gz -C exponent-ios.app
+          zip -q -r exponent-ios.zip exponent-ios.app
+          rm -rf exponent-ios.app exponent-ios.tar.gz
+
+      - name: 🚀 Upload to Appetize
+        if: github.event.inputs.deploy == 'deploy'
+        # This step MUST NOT output anything, the endpoint returns the public and private app keys
+        run: |
+          curl --silent --fail --http1.1 https://$TOKEN@api.appetize.io/v1/apps/$APP -F "file=@exponent-ios.zip" -F "platform=ios" > /dev/null
+          rm -rf exponent-ios.zip appetize.json
+        env:
+          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('APPETIZE_{0}_IOS', matrix.appetize)] }}
+
+      - name: 📢 Notify on Slack
+        uses: 8398a7/action-slack@v3
+        if: always() && github.event.inputs.deploy == 'deploy'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy iOS (${{ steps.appetize.outputs.oldVersion }} -> ${{ matrix.androidVersion }}) on ${{ matrix.appetize }} 
+          fields: author
