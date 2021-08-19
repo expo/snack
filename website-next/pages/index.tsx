@@ -3,6 +3,7 @@ import QRCode from 'qrcode.react';
 import { useState, useEffect, useRef } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 import { Snack, getSupportedSDKVersions, SDKVersion } from 'snack-sdk';
 
 import { RouterData } from '../components/types';
@@ -18,6 +19,11 @@ type Props = {
 const INITIAL_CODE_CHANGES_DELAY = 500;
 const VERBOSE = !!process.browser;
 const USE_WORKERS = false;
+
+const DynamicIFrame = dynamic(import('../components/IFrame'), {
+  loading: () => undefined,
+  ssr: false,
+});
 
 export default function Home(props: Props) {
   const { isEmbedded, data } = props;
@@ -132,7 +138,7 @@ export default function Home(props: Props) {
         <div className={css(styles.preview)}>
           <Toolbar title="Preview" />
           <div className={css(styles.previewContainer)}>
-            <iframe
+            <DynamicIFrame
               ref={(c) => (webPreviewRef.current = c?.contentWindow ?? null)}
               className={css(styles.previewFrame)}
               src={webPreviewURL}
