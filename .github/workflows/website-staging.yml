@@ -14,14 +14,6 @@ on:
       - .eslint*
       - .prettier*
       - yarn.lock
-  pull_request:
-    paths:
-      - .github/workflows/website-staging.yml
-      - website/**
-      - packages/snack-sdk/**
-      - .eslint*
-      - .prettier*
-      - yarn.lock
 
 jobs:
   build:
