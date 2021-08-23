@@ -3,7 +3,7 @@ description: 'You have a question about Expo Snack or want to discuss some aspec
 body:
   - type: markdown
     attributes:
-      value: If you have a question about Expo Snack or want to discuss about related aspects, please post it on our forums at https://forums.expo.io/c/snack.
+      value: If you have a question about Expo Snack or want to discuss about related aspects, please post it on our forums at https://forums.expo.dev/c/snack.
   - type: dropdown
     attributes:
       label: Do you understand that any discussions or questions opened as issues in the core Expo Snack repository will be closed?

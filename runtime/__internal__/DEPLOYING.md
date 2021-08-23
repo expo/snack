@@ -18,5 +18,5 @@ No CI actions are configured for this yet, so it needs to be done manually.
 - Login: `expo login`
 - Deploy runtime: `yarn deploy:prod` (is used by the Expo client)
 - Deploy web player `yarn deploy:web:prod` (is used by Snack web preview)
-- Verify that the runtime works by opening an app from `snack.expo.io` on your Expo client.
-- Verify that the web-player works by using the web-preview on `snack.expo.io`.
+- Verify that the runtime works by opening an app from `snack.expo.dev` on your Expo client.
+- Verify that the web-player works by using the web-preview on `snack.expo.dev`.

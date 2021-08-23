@@ -27,7 +27,7 @@
     "flow-typed": "flow-typed install",
     "docs": "documentation readme --readme-file API.md --section \"Snack SDK API\" src/SnackSession.js"
   },
-  "author": "Expo <support@expo.io>",
+  "author": "Expo <support@expo.dev>",
   "license": "MIT",
   "volta": {
     "node": "12.18.4"

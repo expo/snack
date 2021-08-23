@@ -1,6 +1,6 @@
 # Snack Runtime
 
-The Snack runtime is an Expo App that loads and runs the Snack code from https://snack.expo.io or from any other app using the [snack-sdk](../packages/snack-sdk). The Snack runtime exists in two flavours:
+The Snack runtime is an Expo App that loads and runs the Snack code from https://snack.expo.dev or from any other app using the [snack-sdk](../packages/snack-sdk). The Snack runtime exists in two flavours:
 - A native runtime for Expo Go
 - A web-player for running Snacks in the browser
 

@@ -435,7 +435,7 @@ describe('saveAsync', () => {
     const saveResult = await session.saveAsync();
     expect(saveResult).toEqual({
       id: 'abc123',
-      url: 'https://expo.io/@snack/abc123',
+      url: 'https://expo.dev/@snack/abc123',
     });
 
     const lastCall = fetchMock.lastCall('*');
@@ -463,7 +463,7 @@ describe('saveAsync', () => {
     const saveResult = await session.saveAsync();
     expect(saveResult).toEqual({
       id: 'abc123',
-      url: 'https://expo.io/@snack/abc123',
+      url: 'https://expo.dev/@snack/abc123',
     });
 
     const lastCall = fetchMock.lastCall('*');
