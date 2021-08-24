@@ -54,8 +54,9 @@ class DevicePreview extends React.PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    this.mql = window.matchMedia(VISIBILITY_MEDIA_QUERY);
-    this.mql = window.matchMedia(VISIBILITY_MEDIA_QUERY_EMBEDDED);
+    this.mql = window.matchMedia(
+      this.props.isEmbedded ? VISIBILITY_MEDIA_QUERY_EMBEDDED : VISIBILITY_MEDIA_QUERY
+    );
     this.mql.addListener(this.handleMediaQuery);
     this.handleMediaQuery(this.mql);
   }
