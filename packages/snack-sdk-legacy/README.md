@@ -119,7 +119,7 @@ is not available once you import `lodash` You will need to import 'lodash/zip' t
 let saveResult = await session.saveAsync();
 
 console.log(saveResult);
-// This will print: `{"id":"abc123","url":"https://expo.io/@snack/abc123"}`
+// This will print: `{"id":"abc123","url":"https://expo.dev/@snack/abc123"}`
 ```
 This will upload the current code to Expo's servers and return a url that points to that version of the code.
 

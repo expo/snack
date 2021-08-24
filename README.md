@@ -14,7 +14,7 @@
 Expo Snack is an open-source platform for running React Native apps in the browser. It dynamically bundles and compiles code and runs it in the Expo Client or in a web-player. Code can be saved as "Snacks" and easily shared with others. Snacks can also be embedded to show "live" previews as used by the [React Native documentation](https://reactnative.dev/docs/getting-started).
 
 > Snack has a new domain: snack.expo.dev!
-> [Read more about it here!](https://blog.expo.io/introducing-expo-dev-a70818bf336e)
+> [Read more about it here!](https://blog.expo.dev/introducing-expo-dev-a70818bf336e)
 
 <!--
 > Requesting snacks in bug reports gives your users an easy, lightweight way to give you a minimal, complete, and verifiable example (https://stackoverflow.com/help/minimal-reproducible-example) and allows you to spend more time fixing real issues in your project rather than staring at copy pasted code or cloning someone's repository that may or may not demonstrate a real issue with your project.
@@ -53,7 +53,7 @@ Internal documentation
 ## ❓ Getting in touch
 
 - [Issues](https://github.com/expo/snack/issues)
-- [Expo forums](https://forums.expo.io/c/snack)
+- [Expo forums](https://forums.expo.dev/c/snack)
 
 ## 👏 Contributing
 

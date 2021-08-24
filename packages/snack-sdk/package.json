@@ -23,7 +23,7 @@
     "doc": "yarn typedoc",
     "doc:ci": "yarn doc && node ./scripts/checkUncommittedDocChanges.js"
   },
-  "author": "Expo <support@expo.io>",
+  "author": "Expo <support@expo.dev>",
   "license": "MIT",
   "volta": {
     "node": "12.16.2"

@@ -574,7 +574,7 @@ export default class SnackSession {
         this.snackId = data.id;
         return {
           id: data.id,
-          url: `https://expo.io/${fullName}`,
+          url: `https://expo.dev/${fullName}`,
         };
       } else {
         throw new Error(

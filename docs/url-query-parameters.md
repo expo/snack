@@ -3,7 +3,7 @@
 The main Snack website is hosted at [https://snack.expo.dev](https://snack.expo.dev) and can be loaded in embedded mode and with custom parameters.
 
 > Snack has been transitioned to the `.dev` domain! Any traffic to `snack.expo.io` is automatically
-> redirected to `snack.expo.dev`. [Read more about it here!](https://blog.expo.io/introducing-expo-dev-a70818bf336e)
+> redirected to `snack.expo.dev`. [Read more about it here!](https://blog.expo.dev/introducing-expo-dev-a70818bf336e)
 
 ## URLs
 
