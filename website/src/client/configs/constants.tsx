@@ -19,5 +19,6 @@ export default {
   },
   preview: {
     minWidth: 700,
+    embeddedMinWidth: 600,
   },
 };

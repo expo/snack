@@ -45,6 +45,7 @@ type State = {
 };
 
 const VISIBILITY_MEDIA_QUERY = `(min-width: ${constants.preview.minWidth}px)`;
+const VISIBILITY_MEDIA_QUERY_EMBEDDED = `(min-width: ${constants.preview.embeddedMinWidth}px)`;
 
 class DevicePreview extends React.PureComponent<Props, State> {
   state: State = {
@@ -53,7 +54,9 @@ class DevicePreview extends React.PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    this.mql = window.matchMedia(VISIBILITY_MEDIA_QUERY);
+    this.mql = window.matchMedia(
+      this.props.isEmbedded ? VISIBILITY_MEDIA_QUERY_EMBEDDED : VISIBILITY_MEDIA_QUERY
+    );
     this.mql.addListener(this.handleMediaQuery);
     this.handleMediaQuery(this.mql);
   }
@@ -145,7 +148,9 @@ class DevicePreview extends React.PureComponent<Props, State> {
       theme,
     } = this.props;
     return (
-      <div className={classnames(css(styles.container), className)} style={{ width }}>
+      <div
+        className={classnames(css(isEmbedded ? styles.embedded : styles.container), className)}
+        style={{ width }}>
         {isEmbedded ? null : (
           <div className={css(styles.header)}>
             <ToggleButtons
@@ -220,6 +225,17 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
 
     [`@media ${VISIBILITY_MEDIA_QUERY}`]: {
+      display: 'flex',
+    },
+  },
+  embedded: {
+    position: 'relative',
+    maxWidth: '50%',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    display: 'none',
+    flexDirection: 'column',
+    [`@media ${VISIBILITY_MEDIA_QUERY_EMBEDDED}`]: {
       display: 'flex',
     },
   },
