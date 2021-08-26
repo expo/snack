@@ -3,7 +3,6 @@ import QRCode from 'qrcode.react';
 import { useState, useEffect, useRef } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
 import { Snack, getSupportedSDKVersions, SDKVersion } from 'snack-sdk';
 
 import { RouterData } from '../components/types';
@@ -19,11 +18,6 @@ type Props = {
 const INITIAL_CODE_CHANGES_DELAY = 500;
 const VERBOSE = !!process.browser;
 const USE_WORKERS = false;
-
-const DynamicIFrame = dynamic(import('../components/IFrame'), {
-  loading: () => undefined,
-  ssr: false,
-});
 
 export default function Home(props: Props) {
   const { isEmbedded, data } = props;
@@ -47,6 +41,7 @@ export default function Home(props: Props) {
   const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [codeChangesDelay, setCodeChangesDelay] = useState(INITIAL_CODE_CHANGES_DELAY);
+  const [isClientReady, setClientReady] = useState(false);
 
   // Listen for state changes and log messages
   useEffect(() => {
@@ -57,6 +52,9 @@ export default function Home(props: Props) {
       }),
       snack.addLogListener(({ message }) => console.log(message)),
     ];
+    if (process.browser) {
+      setClientReady(true);
+    }
     return () => listeners.forEach((listener) => listener());
   }, [snack]);
 
@@ -138,10 +136,10 @@ export default function Home(props: Props) {
         <div className={css(styles.preview)}>
           <Toolbar title="Preview" />
           <div className={css(styles.previewContainer)}>
-            <DynamicIFrame
-              ref={(c) => (webPreviewRef.current = c?.contentWindow ?? null)}
+            <iframe
               className={css(styles.previewFrame)}
-              src={webPreviewURL}
+              ref={(c) => (webPreviewRef.current = c?.contentWindow ?? null)}
+              src={isClientReady ? webPreviewURL : undefined}
               allow="geolocation; camera; microphone"
             />
             {!webPreviewURL && (
@@ -155,7 +153,7 @@ export default function Home(props: Props) {
           <div className={css(styles.settingsContainer)}>
             <Toolbar>
               <Button
-                style={{ marginRight: 10 }}
+                style={styles.button}
                 label="Save"
                 loading={isSaving}
                 onClick={async () => {
@@ -268,6 +266,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     padding: 20,
+    paddingTop: 14,
   },
   left: {
     display: 'flex',
@@ -347,5 +346,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     opacity: 0.5,
+  },
+  button: {
+    marginRight: 10,
   },
 });

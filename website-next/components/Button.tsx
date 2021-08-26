@@ -2,9 +2,9 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
 export const Button = (props) => {
-  const { label, loading, ...rest } = props;
+  const { label, loading, style, ...rest } = props;
   return (
-    <a className={css(styles.button)} href="#" {...rest} disabled={loading}>
+    <a className={css(styles.button, style)} href="#" {...rest} disabled={loading}>
       {label}
     </a>
   );
