@@ -1,54 +1,29 @@
-import deepObjectDiff from 'deep-object-diff';
+import { diff } from 'deep-object-diff';
 import QRCode from 'qrcode.react';
-import React, { useState, useEffect, useRef } from 'react';
-// Snowpack has an issue importing named exports from commonjs modules11
-import SnackNamespace from 'snack-sdk';
+import { useState, useEffect, useRef } from 'react';
+import { StyleSheet, css } from 'aphrodite';
+import { Snack, getSupportedSDKVersions, SDKVersion } from 'snack-sdk';
+import Head from 'next/head';
 
-import { Button, Toolbar } from './Components';
-import { INITIAL_CODE } from './Defaults';
-import createWorkerTransport from './transports/createWorkerTransport';
-
-const { Snack, getSupportedSDKVersions } = SnackNamespace;
-const { diff } = deepObjectDiff;
+import createWorkerTransport from '../components/transports/createWorkerTransport';
+import { Button } from '../components/Button';
+import { Toolbar } from '../components/Toolbar';
+import defaults from '../components/Defaults';
 
 const INITIAL_CODE_CHANGES_DELAY = 500;
-const VERBOSE = true;
-const USE_WORKERS = false; // TODO: fix web-workers with Snowpack
+const VERBOSE = !!process.browser;
+const USE_WORKERS = true;
 
-function App() {
+export default function Home() {
   const webPreviewRef = useRef(null);
   const [snack] = useState(
     () =>
       new Snack({
+        ...defaults,
+        disabled: !process.browser,
         codeChangesDelay: INITIAL_CODE_CHANGES_DELAY,
         verbose: VERBOSE,
-        files: {
-          'App.js': {
-            type: 'CODE',
-            contents: INITIAL_CODE,
-          },
-          'assets/image.png': {
-            type: 'ASSET',
-            contents:
-              'https://snack-code-uploads.s3.us-west-1.amazonaws.com/~asset/2f7d32b1787708aba49b3586082d327b',
-          },
-          'assets/audio.mp3': {
-            type: 'ASSET',
-            contents:
-              'https://snack-code-uploads.s3.us-west-1.amazonaws.com/~asset/c9c43b458d6daa9771a7287cae9f5b47',
-          },
-          'assets/fonts/Inter-Black.otf': {
-            type: 'ASSET',
-            contents:
-              'https://snack-code-uploads.s3.us-west-1.amazonaws.com/~asset/44b1541a96341780b29112665c66ac67',
-          },
-        },
-        dependencies: {
-          'expo-av': { version: '*' },
-          'expo-font': { version: '*' },
-          'expo-app-loading': { version: '*' },
-        },
-        webPreviewRef,
+        webPreviewRef: process.browser ? webPreviewRef : undefined,
         // Optionally you can run the transports inside a web-worker.
         // Encoding data messages for large apps might take several milliseconds
         // and can cause stutter when executed often.
@@ -59,6 +34,7 @@ function App() {
   const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [codeChangesDelay, setCodeChangesDelay] = useState(INITIAL_CODE_CHANGES_DELAY);
+  const [isClientReady, setClientReady] = useState(false);
 
   // Listen for state changes and log messages
   useEffect(() => {
@@ -69,10 +45,12 @@ function App() {
       }),
       snack.addLogListener(({ message }) => console.log(message)),
     ];
+    if (process.browser) {
+      setClientReady(true);
+    }
     return () => listeners.forEach((listener) => listener());
   }, [snack]);
 
-  // Render
   const {
     files,
     url,
@@ -85,13 +63,18 @@ function App() {
     sdkVersion,
     webPreviewURL,
   } = snackState;
+
   return (
-    <div style={styles.container}>
-      <div style={styles.left}>
+    <div className={css(styles.container)}>
+      <Head>
+        <title>Snack SDK Example</title>
+        <meta name="description" content="Snack SDK Example App" />
+      </Head>
+      <div className={css(styles.left)}>
         <Toolbar title="Code" />
         <textarea
-          style={styles.code}
-          value={files['App.js'].contents}
+          className={css(styles.code)}
+          value={files['App.js'].contents as string}
           onChange={(event) =>
             snack.updateFiles({
               'App.js': {
@@ -103,27 +86,27 @@ function App() {
         />
         <p>Open the Developer Console of your Browser to view logs.</p>
       </div>
-      <div style={styles.preview}>
+      <div className={css(styles.preview)}>
         <Toolbar title="Preview" />
-        <div style={styles.previewContainer}>
+        <div className={css(styles.previewContainer)}>
           <iframe
+            className={css(styles.previewFrame)}
             ref={(c) => (webPreviewRef.current = c?.contentWindow ?? null)}
-            style={styles.previewFrame}
-            src={webPreviewURL}
+            src={isClientReady ? webPreviewURL : undefined}
             allow="geolocation; camera; microphone"
           />
-          {!webPreviewURL && (
-            <div style={styles.previewNotSupported}>
+          {isClientReady && !webPreviewURL && (
+            <div className={css(styles.previewNotSupported)}>
               <label>Set the SDK Version to 40.0.0 or higher to use Web preview</label>
             </div>
           )}
         </div>
       </div>
-      <div style={styles.right}>
-        <div style={styles.settingsContainer}>
+      <div className={css(styles.right)}>
+        <div className={css(styles.settingsContainer)}>
           <Toolbar>
             <Button
-              style={{ marginRight: 10 }}
+              style={styles.button}
               label="Save"
               loading={isSaving}
               onClick={async () => {
@@ -154,7 +137,7 @@ function App() {
               }}
             />
           </Toolbar>
-          <div style={styles.settingsContent}>
+          <div className={css(styles.settingsContent)}>
             <label>Name</label>
             <input
               type="text"
@@ -170,7 +153,7 @@ function App() {
             <label>SDK Version</label>
             <select
               value={sdkVersion}
-              onChange={(event) => snack.setSDKVersion(event.target.value)}>
+              onChange={(event) => snack.setSDKVersion(event.target.value as SDKVersion)}>
               {getSupportedSDKVersions().map((ver) => (
                 <option key={ver} value={ver}>
                   {ver}
@@ -179,14 +162,14 @@ function App() {
             </select>
           </div>
         </div>
-        <div style={styles.onlineContainer}>
+        <div className={css(styles.onlineContainer)}>
           <Toolbar title="Connections">
             <Button
               label={online ? 'Go Offline' : 'Go Online'}
               onClick={() => snack.setOnline(!online)}
             />
           </Toolbar>
-          <div style={styles.onlineContent}>
+          <div className={css(styles.onlineContent)}>
             <label>Device Id</label>
             <input
               type="text"
@@ -209,7 +192,7 @@ function App() {
               <Button label="Send Code changes" onClick={() => snack.sendCodeChanges()} />
             ) : undefined}
             <label>{`Status: ${online ? 'Online' : 'Offline'}`}</label>
-            {online ? <QRCode style={styles.qrcode} value={url} /> : undefined}
+            {online ? <QRCode className={css(styles.qrcode)} value={url} /> : undefined}
             {online ? <a href={url}>{url}</a> : undefined}
             {online ? <label>{`Online name: ${onlineName}`}</label> : undefined}
             {online ? (
@@ -229,12 +212,13 @@ const sharedStyles = {
   },
 };
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
     padding: 20,
+    paddingTop: 14,
   },
   left: {
     display: 'flex',
@@ -315,6 +299,7 @@ const styles = {
     alignSelf: 'center',
     opacity: 0.5,
   },
-};
-
-export default App;
+  button: {
+    marginRight: 10,
+  },
+});

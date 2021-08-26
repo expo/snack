@@ -9,15 +9,9 @@ export default function createWorkerTransport(options: SnackTransportOptions) {
   let transport: SnackTransport | null = null;
   function getTransport(): SnackTransport {
     if (!transport) {
-      // TODO: fix workers with Snowpack
-      const worker = new Worker(
-        new URL('../transports/SnackTransport.worker.js', import.meta.url),
-        //'./transports/SnackTransport.worker.tsx',
-        {
-          name: `snack-transport: ${options.name || ''}`,
-          type: import.meta.env.MODE === 'development' ? 'module' : 'classic',
-        }
-      );
+      const worker = new Worker(new URL('./SnackTransport.worker.ts', import.meta.url), {
+        name: `snack-transport: ${options.name || ''}`,
+      });
       worker.postMessage({ type: 'init', data: options });
       transport = worker;
     }
