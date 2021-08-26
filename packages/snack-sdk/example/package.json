@@ -1,18 +1,23 @@
 {
+  "name": "snack-sdk-example",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "snowpack dev",
-    "reload": "snowpack dev --reload",
-    "build": "snowpack build"
+    "dev": "next dev -p 3099",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
+    "aphrodite": "^2.4.0",
     "deep-object-diff": "^1.1.0",
-    "qrcode.react": "^1.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "next": "11.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "snack-sdk": "link:../"
   },
   "devDependencies": {
-    "@snowpack/app-scripts-react": "^1.12.6",
-    "snowpack": "^2.18.0"
+    "@types/node": "^16.4.12",
+    "@types/react": "^17.0.15",
+    "typescript": "^4.3.5"
   }
 }
