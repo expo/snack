@@ -397,7 +397,7 @@ class Main extends React.Component<Props, State> {
     this._snack.setDisabled(true);
     this._snack.setOnline(false);
 
-    this._broadcastChannel.close();
+    this._broadcastChannel?.close();
 
     window.removeEventListener('unload', this._handleUnload);
 
@@ -426,7 +426,7 @@ class Main extends React.Component<Props, State> {
   _snackStateListener?: SnackListenerSubscription;
   _snackLogListener?: SnackListenerSubscription;
 
-  _broadcastChannel: BroadcastChannel = undefined as any;
+  _broadcastChannel?: BroadcastChannel;
 
   _isFocused: boolean = false;
   _focusTimer: number | undefined;
@@ -468,7 +468,7 @@ class Main extends React.Component<Props, State> {
 
           // If another tab with same snack is opened,
           // Let it know that there's a duplicate tab
-          this._broadcastChannel.postMessage({
+          this._broadcastChannel?.postMessage({
             type: 'DUPLICATE_TAB',
             id,
             autosaveEnabled,
