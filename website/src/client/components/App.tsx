@@ -596,16 +596,6 @@ class Main extends React.Component<Props, State> {
       },
       () => this._saveDraftIfNeeded(true)
     );
-
-    // Record any dependency errors
-    if (state.dependencies !== prevState.dependencies) {
-      for (const name in state.dependencies) {
-        const dep = state.dependencies[name];
-        if (dep.error && dep.error !== prevState.dependencies[name]?.error) {
-          Raven.captureMessage(dep.error.message);
-        }
-      }
-    }
   };
 
   _reloadSnack = () => this._snack.reloadConnectedClients();
