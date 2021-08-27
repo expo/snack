@@ -18,6 +18,7 @@ import LoadingView from './LoadingView';
 import * as Logger from './Logger';
 import * as Messaging from './Messaging';
 import * as Modules from './Modules';
+import EXDevLauncher from './NativeModules/EXDevLauncher';
 import Linking from './NativeModules/Linking';
 import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
@@ -101,7 +102,7 @@ export default class App extends React.Component<object, State> {
     let initialURL: string | null = null;
     try {
       // Open from the initial URL if given
-      initialURL = await Linking.getInitialURL();
+      initialURL = EXDevLauncher.manifestURL ?? (await Linking.getInitialURL());
 
       if (!initialURL) {
         // Check for any stored URLs for reload
