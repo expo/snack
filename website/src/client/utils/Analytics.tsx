@@ -16,15 +16,6 @@ type AnalyticsQueueItem = {
   parameters: any[];
 };
 
-// Segment
-declare const analytics:
-  | {
-      identify(traits: AnalyticsIdentifyTraits): void;
-      identify(userId: string, traits: AnalyticsIdentifyTraits): void;
-      track(name: string, options: { [key: string]: number }): void;
-    }
-  | undefined;
-
 declare const rudderanalytics:
   | {
       identify(traits: AnalyticsIdentifyTraits): void;
@@ -77,8 +68,8 @@ export default class Analytics {
     if (this.isVerbose !== isVerbose) {
       this.isVerbose = isVerbose;
       if (this.isVerbose) {
-        if (typeof analytics !== 'undefined' && typeof rudderanalytics !== 'undefined') {
-          this.log('Recording to Segment and RudderStack');
+        if (typeof rudderanalytics !== 'undefined') {
+          this.log('Recording to RudderStack');
         } else if (typeof amplitude !== 'undefined') {
           this.log(`Recording to Amplitude`);
         } else {
@@ -112,7 +103,7 @@ export default class Analytics {
       return;
     }
 
-    const isDisabled = typeof analytics === 'undefined' && typeof amplitude === 'undefined';
+    const isDisabled = typeof rudderanalytics === 'undefined' && typeof amplitude === 'undefined';
     console.info.apply(console, [
       `%c ANALYTICS `,
       `background: #10089f${isDisabled ? '22' : ''}; color: #fff`,
@@ -158,7 +149,7 @@ export default class Analytics {
   };
 
   get isReady() {
-    if (typeof analytics !== 'undefined' && typeof rudderanalytics !== 'undefined') {
+    if (typeof rudderanalytics !== 'undefined') {
       return true;
     } else if (typeof amplitude !== 'undefined') {
       // When getSessionId exists, the snippet has been loaded.
@@ -194,12 +185,10 @@ export default class Analytics {
       case 'identify':
         {
           const [traits, userId] = parameters;
-          if (typeof analytics !== 'undefined' && typeof rudderanalytics !== 'undefined') {
+          if (typeof rudderanalytics !== 'undefined') {
             if (userId) {
-              analytics.identify(userId, traits);
               rudderanalytics.identify(userId, traits);
             } else {
-              analytics.identify(traits);
               rudderanalytics.identify(traits);
             }
           } else if (typeof amplitude !== 'undefined') {
@@ -219,8 +208,7 @@ export default class Analytics {
       case 'logEvent':
         {
           const [name, info] = parameters;
-          if (typeof analytics !== 'undefined' && typeof rudderanalytics !== 'undefined') {
-            analytics.track(name, info);
+          if (typeof rudderanalytics !== 'undefined') {
             rudderanalytics.track(name, info);
           } else if (typeof amplitude !== 'undefined') {
             amplitude.getInstance().logEvent(name, info);
