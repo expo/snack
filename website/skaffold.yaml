@@ -23,7 +23,6 @@ build:
           RUDDERSTACK_DATA_PLANE_URL: https://cdp.expo.dev
           RUDDERSTACK_WRITE_KEY: 1weTbQObpRMmIsWrdwEITRabLA2
           SNACK_SERVER_URL: https://staging.snack.expo.dev
-          SNACK_SEGMENT_KEY: dxul6twMnfpyguF8w4W2qUpFnhxEUSV6
           SNACK_AMPLITUDE_KEY: 512bcbce69eae77fee77be53ec230088
           SNACK_WEBPLAYER_URL: https://snack-web-player-staging.s3.us-west-1.amazonaws.com
           SNACK_WEBPLAYER_CDN: https://d1qt8af2b3kxj0.cloudfront.net
@@ -54,7 +53,6 @@ profiles:
               RUDDERSTACK_DATA_PLANE_URL: https://cdp.expo.dev
               RUDDERSTACK_WRITE_KEY: 1weTlMb720s5AkBTYwgCGORCHHg
               SNACK_SERVER_URL: https://snack.expo.dev
-              SNACK_SEGMENT_KEY: Ha0swpI6s2CVEMxK84cEmKmUVmBa1USu
               SNACK_AMPLITUDE_KEY: e91121c19a5bdcccd852cd032dc911fe
               SNACK_WEBPLAYER_URL: https://snack-web-player.s3.us-west-1.amazonaws.com
               SNACK_WEBPLAYER_CDN: https://dwmszb351h4q.cloudfront.net
@@ -86,9 +84,6 @@ profiles:
         value: local
       - op: replace
         path: /build/artifacts/0/docker/buildArgs/RUDDERSTACK_WRITE_KEY
-        value: ''
-      - op: replace
-        path: /build/artifacts/0/docker/buildArgs/SNACK_SEGMENT_KEY
         value: ''
     activation:
       - command: dev

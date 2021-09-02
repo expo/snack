@@ -8,7 +8,6 @@ import type { RouterData, QueryParams } from '../../client/types';
 import Amplitude from '../components/AmplitudeDocumentComponent';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import RudderStack from '../components/RudderStackDocumentComponent';
-import Segment from '../components/SegmentDocumentComponent';
 
 type Props = {
   id: string | undefined;
@@ -190,10 +189,7 @@ export default function Document(props: Props) {
         {isEmbedded || !isAuthenticated ? (
           <Amplitude />
         ) : (
-          <>
-            <Segment splitTestSettings={splitTestSettings} />
-            <RudderStack splitTestSettings={splitTestSettings} />
-          </>
+          <RudderStack splitTestSettings={splitTestSettings} />
         )}
         <GoogleAnalytics propertyId="UA-53647600-5" />
         <script src={resources['babel-polyfill']} />
