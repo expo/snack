@@ -121,7 +121,8 @@ async function packageBundleUnsafe({
       // need to be converted.
       reanimatedPlugin:
         (pkg.name === 'react-native-reanimated' && pkg.version >= '2') ||
-        pkg.name === 'moti' || pkg.name.startsWith('@motify/') ||
+        pkg.name === 'moti' || 
+        pkg.name.startsWith('@motify/') ||
         externals.includes('react-native-reanimated'),
     })
   );
