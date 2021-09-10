@@ -29,7 +29,7 @@ if (require.main === module) {
     require('source-map-support').install();
   }
 
-  if (process.env.NODE_ENV === 'production' || process.env.SNACK_SENTRY_DSN) {
+  if (process.env.NODE_ENV === 'production' && process.env.SNACK_SENTRY_DSN) {
     Raven.config(nullthrows(process.env.SNACK_SENTRY_DSN), {
       release:
         process.env.NODE_ENV === 'production' ? nullthrows(process.env.APP_VERSION) : undefined,
