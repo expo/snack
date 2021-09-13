@@ -40,6 +40,7 @@ export default function constructAppetizeURL({
 
   const appetizeKey = constants.appetize.public_keys[previewQueue][platform];
   const appParams = {
+    EXDevMenuDisableAutoLaunch: true,
     EXKernelLaunchUrlDefaultsKey: experienceURL,
     EXKernelDisableNuxDefaultsKey: true,
   };
