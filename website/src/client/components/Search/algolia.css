@@ -87,7 +87,7 @@
 .algolia-autocomplete .algolia-docsearch-suggestion--highlight {
   color: var(--color-primary);
   background: rgb(69, 71, 213, 0.12);
-  padding: 0 0.05em;
+  padding: 0.1em 0.05em;
 }
 .algolia-autocomplete
   .algolia-docsearch-suggestion--category-header
