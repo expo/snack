@@ -1179,6 +1179,11 @@ export default class Snack {
     connectedClientId: string,
     message: ProtocolIncomingMessage
   ) {
+    // Ignore messages from clients that are not setup yet or have disconnected
+    if (!this.state.connectedClients[connectedClientId]) {
+      return;
+    }
+
     switch (message.type) {
       case 'CONSOLE':
         this.onConsoleMessageReceived(connectedClientId, message);
