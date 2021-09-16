@@ -8,6 +8,10 @@
 
 ### 🐛 Bug fixes
 
+## 3.5.1 — 2021-09-16
+
+### 🐛 Bug fixes
+
 - Fix connected-clients not having id, name, platform and transport fields ([#212](https://github.com/expo/snack/pull/212) by [@IjzerenHein](https://github.com/IjzerenHein))
 
 ## 3.5.0 — 2021-07-09
