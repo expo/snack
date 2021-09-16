@@ -1,5 +1,6 @@
 import '../__mocks__/fetch';
 import PubNub from '../__mocks__/pubnub';
+import { ProtocolErrorMessage } from '../transports/Protocol';
 import Snack from './snack-sdk';
 
 describe('connectedClients', () => {
@@ -68,5 +69,22 @@ describe('connectedClients', () => {
     expect(snack.getState().connectedClients[connectedClients[0]].status).toBe('reloading');
     await new Promise((resolve) => setTimeout(resolve, 50));
     expect(Object.keys(snack.getState().connectedClients)).toHaveLength(0);
+  });
+
+  it('ignores messages (errors/logs) for clients who have not advertised their presence', async () => {
+    const snack = new Snack({
+      online: true,
+    });
+    const pubnub = PubNub.instances[0];
+
+    const errorMessage: ProtocolErrorMessage = {
+      type: 'ERROR',
+      error: '{"message": "something went wrong"}',
+      device: PubNub.devices.ios,
+    };
+    pubnub.sendMessage(errorMessage);
+
+    const connectedClients = Object.keys(snack.getState().connectedClients);
+    expect(connectedClients).toHaveLength(0);
   });
 });
