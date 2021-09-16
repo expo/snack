@@ -12,10 +12,6 @@ export default function ResizeDetector(props: Props) {
     onResize: props.onResize,
     refreshMode: 'debounce',
     refreshRate: 50,
-    refreshOptions: {
-      leading: true,
-      trailing: true,
-    },
   });
   return (
     <div ref={ref} className={css(styles.container)}>

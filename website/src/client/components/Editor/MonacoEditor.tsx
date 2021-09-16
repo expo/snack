@@ -650,7 +650,13 @@ class MonacoEditor extends React.Component<Props, State> {
     }
   };
 
-  _handleResize = (_width?: number, _height?: number) => this._editor?.layout();
+  _handleResize = (width?: number, height?: number) => {
+    if (this._width !== width || this._height !== height) {
+      this._width = width;
+      this._height = height;
+      this._editor?.layout();
+    }
+  };
 
   _typingsWorker: Worker | undefined;
   _disposables: monaco.IDisposable[] = [];
@@ -658,6 +664,8 @@ class MonacoEditor extends React.Component<Props, State> {
   _vim: any;
   _node = React.createRef<HTMLDivElement>();
   _statusbar = React.createRef<HTMLDivElement>();
+  _width?: number;
+  _height?: number;
 
   render() {
     return (

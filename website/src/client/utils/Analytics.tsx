@@ -222,3 +222,9 @@ export default class Analytics {
     return (Date.now() - this.timers[timerKey]) / 1000;
   };
 }
+
+// In production, rudderstacks records window errors and logs them to the console.
+// In development, log them to the console so they don't go by unnoticed.
+if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+  window?.addEventListener('error', (e) => console.error(e));
+}
