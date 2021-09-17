@@ -21,6 +21,7 @@
 .markdown-body a {
   background-color: transparent;
   text-decoration: none;
+  color: var(--color-primary)
 }
 
 .markdown-body a:hover {
