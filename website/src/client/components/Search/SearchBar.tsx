@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: c('border'),
     ':focus': {
-      borderColor: c('selected'),
+      borderColor: c('primary'),
     },
   },
   icon: {
