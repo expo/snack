@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: snackager
@@ -12,6 +12,8 @@ spec:
       http:
         paths:
         - backend:
-            serviceName: snackager
-            servicePort: 80
+            service:
+              name: snackager
+              port:
+                number: 80
           path: /
