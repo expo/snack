@@ -88,15 +88,16 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   });
 
   app.use(async (ctx, next) => {
+    console.log('REQUEST: ', ctx.url);
     await middleware(
       ctx.req,
+      // webpack-dev-middleware supports Express and Node style API's, but not koa
+      // Implement a bridge between koa -> webpack-dev-middleware
       {
-        end: (content: string) => {
-          ctx.body = content;
-        },
-        setHeader: (name: string, value: string) => {
-          ctx.set(name, value);
-        },
+        end: (content: string) => (ctx.body = content),
+        setHeader: (name: string, value: string) => ctx.set(name, value),
+        getHeader: (name: string) => ctx.get(name),
+        // locals: ctx.state,
       },
       next
     );

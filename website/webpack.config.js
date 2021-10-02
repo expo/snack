@@ -5,7 +5,6 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
-const WorkerPlugin = require('worker-plugin');
 
 function env(key, def) {
   const value = process.env[key];
@@ -32,10 +31,11 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/dist/',
     filename: '[name].bundle.js',
-    chunkFilename: '[id].[hash].chunk.js',
+    chunkFilename: '[id].[fullhash].chunk.js',
+    assetModuleFilename: 'assets/[hash][ext][query]',
   },
   optimization: {
-    noEmitOnErrors: true,
+    emitOnErrors: false,
     minimize: process.env.NODE_ENV === 'production',
     minimizer: [
       new TerserPlugin({
@@ -69,7 +69,6 @@ module.exports = {
     new webpack.ContextReplacementPlugin(
       /monaco-editor(\\|\/)esm(\\|\/)vs(\\|\/)editor(\\|\/)common(\\|\/)services/
     ),
-    new WorkerPlugin(),
     new MiniCssExtractPlugin(),
     new StatsWriterPlugin({
       filename: 'build-stats.js',
@@ -99,12 +98,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            outputPath: 'assets/',
-          },
-        },
+        type: 'asset/resource',
       },
     ],
   },
@@ -113,6 +107,11 @@ module.exports = {
     alias: {
       aphrodite: 'aphrodite/no-important',
       'snack-sdk': path.resolve(__dirname, '../packages/snack-sdk/src'),
+    },
+    fallback: {
+      // Required for "recast"
+      assert: require.resolve('assert'),
+      os: require.resolve('os-browserify/browser'),
     },
   },
 };
