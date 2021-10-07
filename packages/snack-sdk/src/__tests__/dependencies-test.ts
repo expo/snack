@@ -5,9 +5,9 @@ import Snack, { standardizeDependencies } from './snack-sdk';
 // A set of SDK versions to test against.
 // When upgrading SDK version, make sure to update this list.
 const sdkVersions: { [key: string]: SDKVersion } = {
-  prev: '39.0.0',
-  current: '40.0.0',
-  next: '41.0.0',
+  prev: '41.0.0',
+  current: '42.0.0',
+  next: '43.0.0',
 };
 
 describe('dependencies', () => {
