@@ -173,9 +173,9 @@ async function generateFilesObj(dirname: string): Promise<GitSnackFiles> {
 async function generateDepsObj(dirname: string): Promise<GitSnackDependencies> {
   try {
     const json = await readFile(path.join(process.cwd(), dirname, 'package.json'), 'utf-8');
-    var deps = json5.parse(json).dependencies || {};
+    const deps = json5.parse(json).dependencies || {};
+    return deps;
   } catch (e) {
     throw new Error('Error parsing dependencies: ' + e.message);
   }
-  return deps;
 }

@@ -525,18 +525,16 @@ class MonacoEditor extends React.Component<Props, State> {
         const prefix = getAbsolutePath(text, this.props.selectedFile);
         const suggestions: monaco.languages.CompletionItem[] = Object.keys(this.props.files)
           .filter((path) => path !== this.props.selectedFile && path.startsWith(prefix))
-          .map(
-            (path): monaco.languages.CompletionItem => {
-              const relativePath = getRelativePath(path, this.props.selectedFile);
-              return {
-                label: relativePath,
-                // Don't keep extension for JS files
-                insertText: `${relativePath.replace(/\.(js|tsx?)$/, '')}`,
-                kind: monaco.languages.CompletionItemKind.File,
-                range,
-              };
-            }
-          );
+          .map((path): monaco.languages.CompletionItem => {
+            const relativePath = getRelativePath(path, this.props.selectedFile);
+            return {
+              label: relativePath,
+              // Don't keep extension for JS files
+              insertText: `${relativePath.replace(/\.(js|tsx?)$/, '')}`,
+              kind: monaco.languages.CompletionItemKind.File,
+              range,
+            };
+          });
         return { suggestions };
       } else {
         const deps = this.state.allDependencies;

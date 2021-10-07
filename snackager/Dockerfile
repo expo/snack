@@ -21,7 +21,7 @@ COPY snackager/structure-tests ./structure-tests
 COPY snackager/package.json ./
 COPY snackager/.env-cmdrc.js ./
 COPY snackager/tsconfig*.json ./
-COPY snackager/.prettier* snackager/.eslint* ./
+COPY snackager/.eslint* ./
 
 # Install dependencies
 RUN yarn install --frozen-lockfile --production=false
