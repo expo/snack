@@ -1,13 +1,14 @@
 import json5 from 'json5';
 
 import config from '../config';
-import { s3 } from '../external/aws';
+import { s3, S3 } from '../external/aws';
 import logger from '../logger';
 import { GitSnackObj } from '../types';
 
 export async function getCachedObj(filename: string): Promise<GitSnackObj | undefined> {
+  let s3Response: S3.GetObjectOutput;
   try {
-    var s3Response = await s3
+    s3Response = await s3
       .getObject({
         Bucket: config.s3.imports_bucket,
         Key: filename,

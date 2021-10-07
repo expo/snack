@@ -194,10 +194,9 @@ function fetchFromMeta(dependency: string, version: string, output: FetchOutput)
 
       return Promise.all(
         declarations.map((file) =>
-          fetchAsText(`${ROOT_URL}npm/${dependency}@${version}${file}`).then((content: string): [
-            string,
-            string
-          ] => [`node_modules/${dependency}${file}`, content])
+          fetchAsText(`${ROOT_URL}npm/${dependency}@${version}${file}`).then(
+            (content: string): [string, string] => [`node_modules/${dependency}${file}`, content]
+          )
         )
       ).then((items: [string, string][]) => {
         items.forEach(([key, value]) => {

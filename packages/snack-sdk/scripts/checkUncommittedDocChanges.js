@@ -5,7 +5,7 @@ function checkUncommittedDocChanges() {
     stdio: 'pipe',
     cwd: __dirname,
   }).then(function (child) {
-    var lines = child.stdout ? child.stdout.trim().split(/\r\n?|\n/g) : [];
+    const lines = child.stdout ? child.stdout.trim().split(/\r\n?|\n/g) : [];
     if (lines.length > 0) {
       console.error(`The following doc files need to be rebuilt and committed:`);
       lines.map(function (line) {

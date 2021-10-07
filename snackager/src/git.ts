@@ -61,13 +61,12 @@ export async function importAsync(options: Config): Promise<string> {
     subpath = subpath.replace(/^\/+|\/+$/g, '');
   }
 
-  const { files, dependencies, sdkVersion: uncheckedSDKVersion, date } = await getGitSnackObj(
-    repo,
-    subpath,
-    branch,
-    hash,
-    noCache
-  );
+  const {
+    files,
+    dependencies,
+    sdkVersion: uncheckedSDKVersion,
+    date,
+  } = await getGitSnackObj(repo, subpath, branch, hash, noCache);
 
   // Verify SDK version
   let sdkVersion: SDKVersion = uncheckedSDKVersion as SDKVersion;
