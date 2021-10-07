@@ -57,7 +57,7 @@
     "@types/diff": "^5.0.0",
     "@types/pubnub": "^4.0.6",
     "@types/react": "~17.0.21",
-    "@types/react-dom": "~17.0.21",
+    "@types/react-dom": "~17.0.9",
     "@types/react-native": "~0.64.12",
     "babel-preset-expo": "^8.4.1",
     "eslint": "^7.32.0",
