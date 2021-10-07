@@ -5,7 +5,7 @@
     "description": "Write code in Expo's online editor and instantly use it on your phone",
     "owner": "exponent",
     "slug": "snack",
-    "sdkVersion": "42.0.0",
+    "sdkVersion": "43.0.0",
     "version": "1.0.0",
     "primaryColor": "#000",
     "icon": "https://s3.amazonaws.com/exp-brand-assets/SnackIcon_200.png",
