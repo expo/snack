@@ -5,7 +5,9 @@ module.exports = {
     'universe/node',
     'universe/web',
     'universe/shared/typescript-analysis',
+    'plugin:import/typescript',
   ],
+  plugins: ['import'],
   settings: {
     react: {
       version: '16.8',
@@ -13,6 +15,7 @@ module.exports = {
   },
   rules: {
     'spaced-comment': ['warn', 'always', { block: { balanced: true } }],
+    'import/no-extraneous-dependencies': ['warn'],
   },
   overrides: [
     {
