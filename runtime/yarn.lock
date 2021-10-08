@@ -5590,7 +5590,7 @@ expo-pwa@0.0.87:
     commander "2.20.0"
     update-check "1.5.3"
 
-expo-random@*:
+expo-random@*, expo-random@~11.2.0:
   version "11.2.0"
   resolved "https://registry.yarnpkg.com/expo-random/-/expo-random-11.2.0.tgz#245ff64c1d980fb45caa84e92ae396af0fd3c88e"
   integrity sha512-kgBJBB02iCX/kpoTHN57V7b4hWOCj4eACIQDl7bN94lycUcZu62T00P/rVZIcE/29x0GAi+Pw5ZWj0NlqBsMQQ==
