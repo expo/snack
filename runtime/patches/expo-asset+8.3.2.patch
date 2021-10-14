@@ -104,10 +104,15 @@ index 4a5247d..dd8d7a8 100644
    }
    resourceIdentifierWithoutScale(): ResolvedAssetSource {
 diff --git a/node_modules/expo-asset/src/resolveAssetSource.web.ts b/node_modules/expo-asset/src/resolveAssetSource.web.ts
-index cd158fd..af16a23 100644
+index cd158fd..0cc95f7 100644
 --- a/node_modules/expo-asset/src/resolveAssetSource.web.ts
 +++ b/node_modules/expo-asset/src/resolveAssetSource.web.ts
-@@ -7,7 +7,6 @@ declare let nativeExtensions: any;
+@@ -3,11 +3,10 @@ import { NativeModules } from 'react-native';
+ import { getAssetByID } from './AssetRegistry';
+ import AssetSourceResolver, { ResolvedAssetSource } from './AssetSourceResolver';
+ 
+-declare let nativeExtensions: any;
++declare let nativeExtensions: { SourceCode?: { scriptURL: string } } | undefined;
  
  let _customSourceTransformer;
  let _serverURL: string | undefined | null;
