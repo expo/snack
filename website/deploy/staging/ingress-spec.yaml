@@ -18,6 +18,7 @@ spec:
             port:
               number: 80
         path: /
+        pathType: Prefix
   - host: staging.snack.expo.dev
     http:
       paths:
@@ -27,3 +28,4 @@ spec:
             port:
               number: 80
         path: /
+        pathType: Prefix
