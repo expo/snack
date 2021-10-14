@@ -6,6 +6,8 @@
 
 ### 🎉 New features
 
+- Add support for SDK 43 ([#222](https://github.com/expo/snack/pull/222) by [@IjzerenHein](https://github.com/IjzerenHein))
+
 ### 🐛 Bug fixes
 
 ## 3.5.1 — 2021-09-16
