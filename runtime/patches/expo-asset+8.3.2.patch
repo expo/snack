@@ -1,0 +1,176 @@
+diff --git a/node_modules/expo-asset/build/AssetSourceResolver.web.js b/node_modules/expo-asset/build/AssetSourceResolver.web.js
+index a2dba7b..d69cc9c 100644
+--- a/node_modules/expo-asset/build/AssetSourceResolver.web.js
++++ b/node_modules/expo-asset/build/AssetSourceResolver.web.js
+@@ -14,7 +14,7 @@ function getScaledAssetPath(asset) {
+     const scale = AssetSourceResolver.pickScale(asset.scales, getScale());
+     const scaleSuffix = scale === 1 ? '' : '@' + scale + 'x';
+     const assetDir = getBasePath(asset);
+-    return assetDir + '/' + asset.name + scaleSuffix + '.' + asset.type;
++    return assetDir + '/' + asset.name + scaleSuffix + (asset.type ? `.${asset.type}` : '');
+ }
+ export default class AssetSourceResolver {
+     constructor(serverUrl, jsbundleUrl, asset) {
+@@ -47,7 +47,7 @@ export default class AssetSourceResolver {
+         return this.fromSource(getScaledAssetPath(this.asset));
+     }
+     scaledAssetURLNearBundle() {
+-        const path = this.jsbundleUrl || 'file://';
++        const path = this.jsbundleUrl || '';
+         return this.fromSource(path + getScaledAssetPath(this.asset));
+     }
+     resourceIdentifierWithoutScale() {
+diff --git a/node_modules/expo-asset/build/resolveAssetSource.web.js b/node_modules/expo-asset/build/resolveAssetSource.web.js
+index 0e7145e..f1be119 100644
+--- a/node_modules/expo-asset/build/resolveAssetSource.web.js
++++ b/node_modules/expo-asset/build/resolveAssetSource.web.js
+@@ -3,17 +3,16 @@ import { getAssetByID } from './AssetRegistry';
+ import AssetSourceResolver from './AssetSourceResolver';
+ let _customSourceTransformer;
+ let _serverURL;
+-let _scriptURL;
+ let _sourceCodeScriptURL;
+ function getSourceCodeScriptURL() {
+     if (_sourceCodeScriptURL) {
+         return _sourceCodeScriptURL;
+     }
+-    let sourceCode = nativeExtensions && nativeExtensions.SourceCode;
++    let sourceCode = typeof nativeExtensions !== 'undefined' ? nativeExtensions.SourceCode : null;
+     if (!sourceCode) {
+         sourceCode = NativeModules && NativeModules.SourceCode;
+     }
+-    _sourceCodeScriptURL = sourceCode.scriptURL;
++    _sourceCodeScriptURL = sourceCode && sourceCode.scriptURL;
+     return _sourceCodeScriptURL;
+ }
+ function getDevServerURL() {
+@@ -31,27 +30,6 @@ function getDevServerURL() {
+     }
+     return _serverURL;
+ }
+-function _coerceLocalScriptURL(scriptURL) {
+-    if (scriptURL) {
+-        if (scriptURL.startsWith('assets://')) {
+-            // android: running from within assets, no offline path to use
+-            return null;
+-        }
+-        scriptURL = scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1);
+-        if (!scriptURL.includes('://')) {
+-            // Add file protocol in case we have an absolute file path and not a URL.
+-            // This shouldn't really be necessary. scriptURL should be a URL.
+-            scriptURL = 'file://' + scriptURL;
+-        }
+-    }
+-    return null;
+-}
+-function getScriptURL() {
+-    if (_scriptURL === undefined) {
+-        _scriptURL = _coerceLocalScriptURL(getSourceCodeScriptURL());
+-    }
+-    return _scriptURL;
+-}
+ export function setCustomSourceTransformer(transformer) {
+     _customSourceTransformer = transformer;
+ }
+@@ -67,7 +45,7 @@ export default function resolveAssetSource(source) {
+     if (!asset) {
+         return undefined;
+     }
+-    const resolver = new AssetSourceResolver(getDevServerURL(), getScriptURL(), asset);
++    const resolver = new AssetSourceResolver(getDevServerURL(), null, asset);
+     if (_customSourceTransformer) {
+         return _customSourceTransformer(resolver);
+     }
+diff --git a/node_modules/expo-asset/src/AssetSourceResolver.web.ts b/node_modules/expo-asset/src/AssetSourceResolver.web.ts
+index 4a5247d..dd8d7a8 100644
+--- a/node_modules/expo-asset/src/AssetSourceResolver.web.ts
++++ b/node_modules/expo-asset/src/AssetSourceResolver.web.ts
+@@ -37,7 +37,7 @@ function getScaledAssetPath(asset): string {
+   const scale = AssetSourceResolver.pickScale(asset.scales, getScale());
+   const scaleSuffix = scale === 1 ? '' : '@' + scale + 'x';
+   const assetDir = getBasePath(asset);
+-  return assetDir + '/' + asset.name + scaleSuffix + '.' + asset.type;
++  return assetDir + '/' + asset.name + scaleSuffix + (asset.type ? `.${asset.type}` : '');
+ }
+ 
+ export default class AssetSourceResolver {
+@@ -84,7 +84,7 @@ export default class AssetSourceResolver {
+     return this.fromSource(getScaledAssetPath(this.asset));
+   }
+   scaledAssetURLNearBundle(): ResolvedAssetSource {
+-    const path = this.jsbundleUrl || 'file://';
++    const path = this.jsbundleUrl || '';
+     return this.fromSource(path + getScaledAssetPath(this.asset));
+   }
+   resourceIdentifierWithoutScale(): ResolvedAssetSource {
+diff --git a/node_modules/expo-asset/src/resolveAssetSource.web.ts b/node_modules/expo-asset/src/resolveAssetSource.web.ts
+index cd158fd..0cc95f7 100644
+--- a/node_modules/expo-asset/src/resolveAssetSource.web.ts
++++ b/node_modules/expo-asset/src/resolveAssetSource.web.ts
+@@ -3,11 +3,10 @@ import { NativeModules } from 'react-native';
+ import { getAssetByID } from './AssetRegistry';
+ import AssetSourceResolver, { ResolvedAssetSource } from './AssetSourceResolver';
+ 
+-declare let nativeExtensions: any;
++declare let nativeExtensions: { SourceCode?: { scriptURL: string } } | undefined;
+ 
+ let _customSourceTransformer;
+ let _serverURL: string | undefined | null;
+-let _scriptURL: string | undefined | null;
+ let _sourceCodeScriptURL: string | undefined | null;
+ 
+ function getSourceCodeScriptURL(): string | undefined | null {
+@@ -15,11 +14,11 @@ function getSourceCodeScriptURL(): string | undefined | null {
+     return _sourceCodeScriptURL;
+   }
+ 
+-  let sourceCode = nativeExtensions && nativeExtensions.SourceCode;
++  let sourceCode = typeof nativeExtensions !== 'undefined' ? nativeExtensions?.SourceCode : null;
+   if (!sourceCode) {
+-    sourceCode = NativeModules && NativeModules.SourceCode;
++    sourceCode = NativeModules?.SourceCode;
+   }
+-  _sourceCodeScriptURL = sourceCode.scriptURL;
++  _sourceCodeScriptURL = sourceCode?.scriptURL;
+   return _sourceCodeScriptURL;
+ }
+ 
+@@ -38,29 +37,6 @@ function getDevServerURL(): string | null {
+   return _serverURL;
+ }
+ 
+-function _coerceLocalScriptURL(scriptURL: string | undefined | null): string | null {
+-  if (scriptURL) {
+-    if (scriptURL.startsWith('assets://')) {
+-      // android: running from within assets, no offline path to use
+-      return null;
+-    }
+-    scriptURL = scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1);
+-    if (!scriptURL.includes('://')) {
+-      // Add file protocol in case we have an absolute file path and not a URL.
+-      // This shouldn't really be necessary. scriptURL should be a URL.
+-      scriptURL = 'file://' + scriptURL;
+-    }
+-  }
+-  return null;
+-}
+-
+-function getScriptURL(): string | null {
+-  if (_scriptURL === undefined) {
+-    _scriptURL = _coerceLocalScriptURL(getSourceCodeScriptURL());
+-  }
+-  return _scriptURL;
+-}
+-
+ export function setCustomSourceTransformer(
+   transformer: (resolver: AssetSourceResolver) => ResolvedAssetSource
+ ): void {
+@@ -81,7 +57,7 @@ export default function resolveAssetSource(source: any): ResolvedAssetSource | u
+     return undefined;
+   }
+ 
+-  const resolver = new AssetSourceResolver(getDevServerURL(), getScriptURL(), asset);
++  const resolver = new AssetSourceResolver(getDevServerURL(), null, asset);
+   if (_customSourceTransformer) {
+     return _customSourceTransformer(resolver);
+   }
