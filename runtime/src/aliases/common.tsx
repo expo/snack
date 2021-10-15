@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import AssetRegistry from '../NativeModules/AssetRegistry';
 
 const aliases: { [key: string]: any } = {
