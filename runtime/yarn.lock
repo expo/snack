@@ -5605,6 +5605,13 @@ expo-random@*:
   dependencies:
     base64-js "^1.3.0"
 
+expo-random@~12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/expo-random/-/expo-random-12.0.0.tgz#c5da0830a7618012da076a05c79abe9623731cd0"
+  integrity sha512-E71atdA3aZT/EdcmUSE1mAQ+tp1F7/UPuoUsw5wYTbpkrRSsWU2ZjaWLGqtNaV0cXU5MDGm0zl235Gjo8mOOkA==
+  dependencies:
+    base64-js "^1.3.0"
+
 expo-splash-screen@~0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.13.1.tgz#169e5cbd3ddbc964878623387e1edea98b0b95a7"
