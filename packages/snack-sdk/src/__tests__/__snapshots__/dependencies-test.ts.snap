@@ -222,13 +222,13 @@ Object {
 exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
 Object {
   "expo-av": Object {
-    "handle": "snackager-1/expo-av@10.1.0",
+    "handle": "snackager-1/expo-av@10.1.2",
     "peerDependencies": Object {
       "react": "*",
       "react-native": "*",
     },
-    "version": "~10.1.0",
-    "wantedVersion": "~10.1.0",
+    "version": "~10.1.2",
+    "wantedVersion": "~10.1.2",
   },
 }
 `;
