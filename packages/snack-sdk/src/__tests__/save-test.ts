@@ -97,6 +97,7 @@ describe('save', () => {
 
   it('does not use saveURL after changing sdkVersion', async () => {
     const snack = new Snack({
+      sdkVersion: '42.0.0',
       online: true,
       files: {
         'App.js': {
@@ -107,7 +108,7 @@ describe('save', () => {
     });
     await snack.saveAsync();
     const { url } = snack.getState();
-    snack.setSDKVersion('39.0.0');
+    snack.setSDKVersion('43.0.0');
     expect(snack.getState().unsaved).toBe(true);
     expect(snack.getState().url).not.toBe(url);
     snack.setOnline(false);

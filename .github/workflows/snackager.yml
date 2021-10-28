@@ -42,4 +42,5 @@ jobs:
       - run: yarn install --ignore-scripts --frozen-lockfile
       - run: yarn tsc --noEmit
       - run: yarn lint --max-warnings 0
-      - run: yarn test --ci --maxWorkers 15%
+      - run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
+      - run: yarn test --ci --runInBand --testPathPattern=__integration-tests__

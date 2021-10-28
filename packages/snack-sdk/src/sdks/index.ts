@@ -24,51 +24,6 @@ const legacyUnimoduleInterfaces: { [name: string]: '*' } = {
 };
 
 const sdks: { [version: string]: SDKSpec } = {
-  '39.0.0': {
-    version: '^39.0.0',
-    coreModules: {
-      ...assets,
-      ...unimodules,
-      ...legacyUnimoduleInterfaces,
-      expo: '39.0.5',
-      react: '16.13.1',
-      'react-native': '0.63.2',
-      'react-dom': '*',
-      'react-native-web': '*',
-    },
-    bundledModules: {
-      // Packages that require special initialisation (see Modules.tsx)
-      'expo-asset': '*',
-      'react-native-gesture-handler': '*',
-      // 'react-native-vector-icons': '*',
-      '@expo/vector-icons': '*',
-
-      // Packages that are used internally by the runtime
-      'expo-analytics-amplitude': '*',
-      'expo-barcode-scanner': '*',
-      'expo-constants': '*',
-      'expo-file-system': '*',
-      'expo-keep-awake': '*',
-      'expo-updates': '*',
-      'react-native-view-shot': '*',
-      '@react-native-community/async-storage': '*',
-
-      // Packages that are depended on by the "expo" package
-      'expo-font': '*',
-      'expo-linking': '*',
-      'expo-permissions': '*',
-      'expo-splash-screen': '*',
-      'prop-types': '*',
-      'react-native-safe-area-context': '*',
-
-      // Packages that are not really required
-      // TODO: THESE SHOULD BE REMOVED ONCE THE SNACK-SDK HANDLES ADDING/REMOVING/UPDATING DEPENDENCIES BETTER
-      'expo-camera': '*',
-      'expo-gl': '*',
-      'expo-image-picker': '*',
-      'expo-linear-gradient': '*',
-    },
-  },
   '40.0.0': {
     version: '^40.0.0',
     coreModules: {
@@ -174,7 +129,7 @@ const sdks: { [version: string]: SDKSpec } = {
     coreModules: {
       ...assets,
       ...unimodules,
-      expo: '~43.0.0-beta.3',
+      expo: '~43.0.0',
       react: '17.0.1',
       'react-native': '0.64.2',
       'react-dom': '*',

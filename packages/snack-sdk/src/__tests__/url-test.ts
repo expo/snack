@@ -4,7 +4,7 @@ import Snack, { SnackOptions } from './snack-sdk';
 const host = 'test.exp.host';
 const apiURL = `https://${host}`;
 const channel = '10spnBnPxi';
-const sdkVersion = '39.0.0';
+const sdkVersion = '43.0.0';
 const id = '7816837218';
 const config: SnackOptions = {
   apiURL,
