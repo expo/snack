@@ -49,7 +49,7 @@ describe('git', () => {
   it('imports basic repository', async () => {
     const repoPath = await createRepo({
       name: 'test1',
-      sdkVersion: '39.0.0',
+      sdkVersion: '43.0.0',
     });
     const id = await importAsync({
       repo: repoPath,
@@ -106,7 +106,7 @@ describe('git', () => {
   it('imports repository with app.config.js', async () => {
     const repoPath = await createRepo({
       name: 'some-example',
-      sdkVersion: '39.0.0',
+      sdkVersion: '43.0.0',
       appConfig: 'app.config.js',
     });
     const id = await importAsync({
@@ -121,7 +121,7 @@ describe('git', () => {
   it('imports repository with assets', async () => {
     const repoPath = await createRepo({
       name: 'some-example',
-      sdkVersion: '39.0.0',
+      sdkVersion: '43.0.0',
       extraFiles: {
         'assets/image.png': {
           type: 'ASSET',
@@ -142,7 +142,7 @@ describe('git', () => {
   it('imports repository created with main branch', async () => {
     const repoPath = await createRepo({
       name: 'test1',
-      sdkVersion: '39.0.0',
+      sdkVersion: '43.0.0',
       branch: 'main',
     });
     const id = await importAsync({
@@ -157,7 +157,7 @@ describe('git', () => {
   it('imports repository with custom branch', async () => {
     const repoPath = await createRepo({
       name: 'test1',
-      sdkVersion: '39.0.0',
+      sdkVersion: '43.0.0',
       branch: 'feature-a',
     });
     const id = await importAsync({
@@ -173,7 +173,7 @@ describe('git', () => {
   it('fails to import repository with wrong branch', async () => {
     const repoPath = await createRepo({
       name: 'test1',
-      sdkVersion: '39.0.0',
+      sdkVersion: '43.0.0',
       branch: 'feature-a',
     });
     expect(
