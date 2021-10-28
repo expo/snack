@@ -7,6 +7,7 @@
 ### 🎉 New features
 
 - Add support for SDK 43 ([#222](https://github.com/expo/snack/pull/222) by [@IjzerenHein](https://github.com/IjzerenHein))
+- Complete support for SDK 43 stable ([#234](https://github.com/expo/snack/pull/234) by [@bycedric](https://github.com/byCedric))
 
 ### 🐛 Bug fixes
 
