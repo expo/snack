@@ -1,6 +1,6 @@
 import bundleAsync, { cleanUnusedLockfiles } from './bundleAsync';
 
-jest.setTimeout(100000);
+jest.setTimeout(1000 * 60 * 2);
 
 // This integration test needs to validate if the packages are being bundled properly.
 // To validate `bundle.js` from `<package>@<version`, we need to use the bundle size.
