@@ -4,6 +4,17 @@
 
 ### 🛠 Breaking changes
 
+
+
+### 🎉 New features
+
+
+## 3.6.0 — 2021-10-29
+
+### 🛠 Breaking changes
+
+- Remove support for SDK 39 ([#234](https://github.com/expo/snack/pull/234) by [@bycedric](https://github.com/byCedric))
+
 ### 🎉 New features
 
 - Add support for SDK 43 ([#222](https://github.com/expo/snack/pull/222) by [@IjzerenHein](https://github.com/IjzerenHein))
