@@ -48,8 +48,6 @@ Internal documentation
 - [`snackager`](/snackager) *The Snack package bundler at **https://snackager.expo.io**.*
 - [`runtime`](/runtime) *The Snack runtime app and web-player.*
 
-> The Snack code-base consists of many more services and apps. These will be open sourced incrementally, so stay tuned for more!
-
 ## ❓ Getting in touch
 
 - [Issues](https://github.com/expo/snack/issues)
