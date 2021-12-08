@@ -261,9 +261,14 @@ export type SnackState = {
   unsaved: boolean;
 
   /**
-   * Id of the saved Snack.
+   * Full name of the saved Snack.
    */
   id?: string;
+
+  /**
+   * uuid of the saved Snack.
+   */
+  uuid?: string;
 
   /**
    * URL of the saved Snack.
