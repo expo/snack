@@ -319,15 +319,17 @@ class EditorView extends React.Component<Props, State> {
   _changeConnectionMethod = (deviceConnectionMethod: ConnectionMethod) =>
     this.props.setPreferences({ deviceConnectionMethod });
 
-  _toggleEditorMode = () =>
-    this.props.setPreferences({
-      editorMode: this.props.preferences.editorMode === 'vim' ? 'normal' : 'vim',
-    });
+  _toggleEditorMode = () => {
+    const editorMode = this.props.preferences.editorMode === 'vim' ? 'normal' : 'vim';
+    this.props.setPreferences({ editorMode });
+    localStorage.setItem('editorMode', editorMode);
+  };
 
-  _toggleTheme = () =>
-    this.props.setPreferences({
-      theme: this.props.preferences.theme === 'light' ? 'dark' : 'light',
-    });
+  _toggleTheme = () => {
+    const theme = this.props.preferences.theme === 'light' ? 'dark' : 'light';
+    this.props.setPreferences({ theme });
+    localStorage.setItem('theme', theme);
+  };
 
   _toggleMarkdownPreview = () =>
     this.setState((state) => ({ isMarkdownPreview: !state.isMarkdownPreview }));
