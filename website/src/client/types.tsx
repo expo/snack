@@ -44,6 +44,7 @@ export type SavedSnack = {
   dependencies?: SnackDependencies;
   history?: SaveHistory;
   isDraft?: boolean;
+  accountSnackId?: string;
 };
 
 export type SnackDefaults = {

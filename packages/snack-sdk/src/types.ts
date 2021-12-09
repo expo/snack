@@ -266,9 +266,14 @@ export type SnackState = {
   id?: string;
 
   /**
-   * uuid of the saved Snack.
+   * Id of this version of the saved Snack.
    */
-  uuid?: string;
+  snackId?: string;
+
+  /**
+   * Id of the saved Snack if it belongs to an account.
+   */
+  accountSnackId?: string;
 
   /**
    * URL of the saved Snack.
