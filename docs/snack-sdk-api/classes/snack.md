@@ -174,7 +174,7 @@ ___
 
 ### saveAsync
 
-▸ **saveAsync**(`options?`: [SnackSaveOptions](../README.md#snacksaveoptions)): Promise\<{ hashId: undefined \| string ; id: string ; url: string = saveURL }>
+▸ **saveAsync**(`options?`: [SnackSaveOptions](../README.md#snacksaveoptions)): Promise\<{ hashId: undefined \| string ; id: string ; url: string = saveURL ; snackId: undefined \| string ; accountSnackId: undefined \| string ; }>
 
 Uploads the current code to Expo's servers and return a url that points to that version of the code.
 
@@ -184,7 +184,7 @@ Name | Type |
 ------ | ------ |
 `options?` | [SnackSaveOptions](../README.md#snacksaveoptions) |
 
-**Returns:** Promise\<{ hashId: undefined \| string ; id: string ; url: string = saveURL }>
+**Returns:** Promise\<{ hashId: undefined \| string ; id: string ; url: string = saveURL ; snackId: undefined \| string ; accountSnackId: undefined \| string ; }>
 
 ___
 

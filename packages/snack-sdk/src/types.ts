@@ -266,12 +266,12 @@ export type SnackState = {
   id?: string;
 
   /**
-   * Id of this version of the saved Snack.
+   * Id of this version of the saved Snack. Each Snack can have many different versions or revisions, each revision has its own snackId.
    */
   snackId?: string;
 
   /**
-   * Id of the saved Snack if it belongs to an account.
+   * Id of a Snack saved to an account. This id points to the latest version of a Snack revision and associated user.
    */
   accountSnackId?: string;
 
