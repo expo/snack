@@ -8,6 +8,11 @@
 
 ### 🎉 New features
 
+## 3.7.0 — 2021-12-17
+
+### 🎉 New features
+- `SnackState` & `SnackOptions` include `snackId` and `accountSnackId` for tracking snacks, rather than only full name (id).
+- `saveAsync` additionally returns `snackId` and `accountSnackId`. 
 
 ## 3.6.0 — 2021-10-29
 
