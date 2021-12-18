@@ -223,6 +223,8 @@ class Main extends React.Component<Props, State> {
         typeof window !== 'undefined' && isLocalWebPreview
           ? `${window.location.origin}/web-player/%%SDK_VERSION%%`
           : nullthrows(process.env.SNACK_WEBPLAYER_URL) + '/v2/%%SDK_VERSION%%',
+      snackId: props.snack?.id,
+      accountSnackId: props.snack?.accountSnackId,
     });
 
     const devicePreviewPlatformOptions = PlatformOptions.filter({
@@ -342,7 +344,8 @@ class Main extends React.Component<Props, State> {
     }
 
     Analytics.getInstance().setCommonData({
-      snackId: this.state.session.id,
+      accountSnackId: this.state.session.accountSnackId,
+      snackId: this.state.session.snackId ?? this.props.snack?.id,
       isEmbedded: !!this.props.isEmbedded,
       previewPane: this.state.devicePreviewShown ? this.state.devicePreviewPlatform : 'hidden',
     });
@@ -729,7 +732,17 @@ class Main extends React.Component<Props, State> {
         });
       }
 
+      Analytics.getInstance().updateCommonData({
+        snackId: saveResult.snackId ?? this.props.snack?.id,
+        accountSnackId: saveResult.accountSnackId,
+      });
+
       this.setState((state) => ({
+        session: {
+          ...state.session,
+          snackId: saveResult.snackId,
+          accountSnackId: saveResult.accountSnackId,
+        },
         isSavedOnce: true,
         saveHistory: excludeFromHistory
           ? state.saveHistory

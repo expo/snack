@@ -1,6 +1,7 @@
 import type { AmplitudeClient } from 'amplitude-js';
 
 type AnalyticsCommonData = {
+  accountSnackId?: string;
   snackId?: string;
   isEmbedded?: boolean;
   previewPane?: 'hidden' | 'mydevice' | 'ios' | 'android' | 'web';

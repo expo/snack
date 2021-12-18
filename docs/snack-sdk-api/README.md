@@ -253,12 +253,13 @@ ___
 
 ### SnackOptions
 
-Ƭ  **SnackOptions**: { apiURL?: undefined \| string ; channel?: undefined \| string ; codeChangesDelay?: undefined \| number ; createTransport?: undefined \| (options: SnackTransportOptions) => SnackTransport ; dependencies?: [SnackDependencies](README.md#snackdependencies) ; description?: undefined \| string ; deviceId?: undefined \| string ; disabled?: undefined \| false \| true ; files?: [SnackFiles](README.md#snackfiles) ; host?: undefined \| string ; id?: undefined \| string ; name?: undefined \| string ; online?: undefined \| false \| true ; previewTimeout?: undefined \| number ; reloadTimeout?: undefined \| number ; sdkVersion?: [SDKVersion](README.md#sdkversion) ; snackagerURL?: undefined \| string ; transports?: undefined \| { [id:string]: SnackTransport;  } ; user?: [SnackUser](README.md#snackuser) ; verbose?: undefined \| false \| true ; webPlayerURL?: undefined \| string ; webPreviewRef?: [SnackWindowRef](README.md#snackwindowref)  }
+Ƭ  **SnackOptions**: { accountSnackId?: undefined \| string ; apiURL?: undefined \| string ; channel?: undefined \| string ; codeChangesDelay?: undefined \| number ; createTransport?: undefined \| (options: SnackTransportOptions) => SnackTransport ; dependencies?: [SnackDependencies](README.md#snackdependencies) ; description?: undefined \| string ; deviceId?: undefined \| string ; disabled?: undefined \| false \| true ; files?: [SnackFiles](README.md#snackfiles) ; host?: undefined \| string ; id?: undefined \| string ; name?: undefined \| string ; online?: undefined \| false \| true ; previewTimeout?: undefined \| number ; reloadTimeout?: undefined \| number ; sdkVersion?: [SDKVersion](README.md#sdkversion) ; snackagerURL?: undefined \| string ; snackId?: undefined \| string ; transports?: undefined \| { [id:string]: SnackTransport;  } ; user?: [SnackUser](README.md#snackuser) ; verbose?: undefined \| false \| true ; webPlayerURL?: undefined \| string ; webPreviewRef?: [SnackWindowRef](README.md#snackwindowref)  }
 
 #### Type declaration:
 
 Name | Type |
 ------ | ------ |
+`accountSnackId?` | undefined \| string |
 `apiURL?` | undefined \| string |
 `channel?` | undefined \| string |
 `codeChangesDelay?` | undefined \| number |
@@ -276,6 +277,7 @@ Name | Type |
 `reloadTimeout?` | undefined \| number |
 `sdkVersion?` | [SDKVersion](README.md#sdkversion) |
 `snackagerURL?` | undefined \| string |
+`snackId?` | undefined \| string |
 `transports?` | undefined \| { [id:string]: SnackTransport;  } |
 `user?` | [SnackUser](README.md#snackuser) |
 `verbose?` | undefined \| false \| true |
@@ -314,12 +316,13 @@ ___
 
 ### SnackState
 
-Ƭ  **SnackState**: { channel: string ; connectedClients: [SnackConnectedClients](README.md#snackconnectedclients) ; dependencies: [SnackDependencies](README.md#snackdependencies) ; description: string ; deviceId?: undefined \| string ; disabled: boolean ; files: [SnackFiles](README.md#snackfiles) ; id?: undefined \| string ; missingDependencies: [SnackMissingDependencies](README.md#snackmissingdependencies) ; name: string ; online: boolean ; onlineName?: undefined \| string ; saveURL?: undefined \| string ; savedSDKVersion?: undefined \| string ; sdkVersion: [SDKVersion](README.md#sdkversion) ; sendBeaconCloseRequest?: [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) ; unsaved: boolean ; url: string ; user?: [SnackUser](README.md#snackuser) ; wantedDependencyVersions?: [SnackDependencyVersions](README.md#snackdependencyversions) ; webPreviewURL?: undefined \| string  }
+Ƭ  **SnackState**: { accountSnackId: undefined \|string ; channel: string ; connectedClients: [SnackConnectedClients](README.md#snackconnectedclients) ; dependencies: [SnackDependencies](README.md#snackdependencies) ; description: string ; deviceId?: undefined \| string ; disabled: boolean ; files: [SnackFiles](README.md#snackfiles) ; id?: undefined \| string ; missingDependencies: [SnackMissingDependencies](README.md#snackmissingdependencies) ; name: string ; online: boolean ; onlineName?: undefined \| string ; saveURL?: undefined \| string ; savedSDKVersion?: undefined \| string ; sdkVersion: [SDKVersion](README.md#sdkversion) ; sendBeaconCloseRequest?: [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) ; snackId: undefined \|string ; unsaved: boolean ; url: string ; user?: [SnackUser](README.md#snackuser) ; wantedDependencyVersions?: [SnackDependencyVersions](README.md#snackdependencyversions) ; webPreviewURL?: undefined \| string  }
 
 #### Type declaration:
 
 Name | Type | Description |
 ------ | ------ | ------ |
+`accountSnackId` | undefined \| string | Id of the saved Snack if it belongs to an account.
 `channel` | string | Communication channel ("pubnub") through which live updates are transferred. The communication channel is only used when the Snack is "online". |
 `connectedClients` | [SnackConnectedClients](README.md#snackconnectedclients) | Clients that are currently connected. |
 `dependencies` | [SnackDependencies](README.md#snackdependencies) | Packages that can be used in the code files. Packages that are pre-loaded by the sdk may be ommited, but it is recommended to add them anyway. |
@@ -327,7 +330,7 @@ Name | Type | Description |
 `deviceId?` | undefined \| string | Device-id of the Expo client. When set causes the Snack to be visible in the "Recently in Development" section of the Expo client with that device-id. The device-id is only used when the Snack is "online". |
 `disabled` | boolean | Disabled state. When the Snack is disabled it will not resolve any dependencies or upload any asset files. It also disables the ability to go online. |
 `files` | [SnackFiles](README.md#snackfiles) | Files that make up the content (code & assets) of the Snack. There should always be a file called "App.js" or "App.tsx" as the main entry point. |
-`id?` | undefined \| string | Id of the saved Snack. |
+`id?` | undefined \| string | Full name of the saved Snack. |
 `missingDependencies` | [SnackMissingDependencies](README.md#snackmissingdependencies) | Collection of dependencies that are missing but are required by one or more of the dependencies. |
 `name` | string | Optional name. The name is used when saving or downloading the Snack; and is used for the onlineName property. |
 `online` | boolean | When online is true, Expo clients can connect to the Snack and receive live updates when code or dependencies are changed. It also makes the Snack visible in the "Recently in Development" section of the Expo client. |
@@ -336,6 +339,7 @@ Name | Type | Description |
 `savedSDKVersion?` | undefined \| string | Last saved (non-draft) Expo SDK version. |
 `sdkVersion` | [SDKVersion](README.md#sdkversion) | Expo SDK version. |
 `sendBeaconCloseRequest?` | [SnackSendBeaconRequest](README.md#snacksendbeaconrequest) | A close request that should be send using the browser `sendBeacon` API whenever the browser session is unloaded. This gives the Snack a last opportunity to gracefully close its connections so that the "Recently in Development" section in the Expo client no longer shows the Snack. |
+`snackId` | undefined \| string | Id of this version of the saved Snack.
 `unsaved` | boolean | Unsaved status of the Snack. Becomes `true` when the Snack code is changed and `false` whenever the Snack is saved. |
 `url` | string | Unique experience url which can be used to open the Expo client and connect to the Snack (e.g. "exp://exp.host/@snack/sdk.38.0.0-78173941"). |
 `user?` | [SnackUser](README.md#snackuser) |  |

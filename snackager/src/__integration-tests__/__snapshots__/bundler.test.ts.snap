@@ -518,7 +518,7 @@ Object {
           "react-native-svg",
           "react-native/Libraries/BatchedBridge/BatchedBridge",
         ],
-        "size": 285810,
+        "size": 285622,
       },
     },
     "ios": Object {
@@ -531,7 +531,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-svg",
         ],
-        "size": 293122,
+        "size": 292692,
       },
     },
     "web": Object {

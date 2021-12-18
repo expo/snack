@@ -67,6 +67,8 @@ export type SnackOptions = {
   previewTimeout?: number;
   user?: SnackUser;
   id?: string;
+  snackId?: string;
+  accountSnackId?: string;
   webPlayerURL?: string;
   webPreviewRef?: SnackWindowRef;
 };
@@ -161,6 +163,8 @@ export default class Snack {
         url: createURL(this.host, sdkVersion, channel, options.id),
         channel,
         deviceId: options.deviceId,
+        snackId: options.snackId,
+        accountSnackId: options.accountSnackId,
       },
       SnackIdentityState
     );
@@ -377,6 +381,8 @@ export default class Snack {
       const id: string = data.id;
       const saveURL = createURL(this.host, sdkVersion, undefined, id);
       const hashId: string | undefined = data.hashId;
+      const accountSnackId: string | undefined = data.accountSnackId;
+      const snackId: string | undefined = data.snackId;
 
       this.setState((state) => ({
         id,
@@ -384,6 +390,8 @@ export default class Snack {
         unsaved: State.isUnsaved(state, prevState),
         savedSDKVersion:
           options?.isDraft && state.savedSDKVersion ? state.savedSDKVersion : sdkVersion,
+        accountSnackId,
+        snackId,
       }));
 
       previewPromise.then((connectedClients) => {
@@ -399,6 +407,8 @@ export default class Snack {
         id,
         url: saveURL,
         hashId,
+        accountSnackId,
+        snackId,
       };
     } catch (e) {
       this.logger?.error(e);
