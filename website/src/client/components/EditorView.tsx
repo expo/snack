@@ -648,7 +648,7 @@ class EditorView extends React.Component<Props, State> {
                   onChangeSDKVersion={this.props.onChangeSDKVersion}
                   onShowModal={this._handleShowModal}
                   onPrettifyCode={this._prettier}
-                  theme={this.props.preferences.theme}
+                  theme={preferences.theme}
                 />
                 <DeviceInstructionsModal
                   visible={currentModal === 'device-instructions'}

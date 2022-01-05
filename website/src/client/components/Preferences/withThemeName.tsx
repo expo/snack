@@ -10,6 +10,10 @@ type InjectedProps = {
   theme: ThemeName;
 };
 
+function sanitizeThemeName(theme?: ThemeName | null): ThemeName {
+  return theme === 'dark' ? 'dark' : 'light';
+}
+
 // react-redux doesn't work with forwardRef: https://github.com/reduxjs/react-redux/issues/914
 // so this HOC always needs wrap a connect call, and a connect call cannot wrap this
 export default function withThemeName<P extends InjectedProps>(
@@ -26,7 +30,7 @@ export default function withThemeName<P extends InjectedProps>(
         <PreferencesContext.Consumer>
           {(props) => {
             // @ts-ignore
-            return <Comp ref={__forwardedRef} theme={props.preferences.theme} {...rest} />;
+            return <Comp ref={__forwardedRef} theme={sanitizeThemeName(props.preferences.theme)} {...rest} />;
           }}
         </PreferencesContext.Consumer>
       );
