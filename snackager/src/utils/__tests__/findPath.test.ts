@@ -11,7 +11,9 @@ const mkdirSync = (...segments): void => {
 };
 
 afterEach(() => {
-  fs.rmdirSync(tmpDir, { recursive: true });
+  if (fs.existsSync(tmpDir)) {
+    fs.rmdirSync(tmpDir, { recursive: true });
+  }
 });
 
 it('returns no paths for non existing package', () => {
