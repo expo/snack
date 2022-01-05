@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@expo/webpack-config": "~0.16.2",
+    "@expo/webpack-config": "^0.16.15",
     "@types/diff": "^5.0.0",
     "@types/pubnub": "^4.0.6",
     "@types/react": "~17.0.21",
