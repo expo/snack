@@ -9,12 +9,13 @@ import type { PreferencesContextType } from './withPreferences';
 import type { ThemeName } from './withThemeName';
 
 export type PanelType = 'errors' | 'logs';
+export type EditorModeType = 'normal' | 'vim';
 
 export type PreferencesType = {
   deviceConnectionMethod: ConnectionMethod;
   devicePreviewPlatform: Platform;
   devicePreviewShown: boolean;
-  editorMode: 'normal' | 'vim';
+  editorMode: EditorModeType;
   fileTreeShown: boolean;
   panelsShown: boolean;
   panelType: PanelType;
@@ -60,6 +61,16 @@ class PreferencesProvider extends React.Component<Props, State> {
     const { cookies, queryParams } = this.props;
 
     let overrides: Partial<PreferencesType> = {};
+
+    try {
+      // Restore editor preferences from local storage
+      if (localStorage) {
+        overrides.editorMode = localStorage.getItem('editorMode') as EditorModeType;
+        overrides.theme = localStorage.getItem('theme') as ThemeName;
+      }
+    } catch (e) {
+      // Ignore error
+    }
 
     try {
       // Restore editor preferences from saved data
