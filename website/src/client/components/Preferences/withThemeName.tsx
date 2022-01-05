@@ -28,9 +28,10 @@ export default function withThemeName<P extends InjectedProps>(
 
       return (
         <PreferencesContext.Consumer>
-          {(props) => {
+          {(props: any) => {
+            const theme = sanitizeThemeName(props.preferences.theme);
             // @ts-ignore
-            return <Comp ref={__forwardedRef} theme={sanitizeThemeName(props.preferences.theme)} {...rest} />;
+            return <Comp ref={__forwardedRef} theme={theme} {...rest} />;
           }}
         </PreferencesContext.Consumer>
       );
