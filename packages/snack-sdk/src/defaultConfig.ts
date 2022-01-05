@@ -5,7 +5,7 @@ export const snackagerURL: string = 'https://snackager.expo.io';
 export const webPlayerURL: string =
   'https://snack-web-player.s3.us-west-1.amazonaws.com/v2/%%SDK_VERSION%%';
 
-export const sdkVersion: SDKVersion = '42.0.0';
+export const sdkVersion: SDKVersion = '43.0.0';
 
 // Mostly used for tests
 export const oldestSdkVersion: SDKVersion = '41.0.0';

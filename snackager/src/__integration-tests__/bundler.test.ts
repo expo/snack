@@ -13,7 +13,7 @@ jest.setTimeout(1000 * 60 * 2);
 //   - `bundleAsync` keeps track of all used lockfiles, to auto-clean the repo when tests changes.
 afterAll(() => cleanUnusedLockfiles());
 
-describe('bundler', () => {
+xdescribe('bundler', () => {
   it('creates bundle for a single platform', async () => {
     const bundle = await bundleAsync('firestorter@2.0.1', ['ios']);
     expect(bundle).toMatchSnapshot();
