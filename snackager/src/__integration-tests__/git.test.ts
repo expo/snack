@@ -91,7 +91,7 @@ describe('git', () => {
   it('imports repository without app.json', async () => {
     const repoPath = await createRepo({
       name: 'some-example',
-      sdkVersion: '40.0.0',
+      sdkVersion: '41.0.0',
       appConfig: 'none',
     });
     const id = await importAsync({
