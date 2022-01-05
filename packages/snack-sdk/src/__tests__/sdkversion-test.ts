@@ -1,4 +1,5 @@
 import '../__mocks__/fetch';
+import { oldestSdkVersion, newestSdkVersion } from '../defaultConfig';
 import Snack, {
   getSupportedSDKVersions,
   isValidSemver,
@@ -18,21 +19,19 @@ describe('sdkVersion', () => {
   });
 
   it('can be provided initially', async () => {
-    const snack = new Snack({
-      sdkVersion: '43.0.0',
-    });
+    const snack = new Snack({ sdkVersion: newestSdkVersion });
     expect(snack.getState()).toMatchObject({
       unsaved: false,
-      sdkVersion: '43.0.0',
+      sdkVersion: newestSdkVersion,
     });
   });
 
   it('can be changed', async () => {
     const snack = new Snack({});
-    snack.setSDKVersion('43.0.0');
+    snack.setSDKVersion(newestSdkVersion);
     expect(snack.getState()).toMatchObject({
       unsaved: true,
-      sdkVersion: '43.0.0',
+      sdkVersion: newestSdkVersion,
     });
   });
 
@@ -80,36 +79,36 @@ describe('getSupportedSDKVersions', () => {
 
 describe('isModulePreloaded', () => {
   it('returns true for internal modules', () => {
-    expect(isModulePreloaded('react-native', '40.0.0')).toBe(true);
+    expect(isModulePreloaded('react-native', oldestSdkVersion)).toBe(true);
   });
 
   it('returns true for bundled modules', () => {
-    expect(isModulePreloaded('expo-asset', '40.0.0')).toBe(true);
+    expect(isModulePreloaded('expo-asset', oldestSdkVersion)).toBe(true);
   });
 
   it('returns false when internalOnly is true', () => {
-    expect(isModulePreloaded('expo-asset', '40.0.0', true)).toBe(false);
+    expect(isModulePreloaded('expo-asset', oldestSdkVersion, true)).toBe(false);
   });
 
   it('returns false for unknown modules', () => {
-    expect(isModulePreloaded('firestorter', '40.0.0')).toBe(false);
+    expect(isModulePreloaded('firestorter', oldestSdkVersion)).toBe(false);
   });
 });
 
 describe('getPreloadedModules', () => {
   it('returns valid modules', () => {
-    const result = getPreloadedModules('40.0.0');
+    const result = getPreloadedModules(oldestSdkVersion);
     expect(Object.keys(result).length).toBeGreaterThan(10);
     Object.values(result).map((version) => expect(isValidSemver(version)).toBe(true));
   });
   it('returns different results for other SDK', () => {
-    const result = getPreloadedModules('40.0.0');
-    const result2 = getPreloadedModules('41.0.0');
+    const result = getPreloadedModules(oldestSdkVersion);
+    const result2 = getPreloadedModules(newestSdkVersion);
     expect(result).not.toMatchObject(result2);
   });
   it('returns subset for internal modules', () => {
-    const result = getPreloadedModules('40.0.0');
-    const internal = getPreloadedModules('40.0.0', true);
+    const result = getPreloadedModules(oldestSdkVersion);
+    const internal = getPreloadedModules(oldestSdkVersion, true);
     expect(Object.keys(internal).length).toBeLessThan(Object.keys(result).length);
     expect(result).toMatchObject(internal);
   });
@@ -150,10 +149,10 @@ describe('isFeatureSupported', () => {
 
 describe('getDeprecatedModule', () => {
   it('returns undefined for non deprecated modules', () => {
-    expect(getDeprecatedModule('expo-constants', '41.0.0')).toBe(undefined);
+    expect(getDeprecatedModule('expo-constants', oldestSdkVersion)).toBe(undefined);
   });
   it('returns description for deprecated modules', () => {
-    expect(getDeprecatedModule('@react-native-community/async-storage', '41.0.0')).toBe(
+    expect(getDeprecatedModule('@react-native-community/async-storage', oldestSdkVersion)).toBe(
       'Async Storage has moved to new organization: https://github.com/react-native-async-storage/async-storage'
     );
   });

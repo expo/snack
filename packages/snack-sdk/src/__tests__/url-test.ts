@@ -1,10 +1,11 @@
 import '../__mocks__/fetch';
+import { newestSdkVersion, oldestSdkVersion } from '../defaultConfig';
 import Snack, { SnackOptions } from './snack-sdk';
 
 const host = 'test.exp.host';
 const apiURL = `https://${host}`;
 const channel = '10spnBnPxi';
-const sdkVersion = '43.0.0';
+const sdkVersion = newestSdkVersion;
 const id = '7816837218';
 const config: SnackOptions = {
   apiURL,
@@ -42,8 +43,8 @@ describe('url', () => {
 
   it('updates url when changing sdk-version', async () => {
     const snack = new Snack(config);
-    snack.setSDKVersion('40.0.0');
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.40.0.0-${channel}`);
+    snack.setSDKVersion(oldestSdkVersion);
+    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.${oldestSdkVersion}-${channel}`);
   });
 
   it('reverts to unnamed url after changing sdk-version', async () => {
@@ -51,7 +52,7 @@ describe('url', () => {
       ...config,
       id,
     });
-    snack.setSDKVersion('40.0.0');
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.40.0.0-${channel}`);
+    snack.setSDKVersion(oldestSdkVersion);
+    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.${oldestSdkVersion}-${channel}`);
   });
 });
