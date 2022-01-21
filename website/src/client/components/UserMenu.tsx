@@ -78,7 +78,7 @@ class UserMenu extends React.Component<Props, State> {
                     handler: () => window.open(`${websiteURL}/@${viewer.username}/snacks`),
                   },
                   {
-                    label: 'Account Settings',
+                    label: 'User Settings',
                     handler: () => window.open(`${websiteURL}/settings`),
                   },
                   ...(legacyLogout ? [{ label: 'Log out', handler: legacyLogout }] : []),
