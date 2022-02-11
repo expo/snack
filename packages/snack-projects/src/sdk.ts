@@ -80,31 +80,6 @@ export function isFeatureSupported(feature: SDKFeature, sdkVersion: string): boo
 }
 
 /**
- * @internal
- */
-function standardizePeerDependencies(peerDependencies: any): SnackDependencyVersions {
-  if (!peerDependencies) {
-    return peerDependencies;
-  }
-  let result: SnackDependencyVersions = peerDependencies;
-  for (const name in peerDependencies) {
-    const peerDep = peerDependencies[name];
-    if (typeof peerDep === 'string' || peerDep === null) {
-      // :thumbsup: regular peer-dependency
-    } else if (typeof peerDep === 'object' && typeof peerDep.version === 'string') {
-      result = result === peerDependencies ? { ...peerDependencies } : result;
-      result[name] = peerDep.version;
-    } else {
-      // Invalid peer-dependency
-      result = result === peerDependencies ? { ...peerDependencies } : result;
-      delete result[name];
-    }
-  }
-
-  return result;
-}
-
-/**
  * Converts older dependency formats into the SnackDependencies type.
  */
 export function standardizeDependencies(dependencies: any): SnackDependencies {
@@ -131,5 +106,30 @@ export function standardizeDependencies(dependencies: any): SnackDependencies {
       delete result[name];
     }
   }
+  return result;
+}
+
+/**
+ * @internal
+ */
+function standardizePeerDependencies(peerDependencies: any): SnackDependencyVersions {
+  if (!peerDependencies) {
+    return peerDependencies;
+  }
+  let result: SnackDependencyVersions = peerDependencies;
+  for (const name in peerDependencies) {
+    const peerDep = peerDependencies[name];
+    if (typeof peerDep === 'string' || peerDep === null) {
+      // :thumbsup: regular peer-dependency
+    } else if (typeof peerDep === 'object' && typeof peerDep.version === 'string') {
+      result = result === peerDependencies ? { ...peerDependencies } : result;
+      result[name] = peerDep.version;
+    } else {
+      // Invalid peer-dependency
+      result = result === peerDependencies ? { ...peerDependencies } : result;
+      delete result[name];
+    }
+  }
+
   return result;
 }

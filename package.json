@@ -13,6 +13,7 @@
     "packages": [
       "packages/snack-sdk",
       "packages/snack-babel-standalone",
+      "packages/snack-projects",
       "packages/snack-proxies",
       "packages/snack-term",
       "website",

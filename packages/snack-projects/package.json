@@ -1,0 +1,41 @@
+{
+  "name": "snack-projects",
+  "version": "1.0.0",
+  "description": "Functions and types that describe characteristics of Snack projects",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build",
+    "!**/__tests__"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expo/snack.git",
+    "directory": "packages/snack-projects"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/snack/issues"
+  },
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rm -fr build",
+    "prepare": "yarn build",
+    "test": "jest",
+    "lint": "eslint src"
+  },
+  "author": "Expo <support@expo.dev>",
+  "license": "MIT",
+  "volta": {
+    "node": "16.14.0"
+  },
+  "dependencies": {
+    "semver": "^7.3.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@types/semver": "^7.3.9",
+    "jest": "^27.5.1",
+    "ts-jest": "~27.1.3",
+    "typescript": "^4.5.5"
+  }
+}
