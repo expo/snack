@@ -1,6 +1,7 @@
+import { SDKVersion, SnackDependencyVersions, sdks } from 'snack-content';
+
 import { Logger } from './Logger';
-import sdks from './sdks';
-import { SDKVersion, SnackDependencyVersions, SnackError } from './types';
+import { SnackError } from './types';
 import { fetch } from './utils';
 
 export type WantedDependencyVersionsCallback = (

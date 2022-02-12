@@ -1,4 +1,5 @@
-import { SnackFiles, SnackDependencies, SDKVersion } from '../types';
+import { SnackFiles, SnackDependencies, SDKVersion } from 'snack-content';
+
 import { ProtocolOutgoingMessage, ProtocolIncomingMessage } from './Protocol';
 
 export type SnackTransportStartMessage = {

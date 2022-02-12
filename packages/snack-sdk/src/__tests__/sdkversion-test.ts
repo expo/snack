@@ -1,14 +1,7 @@
 import '../__mocks__/fetch';
-import { oldestSdkVersion, newestSdkVersion } from '../defaultConfig';
-import Snack, {
-  getSupportedSDKVersions,
-  isValidSemver,
-  defaultConfig,
-  isModulePreloaded,
-  getPreloadedModules,
-  isFeatureSupported,
-  getDeprecatedModule,
-} from './snack-sdk';
+import { getSupportedSDKVersions, newestSdkVersion } from 'snack-content';
+
+import Snack, { defaultConfig } from './snack-sdk';
 
 describe('sdkVersion', () => {
   it('uses default when omitted', async () => {
@@ -64,96 +57,5 @@ describe('sdkVersion', () => {
       const { wantedDependencyVersions } = await snack.getStateAsync();
       expect(Object.keys(wantedDependencyVersions ?? {}).length).toBeGreaterThan(0);
     });
-  });
-});
-
-describe('getSupportedSDKVersions', () => {
-  it('contains at least 2 versions', () => {
-    expect(getSupportedSDKVersions().length).toBeGreaterThan(1);
-  });
-
-  it('returns valid versions', () => {
-    getSupportedSDKVersions().forEach((sdkVersion) => expect(isValidSemver(sdkVersion)).toBe(true));
-  });
-});
-
-describe('isModulePreloaded', () => {
-  it('returns true for internal modules', () => {
-    expect(isModulePreloaded('react-native', oldestSdkVersion)).toBe(true);
-  });
-
-  it('returns true for bundled modules', () => {
-    expect(isModulePreloaded('expo-asset', oldestSdkVersion)).toBe(true);
-  });
-
-  it('returns false when internalOnly is true', () => {
-    expect(isModulePreloaded('expo-asset', oldestSdkVersion, true)).toBe(false);
-  });
-
-  it('returns false for unknown modules', () => {
-    expect(isModulePreloaded('firestorter', oldestSdkVersion)).toBe(false);
-  });
-});
-
-describe('getPreloadedModules', () => {
-  it('returns valid modules', () => {
-    const result = getPreloadedModules(oldestSdkVersion);
-    expect(Object.keys(result).length).toBeGreaterThan(10);
-    Object.values(result).map((version) => expect(isValidSemver(version)).toBe(true));
-  });
-  it('returns different results for other SDK', () => {
-    const result = getPreloadedModules(oldestSdkVersion);
-    const result2 = getPreloadedModules(newestSdkVersion);
-    expect(result).not.toMatchObject(result2);
-  });
-  it('returns subset for internal modules', () => {
-    const result = getPreloadedModules(oldestSdkVersion);
-    const internal = getPreloadedModules(oldestSdkVersion, true);
-    expect(Object.keys(internal).length).toBeLessThan(Object.keys(result).length);
-    expect(result).toMatchObject(internal);
-  });
-});
-
-describe('isValidSemver', () => {
-  it('is valid for *', () => {
-    expect(isValidSemver('*')).toBe(true);
-  });
-  it('is valid for latest', () => {
-    expect(isValidSemver('latest')).toBe(true);
-  });
-  it('is valid for version', () => {
-    expect(isValidSemver('1.2.3')).toBe(true);
-  });
-  it('is invalid for random string', () => {
-    expect(isValidSemver('random-string')).toBe(false);
-  });
-});
-
-describe('isFeatureSupported', () => {
-  it('returns true for supported feature', () => {
-    expect(isFeatureSupported('TYPESCRIPT', '38.0.0')).toBe(true);
-  });
-  it('returns false for supported feature', () => {
-    expect(isFeatureSupported('TYPESCRIPT', '21.0.0')).toBe(false);
-  });
-  it('throws for invalid feature', () => {
-    expect(() =>
-      // @ts-ignore Type '"Bogus"' is not assignable to type 'SDKFeature'
-      isFeatureSupported('Bogus', '38.0.0')
-    ).toThrowError();
-  });
-  it('throws for invalid version', () => {
-    expect(() => isFeatureSupported('TYPESCRIPT', 'foo')).toThrowError();
-  });
-});
-
-describe('getDeprecatedModule', () => {
-  it('returns undefined for non deprecated modules', () => {
-    expect(getDeprecatedModule('expo-constants', oldestSdkVersion)).toBe(undefined);
-  });
-  it('returns description for deprecated modules', () => {
-    expect(getDeprecatedModule('@react-native-community/async-storage', oldestSdkVersion)).toBe(
-      'Async Storage has moved to new organization: https://github.com/react-native-async-storage/async-storage'
-    );
   });
 });

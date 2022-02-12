@@ -1,11 +1,16 @@
 import { createPatch } from 'diff';
+import {
+  SnackFiles,
+  SDKVersion,
+  SnackCodeFile,
+  SnackDependencies,
+  isModulePreloaded,
+} from 'snack-content';
 import { UAParser } from 'ua-parser-js';
 
 import FileUploader, { FileUploaderCallback } from '../FileUploader';
 import { Logger } from '../Logger';
 import { SnackIdentityState } from '../defaultConfig';
-import { isModulePreloaded } from '../sdk';
-import { SnackFiles, SDKVersion, SnackCodeFile, SnackDependencies } from '../types';
 import { ProtocolCodeMessage, ProtocolCodeMessageDependencies } from './Protocol';
 
 export type SnackCode = {
