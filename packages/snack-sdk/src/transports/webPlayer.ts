@@ -1,4 +1,6 @@
-import { SDKVersion, SnackWindowRef } from '../types';
+import { SDKVersion } from 'snack-projects';
+
+import { SnackWindowRef } from '../types';
 import {
   SnackTransport,
   SnackTransportOptions,

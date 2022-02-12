@@ -1,5 +1,7 @@
+import { SnackFile } from 'snack-projects';
+
 import { Logger } from './Logger';
-import { SnackFile, SnackError } from './types';
+import { SnackError } from './types';
 import { fetch, createError } from './utils';
 
 export type FileUploaderRequest = {

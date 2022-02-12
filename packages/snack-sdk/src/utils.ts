@@ -1,7 +1,8 @@
 import fetchPonyfill from 'fetch-ponyfill';
 import { customAlphabet } from 'nanoid';
+import { SDKVersion } from 'snack-projects';
 
-import { SDKVersion, SnackError, SnackUser } from './types';
+import { SnackError, SnackUser } from './types';
 
 const { fetch } = fetchPonyfill();
 export { fetch };

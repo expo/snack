@@ -1,7 +1,12 @@
-// import { SDKVersion, SDKFeature } from './sdks/types';
-import { SnackTransport } from './transports';
+import {
+  SDKVersion,
+  SnackDependencies,
+  SnackDependencyVersions,
+  SnackFiles,
+  SnackMissingDependencies,
+} from 'snack-projects';
 
-export type { SDKVersion, SDKFeature };
+import { SnackTransport } from './transports';
 
 /**
  * An error that can optionally hold a file-name and line/column location.

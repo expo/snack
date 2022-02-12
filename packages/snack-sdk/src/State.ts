@@ -1,6 +1,6 @@
 import isEqual from 'lodash/isEqual';
+import { isModulePreloaded } from 'snack-projects';
 
-import { isModulePreloaded } from './sdk';
 import { SnackState } from './types';
 
 export type StateObject<T> = {

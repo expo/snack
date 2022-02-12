@@ -1,6 +1,7 @@
 import '../__mocks__/fetch';
-import { SDKVersion } from '../sdks/types';
-import Snack, { standardizeDependencies } from './snack-sdk';
+import { SDKVersion } from 'snack-projects';
+
+import Snack from './snack-sdk';
 
 // A set of SDK versions to test against.
 // When upgrading SDK version, make sure to update this list.
@@ -285,51 +286,5 @@ describe('dependencies', () => {
     });
     const state = await snack.getStateAsync();
     expect(state.missingDependencies).toMatchSnapshot();
-  });
-});
-
-describe('standardizeDependencies', () => {
-  it('converts v1 dependencies', () => {
-    expect(
-      standardizeDependencies({
-        dep1: '1.2.3',
-      })
-    ).toMatchObject({
-      dep1: {
-        version: '1.2.3',
-      },
-    });
-  });
-  it('converts v2 dependencies', () => {
-    expect(
-      standardizeDependencies({
-        dep1: {
-          version: '1.2.3',
-          peerDependencies: {
-            peerDep2: {
-              version: '4.5.6',
-            },
-          },
-        },
-      })
-    ).toMatchObject({
-      dep1: {
-        version: '1.2.3',
-        peerDependencies: {
-          peerDep2: '4.5.6',
-        },
-      },
-    });
-  });
-  it('returns v3 dependencies untouched', () => {
-    const deps = {
-      dep1: {
-        version: '1.2.3',
-        peerDependencies: {
-          peerDep2: '4.5.6',
-        },
-      },
-    };
-    expect(standardizeDependencies(deps)).toBe(deps);
   });
 });

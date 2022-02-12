@@ -1,5 +1,14 @@
 import mapValues from 'lodash/mapValues';
 import nullthrows from 'nullthrows';
+import {
+  SDKVersion,
+  SnackDependencies,
+  SnackDependency,
+  SnackFile,
+  SnackFiles,
+  isModulePreloaded,
+  validateSDKVersion,
+} from 'snack-projects';
 
 import DependencyResolver, {
   DependencyResolverCallback,
@@ -13,7 +22,6 @@ import { Logger, createLogger } from './Logger';
 import * as State from './State';
 import { WantedDependencyVersions, WantedDependencyVersionsCallback } from './WantedVersions';
 import defaultConfig, { SnackIdentityState } from './defaultConfig';
-import { validateSDKVersion, isModulePreloaded } from './sdk';
 import {
   createTransport,
   SnackTransport,
@@ -31,16 +39,11 @@ import {
 } from './transports/Protocol';
 import { createWebPlayerTransport, getWebPlayerIFrameURL } from './transports/webPlayer';
 import {
-  SDKVersion,
-  SnackDependencies,
-  SnackFiles,
-  SnackFile,
   SnackState,
   SnackUser,
   SnackSendBeaconRequest,
   SnackLogEvent,
   SnackListenerSubscription,
-  SnackDependency,
   SnackConnectedClients,
   SnackWindowRef,
 } from './types';

@@ -1,4 +1,4 @@
-import { SDKVersion } from '../sdks/types';
+import { SDKVersion } from 'snack-projects';
 
 export type Device = {
   name: string;
