@@ -4,7 +4,7 @@
 
 ### 🛠 Breaking changes
 
-
+- ES2018 is required
 
 ### 🎉 New features
 
