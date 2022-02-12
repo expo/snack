@@ -1,38 +1,47 @@
-name: Snackager
+name: SnackContent
 
 defaults:
   run:
-    working-directory: snackager
+    working-directory: packages/snack-content
 
 on:
-  pull_request:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
     paths:
-      - .github/workflows/snackager.yml
-      - snackager/**
-      - packages/snack-sdk/**
+      - .github/workflows/snack-content.yml
+      - packages/snack-content/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/snack-content.yml
+      - packages/snack-content/**
       - .eslint*
       - .prettier*
       - yarn.lock
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
@@ -40,9 +49,6 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - run: yarn install --ignore-scripts --frozen-lockfile
-      - run: yarn prepare
-        working-directory: packages/snack-content
-      - run: yarn tsc --noEmit
+      - run: yarn test --maxWorkers 1
       - run: yarn lint --max-warnings 0
-      - run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
-      - run: yarn test --ci --runInBand --testPathPattern=__integration-tests__
+      - run: yarn build
