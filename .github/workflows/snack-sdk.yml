@@ -49,6 +49,8 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - run: yarn install --ignore-scripts --frozen-lockfile
+      - run: yarn prepare
+        working-directory: packages/snack-content
       - run: yarn test --maxWorkers 1
       - run: yarn lint --max-warnings 0
       - run: yarn build

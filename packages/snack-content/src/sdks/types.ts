@@ -1,11 +1,11 @@
 /**
- * Version of the sdk to use (e.g. "43.0.0").
+ * Version of the Expo SDK to use (e.g. "43.0.0").
  */
 export type SDKVersion = '41.0.0' | '42.0.0' | '43.0.0' | '44.0.0';
 
 /** @internal */
 export type SDKSpec = {
-  // Version-spec for the published "expo" package. This version is
+  // Version spec for the published "expo" package. This version is
   // used to fetch compatible package versions. The value is typically
   // in the form of "^39.0.0" but may also contain custom specs, such
   // as "40.0.0-beta.2".
@@ -40,10 +40,4 @@ export type SDKSpec = {
 /**
  * Feature that is supported by the SDK (e.g. "TYPESCRIPT").
  */
-export type SDKFeature =
-  | 'MULTIPLE_FILES'
-  | 'PROJECT_DEPENDENCIES'
-  | 'TYPESCRIPT'
-  | 'UNIMODULE_IMPORTS'
-  | 'POSTMESSAGE_TRANSPORT'
-  | 'VERSIONED_SNACKAGER';
+export type SDKFeature = 'TYPESCRIPT';

@@ -8,10 +8,10 @@ RUN apk --no-cache add git openssh-client
 WORKDIR /app
 COPY package.json yarn.lock .eslintrc.base.js .prettierrc ./
 
-# snack-sdk
-WORKDIR /app/packages/snack-sdk
-COPY packages/snack-sdk/src ./src
-COPY packages/snack-sdk/package.json packages/snack-sdk/tsconfig.json ./
+# Workspace packages
+WORKDIR /server/packages
+COPY packages/snack-content ./snack-content
+COPY packages/snack-sdk ./snack-sdk
 
 # snackager
 WORKDIR /app/snackager
@@ -25,6 +25,10 @@ COPY snackager/.eslint* ./
 
 # Install dependencies
 RUN yarn install --frozen-lockfile --production=false
+
+# Build snack-content
+WORKDIR /app/packages/snack-content
+RUN yarn build
 
 # Build snack-sdk
 WORKDIR /app/packages/snack-sdk
@@ -50,6 +54,7 @@ RUN apk --no-cache add git openssh-client
 COPY --from=builder /app/snackager/package.json ./
 COPY --from=builder /app/node_modules node_modules
 COPY --from=builder /app/snackager/build/snackager/src build
+COPY --from=builder /app/snackager/build/packages/snack-content/src node_modules/snack-content
 COPY --from=builder /app/snackager/build/packages/snack-sdk/src node_modules/snack-sdk
 
 # Start

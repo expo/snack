@@ -1,15 +1,16 @@
 import semver from 'semver';
-import validate from 'validate-npm-package-name';
-
-import { Logger } from './Logger';
-import { isModulePreloaded, isValidSemver } from './sdk';
 import {
   SDKVersion,
   SnackDependencies,
   SnackMissingDependencies,
   SnackDependencyVersions,
-  SnackError,
-} from './types';
+  isModulePreloaded,
+  isValidSemver,
+} from 'snack-content';
+import validate from 'validate-npm-package-name';
+
+import { Logger } from './Logger';
+import { SnackError } from './types';
 import { fetch, createError } from './utils';
 
 export type DependencyResolverCallback = (
