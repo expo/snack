@@ -6,10 +6,10 @@ FROM mhart/alpine-node:${node_version} as dev
 WORKDIR /server
 COPY package.json yarn.lock .eslintrc.base.js .prettierrc ./
 
-# snack-sdk
-WORKDIR /server/packages/snack-sdk
-COPY packages/snack-sdk/src ./src
-COPY packages/snack-sdk/package.json packages/snack-sdk/tsconfig.json ./
+# Workspace packages
+WORKDIR /server/packages
+COPY packages/snack-content ./snack-content
+COPY packages/snack-sdk ./snack-sdk
 
 # website
 WORKDIR /server/website
@@ -23,6 +23,10 @@ COPY website/babel.config.js website/tsconfig.json website/webpack.config.js ./
 
 # Install dependencies
 RUN yarn --frozen-lockfile --production=false
+
+# Build snack-content
+WORKDIR /server/packages/snack-content
+RUN yarn build
 
 # Build snack-sdk
 WORKDIR /server/packages/snack-sdk
@@ -86,7 +90,10 @@ RUN yarn lint --max-warnings 0
 # Test
 RUN yarn test --maxWorkers 1
 
-# build the js
+# Build the JS
 RUN yarn build
+
+# Remove devDependencies
+RUN yarn --frozen-lockfile --production
 
 CMD ["node", "."]
