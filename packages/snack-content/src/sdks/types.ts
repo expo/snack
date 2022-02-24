@@ -40,4 +40,10 @@ export type SDKSpec = {
 /**
  * Feature that is supported by the SDK (e.g. "TYPESCRIPT").
  */
-export type SDKFeature = 'TYPESCRIPT';
+export type SDKFeature =
+  | 'MULTIPLE_FILES'
+  | 'PROJECT_DEPENDENCIES'
+  | 'TYPESCRIPT'
+  | 'UNIMODULE_IMPORTS'
+  | 'POSTMESSAGE_TRANSPORT'
+  | 'VERSIONED_SNACKAGER';
