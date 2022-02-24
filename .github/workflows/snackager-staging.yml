@@ -59,6 +59,10 @@ jobs:
           gcloud auth configure-docker gcr.io
 
       - run: yarn install --ignore-scripts --frozen-lockfile
+      - run: yarn build
+        working-directory: packages/snack-content
+      - run: yarn build
+        working-directory: packages/snack-sdk
       - run: yarn tsc --noEmit
       - run: yarn lint --max-warnings 0
       - run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
