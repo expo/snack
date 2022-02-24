@@ -10,7 +10,13 @@
 
 
 
-## 1.0.0 - 2022-02-11
+## 1.0.1 - 2022-02-24
+
+### Fixes
+
+- Add back the list of all detectable features
+
+## 1.0.0 - 2022-02-23
 
 ### 🛠 Breaking changes
 

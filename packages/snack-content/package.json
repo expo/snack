@@ -1,7 +1,7 @@
 {
   "name": "snack-content",
-  "version": "1.0.0",
-  "description": "Functions and types that describe the contents of Snack projectss",
+  "version": "1.0.1",
+  "description": "Functions and types that describe the contents of Snack projects",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "files": [
