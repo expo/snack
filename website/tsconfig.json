@@ -18,6 +18,7 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
+      "snack-content": ["../packages/snack-content/src"],
       "snack-sdk": ["../packages/snack-sdk/src"]
     }
   },

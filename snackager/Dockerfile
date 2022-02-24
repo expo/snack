@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package.json yarn.lock .eslintrc.base.js .prettierrc ./
 
 # Workspace packages
-WORKDIR /server/packages
+WORKDIR /app/packages
 COPY packages/snack-content ./snack-content
 COPY packages/snack-sdk ./snack-sdk
 
