@@ -50,6 +50,7 @@ const allowedOrigins = [
   'https://production.codecademy.com',
   // Sizze
   'https://dashboard.sizze.io',
+  'https://app.sizze.io',
 ];
 
 function isAllowedOrigin(origin: string): boolean {
