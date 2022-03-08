@@ -18,3 +18,19 @@ index 2fb0c21..050cc8b 100644
  /**
   * holds a map of function names as keys and array of argument indexes as values which should be automatically workletized(they have to be functions)(starting from 0)
   */
+diff --git a/node_modules/react-native-reanimated/src/reanimated2/PlatformChecker.ts b/node_modules/react-native-reanimated/src/reanimated2/PlatformChecker.ts
+index 4b85a68..48f35dc 100644
+--- a/node_modules/react-native-reanimated/src/reanimated2/PlatformChecker.ts
++++ b/node_modules/react-native-reanimated/src/reanimated2/PlatformChecker.ts
+@@ -12,8 +12,10 @@ export function isWeb(): boolean {
+   return Platform.OS === 'web';
+ }
+ 
++// Reanimated v2.3.x ties heavily into JSI, which doesn't work nicely on Snack.
++// This forces a web-version to load on all platforms for Snack, avoiding all JSI issues.
+ export function shouldBeUseWeb() {
+-  return isJest() || isChromeDebugger() || isWeb();
++  return isJest() || isChromeDebugger() || isWeb() || true;
+ }
+ 
+ export function nativeShouldBeMock() {
