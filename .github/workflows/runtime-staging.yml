@@ -22,7 +22,7 @@ jobs:
       EXPO_STAGING: 1
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [12.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
 
       - uses: expo/expo-github-action@v6
         with:
-          expo-version: 5.x
+          expo-version: 4.x
           expo-cache: true
           token: ${{ secrets.EXPO_STAGING }}
 
