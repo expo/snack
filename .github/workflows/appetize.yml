@@ -4,15 +4,23 @@ on:
   workflow_dispatch:
     inputs:
       appetizeQueue:
-        description: Appetize queue to use (main/embed/all)
+        type: choice
+        description: Appetize queue to use
         default: main
-        required: true
+        options:
+          - all 
+          - embed
+          - main
       sdkPlatform:
-        description: Platform to use (android/ios/all)
+        type: choice
+        description: Platform to use
         default: all
-        required: true
+        options:
+          - all
+          - android
+          - ios
       sdkVersion:
-        description: SDK version to resolve Expo Go version (e.g. 42.0.0)
+        description: SDK version to resolve Expo Go version (e.g. 44.0.0)
         required: false
       deploy:
         description: type "deploy" to update Appetize (without this it only checks the version)
