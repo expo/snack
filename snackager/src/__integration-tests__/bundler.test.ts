@@ -178,7 +178,8 @@ describe('bundler', () => {
     expect(bundle.peerDependencies['TextInputState']).toBeUndefined();
   });
 
-  it('externalizes package-externals of dependencies', async () => {
+  // See: https://github.com/expo/snack/issues/257
+  xit('externalizes package-externals of dependencies', async () => {
     const bundle = await bundleAsync('@draftbit/ui@40.34.4');
     // @drafbit/ui depends on @drafbit/core, which in turn depends
     // on `react-native-safe-area-context`. `react-native-safe-area-context` is
