@@ -17,8 +17,9 @@ module.exports = async function (env, argv) {
   // By default `publicPath` is set to '/' which breaks our links
   config.output.publicPath = '';
 
-  config.plugins.find((p) => p.constructor.name === 'HtmlWebpackPlugin').options.favicon =
-    path.join(__dirname, 'assets', 'favicon.png');
+  config.plugins.find(
+    (p) => p.constructor.name === 'HtmlWebpackPlugin'
+  ).options.favicon = path.join(__dirname, 'assets', 'favicon.png');
 
   config.plugins.find(
     (p) => p.constructor.name === 'InterpolateHtmlPlugin'

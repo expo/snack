@@ -1,5 +1,5 @@
 import '../__mocks__/fetch';
-import { getSupportedSDKVersions, newestSdkVersion } from 'snack-content';
+import { getSupportedSDKVersions, newestSdkVersion, oldestSdkVersion } from 'snack-content';
 
 import Snack, { defaultConfig } from './snack-sdk';
 
@@ -20,7 +20,7 @@ describe('sdkVersion', () => {
   });
 
   it('can be changed', async () => {
-    const snack = new Snack({});
+    const snack = new Snack({ sdkVersion: oldestSdkVersion });
     snack.setSDKVersion(newestSdkVersion);
     expect(snack.getState()).toMatchObject({
       unsaved: true,
