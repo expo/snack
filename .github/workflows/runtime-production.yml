@@ -35,10 +35,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - uses: expo/expo-github-action@v6
+      - uses: expo/expo-github-action@v7
         with:
-          expo-version: 5.x
-          expo-cache: true
+          expo-version: latest
           token: ${{ secrets.EXPO_PRODUCTION }}
 
       - run: yarn install --frozen-lockfile
