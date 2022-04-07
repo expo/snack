@@ -53,9 +53,9 @@ FROM node:${node_version}-alpine
 RUN apk --no-cache add git openssh-client
 COPY --from=builder /app/snackager/package.json ./
 COPY --from=builder /app/node_modules node_modules
-COPY --from=builder /app/snackager/build/snackager/src build
-COPY --from=builder /app/snackager/build/packages/snack-content/src node_modules/snack-content
-COPY --from=builder /app/snackager/build/packages/snack-sdk/src node_modules/snack-sdk
+COPY --from=builder /app/snackager/build build
+COPY --from=builder /app/packages/snack-content/build node_modules/snack-content
+COPY --from=builder /app/packages/snack-sdk/build node_modules/snack-sdk
 
 # Start
 CMD ["node", "--max-old-space-size=8192", "--async-stack-traces", "."]
