@@ -237,7 +237,7 @@ async function createRepo(config: {
     if (!fs.existsSync(path.dirname(fullpath))) {
       fs.mkdirSync(path.dirname(fullpath));
     }
-    fs.writeFileSync(fullpath, files[filename]);
+    fs.writeFileSync(fullpath, String(files[filename]));
   });
 
   // Convert it into a git repository

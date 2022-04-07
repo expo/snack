@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -63,12 +63,13 @@ jobs:
           gcloud container clusters get-credentials exp-central
           gcloud auth configure-docker gcr.io
 
+      - run: npm i -g npm@6.14.16
+        working-directory: ../
       - run: yarn install --ignore-scripts --frozen-lockfile
       - run: yarn build
         working-directory: packages/snack-content
       - run: yarn build
         working-directory: packages/snack-sdk
-      - run: yarn tsc --noEmit
       - run: yarn lint --max-warnings 0
       - run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
       - run: yarn test --ci --runInBand --testPathPattern=__integration-tests__

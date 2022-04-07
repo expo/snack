@@ -34,6 +34,7 @@
     "sander": "^0.6.0",
     "semver": "^5.3.0",
     "semver-utils": "^1.1.4",
+    "snack-content": "*",
     "snack-sdk": "*",
     "source-map-support": "^0.4.15",
     "targz": "^1.0.1",
@@ -42,7 +43,7 @@
     "yarn": "^1.22.5"
   },
   "devDependencies": {
-    "@tsconfig/node12": "^1.0.7",
+    "@tsconfig/node16": "^1.0.2",
     "@types/cors": "^2.8.8",
     "@types/enhanced-resolve": "^3.0.6",
     "@types/escape-string-regexp": "^1.0.0",
@@ -54,7 +55,7 @@
     "@types/loader-utils": "^1.1.4",
     "@types/lodash": "^4.14.164",
     "@types/memory-fs": "^0.3.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^16.11.26",
     "@types/node-fetch": "^2.5.7",
     "@types/raven": "^2.5.3",
     "@types/redis": "^2.8.28",
@@ -68,7 +69,7 @@
     "supertest": "^6.1.3",
     "ts-jest": "^26.4.4",
     "ts-node-dev": "^1.1.1",
-    "typescript": "^4.1.4"
+    "typescript": "^4.6.3"
   },
   "scripts": {
     "start": "env-cmd -e development tsnd --require tsconfig-paths/register --inspect=9212 --quiet src/index.ts | node_modules/.bin/bunyan --output simple",
@@ -76,10 +77,10 @@
     "debug": "kubectl.1.15 --context=minikube port-forward deploy/snackager 9229",
     "test": "env-cmd -e test node --async-stack-traces node_modules/.bin/jest --config jest/unit.config.js",
     "bundle": "env-cmd -e test tsnd --quiet --async-stack-traces -- src/cli.ts",
-    "lint": "eslint ./src"
+    "lint": "tsc --noEmit && eslint ./src"
   },
   "volta": {
-    "node": "12.18.4",
+    "node": "16.14.2",
     "yarn": "1.22.4"
   }
 }

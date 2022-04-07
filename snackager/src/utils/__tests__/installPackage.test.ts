@@ -24,7 +24,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  fs.rmdirSync(tmpDir, { recursive: true });
+  if (fs.existsSync(tmpDir)) {
+    fs.rmSync(tmpDir, { recursive: true });
+  }
   (spawnSafeAsync as jest.Mock).mockClear();
 });
 

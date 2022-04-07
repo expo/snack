@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/node12/tsconfig.json",
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
     "noEmit": true,
@@ -10,10 +10,8 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "baseUrl": "./",
-    "paths": {
-      "snack-content": ["../packages/snack-content/src"],
-      "snack-sdk": ["../packages/snack-sdk/src"]
-    }
-  }
+    "useUnknownInCatchVariables": false,
+    "baseUrl": "./"
+  },
+  "include": ["./src"]
 }
