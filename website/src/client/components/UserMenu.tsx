@@ -75,7 +75,7 @@ class UserMenu extends React.Component<Props, State> {
               ? [
                   {
                     label: 'My Snacks',
-                    handler: () => window.open(`${websiteURL}/@${viewer.username}/snacks`),
+                    handler: () => window.open(`${websiteURL}/snacks`),
                   },
                   {
                     label: 'User Settings',
