@@ -1,4 +1,5 @@
 import uniq from 'lodash/uniq';
+import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
 import RewriteImportsPlugin from './RewriteImportsPlugin';
@@ -39,6 +40,10 @@ export default ({
     optimization: {
       moduleIds: 'size',
       emitOnErrors: false,
+      minimize: true,
+      // Explicitly configure the Terser plugin to not generate "bundle.js.LICENSE.txt" files
+      // https://stackoverflow.com/questions/64818489/webpack-omit-creation-of-license-txt-files
+      minimizer: [new TerserPlugin({ extractComments: false })],
     },
     plugins: [
       new webpack.DefinePlugin({
