@@ -1,3 +1,4 @@
-const baseConfig = require('../../.eslintrc.base');
-
-module.exports = baseConfig;
+module.exports = {
+  root: true,
+  extends: ['universe/node', 'universe/web'],
+};
