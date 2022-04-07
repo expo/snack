@@ -84,7 +84,7 @@ jobs:
 
       - name: Deploy to production
         if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
-        run: ENVIRONMENT=production skaffold deploy --filename snackager/skaffold.yaml --status-check --build-artifacts snackager/build.json
+        run: ENVIRONMENT=production skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
         working-directory: ./
 
       - name: Prune docker images

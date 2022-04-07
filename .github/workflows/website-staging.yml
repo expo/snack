@@ -63,7 +63,7 @@ jobs:
 
       - name: Deploy to staging
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: skaffold deploy --filename website/skaffold.yaml --status-check --build-artifacts website/build.json
+        run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
         working-directory: ./
 
       - name: Notify Slack
