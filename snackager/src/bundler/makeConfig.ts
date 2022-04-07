@@ -30,7 +30,7 @@ export default ({
 }: Options): webpack.Configuration => {
   return {
     context: root,
-    mode: 'development',
+    mode: 'production',
     entry,
     output: {
       ...output,
@@ -42,7 +42,7 @@ export default ({
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env': { NODE_ENV: JSON.stringify('development') },
+        'process.env': { NODE_ENV: JSON.stringify('production') },
         __DEV__: JSON.stringify(false),
       }),
     ],
