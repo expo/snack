@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,11 +38,14 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-
+      
+      - run: npm i -g npm@6.14.16
+        working-directory: ../
       - run: yarn install --ignore-scripts --frozen-lockfile
       - run: yarn prepare
         working-directory: packages/snack-content
-      - run: yarn tsc --noEmit
+      - run: yarn build
+        working-directory: packages/snack-sdk
       - run: yarn lint --max-warnings 0
       - run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
       - run: yarn test --ci --runInBand --testPathPattern=__integration-tests__

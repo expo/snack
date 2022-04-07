@@ -1,6 +1,6 @@
 ARG node_version
 
-FROM mhart/alpine-node:${node_version} as dev
+FROM node:${node_version}-alpine as dev
 
 RUN apk --no-cache add git openssh-client
 
@@ -49,7 +49,7 @@ RUN yarn build
 
 # Minimize image
 RUN yarn install --frozen-lockfile --offline --production
-FROM mhart/alpine-node:${node_version}
+FROM node:${node_version}-alpine
 RUN apk --no-cache add git openssh-client
 COPY --from=builder /app/snackager/package.json ./
 COPY --from=builder /app/node_modules node_modules
