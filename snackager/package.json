@@ -28,7 +28,7 @@
     "node-fetch": "^2.6.0",
     "querystring": "^0.2.0",
     "raven": "^2.6.4",
-    "react-native-reanimated": "2.0.0-rc.3",
+    "react-native-reanimated": "~2.4.1",
     "redis": "^3.0.2",
     "rimraf": "^2.6.3",
     "sander": "^0.6.0",
