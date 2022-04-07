@@ -6,7 +6,7 @@ RUN apk --no-cache add git openssh-client
 
 # Workspace files
 WORKDIR /app
-COPY package.json yarn.lock .eslintrc.base.js .prettierrc ./
+COPY package.json yarn.lock .prettierrc ./
 
 # Workspace packages
 WORKDIR /app/packages

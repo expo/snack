@@ -4,7 +4,7 @@ FROM mhart/alpine-node:${node_version} as dev
 
 # Workspace files
 WORKDIR /server
-COPY package.json yarn.lock .eslintrc.base.js .prettierrc ./
+COPY package.json yarn.lock .prettierrc ./
 
 # Workspace packages
 WORKDIR /server/packages
