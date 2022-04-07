@@ -113,7 +113,7 @@ export default class DependencyResolver {
       });
       this.logger?.error(error);
       // TypeScript thinks we need to await this promise, but we are actually checking if there is a promise or not. TS2801
-      if (this.status[key]) {
+      if (!!this.status[key]) {
         delete this.status[key];
         this.callback(
           {
