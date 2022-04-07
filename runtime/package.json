@@ -61,8 +61,6 @@
     "@types/react-dom": "~17.0.9",
     "@types/react-native": "~0.64.12",
     "babel-preset-expo": "^8.5.1",
-    "eslint": "^7.32.0",
-    "eslint-config-universe": "^7.0.1",
     "jest-expo": "^43.0.0",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
