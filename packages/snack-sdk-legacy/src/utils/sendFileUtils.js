@@ -2,7 +2,7 @@
 
 import type { Logger } from './Logger';
 
-var diff = require('diff');
+const diff = require('diff');
 
 const getFileDiff = (oldCode: string, newCode: string) => {
   const patch = diff.createPatch('code', oldCode, newCode, '', '', {
