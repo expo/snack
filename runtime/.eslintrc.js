@@ -1,3 +1,3 @@
-const baseConfig = require('../.eslintrc.base');
-
-module.exports = baseConfig;
+module.exports = {
+  extends: ['universe/native'],
+};

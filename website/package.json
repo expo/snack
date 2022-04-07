@@ -16,7 +16,7 @@
     "clean": "yarn clean:server && yarn clean:client",
     "clean:server": "del build/",
     "clean:client": "del dist/",
-    "lint": "eslint src typings --ext '.js,.ts,.tsx'",
+    "lint": "eslint ./src ./typings",
     "test": "env-cmd -e test jest --config jest/unit.config.js",
     "prebuild": "yarn clean"
   },

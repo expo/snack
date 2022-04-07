@@ -1,3 +1,6 @@
-const baseConfig = require('../.eslintrc.base');
-
-module.exports = baseConfig;
+module.exports = {
+  extends: ['universe/node', 'universe/web'],
+  parserOptions: {
+    project: ['./tsconfig.json'],
+  },
+};
