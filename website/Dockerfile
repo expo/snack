@@ -1,6 +1,6 @@
 ARG node_version
 
-FROM mhart/alpine-node:${node_version} as dev
+FROM node:${node_version}-alpine as dev
 
 # Workspace files
 WORKDIR /server
