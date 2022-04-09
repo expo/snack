@@ -4,7 +4,7 @@
   "author": "Expo",
   "license": "MIT",
   "volta": {
-    "node": "12.16.2"
+    "node": "16.14.2"
   },
   "scripts": {
     "start": "cd packages/snack-term && yarn start && cd .."
