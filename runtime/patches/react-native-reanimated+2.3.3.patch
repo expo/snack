@@ -1,7 +1,7 @@
-diff --git a/node_modules/react-native-reanimated-babel-standalone/plugin.js b/node_modules/react-native-reanimated-babel-standalone/plugin.js
+diff --git a/node_modules/react-native-reanimated/plugin-standalone.js b/node_modules/react-native-reanimated/plugin-standalone.js
 index 2fb0c21..050cc8b 100644
---- a/node_modules/react-native-reanimated-babel-standalone/plugin.js
-+++ b/node_modules/react-native-reanimated-babel-standalone/plugin.js
+--- a/node_modules/react-native-reanimated/plugin-standalone.js
++++ b/node_modules/react-native-reanimated/plugin-standalone.js
 @@ -1,8 +1,12 @@
  'use strict';
 -const generate = require('@babel/generator').default;
