@@ -1,9 +1,5 @@
 name: Runtime
 
-defaults:
-  run:
-    working-directory: runtime
-
 on:
   pull_request:
     paths:
@@ -19,15 +15,29 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            runtime/yarn.lock
 
-      - run: yarn install --frozen-lockfile
-      - run: yarn tsc --noEmit
-      - run: yarn lint --max-warnings 0
-      # - run: yarn test --ci --maxWorkers 15%
+      - name: 📦 Install root dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: 📦 Install runtime dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: runtime
+
+      - name: 👷 Build runtime
+        run: yarn tsc --noEmit
+        working-directory: runtime
+      
+      - name: ✅ Lint runtime
+        run: yarn lint --max-warnings 0
+        working-directory: runtime

@@ -1,9 +1,5 @@
 name: RuntimeStaging
 
-defaults:
-  run:
-    working-directory: runtime
-
 on:
   push:
     branches:
@@ -24,36 +20,53 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            runtime/yarn.lock
 
-      - uses: expo/expo-github-action@v7
+      - name: 🏗 Setup Expo
+        uses: expo/expo-github-action@v7
         with:
           expo-version: latest
           token: ${{ secrets.EXPO_STAGING }}
 
-      - run: yarn install --frozen-lockfile
-      - run: yarn tsc --noEmit
-      - run: yarn lint --max-warnings 0
-      # - run: yarn test --ci --maxWorkers 15%
+      - name: 📦 Install monorepo dependencies
+        run: yarn install --frozen-lockfile
 
-      - name: Deploy web-player
+      - name: 📦 Install runtime dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: runtime
+
+      - name: 👷 Build runtime
+        run: yarn tsc --noEmit
+        working-directory: runtime
+      
+      - name: ✅ Lint runtime
+        run: yarn lint --max-warnings 0
+        working-directory: runtime
+
+      - name: 🌐 Deploy web-player
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/sdk-'))
         run: yarn deploy:web:staging
+        working-directory: runtime
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
 
-      - name: Deploy native runtime
+      - name: 📱 Deploy native runtime
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/sdk-'))
         run: yarn deploy:staging
+        working-directory: runtime
 
-      - name: Notify Slack
+      - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
         if: always() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/sdk-'))
         env:
