@@ -8,7 +8,6 @@
 // https://github.com/systemjs/systemjs/blob/master/docs/creating-plugins.md). We also hook into the
 // `eval` step by polyfilling node's `vm.runInThisContext(...)`.
 
-import * as babel from 'snack-babel-standalone';
 import escapeStringRegexp from 'escape-string-regexp';
 import { Asset } from 'expo-asset';
 import Constants from 'expo-constants';
@@ -18,6 +17,7 @@ import { Platform, PixelRatio } from 'react-native';
 import * as GestureHandler from 'react-native-gesture-handler';
 // @ts-ignore: Could not find a declaration file for module 'react-native-reanimated/plugin'
 import Reanimated2Plugin from 'react-native-reanimated-babel-standalone/plugin';
+import * as babel from 'snack-babel-standalone';
 // Highest supported version of source-map is 0.6.1. As of 7.x source-map uses
 // web-assembly which is not yet supported on react-native.
 import { SourceMapConsumer, RawSourceMap } from 'source-map';
