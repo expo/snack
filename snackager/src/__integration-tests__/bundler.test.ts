@@ -178,7 +178,6 @@ describe('bundler', () => {
     expect(bundle.peerDependencies['TextInputState']).toBeUndefined();
   });
 
-  // See: https://github.com/expo/snack/issues/257
   xit('externalizes package-externals of dependencies', async () => {
     const bundle = await bundleAsync('@draftbit/ui@40.34.4');
     // @drafbit/ui depends on @drafbit/core, which in turn depends

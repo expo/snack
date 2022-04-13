@@ -113,7 +113,9 @@ export default class DependencyResolver {
       });
       this.logger?.error(error);
       // TypeScript thinks we need to await this promise, but we are actually checking if there is a promise or not. TS2801
-      if (!!this.status[key]) {
+      // ESLint doesn't like when we cast to a boolean inside of an if statement. no-extra-boolean-cast
+      const promiseExists = !!this.status[key];
+      if (promiseExists) {
         delete this.status[key];
         this.callback(
           {
