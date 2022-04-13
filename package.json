@@ -7,6 +7,7 @@
     "node": "16.14.2"
   },
   "scripts": {
+    "build": "cd packages/snack-content && yarn build && cd .. && cd snack-sdk && yarn build",
     "start": "cd packages/snack-term && yarn start && cd .."
   },
   "workspaces": {

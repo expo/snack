@@ -531,7 +531,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-svg",
         ],
-        "size": 292692,
+        "size": 292736,
       },
     },
     "web": Object {

@@ -26,7 +26,7 @@
   "author": "Expo <support@expo.dev>",
   "license": "MIT",
   "volta": {
-    "node": "12.16.2"
+    "node": "12.22.11"
   },
   "devDependencies": {
     "@expo/spawn-async": "^1.5.0",
