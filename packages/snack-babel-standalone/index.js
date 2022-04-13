@@ -87,16 +87,43 @@ function processOptions(options) {
   };
 }
 
+
 export function transform(code, options) {
   return Babel.transform(code, processOptions(options));
+}
+
+export function transformSync(code, options) {
+  return Babel.transformSync(code, processOptions(options));
+}
+
+export function transformAsync(code, options) {
+  return Babel.transformAsync(code, processOptions(options));
 }
 
 export function transformFromAst(ast, code, options) {
   return Babel.transformFromAst(ast, code, processOptions(options));
 }
+
+export function generate(ast, opts, code) {
+  return Generator.default(ast, opts, code);
+}
+
+export function traverse(parent, opts, scope, state, parentPath) {
+  return Traverse.default(parent, opts, scope, state, parentPath);
+}
+
+export const visitors = Traverse.visitors;
+
+export function parse(input, options) {
+  return Parser.parse(input, options);
+}
+
+// Standalone plugins registry
+
 export const availablePlugins = {};
 export const availablePresets = {};
 export const buildExternalHelpers = Babel.buildExternalHelpers;
+
 /**
  * Registers a named plugin for use with Babel.
  */
@@ -108,6 +135,7 @@ export function registerPlugin(name, plugin) {
   }
   availablePlugins[name] = plugin;
 }
+
 /**
  * Registers multiple plugins for use with Babel. `newPlugins` should be an object where the key
  * is the name of the plugin, and the value is the plugin itself.
@@ -129,6 +157,7 @@ export function registerPreset(name, preset) {
   }
   availablePresets[name] = preset;
 }
+
 /**
  * Registers multiple presets for use with Babel. `newPresets` should be an object where the key
  * is the name of the preset, and the value is the preset itself.
@@ -140,17 +169,6 @@ export function registerPresets(newPresets) {
 }
 
 export const version = VERSION;
-
-registerPlugin(
-  '@babel/plugin-proposal-decorators',
-  require('@babel/plugin-proposal-decorators').default
-);
-registerPreset(
-  'module:metro-react-native-babel-preset',
-  require('metro-react-native-babel-preset').getPreset(null, {
-    enableBabelRuntime: false,
-  })
-);
 
 export function getPlugin(name) {
   const plugin = availablePlugins[name];
@@ -165,16 +183,24 @@ export function getPlugin(name) {
   }
 }
 
-export function generate(ast, opts, code) {
-  return Generator.default(ast, opts, code);
-}
+// Register the compiled plugins and presets from this package
 
-export function traverse(parent, opts, scope, state, parentPath) {
-  return Traverse.default(parent, opts, scope, state, parentPath);
-}
+registerPlugins({
+  '@babel/plugin-proposal-decorators': require('@babel/plugin-proposal-decorators').default,
+  // Required for using JSI host objects with async functions in React Native <=0.66
+  '@babel/plugin-transform-async-to-generator': require('@babel/plugin-transform-async-to-generator').default,
+  // Required for the Reanimated 2.3.x plugin
+  '@babel/plugin-transform-shorthand-properties': require('@babel/plugin-transform-shorthand-properties').default,
+  '@babel/plugin-transform-arrow-functions': require('@babel/plugin-transform-arrow-functions').default,
+  '@babel/plugin-proposal-optional-chaining': require('@babel/plugin-proposal-optional-chaining').default,
+  '@babel/plugin-proposal-nullish-coalescing-operator': require('@babel/plugin-proposal-nullish-coalescing-operator').default,
+  '@babel/plugin-transform-template-literals': require('@babel/plugin-transform-template-literals').default,
+});
 
-export const visitors = Traverse.visitors;
-
-export function parse(input, options) {
-  return Parser.parse(input, options);
-}
+registerPresets({
+  'module:metro-react-native-babel-preset': require('metro-react-native-babel-preset').getPreset(null, {
+    enableBabelRuntime: false,
+  }),
+  // Required for the Reanimated 2.3.x plugin
+  '@babel/preset-typescript': require('@babel/preset-typescript').default,
+});

@@ -40,7 +40,7 @@ module.exports = {
     ],
   },
   resolve: {
-    // Workaround for the `module` entrypoint containing ESM code
-    mainFields: ['react-native', 'main'],
+    // Workaround to disable ESM `module` fields
+    mainFields: ['main'],
   }
 };

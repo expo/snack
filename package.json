@@ -12,10 +12,9 @@
   },
   "workspaces": {
     "packages": [
-      "packages/snack-sdk",
-      "packages/snack-babel-standalone",
       "packages/snack-content",
       "packages/snack-proxies",
+      "packages/snack-sdk",
       "packages/snack-term",
       "website",
       "snackager"
