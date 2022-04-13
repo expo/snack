@@ -27,7 +27,7 @@ jobs:
             yarn.lock
             runtime/yarn.lock
 
-      - name: 📦 Install root dependencies
+      - name: 📦 Install monorepo dependencies
         run: yarn install --frozen-lockfile
 
       - name: 📦 Install runtime dependencies

@@ -31,6 +31,10 @@ const aliases: { [key: string]: any } = {
 
   // Aliases for the image examples in react native docs
   '@expo/snack-static/react-native-logo.png': require('../react-native-logo.png'),
+
+  // Use the fixed react native reanimated shipped in the snack runtime
+  // It's a workaround for issues we encountered with the newer babel plugin for SDK 44
+  'react-native-reanimated': require('react-native-reanimated'),
 };
 
 export default aliases;
