@@ -1757,11 +1757,6 @@
     "@babel/preset-env" "^7.4.4"
     "@babel/preset-typescript" "^7.3.3"
 
-"@expo/babel-standalone@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@expo/babel-standalone/-/babel-standalone-1.0.3.tgz#21e31697729b00f6f5b50b304b0baf4e1139149e"
-  integrity sha512-UlF/Kj7roqOUm5cZVW3dPgKUTOX/asP4qjhd7636UKvcSw9j354T3lpOdAaCAqi8CsX5ddfNRx3B7DjQp6//2A==
-
 "@expo/config-plugins@1.0.19":
   version "1.0.19"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-1.0.19.tgz#aef514a6ad2f69d9ccd6c370c11cbda74677eed7"

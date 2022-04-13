@@ -1,8 +1,45 @@
 {
   "name": "snack-babel-standalone",
   "version": "1.0.0",
-  "main": "node_modules/@expo/babel-standalone",
-  "dependencies": {
-    "@expo/babel-standalone": "^1.0.3"
+  "description": "@babel/standalone version for React Native",
+  "main": "dist/babel-standalone.js",
+  "types": "types.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expo/snack.git",
+    "directory": "packages/snack-babel-standalone"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/snack/issues"
+  },
+  "author": "Expo <support@expo.dev>",
+  "license": "MIT",
+  "volta": {
+    "node": "16.14.2"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "yarn clean && webpack",
+    "prepublishOnly": "yarn clean && webpack"
+  },
+  "files": [
+    "dist",
+    "types.d.ts"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-proposal-decorators": "^7.17.9",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.7",
+    "@babel/plugin-proposal-optional-chaining": "^7.16.7",
+    "@babel/plugin-transform-arrow-functions": "^7.16.7",
+    "@babel/plugin-transform-async-to-generator": "^7.16.8",
+    "@babel/plugin-transform-shorthand-properties": "^7.16.7",
+    "@babel/plugin-transform-template-literals": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
+    "babel-loader": "^8.2.4",
+    "metro-react-native-babel-preset": "^0.64.0",
+    "rimraf": "^3.0.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }

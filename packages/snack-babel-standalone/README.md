@@ -1,5 +1,14 @@
-# snack-babel-standalone
+# @expo/babel-standalone
 
-Standalone babel compiler used by the Snack runtime.
+Standalone version of Babel for use in Snack. To build the bundle, run `yarn build` and it will generate bundle under `dist/`.
 
-Source code can be found at https://github.com/expo/babel-standalone
+> Note, this package is decoupled from the yarn workspaces to prevent possible mutliple babel versions being bundled.
+## Usage
+
+```sh
+yarn add @expo/babel-standalone
+```
+
+```js
+import * as babel from "@expo/babel-standalone";
+```
