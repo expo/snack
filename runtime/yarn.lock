@@ -1439,11 +1439,6 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@expo/babel-standalone@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@expo/babel-standalone/-/babel-standalone-1.0.3.tgz#21e31697729b00f6f5b50b304b0baf4e1139149e"
-  integrity sha512-UlF/Kj7roqOUm5cZVW3dPgKUTOX/asP4qjhd7636UKvcSw9j354T3lpOdAaCAqi8CsX5ddfNRx3B7DjQp6//2A==
-
 "@expo/config-plugins@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-3.1.0.tgz#0752ff33c5eab21cf42034a44e79df97f0f867f8"
@@ -10332,6 +10327,7 @@ react-native-gesture-handler@~2.1.0:
     prop-types "^15.7.2"
 
 "react-native-reanimated-babel-standalone@npm:react-native-reanimated@~2.3.1", react-native-reanimated@~2.3.3:
+  name react-native-reanimated-babel-standalone
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.3.3.tgz#73de8ea495e59a091d848741e7037ac55d0235c4"
   integrity sha512-uQofwsWUoKLY4QDgSdNbRxnqQDaQEPLLBNO9SP64JfQ2fDRJD5rjb4d3S29F0z9FqTnsWEwTL2Sl0spdx9xvHA==
@@ -11162,6 +11158,11 @@ smart-buffer@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.1.0.tgz#91605c25d91652f4661ea69ccf45f1b331ca21ba"
   integrity sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
+
+snack-babel-standalone@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-1.0.0.tgz#e199ed6fdb824c257c781a6bfe07c59cd1ba88d1"
+  integrity sha512-5yJUhDfu2LsCazDMhtjb9noXg5rOnBXZMtXQOQB+NiAkzZVL5TUBqjYPpoMqOOorjpLpMopRAEXk5cLSoaZYQQ==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
