@@ -44,6 +44,8 @@ jobs:
         with:
           expo-version: latest
           token: ${{ secrets.EXPO_STAGING }}
+        env:
+          EXPO_DEBUG: true
 
       - name: 📦 Install monorepo dependencies
         run: yarn install --frozen-lockfile
