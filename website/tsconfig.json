@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/node12/tsconfig.json",
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
     "allowJs": true,
@@ -15,11 +15,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
+    "useUnknownInCatchVariables": false,
     "strict": true,
-    "baseUrl": "./",
-    "paths": {
-      "snack-content": ["../packages/snack-content/src"],
-      "snack-sdk": ["../packages/snack-sdk/src"]
-    }
-  },
+    "baseUrl": "./"
+  }
 }

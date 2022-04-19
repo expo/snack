@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -51,7 +51,8 @@ jobs:
       - run: yarn install --ignore-scripts --frozen-lockfile
       - run: yarn prepare
         working-directory: packages/snack-content
-      - run: yarn tsc --noEmit
+      - run: yarn build
+        working-directory: packages/snack-sdk
       - run: yarn test --maxWorkers 1
       - run: yarn lint --max-warnings 0
       - run: ../node_modules/.bin/env-cmd -f deploy/development/snack.env yarn build

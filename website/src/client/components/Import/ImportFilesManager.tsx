@@ -21,7 +21,7 @@ type Props = {
   className?: string;
 };
 
-type FileItem = File | WebkitFileEntry | WebkitDirectoryEntry;
+type FileItem = File | WebkitFileEntry | WebkitDirectoryEntry | globalThis.FileSystemEntry;
 
 type State = {
   isImportModalShown: boolean;
@@ -87,11 +87,13 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
       let entries: FileItem[] = [];
       // Use items when possible because it supports subdirectories
       if (dataTransfer.items) {
-        entries = Array.from(dataTransfer.items).map((it) => {
-          const entry = it.webkitGetAsEntry();
-          const file = Array.from(dataTransfer.files).find((file) => file.name === entry.name);
-          return entry.isFile && file ? file : entry;
-        });
+        entries = Array.from(dataTransfer.items)
+          .map((it) => it.webkitGetAsEntry())
+          .filter((entry): entry is globalThis.FileSystemEntry => entry != null)
+          .map((entry) => {
+            const file = Array.from(dataTransfer.files).find((file) => file.name === entry.name);
+            return entry.isFile && file ? file : entry;
+          });
       } else {
         entries = Array.from(dataTransfer.files);
       }
@@ -136,7 +138,7 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
         folderMappings[item.name] = getUniquePath(allPaths, item.name);
       }
     });
-
+    // @ts-ignore
     const files = await convertDataTransferItemsToFiles(itemsToImport, folderMappings);
 
     this.setState({
