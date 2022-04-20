@@ -51,6 +51,7 @@ RUN yarn build
 RUN yarn install --frozen-lockfile --offline --production
 FROM node:${node_version}-alpine
 RUN apk --no-cache add git openssh-client
+RUN npm install --global npm@^6
 COPY --from=builder /app/snackager/package.json ./
 COPY --from=builder /app/node_modules node_modules
 COPY --from=builder /app/snackager/build build
