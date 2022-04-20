@@ -1,6 +1,6 @@
 {
   "name": "snack-sdk",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "The Expo Snack SDK",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -61,7 +61,7 @@
     "nullthrows": "^1.1.1",
     "pubnub": "^4.29.10",
     "semver": "^7.3.4",
-    "snack-content": "^1.0.0",
+    "snack-content": "^1.1.0",
     "ua-parser-js": "^0.7.22",
     "validate-npm-package-name": "^3.0.0"
   }
