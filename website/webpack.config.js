@@ -112,6 +112,8 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       aphrodite: 'aphrodite/no-important',
+      'snack-content': path.resolve(__dirname, '../packages/snack-content/src'),
+      'snack-sdk': path.resolve(__dirname, '../packages/snack-sdk/src'),
     },
   },
 };

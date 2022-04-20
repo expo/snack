@@ -24,10 +24,12 @@ COPY --from=dev /server/package.json ./
 COPY --from=dev /server/yarn.lock ./
 # - used packages files
 COPY --from=dev /server/packages/snack-content/build ./packages/snack-content/build
+COPY --from=dev /server/packages/snack-content/src ./packages/snack-content/src
 COPY --from=dev /server/packages/snack-content/package.json ./packages/snack-content/package.json
 COPY --from=dev /server/packages/snack-sdk/build ./packages/snack-sdk/build
+COPY --from=dev /server/packages/snack-sdk/src ./packages/snack-sdk/src
 COPY --from=dev /server/packages/snack-sdk/package.json ./packages/snack-sdk/package.json
-# - website files (not build yet)
+# - website files
 COPY --from=dev /server/website/src ./website/src
 COPY --from=dev /server/website/typings ./website/typings
 COPY --from=dev /server/website/package.json ./website/package.json
@@ -88,8 +90,7 @@ WORKDIR /server/website
 RUN yarn build
 # Reinstall only production dependencies
 RUN yarn install --frozen-lockfile --production
-
 # Finalize production image
 RUN yarn cache clean
-RUN rm -rf ./src ./typings ./.env-cmdrc.json ./babel.config.js ./tsconfig.json ./webpack.config.js
+
 CMD ["node", "."]
