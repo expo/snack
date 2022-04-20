@@ -3,3 +3,6 @@
 
 # Compiled JavaScript
 packages/**/build
+
+# git-crypt keys
+.git/

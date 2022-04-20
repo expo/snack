@@ -9,3 +9,6 @@ package-lock.json
 
 # IDEs
 .idea
+
+# git-crypt keys
+.git/
