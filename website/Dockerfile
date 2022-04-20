@@ -15,9 +15,28 @@ RUN yarn build
 WORKDIR /server/website
 CMD ["yarn", "start"]
 
-# Set up builder image (for production)
-FROM dev as builder
+# Set up production image
+FROM node:${node_version}-alpine
 WORKDIR /server
+
+# - root monorepo files 
+COPY --from=dev /server/package.json ./
+COPY --from=dev /server/yarn.lock ./
+# - used packages files
+COPY --from=dev /server/packages/snack-content/build ./packages/snack-content/build
+COPY --from=dev /server/packages/snack-content/package.json ./packages/snack-content/package.json
+COPY --from=dev /server/packages/snack-sdk/build ./packages/snack-sdk/build
+COPY --from=dev /server/packages/snack-sdk/package.json ./packages/snack-sdk/package.json
+# - website files (not build yet)
+COPY --from=dev /server/website/src ./website/src
+COPY --from=dev /server/website/typings ./website/typings
+COPY --from=dev /server/website/package.json ./website/package.json
+COPY --from=dev /server/website/favicon.ico ./website/favicon.ico
+COPY --from=dev /server/website/resources.json ./website/resources.json
+COPY --from=dev /server/website/.env-cmdrc.json ./website/.env-cmdrc.json
+COPY --from=dev /server/website/babel.config.js ./website/babel.config.js 
+COPY --from=dev /server/website/tsconfig.json ./website/tsconfig.json 
+COPY --from=dev /server/website/webpack.config.js ./website/webpack.config.js
 
 # Set up the webpack/next.js build variables
 ENV NODE_ENV "production"
@@ -61,30 +80,16 @@ ENV SNACK_WEBPLAYER_CDN ${SNACK_WEBPLAYER_CDN}
 ARG SNACK_AMPLITUDE_KEY
 ENV SNACK_AMPLITUDE_KEY ${SNACK_AMPLITUDE_KEY}
 
-# Build production files
-RUN yarn build
-RUN yarn --cwd ./website build
-
-# Set up production image
-FROM node:${node_version}-alpine
-WORKDIR /server
-# - root monorepo files
-COPY --from=builder /server/package.json ./
-COPY --from=builder /server/yarn.lock ./
-# - used packages files
-COPY --from=builder /server/packages/snack-content/build ./packages/snack-content/build
-COPY --from=builder /server/packages/snack-content/package.json ./packages/snack-content/package.json
-COPY --from=builder /server/packages/snack-sdk/build ./packages/snack-sdk/build
-COPY --from=builder /server/packages/snack-sdk/package.json ./packages/snack-sdk/package.json
-# - website files
-COPY --from=builder /server/website/build ./website/build
-COPY --from=builder /server/website/dist ./website/dist
-COPY --from=builder /server/website/package.json ./website/package.json
-COPY --from=builder /server/website/favicon.ico ./website/favicon.ico
-COPY --from=builder /server/website/resources.json ./website/resources.json
-
-# Reinstall production-only dependencies
-RUN yarn install --frozen-lockfile --production
+# Reinstall dependencies to link the monorepo
+RUN yarn install --frozen-lockfile --production=false
 
 WORKDIR /server/website
+# Build website
+RUN yarn build
+# Reinstall only production dependencies
+RUN yarn install --frozen-lockfile --production
+
+# Finalize production image
+RUN yarn cache clean
+RUN rm -rf ./src ./typings ./.env-cmdrc.json ./babel.config.js ./tsconfig.json ./webpack.config.js
 CMD ["node", "."]
