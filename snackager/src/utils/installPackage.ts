@@ -55,6 +55,7 @@ export default async function installPackage(
     '--ignore-scripts', // Don't want to run malicious post-install scripts.
     '--production', // Don't need to install dev dependencies.
     '--ignore-engines', // Sometimes sub-dependencies will want a specific version of Node. Don't care, try anyway.
+    '--ignore-platform', // Some libraries use fsevents, which is not compatible on linux. Don't care, try anway.
     '--non-interactive', // In some cases yarn/npm will show an interactive prompt. Throw an error instead.
   ];
   try {
