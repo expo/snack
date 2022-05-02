@@ -71,6 +71,14 @@ jobs:
         run: ENVIRONMENT=production skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
         working-directory: ./
 
+      - name: Reconfigure kubectl for new cluster
+        run: gcloud container clusters get-credentials --region us-central1 general-central
+
+      - name: Deploy to production in new cluster
+        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        run: ENVIRONMENT=production skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
+        working-directory: ./
+
       - name: Notify build on Slack
         uses: 8398a7/action-slack@v3
         if: failure() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy != 'deploy'

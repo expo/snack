@@ -78,20 +78,6 @@ jobs:
         run: ENVIRONMENT=production skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
         working-directory: ./
 
-      - name: Add change cause
-        run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
-        working-directory: snackager/k8s/production
-
-      - name: Deploy to production
-        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
-        run: ENVIRONMENT=production skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
-        working-directory: ./
-
-      - name: Prune docker images
-        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
-        run: ./bin/prune-gcr snackager
-        working-directory: ./
-
       - name: Notify build on Slack
         uses: 8398a7/action-slack@v3
         if: failure() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy != 'deploy'
@@ -102,6 +88,28 @@ jobs:
           status: ${{ job.status }}
           author_name: Build Snackager for Production
           fields: message,commit,author,took
+
+      - name: Add change cause
+        run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
+        working-directory: snackager/k8s/production
+
+      - name: Deploy to production
+        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        run: ENVIRONMENT=production skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
+        working-directory: ./
+
+      - name: Configure kubectl for new cluster
+        run: gcloud container clusters get-credentials --region us-central general-central
+
+      - name: Deploy to production in new cluster
+        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        run: ENVIRONMENT=production skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
+        working-directory: ./
+
+      - name: Prune docker images
+        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        run: ./bin/prune-gcr snackager
+        working-directory: ./
 
       - name: Notify deploy on Slack
         uses: 8398a7/action-slack@v3
