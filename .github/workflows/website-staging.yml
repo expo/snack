@@ -84,3 +84,13 @@ jobs:
           status: ${{ job.status }}
           author_name: Deploy Snack website to Staging
           fields: message,commit,author,took
+
+      - name: Install python to run prune-gcr script
+        uses: actions/setup-python@v2
+        with:
+          python-version: 2.7
+
+      - name: Prune docker images
+        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
+        run: ./bin/prune-gcr snack --dry-run
+        working-directory: ./
