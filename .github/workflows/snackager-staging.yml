@@ -86,6 +86,14 @@ jobs:
         run: skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
         working-directory: ./
 
+      - name: Configure kubectl for new cluster
+        run: gcloud container clusters get-credentials --region us-central general-central
+
+      - name: Deploy to staging in new cluster
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
+        working-directory: ./
+
       - name: Notify Slack
         uses: 8398a7/action-slack@v3
         if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
