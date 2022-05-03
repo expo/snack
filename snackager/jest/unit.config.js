@@ -5,7 +5,4 @@ module.exports = {
   rootDir: path.resolve(__dirname, '..'),
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/jest/unit.setup.js'],
-  moduleNameMapper: {
-    'snack-sdk': '<rootDir>../packages/snack-sdk/src',
-  },
 };
