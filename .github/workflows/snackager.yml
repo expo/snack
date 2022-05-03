@@ -17,35 +17,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+      - name: 🏗 Setup secrets
+        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+      - name: 🏗 Setup snackager
+        uses: ./.github/actions/setup-snackager
+
+      - name: 🚨 Lint snackager
+        run: yarn lint --max-warnings 0
+
+      - name: 🧪 Unit test snackager
+        run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
       
-      - run: npm i -g npm@6.14.16
-        working-directory: ../
-      - run: yarn install --ignore-scripts --frozen-lockfile
-      - run: yarn prepare
-        working-directory: packages/snack-content
-      - run: yarn build
-        working-directory: packages/snack-sdk
-      - run: yarn lint --max-warnings 0
-      - run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
-      - run: yarn test --ci --runInBand --testPathPattern=__integration-tests__
+      - name: 🧪 E2E test snackager
+        run: yarn test --ci --runInBand --testPathPattern=__integration-tests__

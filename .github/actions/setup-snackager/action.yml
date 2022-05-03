@@ -1,0 +1,36 @@
+name: Setup Snackager
+description: Prepare Snackager in GitHub Actions
+
+inputs:
+  node-version:
+    description: Version of Node to use
+    default: 16.x
+
+runs:
+  using: composite
+  steps:
+    - name: 🏗 Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: yarn
+
+    # npm v7+ doesn't work well with our monorepo
+    - name: 🐛 Downgrade npm to v6
+      run: npm install --global npm@^6
+      working-directory: ../
+      shell: bash
+
+    - name: 📦 Install dependencies
+      run: yarn install --frozen-lockfile --ignore-scripts
+      shell: bash
+
+    # Snackager relies on snack-content, which relies on snack-sdk
+    - name: 👷 Build snack-content
+      run: yarn workspace snack-content build
+      shell: bash
+
+    # Snackager relies on snack-content
+    - name: 👷 Build snack-sdk
+      run: yarn workspace snack-sdk build
+      shell: bash

@@ -18,56 +18,35 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Use Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 2.7
-
-      - name: Decrypt secrets
+      - name: 🏗 Setup secrets
         uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
         env:
           GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
-      - name: Install Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+      - name: 🏗 Setup snackager
+        uses: ./.github/actions/setup-snackager
+
+      - name: 🚨 Lint snackager
+        run: yarn lint --max-warnings 0
+
+      - name: 🧪 Unit test snackager
+        run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
+
+      # Takes a long time, best not to run this before deployment
+      # - name: 🧪 E2E test snackager
+      #   run: yarn test --ci --runInBand --testPathPattern=__integration-tests__
+
+      - name: 🏗 Setup Google Cloud SDK
+        uses: ./.github/actions/setup-google-cloud
         with:
-          project_id: exponentjs
-          service_account_key: ${{ secrets.GCLOUD_KEY }}
-          export_default_credentials: true
-
-      - name: Install Google Cloud components
-        run: gcloud components install kubectl kustomize skaffold
-
-      - name: Configure Google Cloud SDK
-        run: |
-          gcloud config set project exponentjs
-          gcloud config set compute/zone us-central1-f
-          gcloud config set container/cluster exp-central
-          gcloud container clusters get-credentials exp-central
-          gcloud auth configure-docker gcr.io
-
-      - run: npm i -g npm@6.14.16
-        working-directory: ../
-      - run: yarn install --ignore-scripts --frozen-lockfile
-      - run: yarn build
-        working-directory: packages/snack-content
-      - run: yarn build
-        working-directory: packages/snack-sdk
-      - run: yarn lint --max-warnings 0
-      - run: yarn test --ci --testPathIgnorePatterns=__integration-tests__
-      - run: yarn test --ci --runInBand --testPathPattern=__integration-tests__
+          project-id: exponentjs
+          project-zone: us-central1-f
+          project-cluster: exp-central
+          service-key: ${{ secrets.GCLOUD_KEY }}
 
       - name: Build
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
