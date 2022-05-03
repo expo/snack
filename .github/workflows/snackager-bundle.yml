@@ -1,0 +1,42 @@
+name: Snackager Bundle
+
+defaults:
+  run:
+    working-directory: snackager
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        type: string
+        description: Package name from npm
+      version:
+        type: string
+        description: Semver of the package to bundle
+      platforms:
+        type: string
+        description: Comma separated list of platforms to bundle
+        default: android,ios,web
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup snackager
+        uses: ./.github/actions/setup-snackager
+
+      - name: 🛠 Bundle package
+        run: |
+          NAME="${{ github.event.inputs.name }}"
+          VERSION="${{ github.event.inputs.version }}"
+          PLATFORMS="${{ github.event.inputs.platforms }}"
+
+          yarn bundle "$NAME@$VERSION?platforms=$PLATFORMS" | yarn bunyan --level DEBUG
