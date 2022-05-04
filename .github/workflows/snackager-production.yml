@@ -78,7 +78,7 @@ jobs:
         working-directory: ./
 
       - name: Configure kubectl for new cluster
-        run: gcloud container clusters get-credentials --region us-central general-central
+        run: gcloud container clusters get-credentials --region us-central1 general-central
 
       - name: Deploy to production in new cluster
         if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && github.event.inputs.deploy == 'deploy'
