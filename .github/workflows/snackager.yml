@@ -83,8 +83,8 @@ jobs:
         uses: ./.github/actions/setup-google-cloud
         with:
           project-id: exponentjs
-          project-zone: us-central1-f
-          project-cluster: exp-central
+          project-zone: us-central1
+          project-cluster: general-central
           service-key: ${{ secrets.GCLOUD_KEY }}
       
       - name: 🛠 Build snackager
@@ -111,8 +111,8 @@ jobs:
         uses: ./.github/actions/setup-google-cloud
         with:
           project-id: exponentjs
-          project-zone: us-central1-f
-          project-cluster: exp-central
+          project-zone: us-central1
+          project-cluster: general-central
           service-key: ${{ secrets.GCLOUD_KEY }}
 
       - name: 🛠 Build snackager
@@ -127,14 +127,7 @@ jobs:
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
         working-directory: snackager/k8s/staging
 
-      - name: 🚀 Deploy snackager in old cluster
-        run: skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
-        working-directory: ./
-
-      - name: ⚙️ Configure kubectl for new cluster
-        run: gcloud container clusters get-credentials --region us-central1 general-central
-      
-      - name: 🚀 Deploy snackager in new cluster
+      - name: 🚀 Deploy snackager
         run: skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
         working-directory: ./
 
@@ -169,8 +162,8 @@ jobs:
         uses: ./.github/actions/setup-google-cloud
         with:
           project-id: exponentjs
-          project-zone: us-central1-f
-          project-cluster: exp-central
+          project-zone: us-central1
+          project-cluster: general-central
           service-key: ${{ secrets.GCLOUD_KEY }}
 
       - name: 🛠 Build snackager
@@ -183,16 +176,7 @@ jobs:
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
         working-directory: snackager/k8s/production
 
-      - name: 🚀 Deploy snackager in old cluster
-        run: skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
-        working-directory: ./
-        env:
-          ENVIRONMENT: production
-
-      - name: ⚙️ Configure kubectl for new cluster
-        run: gcloud container clusters get-credentials --region us-central1 general-central
-      
-      - name: 🚀 Deploy snackager in new cluster
+      - name: 🚀 Deploy snackager
         run: skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
         working-directory: ./
         env:
