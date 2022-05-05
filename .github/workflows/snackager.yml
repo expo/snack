@@ -21,6 +21,7 @@ on:
           - production
   pull_request:
     paths:
+      - .github/actions/setup-snackager/**
       - .github/workflows/snackager.yml
       - snackager/**
       - packages/snack-content/**
@@ -31,6 +32,7 @@ on:
   push:
     branches: [main]
     paths:
+      - .github/actions/setup-snackager/**
       - .github/workflows/snackager.yml
       - snackager/**
       - packages/snack-content/**

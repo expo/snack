@@ -21,6 +21,7 @@ on:
           - production
   pull_request:
     paths:
+      - .github/actions/setup-runtime/**
       - .github/workflows/runtime.yml
       - runtime/**
       - .eslint*
@@ -28,6 +29,7 @@ on:
   push:
     branches: [main]
     paths:
+      - .github/actions/setup-runtime/**
       - .github/workflows/runtime.yml
       - runtime/**
       - .eslint*
