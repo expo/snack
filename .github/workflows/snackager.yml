@@ -23,6 +23,7 @@ on:
     paths:
       - .github/workflows/snackager.yml
       - snackager/**
+      - packages/snack-content/**
       - packages/snack-sdk/**
       - .eslint*
       - .prettier*
@@ -30,8 +31,9 @@ on:
   push:
     branches: [main]
     paths:
-      - .github/workflows/snackager-production.yml
+      - .github/workflows/snackager.yml
       - snackager/**
+      - packages/snack-content/**
       - packages/snack-sdk/**
       - .eslint*
       - .prettier*
