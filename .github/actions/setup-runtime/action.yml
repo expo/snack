@@ -32,6 +32,6 @@ runs:
 
     # Runtime is detached from the monorepo, we only need to install this
     - name: 📦 Install dependencies
-      run: yarn install --frozen-lockfile --ignore-scripts
+      run: yarn install --frozen-lockfile
       working-directory: runtime
       shell: bash
