@@ -4,7 +4,7 @@
 
 - [Add new SDK version (and ship Snack with preliminary support for the new SDK version)](#add-new-sdk-version-and-ship-snack-with-preliminary-support-for-the-new-sdk-version)
   - [runtime](#runtime)
-  - [snack-sdk](#snack-sdk)
+  - [snack-content & snack-sdk](#snack-content-and-snack-sdk)
   - [website](#website)
 - [Testing](#testing)
   - [Web](#web)
@@ -14,7 +14,7 @@
 - [Pre-release snack-sdk](#pre-release-snack-sdk)
 - [Release Snack with official SDK version support](#release-snack-with-official-sdk-version-support)
   - [runtime](#runtime-1)
-  - [snack-sdk](#snack-sdk-1)
+  - [snack-content & snack-sdk](#release-snack-content-and-snack-sdk)
   - [website](#website-1)
   - [Release snack-sdk](#release-snack-sdk)
 - [Update appetize.io](#update-appetizeio)
@@ -115,12 +115,12 @@ When the new Expo Go app has been shipped, Snack should be updated to support th
 
 Update the runtime to the official Expo SDK. [Follow these steps](#runtime).
 
-### snack-sdk
+### snack-content and snack-sdk
 
-- Remove deprecated SDK version from `snack/packages/snack-sdk/src/sdks/types.ts`
-- Remove version from `snack/packages/snack-sdk/src/sdks/index.ts`
+- Remove deprecated SDK version from `snack/packages/snack-content/src/sdks/types.ts`
+- Remove version from `snack/packages/snack-content/src/sdks/index.ts`
 - Remove version from `snack/packages/snack-sdk/src/__fixtures__/bundledNativeModules.json`
-- Update default version in `snack/packages/snack-sdk/src/defaultConfig.ts` (sdkVersion)
+- Update default version in `snack/packages/snack-content/src/defaults.ts` (sdkVersion)
 - Run `yarn test` and fix any failing tests
 - Update CHANGELOG.md
 
@@ -131,11 +131,11 @@ Update the runtime to the official Expo SDK. [Follow these steps](#runtime).
 - Update `TEST_SDK_VERSION` when needed. It's best to upgrade it the latest official version, so the tests don't require upgrading everytime.
 - Run `yarn test` and fix any failing tests
 
-### Release snack-sdk
+### Release snack-content and snack-sdk
 
-Release an official version of the snack-sdk.
+Release an official version of the snack-content and snack-sdk.
 
-- Update the version in `package.json`. Ex. "3.2.2"
+- Update the version in `package.json` with a minor bump.
 - `yarn build`
 - `npm publish`
 - Update CHANGELOG.md and commit your changes
