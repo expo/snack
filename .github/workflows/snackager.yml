@@ -63,7 +63,7 @@ jobs:
         run: yarn test --ci --maxWorkers 1 --testPathIgnorePatterns=__integration-tests__
       
       - name: 🧪 E2E test snackager
-        run: yarn test --ci --maxWorkers 1 --runInBand --testPathPattern=__integration-tests__
+        run: yarn test --ci --maxWorkers 1 --testPathPattern=__integration-tests__
         # Takes a long time, best to only run this on PRs
         if: ${{ github.event_name == 'pull_request' }}
   
