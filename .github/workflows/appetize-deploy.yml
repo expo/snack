@@ -67,6 +67,7 @@ jobs:
                 .filter(name => queue === 'all' || queue === name)
                 .map(name => ({
                   appetize: name.toUpperCase(),
+                  environment: name,
                   androidUrl: '${{ steps.sdk.outputs.androidClientUrl }}',
                   androidVersion: '${{ steps.sdk.outputs.androidClientVersion }}',
                   iosUrl: '${{ steps.sdk.outputs.iosClientUrl }}',
@@ -79,6 +80,8 @@ jobs:
     needs: prepare
     name: Deploy Android on ${{ matrix.appetize }}
     runs-on: ubuntu-latest
+    environment:
+      name: appetize-${{ matrix.environment }}-android
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
@@ -130,6 +133,8 @@ jobs:
     needs: prepare
     name: Deploy iOS on ${{ matrix.appetize }}
     runs-on: ubuntu-latest
+    environment:
+      name: appetize-${{ matrix.environment }}-ios
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
