@@ -66,3 +66,4 @@ jobs:
       - name: 📋 Validate docs
         if: ${{ matrix.validate-docs }}
         run: yarn doc:ci
+        working-directory: packages/${{ matrix.package }}
