@@ -4,6 +4,7 @@ description: Prepare Snackager in GitHub Actions
 inputs:
   python-version:
     description: Python version to use when installing Google Cloud SDK
+    default: '2.7'
 
   project-id:
     description: Google Cloud SDK project id
