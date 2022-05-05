@@ -110,7 +110,7 @@ jobs:
         working-directory: ./
 
       - name: 🧹 Dry-run prune docker image
-        run: ./bin/prune-gcr website --dry-run
+        run: ./bin/prune-gcr snack --dry-run
         working-directory: ./
 
       - name: 📋 Add change cause
@@ -190,7 +190,7 @@ jobs:
       
       - name: 🧹 Prune docker image
         if: ${{ success() }}
-        run: ./bin/prune-gcr website
+        run: ./bin/prune-gcr snack
         working-directory: ./
       
       - name: 💬 Notify Slack
