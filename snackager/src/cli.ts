@@ -86,4 +86,7 @@ async function main(): Promise<void> {
 
 main()
   .then(() => console.log('ok!'))
-  .catch((e) => console.error(e));
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
