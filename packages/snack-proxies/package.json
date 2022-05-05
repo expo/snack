@@ -7,7 +7,9 @@
     "start": "yarn domain && yarn watch",
     "domain": "chalet start && chalet add http://localhost:3021 -n expo -f",
     "watch": "tsnd --inspect=9221 --quiet src/index.ts",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "test": "echo 'no tests for snack-proxies'",
+    "build": "tsc"
   },
   "volta": {
     "node": "12.16.2"

@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/index.tsx",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "test": "echo 'no tests for snack-term'",
+    "build": "tsc"
   },
   "volta": {
     "node": "12.16.2"
