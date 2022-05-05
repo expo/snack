@@ -32,9 +32,9 @@ jobs:
           - snack-proxies
           - snack-sdk
           - snack-term
-        include:
-          - package: snack-sdk
-            validate-docs: true
+        # include:
+        #   - package: snack-sdk
+        #     validate-docs: true
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -63,7 +63,8 @@ jobs:
         run: yarn build
         working-directory: packages/${{ matrix.package }}
 
-      - name: 📋 Validate docs
-        if: ${{ matrix.validate-docs }}
-        run: yarn doc:ci
-        working-directory: packages/${{ matrix.package }}
+      # Disabled due to issues with outdated library and faulty rendering
+      # - name: 📋 Validate docs
+      #   if: ${{ matrix.validate-docs }}
+      #   run: yarn doc:ci
+      #   working-directory: packages/${{ matrix.package }}
