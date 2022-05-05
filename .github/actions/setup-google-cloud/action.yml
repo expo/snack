@@ -12,11 +12,11 @@ inputs:
 
   project-zone:
     description: Google Cloud SDK compute zone
-    default: us-central1-f
+    default: us-central1
 
   project-cluster:
     description: Google Cloud SDK container cluster
-    default: exp-central
+    default: general-central
 
   service-key:
     description: Google Cloud SDK service_account_key

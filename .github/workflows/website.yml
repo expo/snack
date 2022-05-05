@@ -73,8 +73,8 @@ jobs:
         uses: ./.github/actions/setup-google-cloud
         with:
           project-id: exponentjs
-          project-zone: us-central1-f
-          project-cluster: exp-central
+          project-zone: us-central1
+          project-cluster: general-central
           service-key: ${{ secrets.GCLOUD_KEY }}
       
       - name: 🛠 Build website
@@ -101,8 +101,8 @@ jobs:
         uses: ./.github/actions/setup-google-cloud
         with:
           project-id: exponentjs
-          project-zone: us-central1-f
-          project-cluster: exp-central
+          project-zone: us-central1
+          project-cluster: general-central
           service-key: ${{ secrets.GCLOUD_KEY }}
 
       - name: 🛠 Build website
@@ -117,17 +117,10 @@ jobs:
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
         working-directory: website/deploy/staging
       
-      - name: 🚀 Deploy website in old cluster
+      - name: 🚀 Deploy website
         run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
         working-directory: ./
-    
-      - name: ⚙️ Configure kubectl for new cluster
-        run: gcloud container clusters get-credentials --region us-central1 general-central
-      
-      - name: 🚀 Deploy website in new cluster
-        run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
-        working-directory: ./
-      
+
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
         if: always()
@@ -159,8 +152,8 @@ jobs:
         uses: ./.github/actions/setup-google-cloud
         with:
           project-id: exponentjs
-          project-zone: us-central1-f
-          project-cluster: exp-central
+          project-zone: us-central1
+          project-cluster: general-central
           service-key: ${{ secrets.GCLOUD_KEY }}
 
       - name: 🛠 Build website
@@ -173,21 +166,12 @@ jobs:
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
         working-directory: website/deploy/production
       
-      - name: 🚀 Deploy website in old cluster
+      - name: 🚀 Deploy website
         run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
         working-directory: ./
         env:
           ENVIRONMENT: production
     
-      - name: ⚙️ Configure kubectl for new cluster
-        run: gcloud container clusters get-credentials --region us-central1 general-central
-      
-      - name: 🚀 Deploy website in new cluster
-        run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
-        working-directory: ./
-        env:
-          ENVIRONMENT: production
-      
       - name: 🧹 Prune docker image
         if: ${{ success() }}
         run: ./bin/prune-gcr snack
