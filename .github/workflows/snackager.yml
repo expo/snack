@@ -93,7 +93,7 @@ jobs:
     if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: snackager-staging
       url: https://staging.snackager.expo.io
     steps:
@@ -151,7 +151,7 @@ jobs:
     if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
     needs: review
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: snackager-production
       url: https://snackager.expo.io
     steps:
