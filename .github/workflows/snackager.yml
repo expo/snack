@@ -97,7 +97,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: snackager-staging
-      url: https://staging.snackager.expo.io
+      url: https://staging.snackager.expo.io/status
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -155,7 +155,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: snackager-production
-      url: https://snackager.expo.io
+      url: https://snackager.expo.io/status
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
