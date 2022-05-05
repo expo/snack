@@ -1,43 +1,123 @@
 name: Runtime
 
+defaults:
+  run:
+    working-directory: runtime
+
+concurrency:
+  group: runtime-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: What environment should be deployed
+        type: choice
+        default: no-deploy
+        options:
+          - no-deploy
+          - staging
+          - production
   pull_request:
     paths:
+      - .github/actions/setup-runtime/**
+      - .github/workflows/runtime.yml
+      - runtime/**
+      - .eslint*
+      - .prettier*
+  push:
+    branches: [main]
+    paths:
+      - .github/actions/setup-runtime/**
       - .github/workflows/runtime.yml
       - runtime/**
       - .eslint*
       - .prettier*
 
 jobs:
-  build:
+  review:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v3
-
-      - name: 🏗 Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: yarn
-          cache-dependency-path: |
-            yarn.lock
-            runtime/yarn.lock
-
-      - name: 📦 Install monorepo dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: 📦 Install runtime dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: runtime
-
-      - name: 👷 Build runtime
-        run: yarn tsc --noEmit
-        working-directory: runtime
       
-      - name: ✅ Lint runtime
-        run: yarn lint --max-warnings 0
-        working-directory: runtime
+      - name: 🏗 Setup runtime
+        uses: ./.github/actions/setup-runtime
+      
+      - name: 🚨 Lint runtime
+        run: |
+          yarn tsc --noEmit
+          yarn lint --max-warnings 0
+  
+  deploy-staging:
+    if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
+    needs: review
+    runs-on: ubuntu-latest
+    environment:
+      name: runtime-staging
+      url: https://staging.expo.dev/@exponent/snack
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+      
+      - name: 🏗 Setup runtime
+        uses: ./.github/actions/setup-runtime
+      
+      - name: 🌐 Deploy web-player
+        run: yarn deploy:web:staging
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
+
+      - name: 📱 Deploy native runtime
+        run: yarn deploy:staging
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_STAGING }}
+
+      - name: 💬 Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: ${{ always() }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Runtime to Staging
+          fields: message,commit,author,job,took
+
+  deploy-production:
+    if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
+    needs: review
+    runs-on: ubuntu-latest
+    environment:
+      name: runtime-production
+      url: https://expo.dev/@exponent/snack
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+      
+      - name: 🏗 Setup runtime
+        uses: ./.github/actions/setup-runtime
+      
+      - name: 🌐 Deploy web-player
+        run: yarn deploy:web:prod
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
+
+      - name: 📱 Deploy native runtime
+        run: yarn deploy:prod
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_PRODUCTION }}
+
+      - name: 💬 Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: ${{ always() }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Runtime to Production
+          fields: message,commit,author,job,took
