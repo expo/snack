@@ -63,8 +63,6 @@ jobs:
       
       - name: 🏗 Setup runtime
         uses: ./.github/actions/setup-runtime
-        with:
-          expo-token: ${{ secrets.EXPO_STAGING }}
       
       - name: 🌐 Deploy web-player
         run: yarn deploy:web:staging
@@ -74,6 +72,8 @@ jobs:
 
       - name: 📱 Deploy native runtime
         run: yarn deploy:staging
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_STAGING }}
 
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
@@ -99,8 +99,6 @@ jobs:
       
       - name: 🏗 Setup runtime
         uses: ./.github/actions/setup-runtime
-        with:
-          expo-token: ${{ secrets.EXPO_PRODUCTION }}
       
       - name: 🌐 Deploy web-player
         run: yarn deploy:web:prod
@@ -110,6 +108,8 @@ jobs:
 
       - name: 📱 Deploy native runtime
         run: yarn deploy:prod
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_PRODUCTION }}
 
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3

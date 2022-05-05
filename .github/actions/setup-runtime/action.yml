@@ -9,10 +9,6 @@ inputs:
   expo-version:
     description: Version of Expo CLI to use
     default: latest
-  
-  expo-token:
-    description: Expo authentication token to publish
-    required: false
 
 runs:
   using: composite
@@ -28,7 +24,6 @@ runs:
       uses: expo/expo-github-action@v7
       with:
         expo-version: ${{ inputs.expo-version }}
-        token: ${{ inputs.expo-token }}
 
     # Runtime is detached from the monorepo, we only need to install this
     - name: 📦 Install dependencies
