@@ -4,55 +4,203 @@ defaults:
   run:
     working-directory: website
 
+concurrency:
+  group: website-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: What environment should be deployed
+        type: choice
+        default: no-deploy
+        options:
+          - no-deploy
+          - staging
+          - production
+  pull_request:
     paths:
+      - .github/actions/setup-website/**
       - .github/workflows/website.yml
       - website/**
+      - packages/snack-content/**
       - packages/snack-sdk/**
       - .eslint*
       - .prettier*
       - yarn.lock
-  pull_request:
+  push:
+    branches: [main]
     paths:
+      - .github/actions/setup-website/**
       - .github/workflows/website.yml
       - website/**
+      - packages/snack-content/**
       - packages/snack-sdk/**
       - .eslint*
       - .prettier*
       - yarn.lock
 
 jobs:
-  build:
+  review:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: 🏗 Setup website
+        uses: ./.github/actions/setup-website
+      
+      - name: 🚨 Lint website
+        run: yarn lint --max-warnings 0
+
+      - name: 🧪 Unit test website
+        run: yarn test --ci --maxWorkers 1
+  
+  build:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup Google Cloud SDK
+        uses: ./.github/actions/setup-google-cloud
         with:
-          node-version: ${{ matrix.node-version }}
+          project-id: exponentjs
+          project-zone: us-central1-f
+          project-cluster: exp-central
+          service-key: ${{ secrets.GCLOUD_KEY }}
+      
+      - name: 🛠 Build website
+        run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
+        working-directory: ./
+  
+  deploy-staging:
+    if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
+    needs: review
+    runs-on: ubuntu-latest
+    environment:
+      name: website-staging
+      url: https://staging.snack.expo.dev
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
+      - name: 🏗 Setup secrets
+        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup Google Cloud SDK
+        uses: ./.github/actions/setup-google-cloud
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          project-id: exponentjs
+          project-zone: us-central1-f
+          project-cluster: exp-central
+          service-key: ${{ secrets.GCLOUD_KEY }}
 
-      - run: yarn install --ignore-scripts --frozen-lockfile
-      - run: yarn prepare
-        working-directory: packages/snack-content
-      - run: yarn build
-        working-directory: packages/snack-sdk
-      - run: yarn test --maxWorkers 1
-      - run: yarn lint --max-warnings 0
-      - run: ../node_modules/.bin/env-cmd -f deploy/development/snack.env yarn build
+      - name: 🛠 Build website
+        run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
+        working-directory: ./
+
+      - name: 🧹 Dry-run prune docker image
+        run: ./bin/prune-gcr website --dry-run
+        working-directory: ./
+
+      - name: 📋 Add change cause
+        run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
+        working-directory: website/deploy/staging
+      
+      - name: 🚀 Deploy website in old cluster
+        run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
+        working-directory: ./
+    
+      - name: ⚙️ Configure kubectl for new cluster
+        run: gcloud container clusters get-credentials --region us-central1 general-central
+      
+      - name: 🚀 Deploy website in new cluster
+        run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
+        working-directory: ./
+      
+      - name: 💬 Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Website to Staging
+          fields: message,commit,author,job,took
+
+  deploy-production:
+    if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
+    needs: review
+    runs-on: ubuntu-latest
+    environment:
+      name: website-production
+      url: https://snack.expo.dev
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup Google Cloud SDK
+        uses: ./.github/actions/setup-google-cloud
+        with:
+          project-id: exponentjs
+          project-zone: us-central1-f
+          project-cluster: exp-central
+          service-key: ${{ secrets.GCLOUD_KEY }}
+
+      - name: 🛠 Build website
+        run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
+        working-directory: ./
+        env:
+          ENVIRONMENT: production
+
+      - name: 📋 Add change cause
+        run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
+        working-directory: website/deploy/production
+      
+      - name: 🚀 Deploy website in old cluster
+        run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
+        working-directory: ./
+        env:
+          ENVIRONMENT: production
+    
+      - name: ⚙️ Configure kubectl for new cluster
+        run: gcloud container clusters get-credentials --region us-central1 general-central
+      
+      - name: 🚀 Deploy website in new cluster
+        run: skaffold deploy --filename website/skaffold.yaml --status-check true --build-artifacts website/build.json
+        working-directory: ./
+        env:
+          ENVIRONMENT: production
+      
+      - name: 🧹 Prune docker image
+        if: ${{ success() }}
+        run: ./bin/prune-gcr website
+        working-directory: ./
+      
+      - name: 💬 Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: ${{ always() }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Website to Production
+          fields: message,commit,author,job,took
+

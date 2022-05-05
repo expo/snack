@@ -1,0 +1,70 @@
+name: Packages
+
+concurrency:
+  group: packages-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/packages.yml
+      - packages/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/packages.yml
+      - packages/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - snack-content
+          - snack-proxies
+          - snack-sdk
+          - snack-term
+        # include:
+        #   - package: snack-sdk
+        #     validate-docs: true
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: yarn
+      
+      - name: 📦 Install dependencies
+        run: yarn install --frozen-lockfile --ignore-scripts
+      
+      - name: 🛠 Build core packages
+        run: yarn build
+
+      - name: 🚨 Lint package
+        run: yarn lint --max-warnings 0
+        working-directory: packages/${{ matrix.package }}
+
+      - name: 🧪 Test package
+        run: yarn test --ci --maxWorkers 1
+        working-directory: packages/${{ matrix.package }}
+      
+      - name: 🛠 Build package
+        run: yarn build
+        working-directory: packages/${{ matrix.package }}
+
+      # Disabled due to issues with outdated library and faulty rendering
+      # - name: 📋 Validate docs
+      #   if: ${{ matrix.validate-docs }}
+      #   run: yarn doc:ci
+      #   working-directory: packages/${{ matrix.package }}

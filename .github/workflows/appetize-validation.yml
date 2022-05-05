@@ -1,4 +1,4 @@
-name: AppetizeValidation
+name: Appetize Validation
 
 on:
   workflow_dispatch:
