@@ -188,9 +188,14 @@ jobs:
         env:
           ENVIRONMENT: production
       
+      - name: 🧹 Prune docker image
+        if: ${{ success() }}
+        run: ./bin/prune-gcr website
+        working-directory: ./
+      
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
-        if: always()
+        if: ${{ always() }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
         with:
