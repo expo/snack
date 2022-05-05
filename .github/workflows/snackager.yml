@@ -66,6 +66,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
   
   build:
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repository
