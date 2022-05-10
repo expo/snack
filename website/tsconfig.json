@@ -17,6 +17,9 @@
     "resolveJsonModule": true,
     "useUnknownInCatchVariables": false,
     "strict": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+  },
+  "ts-node": {
+    "transpileOnly": true
   }
 }
