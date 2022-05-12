@@ -192,7 +192,7 @@ class Main extends React.Component<Props, State> {
     const sendCodeOnChangeEnabled = true;
     const sessionSecret = props.getSessionSecret();
     const snackagerURL = nullthrows(process.env.IMPORT_SERVER_URL);
-    const isLocalWebPreview = false;
+    const isLocalWebPreview = true;
 
     this._snack = new Snack({
       disabled: true,
