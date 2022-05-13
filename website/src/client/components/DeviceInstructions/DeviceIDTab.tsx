@@ -84,8 +84,8 @@ export default class DeviceIDTab extends React.Component<Props, State> {
           <p>
             Device ID: <strong>XXXX-XXXX</strong>
           </p>
-          <p>Client version: 2.18.4.1010552</p>
-          <p>Supported SDKs: 37, 38, 39, 40</p>
+          <p>Client version: 2.24.3</p>
+          <p>Supported SDKs: 43, 44, 45</p>
         </div>
         <Banner type="success" visible={state.status === 'success'}>
           Check the "Recently in development" section in the "Projects" tab of Expo Go to find this
