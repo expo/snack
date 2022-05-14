@@ -16,7 +16,7 @@ describe('dependencies', () => {
     const snack = new Snack({
       sdkVersion: sdkVersions.current,
       dependencies: {
-        'expo-firebase-analytics': { version: '2.4.1' },
+        'expo-firebase-analytics': { version: '~6.0.0' },
       },
     });
     const state = await snack.getStateAsync();
@@ -28,7 +28,7 @@ describe('dependencies', () => {
     const snack = new Snack({
       sdkVersion: sdkVersions.current,
       dependencies: {
-        'expo-font': { version: '8.1.0' },
+        'expo-font': { version: '~10.0.4' },
         '@react-navigation/native': { version: '5.1.1' },
         'react-native-paper': { version: '3.10.1' },
       },

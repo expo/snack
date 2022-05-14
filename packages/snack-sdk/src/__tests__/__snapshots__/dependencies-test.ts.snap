@@ -155,13 +155,13 @@ Object {
 exports[`dependencies resolves dependency 1`] = `
 Object {
   "expo-firebase-analytics": Object {
-    "handle": "snackager-1/expo-firebase-analytics@2.4.1",
+    "handle": "snackager-1/expo-firebase-analytics@~6.0.0",
     "peerDependencies": Object {
       "react": "*",
       "react-native": "*",
     },
-    "version": "2.4.1",
-    "wantedVersion": "~4.1.0",
+    "version": "~6.0.0",
+    "wantedVersion": "~6.0.0",
   },
 }
 `;

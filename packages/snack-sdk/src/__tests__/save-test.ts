@@ -108,7 +108,7 @@ describe('save', () => {
     });
     await snack.saveAsync();
     const { url } = snack.getState();
-    snack.setSDKVersion('43.0.0');
+    snack.setSDKVersion('45.0.0');
     expect(snack.getState().unsaved).toBe(true);
     expect(snack.getState().url).not.toBe(url);
     snack.setOnline(false);
