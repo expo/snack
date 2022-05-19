@@ -4,7 +4,11 @@ import { Metadata, Package } from '../types';
 // TODO: find the typescript definitions for this package, `@types/semver-utils` doesn't exists
 const semverUtils = require('semver-utils');
 
+// There are two special types of dependencies that should not be included in Snackager results.
+// 1. "Ignored dependencies" - dependencies that are ok to include in the output, but should not be bundled.
+// 2. "Hidden peer dependencies" - dependencies that should not be included in the output and the package definition, as including them would break things in the website
 const IGNORED_DEPENDENCIES = ['react-native-windows'];
+const HIDDEN_PEER_DEPENDENCIES = ['@babel/core']; // required for react-native-reanimated@2.8.0
 
 type ResolvedDependencies = {
   pkg: Package;
@@ -25,7 +29,10 @@ export default function resolveDependencies(
   const dependencies: { [key: string]: string | null } = {};
 
   for (const name in peerDependencies) {
-    if (IGNORED_DEPENDENCIES.includes(name)) {
+    if (HIDDEN_PEER_DEPENDENCIES.includes(name)) {
+      // hide from pkg
+      delete pkg.peerDependencies?.[name];
+    } else if (IGNORED_DEPENDENCIES.includes(name)) {
       // ignore
     } else if (name === 'react-native-vector-icons') {
       dependencies['@expo/vector-icons'] = null;
