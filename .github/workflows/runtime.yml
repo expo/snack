@@ -103,8 +103,8 @@ jobs:
       - name: 🌐 Deploy web-player
         run: yarn deploy:web:prod
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_PRODUCTION }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_PRODUCTION }}
 
       - name: 📱 Deploy native runtime
         run: yarn deploy:prod
