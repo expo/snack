@@ -13,8 +13,6 @@
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "strict": true,
   },
   "extends": "expo/tsconfig.base"

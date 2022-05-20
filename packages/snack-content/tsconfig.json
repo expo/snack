@@ -9,8 +9,6 @@
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "outDir": "./build",
     "skipLibCheck": true,
     "sourceMap": true,
