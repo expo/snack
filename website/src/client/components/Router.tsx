@@ -21,31 +21,36 @@ export default function Router(props: RouterProps) {
       // If te router is server-side rendered, we need to set the right response code and headers.
       // Without this, possible CDNs might cache the invalid path.
       props.ctx.response.status = 404;
-      props.ctx.response.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate');
+      props.ctx.response.set(
+        'Cache-Control',
+        'private, no-cache, no-store, max-age=0, must-revalidate'
+      );
     }
 
     return <NonExistent />;
   }, []);
 
-  const renderRoute = React.useCallback((routeProps: any) => {
-    const { data, ...rest } = props;
-    const isEmbedded = routeProps.location.pathname.split('/')[1] === 'embedded';
+  const renderRoute = React.useCallback(
+    (routeProps: any) => {
+      const { data, ...rest } = props;
+      const isEmbedded = routeProps.location.pathname.split('/')[1] === 'embedded';
 
-    if (!data || data.type !== 'success') {
-      return render404();
-    }
+      if (!data || data.type !== 'success') {
+        return render404();
+      }
 
-    const appProps = {
-      ...routeProps,
-      ...rest,
-      query: props.queryParams,
-      snack: data.snack,
-      defaults: data.defaults,
-    };
-      
-    return isEmbedded ? <EmbeddedApp {...appProps} /> : <App {...appProps} />;
-  }, [render404]);
-  
+      const appProps = {
+        ...routeProps,
+        ...rest,
+        query: props.queryParams,
+        snack: data.snack,
+        defaults: data.defaults,
+      };
+
+      return isEmbedded ? <EmbeddedApp {...appProps} /> : <App {...appProps} />;
+    },
+    [render404]
+  );
 
   return (
     <Switch>

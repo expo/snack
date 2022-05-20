@@ -142,7 +142,12 @@ const render = async (ctx: Context) => {
                 <PreferencesProvider cookies={cookies} queryParams={queryParams}>
                   <ThemeProvider>
                     <StaticRouter location={ctx.request.url} context={context}>
-                      <ClientRouter ctx={ctx} data={data} queryParams={queryParams} userAgent={userAgent} />
+                      <ClientRouter
+                        ctx={ctx}
+                        data={data}
+                        queryParams={queryParams}
+                        userAgent={userAgent}
+                      />
                     </StaticRouter>
                   </ThemeProvider>
                 </PreferencesProvider>
