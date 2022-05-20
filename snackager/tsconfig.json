@@ -3,8 +3,6 @@
   "compilerOptions": {
     "allowJs": true,
     "noEmit": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noImplicitAny": false,
     "isolatedModules": true,
     "noImplicitReturns": true,
