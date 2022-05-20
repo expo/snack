@@ -74,6 +74,8 @@ if (process.env.COMPRESS_ASSETS === 'true') {
 app.use(sw());
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
+  // Always try to send static files asap. For files that doesnt exist,
+  // it will server-side render the client router and set the appropriate status code.
   app.use(mount('/dist', serve(path.join(__dirname, '..', '..', 'dist'))));
 } else {
   // Use webpack dev middleware in development
