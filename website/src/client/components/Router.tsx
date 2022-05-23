@@ -28,7 +28,7 @@ export default function Router(props: RouterProps) {
     }
 
     return <NonExistent />;
-  }, []);
+  }, [props.ctx]);
 
   const renderRoute = React.useCallback(
     (routeProps: any) => {
