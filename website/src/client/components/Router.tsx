@@ -18,8 +18,8 @@ type RouterProps = {
 export default function Router(props: RouterProps) {
   const render404 = React.useCallback(() => {
     if (props.ctx) {
-      // If te router is server-side rendered, we need to set the right response code and headers.
-      // Without this, possible CDNs might cache the invalid path.
+      // If the router is server-side rendered, we need to set the right response code and headers.
+      // Without this, it's possible CDNs might cache the invalid path.
       props.ctx.response.status = 404;
       props.ctx.response.set(
         'Cache-Control',
