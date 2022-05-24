@@ -74,7 +74,25 @@ if (process.env.COMPRESS_ASSETS === 'true') {
 app.use(sw());
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
-  app.use(mount('/dist', serve(path.join(__dirname, '..', '..', 'dist'))));
+  // Always try to send static files ASAP. For files that don't exist,
+  // the server will server-side render the client router and set the appropriate status code.
+  app.use(
+    mount(
+      '/dist',
+      serve(path.join(__dirname, '..', '..', 'dist'), {
+        setHeaders(res, path) {
+          if (path.endsWith('.cached.js') || path.endsWith('.cached.worker.js')) {
+            // All files ending with `.cached.js` should be cached, the file names change every build.
+            // This is defined in the webpack.config.js and applies mostly to chunks.
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          } else {
+            // Everything else should not be cached at all, the file names won't change every build.
+            res.setHeader('Cache-Control', 'public, no-cache');
+          }
+        },
+      })
+    )
+  );
 } else {
   // Use webpack dev middleware in development
   const webpack = require('webpack');

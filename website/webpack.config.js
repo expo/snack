@@ -32,7 +32,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/dist/',
     filename: '[name].bundle.js',
-    chunkFilename: '[id].[hash].chunk.js',
+    chunkFilename: '[id].[hash].chunk.cached.js',
   },
   optimization: {
     noEmitOnErrors: true,
