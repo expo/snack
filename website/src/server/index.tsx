@@ -82,11 +82,11 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
       serve(path.join(__dirname, '..', '..', 'dist'), {
         setHeaders(res, path) {
           if (path.endsWith('.cached.js') || path.endsWith('.cached.worker.js')) {
-            // All files ending with `.cached.js` should be cached, they change every build.
+            // All files ending with `.cached.js` should be cached, the file names change every build.
             // This is defined in the webpack.config.js and applies mostly to chunks.
             res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
           } else {
-            // Everything else should not be cached at all, they don't change every build.
+            // Everything else should not be cached at all, the file names won't change every build.
             res.setHeader('Cache-Control', 'public, no-cache');
           }
         },
