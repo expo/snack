@@ -76,18 +76,23 @@ app.use(sw());
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   // Always try to send static files ASAP. For files that don't exist,
   // the server will server-side render the client router and set the appropriate status code.
-  app.use(mount('/dist', serve(path.join(__dirname, '..', '..', 'dist'), {
-    setHeaders(res, path) {
-      if (path.endsWith('.cached.js') || path.endsWith('.cached.worker.js')) {
-        // All files ending with `.cached.js` should be cached, they change every build.
-        // This is defined in the webpack.config.js and applies mostly to chunks.
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-      } else {
-        // Everything else should not be cached at all, they don't change every build.
-        res.setHeader('Cache-Control', 'public, no-cache');
-      }
-    },
-  })));
+  app.use(
+    mount(
+      '/dist',
+      serve(path.join(__dirname, '..', '..', 'dist'), {
+        setHeaders(res, path) {
+          if (path.endsWith('.cached.js') || path.endsWith('.cached.worker.js')) {
+            // All files ending with `.cached.js` should be cached, they change every build.
+            // This is defined in the webpack.config.js and applies mostly to chunks.
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          } else {
+            // Everything else should not be cached at all, they don't change every build.
+            res.setHeader('Cache-Control', 'public, no-cache');
+          }
+        },
+      })
+    )
+  );
 } else {
   // Use webpack dev middleware in development
   const webpack = require('webpack');

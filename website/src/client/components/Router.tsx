@@ -46,7 +46,7 @@ export default function Router(props: RouterProps) {
       defaults: data.defaults,
     };
 
-    return isEmbedded ? <EmbeddedApp {...appProps} /> : <App  {...appProps} />;
+    return isEmbedded ? <EmbeddedApp {...appProps} /> : <App {...appProps} />;
   }
 
   return (
