@@ -811,6 +811,12 @@ class Main extends React.Component<Props, State> {
       }),
       this._enablePubNubIfNeeded
     );
+    // On device toggle, update URL to include platform
+    if (platform === 'mydevice') {
+      window.history.pushState({}, '', '/');
+    } else {
+      window.history.pushState({}, '', `?platform=${platform}`);
+    }
   };
 
   _handleSelectFile = (path: string) => {
