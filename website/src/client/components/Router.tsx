@@ -30,27 +30,24 @@ export default function Router(props: RouterProps) {
     return <NonExistent />;
   }, [props.ctx]);
 
-  const renderRoute = React.useCallback(
-    (routeProps: any) => {
-      const { data, ...rest } = props;
-      const isEmbedded = routeProps.location.pathname.split('/')[1] === 'embedded';
+  function renderRoute(routeProps: any) {
+    const { data } = props;
+    const isEmbedded = routeProps.location.pathname.split('/')[1] === 'embedded';
 
-      if (!data || data.type !== 'success') {
-        return render404();
-      }
+    if (!data || data.type !== 'success') {
+      return render404();
+    }
 
-      const appProps = {
-        ...routeProps,
-        ...rest,
-        query: props.queryParams,
-        snack: data.snack,
-        defaults: data.defaults,
-      };
+    const appProps: React.ComponentProps<typeof App | typeof EmbeddedApp> = {
+      ...routeProps,
+      userAgent: props.userAgent,
+      query: props.queryParams,
+      snack: data.snack,
+      defaults: data.defaults,
+    };
 
-      return isEmbedded ? <EmbeddedApp {...appProps} /> : <App {...appProps} />;
-    },
-    [render404]
-  );
+    return isEmbedded ? <EmbeddedApp {...appProps} /> : <App  {...appProps} />;
+  }
 
   return (
     <Switch>
