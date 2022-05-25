@@ -13,29 +13,11 @@ jobs:
     outputs:
       config: ${{ steps.config.outputs.result }}
     steps:
-      - name: 👀 Checkout repository
-        uses: actions/checkout@v2
-      
-      - name: 🚀 Use Node 16
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
 
-      - name: 🔍 Find yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=path::$(yarn cache dir)"
-      
-      - name: ♻️ Restore yarn cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache.outputs.path }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: 🧶 Install dependencies
-        working-directory: website
-        run: yarn install --ignore-scripts --frozen-lockfile
+      - name: 🏗 Setup website
+        uses: ./.github/actions/setup-website
 
       # This command might fail on other dependencies, we just want to peek in the configs
       - name: 👷‍♀️ Build sdk config
@@ -43,8 +25,10 @@ jobs:
         continue-on-error: true
         run: yarn tsc src/client/configs/sdk.tsx > /dev/null
 
+      # Resolve the SDK configuration from website to validate against Appetize.
+      # With this, we can check if the versions and default version are available in Appetize.
       - name: 🕵️ Resolve sdk config
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         id: config
         with:
           script: |
@@ -69,8 +53,8 @@ jobs:
         appetize: ['MAIN', 'EMBED']
         platform: ['ANDROID', 'IOS']
     steps:
-      - name: 🚀 Use Node 16
-        uses: actions/setup-node@v2
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
           
@@ -88,7 +72,7 @@ jobs:
         run: yarn add semver
       
       - name: Validate version
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           script: |
             const semver = require('semver')
