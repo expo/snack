@@ -224,4 +224,12 @@ describe('bundler', () => {
     const bundle = await bundleAsync('react-native-svg@12.1.1');
     expect(bundle).toMatchSnapshot();
   });
+
+  it('bundle packages with "type": "module"', async () => {
+    const bundle = await bundleAsync('@mmomtchev/react-native-settings@1.0.3');
+    expect(bundle).toMatchSnapshot();
+    expect(bundle.files.web['bundle.js'].externals).not.toContain(
+      '@babel/runtime/helpers/interopRequireDefault'
+    );
+  });
 });

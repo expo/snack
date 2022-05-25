@@ -16,6 +16,7 @@ type Options = {
     // TODO: check if other properties are required
     publicPath?: string; // from ./utils/packageBundle
   };
+  packageType: string | undefined;
   externals: string[];
   platform: string;
   reanimatedPlugin?: boolean;
@@ -25,6 +26,7 @@ export default ({
   root,
   entry,
   output,
+  packageType,
   externals,
   platform,
   reanimatedPlugin,
@@ -68,7 +70,12 @@ export default ({
             options: {
               babelrc: false,
               configFile: false,
-              presets: [require.resolve('metro-react-native-babel-preset')],
+              presets: [
+                [
+                  require.resolve('metro-react-native-babel-preset'),
+                  { disableImportExportTransform: packageType === 'module' },
+                ],
+              ],
               plugins: [
                 RewriteImportsPlugin,
                 ...(reanimatedPlugin ? [require.resolve('react-native-reanimated/plugin')] : []),

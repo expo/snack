@@ -1,5 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`bundler bundle packages with "type": "module" 1`] = `
+Object {
+  "files": Object {
+    "android": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "@react-navigation/native-stack",
+          "react",
+          "react-native",
+        ],
+        "size": 10707,
+      },
+    },
+    "ios": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "@react-navigation/native-stack",
+          "react",
+          "react-native",
+        ],
+        "size": 10707,
+      },
+    },
+    "web": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "@react-navigation/native-stack",
+          "react",
+          "react-native",
+        ],
+        "size": 10707,
+      },
+    },
+  },
+  "name": "@mmomtchev/react-native-settings",
+  "peerDependencies": Object {
+    "@react-navigation/native": "^6.0.0",
+    "@react-navigation/native-stack": "^6.6.0",
+    "@types/react": "^17.0.0",
+    "react": "^17.0.0",
+    "react-native": "^0.68.0",
+  },
+  "version": "1.0.3",
+}
+`;
+
 exports[`bundler bundles packages with json imports 1`] = `
 Object {
   "files": Object {
