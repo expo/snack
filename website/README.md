@@ -118,6 +118,44 @@ The code for the client is located under `src/client/`. The webpack build create
 
 Scripts related to deployment, like the Dockerfile, are under `deploy`. Note: even though the scripts are under `deploy`, you must run them from the **root of the repository**; they are sensitive to `cwd`.
 
+## Query Parameters
+
+You can pass certain parameters in the Snack URL to customize the behavior of the Snack.
+
+Here is a summary of all the parameter options that you can use:
+
+> All query parameter values must be URL encoded
+
+| parameter | default | description | type |
+| -------- | ------- | ----------- | ------ |
+| **dependencies** | | Comma separated list of <name>@<version>. | [SnackDependency](https://github.com/expo/snack/blob/main/packages/snack-content/src/types.ts#L64) |
+| **description** | | The description of your Snack. | `string` |
+| **files** | | Allows you to inline files to load through a query param, useful for doc maintainers who don't want to maintain twice the code (both markdown and snack, itself). [Read more about files](https://github.com/expo/snack/blob/main/docs/snack-sdk.md#files-dependencies-and-the-state). | [`SnackFiles`](https://github.com/expo/snack/blob/main/packages/snack-content/src/types.ts#L40) |
+| **name** | | The name of your Snack. When creating a new Snack, a random name is assigned unless one is provided via this parameter.  | `string` |
+| **platform** | `web` | The platform on which your Snack should be run in the Device Preview window. | `android \| ios \| mydevice \| web` |
+| **preview** | `true` | Toggle to show the Device Preview. | `boolean` |
+| **sdkVersion** | _[default SDK](../packages/snack-content/src/defaults.ts#L3)_ | The Expo SDK version that your Snack should use. | [SDKVersion](../packages/snack-content/src/sdks/types.ts#L4) |
+| **sourceUrl** |  | One of two ways to send a file, via publicly-accessible URL of a JS file. | `string` |
+| **supportedPlatforms** | All platforms | Specify which platforms your Snack supports | `android \| ios \| mydevice \| web` |
+| **theme** | `light` | The visual theme of your Snack. | `light \| dark` |
+
+### Examples of Snack URLs
+
+All of these examples should be prefixed with `https://snack.expo.dev/`.
+
+| parameter | example |
+| --------- | ------- |
+| **name** | _[`?name=Gordon%20Freeman`](https://snack.expo.dev/?name=Gordon%20Freeman)_ |
+| **description** | _[`?description=Where%20is%20Half-Life%203`](https://snack.expo.dev/?description=Where%20is%20Half-Life%203)_ |
+| **platform** | _[`?platform=mydevice`](https://snack.expo.dev/?platform=mydevice)_ |
+| **preview** | _[`?preview=false`](https://snack.expo.dev/?preview=false)_ |
+| **sdkVerion** | _[`?sdkVersion=45.0.0`](https://snack.expo.dev/?sdkVersion=45.0.0)_ |
+| **supportedPlatforms** | _[`?supportedPlatforms=android,ios`](https://snack.expo.dev/?supportedPlatforms=android,ios)_ |
+| **theme** | _[`?theme=dark`](https://snack.expo.dev/?theme=dark)_ |
+| **dependencies** | _[`?dependencies=%40expo%2Fvector-icons%40*%2C%40react-native-community%2Fmasked-view`](https://snack.expo.dev/?dependencies=%40expo%2Fvector-icons%40*%2C%40react-native-community%2Fmasked-view)_ |
+| **files** | _[`?files=`](https://snack.expo.dev/?files={"type": "CODE", "contents": "alert('hello');" })_ |
+| **sourceUrl** | _[`?sourceUrl=https://reactnavigation.org/examples/6.x/hello-react-navigation.js`](https://snack.expo.dev/?sourceUrl=https://reactnavigation.org/examples/6.x/hello-react-navigation.js)_ |
+
 ## Running the tests
 
 We run unit tests with Jest. Run `yarn test` in another terminal to start Jest and have it continuously watch for changes. You also can run `yarn jest` if you want to run Jest without the watcher. Keep unit tests fast so that the feedback loop from them is fast.
