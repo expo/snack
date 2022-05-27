@@ -114,6 +114,7 @@ async function packageBundleUnsafe({
       },
       externals,
       platform,
+      packageType: packageJson.type,
       // The reanimated2 plugin scans the package for worklets and converts
       // them so they can be executed directly on the UI thread.
       // This is currently only done for the reanimated package itsself, but
