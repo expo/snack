@@ -128,7 +128,7 @@ Here is a summary of all the parameter options that you can use:
 
 | parameter | default | description | type |
 | -------- | ------- | ----------- | ------ |
-| **dependencies** | | Comma separated list of <name>@<version>. | [SnackDependency](https://github.com/expo/snack/blob/main/packages/snack-content/src/types.ts#L64) |
+| **dependencies** | | Comma separated list of \<name\>@\<version\>. | [SnackDependency](https://github.com/expo/snack/blob/main/packages/snack-content/src/types.ts#L64) |
 | **description** | | The description of your Snack. | `string` |
 | **files** | | Allows you to inline files to load through a query param, useful for doc maintainers who don't want to maintain twice the code (both markdown and snack, itself). [Read more about files](https://github.com/expo/snack/blob/main/docs/snack-sdk.md#files-dependencies-and-the-state). | [`SnackFiles`](https://github.com/expo/snack/blob/main/packages/snack-content/src/types.ts#L40) |
 | **name** | | The name of your Snack. When creating a new Snack, a random name is assigned unless one is provided via this parameter.  | `string` |
@@ -153,7 +153,7 @@ All of these examples should be prefixed with `https://snack.expo.dev/`.
 | **supportedPlatforms** | _[`?supportedPlatforms=android,ios`](https://snack.expo.dev/?supportedPlatforms=android,ios)_ |
 | **theme** | _[`?theme=dark`](https://snack.expo.dev/?theme=dark)_ |
 | **dependencies** | _[`?dependencies=%40expo%2Fvector-icons%40*%2C%40react-native-community%2Fmasked-view`](https://snack.expo.dev/?dependencies=%40expo%2Fvector-icons%40*%2C%40react-native-community%2Fmasked-view)_ |
-| **files** | _[`?files=`](https://snack.expo.dev/?files={"type": "CODE", "contents": "alert('hello');" })_ |
+| **files** | _[`?files=%7B%22type%22%3A%20%22CODE%22%2C%20%22contents%22%3A%20%22alert%28%27hello%27%29%3B%22%20%7D`](https://snack.expo.dev/?files=%7B%22type%22%3A%20%22CODE%22%2C%20%22contents%22%3A%20%22alert%28%27hello%27%29%3B%22%20%7D)_ |
 | **sourceUrl** | _[`?sourceUrl=https://reactnavigation.org/examples/6.x/hello-react-navigation.js`](https://snack.expo.dev/?sourceUrl=https://reactnavigation.org/examples/6.x/hello-react-navigation.js)_ |
 
 ## Running the tests
