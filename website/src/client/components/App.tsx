@@ -286,34 +286,15 @@ class Main extends React.Component<Props, State> {
     if (typeof window !== 'undefined') {
       let webPreviewURL = state.session.webPreviewURL;
 
-      // Starting from SDK 40, the web-player URL is served from a static domain.
-      // For lower SDK versions we fallback to the legacy URL which is served by
-      // the Snack `/web-player/..` end-point.
-      // TODO: Remove this one SDK 39 has been deprecated
       if (state.isLocalWebPreview) {
         webPreviewURL = `${
           window.location.origin
         }/web-player/localhost/index.html?initialUrl=${encodeURIComponent(
           state.session.url
         )}&origin=${encodeURIComponent(window.location.origin)}&verbose=true`;
-      } else if (state.session.sdkVersion <= '39.0.0') {
-        webPreviewURL = `${window.location.origin}/web-player/${
-          state.session.sdkVersion.split('.')[0]
-        }/index.html?initialUrl=${encodeURIComponent(state.session.url)}`;
       }
 
-      if (state.webPreviewURL !== webPreviewURL) {
-        // Dirty hack to update the origin that the transport uses to communicate
-        // with the web-player. The transport origin is initialized from the initial
-        // `webPreviewURL` value, but is re-written here to use the origin from the
-        // actual in use `webPreviewURL`.
-        // TODO: Remove this one SDK 39 has been deprecated
-        // @ts-ignore See above
-        state.session.transports['webplayer']?.updateOrigin?.(new URL(webPreviewURL).origin);
-        return {
-          webPreviewURL,
-        };
-      }
+      return { webPreviewURL };
     }
     return null;
   }
