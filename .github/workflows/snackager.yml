@@ -128,7 +128,7 @@ jobs:
         working-directory: snackager/k8s/staging
 
       - name: 🚀 Deploy snackager
-        run: skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
+        run: skaffold deploy --filename snackager/skaffold.yaml --status-check --build-artifacts snackager/build.json
         working-directory: ./
 
       - name: 💬 Notify Slack
@@ -177,7 +177,7 @@ jobs:
         working-directory: snackager/k8s/production
 
       - name: 🚀 Deploy snackager
-        run: skaffold deploy --filename snackager/skaffold.yaml --status-check true --build-artifacts snackager/build.json
+        run: skaffold deploy --filename snackager/skaffold.yaml --status-check --build-artifacts snackager/build.json
         working-directory: ./
         env:
           ENVIRONMENT: production
