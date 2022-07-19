@@ -27,6 +27,10 @@ const CORE_EXTERNALS = [
   'react-native/Libraries/Renderer/shims/ReactNative', // Used by moti
   'react-native/Libraries/Components/UnimplementedViews/UnimplementedView', // Used by @react-native-picker/picker@1.9.11
   'react-native/Libraries/Components/TextInput/TextInputState', // Used by @stripe/stripe-react-native
+  'react-native/Libraries/Core/Devtools/parseErrorStack', // Used by @sentry/react-native@3.4.2
+  'react-native/Libraries/Core/Devtools/symbolicateStackTrace', // Used by @sentry/react-native@3.4.2
+  'react-native/Libraries/Core/Devtools/getDevServer', // Used by @sentry/react-native@3.4.2
+  'react-native/Libraries/Utilities/PolyfillFunctions', // Used by @sentry/react-native@3.4.2
   'react-native-web/dist/modules/UnimplementedView', // Used by react-native-maps
   // TODO: decide whether to treat prop-types as an external or not
   // previously it was always installed as a dependency and not treated as an external.

@@ -224,4 +224,10 @@ describe('bundler', () => {
     const bundle = await bundleAsync('react-native-svg@12.1.1');
     expect(bundle).toMatchSnapshot();
   });
+
+  it('creates bundle for @sentry/react-native@3.4.2', async () => {
+    // This included a lot of new externals, see ../bundler/externals.ts
+    const bundle = await bundleAsync('@sentry/react-native@3.4.2');
+    expect(bundle).toMatchSnapshot();
+  });
 });
