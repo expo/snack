@@ -3,7 +3,7 @@ const { version } = require('@babel/core/package.json');
 
 module.exports = {
   entry: './index',
-  mode: 'development',
+  mode: 'production',
   node: {
     // Mock Node.js modules that Babel require()s but that we don't
     // particularly care about.
@@ -15,6 +15,10 @@ module.exports = {
     filename: 'babel-standalone.js',
     library: 'babel-standalone',
     libraryTarget: 'commonjs2',
+  },
+  devtool: false,
+  optimization: {
+    minimize: true,
   },
   plugins: [
     new webpack.DefinePlugin({
