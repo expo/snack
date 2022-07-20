@@ -67,7 +67,7 @@ profiles:
       local:
         push: true
     activation:
-      - env: GITHUB_REF=refs/heads/main
+      - env: SKAFFOLD_PUSH_IMAGE=true
   - name: local
     deploy:
       kustomize:
