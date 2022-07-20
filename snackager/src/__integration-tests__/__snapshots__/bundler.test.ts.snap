@@ -350,6 +350,48 @@ Object {
 }
 `;
 
+exports[`bundler creates bundle for react-native-reanimated@2.9.1 1`] = `
+Object {
+  "files": Object {
+    "android": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+          "react-native/Libraries/Renderer/shims/ReactNative",
+        ],
+        "size": 457979,
+      },
+    },
+    "ios": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+          "react-native/Libraries/Renderer/shims/ReactNative",
+        ],
+        "size": 457979,
+      },
+    },
+    "web": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+        ],
+        "size": 446904,
+      },
+    },
+  },
+  "name": "react-native-reanimated",
+  "peerDependencies": Object {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "2.9.1",
+}
+`;
+
 exports[`bundler creates bundle for react-native-screens/native-stack 1`] = `
 Object {
   "files": Object {

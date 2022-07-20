@@ -230,4 +230,10 @@ describe('bundler', () => {
     const bundle = await bundleAsync('@sentry/react-native@3.4.2');
     expect(bundle).toMatchSnapshot();
   });
+
+  it('creates bundle for react-native-reanimated@2.9.1', async () => {
+    // This version needs the `@babel/plugin-proposal-export-namespace-from` to bundle
+    const bundle = await bundleAsync('react-native-reanimated@2.9.1');
+    expect(bundle).toMatchSnapshot();
+  });
 });
