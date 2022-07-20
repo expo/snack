@@ -38,8 +38,8 @@ Update the Snack runtime (managed Expo app), snack-sdk and website to the latest
 
 ### snack-sdk
 
-- Add new SDK version to `snack/packages/snack-sdk/src/sdks/types.ts`
-- Update `snack/packages/snack-sdk/src/sdks/index.ts` and use the same dependency versions as used by the runtime (these are used for resolving type information)
+- Add new SDK version to `snack/packages/snack-content/src/sdks/types.ts`
+- Update `snack/packages/snack-content/src/sdks/index.ts` and use the same dependency versions as used by the runtime (these are used for resolving type information)
 - Update `snack/packages/snack-sdk/src/__fixtures__/bundledNativeModules.json` and add the new SDK version
 - Run `yarn test` and fix any failing tests
 - Update CHANGELOG.md
