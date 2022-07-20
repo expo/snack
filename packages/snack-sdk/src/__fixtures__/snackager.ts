@@ -39,6 +39,10 @@ const config: SnackagerConfig = {
       version: '11.2.3',
       peerDependencies,
     },
+    'expo-av@~12.0.2': {
+      version: '12.0.2',
+      peerDependencies,
+    },
     '@react-navigation/native@5.1.1': {
       peerDependencies,
     },
