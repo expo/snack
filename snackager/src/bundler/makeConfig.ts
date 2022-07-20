@@ -71,6 +71,7 @@ export default ({
               presets: [require.resolve('metro-react-native-babel-preset')],
               plugins: [
                 RewriteImportsPlugin,
+                require.resolve('@babel/plugin-proposal-export-namespace-from'),
                 ...(reanimatedPlugin ? [require.resolve('react-native-reanimated/plugin')] : []),
               ],
             },
