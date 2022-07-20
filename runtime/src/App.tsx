@@ -83,7 +83,7 @@ export default class App extends React.Component<object, State> {
             }
             try {
               return JSON.stringify(item);
-            } catch (e) {}
+            } catch {}
           }
           return String(item);
         }),

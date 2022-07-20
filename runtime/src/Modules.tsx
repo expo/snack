@@ -61,11 +61,11 @@ const cacheBuster = '2';
 
 // We access this for its side effects because it is lazily loaded.
 // See https://github.com/expo/expo-asset/blob/6698f2a6dc657a0b12bf29a22e62c83c9fd8ed3a/src/Asset.js#L186-L190
-Asset; // eslint-disable-line @babel/no-unused-expressions,@typescript-eslint/no-unused-expressions
+Asset; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars
 
 // Load react-native-gesture-handler, so RCTView's directEventTypes are set before bridge is fully initialized.
 // See https://github.com/kmagiera/react-native-gesture-handler/blob/master/GestureHandler.js#L46
-GestureHandler; // eslint-disable-line @babel/no-unused-expressions,@typescript-eslint/no-unused-expressions
+GestureHandler; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars
 
 // Maintain project-level dependency state in the `ExpoDependencyV2` format.
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
@@ -641,7 +641,7 @@ const _initialize = async () => {
 
             // Remove any leading './' from the file path
             index = index.replace(/^\.\//, '');
-          } catch (e) {
+          } catch {
             // Ignore error
           }
         }
