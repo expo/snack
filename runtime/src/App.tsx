@@ -1,7 +1,6 @@
 import './polyfill';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import AppLoading from 'expo-app-loading';
 import Constants from 'expo-constants';
 import { activateKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
@@ -10,6 +9,7 @@ import * as React from 'react';
 import { AppState, PixelRatio, Dimensions, Platform } from 'react-native';
 
 import * as Analytics from './Analytics';
+import { AppLoading } from './AppLoading';
 import BarCodeScannerView from './BarCodeScannerView';
 import * as Console from './Console';
 import * as Errors from './Errors';
