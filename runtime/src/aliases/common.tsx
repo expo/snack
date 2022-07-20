@@ -26,8 +26,6 @@ const aliases: { [key: string]: any } = {
 
   // Common packages that are included for easy of use
   'prop-types': require('prop-types'),
-  '@unimodules/core': require('@unimodules/core'),
-  '@unimodules/react-native-adapter': require('@unimodules/react-native-adapter'),
 
   // Aliases for the image examples in react native docs
   '@expo/snack-static/react-native-logo.png': require('../react-native-logo.png'),
