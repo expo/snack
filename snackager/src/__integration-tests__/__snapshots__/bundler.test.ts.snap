@@ -360,7 +360,7 @@ Object {
           "react-native",
           "react-native/Libraries/Renderer/shims/ReactNative",
         ],
-        "size": 457979,
+        "size": 457977,
       },
     },
     "ios": Object {
@@ -370,7 +370,7 @@ Object {
           "react-native",
           "react-native/Libraries/Renderer/shims/ReactNative",
         ],
-        "size": 457979,
+        "size": 457977,
       },
     },
     "web": Object {
@@ -379,7 +379,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 446904,
+        "size": 446903,
       },
     },
   },
