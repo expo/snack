@@ -1,6 +1,6 @@
 {
   "name": "snack-babel-standalone",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "@babel/standalone version for React Native",
   "main": "dist/babel-standalone.js",
   "types": "types.d.ts",
