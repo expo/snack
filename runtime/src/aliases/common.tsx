@@ -1,5 +1,5 @@
 import AssetRegistry from '../NativeModules/AssetRegistry';
-import CanvasKit, { packageJson as CanvasKitPackage } from '../NativeModules/CanvasKit';
+import * as SkiaWeb from '../NativeModules/ReactNativeSkia';
 
 const aliases: { [key: string]: any } = {
   expo: require('expo'),
@@ -36,8 +36,7 @@ const aliases: { [key: string]: any } = {
   'react-native-reanimated': require('react-native-reanimated'),
 
   // Used by @shopify/react-native-skia, on web only
-  'canvaskit-wasm/package.json': CanvasKitPackage, // Used to find the version of canvaskit used
-  'canvaskit-wasm/bin/full/canvaskit': CanvasKit, // CanvasKit itself
+  '@shopify/react-native-skia/dist/web': SkiaWeb,
 };
 
 export default aliases;
