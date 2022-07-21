@@ -25,6 +25,7 @@
     "@babel/polyfill": "^7.8.3",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
+    "canvaskit-wasm": "^0.35.0",
     "diff": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
     "expo": "^46.0.0-beta.6",
