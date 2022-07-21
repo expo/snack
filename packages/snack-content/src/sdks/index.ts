@@ -74,6 +74,10 @@ const sdks: { [version: string]: SDKSpec } = {
       'react-dom': '*',
       'react-native': '0.69.1',
       'react-native-web': '*',
+      // Used by @shopify/react-native-skia, on web only
+      // See Runtime aliases for more info
+      'canvaskit-wasm/bin/full/canvaskit': '*',
+      'canvaskit-wasm/package.json': '*',
     },
     bundledModules: {
       'expo-asset': '*',
