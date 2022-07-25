@@ -48,8 +48,6 @@ const config = {
               [
                 '@babel/preset-env',
                 {
-                  debug: true, // ← to print actual browser versions
-
                   /*
                    * We want to remove `transform-unicode-regex` convert because of https://github.com/eslint/eslint/pull/12662.
                    *

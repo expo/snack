@@ -1,6 +1,6 @@
 {
-  "name": "@bycedric/snack-eslint-standalone-test",
-  "version": "0.0.10",
+  "name": "snack-eslint-standalone",
+  "version": "1.0.0",
   "description": "ESLint for Snack Website",
   "author": "Expo <support@expo.dev>",
   "license": "MIT",
@@ -37,10 +37,13 @@
     "eslint-plugin-react-native": "^4.0.0",
     "node-polyfill-webpack-plugin": "^2.0.0",
     "patch-package": "^6.4.7",
-    "snack-babel-standalone": "npm:@bycedric/snack-babel-standalone-test",
+    "snack-babel-standalone": "^2.0.0",
     "webpack": "^5.73.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.10.0"
+  },
+  "peerDependencies": {
+    "snack-babel-standalone": ">=2.0.0"
   },
   "volta": {
     "node": "16.14.2"
