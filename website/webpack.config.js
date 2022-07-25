@@ -111,6 +111,8 @@ module.exports = {
       aphrodite: 'aphrodite/no-important',
       'snack-content': path.resolve(__dirname, '../packages/snack-content/src'),
       'snack-sdk': path.resolve(__dirname, '../packages/snack-sdk/src'),
+      // Hacky workaround for `exports` in Webpack 4, required for `snack-eslint-standalone`
+      'snack-babel-standalone/eslint': require.resolve('snack-babel-standalone/eslint'),
     },
   },
 };
