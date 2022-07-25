@@ -1,4 +1,4 @@
-import { Linter, Rule } from 'eslint/lib/linter/linter';
+import { Linter } from 'eslint/lib/linter/linter';
 import * as babelParser from '@babel/eslint-parser';
 
 import { rules as reactRules } from 'eslint-plugin-react';
@@ -22,7 +22,7 @@ linter.defineRules(prefixRules('react-native', reactNativeRules));
 /**
  * A helper to prefix all rules by the package name.
  * This matches ESLint internal rules loaders, since we don't import them.
- * It transforms rules like `rules-of-hooks` to `${prefix}/rules-of-hooks`
+ * It transforms rules like `rules-of-hooks` to `${prefix}/rules-of-hooks`.
  */
 function prefixRules(prefix: string, rules: any) {
   return Object.fromEntries<any>(

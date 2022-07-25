@@ -1,37 +1,26 @@
 export const defaultConfig = {
   parser: '@babel/eslint-parser',
-
   parserOptions: {
     sourceType: 'module',
     requireConfigFile: false,
     babelOptions: {
       babelrc: false,
       configFile: false,
-      // your babel options
       presets: [
         'module:metro-react-native-babel-preset',
         '@babel/preset-typescript',
       ],
     },
   },
-
   env: {
     es6: true,
   },
-
   plugins: ['react', 'react-hooks', 'react-native'],
-
-  // plugins: ['babel', 'flowtype', 'react', 'react-native', 'react-hooks'],
-
   settings: {
-  //   flowtype: {
-  //     onlyFilesWithFlowAnnotation: true,
-  //   },
     react: {
       version: 'detect',
     },
   },
-
   globals: {
     __DEV__: false,
     __dirname: false,
@@ -68,7 +57,6 @@ export const defaultConfig = {
     window: false,
     XMLHttpRequest: false,
   },
-
   rules: {
     'constructor-super': 'error',
     'no-case-declarations': 'error',
@@ -111,6 +99,7 @@ export const defaultConfig = {
     'use-isnan': 'error',
     'valid-typeof': 'error',
 
+    // TODO(cedric): check if we still need to support Flow
     // 'flowtype/array-style-complex-type': 'off',
     // 'flowtype/array-style-simple-type': 'off',
     // 'flowtype/boolean-style': 'off',
