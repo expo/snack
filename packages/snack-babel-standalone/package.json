@@ -37,7 +37,7 @@
   },
   "scripts": {
     "test": "echo 'No tests yet'",
-    "lint": "tsc --noEmit",
+    "lint": "tsc --noEmit; echo 'Only typecheck'",
     "clean": "git clean -xdf ./build",
     "dev": "webpack",
     "build": "WEBPACK_PRODUCTION=true webpack",
