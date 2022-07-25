@@ -69,9 +69,3 @@ jobs:
       - name: 🛠 Build package
         run: yarn build
         working-directory: packages/${{ matrix.package }}
-
-      # Disabled due to issues with outdated library and faulty rendering
-      # - name: 📋 Validate docs
-      #   if: ${{ matrix.validate-docs }}
-      #   run: yarn doc:ci
-      #   working-directory: packages/${{ matrix.package }}
