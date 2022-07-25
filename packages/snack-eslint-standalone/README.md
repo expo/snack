@@ -17,8 +17,8 @@ Standalone version of ESLint used in the Snack Website. This version of ESLint i
 
 ## Installation
 
-```sh
-yarn add snack-eslint-standalone
+```bash
+$ yarn add snack-eslint-standalone
 ```
 
 ## Usage
@@ -53,3 +53,13 @@ Because we need to run Babel inside the Snack Runtime, we already have a standal
 ### ESLint React plugin
 
 This plugin tries to resolve the React version from local files. It does that using some Node tooling. Because this isn't available in the browser, we patched the version detection to always return `999.999.999` (the default version). This avoids including modules, like `fs` or `resolve`, in the ESLint bundle.
+
+## Contributing
+
+This package has a few commands, mainly to build, analyze and build for publishing.
+
+- `yarn dev` → Builds an unoptimized development build.
+- `yarn build` → Builds an optimized production build.
+- `yarn analyze` → Builds an optimized production build, and opens the Webpack bundle analyzer.
+
+> When adding new packages, or upgrading old ones, make sure no Node dependencies are added with `yarn analyze`. Also make sure only the minimum required code is being bundled, create patches if necessary.
