@@ -19,14 +19,16 @@ const {
  */
 const config = {
   mode: 'development',
-  entry: [
-    'core-js/stable',
-    'regenerator-runtime/runtime',
-    path.resolve(__dirname, 'src/index.ts')
-  ],
+  entry: {
+    eslint: [
+      'core-js/stable',
+      'regenerator-runtime/runtime',
+      path.resolve(__dirname, 'src/eslint.ts')
+    ],
+  },
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'eslint-standalone.js',
+    filename: '[name].js',
     // library: 'eslint-standalone', // This causes a weird export
     libraryTarget: 'commonjs2',
     globalObject: 'this',
@@ -36,7 +38,7 @@ const config = {
     rules: [
       {
         test: /\.(ts|js|mjs)$/u,
-        include: [path.resolve(__dirname, 'src/index.ts')],
+        include: [path.resolve(__dirname, 'src')],
         exclude: [path.resolve(__dirname, 'node_modules')],
         use: {
           loader: 'babel-loader',
@@ -82,7 +84,7 @@ const config = {
     // This "hot-wires" snack babel standalone, bundled with presets and plugins.
     // It's required for the `@babel/eslint-parser` to resolve the right libraries.
     // We don't use aliases, because we want to be able to split it in chunks in Snack Website.
-    '@babel/core': 'commonjs2 snack-babel-standalone',
+    '@babel/core': 'commonjs2 snack-babel-standalone/eslint',
   },
 };
 

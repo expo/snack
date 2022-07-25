@@ -157,7 +157,7 @@ export const defaultConfig = {
 
     // 'react-native/no-unused-styles': 'error',
 
-    // 'react-hooks/rules-of-hooks': 'error',
-    // 'react-hooks/exhaustive-deps': 'error',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'error',
   },
 };
