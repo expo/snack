@@ -1,0 +1,46 @@
+{
+  "name": "snack-eslint-standalone",
+  "version": "0.0.0",
+  "description": "ESLint for Snack Website",
+  "author": "Expo <support@expo.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expo/snack.git",
+    "directory": "packages/snack-eslint-standalone"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/snack/issues"
+  },
+  "main": "build/eslint-standalone.js",
+  "types": "src/index.d.ts",
+  "files": [
+    "build",
+    "src/index.d.ts"
+  ],
+  "scripts": {
+    "clean": "git clean -xdf ./build",
+    "build": "webpack",
+    "compile": "WEBPACK_PRODUCTION=true webpack",
+    "analyze": "WEBPACK_ANALYZE=true webpack",
+    "prepublishOnly": "yarn clean && yarn compile",
+    "postinstall": "patch-package"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.9",
+    "@babel/eslint-parser": "7.14.2",
+    "@babel/preset-env": "^7.18.9",
+    "@babel/preset-typescript": "^7.18.6",
+    "babel-loader": "^8.2.5",
+    "eslint": "^8.20.0",
+    "node-polyfill-webpack-plugin": "^2.0.0",
+    "patch-package": "^6.4.7",
+    "snack-babel-standalone": "file:../snack-babel-standalone",
+    "webpack": "^5.73.0",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "volta": {
+    "node": "16.14.2"
+  }
+}
