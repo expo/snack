@@ -19,16 +19,18 @@ export const defaultConfig = {
     es6: true,
   },
 
+  plugins: ['react', 'react-hooks', 'react-native'],
+
   // plugins: ['babel', 'flowtype', 'react', 'react-native', 'react-hooks'],
 
-  // settings: {
+  settings: {
   //   flowtype: {
   //     onlyFilesWithFlowAnnotation: true,
   //   },
-  //   react: {
-  //     version: 'detect',
-  //   },
-  // },
+    react: {
+      version: 'detect',
+    },
+  },
 
   globals: {
     __DEV__: false,
@@ -155,7 +157,8 @@ export const defaultConfig = {
     'react/react-in-jsx-scope': 'error',
     'react/require-render-return': 'error',
 
-    // 'react-native/no-unused-styles': 'error',
+    'react-native/no-single-element-style-arrays': 'error',
+    'react-native/no-unused-styles': 'error',
 
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
