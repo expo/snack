@@ -1,7 +1,7 @@
 {
   "name": "snack-babel-standalone",
   "version": "2.0.0",
-  "description": "Babel for React Native",
+  "description": "Babel for Snack Runtime and Website",
   "main": "./build/runtime.js",
   "types": "./types/runtime.d.ts",
   "typesVersions": {
