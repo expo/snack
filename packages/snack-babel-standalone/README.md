@@ -59,8 +59,8 @@ Because this package is used in both the Snack Runtime, and as drop-in replaceme
 
 This package has a few commands, mainly to build, analyze and build for publishing.
 
-- `yarn build` → Builds an unoptimized development build.
+- `yarn dev` → Builds an unoptimized development build.
+- `yarn build` → Builds an optimized production build.
 - `yarn analyze` → Builds an optimized production build, and opens the Webpack bundle analyzer.
-- `yarn compile` → Builds an optimized production build.
 
 > When adding new packages, or upgrading old ones, make sure no Node dependencies are added with `yarn analyze`. Also make sure only the minimum required code is being bundled, create patches if necessary.
