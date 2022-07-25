@@ -1,6 +1,6 @@
 {
   "name": "@bycedric/snack-eslint-standalone-test",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "ESLint for Snack Website",
   "author": "Expo <support@expo.dev>",
   "license": "MIT",
@@ -32,6 +32,7 @@
     "@babel/preset-typescript": "^7.18.6",
     "babel-loader": "^8.2.5",
     "eslint": "^8.20.0",
+    "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "node-polyfill-webpack-plugin": "^2.0.0",
     "patch-package": "^6.4.7",
