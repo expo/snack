@@ -28,13 +28,14 @@ jobs:
     strategy:
       matrix:
         package:
+          - snack-babel-standalone
           - snack-content
           - snack-proxies
           - snack-sdk
           - snack-term
-        # include:
-        #   - package: snack-sdk
-        #     validate-docs: true
+        include:
+          - package: snack-babel-standalone
+            local-install: true
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -45,9 +46,15 @@ jobs:
           node-version: 16.x
           cache: yarn
       
-      - name: 📦 Install dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
+      - name: 📦 Install monorepo dependencies
+        run: yarn install --frozen-lockfile
       
+      # When decoupled from the monorepo, make sure to install the local packages
+      - name: 📦 Install local dependencies
+        if: ${{ matrix.local-install }}
+        run: yarn install --frozen-lockfile
+        working-directory: packages/${{ matrix.package }}
+
       - name: 🛠 Build core packages
         run: yarn build
 
@@ -62,9 +69,3 @@ jobs:
       - name: 🛠 Build package
         run: yarn build
         working-directory: packages/${{ matrix.package }}
-
-      # Disabled due to issues with outdated library and faulty rendering
-      # - name: 📋 Validate docs
-      #   if: ${{ matrix.validate-docs }}
-      #   run: yarn doc:ci
-      #   working-directory: packages/${{ matrix.package }}

@@ -8,13 +8,10 @@
  * Copied from https://github.com/babel/babel/blob/master/packages/babel-standalone/src/index.js
  */
 
-/* global VERSION */
-/* eslint-disable max-len */
-
-import * as Babel from "@babel/core";
-import * as Generator from "@babel/generator";
-import * as Traverse from "@babel/traverse";
-import * as Parser from "@babel/parser";
+import * as Babel from '@babel/core';
+import * as Generator from '@babel/generator';
+import * as Traverse from '@babel/traverse';
+import * as Parser from '@babel/parser';
 
 const isArray =
   Array.isArray ||
@@ -42,8 +39,9 @@ function loadBuiltin(builtinTable, name) {
 
 /**
  * Parses plugin names and presets from the specified options.
+ * Exported for reuse in `./eslint`.
  */
-function processOptions(options) {
+export function processOptions(options) {
   // Parse preset names
   const presets = (options.presets || []).map(presetName => {
     const preset = loadBuiltin(availablePresets, presetName);
@@ -122,6 +120,10 @@ export function parse(input, options) {
 
 export const availablePlugins = {};
 export const availablePresets = {};
+
+// Untyped internal, but we still want to expose it.
+// See: https://github.com/babel/babel/blob/f1ac2906b1066e47503e4d82d0602acd4be94e60/packages/babel-core/src/index.ts#L6
+// @ts-expect-error Property 'buildExternalHelpers' does not exist
 export const buildExternalHelpers = Babel.buildExternalHelpers;
 
 /**
@@ -168,6 +170,8 @@ export function registerPresets(newPresets) {
   );
 }
 
+// Set through the webpack config, using `import('@babel/core').version`.
+// @ts-expect-error Cannot find name 'VERSION'.
 export const version = VERSION;
 
 export function getPlugin(name) {
