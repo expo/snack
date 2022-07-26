@@ -35,6 +35,8 @@ export default class PubNub {
     PubNub.instances.push(this);
   }
 
+  static generateUUID = jest.fn(() => 'FAKE-UUID');
+
   addListener = jest.fn((params: ListenerParameters) => {
     this.listener = params;
   });
