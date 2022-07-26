@@ -343,7 +343,7 @@ const fetchPipeline = async (load: Load) => {
 
 const sourceMapConsumers: { [key: string]: SourceMapConsumer } = {};
 const transformCache: {
-  [key: string]: { source: string; result: babel.BabelFileResult | null };
+  [key: string]: { source: string; result: ReturnType<typeof babel.transform> | null };
 } = {};
 
 const translatePipeline = async (load: Load) => {
@@ -373,6 +373,8 @@ const translatePipeline = async (load: Load) => {
             plugins: [
               ['@babel/plugin-transform-async-to-generator'],
               ['@babel/plugin-proposal-decorators', { legacy: true }],
+              ['@babel/plugin-syntax-dynamic-import'],
+              ['@babel/plugin-proposal-dynamic-import'],
               ...(load.source.includes('react-native-reanimated') || load.source.includes('worklet')
                 ? [Reanimated2Plugin]
                 : []),

@@ -8,8 +8,10 @@ Standalone version of Babel used in Snack Runtime and Snack Website. This versio
 
 - `@babel/core`
 - `@babel/plugin-proposal-decorators`
+- `@babel/plugin-proposal-dynamic-import`
 - `@babel/plugin-proposal-nullish-coalescing-operator`
 - `@babel/plugin-proposal-optional-chaining`
+- `@babel/plugin-syntax-dynamic-import`
 - `@babel/plugin-transform-arrow-functions`
 - `@babel/plugin-transform-async-to-generator`
 - `@babel/plugin-transform-shorthand-properties`
