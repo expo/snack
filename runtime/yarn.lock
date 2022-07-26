@@ -12219,10 +12219,10 @@ smart-buffer@^4.1.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.1.0.tgz#91605c25d91652f4661ea69ccf45f1b331ca21ba"
   integrity sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
 
-snack-babel-standalone@~1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-1.1.0.tgz#07f127fbfec92b52bdb4d31d81b0cbec9dbdd83e"
-  integrity sha512-23233qXBsX6B5u65zFSQyob/lgbimk1rBkQcoYFXKPs0TpL29B6WItt81rWCxIZibd/tY5oTKXxRj2JQRbCRhg==
+snack-babel-standalone@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-2.1.0.tgz#c2f45440ad15f2f4799f14e717755384cf24f19e"
+  integrity sha512-9DWW6IAop08ByG7K8AFX07gPgkULip6xYb3TcbyystfHqiJLVAtf5/eDKsh+vD8jMJZN6PY9tOY0ewdcakXwuQ==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
