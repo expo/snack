@@ -1,0 +1,2 @@
+import System from 'systemjs';
+
