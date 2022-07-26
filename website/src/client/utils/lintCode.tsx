@@ -1,22 +1,14 @@
-import eslintrc from '../configs/eslint.json';
+import { linter, defaultConfig, LintMessage } from 'snack-eslint-standalone';
+
 import { Annotation } from '../types';
-// @ts-ignore: no types defined for eslint
-import { Linter } from '../vendor/eslint';
 import { isTS } from './fileUtilities';
 
 export default function lintCode(
   fileName: string,
   code: string,
-  config: object = eslintrc
+  config: object = defaultConfig
 ): Annotation[] {
-  const linter = new Linter();
-  const errors: {
-    ruleId: string;
-    line: number;
-    column: number;
-    message: string;
-    severity: number;
-  }[] = linter.verify(code, config);
+  const errors: LintMessage[] = linter.verify(code, config);
 
   return errors
     .map((err) => {
@@ -34,9 +26,9 @@ export default function lintCode(
         location: {
           fileName,
           startLineNumber: err.line,
-          endLineNumber: err.line,
+          endLineNumber: err.endLine,
           startColumn: err.column,
-          endColumn: err.column,
+          endColumn: err.endColumn,
         },
         message: `${err.message} (${err.ruleId})`,
         severity: isParsingError ? 4 : Math.max(err.severity, 2),
