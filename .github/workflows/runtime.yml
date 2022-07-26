@@ -74,6 +74,7 @@ jobs:
         run: yarn deploy:staging
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_STAGING }}
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
@@ -110,6 +111,7 @@ jobs:
         run: yarn deploy:prod
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_PRODUCTION }}
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3

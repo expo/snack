@@ -118,6 +118,8 @@ jobs:
       - name: 🛠 Build snackager
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
         working-directory: ./
+        env:
+          SKAFFOLD_PUSH_IMAGE: 'true'
 
       - name: 🧹 Dry-run prune docker image
         run: ./bin/prune-gcr snackager --dry-run
@@ -130,6 +132,8 @@ jobs:
       - name: 🚀 Deploy snackager
         run: skaffold deploy --filename snackager/skaffold.yaml --status-check --build-artifacts snackager/build.json
         working-directory: ./
+        env:
+          SKAFFOLD_PUSH_IMAGE: 'true'
 
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
@@ -171,6 +175,7 @@ jobs:
         working-directory: ./
         env:
           ENVIRONMENT: production
+          SKAFFOLD_PUSH_IMAGE: 'true'
 
       - name: 📋 Add change cause
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
@@ -181,6 +186,7 @@ jobs:
         working-directory: ./
         env:
           ENVIRONMENT: production
+          SKAFFOLD_PUSH_IMAGE: 'true'
 
       - name: 🧹 Prune docker image
         if: ${{ success() }}

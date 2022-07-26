@@ -13,6 +13,7 @@
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
+    "useUnknownInCatchVariables": false,
     "strict": true,
   },
   "extends": "expo/tsconfig.base"

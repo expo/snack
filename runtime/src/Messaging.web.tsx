@@ -76,7 +76,7 @@ const onMessage = (event: MessageEvent) => {
     const message = JSON.parse(event.data);
 
     listeners.forEach((listener) => listener({ message }));
-  } catch (e) {
+  } catch {
     Logger.comm_error('Failed to parse message', event.data);
   }
 };
