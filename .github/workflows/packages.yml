@@ -30,11 +30,14 @@ jobs:
         package:
           - snack-babel-standalone
           - snack-content
+          - snack-eslint-standalone
           - snack-proxies
           - snack-sdk
           - snack-term
         include:
           - package: snack-babel-standalone
+            local-install: true
+          - package: snack-eslint-standalone
             local-install: true
     steps:
       - name: 🏗 Setup repository
