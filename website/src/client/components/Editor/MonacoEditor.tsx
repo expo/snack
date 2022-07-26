@@ -1,7 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
-import { SimpleEditorModelResolverService } from 'monaco-editor/esm/vs/editor/standalone/browser/simpleServices';
 import { StaticServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices';
 import { initVimMode } from 'monaco-vim';
 import * as React from 'react';
@@ -16,14 +15,6 @@ import ResizeDetector from '../shared/ResizeDetector';
 import { EditorProps, EditorMode } from './EditorProps';
 import { light, dark } from './themes/monaco';
 import overrides from './themes/monaco-overrides';
-
-/**
- * Monkeypatch to make 'Find All References' work across multiple files
- * https://github.com/Microsoft/monaco-editor/issues/779#issuecomment-374258435
- */
-SimpleEditorModelResolverService.prototype.findModel = function (_: any, resource: any) {
-  return monaco.editor.getModels().find((model) => model.uri.toString() === resource.toString());
-};
 
 // @ts-ignore
 global.MonacoEnvironment = {
