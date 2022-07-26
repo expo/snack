@@ -343,7 +343,7 @@ const fetchPipeline = async (load: Load) => {
 
 const sourceMapConsumers: { [key: string]: SourceMapConsumer } = {};
 const transformCache: {
-  [key: string]: { source: string; result: babel.BabelFileResult | null };
+  [key: string]: { source: string; result: ReturnType<typeof babel.transform> | null };
 } = {};
 
 const translatePipeline = async (load: Load) => {
