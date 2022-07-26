@@ -17,13 +17,13 @@ function env(key, def) {
   throw new Error(`Environment variable ${key} isn't specified`);
 }
 
+/** @type {import('webpack').Configuration} */
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'eval-source-map',
   entry: {
     // Main bundle
     app: './src/client/index.tsx',
-
     // Service worker
     sw: './src/client/sw.tsx',
   },
@@ -66,9 +66,6 @@ module.exports = {
       /^((fs)|(path)|(os)|(crypto)|(source-map-support))$/,
       /vs(\/|\\)language(\/|\\)typescript(\/|\\)lib/
     ),
-    new webpack.ContextReplacementPlugin(
-      /monaco-editor(\\|\/)esm(\\|\/)vs(\\|\/)editor(\\|\/)common(\\|\/)services/
-    ),
     new WorkerPlugin(),
     new MiniCssExtractPlugin(),
     new StatsWriterPlugin({
@@ -98,7 +95,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|ttf)$/,
         use: {
           loader: 'file-loader',
           options: {
