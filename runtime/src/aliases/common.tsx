@@ -1,4 +1,5 @@
 import AssetRegistry from '../NativeModules/AssetRegistry';
+import * as SkiaWeb from '../NativeModules/ReactNativeSkia';
 
 const aliases: { [key: string]: any } = {
   expo: require('expo'),
@@ -33,6 +34,9 @@ const aliases: { [key: string]: any } = {
   // Use the fixed react native reanimated shipped in the snack runtime
   // It's a workaround for issues we encountered with the newer babel plugin for SDK 44
   'react-native-reanimated': require('react-native-reanimated'),
+
+  // Used by @shopify/react-native-skia, on web only
+  '@shopify/react-native-skia/dist/web': SkiaWeb,
 };
 
 export default aliases;
