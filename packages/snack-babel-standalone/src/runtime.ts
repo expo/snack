@@ -191,6 +191,9 @@ export function getPlugin(name) {
 
 registerPlugins({
   '@babel/plugin-proposal-decorators': require('@babel/plugin-proposal-decorators').default,
+  // Required to map `await import()` back to `require`, which works in systemjs
+  '@babel/plugin-syntax-dynamic-import': require('@babel/plugin-syntax-dynamic-import'),
+  '@babel/plugin-proposal-dynamic-import': require('@babel/plugin-proposal-dynamic-import'),
   // Required for using JSI host objects with async functions in React Native <=0.66
   '@babel/plugin-transform-async-to-generator': require('@babel/plugin-transform-async-to-generator').default,
   // Required for the Reanimated 2.3.x plugin
