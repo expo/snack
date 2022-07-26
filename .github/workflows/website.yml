@@ -108,6 +108,8 @@ jobs:
       - name: 🛠 Build website
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
         working-directory: ./
+        env:
+          SKAFFOLD_PUSH_IMAGE: 'true'
 
       - name: 🧹 Dry-run prune docker image
         run: ./bin/prune-gcr snack --dry-run
@@ -120,6 +122,8 @@ jobs:
       - name: 🚀 Deploy website
         run: skaffold deploy --filename website/skaffold.yaml --status-check --build-artifacts website/build.json
         working-directory: ./
+        env:
+          SKAFFOLD_PUSH_IMAGE: 'true'
 
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
@@ -161,6 +165,7 @@ jobs:
         working-directory: ./
         env:
           ENVIRONMENT: production
+          SKAFFOLD_PUSH_IMAGE: 'true'
 
       - name: 📋 Add change cause
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
@@ -171,6 +176,7 @@ jobs:
         working-directory: ./
         env:
           ENVIRONMENT: production
+          SKAFFOLD_PUSH_IMAGE: 'true'
     
       - name: 🧹 Prune docker image
         if: ${{ success() }}

@@ -97,7 +97,7 @@ describe('save', () => {
 
   it('does not use saveURL after changing sdkVersion', async () => {
     const snack = new Snack({
-      sdkVersion: '43.0.0',
+      sdkVersion: '44.0.0',
       online: true,
       files: {
         'App.js': {
