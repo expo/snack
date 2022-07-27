@@ -28,6 +28,7 @@ export default class Transport implements SnackTransport {
   private readonly logger?: Logger;
   private callback?: SnackTransportListener;
   private pubNub?: PubNub;
+  private pubNubClientId?: string;
   private codeMessageBuilder: CodeMessageBuilder;
   private codeMessage?: ProtocolCodeMessage;
   private connectionsCount: number = 0;
@@ -87,13 +88,19 @@ export default class Transport implements SnackTransport {
   private start() {
     this.stop();
 
+    if (!this.pubNubClientId) {
+      // Keep track of the client ID per transport instance.
+      // See: https://support.pubnub.com/hc/en-us/articles/360051496532-How-do-I-set-the-UUID-
+      this.pubNubClientId = PubNub.generateUUID();
+    }
+
     if (this.channel) {
       this.logger?.comm('Starting channel...', this.channel, this.logSuffix);
       this.pubNub = new PubNub({
         publishKey: 'pub-c-2a7fd67b-333d-40db-ad2d-3255f8835f70',
         subscribeKey: 'sub-c-0b655000-d784-11e6-b950-02ee2ddab7fe',
+        uuid: this.pubNubClientId,
         ssl: true,
-        // uuid: TODO
         presenceTimeout: 600,
         heartbeatInterval: 60,
       });
