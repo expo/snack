@@ -1,7 +1,9 @@
 /** All hard-coded and vendored types */
 export const vendoredTypes: Record<string, string> = {
   // See: /runtime/src/NativeModules/ReactNativeSkia.tsx
-  ...makeModuleType('@shopify/react-native-skia/dist/web', `
+  ...makeModuleType(
+    '@shopify/react-native-skia/dist/web',
+    `
     import { Suspense, ComponentProps, ComponentType } from 'react';
     interface WithSkiaProps {
         fallback?: ComponentProps<typeof Suspense>['fallback'];
@@ -11,7 +13,8 @@ export const vendoredTypes: Record<string, string> = {
     }
     export function WithSkia({ fallback, getComponent }: WithSkiaProps): JSX.Element;
     export function LoadSkia(): Promise<void>;
-  `),
+  `
+  ),
 };
 
 /**
@@ -33,5 +36,5 @@ function makeModuleType(importName: string, declarationContent: string): Record<
         ${declarationContent}
       }
     `,
-  }
+  };
 }

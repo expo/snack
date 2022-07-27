@@ -262,7 +262,7 @@ function fallbackAnyType(dependency: string, version: string, output: FetchOutpu
 
   // Throw a custom error to block caching, while still passing generic any declaration.
   const error: any = new Error('Failed to load types, using fallback instead.');
-  error.code = 'FALLBACK_TYPES'
+  error.code = 'FALLBACK_TYPES';
   error.typings = output.paths;
   throw error;
 }
@@ -317,7 +317,7 @@ self.addEventListener('message', (event) => {
         typings: result,
       } as TypingsResult),
     (error) => {
-      if (error.code = 'FALLBACK_TYPES') {
+      if (error.code === 'FALLBACK_TYPES') {
         return self.postMessage({
           name,
           version,
@@ -332,7 +332,7 @@ If you are the library author of "${name}":
 
 Falling back to "declare module '${name}';".
           `.trim(),
-        } as TypingsResult)
+        } as TypingsResult);
       }
 
       if (process.env.NODE_ENV !== 'production') {
