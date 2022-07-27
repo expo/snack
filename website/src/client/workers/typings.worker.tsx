@@ -262,7 +262,7 @@ function fallbackAnyType(dependency: string, version: string, output: FetchOutpu
 
   // Throw a custom error to block caching, while still passing generic any declaration.
   const error: any = new Error('Failed to load types, using fallback instead.');
-  error.code = 'FALLBACK_TYPES';
+  error.code = 'FALLBACK_TYPES'
   error.typings = output.paths;
   throw error;
 }
