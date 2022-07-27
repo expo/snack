@@ -6,6 +6,7 @@ import { initVimMode } from 'monaco-vim';
 import * as React from 'react';
 import { getPreloadedModules, isValidSemver } from 'snack-sdk';
 
+import type { TypingsResult } from '../../workers/typings.worker';
 import { SDKVersion, Annotation, SnackDependencies } from '../../types';
 import getFileLanguage from '../../utils/getFileLanguage';
 import { getRelativePath, getAbsolutePath } from '../../utils/path';
@@ -15,6 +16,7 @@ import ResizeDetector from '../shared/ResizeDetector';
 import { EditorProps, EditorMode } from './EditorProps';
 import { light, dark } from './themes/monaco';
 import overrides from './themes/monaco-overrides';
+import { vendoredTypes } from './types/vendored';
 
 // @ts-ignore
 global.MonacoEnvironment = {
@@ -261,6 +263,14 @@ class MonacoEditor extends React.Component<Props, State> {
     this._disposables.push(
       monaco.languages.registerCompletionItemProvider('typescript', completionProvider)
     );
+
+    // Register the vendored types
+    this._addTypings({
+      typings: vendoredTypes,
+      // These values are irrelevant and have no impact
+      name: 'snack-types',
+      version: '1.0.0',
+    });
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -578,7 +588,11 @@ class MonacoEditor extends React.Component<Props, State> {
     });
   };
 
-  _addTypings = ({ typings }: { typings: { [key: string]: string } }) => {
+  _addTypings = ({ typings, errorMessage }: TypingsResult) => {
+    if (errorMessage) {
+      console.warn(errorMessage);
+    }
+
     Object.keys(typings).forEach((path) => {
       const extraLib = extraLibs.get(path);
 
