@@ -9,7 +9,8 @@ export const DEFAULT_DESCRIPTION = 'No description';
 // TODO(cedric): Drop `import React from 'react';` when dropping SDK 45
 export const DEFAULT_CODE: SnackFiles = {
   'App.js': {
-    contents: `import { Text, View, StyleSheet } from 'react-native';
+    contents: `import * as React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
 // You can import from local files
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
     type: 'ASSET',
   },
   'components/AssetExample.js': {
-    contents: `import { Text, View, StyleSheet, Image } from 'react-native';
+    contents: `import * as React from 'react';
+import { Text, View, StyleSheet, Image } from 'react-native';
 
 export default function AssetExample() {
   return (
