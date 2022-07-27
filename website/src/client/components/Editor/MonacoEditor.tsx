@@ -6,6 +6,7 @@ import { initVimMode } from 'monaco-vim';
 import * as React from 'react';
 import { getPreloadedModules, isValidSemver } from 'snack-sdk';
 
+import type { TypingsResult } from '../../workers/typings.worker';
 import { SDKVersion, Annotation, SnackDependencies } from '../../types';
 import getFileLanguage from '../../utils/getFileLanguage';
 import { getRelativePath, getAbsolutePath } from '../../utils/path';
