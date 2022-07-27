@@ -375,6 +375,7 @@ const translatePipeline = async (load: Load) => {
               ['@babel/plugin-proposal-decorators', { legacy: true }],
               ['@babel/plugin-syntax-dynamic-import'],
               ['@babel/plugin-proposal-dynamic-import'],
+              ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
               ...(load.source.includes('react-native-reanimated') || load.source.includes('worklet')
                 ? [Reanimated2Plugin]
                 : []),
