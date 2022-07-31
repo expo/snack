@@ -37,7 +37,7 @@ const aliases: { [key: string]: any } = {
   'react-native-reanimated': require('react-native-reanimated'),
 
   // Used by @shopify/react-native-skia, on web only
-  '@shopify/react-native-skia/dist/web': SkiaWeb,
+  '@shopify/react-native-skia/lib/module/web': SkiaWeb,
 };
 
 export default aliases;

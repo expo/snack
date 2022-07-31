@@ -1,35 +1,54 @@
 // This file enables `@shopify/react-native-skia` web support
-// It's a Snack-specific version of https://github.com/Shopify/react-native-skia/blob/5adbade804191deef4380ae42796d3b5f050dad7/package/src/web/WithSkia.tsx
-import React, { Suspense, useMemo } from 'react';
+// It's a Snack-specific version of:
+// https://github.com/Shopify/react-native-skia/blob/main/package/src/web/WithSkiaWeb.tsx
+import React, { Suspense } from 'react';
 
 import { loadCanvasKit } from './CanvasKit';
 
 interface WithSkiaProps {
-  fallback?: React.ComponentProps<typeof Suspense>['fallback'];
+  /**
+   * The component fetcher, should be a lazy-loaded component.
+   * It should be returned as `{ default: <Component /> }`, use default exports.
+   * E.g. `getComponent={() => import('./components/Lazy.tsx')}
+   */
   getComponent: () => Promise<{ default: React.ComponentType }>;
+
+  /** The content to render when CanvasKit is still loading (default: `null`) */
+  fallback?: React.ComponentProps<typeof Suspense>['fallback'];
+
+  /**
+   * The options to use when initializing CavasKit on web.
+   * In Snack, this defaults to the right default options.
+   * You can change these options if you know what you are doing.
+   */
+  opts?: Parameters<typeof loadCanvasKit>[0];
 }
 
 /**
- * This loads CanvasKit on web, before loading the `getComponent`.
- * Note that `await import` is not yet supported in Snack,
- * use `require` inside `getComponent` instead.
+ * Wrap a lazy-loaded component inside CanvasKit for web.
+ * In Snack, using this will enable Skia to run natively and on web, without code changes.
+ * The component works by wrapping the lazy-loaded component in Suspense.
  */
-export function WithSkia({ fallback, getComponent }: WithSkiaProps) {
-  const Inner = useMemo(
+export function WithSkiaWeb({ fallback, getComponent, opts: options }: WithSkiaProps) {
+  const Inner = React.useMemo(
     () =>
       React.lazy(async () => {
-        await loadCanvasKit();
+        await loadCanvasKit(options);
         return getComponent();
       }),
-    [getComponent]
+    [getComponent, options]
   );
 
   return (
-    <Suspense fallback={fallback}>
+    <Suspense fallback={fallback ?? null}>
       <Inner />
     </Suspense>
   );
 }
 
-/** Same as the API from the original `@shopify/react-native-skia/dist/web` */
-export const LoadSkia = loadCanvasKit;
+/**
+ * Load CanvasKit on web by initializing the WASM file.
+ * In Snack, this defaults to the right default options.
+ * You can change these options if you know what you are doing.
+ */
+export const LoadSkiaWeb = loadCanvasKit;
