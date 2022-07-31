@@ -52,7 +52,7 @@ class ModalPublishToProfile extends React.Component<Props> {
           </a>
         </p>
         <p className={css(styles.text)}>
-          Every time you save, your will get a new link to share. {copy} Log in or sign up and save
+          Every time you save, you will get a new link to share. {copy} Log in or sign up and save
           to your profile!
         </p>
         <Button
