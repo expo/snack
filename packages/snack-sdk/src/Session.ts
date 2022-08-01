@@ -174,6 +174,7 @@ export default class Snack {
     this.state.unsaved = false;
 
     this.wantedDependencyVersions = new WantedDependencyVersions({
+      apiUrl: this.apiURL,
       logger: this.logger,
       callback: this.onWantedDependencyVersions,
     });
