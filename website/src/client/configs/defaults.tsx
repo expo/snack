@@ -6,6 +6,7 @@ export const DEFAULT_METADATA_DESCRIPTION_SAVED = `Try this project on your phon
 
 export const DEFAULT_DESCRIPTION = 'No description';
 
+// TODO(cedric): Drop `import React from 'react';` when dropping SDK 45
 export const DEFAULT_CODE: SnackFiles = {
   'App.js': {
     contents: `import * as React from 'react';

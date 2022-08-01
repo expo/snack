@@ -1,19 +1,22 @@
 /** All hard-coded and vendored types */
 export const vendoredTypes: Record<string, string> = {
+  // Workaround for React 17+ and auto jsx runtime
+  // See: https://github.com/DefinitelyTyped/DefinitelyTyped/blob/d7b179c7a9a4aa4ff13f0608606ae10a94349014/types/react/jsx-runtime.d.ts#L2
+  ...makeModuleType('react/jsx-runtime', `import 'react';`),
   // See: /runtime/src/NativeModules/ReactNativeSkia.tsx
   ...makeModuleType(
     '@shopify/react-native-skia/dist/web',
-    `
-    import { Suspense, ComponentProps, ComponentType } from 'react';
-    interface WithSkiaProps {
-        fallback?: ComponentProps<typeof Suspense>['fallback'];
-        getComponent: () => Promise<{
-            default: ComponentType;
-        }>;
-    }
-    export function WithSkia({ fallback, getComponent }: WithSkiaProps): JSX.Element;
-    export function LoadSkia(): Promise<void>;
-  `
+    `declare module "@shopify/react-native-skia/dist/web" {
+      import { Suspense, ComponentProps, ComponentType } from 'react';
+      interface WithSkiaProps {
+          fallback?: ComponentProps<typeof Suspense>['fallback'];
+          getComponent: () => Promise<{
+              default: ComponentType;
+          }>;
+      }
+      export function WithSkia({ fallback, getComponent }: WithSkiaProps): JSX.Element;
+      export function LoadSkia(): Promise<void>;
+    }`
   ),
 };
 
@@ -31,10 +34,6 @@ function makeModuleType(importName: string, declarationContent: string): Record<
       types: './index.d.ts',
     }),
     // The declaration also needs to be wrapped inside `declare module "<pkg>" { ... }`
-    [`node_modules/${importName}/index.d.ts`]: `
-      declare module "${importName}" {
-        ${declarationContent}
-      }
-    `,
+    [`node_modules/${importName}/index.d.ts`]: declarationContent,
   };
 }

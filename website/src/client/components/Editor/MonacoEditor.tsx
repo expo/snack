@@ -91,7 +91,7 @@ const compilerOptions: monaco.languages.typescript.CompilerOptions = {
   esModuleInterop: true,
   forceConsistentCasingInFileNames: true,
   isolatedModules: true,
-  jsx: monaco.languages.typescript.JsxEmit.React,
+  jsx: monaco.languages.typescript.JsxEmit.ReactJSX,
   module: monaco.languages.typescript.ModuleKind.ESNext,
   moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
   noEmit: true,

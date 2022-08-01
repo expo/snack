@@ -1,6 +1,6 @@
 {
   "name": "snack-eslint-standalone",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "ESLint for Snack Website",
   "author": "Expo <support@expo.dev>",
   "license": "MIT",
@@ -47,7 +47,7 @@
     "webpack-cli": "^4.10.0"
   },
   "peerDependencies": {
-    "snack-babel-standalone": ">=2.0.0"
+    "snack-babel-standalone": ">=2.2.0"
   },
   "volta": {
     "node": "16.14.2"
