@@ -4,6 +4,7 @@ import * as SkiaWeb from '../NativeModules/ReactNativeSkia';
 const aliases: { [key: string]: any } = {
   expo: require('expo'),
   react: require('react'),
+  'react/jsx-runtime': require('react/jsx-runtime'),
 
   // Needed for loading assets from packages bundled by snackager
   AssetRegistry,

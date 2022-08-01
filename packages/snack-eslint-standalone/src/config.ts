@@ -143,7 +143,7 @@ export const defaultConfig = {
     'react/no-direct-mutation-state': 'error',
     'react/no-is-mounted': 'error',
     'react/no-string-refs': 'error',
-    'react/react-in-jsx-scope': 'error',
+    'react/react-in-jsx-scope': 'off', // Disabled for React 17+, where its optional
     'react/require-render-return': 'error',
 
     'react-native/no-single-element-style-arrays': 'error',
