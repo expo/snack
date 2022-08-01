@@ -76,7 +76,7 @@ const sdks: { [version: string]: SDKSpec } = {
       'react-native-web': '*',
       // Used by @shopify/react-native-skia, on web only
       // See runtime/src/NativeModules/ReactNativeSkia.tsx for more info
-      '@shopify/react-native-skia/dist/web': '*',
+      '@shopify/react-native-skia/lib/module/web': '*',
     },
     bundledModules: {
       'expo-asset': '*',
