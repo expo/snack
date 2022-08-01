@@ -6,6 +6,13 @@ import resources from '../../../resources.json';
 declare const self: DedicatedWorkerGlobalScope;
 declare const ts: any;
 
+export interface TypingsResult {
+  name: string;
+  version: string;
+  typings: FetchOutput['paths'];
+  errorMessage?: string;
+}
+
 type FetchOutput = {
   resolvedVersion?: string;
   paths: {
@@ -242,6 +249,24 @@ function fetchFromTypings(dependency: string, version: string, output: FetchOutp
     });
 }
 
+function fallbackAnyType(dependency: string, version: string, output: FetchOutput) {
+  output.paths[`node_modules/${dependency}/package.json`] = JSON.stringify({
+    name: dependency,
+    version,
+    types: './index.d.ts',
+  });
+
+  output.paths[`node_modules/${dependency}/index.d.ts`] = `
+    declare module "${dependency}";
+  `;
+
+  // Throw a custom error to block caching, while still passing generic any declaration.
+  const error: any = new Error('Failed to load types, using fallback instead.');
+  error.code = 'FALLBACK_TYPES';
+  error.typings = output.paths;
+  throw error;
+}
+
 async function fetchDefinitions(name: string, version: string) {
   if (!version) {
     throw new Error(`No version specified for ${name}`);
@@ -268,7 +293,10 @@ async function fetchDefinitions(name: string, version: string) {
     // Not available in package.json, try checking meta for inline .d.ts files
     .catch(() => fetchFromMeta(name, output.resolvedVersion ?? version, output))
     // Not available in package.json or inline from meta, try checking in @types/
-    .catch(() => fetchFromDefinitelyTyped(name, output.resolvedVersion ?? version, output));
+    .catch(() => fetchFromDefinitelyTyped(name, output.resolvedVersion ?? version, output))
+    // Add a fallback type when the types couldn't be loaded
+    .catch(() => fallbackAnyType(name, output.resolvedVersion ?? version, output));
+
   if (!Object.keys(output.paths).length) {
     throw new Error(`Type definitions are empty for ${key}`);
   }
@@ -287,8 +315,26 @@ self.addEventListener('message', (event) => {
         name,
         version,
         typings: result,
-      }),
+      } as TypingsResult),
     (error) => {
+      if (error.code === 'FALLBACK_TYPES') {
+        return self.postMessage({
+          name,
+          version,
+          typings: error.typings,
+          errorMessage: `
+Could not fetch the types for ${name}@${version}.
+
+If you are the library author of "${name}":
+  - Check if the '@types/${name.replace('@', '').replace(/\//g, '__')}' are published.
+  - Or your '${name}/package.json' includes valid 'typings' or 'types' properties.
+    - And your library can be viewed through ${ROOT_URL}npm/${name}@${version}/.
+
+Falling back to "declare module '${name}';".
+          `.trim(),
+        } as TypingsResult);
+      }
+
       if (process.env.NODE_ENV !== 'production') {
         console.error(error);
       }
