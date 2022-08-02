@@ -1,3 +1,4 @@
+import type { Linter as LinterType, Rule as RuleType } from 'eslint';
 import { Linter } from 'eslint/lib/linter/linter';
 import * as babelParser from '@babel/eslint-parser';
 
@@ -6,10 +7,10 @@ import { rules as reactHooksRules } from 'eslint-plugin-react-hooks';
 import { rules as reactNativeRules } from 'eslint-plugin-react-native';
 
 /** The default ESLint config with the bundled parser and plugins. */
-export { getLinterConfig, defaultConfig } from './config';
+export * from './config';
 
 /** The ESLint linter instance containing the bundled parser and plugins. */
-export const linter = new Linter();
+export const linter: LinterType = new Linter();
 
 // Register the parser to bundle it
 linter.defineParser('@babel/eslint-parser', babelParser);
@@ -24,8 +25,8 @@ linter.defineRules(prefixRules('react-native', reactNativeRules));
  * This matches ESLint internal rules loaders, since we don't import them.
  * It transforms rules like `rules-of-hooks` to `${prefix}/rules-of-hooks`.
  */
-function prefixRules(prefix: string, rules: any) {
-  return Object.fromEntries<any>(
+function prefixRules(prefix: string, rules: Record<string, any>): Record<string, RuleType.RuleModule> {
+  return Object.fromEntries(
     Object.entries(rules).map(([key, value]) => ([`${prefix}/${key}`, value]))
   );
 }
