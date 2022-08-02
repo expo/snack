@@ -91,7 +91,7 @@ export const defaultConfig = {
     'no-self-assign': 'error',
     'no-sparse-arrays': 'error',
     'no-this-before-super': 'error',
-    'no-undef': 'error',
+    // 'no-undef': 'error', // Triggers a lot of false-positives in TypeScript + handled by monaco opacity
     'no-unexpected-multiline': 'error',
     'no-unreachable': 'error',
     'no-unsafe-finally': 'error',

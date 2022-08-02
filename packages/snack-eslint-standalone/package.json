@@ -1,6 +1,6 @@
 {
   "name": "snack-eslint-standalone",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "ESLint for Snack Website",
   "author": "Expo <support@expo.dev>",
   "license": "MIT",
@@ -19,13 +19,13 @@
     "types"
   ],
   "scripts": {
-    "test": "echo 'No tests yet'",
+    "test": "patch-package && jest",
     "lint": "tsc --noEmit && echo 'Only typecheck'",
     "clean": "git clean -xdf ./build",
     "dev": "patch-package && webpack",
     "build": "WEBPACK_PRODUCTION=true yarn dev",
     "analyze": "WEBPACK_ANALYZE=true yarn dev",
-    "prepublishOnly": "patch-package && yarn clean && yarn build"
+    "prepublishOnly": "yarn clean && yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
@@ -33,11 +33,14 @@
     "@babel/preset-env": "^7.18.9",
     "@babel/preset-typescript": "^7.18.6",
     "@tsconfig/node16": "^1.0.3",
+    "@types/jest": "^28.1.6",
+    "babel-jest": "^28.1.3",
     "babel-loader": "^8.2.5",
     "eslint": "^8.20.0",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
+    "jest": "^28.1.3",
     "node-polyfill-webpack-plugin": "^2.0.0",
     "patch-package": "^6.4.7",
     "snack-babel-standalone": "^2.2.2",
