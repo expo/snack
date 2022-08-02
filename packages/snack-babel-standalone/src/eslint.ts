@@ -3,12 +3,8 @@
  * Without this, the parser would not know how to fetch the presets and plugins in babel.
  */
 import { parseSync as babelParseSync } from '@babel/core';
-import { default as transformPlugin } from '@babel/plugin-transform-typescript';
 
-import { processOptions, registerPlugin } from './runtime';
-
-// Note(cedric): we need this to fix async functions with 2 or more generics
-registerPlugin('@babel/plugin-transform-typescript', transformPlugin);
+import { processOptions } from './runtime';
 
 // Re-export the functionality from the runtime, to keep presets and plugins in sync.
 export * from './runtime';
