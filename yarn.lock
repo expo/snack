@@ -4440,11 +4440,6 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-babel-core@7.0.0-bridge.0:
-  version "7.0.0-bridge.0"
-  resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
-  integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
-
 babel-jest@^26.6.3:
   version "26.6.3"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-26.6.3.tgz#d87d25cb0037577a0c89f82e5755c5d293c01056"
@@ -13733,15 +13728,15 @@ smart-buffer@^4.1.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.1.0.tgz#91605c25d91652f4661ea69ccf45f1b331ca21ba"
   integrity sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
 
-snack-babel-standalone@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-2.2.0.tgz#cbcf51d0390fad0c07ba756b333f64712e1aeaa1"
-  integrity sha512-2qR2930Jafkd3rPfSRWwQ/OmTStzVKjxXpcmOHeI5pfRkxF183mwn9UhqjnRdd/KUW2g1b9iA9rSVLWOmntnKw==
+snack-babel-standalone@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-2.2.2.tgz#2154855c482c112036261171ed32f7892102be60"
+  integrity sha512-kYYfIsktDfJeYrByF184YO/x55U7rPzfXThsownEGCNBn8d1xZ8AD7NyuLS5aA1n2rk9yKQ1CZxIRHwoNkootQ==
 
-snack-eslint-standalone@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/snack-eslint-standalone/-/snack-eslint-standalone-1.1.0.tgz#32b41e866a17b86cae14b7fbf876634469677432"
-  integrity sha512-B+Ya6swslbAAn1Q9QyYiuEbYlgXH2Zt8HSCHcixJZCHY2o8MgowIdtTSCQYi0vYjAqC5SAd2VCeGq4ydMr60FQ==
+snack-eslint-standalone@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/snack-eslint-standalone/-/snack-eslint-standalone-1.1.2.tgz#def4a5db28c6abd739bc3b07d561c1bd935b3f1e"
+  integrity sha512-2KBQ0aBK1ZKWoL8pWVPXOfU5TwRpFmQk4Z9LheJzbsWFkuYWZBU8iO33TyPBXmuGD6weE0V9tDBcvw/iEW3b8w==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
