@@ -2,10 +2,12 @@ export const defaultConfig = {
   parser: '@babel/eslint-parser',
   parserOptions: {
     sourceType: 'module',
+    errorRecovery: true,
     requireConfigFile: false,
     babelOptions: {
       babelrc: false,
       configFile: false,
+      ast: false,
       presets: [
         'module:metro-react-native-babel-preset',
         '@babel/preset-typescript',
@@ -153,3 +155,22 @@ export const defaultConfig = {
     'react-hooks/exhaustive-deps': 'error',
   },
 };
+
+/**
+ * Get the ESLint config that should be used for the to-lint file.
+ * This takes custom config from users into account,
+ * but sets the parser options to the bundled babel parser.
+ */
+export function getLinterConfig(_fileName: string, customConfig?: any): any {
+  if (!customConfig) {
+    return defaultConfig;
+  }
+
+  return  {
+    // Use the configuration provided by the user
+    ...customConfig,
+    // Reuse the same bundled parser, we can't really change that
+    parser: defaultConfig.parser,
+    parserOptions: defaultConfig.parserOptions,
+  };
+}

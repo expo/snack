@@ -37,7 +37,8 @@ const code = `
   }
 `;
 
-const result: LintMessage[] = linter.verify(code, defaultConfig);
+// The file name is important to enable certain presets in babel
+const result: LintMessage[] = linter.verify(code, defaultConfig, { filename: '...' });
 ```
 
 ## Caveats

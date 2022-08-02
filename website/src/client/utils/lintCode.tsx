@@ -1,4 +1,5 @@
-import { linter, defaultConfig, LintMessage } from 'snack-eslint-standalone';
+import type { LintMessage } from 'snack-eslint-standalone';
+import { linter, getLinterConfig } from 'snack-eslint-standalone';
 
 import { Annotation } from '../types';
 import { isTS } from './fileUtilities';
@@ -6,9 +7,10 @@ import { isTS } from './fileUtilities';
 export default function lintCode(
   fileName: string,
   code: string,
-  config: object = defaultConfig
+  userConfig?: object
 ): Annotation[] {
-  const errors: LintMessage[] = linter.verify(code, config);
+  const config = getLinterConfig(fileName, userConfig);
+  const errors: LintMessage[] = linter.verify(code, config, { filename: fileName });
 
   return errors
     .map((err) => {

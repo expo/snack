@@ -78,9 +78,9 @@
     "recast": "^0.20.3",
     "redux": "^4.0.1",
     "sanitize-html": "^1.20.0",
-    "snack-babel-standalone": "^2.2.0",
+    "snack-babel-standalone": "^2.2.2",
     "snack-content": "*",
-    "snack-eslint-standalone": "^1.1.0",
+    "snack-eslint-standalone": "^1.1.2",
     "snack-sdk": "*",
     "stoppable": "^1.1.0",
     "validate-npm-package-name": "^3.0.0"

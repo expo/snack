@@ -6,7 +6,7 @@ import { rules as reactHooksRules } from 'eslint-plugin-react-hooks';
 import { rules as reactNativeRules } from 'eslint-plugin-react-native';
 
 /** The default ESLint config with the bundled parser and plugins. */
-export { defaultConfig } from './config';
+export { getLinterConfig, defaultConfig } from './config';
 
 /** The ESLint linter instance containing the bundled parser and plugins. */
 export const linter = new Linter();

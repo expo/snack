@@ -1,7 +1,23 @@
 import { Linter } from 'eslint/lib/linter/linter';
 
+/**
+ * The prepared ESLint instance to lint code.
+ * Note, the filename is important for the bundled babel parser.
+ */
 export const linter: InstanceType<typeof Linter>;
+
+/**
+ * The default configuration for the linter.
+ * This has JS and TS support by default, using the bundled parser.
+ */
 export const defaultConfig: any;
+
+/**
+ * Get the ESLint config that should be used for the to-lint file.
+ * This takes custom config from users into account,
+ * but sets the parser options to the bundled babel parser.
+ */
+export function getLinterConfig(fileName: string, customConfig?: any): any;
 
 /**
  * Return type of `linter.verify`, but without eslint as dependency
