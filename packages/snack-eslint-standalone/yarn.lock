@@ -3358,10 +3358,10 @@ slash@^2.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
   integrity sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==
 
-snack-babel-standalone@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-2.0.0.tgz#29f010abb49d792b292c4fd363b4fd3393860119"
-  integrity sha512-RLYH69lrAw9ZGD+gVDU2i9LrHocqC7Qnor1b4ynRkVmL3frcIBwKOYfblWMpCOGgG0QXYyhN1OjL2fT1GEzGMA==
+snack-babel-standalone@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-2.2.1.tgz#61773a898f297a526bcd2f1438ec7c5fc733e147"
+  integrity sha512-6d2KGCRh4EwqNVL8ShQmwS/BTDuxoBiw291snbPcdk8USsqaaZlufJ3jzVl9arLZRZxMuERRJ9l+KO97+EMMVw==
 
 source-map-support@~0.5.20:
   version "0.5.21"

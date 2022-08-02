@@ -2,6 +2,14 @@ import { Linter } from 'eslint/lib/linter/linter';
 
 export const linter: InstanceType<typeof Linter>;
 export const defaultConfig: any;
+export const tsConfig: any;
+
+/**
+ * Get the ESLint config that should be used for the to-lint file.
+ * This will return either `defaultConfig`, or `tsConfig`.
+ * When a custom config is provided, it will merge the parser options.
+ */
+export function getLinterConfig(fileName: string, customConfig?: any): any;
 
 /**
  * Return type of `linter.verify`, but without eslint as dependency
