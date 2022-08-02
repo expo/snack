@@ -13733,10 +13733,10 @@ snack-babel-standalone@^2.2.2:
   resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-2.2.2.tgz#2154855c482c112036261171ed32f7892102be60"
   integrity sha512-kYYfIsktDfJeYrByF184YO/x55U7rPzfXThsownEGCNBn8d1xZ8AD7NyuLS5aA1n2rk9yKQ1CZxIRHwoNkootQ==
 
-snack-eslint-standalone@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/snack-eslint-standalone/-/snack-eslint-standalone-1.1.2.tgz#def4a5db28c6abd739bc3b07d561c1bd935b3f1e"
-  integrity sha512-2KBQ0aBK1ZKWoL8pWVPXOfU5TwRpFmQk4Z9LheJzbsWFkuYWZBU8iO33TyPBXmuGD6weE0V9tDBcvw/iEW3b8w==
+snack-eslint-standalone@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/snack-eslint-standalone/-/snack-eslint-standalone-1.1.3.tgz#2c83a044d40244976bb4f11e741032a3c9162e1c"
+  integrity sha512-7uJ9I3xHK5CV48ZXJRB+WAG3uyJBSRrhPAjPmzX4xbUCRCInok7znaW9u5J/vFxCAyyEcdeoWR+AfN0sgCCq8w==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
