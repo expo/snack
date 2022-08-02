@@ -16,16 +16,6 @@ describe('linter', () => {
     expect(result).toHaveLength(0);
   });
 
-  it('parses undefined variables', () => {
-    const result = lint('test.js', `
-      const greet = 'Hello';
-      console.log(groot);
-    `);
-
-    expect(result).toHaveLength(1);
-    expect(result[0].ruleId).toBe('no-undef');
-  });
-
   it('parses generics properly', () => {
     const result = lint('generics.ts', `
       async function process<A, B>(a: A, b: B): Promise<{ a: A, b: B }> {
