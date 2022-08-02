@@ -37,7 +37,8 @@ const code = `
   }
 `;
 
-const result: LintMessage[] = linter.verify(code, defaultConfig);
+// The file name is important to enable certain presets in babel
+const result: LintMessage[] = linter.verify(code, defaultConfig, { filename: '...' });
 ```
 
 ## Caveats
@@ -53,12 +54,6 @@ Because we need to run Babel inside the Snack Runtime, we already have a standal
 ### ESLint React plugin
 
 This plugin tries to resolve the React version from local files. It does that using some Node tooling. Because this isn't available in the browser, we patched the version detection to always return `999.999.999` (the default version). This avoids including modules, like `fs` or `resolve`, in the ESLint bundle.
-
-### TypeScript async functions with 2 generics or more
-
-This seems to be an issue with Babel trying to parse something like `async process<Input, Output>` typescript code. We fixed it by being verbose in the ESLint config, and include the `@babel/plugin-transform-typescript` explicitly as babel plugin.
-
-This fix also introduced `getLinterConfig(fileName: string, customConfig?: object|any): any`.
 
 ## Contributing
 

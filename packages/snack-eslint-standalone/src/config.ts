@@ -156,35 +156,21 @@ export const defaultConfig = {
   },
 };
 
-export const tsConfig = {
-  ...defaultConfig,
-  parserOptions: {
-    ...defaultConfig.parserOptions,
-    babelOptions: {
-      ...defaultConfig.parserOptions.babelOptions,
-      plugins: ['@babel/plugin-transform-typescript'],
-    },
-  },
-};
-
 /**
  * Get the ESLint config that should be used for the to-lint file.
- * This will return either `defaultConfig`, or `tsConfig`.
- * When a custom config is provided, it will merge the parser options.
+ * This takes custom config from users into account,
+ * but sets the parser options to the bundled babel parser.
  */
-export function getLinterConfig(fileName: string, customConfig?: any): any {
-  const isTs = /\.tsx?$/.test(fileName);
-  let baseConfig = isTs ? tsConfig : defaultConfig;
-
-  if (customConfig) {
-    baseConfig = {
-      // Reuse the same bundled parser, we can't really change that
-      parser: baseConfig.parser,
-      parserOptions: baseConfig.parserOptions,
-      // Use the configuration provided by the user
-      ...customConfig,
-    };
+export function getLinterConfig(_fileName: string, customConfig?: any): any {
+  if (!customConfig) {
+    return defaultConfig;
   }
 
-  return baseConfig;
+  return  {
+    // Use the configuration provided by the user
+    ...customConfig,
+    // Reuse the same bundled parser, we can't really change that
+    parser: defaultConfig.parser,
+    parserOptions: defaultConfig.parserOptions,
+  };
 }
