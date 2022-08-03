@@ -1,12 +1,13 @@
 {
   "name": "snack-content",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Functions and types that describe the contents of Snack projects",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "files": [
     "build",
-    "!**/__tests__"
+    "!**/__tests__",
+    "CHANGELOG.md"
   ],
   "repository": {
     "type": "git",
