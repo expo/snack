@@ -4,6 +4,13 @@
   "description": "The Expo Snack SDK",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "files": [
+    "build",
+    "CHANGELOG.md",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/__tests__"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/expo/snack.git",
