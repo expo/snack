@@ -8,7 +8,10 @@ const semverUtils = require('semver-utils');
 // 1. "Ignored dependencies" - dependencies that are ok to include in the output, but should not be bundled.
 // 2. "Hidden peer dependencies" - dependencies that should not be included in the output and the package definition, as including them would break things in the website
 const IGNORED_DEPENDENCIES = ['react-native-windows'];
-const HIDDEN_PEER_DEPENDENCIES = ['@babel/core']; // required for react-native-reanimated@2.8.0
+const HIDDEN_PEER_DEPENDENCIES = [
+  '@babel/core', // required for react-native-reanimated@2.8.0
+  '@babel/runtime', // required for @shopify/flash-list@1.2.0
+];
 
 type ResolvedDependencies = {
   pkg: Package;
