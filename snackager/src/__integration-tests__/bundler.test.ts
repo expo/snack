@@ -240,6 +240,12 @@ describe('bundler', () => {
     expect(isInRange(bundle.files.ios['bundle.js'].size, 457500, 458000)).toBe(true);
     expect(isInRange(bundle.files.web['bundle.js'].size, 446500, 447000)).toBe(true);
   });
+
+  it('creates bundle for @shopify/flash-list@1.2.0 without babel peer dependency', async () => {
+    // This version adds `@babel/runtime` as peer dependency, causing weird behavior in snack website.
+    const bundle = await bundleAsync('@shopify/flash-list@1.2.0');
+    expect(bundle.peerDependencies).not.toHaveProperty('@babel/runtime');
+  });
 });
 
 function isInRange(value: number, rangeStart: number, rangeEnd: number) {
