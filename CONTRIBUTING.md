@@ -11,6 +11,7 @@
    - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
    - [Configure your system or browser to use the `.test` domain](https://github.com/jeansaad/chalet/blob/master/docs/README.md#system-configuration-recommended)
    - Restart or refresh your network settings to apply the chalet changes
+5. Run `yarn build` in the root directory to prepare the installation.
 
 ## 🏎️ Start the Development environment
 
