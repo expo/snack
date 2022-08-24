@@ -67,6 +67,13 @@ Asset; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused
 // See https://github.com/kmagiera/react-native-gesture-handler/blob/master/GestureHandler.js#L46
 GestureHandler; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars
 
+// Set the `__DEV__` variable to `false` because we are running a context without Metro.
+// Unfortunately, this is handled by the bundler such as Metro or Webpack.
+// That's not available inside the Snack Runtime itself.
+// see: https://twitter.com/jamonholmgren/status/1561798978269618177
+// @ts-expect-error
+global['__DEV__'] = false;
+
 // Maintain project-level dependency state in the `ExpoDependencyV2` format.
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
 
