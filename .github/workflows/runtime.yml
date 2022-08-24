@@ -39,7 +39,7 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - name: 🏗 Setup repositorysitory
+      - name: 🏗 Setup repository
         uses: actions/checkout@v3
       
       - name: 🏗 Setup runtime
