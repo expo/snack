@@ -2,8 +2,6 @@
 
 Standalone version of Babel used in Snack Runtime and Snack Website. This version of Babel is bundled with various presets and plugins for React Native. It's optimized to parse or transform code at runtime.
 
-> Note, this package is decoupled from the yarn workspaces to prevent possible mutliple babel versions being bundled.
-
 ## Bundled plugins
 
 - `@babel/core`

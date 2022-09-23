@@ -2,8 +2,6 @@
 
 Standalone version of ESLint used in the Snack Website. This version of ESLint is bundled with the `@babel/eslint-parser` and various rules. It's based on [the ESLint playground](https://github.com/eslint/playground/blob/23bea25563ee62306ede0ade6e0a8641979ed84a/src/playground/App.js#L8) and optimized to run inside the browser.
 
-> Note, this package is decoupled from the yarn workspaces to prevent possible multiple babel versions being bundled.
-
 ## Bundled parser
 
 - `@babel/eslint-parser@7.14.2` → This is the last version before the worker threads were implemented. It's super hard to bundle that, so we capped it at this version.
