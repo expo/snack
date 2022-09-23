@@ -20,11 +20,7 @@ const {
 const config = {
   mode: 'development',
   entry: {
-    eslint: [
-      'core-js/stable',
-      'regenerator-runtime/runtime',
-      path.resolve(__dirname, 'src/eslint.ts')
-    ],
+    eslint: path.resolve(__dirname, 'src/eslint.ts'),
   },
   output: {
     path: path.resolve(__dirname, 'build'),
