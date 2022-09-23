@@ -10,11 +10,14 @@ We vendor SystemJS because it doesn't run in React Native by default. We have do
 4. Removed requiring node native modules such as 'fs'.
 5. Replaced the `eval` with a `global.evaluate` which we assign in `Modules.js`.
 
-## Babel Standalone
+## Reanimated Babel Plugin
 
-We vendor Babel Standalone for 2 reasons:
+The `react-native-reanimated` babel plugin is required to use Reanimated inside a React Native project.
+But, due to the nature of Snack, we need to do this two times:
 
-1. We want to remove all the plugins and presets bundled by default, otherwise metro takes forever for the build.
-2. When including the plugins and presets we need, we want to mock node built-ins and hence need to run it through webpack. We can include them in the same build pipeline for the bundle.
+1. For the Snack Runtime app, which is an Expo project that works inside Expo Go.
+2. For user-provided code through the Snack infrastructure.
 
-The script for building exists at: [expo/babel-standalone](https://github.com/expo/babel-standalone)
+We can use the default babel plugin for step 1, but for step 2, we need to "rewire" the plugin to use `snack-babel-standalone`.
+Babel normally isn't available inside an app, but this version of babel is built to be portable into any environment.
+The plugin needs to use this portable babel version inside the app.

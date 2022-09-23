@@ -30,6 +30,10 @@
     "prettier": "^2.6.2"
   },
   "pnpm": {
+    "patchedDependencies": {
+      "react-native@0.69.4": "./runtime/patches/react-native@0.69.4.patch",
+      "react-native-web@0.18.9": "./runtime/patches/react-native-web@0.18.9.patch"
+    },
     "peerDependencyRules": {
       "ignoreMissing": [
         "@babel/*",
