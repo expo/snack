@@ -1,23 +1,23 @@
-diff --git a/node_modules/eslint-plugin-react/lib/util/version.js b/node_modules/eslint-plugin-react/lib/util/version.js
+diff --git a/lib/util/version.js b/lib/util/version.js
 index b2f7beb..4d91012 100644
---- a/node_modules/eslint-plugin-react/lib/util/version.js
-+++ b/node_modules/eslint-plugin-react/lib/util/version.js
+--- a/lib/util/version.js
++++ b/lib/util/version.js
 @@ -5,11 +5,7 @@
- 
+
  'use strict';
- 
+
 -const fs = require('fs');
 -const resolve = require('resolve');
 -const path = require('path');
  const semver = require('semver');
 -const error = require('./error');
- 
+
  let warnedForMissingVersion = false;
- 
+
 @@ -23,121 +19,14 @@ function resetDetectedVersion() {
    cachedDetectedReactVersion = undefined;
  }
- 
+
 -function resolveBasedir(contextOrFilename) {
 -  if (contextOrFilename) {
 -    const filename = typeof contextOrFilename === 'string' ? contextOrFilename : contextOrFilename.getFilename();
@@ -66,7 +66,7 @@ index b2f7beb..4d91012 100644
 -}
 -
  const defaultVersion = '999.999.999';
- 
+
  function getReactVersionFromContext(context) {
 -  let confVer = defaultVersion;
 -  // .eslintrc shared settings (https://eslint.org/docs/user-guide/configuring#adding-shared-settings)
@@ -111,7 +111,7 @@ index b2f7beb..4d91012 100644
 -  }
 +  return defaultVersion;
  }
- 
+
  function getFlowVersionFromContext(context) {
 -  let confVer = defaultVersion;
 -  // .eslintrc shared settings (https://eslint.org/docs/user-guide/configuring#adding-shared-settings)
@@ -136,5 +136,5 @@ index b2f7beb..4d91012 100644
 -  return result ? result.version : defaultVersion;
 +  return defaultVersion;
  }
- 
+
  function test(semverRange, confVer) {

@@ -31,6 +31,8 @@
   },
   "pnpm": {
     "patchedDependencies": {
+      "eslint@8.20.0": "./packages/snack-eslint-standalone/patches/eslint@8.20.0.patch",
+      "eslint-plugin-react@7.30.1": "./packages/snack-eslint-standalone/patches/eslint-plugin-react@7.30.1.patch",
       "react-native@0.69.4": "./runtime/patches/react-native@0.69.4.patch",
       "react-native-web@0.18.9": "./runtime/patches/react-native-web@0.18.9.patch"
     },

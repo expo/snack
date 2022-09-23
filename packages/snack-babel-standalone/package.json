@@ -39,9 +39,9 @@
     "test": "echo 'No tests yet'",
     "lint": "tsc --noEmit && echo 'Only typecheck'",
     "clean": "git clean -xdf ./build",
-    "dev": "webpack",
-    "build": "WEBPACK_PRODUCTION=true webpack",
-    "analyze": "WEBPACK_ANALYZE=true webpack",
+    "dev": "webpack-cli",
+    "build": "WEBPACK_PRODUCTION=true webpack-cli",
+    "analyze": "WEBPACK_ANALYZE=true webpack-cli",
     "prepublishOnly": "yarn clean && yarn build"
   },
   "files": [
