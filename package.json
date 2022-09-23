@@ -28,5 +28,14 @@
     "eslint": "^8.12.0",
     "eslint-config-universe": "^10.0.0",
     "prettier": "^2.6.2"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@babel/*",
+        "expo-modules-*",
+        "typescript"
+      ]
+    }
   }
 }
