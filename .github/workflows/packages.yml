@@ -12,7 +12,8 @@ on:
       - packages/**
       - .eslint*
       - .prettier*
-      - yarn.lock
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
   push:
     branches: [main]
     paths:
@@ -20,12 +21,14 @@ on:
       - packages/**
       - .eslint*
       - .prettier*
-      - yarn.lock
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
 
 jobs:
   review:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         package:
           - snack-babel-standalone
@@ -34,41 +37,32 @@ jobs:
           - snack-proxies
           - snack-sdk
           - snack-term
-        include:
-          - package: snack-babel-standalone
-            local-install: true
-          - package: snack-eslint-standalone
-            local-install: true
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
+
+      - name: 🏗 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.x
 
       - name: 🏗 Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-          cache: yarn
-      
-      - name: 📦 Install monorepo dependencies
-        run: yarn install --frozen-lockfile
-      
-      # When decoupled from the monorepo, make sure to install the local packages
-      - name: 📦 Install local dependencies
-        if: ${{ matrix.local-install }}
-        run: yarn install --frozen-lockfile
-        working-directory: packages/${{ matrix.package }}
+          cache: pnpm
 
-      - name: 🛠 Build core packages
-        run: yarn build
+      - name: 📦 Install dependencies
+        run: pnpm install
 
       - name: 🚨 Lint package
-        run: yarn lint --max-warnings 0
+        run: pnpm run lint --max-warnings 0
         working-directory: packages/${{ matrix.package }}
 
       - name: 🧪 Test package
-        run: yarn test --ci --maxWorkers 1
+        run: pnpm run test --ci --maxWorkers 1
         working-directory: packages/${{ matrix.package }}
-      
+
       - name: 🛠 Build package
-        run: yarn build
+        run: pnpm run build
         working-directory: packages/${{ matrix.package }}
