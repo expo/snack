@@ -56,6 +56,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@expo/webpack-config": "^0.17.2",
     "@types/diff": "^5.0.0",
     "@types/pubnub": "^7.2.0",
