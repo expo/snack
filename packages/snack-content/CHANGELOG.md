@@ -4,7 +4,11 @@
 
 ### 🛠 Breaking changes
 
+- Dropped Expo SDK 44 ([#360](https://github.com/expo/snack/pull/360) by [@bycedric](https://github.com/byCedric))
+
 ### 🎉 New features
+
+- Upgrade to Expo SDK 47 ([#360](https://github.com/expo/snack/pull/360) by [@bycedric](https://github.com/byCedric))
 
 ## 1.2.0 - 2022-08-03
 
