@@ -6,7 +6,7 @@ import { activateKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
 import * as Updates from 'expo-updates';
 import * as React from 'react';
-import { AppState, PixelRatio, Dimensions, Platform } from 'react-native';
+import { AppState, PixelRatio, Dimensions, Platform, EmitterSubscription, NativeEventSubscription } from 'react-native';
 
 import * as Analytics from './Analytics';
 import { AppLoading } from './AppLoading';
@@ -47,6 +47,8 @@ const ONE_MINUTE = 1000 * 60;
 // The root component for Snack's viewer. Allows scanning a barcode to identify a Snack, listens for
 // updates and displays the Snack.
 export default class App extends React.Component<object, State> {
+
+
   state: State = {
     initialLoad: true,
     initialURL: '',
@@ -59,6 +61,8 @@ export default class App extends React.Component<object, State> {
     isConnected: false,
     loadingElement: <LoadingView />,
   };
+
+  private subscriptions: (EmitterSubscription | NativeEventSubscription)[] = [];
 
   async componentDidMount() {
     Profiling.checkpoint('`App.componentDidMount()` start');
@@ -150,13 +154,14 @@ export default class App extends React.Component<object, State> {
       this.setState(() => ({ showSplash: false }));
     }
 
-    Linking.addEventListener('url', this._handleOpenUrl);
-    AppState.addEventListener('change', this._handleAppStateChange);
+    this.subscriptions = [
+      Linking.addEventListener('url', this._handleOpenUrl),
+      AppState.addEventListener('change', this._handleAppStateChange),
+    ];
   }
 
   componentWillUnmount() {
-    Linking.removeEventListener('url', this._handleOpenUrl);
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    this.subscriptions?.forEach((subscription) => subscription.remove());
   }
 
   _view?: Errors.ErrorBoundary | null;
