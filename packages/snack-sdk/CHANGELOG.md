@@ -4,7 +4,11 @@
 
 ### 🛠 Breaking changes
 
+- Dropped Expo SDK 44
+
 ### 🎉 New features
+
+- Upgrade to Expo SDK 47 stable (by [@bycedric](https://github.com/byCedric))
 
 ### 🐛 Bug fixes
 
@@ -34,7 +38,7 @@
 ### 🎉 New features
 
 - `SnackState` & `SnackOptions` include `snackId` and `accountSnackId` for tracking snacks, rather than only full name (id).
-- `saveAsync` additionally returns `snackId` and `accountSnackId`. 
+- `saveAsync` additionally returns `snackId` and `accountSnackId`.
 
 ## 3.6.0 — 2021-10-29
 
