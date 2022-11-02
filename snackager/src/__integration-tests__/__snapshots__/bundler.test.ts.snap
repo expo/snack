@@ -235,7 +235,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 319155,
+        "size": 319938,
       },
     },
     "ios": Object {
@@ -248,7 +248,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 319155,
+        "size": 319938,
       },
     },
     "web": Object {
@@ -261,7 +261,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 319155,
+        "size": 319938,
       },
     },
   },
