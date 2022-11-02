@@ -1,10 +1,10 @@
-import type { BarCodeScannedCallback } from 'expo-barcode-scanner';
+import type { BarCodeEvent } from 'expo-barcode-scanner';
 import Constants from 'expo-constants';
 import * as React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 
 type Props = {
-  onBarCodeScanned: BarCodeScannedCallback;
+  onBarCodeScanned: (event: Pick<BarCodeEvent, 'type' | 'data'>) => any;
   initialURL: string;
 };
 

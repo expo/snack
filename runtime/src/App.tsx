@@ -6,7 +6,14 @@ import { activateKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
 import * as Updates from 'expo-updates';
 import * as React from 'react';
-import { AppState, PixelRatio, Dimensions, Platform, EmitterSubscription, NativeEventSubscription } from 'react-native';
+import {
+  AppState,
+  PixelRatio,
+  Dimensions,
+  Platform,
+  EmitterSubscription,
+  NativeEventSubscription,
+} from 'react-native';
 
 import * as Analytics from './Analytics';
 import { AppLoading } from './AppLoading';
@@ -47,8 +54,6 @@ const ONE_MINUTE = 1000 * 60;
 // The root component for Snack's viewer. Allows scanning a barcode to identify a Snack, listens for
 // updates and displays the Snack.
 export default class App extends React.Component<object, State> {
-
-
   state: State = {
     initialLoad: true,
     initialURL: '',
