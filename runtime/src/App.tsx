@@ -6,7 +6,14 @@ import { activateKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
 import * as Updates from 'expo-updates';
 import * as React from 'react';
-import { AppState, PixelRatio, Dimensions, Platform } from 'react-native';
+import {
+  AppState,
+  PixelRatio,
+  Dimensions,
+  Platform,
+  EmitterSubscription,
+  NativeEventSubscription,
+} from 'react-native';
 
 import * as Analytics from './Analytics';
 import { AppLoading } from './AppLoading';
@@ -59,6 +66,8 @@ export default class App extends React.Component<object, State> {
     isConnected: false,
     loadingElement: <LoadingView />,
   };
+
+  private subscriptions: (EmitterSubscription | NativeEventSubscription)[] = [];
 
   async componentDidMount() {
     Profiling.checkpoint('`App.componentDidMount()` start');
@@ -150,13 +159,14 @@ export default class App extends React.Component<object, State> {
       this.setState(() => ({ showSplash: false }));
     }
 
-    Linking.addEventListener('url', this._handleOpenUrl);
-    AppState.addEventListener('change', this._handleAppStateChange);
+    this.subscriptions = [
+      Linking.addEventListener('url', this._handleOpenUrl),
+      AppState.addEventListener('change', this._handleAppStateChange),
+    ];
   }
 
   componentWillUnmount() {
-    Linking.removeEventListener('url', this._handleOpenUrl);
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    this.subscriptions?.forEach((subscription) => subscription.remove());
   }
 
   _view?: Errors.ErrorBoundary | null;

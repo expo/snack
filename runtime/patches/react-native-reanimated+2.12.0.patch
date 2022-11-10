@@ -1,9 +1,9 @@
 diff --git a/node_modules/react-native-reanimated/plugin-standalone.js b/node_modules/react-native-reanimated/plugin-standalone.js
 new file mode 100644
-index 0000000..83beec9
+index 0000000..b45e98d
 --- /dev/null
 +++ b/node_modules/react-native-reanimated/plugin-standalone.js
-@@ -0,0 +1,788 @@
+@@ -0,0 +1,789 @@
 +'use strict';
 +
 +// const generate = require('@babel/generator').default;
@@ -17,6 +17,7 @@ index 0000000..83beec9
 + * holds a map of function names as keys and array of argument indexes as values which should be automatically workletized(they have to be functions)(starting from 0)
 + */
 +const functionArgsToWorkletize = new Map([
++  ['useFrameCallback', [0]],
 +  ['useAnimatedStyle', [0]],
 +  ['useAnimatedProps', [0]],
 +  ['createAnimatedPropAdapter', [0]],
@@ -24,7 +25,6 @@ index 0000000..83beec9
 +  ['useAnimatedScrollHandler', [0]],
 +  ['useAnimatedReaction', [0, 1]],
 +  ['useWorkletCallback', [0]],
-+  ['createWorklet', [0]],
 +  // animations' callbacks
 +  ['withTiming', [2]],
 +  ['withSpring', [2]],
@@ -316,13 +316,14 @@ index 0000000..83beec9
 +    },
 +  });
 +
++  const expression = fun.program.body.find(
++    ({ type }) => type === 'ExpressionStatement'
++  ).expression;
++
 +  const workletFunction = t.functionExpression(
 +    t.identifier(name),
-+    fun.program.body[0].expression.params,
-+    prependClosureVariablesIfNecessary(
-+      closureVariables,
-+      fun.program.body[0].expression.body
-+    )
++    expression.params,
++    prependClosureVariablesIfNecessary(closureVariables, expression.body)
 +  );
 +
 +  return generate(workletFunction, { compact: true }).code;
@@ -456,7 +457,7 @@ index 0000000..83beec9
 +  const workletHash = hash(funString);
 +
 +  let location = state.file.opts.filename;
-+  if (state.opts.relativeSourceLocation) {
++  if (state.opts && state.opts.relativeSourceLocation) {
 +    const path = require('path');
 +    location = path.relative(state.cwd, location);
 +  }

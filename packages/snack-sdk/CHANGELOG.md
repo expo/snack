@@ -4,7 +4,11 @@
 
 ### 🛠 Breaking changes
 
+- Dropped Expo SDK 44 ([#360](https://github.com/expo/snack/pull/360) by [@bycedric](https://github.com/byCedric))
+
 ### 🎉 New features
+
+- Upgrade to Expo SDK 47 ([#360](https://github.com/expo/snack/pull/360) by [@bycedric](https://github.com/byCedric))
 
 ### 🐛 Bug fixes
 
@@ -12,10 +16,10 @@
 
 ### 🎉 New features
 
-- Upgrade to Expo SDK 46 stable ([#337](https://github.com/expo/snack/pull/337)) by [@bycedric](https://github.com/byCedric))
-- Add versioned endpoints for modules ([#334](https://github.com/expo/snack/pull/334)) by [@bycedric](https://github.com/byCedric))
-- Upgrade pubnub to 7.2.0 ([#332](https://github.com/expo/snack/pull/332)) by [@bycedric](https://github.com/byCedric))
-- Upgrade Snack to Expo SDK 45 ([#290](https://github.com/expo/snack/pull/290)) by [@danstepanov](https://github.com/danstepanov))
+- Upgrade to Expo SDK 46 stable ([#337](https://github.com/expo/snack/pull/337) by [@bycedric](https://github.com/byCedric))
+- Add versioned endpoints for modules ([#334](https://github.com/expo/snack/pull/334) by [@bycedric](https://github.com/byCedric))
+- Upgrade pubnub to 7.2.0 ([#332](https://github.com/expo/snack/pull/332) by [@bycedric](https://github.com/byCedric))
+- Upgrade Snack to Expo SDK 45 ([#290](https://github.com/expo/snack/pull/290) by [@danstepanov](https://github.com/danstepanov))
 
 ## 3.8.0 - 2022-04-20
 
@@ -25,16 +29,16 @@
 
 ### 🎉 New features
 
-- Prepare snack-sdk and snack-content for SDK 44 ([#277](https://github.com/expo/snack/pull/277)) by [@bycedric](https://github.com/byCedric))
-- Split out code related to Snack project definitions into `snack-content` ([#251](https://github.com/expo/snack/pull/251)) by [@ide](https://github.com/ide))
-- Upgrade Snack to Expo SDK 44 ([#243](https://github.com/expo/snack/pull/243)) by [@bycedric](https://github.com/byCedric))
+- Prepare snack-sdk and snack-content for SDK 44 ([#277](https://github.com/expo/snack/pull/277) by [@bycedric](https://github.com/byCedric))
+- Split out code related to Snack project definitions into `snack-content` ([#251](https://github.com/expo/snack/pull/251) by [@ide](https://github.com/ide))
+- Upgrade Snack to Expo SDK 44 ([#243](https://github.com/expo/snack/pull/243) by [@bycedric](https://github.com/byCedric))
 
 ## 3.7.0 — 2021-12-17
 
 ### 🎉 New features
 
 - `SnackState` & `SnackOptions` include `snackId` and `accountSnackId` for tracking snacks, rather than only full name (id).
-- `saveAsync` additionally returns `snackId` and `accountSnackId`. 
+- `saveAsync` additionally returns `snackId` and `accountSnackId`.
 
 ## 3.6.0 — 2021-10-29
 

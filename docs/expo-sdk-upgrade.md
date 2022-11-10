@@ -26,7 +26,6 @@ Update the Snack runtime (managed Expo app), snack-sdk and website to the latest
 ### runtime
 
 - Either run `expo update <version>` or upgrade the dependencies in `package.json` to match those in `bundledNativeModules.json`.
-- Set `expo.sdkVersion` in `app.json` to the new version.
 - Update the patched packages in `./patches`.
 - Update any default project files to match the template in `expo/templates/expo-template-blank`.
 - Update the files in `./web` to match the latest expo-cli defaults (`expo customize:web`).
@@ -101,7 +100,7 @@ The Expo documentation contains excellent examples for verifying Snack. The easi
 
 ## Pre-release snack-sdk
 
-To enable partners to use the new Expo SDK, snack-sdk can be released to the `next` channel. 
+To enable partners to use the new Expo SDK, snack-sdk can be released to the `next` channel.
 
 - Update the version in `package.json`. Ex. "3.2.1-rc.0"
 - `yarn build`
