@@ -43,7 +43,12 @@ export default function createApp(): SnackagerExpressApp {
   }
 
   app.start = () => {
-    app.listen(config.port, () => logger.info({ port: config.port }, `ready`));
+    const server = app.listen(config.port, () => logger.info({ port: config.port }, `ready`));
+
+    server.keepAliveTimeout =
+      (10 * 60 + // Google Loadbalancing has an unconfigurable 10 minute timeout
+        20) * // Make our timeout 20 seconds longer than that ([This is recommended](https://cloud.google.com/load-balancing/docs/https#timeouts_and_retries))
+      1000; // Convert to milliseconds
   };
 
   return app;

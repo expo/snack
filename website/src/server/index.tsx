@@ -135,6 +135,11 @@ const httpServer = app.listen(port, host, backlog, () => {
 
 httpServer.timeout = timeout;
 
+httpServer.keepAliveTimeout =
+  (10 * 60 + // Google Loadbalancing has an unconfigurable 10 minute timeout
+    20) * // Make our timeout 20 seconds longer than that ([This is recommended](https://cloud.google.com/load-balancing/docs/https#timeouts_and_retries))
+  1000; // Convert to milliseconds
+
 // Listen to HTTP server error events and handle shutting down the server gracefully
 let exitSignal: ShutdownSignal | null = null;
 let httpServerError: Error | null = null;
