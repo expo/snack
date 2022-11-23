@@ -52,7 +52,7 @@ export const script = `
       var iframe = document.createElement('iframe');
 
       var iframeQueryParams = '?iframeId=' + iframeId;
-      
+
       if (options.preview) {
         iframeQueryParams += '&preview=' + options.preview;
       }
@@ -123,9 +123,13 @@ export const script = `
     },
 
     initialize: function() {
-      document.querySelectorAll('[data-sketch-id], [data-snack-id], [data-snack-code]').forEach(function(element) {
-        ExpoSnack.append(element);
-      });
+      document
+        .querySelectorAll(
+          "[data-sketch-id], [data-snack-id], [data-snack-code], [data-snack-files]"
+        )
+        .forEach(function (element) {
+          ExpoSnack.append(element);
+        });
     }
   }
 
