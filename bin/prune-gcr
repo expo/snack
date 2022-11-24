@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import json
@@ -21,7 +21,7 @@ def main():
         required=default_project is None,
         default=default_project,
         help="name of the Google Cloud project. {}".format(
-            "Defaults to {}.".format(default_project)
+            f"Defaults to {default_project}."
             if default_project is not None
             else "Must be specified."
         ),
@@ -51,19 +51,19 @@ def main():
     )
     args = parser.parse_args()
 
-    repository = "gcr.io/{project}/{name}".format(
-        project=args.project, name=args.repository
-    )
-    print "Querying GCP for images in {}...".format(repository)
+    repository = f"gcr.io/{args.project}/{args.repository}"
+    print(f"Querying GCP for images in {repository}...")
     digests = get_digests_to_prune(
         repository, args.older_than, keep_at_least=args.keep_at_least
     )
 
     if args.dry_run:
         if len(digests) > 0:
-            print "This is a dry run mode. Run without --dry-run to remove the following images:"
+            print(
+                "This is a dry run mode. Run without --dry-run to remove the following images:"
+            )
         for digest in digests:
-            print "- {}".format(digest)
+            print(f"- {digest}")
     else:
         delete_images(repository, digests)
 
@@ -73,7 +73,7 @@ def get_default_project():
         project = subprocess.check_output(
             ["gcloud", "config", "get-value", "project"], stderr=devnull
         )
-    return project.strip() if project else None
+    return project.decode().strip() if project else None
 
 
 def date(date_string):
@@ -86,7 +86,7 @@ def get_digests_to_prune(repository, older_than, keep_at_least=0):
     try:
         retention_index = last_index_older_than(entries, older_than)
     except ValueError as error:
-        print error
+        print(error)
         # All of the entries are older than the specified date so we want to keep all of
         # them
         return []
@@ -96,9 +96,7 @@ def get_digests_to_prune(repository, older_than, keep_at_least=0):
     )
     retention_index = len(entries) - retention_count
 
-    print "{} out of {} images are eligible to be pruned".format(
-        retention_index, len(entries)
-    )
+    print(f"{retention_index} out of {len(entries)} images are eligible to be pruned")
     return [entry["digest"] for entry in entries[:retention_index]]
 
 
@@ -139,22 +137,22 @@ def last_index_older_than(entries, older_than):
 
 
 def delete_images(repository, digests):
-    if len(digests) is 0:
-        print "There are no images to prune; skipping pruning"
+    if len(digests) == 0:
+        print("There are no images to prune; skipping pruning")
         return
 
-    print "Deleting {count} images...".format(count=len(digests))
+    print(f"Deleting {len(digests)} images...")
     for digest_chunk in chunks(digests, 100):
         subprocess.check_output(
             ["gcloud", "container", "images", "delete"]
             + ["{}@{}".format(repository, digest) for digest in digest_chunk]
             + ["--force-delete-tags", "--quiet"]
         )
-    print "Finished pruning images in {}".format(repository)
+    print(f"Finished pruning images in {repository}")
 
 
 def chunks(seq, size):
-    return (seq[index : index + size] for index in xrange(0, len(seq), size))
+    return (seq[index : index + size] for index in range(0, len(seq), size))
 
 
 if __name__ == "__main__":
