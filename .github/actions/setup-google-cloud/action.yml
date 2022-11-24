@@ -2,10 +2,6 @@ name: Setup Snackager
 description: Prepare Snackager in GitHub Actions
 
 inputs:
-  python-version:
-    description: Python version to use when installing Google Cloud SDK
-    default: '2.7'
-
   project-id:
     description: Google Cloud SDK project id
     default: exponentjs
@@ -29,12 +25,7 @@ inputs:
 
 runs:
   using: composite
-  steps:
-    - name: 🏗 Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ inputs.python-version }}
-    
+  steps: 
     - name: 🏗 Setup Google Cloud SDK
       uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
       with:
