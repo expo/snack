@@ -26,6 +26,26 @@ describe('webpreview', () => {
     expect(snack.getState().transports['webplayer']).toBeDefined();
   });
 
+  it('updates a webplayer url', async () => {
+    const snack = new Snack({
+      webPreviewRef: {
+        current: null,
+      },
+    });
+    const originalTransport = snack.getState().transports['webplayer'];
+    snack.setWebPlayerURL('http://snack.expo.test');
+    const newTransport = snack.getState().transports['webplayer'];
+    expect(originalTransport).not.toBe(newTransport);
+
+    // Simulate CONNECT by web-player with old origin, which will be a no-op
+    postMessage(JSON.stringify({ type: 'CONNECT', device }), origin);
+    expect(Object.keys(snack.getState().connectedClients).length).toBe(0);
+
+    // Simulate CONNECT by web-player with new origin
+    postMessage(JSON.stringify({ type: 'CONNECT', device }), 'http://snack.expo.test');
+    expect(Object.keys(snack.getState().connectedClients).length).toBe(1);
+  });
+
   it('registers for messages on the global window', async () => {
     // @ts-ignore 'snack' is declared but its value is never read.
     const snack = new Snack({

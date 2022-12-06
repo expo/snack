@@ -88,6 +88,7 @@ export default class Snack {
   private state: SnackState;
   private stateListeners: Set<SnackStateListener> = new Set();
   private logListeners: Set<SnackLogListener> = new Set();
+  private readonly options: SnackOptions;
   private readonly createTransport: (options: SnackTransportOptions) => SnackTransport;
   private readonly logger?: Logger;
   private readonly apiURL: string;
@@ -100,7 +101,6 @@ export default class Snack {
   private codeChangesTimer: any;
   private readonly reloadTimeout: number;
   private readonly previewTimeout: number;
-  private readonly webPlayerURL: string;
   private pruneConnectionsTimer: any;
   private readonly transportListeners: {
     [key: string]: (event: any) => void;
@@ -110,6 +110,7 @@ export default class Snack {
     const channel = createChannel(options.channel);
     const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion);
     const dependencies = options.dependencies ? { ...options.dependencies } : {};
+    this.options = options;
     this.apiURL = options.apiURL ?? defaultConfig.apiURL;
     this.host = options.host ?? new URL(this.apiURL).host;
     this.logger = options.verbose ? createLogger(true) : undefined;
@@ -117,7 +118,7 @@ export default class Snack {
     this.reloadTimeout = options.reloadTimeout ?? 0;
     this.previewTimeout = options.previewTimeout ?? 10000;
     this.createTransport = options.createTransport ?? createTransport;
-    this.webPlayerURL = options.webPlayerURL ?? defaultConfig.webPlayerURL;
+    const webPlayerURL = options.webPlayerURL ?? defaultConfig.webPlayerURL;
 
     let transports = options.transports ?? {};
     if (options.online) {
@@ -141,7 +142,7 @@ export default class Snack {
           verbose: options.verbose,
           createTransport: this.createTransport,
           window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
-          webPlayerURL: this.webPlayerURL,
+          webPlayerURL,
         })
       );
     }
@@ -168,6 +169,7 @@ export default class Snack {
         deviceId: options.deviceId,
         snackId: options.snackId,
         accountSnackId: options.accountSnackId,
+        webPlayerURL,
       },
       SnackIdentityState
     );
@@ -284,6 +286,31 @@ export default class Snack {
       this.codeChangesDelay = delay;
       this._sendCodeChangesDebounced(this.state);
     }
+  }
+
+  /**
+   * Update the `webPlayerURL` which serves the webPlayer runtime.
+   */
+  setWebPlayerURL(webPlayerURL: string | null) {
+    this.setState((state) => {
+      const newWebPlayerURL = webPlayerURL ?? defaultConfig.webPlayerURL;
+      if (state.webPlayerURL !== newWebPlayerURL && this.options.webPreviewRef) {
+        let { transports } = state;
+        transports = State.addObject(
+          transports,
+          'webplayer',
+          createWebPlayerTransport({
+            ref: this.options.webPreviewRef,
+            verbose: this.options.verbose,
+            createTransport: this.createTransport,
+            window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
+            webPlayerURL: newWebPlayerURL,
+          })
+        );
+        return { webPlayerURL: newWebPlayerURL, transports };
+      }
+      return null;
+    });
   }
 
   /**
@@ -936,11 +963,16 @@ export default class Snack {
   }
 
   private updateDerivedWebPreviewState(state: SnackState, prevState: SnackState) {
-    const { transports, sdkVersion, url } = state;
-    if ((url && !prevState.url) || sdkVersion !== prevState.sdkVersion) {
-      state.webPreviewURL = transports['webplayer']
-        ? getWebPlayerIFrameURL(this.webPlayerURL, sdkVersion, url, !!this.logger)
-        : undefined;
+    const { transports, sdkVersion, url, webPlayerURL } = state;
+    if (
+      (url && !prevState.url) ||
+      sdkVersion !== prevState.sdkVersion ||
+      webPlayerURL !== prevState.webPlayerURL
+    ) {
+      state.webPreviewURL =
+        transports['webplayer'] && webPlayerURL
+          ? getWebPlayerIFrameURL(webPlayerURL, sdkVersion, url, !!this.logger)
+          : undefined;
     }
   }
 
