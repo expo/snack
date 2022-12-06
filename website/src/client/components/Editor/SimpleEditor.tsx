@@ -12,6 +12,7 @@ import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-markdown';
+import 'prismjs/components/prism-tsx';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import { EditorProps } from './EditorProps';
 import { light, dark } from './themes/simple-editor';
@@ -64,8 +65,10 @@ class SimpleEditor extends React.Component<Props> {
   }
 
   _highlight = (path: string, code: string) => {
-    if (path.endsWith('.ts') || path.endsWith('.tsx')) {
+    if (path.endsWith('.ts')) {
       return highlight(code, languages.ts, 'typescript');
+    } else if (path.endsWith('.tsx')) {
+      return highlight(code, languages.tsx, 'tsx');
     } else if (path.endsWith('.js')) {
       return highlight(code, languages.jsx, 'jsx');
     } else if (path.endsWith('.json')) {
