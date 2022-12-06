@@ -871,8 +871,7 @@ class Main extends React.Component<Props, State> {
 
     return (
       <LazyLoad<React.ComponentType<EditorViewProps>>
-        load={() => (isEmbedded ? import('./EmbeddedEditorView') : import('./EditorView'))}
-      >
+        load={() => (isEmbedded ? import('./EmbeddedEditorView') : import('./EditorView'))}>
         {({ loaded, data: Comp }) =>
           loaded && Comp ? (
             <Comp
