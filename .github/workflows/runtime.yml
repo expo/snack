@@ -41,15 +41,15 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-      
+
       - name: 🏗 Setup runtime
         uses: ./.github/actions/setup-runtime
-      
+
       - name: 🚨 Lint runtime
         run: |
           yarn tsc --noEmit
           yarn lint --max-warnings 0
-  
+
   deploy-staging:
     if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
@@ -60,10 +60,10 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-      
+
       - name: 🏗 Setup runtime
         uses: ./.github/actions/setup-runtime
-      
+
       - name: 🌐 Deploy web-player
         run: yarn deploy:web:staging
         env:
@@ -97,10 +97,10 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-      
+
       - name: 🏗 Setup runtime
         uses: ./.github/actions/setup-runtime
-      
+
       - name: 🌐 Deploy web-player
         run: yarn deploy:web:prod
         env:

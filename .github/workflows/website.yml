@@ -50,13 +50,13 @@ jobs:
 
       - name: 🏗 Setup website
         uses: ./.github/actions/setup-website
-      
+
       - name: 🚨 Lint website
         run: yarn lint --max-warnings 0
 
       - name: 🧪 Unit test website
         run: yarn test --ci --maxWorkers 1
-  
+
   build:
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
@@ -65,9 +65,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🏗 Setup secrets
-        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
@@ -76,11 +76,11 @@ jobs:
           project-zone: us-central1
           project-cluster: general-central
           service-key: ${{ secrets.GCLOUD_KEY }}
-      
+
       - name: 🛠 Build website
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
         working-directory: ./
-  
+
   deploy-staging:
     if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
@@ -93,9 +93,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🏗 Setup secrets
-        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
@@ -118,7 +118,7 @@ jobs:
       - name: 📋 Add change cause
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
         working-directory: website/deploy/staging
-      
+
       - name: 🚀 Deploy website
         run: skaffold deploy --filename website/skaffold.yaml --status-check --build-artifacts website/build.json
         working-directory: ./
@@ -148,9 +148,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🏗 Setup secrets
-        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
@@ -170,19 +170,19 @@ jobs:
       - name: 📋 Add change cause
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
         working-directory: website/deploy/production
-      
+
       - name: 🚀 Deploy website
         run: skaffold deploy --filename website/skaffold.yaml --status-check --build-artifacts website/build.json
         working-directory: ./
         env:
           ENVIRONMENT: production
           SKAFFOLD_PUSH_IMAGE: 'true'
-    
+
       - name: 🧹 Prune docker image
         if: ${{ success() }}
         run: ./bin/prune-gcr snack
         working-directory: ./
-      
+
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
         if: ${{ always() }}
