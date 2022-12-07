@@ -1,5 +1,5 @@
-name: Setup Snackager
-description: Prepare Snackager in GitHub Actions
+name: Setup Google Cloud SDK
+description: Prepare Google Cloud SDK in GitHub Actions
 
 inputs:
   project-id:
@@ -16,7 +16,7 @@ inputs:
 
   service-key:
     description: Google Cloud SDK service_account_key
-    required: true
+    default: ''
 
   export-default-credentials:
     type: boolean
@@ -25,19 +25,25 @@ inputs:
 
 runs:
   using: composite
-  steps: 
-    - name: 🏗 Setup Google Cloud SDK
+  steps:
+    - name: 🏗 Setup Google Cloud SDK with auth
+      if: ${{ inputs.service-key != '' }}
       uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
       with:
         project_id: ${{ inputs.project-id }}
         service_account_key: ${{ inputs.service-key }}
         export_default_credentials: ${{ inputs.export-default-credentials }}
 
+    - name: 🏗 Setup Google Cloud SDK without auth
+      if: ${{ inputs.service-key == '' }}
+      uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+
     - name: 📦 Install Google Cloud SDK components
       run: gcloud components install kubectl kustomize skaffold
       shell: bash
 
     - name: ⚙️ Configure Google Cloud SDK
+      if: ${{ inputs.service-key != '' }}
       run: |
         gcloud config set project ${{ inputs.project-id }}
         gcloud config set compute/zone ${{ inputs.project-zone }}
