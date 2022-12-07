@@ -21,6 +21,8 @@ on:
           - production
   pull_request:
     paths:
+      - .github/actions/setup-google-cloud/**
+      - .github/actions/setup-secrets/**
       - .github/actions/setup-snackager/**
       - .github/workflows/snackager.yml
       - snackager/**
@@ -32,6 +34,8 @@ on:
   push:
     branches: [main]
     paths:
+      - .github/actions/setup-google-cloud/**
+      - .github/actions/setup-secrets/**
       - .github/actions/setup-snackager/**
       - .github/workflows/snackager.yml
       - snackager/**
