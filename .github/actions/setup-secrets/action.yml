@@ -12,5 +12,5 @@ runs:
     - name: 🏗 Setup secrets
       if: ${{ inputs.git-crypt-key != '' }}
       uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+      env:
+        GIT_CRYPT_KEY: ${{ inputs.git-crypt-key }}
