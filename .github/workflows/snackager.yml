@@ -21,6 +21,8 @@ on:
           - production
   pull_request:
     paths:
+      - .github/actions/setup-google-cloud/**
+      - .github/actions/setup-secrets/**
       - .github/actions/setup-snackager/**
       - .github/workflows/snackager.yml
       - snackager/**
@@ -32,6 +34,8 @@ on:
   push:
     branches: [main]
     paths:
+      - .github/actions/setup-google-cloud/**
+      - .github/actions/setup-secrets/**
       - .github/actions/setup-snackager/**
       - .github/workflows/snackager.yml
       - snackager/**
@@ -49,9 +53,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🏗 Setup secrets
-        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup snackager
         uses: ./.github/actions/setup-snackager
@@ -61,12 +65,12 @@ jobs:
 
       - name: 🧪 Unit test snackager
         run: yarn test --ci --maxWorkers 1 --testPathIgnorePatterns=__integration-tests__
-      
+
       - name: 🧪 E2E test snackager
         run: yarn test --ci --maxWorkers 1 --testPathPattern=__integration-tests__
         # Takes a long time, best to only run this on PRs
         if: ${{ github.event_name == 'pull_request' }}
-  
+
   build:
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
@@ -86,7 +90,7 @@ jobs:
           project-zone: us-central1
           project-cluster: general-central
           service-key: ${{ secrets.GCLOUD_KEY }}
-      
+
       - name: 🛠 Build snackager
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
         working-directory: ./
@@ -103,9 +107,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🏗 Setup secrets
-        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
@@ -158,9 +162,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🏗 Setup secrets
-        uses: sliteteam/github-action-git-crypt-unlock@a09ea5079c1b0e1887d4c8d7a4b20f00b5c2d06b
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
