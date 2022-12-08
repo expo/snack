@@ -47,11 +47,18 @@ ENV APP_VERSION ${APP_VERSION}
 # Build
 RUN yarn build
 
-# Minimize image
+# Minimize node_modules
 RUN yarn install --frozen-lockfile --offline --production
+
+# Build minimized production image
 FROM node:${node_version}-alpine
+
+ARG APP_VERSION
+ENV APP_VERSION ${APP_VERSION}
+
 RUN apk --no-cache add git openssh-client
 RUN npm install --global npm@^6
+
 COPY --from=builder /app/snackager/package.json ./
 COPY --from=builder /app/node_modules node_modules
 COPY --from=builder /app/snackager/build build
