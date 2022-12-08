@@ -220,4 +220,9 @@ export type SnackState = {
    * of the iframe.
    */
   webPreviewURL?: string;
+
+  /**
+   * The runtime URL to serve webPlayer.
+   */
+  webPlayerURL?: string;
 };

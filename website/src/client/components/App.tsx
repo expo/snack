@@ -218,11 +218,7 @@ class Main extends React.Component<Props, State> {
           ? 'staging.exp.host'
           : new URL(nullthrows(process.env.API_SERVER_URL)).host,
       webPreviewRef: typeof window !== 'undefined' ? this._previewRef : undefined,
-      // Serve local web-player through `/web-player` end-point to prevent CORS issues
-      webPlayerURL:
-        typeof window !== 'undefined' && isLocalWebPreview
-          ? `${window.location.origin}/web-player/%%SDK_VERSION%%`
-          : nullthrows(process.env.SNACK_WEBPLAYER_URL) + '/v2/%%SDK_VERSION%%',
+      webPlayerURL: this._makeWebPlayerURL(isLocalWebPreview),
       snackId: props.snack?.id,
       accountSnackId: props.snack?.accountSnackId,
     });
@@ -594,6 +590,8 @@ class Main extends React.Component<Props, State> {
     this.edited = true;
     this._snack.setSDKVersion(sdkVersion);
     if (this.state.isLocalWebPreview !== !!isLocalWebPreview) {
+      const webPlayerURL = this._makeWebPlayerURL(!!isLocalWebPreview);
+      this._snack.setWebPlayerURL(webPlayerURL);
       this.setState({ isLocalWebPreview: !!isLocalWebPreview });
     }
   };
@@ -813,6 +811,12 @@ class Main extends React.Component<Props, State> {
       this._snack.setOnline(true);
     }
   };
+
+  _makeWebPlayerURL = (isLocalWebPreview: boolean) =>
+    // Serve local web-player through `/web-player` end-point to prevent CORS issues
+    typeof window !== 'undefined' && isLocalWebPreview
+      ? `${window.location.origin}/web-player/%%SDK_VERSION%%`
+      : nullthrows(process.env.SNACK_WEBPLAYER_URL) + '/v2/%%SDK_VERSION%%';
 
   _updateFiles = (updateFn: (files: SnackFiles) => { [path: string]: SnackFile | null }) => {
     const state = this._snack.getState();
