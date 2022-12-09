@@ -6,7 +6,6 @@ import { getWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
 import { Device, SDKVersion } from '../../types';
-import DeviceIDModal from '../DeviceInstructions/DeviceIDModal';
 import { Shortcuts } from '../KeyboardShortcuts';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import QRCode from '../QRCode';
@@ -108,12 +107,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
             {!isConnected && this.renderNoConnectedDevices()}
             {connectedDevices.map(this.renderConnectedDevice)}
           </div>
-          <DeviceIDModal
-            visible={visibleModal === 'deviceid'}
-            deviceId={deviceId}
-            setDeviceId={this.handleSetDeviceId}
-            onDismiss={this.handleDismissModal}
-          />
         </div>
       </div>
     );

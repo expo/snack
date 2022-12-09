@@ -6,7 +6,6 @@ import ButtonLink from '../shared/ButtonLink';
 import ModalDialog from '../shared/ModalDialog';
 import SegmentedButton from '../shared/SegmentedButton';
 import AccountTab from './AccountTab';
-import DeviceIDTab from './DeviceIDTab';
 import QRCodeTab from './QRCodeTab';
 
 export type EmbeddedConnectionMethod = 'device-id' | 'qr-code';
@@ -39,7 +38,6 @@ export default class DeviceInstructionsModal extends React.Component<Props> {
     } = this.props;
 
     const segments = [
-      { id: 'device-id', text: 'Device ID' },
       ...(!isEmbedded ? [{ id: 'account', text: 'Account' }] : []),
       { id: 'qr-code', text: 'QR Code' },
     ];
