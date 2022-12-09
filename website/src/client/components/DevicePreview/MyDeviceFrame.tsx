@@ -20,7 +20,6 @@ import RecentlyInDevelopmentPreview from './RecentlyInDevelopmentPreview';
 type Props = AuthProps & {
   width: number;
   connectedDevices: Device[];
-  deviceId: string | undefined;
   experienceURL: string;
   experienceName: string;
   name: string;
@@ -30,13 +29,11 @@ type Props = AuthProps & {
   sdkVersion: SDKVersion;
   isEmbedded?: boolean;
   sendCodeOnChangeEnabled: boolean;
-  setDeviceId: (deviceId: string) => void;
   theme: ThemeName;
 };
 
 type State = {
   connectedDevices: Device[];
-  visibleModal: 'none' | 'deviceid';
   copiedToClipboard: boolean;
 };
 
@@ -49,7 +46,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
       { id: 'fg34-4563', name: 'Web emulator', platform: 'web' },
       { id: 'fg34-4564', name: 'Errr', platform: 'unknown' }, */
     ],
-    visibleModal: 'none',
     copiedToClipboard: false,
   };
 
@@ -61,8 +57,8 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { experienceURL, deviceId, isEmbedded, width } = this.props;
-    const { connectedDevices, visibleModal, copiedToClipboard } = this.state;
+    const { experienceURL, isEmbedded, width } = this.props;
+    const { connectedDevices, copiedToClipboard } = this.state;
     const isConnected = connectedDevices.length >= 1;
 
     return (
@@ -111,20 +107,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
       </div>
     );
   }
-
-  private handleDismissModal = () => {
-    this.setState({
-      visibleModal: 'none',
-    });
-  };
-
-  private handleSetDeviceId = async (deviceId: string) => {
-    const { setDeviceId } = this.props;
-    await setDeviceId(deviceId);
-    this.setState({
-      visibleModal: 'none',
-    });
-  };
 
   private _handleCopyToClipboard = () => {
     this.setState({ copiedToClipboard: true });
@@ -187,12 +169,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
       </div>
     );
   }
-
-  onClickDeviceId = () => {
-    this.setState({
-      visibleModal: 'deviceid',
-    });
-  };
 
   private renderNoConnectedDevices() {
     const { viewer, deviceId, experienceURL, experienceName, isEmbedded } = this.props;
