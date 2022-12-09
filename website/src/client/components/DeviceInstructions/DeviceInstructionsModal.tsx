@@ -8,7 +8,7 @@ import SegmentedButton from '../shared/SegmentedButton';
 import AccountTab from './AccountTab';
 import QRCodeTab from './QRCodeTab';
 
-export type EmbeddedConnectionMethod = 'device-id' | 'qr-code';
+export type EmbeddedConnectionMethod = 'qr-code';
 export type ConnectionMethod = 'account' | EmbeddedConnectionMethod;
 
 type Props = {
@@ -30,8 +30,6 @@ export default class DeviceInstructionsModal extends React.Component<Props> {
       visible,
       onDismiss,
       onChangeMethod,
-      setDeviceId,
-      deviceId,
       method,
       isEmbedded,
       experienceURL,
@@ -69,11 +67,6 @@ export default class DeviceInstructionsModal extends React.Component<Props> {
                 let content;
 
                 switch (id) {
-                  case 'device-id':
-                    content = (
-                      <DeviceIDTab key={id} deviceId={deviceId} setDeviceId={setDeviceId} />
-                    );
-                    break;
                   case 'account':
                     content = <AccountTab key={id} />;
                     break;

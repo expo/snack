@@ -40,7 +40,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    let deviceConnectionMethod = this.props.testConnectionMethod ?? 'device-id';
+    let deviceConnectionMethod = this.props.testConnectionMethod ?? 'qr-code';
     if (deviceConnectionMethod === 'account') {
       deviceConnectionMethod = 'qr-code';
     }

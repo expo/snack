@@ -121,14 +121,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
     const isConnected = connectedDevices.length > 0;
     return (
       <div className={css(styles.popupContainer)}>
-        <div className={css(styles.popupRow)}>
-          <IconButton
-            small
-            title="Set ID of your device"
-            label="Set Device ID"
-            onClick={this.onClickDeviceId}
-          />
-        </div>
         {isConnected && (
           <ToggleSwitch
             checked={sendCodeOnChangeEnabled}
@@ -171,34 +163,14 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
   }
 
   private renderNoConnectedDevices() {
-    const { viewer, deviceId, experienceURL, experienceName, isEmbedded } = this.props;
+    const { viewer, experienceURL, experienceName, isEmbedded } = this.props;
 
-    if (viewer || deviceId) {
+    if (viewer) {
       return (
         <>
-          {viewer ? (
-            <p className={css(styles.notConnectedText)}>
-              This Snack is visible on the "Projects" tab of your signed in Expo Go app
-              {deviceId ? ', and on device ' : '. Or set a '}
-              <button onClick={this.onClickDeviceId} className={css(styles.link)}>
-                {deviceId ? (
-                  <span className={css(styles.deviceIDText)}>{deviceId}</span>
-                ) : (
-                  'Device ID'
-                )}
-              </button>
-              .
-            </p>
-          ) : (
-            <p className={css(styles.notConnectedText)}>
-              This Snack is visible on the "Projects" tab of Expo Go with device ID
-              <span> </span>
-              <button onClick={this.onClickDeviceId} className={css(styles.link)}>
-                <span className={css(styles.deviceIDText)}>{deviceId}</span>
-              </button>
-              .
-            </p>
-          )}
+          <p className={css(styles.notConnectedText)}>
+            This Snack is visible on the "Projects" tab of your signed in Expo Go app.
+          </p>
           <RecentlyInDevelopmentPreview name={experienceName} experienceURL={experienceURL} />
         </>
       );
@@ -211,10 +183,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
             className={css(styles.link)}>
             Log in
           </a>
-          <span> </span>or set a<span> </span>
-          <button onClick={this.onClickDeviceId} className={css(styles.link)}>
-            Device ID
-          </button>
           <span> </span>to open this Snack from Expo Go on your device or simulator.
         </p>
       );

@@ -181,7 +181,6 @@ class DevicePreview extends React.PureComponent<Props, State> {
           <MyDeviceFrame
             width={width}
             connectedDevices={connectedDevices}
-            deviceId={deviceId}
             experienceURL={experienceURL}
             experienceName={experienceName}
             name={name}
@@ -190,7 +189,6 @@ class DevicePreview extends React.PureComponent<Props, State> {
             onToggleSendCode={onToggleSendCode}
             isEmbedded={isEmbedded}
             sdkVersion={sdkVersion}
-            setDeviceId={setDeviceId}
             sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
           />
         )}
