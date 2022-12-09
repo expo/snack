@@ -16,7 +16,6 @@ type Props = {
   className?: string;
   width: number;
   connectedDevices: Device[];
-  deviceId: string | undefined;
   experienceURL: string;
   experienceName: string;
   name: string;
@@ -34,7 +33,6 @@ type Props = {
   isEmbedded?: boolean;
   sdkVersion: SDKVersion;
   sendCodeOnChangeEnabled: boolean;
-  setDeviceId: (deviceId: string) => void;
   theme: ThemeName;
 };
 
@@ -126,7 +124,6 @@ class DevicePreview extends React.PureComponent<Props, State> {
       className,
       width,
       connectedDevices,
-      deviceId,
       experienceURL,
       experienceName,
       name,
@@ -144,7 +141,6 @@ class DevicePreview extends React.PureComponent<Props, State> {
       isEmbedded,
       sdkVersion,
       sendCodeOnChangeEnabled,
-      setDeviceId,
       theme,
     } = this.props;
     return (

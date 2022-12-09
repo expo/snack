@@ -25,15 +25,8 @@ type Props = {
 
 export default class DeviceInstructionsModal extends React.Component<Props> {
   render() {
-    const {
-      large,
-      visible,
-      onDismiss,
-      onChangeMethod,
-      method,
-      isEmbedded,
-      experienceURL,
-    } = this.props;
+    const { large, visible, onDismiss, onChangeMethod, method, isEmbedded, experienceURL } =
+      this.props;
 
     const segments = [
       ...(!isEmbedded ? [{ id: 'account', text: 'Account' }] : []),
