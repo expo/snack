@@ -1,8 +1,8 @@
-import Transport from './Transport';
+import TransportImplPubNub from './TransportImplPubNub';
 import { SnackTransport, SnackTransportOptions } from './types';
 
 export * from './types';
 
 export function createTransport(options: SnackTransportOptions): SnackTransport {
-  return new Transport(options);
+  return new TransportImplPubNub(options);
 }

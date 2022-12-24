@@ -45,9 +45,7 @@ export type SnackTransportEventConnect = {
 export type SnackTransportEventDisconnect = {
   type: 'disconnect';
   connectionId: string;
-  data: {
-    timedout: boolean;
-  };
+  data: any;
 };
 
 export type SnackTransportEventProtocolMessage = {

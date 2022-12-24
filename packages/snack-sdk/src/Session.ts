@@ -140,7 +140,6 @@ export default class Snack {
         createWebPlayerTransport({
           ref: options.webPreviewRef,
           verbose: options.verbose,
-          createTransport: this.createTransport,
           window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
           webPlayerURL,
         })
@@ -302,7 +301,6 @@ export default class Snack {
           createWebPlayerTransport({
             ref: this.options.webPreviewRef,
             verbose: this.options.verbose,
-            createTransport: this.createTransport,
             window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
             webPlayerURL: newWebPlayerURL,
           })
