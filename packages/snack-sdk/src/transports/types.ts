@@ -84,4 +84,5 @@ export type SnackTransportOptions = {
   apiURL?: string;
   verbose?: boolean;
   name?: string;
+  snackpubURL?: string | undefined;
 };

@@ -1,8 +1,11 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 
 import fetch from '../__mocks__/fetch';
-import PubNub from '../__mocks__/pubnub';
+import type { ProtocolCodeMessage } from '../transports/Protocol';
+import Transport from '../transports/__mocks__/TestTransport';
 import Snack from './snack-sdk';
+
+jest.mock('../transports');
 
 describe('upload', () => {
   it('uploads code for too large messages', async () => {
@@ -14,7 +17,15 @@ describe('upload', () => {
         json: async () => ({ url: uploadURL }),
       })
     );
-    // @ts-ignore
+
+    Transport.mockVerifyCodeMessageSize.mockImplementation((codeMessage: ProtocolCodeMessage) => {
+      let approxSize = 0;
+      for (const path in codeMessage.diff) {
+        approxSize += path.length + codeMessage.diff[path].length;
+      }
+      return approxSize < 4096;
+    });
+
     const snack = new Snack({
       online: true,
       files: {
@@ -24,18 +35,19 @@ describe('upload', () => {
         },
       },
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(0);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(0);
     for (let i = 0; i < 100; i++) {
       await new Promise((resolve) => setTimeout(resolve, 50));
-      if (pubnub.publishes.length) {
+      if (transport.publishes.length) {
         break;
       }
     }
     expect(fetch).toBeCalled();
-    expect(pubnub.publishes).toHaveLength(1);
-    expect(pubnub.publishes[0].message.type).toBe('CODE');
-    expect(pubnub.publishes[0].message.s3url['App.js']).toBe(uploadURL);
+    expect(transport.publishes).toHaveLength(1);
+    const message = transport.publishes[0].message;
+    expect(message.type).toBe('CODE');
+    expect((message as ProtocolCodeMessage).s3url['App.js']).toBe(uploadURL);
   });
 });

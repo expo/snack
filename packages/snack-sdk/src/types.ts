@@ -133,7 +133,7 @@ export type SnackState = {
   online: boolean;
 
   /**
-   * Communication channel ("pubnub") through which live updates are transferred.
+   * Communication channel ("pubsub") through which live updates are transferred.
    * The communication channel is only used when the Snack is "online".
    */
   channel: string;
