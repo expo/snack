@@ -47,6 +47,7 @@ runs:
       run: |
         gcloud config set project ${{ inputs.project-id }}
         gcloud config set compute/zone ${{ inputs.project-zone }}
+        gcloud config set run/region ${{ inputs.project-zone }}
         gcloud config set container/cluster ${{ inputs.project-cluster }}
         gcloud container clusters get-credentials ${{ inputs.project-cluster }}
         gcloud auth configure-docker gcr.io

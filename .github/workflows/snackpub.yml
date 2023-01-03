@@ -1,0 +1,184 @@
+name: Snackpub
+
+defaults:
+  run:
+    working-directory: snackpub
+
+concurrency:
+  group: snackpub-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: What environment should be deployed
+        type: choice
+        default: no-deploy
+        options:
+          - no-deploy
+          - staging
+          - production
+  pull_request:
+    paths:
+      - .github/actions/setup-google-cloud/**
+      - .github/actions/setup-secrets/**
+      - .github/actions/setup-snackpub/**
+      - .github/workflows/snackpub.yml
+      - snackpub/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+  push:
+    branches: [main]
+    paths:
+      - .github/actions/setup-google-cloud/**
+      - .github/actions/setup-secrets/**
+      - .github/actions/setup-snackpub/**
+      - .github/workflows/snackpub.yml
+      - snackpub/**
+      - .eslint*
+      - .prettier*
+      - yarn.lock
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup snackpub
+        uses: ./.github/actions/setup-snackpub
+
+      - name: 🚨 Lint snackpub
+        run: yarn lint --max-warnings 0
+
+  build:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup Google Cloud SDK
+        uses: ./.github/actions/setup-google-cloud
+        with:
+          project-id: exponentjs
+          project-zone: us-central1
+          project-cluster: general-central
+          service-key: ${{ secrets.GCLOUD_KEY }}
+
+      - name: 🛠 Build snackpub
+        run: skaffold build --filename snackpub/skaffold.yaml --file-output snackpub/build.json
+        working-directory: ./
+
+  deploy-staging:
+    if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
+    needs: review
+    runs-on: ubuntu-latest
+    environment:
+      name: snackpub-staging
+      url: https://staging.snackpub.expo.io/status
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup Google Cloud SDK
+        uses: ./.github/actions/setup-google-cloud
+        with:
+          project-id: exponentjs
+          project-zone: us-central1
+          project-cluster: general-central
+          service-key: ${{ secrets.GCLOUD_KEY }}
+
+      - name: 🛠 Build snackpub
+        run: skaffold build --filename snackpub/skaffold.yaml --file-output snackpub/build.json
+        working-directory: ./
+        env:
+          SKAFFOLD_PUSH_IMAGE: 'true'
+
+      - name: 🧹 Dry-run prune docker image
+        run: ./bin/prune-gcr snackpub --dry-run
+        working-directory: ./
+
+      - name: 🚀 Deploy snackpub
+        run: ./scripts/deploy.sh -e staging
+        working-directory: snackpub
+
+      - name: 💬 Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Snackpub to Staging
+          fields: message,commit,author,job,took
+
+  deploy-production:
+    if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
+    needs: review
+    runs-on: ubuntu-latest
+    environment:
+      name: snackpub-production
+      url: https://snackpub.expo.io/status
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup Google Cloud SDK
+        uses: ./.github/actions/setup-google-cloud
+        with:
+          project-id: exponentjs
+          project-zone: us-central1
+          project-cluster: general-central
+          service-key: ${{ secrets.GCLOUD_KEY }}
+
+      - name: 🛠 Build snackpub
+        run: skaffold build --filename snackpub/skaffold.yaml --file-output snackpub/build.json
+        working-directory: ./
+        env:
+          ENVIRONMENT: production
+          SKAFFOLD_PUSH_IMAGE: 'true'
+
+      - name: 🚀 Deploy snackpub
+        run: ./scripts/deploy.sh -e production
+        working-directory: snackpub
+
+      - name: 🧹 Prune docker image
+        if: ${{ success() }}
+        run: ./bin/prune-gcr snackpub
+        working-directory: ./
+
+      - name: 💬 Notify Slack
+        if: ${{ always() }}
+        uses: 8398a7/action-slack@v3
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
+        with:
+          channel: '#snack'
+          status: ${{ job.status }}
+          author_name: Deploy Snackpub to Production
+          fields: message,commit,author,job,took
