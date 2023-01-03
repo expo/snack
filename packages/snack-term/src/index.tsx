@@ -15,14 +15,21 @@ function SnackTerminal() {
               command="yarn"
               args={['start']}
               width={Math.round(size.width / 2)}
-              height={Math.round((size.height - 1) / 2)}
+              height={Math.round((size.height - 1) / 3)}
             />
             <Terminal
               cwd="snackager"
               command="yarn"
               args={['start']}
               width={Math.round(size.width / 2)}
-              height={size.height - 1 - Math.round((size.height - 1) / 2)}
+              height={Math.round((size.height - 1) / 3)}
+            />
+            <Terminal
+              cwd="snackpub"
+              command="yarn"
+              args={['start']}
+              width={Math.round(size.width / 2)}
+              height={Math.round((size.height - 1) / 3)}
             />
             <Text color="cyan">
               Open{' '}

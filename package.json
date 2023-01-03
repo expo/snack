@@ -17,7 +17,8 @@
       "packages/snack-sdk",
       "packages/snack-term",
       "website",
-      "snackager"
+      "snackager",
+      "snackpub"
     ]
   },
   "devDependencies": {
