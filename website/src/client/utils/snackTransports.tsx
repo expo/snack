@@ -5,12 +5,15 @@ import {
   SnackTransportListener,
 } from 'snack-sdk';
 
-export function createSnackWorkerTransport(options: SnackTransportOptions) {
+export function createSnackWorkerTransport(
+  testTransport: 'pubnub' | 'snackpub',
+  options: SnackTransportOptions
+) {
   let transport: SnackTransport | null = null;
   function getTransport(): SnackTransport {
     if (!transport) {
       const worker = new Worker('../workers/SnackTransport.worker', { type: 'module' });
-      worker.postMessage({ type: 'init', data: options });
+      worker.postMessage({ type: 'init', data: options, testTransport });
       transport = worker;
     }
     return transport;
