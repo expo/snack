@@ -1,7 +1,10 @@
-import { Server } from 'socket.io';
+import fs from 'fs';
+import { createClient } from 'redis';
+import { Server, Socket } from 'socket.io';
 
 import Env from './Env';
-import { maybeBindRedisAdapterAsync, maybeCloseRedisConnectionsAsync } from './RedisAdapter';
+import RateLimiter from './RateLimiter';
+import { bindRedisAdapterAsync, closeRedisAdapterAsync } from './RedisAdapter';
 import type {
   ClientToServerEvents,
   InterServerEvents,
@@ -11,13 +14,17 @@ import type {
 
 const debug = require('debug')('snackpub');
 
-function registerShutdownHandlers(server: Server) {
+function registerShutdownHandlers(
+  server: Server,
+  redisClient: ReturnType<typeof createClient> | null
+) {
   const shutdown = async (signal: NodeJS.Signals) => {
     console.log(
       `Received ${signal}; the HTTP server is shutting down and draining existing connections`
     );
     await closeServerAsync(server);
-    await maybeCloseRedisConnectionsAsync();
+    await closeRedisAdapterAsync();
+    await redisClient?.quit();
   };
 
   process.once('SIGHUP', shutdown);
@@ -38,22 +45,64 @@ function closeServerAsync(server: Server): Promise<void> {
   });
 }
 
+function terminateSocket(
+  socket: Socket<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>,
+  reason: string
+) {
+  socket.emit('terminate', reason);
+  setTimeout(() => {
+    if (socket.connected) {
+      socket.disconnect(true);
+    }
+  }, 3000);
+}
+
 async function runAsync() {
   const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>({
     serveClient: false,
   });
 
-  await maybeBindRedisAdapterAsync(io);
+  let redisClient: ReturnType<typeof createClient> | null = null;
+  let rateLimiter: RateLimiter | null = null;
+  if (Env.redisURL) {
+    const redisClientOptions: Parameters<typeof createClient>[0] = {
+      url: Env.redisURL,
+    };
+    if (Env.redisURL.startsWith('rediss:') && Env.redisTlsCa) {
+      redisClientOptions.socket = {
+        tls: true,
+        ca: fs.readFileSync(Env.redisTlsCa),
+      };
+    }
 
-  io.on('connection', (socket) => {
+    redisClient = createClient(redisClientOptions);
+    await redisClient.connect();
+
+    await bindRedisAdapterAsync(io, redisClient);
+    rateLimiter = new RateLimiter(redisClient);
+  }
+
+  io.on('connection', async (socket) => {
     debug('onconnect', socket.handshake.address);
-    socket.on('message', (data) => {
+    if (await rateLimiter?.hasExceededSrcIpRateAsync(socket.handshake.address, socket.id)) {
+      terminateSocket(socket, 'Too many requests.');
+    }
+
+    socket.on('message', async (data) => {
+      if (await rateLimiter?.hasExceededMessagesRateAsync(socket.handshake.address, socket.id)) {
+        terminateSocket(socket, 'Too many messages.');
+      }
+
       const { channel, message, sender } = data;
       socket.to(channel).emit('message', { channel, message, sender });
     });
 
-    socket.on('subscribeChannel', (data) => {
+    socket.on('subscribeChannel', async (data) => {
       debug('onSubscribeChannel', data);
+      if (await rateLimiter?.hasExceededChannelsRateAsync(socket.handshake.address, socket.id)) {
+        terminateSocket(socket, 'Too many channels.');
+      }
+
       const { channel, sender } = data;
       socket.join(channel);
       socket.data.deviceId = sender;
@@ -94,7 +143,7 @@ async function runAsync() {
     }
   });
 
-  registerShutdownHandlers(io);
+  registerShutdownHandlers(io, redisClient);
   io.listen(Env.port);
 }
 
