@@ -38,5 +38,8 @@ export async function maybeBindRedisAdapterAsync(
 
 export async function maybeCloseRedisConnectionsAsync() {
   subClient?.quit();
+  subClient = null;
+
   pubClient?.quit();
+  pubClient = null;
 }

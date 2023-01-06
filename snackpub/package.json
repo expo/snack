@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "The Snack PubSub system",
-  "main": "build/index",
+  "main": "build/index.js",
   "scripts": {
     "start": "yarn domain && yarn watch",
     "domain": "chalet start && chalet add http://localhost:3013 -n snackpub.expo -f",

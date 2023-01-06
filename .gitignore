@@ -12,3 +12,6 @@ package-lock.json
 
 # git-crypt keys
 .git/
+
+# snackpub
+snackpub/build
