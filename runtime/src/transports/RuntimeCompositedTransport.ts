@@ -11,46 +11,46 @@ const FALLBACK_ACK_WAIT_MS = 3000;
 export type ListenerType = (payload: RuntimeMessagePayload) => void;
 
 export default class RuntimeCompositedTransport implements RuntimeTransport {
-  private readonly _transport: RuntimeTransport;
-  private readonly _fallbackTransport: RuntimeTransport;
-  private _missedMessageCount: number;
-  private _ackMessageQueue: AckMessageQueue;
-  private readonly _fallbackAckWaitMs: number;
+  private readonly transport: RuntimeTransport;
+  private readonly fallbackTransport: RuntimeTransport;
+  private missedMessageCount: number;
+  private ackMessageQueue: AckMessageQueue;
+  private readonly fallbackAckWaitMs: number;
 
   constructor(device: Device, fallbackAckWaitMs: number = FALLBACK_ACK_WAIT_MS) {
-    this._transport = new RuntimeTransportImplSocketIO(device);
-    this._fallbackTransport = new RuntimeTransportImplPubNub(device);
-    this._missedMessageCount = 0;
-    this._ackMessageQueue = new AckMessageQueue();
-    this._fallbackAckWaitMs = fallbackAckWaitMs;
+    this.transport = new RuntimeTransportImplSocketIO(device);
+    this.fallbackTransport = new RuntimeTransportImplPubNub(device);
+    this.missedMessageCount = 0;
+    this.ackMessageQueue = new AckMessageQueue();
+    this.fallbackAckWaitMs = fallbackAckWaitMs;
   }
 
   subscribe(channel: string) {
-    this._transport.subscribe(channel);
-    this._fallbackTransport.subscribe(channel);
+    this.transport.subscribe(channel);
+    this.fallbackTransport.subscribe(channel);
   }
 
   unsubscribe() {
-    this._transport.unsubscribe();
-    this._fallbackTransport.unsubscribe();
+    this.transport.unsubscribe();
+    this.fallbackTransport.unsubscribe();
   }
 
   listen(listener: ListenerType) {
-    this._transport.listen(this.onMessage.bind(this, false, listener));
-    this._fallbackTransport.listen(this.onMessage.bind(this, true, listener));
+    this.transport.listen(this.onMessage.bind(this, false, listener));
+    this.fallbackTransport.listen(this.onMessage.bind(this, true, listener));
   }
 
   publish(message: object) {
     if (!this.shouldUseFallbackAlways()) {
       Logger.comm('[RuntimeCompositedTransport] publish message from primary transport');
-      this._transport.publish(message);
+      this.transport.publish(message);
     } else {
       Logger.warn(
-        `[RuntimeCompositedTransport] publish message from fallback transport - primaryTransportConnected[${this._transport.isConnected()}] missedMessageCount[${
-          this._missedMessageCount
+        `[RuntimeCompositedTransport] publish message from fallback transport - primaryTransportConnected[${this.transport.isConnected()}] missedMessageCount[${
+          this.missedMessageCount
         }]`
       );
-      this._fallbackTransport.publish(message);
+      this.fallbackTransport.publish(message);
     }
   }
 
@@ -60,8 +60,8 @@ export default class RuntimeCompositedTransport implements RuntimeTransport {
 
   private shouldUseFallbackAlways() {
     return (
-      !this._transport.isConnected() ||
-      this._missedMessageCount >= FALLBACK_ALWAYS_AFTER_MISSED_THRESHOLD
+      !this.transport.isConnected() ||
+      this.missedMessageCount >= FALLBACK_ALWAYS_AFTER_MISSED_THRESHOLD
     );
   }
 
@@ -80,26 +80,26 @@ export default class RuntimeCompositedTransport implements RuntimeTransport {
 
     // If the message is acked in the queue, it means the message already passed to upper listener.
     // Either primary or fallback transport receives the duplicated message, we can simply skip it.
-    const acked = await this._ackMessageQueue.findMessageStringAsync(messageString);
+    const acked = await this.ackMessageQueue.findMessageStringAsync(messageString);
     if (acked) {
       return;
     }
 
     if (!fromFallback) {
       Logger.comm('[RuntimeCompositedTransport] ack upper from primary transport');
-      this._ackMessageQueue.enqueueMessageStringAsync(messageString);
+      this.ackMessageQueue.enqueueMessageStringAsync(messageString);
       upperLayerListener(payload);
     } else {
       // In case the fallback transport receives message before primary transport,
-      // we will still wait `this._fallbackAckWaitMs` to let primary transport go first.
+      // we will still wait `this.fallbackAckWaitMs` to let primary transport go first.
       setTimeout(async () => {
-        if (!(await this._ackMessageQueue.findMessageStringAsync(messageString))) {
-          this._missedMessageCount += 1;
-          this._ackMessageQueue.enqueueMessageStringAsync(messageString);
+        if (!(await this.ackMessageQueue.findMessageStringAsync(messageString))) {
+          this.missedMessageCount += 1;
+          this.ackMessageQueue.enqueueMessageStringAsync(messageString);
           upperLayerListener(payload);
           Logger.warn('[RuntimeCompositedTransport] ack upper from fallback transport');
         }
-      }, this._fallbackAckWaitMs);
+      }, this.fallbackAckWaitMs);
     }
   };
 }
@@ -115,8 +115,8 @@ export default class RuntimeCompositedTransport implements RuntimeTransport {
  *   - When fallback transport receives message, it will wait `FALLBACK_ACK_WAIT_MS` and check whether the message is receieved by primary transport.
  *     = So we need this `AckMessageQueue` to check message is received and acked by primary transport.
  *     = If the message receieved from fallback transport is acked by primary transport, then we can remove this message from the queue.
- *     = If the message is not acked, we let the fallback transport to call the upper layer callback and increase the `_missedMessageCount`.
- *       Once `_missedMessageCount` exceeds `FALLBACK_ALWAYS_AFTER_MISSED_THRESHOLD`, it means primary transport is not stable enough, so we should we fallback transport always.
+ *     = If the message is not acked, we let the fallback transport to call the upper layer callback and increase the `missedMessageCount`.
+ *       Once `missedMessageCount` exceeds `FALLBACK_ALWAYS_AFTER_MISSED_THRESHOLD`, it means primary transport is not stable enough, so we should we fallback transport always.
  *
  * To compare the equalness of two messages, this implementation uses JSON.stringify() and compare by strings.
  */

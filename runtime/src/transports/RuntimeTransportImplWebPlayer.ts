@@ -49,15 +49,14 @@ type Listener = (payload: { message: any }) => void;
 
 export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
   private _currentChannel: string | null = null;
-  private readonly _device: Device;
-  private readonly _listeners: Listener[] = [];
-  private readonly _origin: string | undefined;
+  private readonly device: Device;
+  private readonly listeners: Listener[] = [];
+  private readonly origin: string | undefined;
   // If we're in an iframe, grab `parent`, otherwise assume we're in popup and grab `opener`
-  private readonly _parent: Window | null =
-    window !== window.parent ? window.parent : window.opener;
+  private readonly parent: Window | null = window !== window.parent ? window.parent : window.opener;
 
   constructor(device: Device) {
-    this._device = device;
+    this.device = device;
 
     // The origin of the parent frame is provided in the url. This is necessary as it is not
     // possible to read the origin from the parent due to cross-origin restrictions.
@@ -65,8 +64,8 @@ export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
     if (!requestedOrigin) {
       Logger.comm_error('No origin provider in the URL');
     }
-    this._origin = isAllowedOrigin(requestedOrigin) ? requestedOrigin : undefined;
-    if (!this._origin) {
+    this.origin = isAllowedOrigin(requestedOrigin) ? requestedOrigin : undefined;
+    if (!this.origin) {
       Logger.comm_error(`Access to origin "${requestedOrigin} is forbidden`);
     }
   }
@@ -74,40 +73,40 @@ export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
   subscribe(channel: string) {
     this.unsubscribe();
 
-    if (this._origin) {
+    if (this.origin) {
       Logger.comm('Connecting to parent');
-      this._parent?.postMessage(
-        JSON.stringify({ type: 'CONNECT', device: this._device }),
-        this._origin
+      this.parent?.postMessage(
+        JSON.stringify({ type: 'CONNECT', device: this.device }),
+        this.origin
       );
       window.addEventListener('message', this.onMessage, false);
     }
   }
 
   unsubscribe() {
-    if (this._origin) {
+    if (this.origin) {
       Logger.comm('Disconnecting from parent');
-      this._parent?.postMessage(
-        JSON.stringify({ type: 'DISCONNECT', device: this._device }),
-        this._origin
+      this.parent?.postMessage(
+        JSON.stringify({ type: 'DISCONNECT', device: this.device }),
+        this.origin
       );
       window.removeEventListener('message', this.onMessage, false);
     }
   }
 
   listen(listener: (payload: RuntimeMessagePayload) => void) {
-    this._listeners.push(listener);
+    this.listeners.push(listener);
   }
 
   publish(message: object) {
-    if (this._origin) {
+    if (this.origin) {
       Logger.comm('Sending message', message);
       parent?.postMessage(
         JSON.stringify({
           type: 'MESSAGE',
-          message: { ...message, device: this._device },
+          message: { ...message, device: this.device },
         }),
-        this._origin
+        this.origin
       );
     }
   }
@@ -124,7 +123,7 @@ export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
     try {
       const message = JSON.parse(event.data);
 
-      this._listeners.forEach((listener) => listener({ message }));
+      this.listeners.forEach((listener) => listener({ message }));
     } catch {
       Logger.comm_error('Failed to parse message', event.data);
     }

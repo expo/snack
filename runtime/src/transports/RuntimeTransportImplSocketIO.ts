@@ -21,56 +21,56 @@ interface ClientToServerEvents {
 }
 
 export default class RuntimeTransportImplSocketIO implements RuntimeTransport {
-  private _currentChannel: string | null = null;
-  private readonly _device: Device;
-  private readonly _sender: string;
-  private readonly _socket: Socket<ServerToClientEvents, ClientToServerEvents>;
+  private currentChannel: string | null = null;
+  private readonly device: Device;
+  private readonly sender: string;
+  private readonly socket: Socket<ServerToClientEvents, ClientToServerEvents>;
 
   constructor(device: Device) {
-    this._device = device;
-    this._sender = JSON.stringify(device);
+    this.device = device;
+    this.sender = JSON.stringify(device);
     const snackpubURL =
       Constants.manifest?.extra?.cloudEnv !== 'production'
         ? SNACKPUB_URL_STAGING
         : SNACKPUB_URL_PRODUCTION;
-    this._socket = io(snackpubURL, { transports: ['websocket'] });
+    this.socket = io(snackpubURL, { transports: ['websocket'] });
   }
 
   subscribe(channel: string) {
     this.unsubscribe();
 
-    this._currentChannel = channel;
+    this.currentChannel = channel;
     Logger.comm('Subscribing to channel', channel);
-    this._socket.emit('subscribeChannel', { channel, sender: this._sender });
+    this.socket.emit('subscribeChannel', { channel, sender: this.sender });
   }
 
   unsubscribe() {
-    if (this._currentChannel) {
-      Logger.comm('Unsubscribing from channel', this._currentChannel);
-      this._socket.emit('unsubscribeChannel', {
-        channel: this._currentChannel,
-        sender: this._sender,
+    if (this.currentChannel) {
+      Logger.comm('Unsubscribing from channel', this.currentChannel);
+      this.socket.emit('unsubscribeChannel', {
+        channel: this.currentChannel,
+        sender: this.sender,
       });
-      this._currentChannel = null;
+      this.currentChannel = null;
     }
   }
 
   listen(listener: (payload: RuntimeMessagePayload) => void) {
-    this._socket.on('message', listener);
+    this.socket.on('message', listener);
   }
 
   publish(message: object) {
-    if (this._currentChannel) {
+    if (this.currentChannel) {
       Logger.comm('Sending message', message);
-      this._socket.emit('message', {
-        channel: this._currentChannel,
-        message: { ...message, device: this._device },
-        sender: this._sender,
+      this.socket.emit('message', {
+        channel: this.currentChannel,
+        message: { ...message, device: this.device },
+        sender: this.sender,
       });
     }
   }
 
   isConnected(): boolean {
-    return this._socket.connected;
+    return this.socket.connected;
   }
 }
