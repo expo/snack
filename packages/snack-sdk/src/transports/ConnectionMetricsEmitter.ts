@@ -15,48 +15,46 @@ type ConnectionMetricsEvents = ConnectionMetricsSucceeded | ConnectionMetricsFai
 
 export type ConnectionMetricsUpdateListener = (event: ConnectionMetricsEvents) => void;
 
+const METRICS_FAILED_FOR_RECONNECT_ATTEMPTS = 5;
+
 class ConnectionMetricsEmitter {
-  private readonly METRICS_FAILED_FOR_RECONNECT_ATTEMPTS = 5;
-  private _listener: ConnectionMetricsUpdateListener | null = null;
-  private _lastEmitState:
+  private listener: ConnectionMetricsUpdateListener | null = null;
+  private lastEmitState:
     | undefined
     | 'TRANSPORT_CONNECTION_SUCCEEDED'
     | 'TRANSPORT_CONNECTION_FAILED';
 
   public emitSuccessed(payload: ConnectionMetricsCommonPayload) {
-    if (
-      this._lastEmitState === undefined ||
-      this._lastEmitState === 'TRANSPORT_CONNECTION_FAILED'
-    ) {
+    if (this.lastEmitState === undefined || this.lastEmitState === 'TRANSPORT_CONNECTION_FAILED') {
       // To reduce the duplicated events, e.g. keeping failed events.
       // We only log undefined -> succeeded, undefined -> failed, and failed -> successed
       this.emit({ name: 'TRANSPORT_CONNECTION_SUCCEEDED', ...payload });
-      this._lastEmitState = 'TRANSPORT_CONNECTION_SUCCEEDED';
+      this.lastEmitState = 'TRANSPORT_CONNECTION_SUCCEEDED';
     }
   }
 
   public emitFailed(payload: ConnectionMetricsCommonPayload) {
     if (
-      this._lastEmitState === undefined &&
-      payload.attempts >= this.METRICS_FAILED_FOR_RECONNECT_ATTEMPTS
+      this.lastEmitState === undefined &&
+      payload.attempts >= METRICS_FAILED_FOR_RECONNECT_ATTEMPTS
     ) {
       // To reduce the duplicated events, e.g. keeping failed events.
       // We only log undefined -> succeeded, undefined -> failed, and failed -> successed
       this.emit({ name: 'TRANSPORT_CONNECTION_FAILED', ...payload });
-      this._lastEmitState = 'TRANSPORT_CONNECTION_FAILED';
+      this.lastEmitState = 'TRANSPORT_CONNECTION_FAILED';
     }
   }
 
   public resetState() {
-    this._lastEmitState = undefined;
+    this.lastEmitState = undefined;
   }
 
   public setUpdateListener(listener: ConnectionMetricsUpdateListener) {
-    this._listener = listener;
+    this.listener = listener;
   }
 
   private emit(event: ConnectionMetricsEvents) {
-    this._listener?.(event);
+    this.listener?.(event);
   }
 }
 
