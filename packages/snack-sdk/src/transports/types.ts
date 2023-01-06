@@ -45,6 +45,7 @@ export type SnackTransportEventConnect = {
 export type SnackTransportEventDisconnect = {
   type: 'disconnect';
   connectionId: string;
+  // Keeps the `data` keys here for SnackTransportEvent polymorphism, even though we do not use the data in disconnect event actually
   data: any;
 };
 

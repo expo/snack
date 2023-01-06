@@ -18,8 +18,8 @@ interface ClientToServerEvents {
 }
 
 export default class TransportImplSocketIO extends TransportImplBase {
-  private readonly _snackpubURL: string;
-  private _socket: Socket<ServerToClientEvents, ClientToServerEvents> | null = null;
+  private readonly snackpubURL: string;
+  private socket: Socket<ServerToClientEvents, ClientToServerEvents> | null = null;
 
   constructor(options: SnackTransportOptions) {
     super(options);
@@ -27,41 +27,41 @@ export default class TransportImplSocketIO extends TransportImplBase {
     if (!snackpubURL) {
       throw new Error('The `snackpubURL` option is unspecified.');
     }
-    this._snackpubURL = snackpubURL;
+    this.snackpubURL = snackpubURL;
   }
 
   protected start(): void {
     this.stop();
 
-    this._socket = io(this._snackpubURL, { transports: ['websocket'] });
+    this.socket = io(this.snackpubURL, { transports: ['websocket'] });
 
-    this._socket.on('connect', () => {
-      this._socket?.emit('subscribeChannel', { channel: this.channel, sender: this._socket?.id });
+    this.socket.on('connect', () => {
+      this.socket?.emit('subscribeChannel', { channel: this.channel, sender: this.socket?.id });
     });
-    this._socket.on('message', this.onMessage);
-    this._socket.on('joinChannel', this.onJoinChannel);
-    this._socket.on('leaveChannel', this.onLeaveChannel);
+    this.socket.on('message', this.onMessage);
+    this.socket.on('joinChannel', this.onJoinChannel);
+    this.socket.on('leaveChannel', this.onLeaveChannel);
   }
 
   protected stop(): void {
-    if (this._socket != null) {
+    if (this.socket != null) {
       this.logger?.comm('Stopping...', this.logSuffix);
 
-      this._socket.offAny();
-      this._socket.close();
-      this._socket = null;
+      this.socket.offAny();
+      this.socket.close();
+      this.socket = null;
     }
   }
 
   protected isStarted(): boolean {
-    return this._socket != null;
+    return this.socket != null;
   }
 
   protected sendAsync(channel: string, message: ProtocolOutgoingMessage): Promise<void> {
-    this._socket?.emit('message', {
+    this.socket?.emit('message', {
       channel,
       message,
-      sender: this._socket.id,
+      sender: this.socket.id,
     });
     return Promise.resolve();
   }
@@ -90,14 +90,14 @@ export default class TransportImplSocketIO extends TransportImplBase {
 
   private onJoinChannel = (data: { channel: string; sender: string }) => {
     const { sender } = data;
-    if (sender !== '' && sender !== this._socket?.id) {
+    if (sender !== '' && sender !== this.socket?.id) {
       this.handleChannelEvent('join', sender);
     }
   };
 
   private onLeaveChannel = (data: { channel: string; sender: string }) => {
     const { sender } = data;
-    if (sender !== '' && sender !== this._socket?.id) {
+    if (sender !== '' && sender !== this.socket?.id) {
       this.handleChannelEvent('leave', sender);
     }
   };

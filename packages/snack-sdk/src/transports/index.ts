@@ -1,4 +1,4 @@
-import CompositedTransport from './CompositedTransport';
+import CompositeTransport from './CompositeTransport';
 import TransportImplPubNub from './TransportImplPubNub';
 import { SnackTransport, SnackTransportOptions } from './types';
 
@@ -9,5 +9,5 @@ export function createTransport(options: SnackTransportOptions): SnackTransport 
 }
 
 export function createSnackPubTransport(options: SnackTransportOptions): SnackTransport {
-  return new CompositedTransport(options);
+  return new CompositeTransport(options);
 }

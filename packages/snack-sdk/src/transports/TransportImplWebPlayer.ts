@@ -13,43 +13,43 @@ export interface TransportWebPlayerConfig {
 }
 
 export default class TransportImplWebPlayer extends TransportImplBase {
-  private _currentWindow: Window | undefined;
-  private _targetWindowRef: SnackWindowRef | undefined;
-  private _isStarted: boolean;
-  private readonly _origin: string;
+  private currentWindow: Window | undefined;
+  private targetWindowRef: SnackWindowRef | undefined;
+  private status: 'stopped' | 'started' = 'stopped';
+  private readonly origin: string;
 
   constructor(config: TransportWebPlayerConfig) {
     super({ name: config.name, verbose: config.verbose });
     const { origin } = new URL(config.webPlayerURL);
-    this._currentWindow = config.window;
-    this._targetWindowRef = config.ref;
-    this._isStarted = false;
-    this._origin = origin;
+    this.currentWindow = config.window;
+    this.targetWindowRef = config.ref;
+    this.status = 'stopped';
+    this.origin = origin;
   }
 
   protected start(): void {
-    assert(this._currentWindow);
-    this._currentWindow?.addEventListener('message', this.handleDomWindowMessage, false);
-    this._isStarted = true;
+    assert(this.currentWindow);
+    this.currentWindow?.addEventListener('message', this.handleDomWindowMessage, false);
+    this.status = 'started';
   }
 
   protected stop(): void {
-    assert(this._currentWindow);
-    this._currentWindow.removeEventListener('message', this.handleDomWindowMessage, false);
-    this._currentWindow = undefined;
-    this._targetWindowRef = undefined;
-    this._isStarted = false;
+    assert(this.currentWindow);
+    this.currentWindow.removeEventListener('message', this.handleDomWindowMessage, false);
+    this.currentWindow = undefined;
+    this.targetWindowRef = undefined;
+    this.status = 'stopped';
   }
 
   protected isStarted(): boolean {
-    return this._isStarted && this._currentWindow != null;
+    return this.status === 'started' && this.currentWindow != null;
   }
 
   protected async sendAsync(channel: string, message: ProtocolOutgoingMessage): Promise<void> {
     assert(this.isStarted);
-    const targetWindow = this._targetWindowRef?.current;
+    const targetWindow = this.targetWindowRef?.current;
     assert(targetWindow);
-    targetWindow.postMessage(JSON.stringify(message), this._origin);
+    targetWindow.postMessage(JSON.stringify(message), this.origin);
   }
 
   protected onVerifyCodeMessageSize(codeMessage: ProtocolCodeMessage): boolean {
@@ -57,7 +57,7 @@ export default class TransportImplWebPlayer extends TransportImplBase {
   }
 
   handleDomWindowMessage = (event: MessageEvent) => {
-    if (event.origin === this._origin) {
+    if (event.origin === this.origin) {
       try {
         const message = JSON.parse(event.data);
         const { type } = message;
