@@ -48,7 +48,6 @@ function isAllowedOrigin(origin: string): boolean {
 type Listener = (payload: { message: any }) => void;
 
 export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
-  private _currentChannel: string | null = null;
   private readonly device: Device;
   private readonly listeners: Listener[] = [];
   private readonly origin: string | undefined;

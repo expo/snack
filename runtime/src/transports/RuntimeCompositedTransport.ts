@@ -121,25 +121,22 @@ export default class RuntimeCompositedTransport implements RuntimeTransport {
  * To compare the equalness of two messages, this implementation uses JSON.stringify() and compare by strings.
  */
 export class AckMessageQueue {
-  private readonly _lock = new AwaitLock();
-  private readonly _queue: string[] = [];
-  private readonly limit;
+  private readonly lock = new AwaitLock();
+  private readonly queue: string[] = [];
 
-  constructor(queueLimit: number = 32) {
-    this.limit = queueLimit;
-  }
+  constructor(private readonly limit: number = 32) {}
 
   /**
    * Enqueues a new message to the queue
    */
   async enqueueMessageStringAsync(messageString: string): Promise<void> {
-    await this._lock.acquireAsync();
+    await this.lock.acquireAsync();
     try {
-      this._queue.unshift(messageString);
-      Logger.comm('[AceMessageQueue] enqueue', this._queue.length);
+      this.queue.unshift(messageString);
+      Logger.comm('[AceMessageQueue] enqueue', this.queue.length);
       this.maybePurge();
     } finally {
-      this._lock.release();
+      this.lock.release();
     }
   }
 
@@ -149,14 +146,14 @@ export class AckMessageQueue {
    */
   async findMessageStringAsync(messageString: string): Promise<boolean> {
     let result = false;
-    await this._lock.acquireAsync();
+    await this.lock.acquireAsync();
     try {
-      const index = this._queue.findIndex((item) => item === messageString);
+      const index = this.queue.findIndex((item) => item === messageString);
       if (index >= 0) {
         result = true;
       }
     } finally {
-      this._lock.release();
+      this.lock.release();
     }
     return result;
   }
@@ -166,11 +163,11 @@ export class AckMessageQueue {
    * This function will remove the oldest items first.
    */
   private async maybePurge() {
-    const queueLength = this._queue.length;
+    const queueLength = this.queue.length;
     const trimCount = queueLength - this.limit;
     if (trimCount > 0) {
-      this._queue.splice(queueLength - trimCount, trimCount);
-      Logger.comm('[AceMessageQueue] purge', this._queue.length);
+      this.queue.splice(queueLength - trimCount, trimCount);
+      Logger.comm('[AceMessageQueue] purge', this.queue.length);
     }
   }
 
@@ -178,13 +175,13 @@ export class AckMessageQueue {
    * Gets the queue item for specific index
    */
   at(index: number): string | null {
-    return this._queue[index] ?? null;
+    return this.queue[index] ?? null;
   }
 
   /**
    * Returns the queue size
    */
   size(): number {
-    return this._queue.length;
+    return this.queue.length;
   }
 }
