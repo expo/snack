@@ -85,6 +85,25 @@ jobs:
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
         working-directory: ./
 
+  check-config:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup Google Cloud SDK
+        uses: ./.github/actions/setup-google-cloud
+
+      - run: kustomize build deploy/staging
+
+      - run: kustomize build deploy/production
+
   deploy-staging:
     if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
