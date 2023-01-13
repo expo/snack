@@ -80,7 +80,7 @@ jobs:
           service-key: ${{ secrets.GCLOUD_KEY }}
 
       - name: 🛠 Build snackpub
-        run: skaffold build --filename snackpub/skaffold.yaml --file-output snackpub/build.json
+        run: skaffold build --filename snackpub/skaffold.yaml
         working-directory: ./
 
   deploy-staging:
