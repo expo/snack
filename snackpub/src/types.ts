@@ -1,5 +1,3 @@
-export type ShutdownSignal = 'SIGHUP' | 'SIGINT' | 'SIGTERM' | 'SIGUSR2';
-
 export interface ServerToClientEvents {
   message: (data: { channel: string; message: object; sender: string }) => void;
   joinChannel: (data: { channel: string; sender: string }) => void;

@@ -6,14 +6,13 @@ import type {
   ClientToServerEvents,
   InterServerEvents,
   ServerToClientEvents,
-  ShutdownSignal,
   SocketData,
 } from './types';
 
 const debug = require('debug')('snackpub');
 
 function registerShutdownHandlers(server: Server) {
-  const shutdown = async (signal: ShutdownSignal) => {
+  const shutdown = async (signal: NodeJS.Signals) => {
     console.log(
       `Received ${signal}; the HTTP server is shutting down and draining existing connections`
     );
