@@ -21,19 +21,18 @@ function registerShutdownHandlers(server: Server) {
     await maybeCloseRedisConnectionsAsync();
   };
 
-  // TODO: In Node 9, the signal is passed as the first argument to the listener
-  process.once('SIGHUP', () => shutdown('SIGHUP'));
-  process.once('SIGINT', () => shutdown('SIGINT'));
-  process.once('SIGTERM', () => shutdown('SIGTERM'));
+  process.once('SIGHUP', shutdown);
+  process.once('SIGINT', shutdown);
+  process.once('SIGTERM', shutdown);
   // Nodemon sends SIGUSR2 when it restarts the process it's monitoring
-  process.once('SIGUSR2', () => shutdown('SIGUSR2'));
+  process.once('SIGUSR2', shutdown);
 }
 
 function closeServerAsync(server: Server): Promise<void> {
   return new Promise((resolve) => {
     server.close((error) => {
       if (error) {
-        console.log('Failed to close server', error);
+        console.error('Failed to close server', error);
       }
       resolve();
     });
@@ -50,7 +49,6 @@ async function runAsync() {
   io.on('connection', (socket) => {
     debug('onconnect', socket.handshake.address);
     socket.on('message', (data) => {
-      // debug('onMessage', data);
       const { channel, message, sender } = data;
       socket.to(channel).emit('message', { channel, message, sender });
     });
@@ -71,7 +69,7 @@ async function runAsync() {
 
   io.of('/').adapter.on('join-room', async (channel: string, id: string) => {
     const sockets = await io.in(channel).fetchSockets();
-    const sender = sockets.filter((socket) => socket.id === id)?.[0]?.data?.deviceId;
+    const sender = sockets.filter((socket) => socket.id === id)[0]?.data.deviceId;
     if (!sender) {
       return;
     }
@@ -85,7 +83,7 @@ async function runAsync() {
 
   io.of('/').adapter.on('leave-room', async (channel: string, id: string) => {
     const sockets = await io.in(channel).fetchSockets();
-    const sender = sockets.filter((socket) => socket.id === id)?.[0]?.data?.deviceId;
+    const sender = sockets.filter((socket) => socket.id === id)[0]?.data.deviceId;
     if (!sender) {
       return;
     }
