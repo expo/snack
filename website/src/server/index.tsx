@@ -120,6 +120,22 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   });
 }
 
+// Server readiness endpoint, used by kubernetes readiness probe and Google
+// networking service health checks.
+let ready = true;
+
+app.use(
+  mount('/ready', (ctx) => {
+    if (ready) {
+      ctx.response.status = 200;
+      ctx.body = 'ready';
+    } else {
+      ctx.response.status = 503;
+      ctx.body = 'shutting down';
+    }
+  })
+);
+
 app.use(bodyParser());
 app.use(routes());
 
@@ -143,19 +159,6 @@ httpServer.keepAliveTimeout =
 // Listen to HTTP server error events and handle shutting down the server gracefully
 let exitSignal: ShutdownSignal | null = null;
 let httpServerError: Error | null = null;
-let ready = true;
-
-app.use(
-  mount('/ready', (ctx) => {
-    if (ready) {
-      ctx.response.status = 200;
-      ctx.body = 'ready';
-    } else {
-      ctx.response.status = 503;
-      ctx.body = 'shutting down';
-    }
-  })
-);
 
 httpServer.on('error', (error) => {
   httpServerError = error;
