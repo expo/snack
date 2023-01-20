@@ -13,7 +13,7 @@ RUN yarn build
 
 # Start website
 WORKDIR /server/website
-CMD ["yarn", "start"]
+CMD ["yarn", "tsnd", "--inspect=9211", "src/server/index.tsx"]
 
 # Set up production image
 FROM node:${node_version}-alpine
