@@ -7,7 +7,6 @@ type Config = {
   url: string;
   redis: {
     url: string;
-    tls_ca: string;
   };
   aws: {
     access_key: string;
@@ -41,7 +40,6 @@ const config: Config = {
   url: env('IMPORT_SERVER_URL'),
   redis: {
     url: env('REDIS_URL'),
-    tls_ca: env('REDIS_TLS_CA'),
   },
   aws: {
     access_key: env('AWS_ACCESS_KEY_ID'),

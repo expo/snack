@@ -6,6 +6,7 @@
 2. Make sure you have the following packages globally installed on your system:
    - [node](https://nodejs.org/) (node 12 or higher is recommended)
    - [yarn](https://yarnpkg.com/)
+   - [gcloud](https://sdk.cloud.google.com)
 3. Install the Node packages (`yarn install`)
 4. [chalet](https://github.com/jeansaad/chalet) is used to run local services on the `expo.test` domain.
    - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
@@ -17,7 +18,7 @@
 
 Run `yarn start` from the root to start the Snack development services.
 
-> Some services like the Expo API server and the Expo website are hosted elsewhere and are proxied. The proxies log all incoming requests and auto-redirect to locally running instances when possible. 
+> Some services like the Expo API server and the Expo website are hosted elsewhere and are proxied. The proxies log all incoming requests and auto-redirect to locally running instances when possible.
 
 To view the website, open http://snack.expo.test or http://localhost:3011.
 
@@ -68,4 +69,4 @@ Hungry for more, check out these great guides:
 - [Expo JavaScript/TypeScript Style Guide](https://github.com/expo/expo/blob/master/guides/Expo%20JavaScript%20Style%20Guide.md)
 - [Git and Code Reviews at Expo](https://github.com/expo/expo/blob/master/guides/Git%20and%20Code%20Reviews.md)
 - [Our Open Source Standards](https://github.com/expo/expo/blob/master/guides/Our%20Open%20Source%20Standards.md)
-  
+

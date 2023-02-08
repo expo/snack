@@ -14,9 +14,6 @@ configMapGenerator:
   - API_SERVER_URL=http://www-main
   - NODE_ENV=production
 secretGenerator:
-- name: redislabs-tls
-  files:
-    - redislabs_ca.pem
 - name: snackager-config
   files:
   - secrets/SENTRY_DSN

@@ -21,9 +21,6 @@ spec:
         secret:
           secretName: git-account-credentials
           defaultMode: 0600
-      - name: redislabs-tls
-        secret:
-          secretName: redislabs-tls
       containers:
         - name: snackager
           image: "gcr.io/exponentjs/snackager:SetInKustomizeYaml"
@@ -32,9 +29,6 @@ spec:
             name: tempdir
           - mountPath: /var/secrets/github
             name: instance-credentials
-          - name: redislabs-tls
-            mountPath: '/var/run/config/redislabs-tls'
-            readOnly: true
           env:
             - name: PORT
               value: "3000"

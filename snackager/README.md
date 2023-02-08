@@ -24,11 +24,7 @@ yarn test bundler
 
 > Running the development server is not yet possible for external contributors as it requires protected secrets.
 
-Use `yarn start` to run the Snackager development server. By default the local server will always connect to the staging database. If you'd like to connect them to production instead, edit the `k8s/development/kustomization.yaml` file to include `../production` instead of `../staging`.
-
-```sh
-yarn start
-```
+Use `yarn start` to run the Snackager development server. By default the local server will always connect to the staging database and proxy the staging redis proxy. If you'd like to connect them to production instead, edit the `k8s/development/kustomization.yaml` file to include `../production` instead of `../staging` and run `yarn start:production` instead.
 
 To get a bundle, do a `GET` request with the following format:
 
