@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+environment=""
+
+while :; do
+  case "${1:-}" in
+    -h|--help)
+      echo "Usage:"
+      echo "  port-forward-redis [-e environment] [-a application]"
+      echo
+      echo "Options:"
+      echo "  -e, --environment=ENVIRONMENT  set the environment to which to open a tunnel:"
+      echo "                                 production, staging"
+      exit
+      ;;
+    -e|--environment)
+      environment=$2
+      shift
+      ;;
+    -?*)
+      echo "Error: unknown option: $1" >&2
+      exit 1
+      ;;
+    *)
+      break
+  esac
+
+  shift
+done
+
+if [ -z "$environment" ]; then
+  echo "Error: must specify an environment" >&2
+  exit 1
+fi
+
+# Primary endpoint IPs from https://console.cloud.google.com/memorystore/redis/locations/us-central1/instances/
+case "$environment" in
+  staging)
+    snackager_cache_memorystore_ip="10.81.199.227"
+    ;;
+  production)
+    snackager_cache_memorystore_ip="10.144.221.51"
+    ;;
+  *)
+    echo "Error: unknown environment: $environment" >&2
+    exit 1
+    ;;
+esac
+
+gcloud compute ssh --zone us-central1-f memorystore-redis-proxy -- -N -L 6379:$snackager_cache_memorystore_ip:6379 &
+until nc -w 10 -z localhost 6379; do sleep 1; done

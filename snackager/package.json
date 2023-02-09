@@ -73,7 +73,8 @@
     "typescript": "^4.6.3"
   },
   "scripts": {
-    "start": "env-cmd -e development tsnd --require tsconfig-paths/register --inspect=9212 --quiet src/index.ts | node_modules/.bin/bunyan --output simple",
+    "start": "REDIS_ENVIRONMENT=staging scripts/dev.sh",
+    "start:production": "REDIS_ENVIRONMENT=production scripts/dev.sh",
     "build": "tsc --project tsconfig.build.json",
     "debug": "kubectl.1.15 --context=minikube port-forward deploy/snackager 9229",
     "test": "env-cmd -e test node --async-stack-traces node_modules/.bin/jest --config jest/unit.config.js",

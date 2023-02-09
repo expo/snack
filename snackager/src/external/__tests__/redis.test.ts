@@ -7,9 +7,6 @@ jest.mock('redis', () => ({ createClient: jest.fn() }));
 jest.mock('../../config', () => ({
   redis: {
     url: 'rediss://127.0.0.1:6379',
-    // Can't refer to path here, outer-scope variable.
-    // It's the path from Jest root
-    tls_ca: 'src/external/__fixtures__/redis.pem',
   },
 }));
 
@@ -23,7 +20,6 @@ it('factory creates secure redis instance with tls ca and options', () => {
     'rediss://127.0.0.1:6379',
     expect.objectContaining({
       custom: 'option',
-      tls: { ca: expect.any(Buffer) },
     })
   );
 });
