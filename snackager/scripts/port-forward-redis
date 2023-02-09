@@ -37,16 +37,15 @@ fi
 case "$environment" in
   staging)
     snackager_cache_memorystore_ip="10.81.199.227"
-    gcloud compute ssh --zone us-central1-f memorystore-redis-proxy -- -N -L 6379:$snackager_cache_memorystore_ip:6379 &
-    until nc -w 10 -z localhost 6379; do sleep 1; done
     ;;
   production)
     snackager_cache_memorystore_ip="10.144.221.51"
-    gcloud compute ssh --zone us-central1-f memorystore-redis-proxy -- -N -L 6379:$snackager_cache_memorystore_ip:6379 &
-    until nc -w 10 -z localhost 6379; do sleep 1; done
     ;;
   *)
     echo "Error: unknown environment: $environment" >&2
     exit 1
     ;;
 esac
+
+gcloud compute ssh --zone us-central1-f memorystore-redis-proxy -- -N -L 6379:$snackager_cache_memorystore_ip:6379 &
+until nc -w 10 -z localhost 6379; do sleep 1; done

@@ -12,12 +12,12 @@ port_forward_redis() {
 }
 
 echo
-echo "${yellow}Starting the redis port tunnel and waiting for it to become available${reset}"
+echo "${yellow}Starting the Redis port tunnel and waiting for it to become available${reset}"
 
 port_forward_redis
 
 echo
-echo "${yellow}Starting the dev server${reset}"
+echo "${yellow}Starting the Snackager server${reset}"
 
 
 env-cmd -e development tsnd --require tsconfig-paths/register --inspect=9212 --quiet src/index.ts | node_modules/.bin/bunyan --output simple
