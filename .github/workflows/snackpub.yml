@@ -89,7 +89,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: snackpub-staging
-      url: https://staging.snackpub.expo.io/status
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -138,7 +137,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: snackpub-production
-      url: https://snackpub.expo.io/status
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
