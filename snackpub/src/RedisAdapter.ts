@@ -13,26 +13,22 @@ export async function maybeBindRedisAdapterAsync(
   inputOptions: Parameters<typeof createClient>[0] = {}
 ) {
   if (Env.redisURL) {
-    try {
-      const options: Parameters<typeof createClient>[0] = {
-        url: Env.redisURL,
+    const options: Parameters<typeof createClient>[0] = {
+      url: Env.redisURL,
+    };
+    if (Env.redisURL.startsWith('rediss:') && Env.redisTlsCa) {
+      options.socket = {
+        tls: true,
+        ca: fs.readFileSync(Env.redisTlsCa),
       };
-      if (Env.redisURL.startsWith('rediss:') && Env.redisTlsCa) {
-        options.socket = {
-          tls: true,
-          ca: fs.readFileSync(Env.redisTlsCa),
-        };
-      }
-
-      pubClient = createClient({ ...options, ...inputOptions });
-      subClient = pubClient.duplicate();
-
-      await Promise.all([pubClient.connect(), subClient.connect()]);
-      server.adapter(createAdapter(pubClient, subClient, { key: 'snackpub' }));
-      console.log('[RedisAdapter] Using redis adapter.');
-    } catch (e: any) {
-      console.error('Failed to bind redis adapter', e);
     }
+
+    pubClient = createClient({ ...options, ...inputOptions });
+    subClient = pubClient.duplicate();
+
+    await Promise.all([pubClient.connect(), subClient.connect()]);
+    server.adapter(createAdapter(pubClient, subClient, { key: 'snackpub' }));
+    console.log('[RedisAdapter] Using redis adapter.');
   }
 }
 
