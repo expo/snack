@@ -41,7 +41,6 @@ COPY --from=dev /app/snackpub/src ./snackpub/src
 COPY --from=dev /app/snackpub/package.json ./snackpub/package.json
 COPY --from=dev /app/snackpub/.env-cmdrc.json ./snackpub/.env-cmdrc.json
 COPY --from=dev /app/snackpub/tsconfig.json ./snackpub/tsconfig.json
-COPY --from=dev /app/snackpub/resources/redislabs_ca.pem ./snackpub/resources/redislabs_ca.pem
 
 # Set up envs
 ENV NODE_ENV "production"
@@ -73,7 +72,6 @@ ENV DEPLOY_ENVIRONMENT ${DEPLOY_ENVIRONMENT}
 COPY --from=builder /app/snackpub/build ./snackpub/build
 COPY --from=builder /app/snackpub/package.json ./snackpub/package.json
 COPY --from=builder /app/snackpub/node_modules ./snackpub/node_modules
-COPY --from=builder /app/snackpub/resources/redislabs_ca.pem ./snackpub/resources/redislabs_ca.pem
 COPY --from=builder /app/node_modules ./node_modules
 
 WORKDIR /app/snackpub

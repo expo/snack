@@ -16,13 +16,6 @@ export async function maybeBindRedisAdapterAsync(
     const options: Parameters<typeof createClient>[0] = {
       url: Env.redisURL,
     };
-    if (Env.redisURL.startsWith('rediss:') && Env.redisTlsCa) {
-      options.socket = {
-        tls: true,
-        ca: fs.readFileSync(Env.redisTlsCa),
-      };
-    }
-
     pubClient = createClient({ ...options, ...inputOptions });
     subClient = pubClient.duplicate();
 
