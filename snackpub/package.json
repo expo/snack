@@ -27,7 +27,7 @@
     "@socket.io/redis-adapter": "^8.0.0",
     "debug": "^4.3.2",
     "redis": "^4.5.1",
-    "socket.io": "^4.5.4"
+    "socket.io": "~4.5.4"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
