@@ -1,4 +1,4 @@
-import CompositeTransport from './CompositeTransport';
+import TrafficMirroringTransport from './TrafficMirroringTransport';
 import TransportImplPubNub from './TransportImplPubNub';
 import { SnackTransport, SnackTransportOptions } from './types';
 
@@ -9,5 +9,5 @@ export function createTransport(options: SnackTransportOptions): SnackTransport 
 }
 
 export function createSnackPubTransport(options: SnackTransportOptions): SnackTransport {
-  return new CompositeTransport(options);
+  return new TrafficMirroringTransport(options);
 }

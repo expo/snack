@@ -7,7 +7,7 @@ import {
   SnackTransportOptions,
 } from './types';
 
-export default class CompositeTransport implements SnackTransport {
+export default class TrafficMirroringTransport implements SnackTransport {
   private readonly transports: SnackTransport[];
 
   constructor(options: SnackTransportOptions) {
