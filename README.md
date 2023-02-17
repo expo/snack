@@ -1,60 +1,21 @@
-<!-- Banner Image -->
+# Snack
 
-<p align="center">
-  <img src="./logo.svg" width="100px" />
-  <h1 align="center">
-    Expo Snack
-  </h1>
-</p>
+This is a fork of expo [snack](https://github.com/expo/snack)
 
-<p align="center">
-  <a href="https://snack.expo.dev">Try Expo Snack at snack.expo.dev</a>
-</p>
+# Why ?
 
-Expo Snack is an open-source platform for running React Native apps in the browser. It dynamically bundles and compiles code and runs it in the Expo Go or in a web-player. Code can be saved as "Snacks" and easily shared with others. Snacks can also be embedded to show "live" previews as used by the [React Native documentation](https://reactnative.dev/docs/getting-started).
+Snack has many packages, some are published to NPM and some are not, such as `snackager`.
 
-<!--
-> Requesting snacks in bug reports gives your users an easy, lightweight way to give you a minimal, complete, and verifiable example (https://stackoverflow.com/help/minimal-reproducible-example) and allows you to spend more time fixing real issues in your project rather than staring at copy pasted code or cloning someone's repository that may or may not demonstrate a real issue with your project.
--->
+`snackager` is not published in NPM to be patched so we need to manager our own version of it.
 
-## 📚 Documentation
+We need to mark our app & packages as external like so https://github.com/expo/snack/pull/354/files
 
-- [Contributing to Snack](./CONTRIBUTING.md)
-- [Embedding Snacks](./docs/embedding-snacks.md)
-- [URLs and Query parameters](./docs/url-query-parameters.md)
-- [Snack diagram](./docs/diagram/snack-diagram.md)
-- [Dependencies and Bundling](./docs/dependencies-bundling.md)
-- [Snack SDK](./packages/snack-sdk) *- Creating custom Snack experiences*
-  - [Documentation](./docs/snack-sdk.md)
-  - [API Reference](./docs/snack-sdk-api/README.md)
-  - [Migrating from snack-sdk@2](./docs/snack-sdk-migration.md)
-- [ReactEurope talk 2017](https://www.youtube.com/watch?v=U0vnAW4UNXE)
+That's the only change we need.
 
-<!--
-Internal documentation
-- [Upgrade Snack to new Expo SDK](./docs/expo-sdk-upgrade.md)
--->
 
-## 🗺 Project Layout
-
-- [`docs`](/docs) *Documentation and guides.*
-- [`packages`](/packages) *Shared packages.*
-  - [`snack-sdk`](/packages/snack-sdk) *Package for creating (custom) Snack experiences (used by [snack.expo.dev](https://snack.expo.dev)).*
-  - [`snack-sdk-legacy`](/packages/snack-sdk-legacy) *Legacy snack-sdk provided for completeness.*
-  - [`snack-proxies`](/packages/snack-proxies) *Proxies for doing local development*
-- [`website`](/website) *The web-app for **https://snack.expo.dev** and for **[embedded Snacks](https://snack.expo.dev/embedded).***
-- [`snackager`](/snackager) *The Snack package bundler at **https://snackager.expo.io**.*
-- [`runtime`](/runtime) *The Snack runtime app and web-player.*
-
-## ❓ Getting in touch
-
-- [Issues](https://github.com/expo/snack/issues)
-- [Expo forums](https://forums.expo.dev/c/snack)
-
-## 👏 Contributing
-
-If you like Expo Snack and want to help make it better then check out our [contributing guide](./CONTRIBUTING.md)!
-
-## License
-
-The Expo source code is made available under the [MIT license](LICENSE). Some of the dependencies are licensed differently, with the BSD license, for example.
+```
+yarn install
+yarn build
+cd snackager
+yarn develop
+```

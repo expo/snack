@@ -73,6 +73,7 @@
     "typescript": "^4.6.3"
   },
   "scripts": {
+    "develop": "DEBUG_LOCAL_FILES=true REDIS_ENVIRONMENT=staging scripts/develop.sh",
     "start": "REDIS_ENVIRONMENT=staging scripts/dev.sh",
     "start:production": "REDIS_ENVIRONMENT=production scripts/dev.sh",
     "build": "tsc --project tsconfig.build.json",
