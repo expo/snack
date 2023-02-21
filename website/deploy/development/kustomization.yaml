@@ -4,7 +4,6 @@ namespace: default
 bases:
 - ../staging
 patchesStrategicMerge:
-- ingress-spec.yaml
 - deployment-increase-memory-limit.yaml
 configMapGenerator:
 - name: snack

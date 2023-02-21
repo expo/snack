@@ -4,7 +4,6 @@ namespace: production
 bases:
 - ../base
 patchesStrategicMerge:
-- ingress-spec.yaml
 - deployment-replicas.yaml
 - service-backend.yaml
 configMapGenerator:
