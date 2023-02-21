@@ -5,7 +5,6 @@ commonLabels:
 resources:
 - deployment.yaml
 - service.yaml
-- ingress.yaml
 configMapGenerator:
 - name: snackager-config
   envs:

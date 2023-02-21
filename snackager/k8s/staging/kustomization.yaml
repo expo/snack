@@ -4,7 +4,6 @@ namespace: staging
 bases:
 - ../base
 patchesStrategicMerge:
-- ingress-spec.yaml
 - service-backend.yaml
 configMapGenerator:
 - name: snackager-config

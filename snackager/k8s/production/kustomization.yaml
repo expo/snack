@@ -5,7 +5,6 @@ bases:
 - ../base
 patchesStrategicMerge:
 - deployment-increase-replicas.yaml
-- ingress-spec.yaml
 - service-backend.yaml
 configMapGenerator:
 - name: snackager-config

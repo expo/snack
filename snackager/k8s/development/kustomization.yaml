@@ -4,7 +4,6 @@ namespace: default
 resources:
 - ../staging
 patchesStrategicMerge:
-- ingress-spec.yaml
 - deployment-delay-probes.yaml
 configMapGenerator:
 - name: snackager-config
