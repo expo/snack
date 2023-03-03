@@ -37,6 +37,7 @@ printf "\nDeploying to Google Cloud Platform...\n"
 
 gcloud run deploy "$service_name" \
   --image=gcr.io/exponentjs/snackpub:latest \
+  --labels="app=snack,component=snackpub,environment=$environment" \
   --port=3013 \
   --allow-unauthenticated \
   --ingress=internal-and-cloud-load-balancing \
