@@ -56,6 +56,7 @@ export type SnackOptions = {
   dependencies?: SnackDependencies;
   files?: SnackFiles;
   apiURL?: string;
+  snackpubURL?: string | undefined;
   host?: string;
   snackagerURL?: string;
   verbose?: boolean;
@@ -92,6 +93,7 @@ export default class Snack {
   private readonly createTransport: (options: SnackTransportOptions) => SnackTransport;
   private readonly logger?: Logger;
   private readonly apiURL: string;
+  private readonly snackpubURL: string | undefined;
   private readonly host: string;
   private readonly dependencyResolver: DependencyResolver;
   private readonly fileUploader: FileUploader;
@@ -112,6 +114,7 @@ export default class Snack {
     const dependencies = options.dependencies ? { ...options.dependencies } : {};
     this.options = options;
     this.apiURL = options.apiURL ?? defaultConfig.apiURL;
+    this.snackpubURL = options.snackpubURL;
     this.host = options.host ?? new URL(this.apiURL).host;
     this.logger = options.verbose ? createLogger(true) : undefined;
     this.codeChangesDelay = options.codeChangesDelay ?? 0;
@@ -124,12 +127,13 @@ export default class Snack {
     if (options.online) {
       transports = State.addObject(
         transports,
-        'pubnub',
+        'pubsub',
         this.createTransport({
-          name: 'pubnub',
+          name: 'pubsub',
           channel,
           verbose: options.verbose,
           apiURL: this.apiURL,
+          snackpubURL: this.snackpubURL,
         })
       );
     }
@@ -140,7 +144,6 @@ export default class Snack {
         createWebPlayerTransport({
           ref: options.webPreviewRef,
           verbose: options.verbose,
-          createTransport: this.createTransport,
           window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
           webPlayerURL,
         })
@@ -271,7 +274,7 @@ export default class Snack {
   /**
    * Sets the delay that is used before sending code updates to the connected clients.
    * Use this method to set the "debounce" timeout to use for sending code changes
-   * over pubnub.
+   * over pubsub.
    *
    * ```
    *   -1 = Disable automatic sending of code changes (use `sendCodeChanges` to trigger the send)
@@ -302,7 +305,6 @@ export default class Snack {
           createWebPlayerTransport({
             ref: this.options.webPreviewRef,
             verbose: this.options.verbose,
-            createTransport: this.createTransport,
             window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
             webPlayerURL: newWebPlayerURL,
           })
@@ -906,33 +908,34 @@ export default class Snack {
   /**
    * Makes the Snack available online.
    *
-   * When online, a pubnub channel is created to which clients can
+   * When online, a pubsub channel is created to which clients can
    * connect.
    */
   setOnline(enabled: boolean) {
     return this.setState((state) => {
-      if (enabled && !state.transports['pubnub']) {
+      if (enabled && !state.transports['pubsub']) {
         return {
           transports: State.addObject(
             state.transports,
-            'pubnub',
+            'pubsub',
             this.createTransport({
-              name: 'pubnub',
+              name: 'pubsub',
               apiURL: this.apiURL,
+              snackpubURL: this.snackpubURL,
               channel: state.channel,
               verbose: !!this.logger,
             })
           ),
         };
-      } else if (!enabled && state.transports['pubnub']) {
+      } else if (!enabled && state.transports['pubsub']) {
         let connectedClients = state.connectedClients;
         for (const key in state.connectedClients) {
-          if (state.connectedClients[key].transport === 'pubnub') {
+          if (state.connectedClients[key].transport === 'pubsub') {
             connectedClients = State.removeObject(connectedClients, key);
           }
         }
         return {
-          transports: State.removeObject(state.transports, 'pubnub'),
+          transports: State.removeObject(state.transports, 'pubsub'),
           connectedClients,
         };
       } else {
@@ -951,7 +954,7 @@ export default class Snack {
       name !== prevState.name ||
       savedSDKVersion !== prevState.savedSDKVersion
     ) {
-      state.online = !!transports['pubnub'] && !disabled;
+      state.online = !!transports['pubsub'] && !disabled;
       state.url = createURL(
         this.host,
         sdkVersion,
@@ -1240,13 +1243,13 @@ export default class Snack {
       case 'STATUS_REPORT':
         this.onStatusReportMessageReceived(connectedClientId, message);
         break;
-      // @ts-ignore: CODE is echoed by pubnub, we ignore it
+      // @ts-ignore: CODE is echoed by pubsub, we ignore it
       case 'CODE':
         break;
-      // @ts-ignore: RELOAD_SNACK is echoed by pubnub, we ignore it
+      // @ts-ignore: RELOAD_SNACK is echoed by pubsub, we ignore it
       case 'RELOAD_SNACK':
         break;
-      // @ts-ignore: REQUEST_STATUS is echoed by pubnub, we ignore it
+      // @ts-ignore: REQUEST_STATUS is echoed by pubsub, we ignore it
       case 'REQUEST_STATUS':
         break;
       default:

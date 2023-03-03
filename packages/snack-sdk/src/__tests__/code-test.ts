@@ -2,9 +2,15 @@
 import formData from 'form-data';
 
 import '../__mocks__/fetch';
-import PubNub from '../__mocks__/pubnub';
-import { ProtocolErrorMessage, ProtocolResendCodeMessage } from '../transports/Protocol';
+import {
+  ProtocolCodeMessage,
+  ProtocolErrorMessage,
+  ProtocolResendCodeMessage,
+} from '../transports/Protocol';
+import Transport from '../transports/__mocks__/TestTransport';
 import Snack, { SnackFile } from './snack-sdk';
+
+jest.mock('../transports');
 
 const TEST_FILES: { [path: string]: SnackFile } = {
   'app.js': {
@@ -20,25 +26,25 @@ function createAsset(name: string, contents: string, corrupt?: boolean): FormDat
 }
 
 beforeEach(() => {
-  PubNub.instances = [];
+  Transport.instances = [];
 });
 
 describe('code', () => {
   it('receives code update on connect', async () => {
     // @ts-ignore
     const snack = new Snack({ online: true });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(1);
-    expect(pubnub.publishes[0].message.type).toBe('CODE');
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(1);
+    expect(transport.publishes[0].message.type).toBe('CODE');
   });
 
   it('receives new code update', async () => {
     const snack = new Snack({ online: true });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
+    const transport = Transport.instances[0];
+    transport.connect();
     snack.updateFiles(TEST_FILES);
-    expect(pubnub.publishes).toHaveLength(2);
+    expect(transport.publishes).toHaveLength(2);
   });
 
   it('debounces code updates', async () => {
@@ -46,14 +52,14 @@ describe('code', () => {
       online: true,
       codeChangesDelay: 40,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(1);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(1);
     snack.updateFiles(TEST_FILES);
-    expect(pubnub.publishes).toHaveLength(1);
+    expect(transport.publishes).toHaveLength(1);
     await new Promise((resolve) => setTimeout(resolve, 50));
-    expect(pubnub.publishes).toHaveLength(2);
-    expect(pubnub.publishes[1].message.type).toBe('CODE');
+    expect(transport.publishes).toHaveLength(2);
+    expect(transport.publishes[1].message.type).toBe('CODE');
   });
 
   it('does not debounce first code update', async () => {
@@ -62,41 +68,41 @@ describe('code', () => {
       online: true,
       codeChangesDelay: 100,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(1);
-    expect(pubnub.publishes[0].message.type).toBe('CODE');
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(1);
+    expect(transport.publishes[0].message.type).toBe('CODE');
   });
 
   it('turns of code updates (except for first)', async () => {
     const snack = new Snack({ online: true, codeChangesDelay: -1 });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(1);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(1);
     snack.updateFiles(TEST_FILES);
-    expect(pubnub.publishes).toHaveLength(1);
+    expect(transport.publishes).toHaveLength(1);
     await new Promise((resolve) => setTimeout(resolve, 50));
-    expect(pubnub.publishes).toHaveLength(1);
+    expect(transport.publishes).toHaveLength(1);
   });
 
   it('triggers code update when calling sendCodeChanges', async () => {
     const snack = new Snack({ online: true, codeChangesDelay: 1000 });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(1);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(1);
     snack.updateFiles(TEST_FILES);
-    expect(pubnub.publishes).toHaveLength(1);
+    expect(transport.publishes).toHaveLength(1);
     await new Promise((resolve) => setTimeout(resolve, 50));
-    expect(pubnub.publishes).toHaveLength(1);
+    expect(transport.publishes).toHaveLength(1);
     snack.sendCodeChanges();
-    expect(pubnub.publishes).toHaveLength(2);
+    expect(transport.publishes).toHaveLength(2);
   });
 
   it('doesnt receive code when no clients are connected', async () => {
     // @ts-ignore
     const snack = new Snack({ online: true });
-    const pubnub = PubNub.instances[0];
-    expect(pubnub.publishes).toHaveLength(0);
+    const transport = Transport.instances[0];
+    expect(transport.publishes).toHaveLength(0);
   });
 
   it('doesnt receive code update when code is unchanged', async () => {
@@ -104,10 +110,10 @@ describe('code', () => {
       online: true,
       files: TEST_FILES,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
+    const transport = Transport.instances[0];
+    transport.connect();
     snack.updateFiles(TEST_FILES);
-    expect(pubnub.publishes).toHaveLength(1);
+    expect(transport.publishes).toHaveLength(1);
   });
 
   it('receives empty code diff', async () => {
@@ -116,9 +122,9 @@ describe('code', () => {
       online: true,
       files: {},
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    const { message } = pubnub.publishes[0];
+    const transport = Transport.instances[0];
+    transport.connect();
+    const message = transport.publishes[0].message as ProtocolCodeMessage;
     expect(message.diff).toMatchObject({});
   });
 
@@ -128,9 +134,9 @@ describe('code', () => {
       online: true,
       files: TEST_FILES,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    const { message } = pubnub.publishes[0];
+    const transport = Transport.instances[0];
+    transport.connect();
+    const message = transport.publishes[0].message as ProtocolCodeMessage;
     expect(message.diff['app.js'].length).toBeGreaterThanOrEqual(20);
     expect(message.diff).toMatchSnapshot();
   });
@@ -149,12 +155,11 @@ describe('code', () => {
         },
       },
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    const { message } = pubnub.publishes[0];
+    const transport = Transport.instances[0];
+    transport.connect();
+    const message = transport.publishes[0].message as ProtocolCodeMessage;
     expect(Object.keys(message.dependencies)).toHaveLength(1);
     expect(message.dependencies['expo-firebase-analytics']).toBeDefined();
-    expect(message.dependencies['expo-firebase-analytics'].peerDependencies).toBeUndefined();
     expect(message.dependencies).toMatchSnapshot();
   });
 
@@ -172,9 +177,9 @@ describe('code', () => {
         },
       },
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    const { message } = pubnub.publishes[0];
+    const transport = Transport.instances[0];
+    transport.connect();
+    const message = transport.publishes[0].message as ProtocolCodeMessage;
     expect(Object.keys(message.dependencies)).toHaveLength(0);
   });
 
@@ -186,10 +191,10 @@ describe('code', () => {
       },
     };
     const snack = new Snack({ online: true, dependencies });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
+    const transport = Transport.instances[0];
+    transport.connect();
     snack.updateDependencies(dependencies);
-    expect(pubnub.publishes).toHaveLength(1);
+    expect(transport.publishes).toHaveLength(1);
   });
 
   it('only sends code update after all dependencies are resolved ', async () => {
@@ -201,12 +206,12 @@ describe('code', () => {
         'react-native-paper': { version: '3.10.1' },
       },
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(0);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(0);
     await snack.getStateAsync();
-    expect(pubnub.publishes).toHaveLength(1);
-    expect(pubnub.publishes[0].message.type).toBe('CODE');
+    expect(transport.publishes).toHaveLength(1);
+    expect(transport.publishes[0].message.type).toBe('CODE');
   });
 
   it('only sends code update after all assets have been uploaded', async () => {
@@ -219,12 +224,12 @@ describe('code', () => {
         },
       },
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(0);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(0);
     await snack.getStateAsync();
-    expect(pubnub.publishes).toHaveLength(1);
-    expect(pubnub.publishes[0].message.type).toBe('CODE');
+    expect(transport.publishes).toHaveLength(1);
+    expect(transport.publishes[0].message.type).toBe('CODE');
   });
 
   it('handles received error after code update', async () => {
@@ -232,9 +237,9 @@ describe('code', () => {
       online: true,
       files: TEST_FILES,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(1);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(1);
     const connectedClientIds = Object.keys(snack.getState().connectedClients);
     expect(connectedClientIds).toHaveLength(1);
     expect(snack.getState().connectedClients[connectedClientIds[0]].error).toBeUndefined();
@@ -242,9 +247,9 @@ describe('code', () => {
     const errorMessage: ProtocolErrorMessage = {
       type: 'ERROR',
       error: '{"message": "something went wrong"}',
-      device: PubNub.devices.ios,
+      device: Transport.devices.ios,
     };
-    pubnub.sendMessage(errorMessage);
+    transport.sendMessage(errorMessage);
     expect(snack.getState().connectedClients[connectedClientIds[0]].error).toBeDefined();
   });
 
@@ -254,16 +259,16 @@ describe('code', () => {
       online: true,
       files: TEST_FILES,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(1);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(1);
 
     const resendCodeMessage: ProtocolResendCodeMessage = {
       type: 'RESEND_CODE',
-      device: PubNub.devices.ios,
+      device: Transport.devices.ios,
     };
-    pubnub.sendMessage(resendCodeMessage);
-    expect(pubnub.publishes).toHaveLength(2);
-    expect(pubnub.publishes[1].message.type).toBe('CODE');
+    transport.sendMessage(resendCodeMessage);
+    expect(transport.publishes).toHaveLength(2);
+    expect(transport.publishes[1].message.type).toBe('CODE');
   });
 });

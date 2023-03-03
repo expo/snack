@@ -1,20 +1,22 @@
 import '../__mocks__/fetch';
-import PubNub from '../__mocks__/pubnub';
 import { ProtocolStatusMessage } from '../transports/Protocol';
+import Transport from '../transports/__mocks__/TestTransport';
 import Snack from './snack-sdk';
+
+jest.mock('../transports');
 
 describe('preview', () => {
   it('sends preview request once per transport', async () => {
     const snack = new Snack({
       online: true,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect('ios');
-    pubnub.connect('android');
-    expect(pubnub.publishes).toHaveLength(2);
+    const transport = Transport.instances[0];
+    transport.connect('ios');
+    transport.connect('android');
+    expect(transport.publishes).toHaveLength(2);
     snack.getPreviewAsync();
-    expect(pubnub.publishes).toHaveLength(3);
-    expect(pubnub.publishes[2].message.type).toBe('REQUEST_STATUS');
+    expect(transport.publishes).toHaveLength(3);
+    expect(transport.publishes[2].message.type).toBe('REQUEST_STATUS');
     snack.setOnline(false);
   });
 
@@ -23,8 +25,8 @@ describe('preview', () => {
       online: true,
       previewTimeout: 50,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect('ios');
+    const transport = Transport.instances[0];
+    transport.connect('ios');
     await expect(snack.getPreviewAsync()).rejects.toBeDefined();
     snack.setOnline(false);
   });
@@ -34,15 +36,15 @@ describe('preview', () => {
       online: true,
       previewTimeout: 100,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect('ios');
+    const transport = Transport.instances[0];
+    transport.connect('ios');
     const promise = snack.getPreviewAsync();
     const statusMessage: ProtocolStatusMessage = {
       type: 'STATUS_REPORT',
       status: 'SUCCESS',
       previewLocation: 'https://test.com/preview.jpg',
     };
-    pubnub.sendMessage(statusMessage);
+    transport.sendMessage(statusMessage);
     const connections = await promise;
     const connectionIds = Object.keys(connections);
     expect(connectionIds).toHaveLength(1);
@@ -72,18 +74,18 @@ describe('preview', () => {
         },
       },
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect('ios');
-    expect(pubnub.publishes).toHaveLength(1);
+    const transport = Transport.instances[0];
+    transport.connect('ios');
+    expect(transport.publishes).toHaveLength(1);
     const savePromise = snack.saveAsync();
     await new Promise((resolve) => setTimeout(resolve, 1));
-    expect(pubnub.publishes).toHaveLength(2);
+    expect(transport.publishes).toHaveLength(2);
     const statusMessage: ProtocolStatusMessage = {
       type: 'STATUS_REPORT',
       status: 'SUCCESS',
       previewLocation: 'https://test.com/preview.jpg',
     };
-    pubnub.sendMessage(statusMessage);
+    transport.sendMessage(statusMessage);
     await savePromise;
     snack.setOnline(false);
   });

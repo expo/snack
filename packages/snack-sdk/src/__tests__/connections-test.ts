@@ -1,7 +1,9 @@
 import '../__mocks__/fetch';
-import PubNub from '../__mocks__/pubnub';
 import { ProtocolErrorMessage } from '../transports/Protocol';
+import Transport from '../transports/__mocks__/TestTransport';
 import Snack from './snack-sdk';
+
+jest.mock('../transports');
 
 describe('connectedClients', () => {
   it('has no connectedClients initially', async () => {
@@ -13,10 +15,10 @@ describe('connectedClients', () => {
     const snack = new Snack({
       online: true,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect('ios');
-    pubnub.connect('android');
-    expect(pubnub.publishes).toHaveLength(2);
+    const transport = Transport.instances[0];
+    transport.connect('ios');
+    transport.connect('android');
+    expect(transport.publishes).toHaveLength(2);
     snack.setOnline(false);
     expect(Object.keys(snack.getState().connectedClients)).toHaveLength(0);
   });
@@ -25,34 +27,34 @@ describe('connectedClients', () => {
     const snack = new Snack({
       online: true,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect();
-    expect(pubnub.publishes).toHaveLength(1);
+    const transport = Transport.instances[0];
+    transport.connect();
+    expect(transport.publishes).toHaveLength(1);
     snack.reloadConnectedClients();
-    expect(pubnub.publishes).toHaveLength(2);
-    expect(pubnub.publishes[1].message.type).toBe('RELOAD_SNACK');
+    expect(transport.publishes).toHaveLength(2);
+    expect(transport.publishes[1].message.type).toBe('RELOAD_SNACK');
   });
 
   it('sends reload once for each transport', async () => {
     const snack = new Snack({
       online: true,
     });
-    const pubnub = PubNub.instances[0];
-    pubnub.connect('ios');
-    pubnub.connect('android');
-    expect(pubnub.publishes).toHaveLength(2);
+    const transport = Transport.instances[0];
+    transport.connect('ios');
+    transport.connect('android');
+    expect(transport.publishes).toHaveLength(2);
     snack.reloadConnectedClients();
-    expect(pubnub.publishes).toHaveLength(3);
-    expect(pubnub.publishes[2].message.type).toBe('RELOAD_SNACK');
+    expect(transport.publishes).toHaveLength(3);
+    expect(transport.publishes[2].message.type).toBe('RELOAD_SNACK');
   });
 
   it('send no reload when no connectedClients exist', async () => {
     const snack = new Snack({
       online: true,
     });
-    const pubnub = PubNub.instances[0];
+    const transport = Transport.instances[0];
     snack.reloadConnectedClients();
-    expect(pubnub.publishes).toHaveLength(0);
+    expect(transport.publishes).toHaveLength(0);
   });
 
   it('keeps connectedClients until reloadTimeout has expired', async () => {
@@ -60,10 +62,10 @@ describe('connectedClients', () => {
       online: true,
       reloadTimeout: 40,
     });
-    const pubnub = PubNub.instances[0];
-    const uuid = pubnub.connect();
+    const transport = Transport.instances[0];
+    const uuid = transport.connect();
     snack.reloadConnectedClients();
-    pubnub.disconnect(uuid);
+    transport.disconnect(uuid);
     const connectedClients = Object.keys(snack.getState().connectedClients);
     expect(connectedClients).toHaveLength(1);
     expect(snack.getState().connectedClients[connectedClients[0]].status).toBe('reloading');
@@ -75,14 +77,14 @@ describe('connectedClients', () => {
     const snack = new Snack({
       online: true,
     });
-    const pubnub = PubNub.instances[0];
+    const transport = Transport.instances[0];
 
     const errorMessage: ProtocolErrorMessage = {
       type: 'ERROR',
       error: '{"message": "something went wrong"}',
-      device: PubNub.devices.ios,
+      device: Transport.devices.ios,
     };
-    pubnub.sendMessage(errorMessage);
+    transport.sendMessage(errorMessage);
 
     const connectedClients = Object.keys(snack.getState().connectedClients);
     expect(connectedClients).toHaveLength(0);
