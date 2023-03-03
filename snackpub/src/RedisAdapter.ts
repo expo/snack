@@ -1,5 +1,4 @@
 import { createAdapter } from '@socket.io/redis-adapter';
-import fs from 'fs';
 import { createClient } from 'redis';
 import type { Server } from 'socket.io';
 
