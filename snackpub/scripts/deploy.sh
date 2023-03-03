@@ -28,7 +28,7 @@ elif [ "$environment" = 'staging' ]; then
   vpc_connector='production-general'
   env_vars_file='secrets/staging/snackpub.env.yaml'
 elif [ "$environment" = 'production' ]; then
-  service_name='snackpub'
+  service_name='production-snackpub'
   vpc_connector='production-general'
   env_vars_file='secrets/production/snackpub.env.yaml'
 fi
