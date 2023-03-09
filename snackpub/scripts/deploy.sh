@@ -27,12 +27,12 @@ elif [ "$environment" = 'staging' ]; then
   service_name='staging-snackpub'
   vpc_connector='production-general'
   env_vars_file='secrets/staging/snackpub.env.yaml'
-  service_account='cloudrun-snackpub-staging@exponentjs.iam.gserviceaccount.com'
+  service_account='snackpub-staging@exponentjs.iam.gserviceaccount.com'
 elif [ "$environment" = 'production' ]; then
   service_name='production-snackpub'
   vpc_connector='production-general'
   env_vars_file='secrets/production/snackpub.env.yaml'
-  service_account='cloudrun-snackpub-production@exponentjs.iam.gserviceaccount.com'
+  service_account='snackpub-production@exponentjs.iam.gserviceaccount.com'
 fi
 
 printf "\nDeploying to Google Cloud Platform...\n"
