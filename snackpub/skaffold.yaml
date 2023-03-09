@@ -10,6 +10,7 @@ build:
         manual:
           - src: src/**/*
             dest: /snack/app
+      context: ../
       docker:
         dockerfile: snackpub/Dockerfile
         buildArgs:
