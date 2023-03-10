@@ -11,7 +11,7 @@ export default class RateLimiter {
   public hasExceededSrcIpRateAsync(
     srcIp: string,
     _socketId: string,
-    options: RateLimiterOptions = { maxOperations: 30, intervalSeconds: 60 } // 30 connections per IP per hour
+    options: RateLimiterOptions = { maxOperations: 30, intervalSeconds: 60 } // 30 connections per IP per minute
   ): Promise<boolean> {
     return this.hasExceededKeyAsync(srcIp, `ip:${srcIp}`, options);
   }
@@ -45,7 +45,7 @@ export default class RateLimiter {
       .expire(redisKey, intervalSeconds)
       .exec();
 
-    const operationsInt = parseInt((operations ?? '0').toString(), 10);
+    const operationsInt = parseInt(operations ?? '0', 10);
     // The `operationsInt` is the value after incr(), we should minus one back
     if (operationsInt - 1 >= options.maxOperations) {
       await this.redisClient.decr(redisKey);
@@ -56,7 +56,7 @@ export default class RateLimiter {
   }
 
   private createRedisKey(key: string, intervalSeconds: number): string {
-    const intervalIndex = Math.floor(new Date().getTime() / 1000 / intervalSeconds);
+    const intervalIndex = Math.floor(Date.now() / 1000 / intervalSeconds);
     // Simplified rate limiter that cache hitting doesn't extend the time window.
     return `snackpub:rate:${key}:${intervalIndex}`;
   }
