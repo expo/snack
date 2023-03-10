@@ -16,12 +16,26 @@ export default class RateLimiter {
     return this.hasExceededKeyAsync(srcIp, `ip:${srcIp}`, options);
   }
 
-  public hasExceededMessagesRateAsync(
+  public async hasExceededMessagesRateAsync(
     srcIp: string,
     socketId: string,
-    options: RateLimiterOptions = { maxOperations: 600, intervalSeconds: 1 } // 600 messages per socket.id per second
+    options?: {
+      dosPrevention?: RateLimiterOptions;
+      fairUsage?: RateLimiterOptions;
+    }
   ): Promise<boolean> {
-    return this.hasExceededKeyAsync(srcIp, `messages:${socketId}`, options);
+    // A short internal to prevent DOS: 600 messages per socket.id per second
+    const optsDosPrevention = options?.dosPrevention ?? { maxOperations: 600, intervalSeconds: 1 };
+
+    // Longer internal for fair usage: 6000 messages per socket.id per minute
+    const optsFairUsage = options?.fairUsage ?? { maxOperations: 6000, intervalSeconds: 60 };
+
+    const results = await Promise.all([
+      this.hasExceededKeyAsync(srcIp, `messagesDosPrevention:${socketId}`, optsDosPrevention),
+      this.hasExceededKeyAsync(srcIp, `messagesFairUsage:${socketId}`, optsFairUsage),
+    ]);
+
+    return results.some((result) => !!result);
   }
 
   public hasExceededChannelsRateAsync(
@@ -45,11 +59,13 @@ export default class RateLimiter {
       .expire(redisKey, intervalSeconds)
       .exec();
 
-    const operationsInt = parseInt(operations ?? '0', 10);
-    // The `operationsInt` is the value after incr(), we should minus one back
-    if (operationsInt - 1 >= options.maxOperations) {
-      await this.redisClient.decr(redisKey);
+    const operationsString = operations?.toString() ?? '0';
+    const operationsInt = parseInt(operationsString, 10);
+    if (operationsInt === options.maxOperations + 1) {
+      // Log only once when exceeding limits
       console.log(`[RateLimiter] exceeding limits - srcIp[${srcIp}] redisKey[${redisKey}]`);
+    }
+    if (operationsInt > options.maxOperations) {
       return true;
     }
     return false;

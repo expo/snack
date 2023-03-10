@@ -48,12 +48,20 @@ function terminateSocket(
   socket: Socket<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>,
   reason: string
 ) {
+  let timeoutHandler: NodeJS.Timeout | null = null;
+  socket.once('disconnect', () => {
+    if (timeoutHandler != null) {
+      clearTimeout(timeoutHandler);
+      timeoutHandler = null;
+    }
+  });
+
   socket.emit('terminate', reason);
 
   // When clients receive the `terminate` message, they should disconnect and no longer try to reconnect back to the server.
   // In case the clients do not handle the `terminate` message, e.g. from other websocket clients other than snackpub clients.
   // We will wait three seconds to close the connections actively.
-  setTimeout(() => {
+  timeoutHandler = setTimeout(() => {
     if (socket.connected) {
       socket.disconnect(true);
     }
