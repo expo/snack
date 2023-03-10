@@ -1,4 +1,3 @@
-import fs from 'fs';
 import { createClient } from 'redis';
 import { Server, Socket } from 'socket.io';
 
@@ -72,12 +71,6 @@ async function runAsync() {
     const redisClientOptions: Parameters<typeof createClient>[0] = {
       url: Env.redisURL,
     };
-    if (Env.redisURL.startsWith('rediss:') && Env.redisTlsCa) {
-      redisClientOptions.socket = {
-        tls: true,
-        ca: fs.readFileSync(Env.redisTlsCa),
-      };
-    }
 
     redisClient = createClient(redisClientOptions);
     await redisClient.connect();
