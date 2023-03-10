@@ -39,7 +39,7 @@ class ConnectionMetricsEmitter {
       payload.attempts >= METRICS_FAILED_FOR_RECONNECT_ATTEMPTS
     ) {
       // To reduce the duplicated events, e.g. keeping failed events.
-      // We only log undefined -> succeeded, undefined -> failed, and failed -> successed
+      // We only log undefined -> succeeded, undefined -> failed, and failed -> succeeded
       this.emit({ name: 'TRANSPORT_CONNECTION_FAILED', ...payload });
       this.lastEmitState = 'TRANSPORT_CONNECTION_FAILED';
     }
