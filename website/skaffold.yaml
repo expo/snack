@@ -16,7 +16,7 @@ build:
           LEGACY_SERVER_URL: https://staging.expo.io
           SERVER_URL: https://staging.expo.dev
           API_SERVER_URL: https://staging.exp.host
-          SNACKPUB_URL: https://staging-snackpub-3hn4fth2vq-uc.a.run.app
+          SNACKPUB_URL: https://staging-snackpub.expo.dev
           APP_VERSION: staging-{{.GITHUB_SHA}}
           DEPLOY_ENVIRONMENT: staging
           IMPORT_SERVER_URL: https://staging.snackager.expo.io
@@ -47,7 +47,7 @@ profiles:
               LEGACY_SERVER_URL: https://expo.io
               SERVER_URL: https://expo.dev
               API_SERVER_URL: https://exp.host
-              SNACKPUB_URL: https://snackpub-3hn4fth2vq-uc.a.run.app
+              SNACKPUB_URL: https://snackpub.expo.dev
               APP_VERSION: production-{{.GITHUB_SHA}}
               DEPLOY_ENVIRONMENT: production
               IMPORT_SERVER_URL: https://snackager.expo.io
