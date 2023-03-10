@@ -1,6 +1,8 @@
 import * as Logger from '../../Logger';
-import RuntimeCompositeTransport, { AckMessageQueue } from '../RuntimeCompositeTransport';
-import type { ListenerType } from '../RuntimeCompositeTransport';
+import RuntimeTrafficMirroringTransport, {
+  AckMessageQueue,
+} from '../RuntimeTrafficMirroringTransport';
+import type { ListenerType } from '../RuntimeTrafficMirroringTransport';
 import type { Device, RuntimeMessagePayload } from '../RuntimeTransport';
 import RuntimeTransportImplPubNub from '../RuntimeTransportImplPubNub';
 import RuntimeTransportImplSocketIO from '../RuntimeTransportImplSocketIO';
@@ -9,7 +11,7 @@ jest.mock('../../Logger');
 jest.mock('../RuntimeTransportImplPubNub');
 jest.mock('../RuntimeTransportImplSocketIO');
 
-describe(RuntimeCompositeTransport, () => {
+describe(RuntimeTrafficMirroringTransport, () => {
   const fallbackAckWaitMs = 100;
 
   const device: Device = {
@@ -60,32 +62,32 @@ describe(RuntimeCompositeTransport, () => {
     if (primaryTransport) {
       const mockLogger = Logger.comm as jest.MockedFunction<typeof Logger.comm>;
       expect(mockLogger).toBeCalledWith(
-        '[RuntimeCompositeTransport] ack upper from primary transport'
+        '[RuntimeTrafficMirroringTransport] ack upper from primary transport'
       );
     } else {
       const mockLogger = Logger.warn as jest.MockedFunction<typeof Logger.warn>;
       expect(mockLogger).toBeCalledWith(
-        '[RuntimeCompositeTransport] ack upper from fallback transport'
+        '[RuntimeTrafficMirroringTransport] ack upper from fallback transport'
       );
     }
   }
 
   it('should subscribe from all transports', () => {
-    const transport = new RuntimeCompositeTransport(device, fallbackAckWaitMs);
+    const transport = new RuntimeTrafficMirroringTransport(device, fallbackAckWaitMs);
     transport.subscribe('test');
     expect(mockTransportPrimary.mock.instances[0].subscribe).toBeCalled();
     expect(mockTransportFallback.mock.instances[0].subscribe).toBeCalled();
   });
 
   it('should unsubscribe from all transports', () => {
-    const transport = new RuntimeCompositeTransport(device, fallbackAckWaitMs);
+    const transport = new RuntimeTrafficMirroringTransport(device, fallbackAckWaitMs);
     transport.unsubscribe();
     expect(mockTransportPrimary.mock.instances[0].unsubscribe).toBeCalled();
     expect(mockTransportFallback.mock.instances[0].unsubscribe).toBeCalled();
   });
 
   it('should publish from primary transport when it is stable', () => {
-    const transport = new RuntimeCompositeTransport(device, fallbackAckWaitMs);
+    const transport = new RuntimeTrafficMirroringTransport(device, fallbackAckWaitMs);
     setPrimaryTransportConnected(true);
     transport.publish({ a: 'a' });
     expect(mockTransportPrimary.mock.instances[0].publish).toBeCalled();
@@ -93,7 +95,7 @@ describe(RuntimeCompositeTransport, () => {
   });
 
   it('should publish from fallback transport when the primary transport is not connected', () => {
-    const transport = new RuntimeCompositeTransport(device, fallbackAckWaitMs);
+    const transport = new RuntimeTrafficMirroringTransport(device, fallbackAckWaitMs);
     setPrimaryTransportConnected(false);
     transport.publish({ a: 'a' });
     expect(mockTransportPrimary.mock.instances[0].publish).not.toBeCalled();
@@ -101,7 +103,7 @@ describe(RuntimeCompositeTransport, () => {
   });
 
   it('should emit upper listener callback only once - primary is connected', async () => {
-    const transport = new RuntimeCompositeTransport(device, fallbackAckWaitMs);
+    const transport = new RuntimeTrafficMirroringTransport(device, fallbackAckWaitMs);
     setPrimaryTransportConnected(true);
 
     const mockUpperListener = jest.fn() as jest.MockedFunction<ListenerType>;
@@ -116,7 +118,7 @@ describe(RuntimeCompositeTransport, () => {
   });
 
   it('should emit upper listener callback only once - primary is disconnected', async () => {
-    const transport = new RuntimeCompositeTransport(device, fallbackAckWaitMs);
+    const transport = new RuntimeTrafficMirroringTransport(device, fallbackAckWaitMs);
     setPrimaryTransportConnected(false);
 
     const mockUpperListener = jest.fn() as jest.MockedFunction<ListenerType>;
@@ -130,7 +132,7 @@ describe(RuntimeCompositeTransport, () => {
   });
 
   it('should emit upper listener callback only once - primary is too slow', async () => {
-    const transport = new RuntimeCompositeTransport(device, 100);
+    const transport = new RuntimeTrafficMirroringTransport(device, 100);
     setPrimaryTransportConnected(true);
 
     const mockUpperListener = jest.fn() as jest.MockedFunction<ListenerType>;
@@ -147,7 +149,7 @@ describe(RuntimeCompositeTransport, () => {
   });
 
   it('should publish from primary transport when its missing rate lower than 3 times', async () => {
-    const transport = new RuntimeCompositeTransport(device, 100);
+    const transport = new RuntimeTrafficMirroringTransport(device, 100);
     setPrimaryTransportConnected(true);
 
     const mockUpperListener = jest.fn() as jest.MockedFunction<ListenerType>;
@@ -163,7 +165,7 @@ describe(RuntimeCompositeTransport, () => {
   });
 
   it('should publish from fallback transport when its missing rate is too high', async () => {
-    const transport = new RuntimeCompositeTransport(device, 100);
+    const transport = new RuntimeTrafficMirroringTransport(device, 100);
     setPrimaryTransportConnected(true);
 
     const mockUpperListener = jest.fn() as jest.MockedFunction<ListenerType>;

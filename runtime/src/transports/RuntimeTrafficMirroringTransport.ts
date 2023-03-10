@@ -10,7 +10,7 @@ const FALLBACK_ACK_WAIT_MS = 3000;
 
 export type ListenerType = (payload: RuntimeMessagePayload) => void;
 
-export default class RuntimeCompositeTransport implements RuntimeTransport {
+export default class RuntimeTrafficMirroringTransport implements RuntimeTransport {
   private readonly transport: RuntimeTransport;
   private readonly fallbackTransport: RuntimeTransport;
   private missedMessageCount: number;
@@ -42,11 +42,11 @@ export default class RuntimeCompositeTransport implements RuntimeTransport {
 
   publish(message: object) {
     if (!this.shouldUseFallbackAlways()) {
-      Logger.comm('[RuntimeCompositeTransport] publish message from primary transport');
+      Logger.comm('[RuntimeTrafficMirroringTransport] publish message from primary transport');
       this.transport.publish(message);
     } else {
       Logger.warn(
-        `[RuntimeCompositeTransport] publish message from fallback transport - primaryTransportConnected[${this.transport.isConnected()}] missedMessageCount[${
+        `[RuntimeTrafficMirroringTransport] publish message from fallback transport - primaryTransportConnected[${this.transport.isConnected()}] missedMessageCount[${
           this.missedMessageCount
         }]`
       );
@@ -71,7 +71,7 @@ export default class RuntimeCompositeTransport implements RuntimeTransport {
     payload: RuntimeMessagePayload
   ) => {
     if (this.shouldUseFallbackAlways()) {
-      Logger.warn('[RuntimeCompositeTransport] ack upper from fallback transport');
+      Logger.warn('[RuntimeTrafficMirroringTransport] ack upper from fallback transport');
       upperLayerListener(payload);
       return;
     }
@@ -86,7 +86,7 @@ export default class RuntimeCompositeTransport implements RuntimeTransport {
     }
 
     if (!fromFallback) {
-      Logger.comm('[RuntimeCompositeTransport] ack upper from primary transport');
+      Logger.comm('[RuntimeTrafficMirroringTransport] ack upper from primary transport');
       this.ackMessageQueue.enqueueMessageStringAsync(messageString);
       upperLayerListener(payload);
     } else {
@@ -97,7 +97,7 @@ export default class RuntimeCompositeTransport implements RuntimeTransport {
           this.missedMessageCount += 1;
           this.ackMessageQueue.enqueueMessageStringAsync(messageString);
           upperLayerListener(payload);
-          Logger.warn('[RuntimeCompositeTransport] ack upper from fallback transport');
+          Logger.warn('[RuntimeTrafficMirroringTransport] ack upper from fallback transport');
         }
       }, this.fallbackAckWaitMs);
     }
@@ -108,7 +108,7 @@ export default class RuntimeCompositeTransport implements RuntimeTransport {
  * A message queue for message deduplication from multiple transports
  *
  * As we have multiple transports, the application upper layer should not aware it and not send multiple code to remote.
- * We do the deduplication in RuntimeCompositeTransport.
+ * We do the deduplication in RuntimeTrafficMirroringTransport.
  * The philosophy are:
  *   - Send message from primary transport if it's stable.
  *   - Receive messages and call callbacks for upper layer from primary transport if it's stable.
