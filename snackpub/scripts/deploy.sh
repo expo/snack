@@ -38,7 +38,7 @@ fi
 printf "\nDeploying to Google Cloud Platform...\n"
 
 # We need beta gcloud cli for `--session-affinity`
-gcloud beta run deploy "$service_name" \
+gcloud --quiet beta run deploy "$service_name" \
   --image=gcr.io/exponentjs/snackpub:latest \
   --labels="app=snack,component=snackpub,environment=$environment" \
   --port=3013 \
@@ -50,7 +50,6 @@ gcloud beta run deploy "$service_name" \
   --max-instances=10 \
   --vpc-connector="$vpc_connector" \
   --env-vars-file="$env_vars_file" \
-  --service-account="$service_account" \
-  --quiet
+  --service-account="$service_account"
 
 printf "\nCloud Run $service_name has been deployed"
