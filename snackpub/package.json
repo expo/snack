@@ -1,0 +1,41 @@
+{
+  "name": "snackpub",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The Snack PubSub system",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "yarn domain && yarn watch",
+    "domain": "chalet start && chalet add http://localhost:3013 -n snackpub.expo -f",
+    "watch": "env-cmd -e development tsnd --inspect=9213 --quiet src/index.ts",
+    "lint": "eslint ./src",
+    "test": "jest",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/expo/snack.git",
+    "directory": "snackpub"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/snack/issues"
+  },
+  "author": "650 Industries, Inc.",
+  "license": "MIT",
+  "homepage": "https://github.com/expo/snack/snackpub#readme",
+  "dependencies": {
+    "@socket.io/redis-adapter": "^8.0.0",
+    "debug": "^4.3.2",
+    "redis": "^4.5.1",
+    "socket.io": "~4.5.4"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "ts-node-dev": "^1.1.1",
+    "typescript": "^4.6.3"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^5.0.10"
+  }
+}

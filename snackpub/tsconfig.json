@@ -1,0 +1,19 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "allowJs": true,
+    "isolatedModules": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "useUnknownInCatchVariables": false
+  },
+  "include": ["src"]
+}

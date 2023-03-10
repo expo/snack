@@ -1,0 +1,48 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: snackpub
+build:
+  platforms: ['linux/amd64']
+  artifacts:
+    - image: gcr.io/exponentjs/snackpub
+      sync:
+        manual:
+          - src: src/**/*
+            dest: /snack/app
+      docker:
+        dockerfile: snackpub/Dockerfile
+        buildArgs:
+          node_version: 16.14.2
+          DEPLOY_ENVIRONMENT: staging
+  tagPolicy:
+    sha256: {}
+  local:
+    push: false
+profiles:
+  - name: prod
+    build:
+      platforms: ['linux/amd64']
+      artifacts:
+        - image: gcr.io/exponentjs/snackpub
+          docker:
+            dockerfile: snackpub/Dockerfile
+            buildArgs:
+              node_version: 16.14.2
+              DEPLOY_ENVIRONMENT: production
+    activation:
+      - env: ENVIRONMENT=production
+  - name: main
+    build:
+      local:
+        push: true
+    activation:
+      - env: SKAFFOLD_PUSH_IMAGE=true
+  - name: development
+    patches:
+      - op: add
+        path: /build/artifacts/0/docker/target
+        value: dev
+    activation:
+      - command: dev
+      - command: debug

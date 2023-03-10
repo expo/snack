@@ -1,0 +1,21 @@
+name: Setup Snackpub
+description: Prepare Snackpub in GitHub Actions
+
+inputs:
+  node-version:
+    description: Version of Node to use
+    default: 16.x
+
+runs:
+  using: composite
+  steps:
+    - name: 🏗 Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: yarn
+        cache-dependency-path: runtime/yarn.lock
+
+    - name: 📦 Install dependencies
+      run: yarn install --frozen-lockfile --ignore-scripts
+      shell: bash
