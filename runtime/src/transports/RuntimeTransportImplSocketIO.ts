@@ -12,6 +12,7 @@ interface ServerToClientEvents {
   message: (data: { channel: string; sender: string } & RuntimeMessagePayload) => void;
   joinChannel: (data: { channel: string; sender: string }) => void;
   leaveChannel: (data: { channel: string; sender: string }) => void;
+  terminate: (reason: string) => void;
 }
 
 interface ClientToServerEvents {
@@ -34,6 +35,10 @@ export default class RuntimeTransportImplSocketIO implements RuntimeTransport {
         ? SNACKPUB_URL_STAGING
         : SNACKPUB_URL_PRODUCTION;
     this.socket = io(snackpubURL, { transports: ['websocket'] });
+    this.socket.on('terminate', (reason) => {
+      Logger.comm(`Terminating connection: ${reason}`);
+      this.socket.disconnect();
+    });
   }
 
   subscribe(channel: string) {
