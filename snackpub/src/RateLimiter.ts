@@ -8,16 +8,16 @@ interface RateLimiterOptions {
 export default class RateLimiter {
   constructor(private readonly redisClient: ReturnType<typeof createClient>) {}
 
-  public hasExceededSrcIpRateAsync(
-    srcIp: string,
+  public hasExceededRemoteAddressRateAsync(
+    remoteAddress: string,
     _socketId: string,
     options: RateLimiterOptions = { maxOperations: 30, intervalSeconds: 60 } // 30 connections per IP per minute
   ): Promise<boolean> {
-    return this.hasExceededKeyAsync(srcIp, `ip:${srcIp}`, options);
+    return this.hasExceededKeyAsync(remoteAddress, `remoteAddr:${remoteAddress}`, options);
   }
 
   public async hasExceededMessagesRateAsync(
-    srcIp: string,
+    remoteAddress: string,
     socketId: string,
     options?: {
       dosPrevention?: RateLimiterOptions;
@@ -31,23 +31,27 @@ export default class RateLimiter {
     const optsFairUsage = options?.fairUsage ?? { maxOperations: 6000, intervalSeconds: 60 };
 
     const results = await Promise.all([
-      this.hasExceededKeyAsync(srcIp, `messagesDosPrevention:${socketId}`, optsDosPrevention),
-      this.hasExceededKeyAsync(srcIp, `messagesFairUsage:${socketId}`, optsFairUsage),
+      this.hasExceededKeyAsync(
+        remoteAddress,
+        `messagesDosPrevention:${socketId}`,
+        optsDosPrevention
+      ),
+      this.hasExceededKeyAsync(remoteAddress, `messagesFairUsage:${socketId}`, optsFairUsage),
     ]);
 
     return results.some((result) => !!result);
   }
 
   public hasExceededChannelsRateAsync(
-    srcIp: string,
+    remoteAddress: string,
     socketId: string,
     options: RateLimiterOptions = { maxOperations: 30, intervalSeconds: 60 } // 30 channels per socket.id per minute
   ): Promise<boolean> {
-    return this.hasExceededKeyAsync(srcIp, `channels:${socketId}`, options);
+    return this.hasExceededKeyAsync(remoteAddress, `channels:${socketId}`, options);
   }
 
   private async hasExceededKeyAsync(
-    srcIp: string,
+    remoteAddress: string,
     key: string,
     options: RateLimiterOptions
   ): Promise<boolean> {
@@ -63,7 +67,9 @@ export default class RateLimiter {
     const operationsInt = parseInt(operationsString, 10);
     if (operationsInt === options.maxOperations + 1) {
       // Log only once when exceeding limits
-      console.log(`[RateLimiter] exceeding limits - srcIp[${srcIp}] redisKey[${redisKey}]`);
+      console.log(
+        `[RateLimiter] exceeding limits - remoteAddress[${remoteAddress}] redisKey[${redisKey}]`
+      );
     }
     if (operationsInt > options.maxOperations) {
       return true;

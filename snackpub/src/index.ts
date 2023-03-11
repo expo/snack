@@ -92,7 +92,7 @@ async function runAsync() {
     const remoteAddress = getRemoteAddress(socket.request) ?? 'UNKNOWN';
     console.log(`New connection from ${remoteAddress}`);
 
-    if (await rateLimiter?.hasExceededSrcIpRateAsync(remoteAddress, socket.id)) {
+    if (await rateLimiter?.hasExceededRemoteAddressRateAsync(remoteAddress, socket.id)) {
       terminateSocket(socket, 'Too many requests.');
     }
 
