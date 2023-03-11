@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 
+import ConnectionMetricsEmitter from './ConnectionMetricsEmitter';
 import { ProtocolOutgoingMessage, ProtocolIncomingMessage, ProtocolCodeMessage } from './Protocol';
 import TransportImplBase from './TransportImplBase';
 import type { SnackTransportOptions } from './types';
@@ -20,6 +21,8 @@ interface ClientToServerEvents {
 export default class TransportImplSocketIO extends TransportImplBase {
   private readonly snackpubURL: string;
   private socket: Socket<ServerToClientEvents, ClientToServerEvents> | null = null;
+  private startTime: number | undefined;
+  private connectionAttempts: number;
 
   constructor(options: SnackTransportOptions) {
     super(options);
@@ -28,16 +31,34 @@ export default class TransportImplSocketIO extends TransportImplBase {
       throw new Error('The `snackpubURL` option is unspecified.');
     }
     this.snackpubURL = snackpubURL;
+    this.connectionAttempts = 0;
   }
 
   protected start(): void {
     this.stop();
+    this.startTime = Date.now();
 
     this.socket = io(this.snackpubURL, { transports: ['websocket'] });
 
     this.socket.on('connect', () => {
       this.socket?.emit('subscribeChannel', { channel: this.channel, sender: this.socket?.id });
+      if (this.startTime) {
+        ConnectionMetricsEmitter.emitSuccessed({
+          timeMs: Date.now() - this.startTime,
+          attempts: this.connectionAttempts,
+        });
+      }
     });
+    this.socket.io.on('reconnect_attempt', (attempts: number) => {
+      this.connectionAttempts = attempts;
+      if (this.startTime) {
+        ConnectionMetricsEmitter.emitFailed({
+          timeMs: Date.now() - this.startTime,
+          attempts,
+        });
+      }
+    });
+
     this.socket.on('message', this.onMessage);
     this.socket.on('joinChannel', this.onJoinChannel);
     this.socket.on('leaveChannel', this.onLeaveChannel);
@@ -51,6 +72,7 @@ export default class TransportImplSocketIO extends TransportImplBase {
       this.socket.close();
       this.socket = null;
     }
+    this.startTime = undefined;
   }
 
   protected isStarted(): boolean {
