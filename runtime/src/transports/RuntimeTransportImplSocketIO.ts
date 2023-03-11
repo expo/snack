@@ -5,8 +5,8 @@ import type { Socket } from 'socket.io-client';
 import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
 
-const SNACKPUB_URL_STAGING = 'https://staging-snackpub-3hn4fth2vq-uc.a.run.app';
-const SNACKPUB_URL_PRODUCTION = 'https://snackpub-3hn4fth2vq-uc.a.run.app';
+const SNACKPUB_URL_STAGING = 'https://staging-snackpub.expo.dev';
+const SNACKPUB_URL_PRODUCTION = 'https://snackpub.expo.dev';
 
 interface ServerToClientEvents {
   message: (data: { channel: string; sender: string } & RuntimeMessagePayload) => void;
