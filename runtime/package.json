@@ -25,6 +25,7 @@
     "@babel/polyfill": "^7.8.3",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
+    "await-lock": "^2.2.2",
     "diff": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
     "expo": "^45.0.0",
@@ -51,12 +52,14 @@
     "react-native-view-shot": "3.1.2",
     "react-native-web": "0.17.7",
     "snack-babel-standalone": "~1.0.0",
+    "socket.io-client": "~4.5.4",
     "source-map": "0.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@expo/webpack-config": "^0.16.15",
     "@types/diff": "^5.0.0",
+    "@types/jest": "^26.0.24",
     "@types/pubnub": "^4.0.6",
     "@types/react": "~17.0.21",
     "@types/react-dom": "~17.0.9",
@@ -66,6 +69,7 @@
     "babel-preset-expo": "9.0.1",
     "eslint": "^8.12.0",
     "eslint-config-universe": "^10.0.0",
+    "jest": "^26.6.3",
     "jest-expo": "^43.0.0",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
@@ -74,6 +78,6 @@
     "typescript": "~4.3.5"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "jest-expo"
   }
 }

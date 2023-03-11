@@ -49,7 +49,11 @@ jobs:
         run: |
           yarn tsc --noEmit
           yarn lint --max-warnings 0
-  
+
+      - name: 🧪 Run runtime tests
+        run: |
+          yarn test --ci --maxWorkers 1
+
   deploy-staging:
     if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
