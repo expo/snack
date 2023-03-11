@@ -10,6 +10,7 @@ interface ServerToClientEvents {
   message: (data: { channel: string; message: ProtocolIncomingMessage; sender: string }) => void;
   joinChannel: (data: { channel: string; sender: string }) => void;
   leaveChannel: (data: { channel: string; sender: string }) => void;
+  terminate: (reason: string) => void;
 }
 
 interface ClientToServerEvents {
@@ -62,6 +63,10 @@ export default class TransportImplSocketIO extends TransportImplBase {
     this.socket.on('message', this.onMessage);
     this.socket.on('joinChannel', this.onJoinChannel);
     this.socket.on('leaveChannel', this.onLeaveChannel);
+    this.socket.on('terminate', (reason) => {
+      this.logger?.comm(`Terminating connection: ${reason}`);
+      this.socket?.disconnect();
+    });
   }
 
   protected stop(): void {
