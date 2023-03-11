@@ -70,6 +70,7 @@ type Props = AuthProps &
     isEmbedded?: boolean;
     files: SnackFiles;
     defaults: SnackDefaults;
+    testTransport: 'pubnub' | 'snackpub';
   };
 
 type State = {
@@ -204,12 +205,15 @@ class Main extends React.Component<Props, State> {
       sdkVersion,
       verbose,
       codeChangesDelay: sendCodeOnChangeEnabled ? 1000 : -1,
-      createTransport: isWorker ? createSnackWorkerTransport : undefined,
+      createTransport: isWorker
+        ? createSnackWorkerTransport.bind(null, props.testTransport)
+        : undefined,
       reloadTimeout: 10000,
       deviceId: getDeviceId(),
       id: !wasUpgraded ? id : undefined,
       user: sessionSecret ? { sessionSecret } : undefined,
       apiURL: nullthrows(process.env.API_SERVER_URL),
+      snackpubURL: process.env.SNACKPUB_URL,
       snackagerURL,
       host:
         // Use staging server in development, otherwise Expo Go and appetize
@@ -282,11 +286,16 @@ class Main extends React.Component<Props, State> {
     if (typeof window !== 'undefined') {
       let webPreviewURL = state.session.webPreviewURL;
 
+      let experienceURL = state.session.url;
+      if (_props.testTransport === 'snackpub') {
+        experienceURL += '?testTransport=snackpub';
+      }
+
       if (state.isLocalWebPreview) {
         webPreviewURL = `${
           window.location.origin
         }/web-player/localhost/index.html?initialUrl=${encodeURIComponent(
-          state.session.url
+          experienceURL
         )}&origin=${encodeURIComponent(window.location.origin)}&verbose=true`;
       }
 
@@ -840,8 +849,13 @@ class Main extends React.Component<Props, State> {
   };
 
   render() {
-    const { isEmbedded } = this.props;
-    const experienceURL = this.state.session.url;
+    const { isEmbedded, testTransport } = this.props;
+
+    let experienceURL = this.state.session.url;
+    if (testTransport === 'snackpub') {
+      experienceURL += '?testTransport=snackpub';
+    }
+
     if (this.state.isPreview) {
       return (
         <AppDetails
@@ -943,6 +957,7 @@ class Main extends React.Component<Props, State> {
 const MainContainer = withPreferences(
   connect((state: any) => ({
     viewer: state.viewer,
+    testTransport: state.splitTestSettings.testTransport ?? 'pubnub',
   }))(withAuth(Main))
 );
 

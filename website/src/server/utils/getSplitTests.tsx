@@ -39,6 +39,10 @@ export default async (ctx: Context) => {
       account: 0.25,
     }),
     authFlow: choose(['save1', 'save2']),
+    testTransport: chooseWithWeights({
+      pubnub: 0.9,
+      snackpub: 0.1,
+    }),
   };
 
   const newValues = {
@@ -46,6 +50,11 @@ export default async (ctx: Context) => {
     ...userDetails,
     ...existingSettings,
   };
+
+  const overrideTestTransport = ctx.request.query.testTransport;
+  if (overrideTestTransport && ['pubnub', 'snackpub'].includes(overrideTestTransport)) {
+    newValues['testTransport'] = overrideTestTransport;
+  }
 
   ctx.res.setHeader('Set-Cookie', cookie.serialize(SNACK_COOKIE_NAME, JSON.stringify(newValues)));
   return newValues;
