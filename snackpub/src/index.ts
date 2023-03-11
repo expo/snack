@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { createClient } from 'redis';
 import { Server, Socket } from 'socket.io';
 
@@ -69,6 +70,10 @@ function terminateSocket(
 }
 
 async function runAsync() {
+  if (Env.nodeEnv === 'production') {
+    assert(Env.redisURL, `Redis must be configured`);
+  }
+
   const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>({
     serveClient: false,
   });
