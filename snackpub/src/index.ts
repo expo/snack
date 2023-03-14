@@ -163,7 +163,7 @@ function registerShutdownHandlers(server: Server, redisClients: NullableRedisCli
  */
 function registerRedisClientErrorHandlers(redisClients: NullableRedisClientType[]) {
   for (const redisClient of redisClients) {
-    redisClient?.on('error', async (error) => {
+    redisClient?.on('error', (error) => {
       // node-redis emits errors even when reconnecting,
       // leave this error handler as no-op and handle in `reconnectStrategy`.
       debug('Redis client error', error);
@@ -179,7 +179,7 @@ function registerRedisClientErrorHandlers(redisClients: NullableRedisClientType[
  */
 async function shutdownAsync(server: Server, redisClients: NullableRedisClientType[]) {
   await closeServerAsync(server);
-  await Promise.all(redisClients.map((redisClient) => redisClient?.quit));
+  await Promise.all(redisClients.map((redisClient) => redisClient?.quit()));
 }
 
 /**
