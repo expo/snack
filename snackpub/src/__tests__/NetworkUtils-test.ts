@@ -3,6 +3,30 @@ import type { IncomingMessage } from 'http';
 import { getRemoteAddress } from '../NetworkUtils';
 
 describe(getRemoteAddress, () => {
+  it('should respect `cf-connecting-ip` header', () => {
+    const req = {
+      headers: {
+        'cf-connecting-ip': '10.0.0.1',
+      },
+      socket: {
+        address: '127.0.0.1',
+      },
+    } as unknown as IncomingMessage;
+    expect(getRemoteAddress(req)).toBe('10.0.0.1');
+  });
+
+  it('should respect `x-real-ip` header', () => {
+    const req = {
+      headers: {
+        'x-real-ip': '10.0.0.1',
+      },
+      socket: {
+        address: '127.0.0.1',
+      },
+    } as unknown as IncomingMessage;
+    expect(getRemoteAddress(req)).toBe('10.0.0.1');
+  });
+
   it('should respect `x-forwarded-for` header', () => {
     const req = {
       headers: {
