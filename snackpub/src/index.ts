@@ -169,7 +169,9 @@ function registerRedisClientErrorHandlers(redisClients: NullableRedisClientType[
       debug('Redis client error', error);
     });
     redisClient?.on('reconnecting', () => {
-      debug(`Reconnecting Redis server in ${REDIS_RECONNECT_RETRY_DELAY_MS}ms`);
+      debug(
+        `Reconnecting to Redis server in ${REDIS_RECONNECT_RETRY_DELAY_MS}ms - redisURL[${Env.redisURL}]`
+      );
     });
   }
 }
