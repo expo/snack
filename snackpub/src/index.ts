@@ -2,6 +2,7 @@ import { createClient } from 'redis';
 import { Server, Socket } from 'socket.io';
 
 import Env from './Env';
+import { getRemoteAddress } from './NetworkUtils';
 import RateLimiter from './RateLimiter';
 import { bindRedisAdapterAsync, closeRedisAdapterAsync } from './RedisAdapter';
 import type {
@@ -88,13 +89,15 @@ async function runAsync() {
   }
 
   io.on('connection', async (socket) => {
-    debug('onconnect', socket.handshake.address);
-    if (await rateLimiter?.hasExceededSrcIpRateAsync(socket.handshake.address, socket.id)) {
+    const remoteAddress = getRemoteAddress(socket.request) ?? 'UNKNOWN';
+    console.log(`New connection from ${remoteAddress}`);
+
+    if (await rateLimiter?.hasExceededRemoteAddressRateAsync(remoteAddress, socket.id)) {
       terminateSocket(socket, 'Too many requests.');
     }
 
     socket.on('message', async (data) => {
-      if (await rateLimiter?.hasExceededMessagesRateAsync(socket.handshake.address, socket.id)) {
+      if (await rateLimiter?.hasExceededMessagesRateAsync(remoteAddress, socket.id)) {
         terminateSocket(socket, 'Too many messages.');
       }
 
@@ -104,7 +107,7 @@ async function runAsync() {
 
     socket.on('subscribeChannel', async (data) => {
       debug('onSubscribeChannel', data);
-      if (await rateLimiter?.hasExceededChannelsRateAsync(socket.handshake.address, socket.id)) {
+      if (await rateLimiter?.hasExceededChannelsRateAsync(remoteAddress, socket.id)) {
         terminateSocket(socket, 'Too many channels.');
       }
 
