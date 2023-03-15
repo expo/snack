@@ -102,8 +102,8 @@ async function runAsync() {
       assert(sender);
       for (const channel of socket.rooms) {
         if (channel === socket.id) {
-          // socket.io implicitly creates a default channel for each socket which id is socket.id,
-          // we should skip this one from broadcasting the leaveChannel event.
+          // socket.io implicitly creates a default channel for each socket. The default channel's name is the socket's ID.
+          // We should skip the default channel when broadcasting the leaveChannel event.
           continue;
         }
         debug('leaveChannel', { channel, sender });
