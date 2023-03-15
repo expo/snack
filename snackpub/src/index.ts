@@ -85,41 +85,31 @@ async function runAsync() {
       const { channel, sender } = data;
       socket.join(channel);
       socket.data.deviceId = sender;
+      debug('joinChannel', { channel, sender });
+      socket.to(channel).emit('joinChannel', { channel, sender });
     });
 
     socket.on('unsubscribeChannel', (data) => {
       debug('onUnsubscribeChannel', data);
-      const { channel } = data;
+      const { channel, sender } = data;
       socket.leave(channel);
+      debug('leaveChannel', { channel, sender });
+      socket.to(channel).emit('leaveChannel', { channel, sender });
     });
-  });
 
-  io.of('/').adapter.on('join-room', async (channel: string, id: string) => {
-    const sockets = await io.in(channel).fetchSockets();
-    const sender = sockets.filter((socket) => socket.id === id)[0]?.data.deviceId;
-    if (!sender) {
-      return;
-    }
-    for (const socket of sockets) {
-      if (socket.id !== id) {
-        debug('joinChannel', { channel, sender });
-        socket.emit('joinChannel', { channel, sender });
-      }
-    }
-  });
-
-  io.of('/').adapter.on('leave-room', async (channel: string, id: string) => {
-    const sockets = await io.in(channel).fetchSockets();
-    const sender = sockets.filter((socket) => socket.id === id)[0]?.data.deviceId;
-    if (!sender) {
-      return;
-    }
-    for (const socket of sockets) {
-      if (socket.id !== id) {
+    socket.on('disconnecting', () => {
+      const sender = socket.data.deviceId;
+      assert(sender);
+      for (const channel of socket.rooms) {
+        if (channel === socket.id) {
+          // socket.io implicitly creates a default channel for each socket. The default channel's name is the socket's ID.
+          // We should skip the default channel when broadcasting the leaveChannel event.
+          continue;
+        }
         debug('leaveChannel', { channel, sender });
-        socket.emit('leaveChannel', { channel, sender });
+        socket.to(channel).emit('leaveChannel', { channel, sender });
       }
-    }
+    });
   });
 
   const redisClients = [redisClient, redisSubscriptionClient];
