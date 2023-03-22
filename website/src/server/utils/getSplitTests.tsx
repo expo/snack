@@ -40,8 +40,8 @@ export default async (ctx: Context) => {
     }),
     authFlow: choose(['save1', 'save2']),
     testTransport: chooseWithWeights({
-      pubnub: 0.9,
-      snackpub: 0.1,
+      pubnub: 0.5,
+      snackpub: 0.5,
     }),
   };
 

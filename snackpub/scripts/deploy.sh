@@ -25,11 +25,15 @@ if [ -z "$environment" ]; then
   usage
 elif [ "$environment" = 'staging' ]; then
   service_name='staging-snackpub'
+  max_instances=10
+  cpu_throttling='--cpu-throttling'
   vpc_connector='production-general'
   env_vars_file='secrets/staging/snackpub.env.yaml'
   service_account='snackpub-staging@exponentjs.iam.gserviceaccount.com'
 elif [ "$environment" = 'production' ]; then
   service_name='production-snackpub'
+  max_instances=100
+  cpu_throttling='--no-cpu-throttling'
   vpc_connector='production-general'
   env_vars_file='secrets/production/snackpub.env.yaml'
   service_account='snackpub-production@exponentjs.iam.gserviceaccount.com'
@@ -47,7 +51,8 @@ gcloud --quiet beta run deploy "$service_name" \
   --ingress=internal-and-cloud-load-balancing \
   --timeout=1800 \
   --concurrency=1000 \
-  --max-instances=10 \
+  --max-instances=$max_instances \
+  "$cpu_throttling" \
   --vpc-connector="$vpc_connector" \
   --env-vars-file="$env_vars_file" \
   --service-account="$service_account"
