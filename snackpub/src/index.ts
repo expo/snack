@@ -1,8 +1,16 @@
 import assert from 'assert';
+import http from 'http';
 import { createClient } from 'redis';
 import { Server, Socket } from 'socket.io';
 
 import Env from './Env';
+import {
+  createHttpEndpointsListener,
+  type RequestHandler,
+  LivenessRequestHandler,
+  ReadinessRequestHandler,
+  ReadOnlyRequestsHandler,
+} from './HttpEndpoints';
 import { getRemoteAddress } from './NetworkUtils';
 import RateLimiter from './RateLimiter';
 import { bindRedisAdapterAsync } from './RedisAdapter';
@@ -10,14 +18,12 @@ import TypedEventEmitter from './TypedEventEmitter';
 import type {
   ClientToServerEvents,
   InterServerEvents,
+  NullableRedisClientType,
   ServerToClientEvents,
   SocketData,
 } from './types';
 
 const debug = require('debug')('snackpub');
-
-type RedisClientType = ReturnType<typeof createClient>;
-type NullableRedisClientType = RedisClientType | null;
 
 const REDIS_RECONNECT_MAX_RETRIES = 60;
 const REDIS_RECONNECT_RETRY_DELAY_MS = 1000;
@@ -31,9 +37,14 @@ async function runAsync() {
     assert(Env.redisURL, `Redis must be configured`);
   }
 
-  const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>({
-    serveClient: false,
-  });
+  const httpRequestHandlers: RequestHandler[] = [];
+  const httpServer = http.createServer(createHttpEndpointsListener(httpRequestHandlers));
+  const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(
+    httpServer,
+    {
+      serveClient: false,
+    }
+  );
 
   let redisClient: NullableRedisClientType = null;
   let redisSubscriptionClient: NullableRedisClientType = null;
@@ -58,6 +69,10 @@ async function runAsync() {
     redisSubscriptionClient = await bindRedisAdapterAsync(io, redisClient);
     rateLimiter = new RateLimiter(redisClient);
   }
+
+  httpRequestHandlers.push(new ReadOnlyRequestsHandler());
+  httpRequestHandlers.push(new LivenessRequestHandler());
+  httpRequestHandlers.push(new ReadinessRequestHandler([redisClient, redisSubscriptionClient]));
 
   io.on('connection', async (socket) => {
     const remoteAddress = getRemoteAddress(socket.request) ?? 'UNKNOWN';
@@ -118,7 +133,7 @@ async function runAsync() {
   eventEmitter.once('redisServerUnreachable', () => {
     shutdownAsync(io, redisClients);
   });
-  io.listen(Env.port);
+  httpServer.listen(Env.port);
 }
 
 (async () => {

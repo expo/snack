@@ -1,3 +1,5 @@
+import { type createClient } from 'redis';
+
 export interface ServerToClientEvents {
   message: (data: { channel: string; message: object; sender: string }) => void;
   joinChannel: (data: { channel: string; sender: string }) => void;
@@ -16,3 +18,6 @@ export interface InterServerEvents {}
 export interface SocketData {
   deviceId: string;
 }
+
+export type RedisClientType = ReturnType<typeof createClient>;
+export type NullableRedisClientType = RedisClientType | null;
