@@ -52,7 +52,10 @@ export default async (ctx: Context) => {
   };
 
   const overrideTestTransport = ctx.request.query.testTransport;
-  if (overrideTestTransport && ['pubnub', 'snackpub'].includes(overrideTestTransport)) {
+  if (
+    overrideTestTransport &&
+    ['pubnub', 'snackpub', 'snackpubOnly'].includes(overrideTestTransport)
+  ) {
     newValues['testTransport'] = overrideTestTransport;
   }
 

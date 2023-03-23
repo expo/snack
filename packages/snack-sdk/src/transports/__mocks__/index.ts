@@ -9,3 +9,7 @@ export function createTransport(options: SnackTransportOptions): SnackTransport 
 export function createSnackPubTransport(options: SnackTransportOptions): SnackTransport {
   return new TestTransport(options);
 }
+
+export function createSnackPubOnlyTransport(options: SnackTransportOptions): SnackTransport {
+  return new TestTransport(options);
+}

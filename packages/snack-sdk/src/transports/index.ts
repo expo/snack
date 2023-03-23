@@ -1,5 +1,6 @@
 import TrafficMirroringTransport from './TrafficMirroringTransport';
 import TransportImplPubNub from './TransportImplPubNub';
+import TransportImplSocketIO from './TransportImplSocketIO';
 import { SnackTransport, SnackTransportOptions } from './types';
 
 export * from './types';
@@ -12,4 +13,8 @@ export function createTransport(options: SnackTransportOptions): SnackTransport 
 
 export function createSnackPubTransport(options: SnackTransportOptions): SnackTransport {
   return new TrafficMirroringTransport(options);
+}
+
+export function createSnackPubOnlyTransport(options: SnackTransportOptions): SnackTransport {
+  return new TransportImplSocketIO(options);
 }

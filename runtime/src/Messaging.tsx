@@ -25,6 +25,8 @@ export const init = (deviceId: string, testTransport: string | null | undefined)
     transportClass = require('./transports/RuntimeTransportImplWebPlayer').default;
   } else if (testTransport === 'snackpub') {
     transportClass = require('./transports/RuntimeTrafficMirroringTransport').default;
+  } else if (testTransport === 'snackpubOnly') {
+    transportClass = require('./transports/RuntimeTransportImplSocketIO').default;
   } else {
     transportClass = require('./transports/RuntimeTransportImplPubNub').default;
   }
