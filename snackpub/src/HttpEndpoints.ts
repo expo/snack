@@ -45,22 +45,13 @@ export class LivenessRequestHandler implements RequestHandler {
 }
 
 export class ReadinessRequestHandler implements RequestHandler {
-  private readonly redisClients: NullableRedisClientType[];
-
-  constructor(redisClients: NullableRedisClientType[]) {
+  constructor(private readonly redisClients: NullableRedisClientType[]) {
     this.redisClients = redisClients;
   }
 
   async processAsync(req: http.IncomingMessage, res: http.ServerResponse): Promise<boolean> {
     if (req.url === '/status/ready') {
-      let ready = true;
-      for (const redisClient of this.redisClients) {
-        if ((redisClient?.isReady ?? true) === false) {
-          ready = false;
-          break;
-        }
-      }
-
+      const ready = this.redisClients.every((redisClient) => redisClient?.isReady ?? true);
       if (ready) {
         res.writeHead(200);
         res.end('Ready');
