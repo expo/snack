@@ -70,7 +70,7 @@ type Props = AuthProps &
     isEmbedded?: boolean;
     files: SnackFiles;
     defaults: SnackDefaults;
-    testTransport: 'pubnub' | 'snackpub';
+    testTransport: 'pubnub' | 'snackpub' | 'snackpubOnly';
   };
 
 type State = {
@@ -287,8 +287,8 @@ class Main extends React.Component<Props, State> {
       let webPreviewURL = state.session.webPreviewURL;
 
       let experienceURL = state.session.url;
-      if (_props.testTransport === 'snackpub') {
-        experienceURL += '?testTransport=snackpub';
+      if (['snackpub', 'snackpubOnly'].includes(_props.testTransport)) {
+        experienceURL += `?testTransport=${_props.testTransport}`;
       }
 
       if (state.isLocalWebPreview) {
@@ -852,8 +852,8 @@ class Main extends React.Component<Props, State> {
     const { isEmbedded, testTransport } = this.props;
 
     let experienceURL = this.state.session.url;
-    if (testTransport === 'snackpub') {
-      experienceURL += '?testTransport=snackpub';
+    if (['snackpub', 'snackpubOnly'].includes(testTransport)) {
+      experienceURL += `?testTransport=${testTransport}`;
     }
 
     if (this.state.isPreview) {

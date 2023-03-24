@@ -8,7 +8,7 @@ import {
 import Analytics from './Analytics';
 
 export function createSnackWorkerTransport(
-  testTransport: 'pubnub' | 'snackpub',
+  testTransport: 'pubnub' | 'snackpub' | 'snackpubOnly',
   options: SnackTransportOptions
 ) {
   let transport: SnackTransport | null = null;

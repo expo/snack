@@ -5,17 +5,19 @@ declare const self: WorkerGlobalScope;
 // @ts-ignore
 self.window = self; // Needed for pubnub to work
 
-const { createSnackPubTransport, createTransport, ConnectionMetricsEmitter } = require('snack-sdk');
+const {
+  createSnackPubTransport,
+  createSnackPubOnlyTransport,
+  createTransport,
+  ConnectionMetricsEmitter,
+} = require('snack-sdk');
 
 let transport: SnackTransport | undefined = undefined;
 const transportCallback = (event: SnackTransportEvent) => postMessage(event);
 
 onmessage = (event) => {
   if (event.data.type === 'init') {
-    transport =
-      event.data.testTransport === 'snackpub'
-        ? createSnackPubTransport(event.data.data)
-        : createTransport(event.data.data);
+    transport = transportFactory(event.data.testTransport, event.data.data);
     // @ts-ignore
     transport.addEventListener('message', transportCallback);
   } else if (transport) {
@@ -32,3 +34,13 @@ onmessage = (event) => {
 ConnectionMetricsEmitter.setUpdateListener((event: object) => {
   postMessage({ type: 'transportConnectionUpdates', payload: event });
 });
+
+function transportFactory(testTransport: string, data: any) {
+  if (testTransport === 'snackpub') {
+    return createSnackPubTransport(data);
+  }
+  if (testTransport === 'snackpubOnly') {
+    return createSnackPubOnlyTransport(data);
+  }
+  return createTransport(data);
+}
