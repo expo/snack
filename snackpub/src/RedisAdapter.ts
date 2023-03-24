@@ -1,11 +1,12 @@
 import { createAdapter } from '@socket.io/redis-adapter';
-import type { createClient } from 'redis';
 import type { Server } from 'socket.io';
+
+import { type RedisClientType } from './types';
 
 export async function bindRedisAdapterAsync(
   server: Server,
-  redisClient: ReturnType<typeof createClient>
-): Promise<ReturnType<typeof createClient>> {
+  redisClient: RedisClientType
+): Promise<RedisClientType> {
   const redisSubscriptionClient = redisClient.duplicate();
   await redisSubscriptionClient.connect();
   server.adapter(createAdapter(redisClient, redisSubscriptionClient, { key: 'snackpub' }));
