@@ -114,7 +114,10 @@ async function runAsync() {
 
     socket.on('disconnecting', () => {
       const sender = socket.data.deviceId;
-      assert(sender);
+      if (!sender) {
+        // No-op if the disconnecting socket doesn't bind with a device ID
+        return;
+      }
       for (const channel of socket.rooms) {
         if (channel === socket.id) {
           // socket.io implicitly creates a default channel for each socket. The default channel's name is the socket's ID.
