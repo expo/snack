@@ -8,8 +8,8 @@ No CI actions are configured for this yet, so it needs to be done manually.
 - Login to staging: `EXPO_STAGING=1 expo login`
 - Deploy runtime: `yarn deploy:staging` (used by the Expo client)
 - Deploy web player: `yarn deploy:web:staging` (used by Snack web preview)
-- Verify that the runtime works by opening an app from `staging.snack.expo.dev` on your Expo client.
-- Verify that the web-player works by using the web-preview on `staging.snack.expo.dev`.
+- Verify that the runtime works by opening an app from `staging-snack.expo.dev` on your Expo client.
+- Verify that the web-player works by using the web-preview on `staging-snack.expo.dev`.
 
 ## Production
 
