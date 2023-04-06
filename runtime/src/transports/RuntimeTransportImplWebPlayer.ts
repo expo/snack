@@ -24,7 +24,7 @@ const allowedOrigins = [
   'https://snack.expo.io',
   'https://staging.snack.expo.io',
   'https://snack.expo.dev',
-  'https://staging.snack.expo.dev',
+  'https://staging-snack.expo.dev',
   'http://snack.expo.test',
   'https://snack.expo.test',
   // Draftbit

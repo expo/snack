@@ -110,7 +110,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: website-staging
-      url: https://staging.snack.expo.dev
+      url: https://staging-snack.expo.dev
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -216,4 +216,3 @@ jobs:
           status: ${{ job.status }}
           author_name: Deploy Website to Production
           fields: message,commit,author,job,took
-
