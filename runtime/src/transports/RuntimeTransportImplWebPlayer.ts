@@ -69,7 +69,7 @@ export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
     }
   }
 
-  subscribe(channel: string) {
+  subscribe(_channel: string) {
     this.unsubscribe();
 
     if (this.origin) {
