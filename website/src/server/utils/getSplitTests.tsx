@@ -39,10 +39,7 @@ export default async (ctx: Context) => {
       account: 0.25,
     }),
     authFlow: choose(['save1', 'save2']),
-    testTransport: chooseWithWeights({
-      snackpub: 0.5,
-      snackpubOnly: 0.5,
-    }),
+    testTransport: 'snackpubOnly',
   };
 
   const newValues = {
