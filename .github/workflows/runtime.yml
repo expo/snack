@@ -92,7 +92,7 @@ jobs:
           fields: message,commit,author,job,took
 
   deploy-production:
-    if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
+    if: ${{ (github.event.inputs.deploy == 'production' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
     runs-on: ubuntu-latest
     environment:
