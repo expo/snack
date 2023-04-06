@@ -8,7 +8,7 @@ inputs:
   
   expo-version:
     description: Version of Expo CLI to use
-    default: latest
+    default: ~5.4.3
 
 runs:
   using: composite
