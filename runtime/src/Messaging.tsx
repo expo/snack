@@ -23,12 +23,10 @@ export const init = (deviceId: string, testTransport: string | null | undefined)
   let transportClass;
   if (Platform.OS === 'web') {
     transportClass = require('./transports/RuntimeTransportImplWebPlayer').default;
-  } else if (testTransport === 'snackpub') {
+  } else if (testTransport === 'trafficMirroring') {
     transportClass = require('./transports/RuntimeTrafficMirroringTransport').default;
-  } else if (testTransport === 'snackpubOnly') {
-    transportClass = require('./transports/RuntimeTransportImplSocketIO').default;
   } else {
-    transportClass = require('./transports/RuntimeTransportImplPubNub').default;
+    transportClass = require('./transports/RuntimeTransportImplSocketIO').default;
   }
   transport = new transportClass(device);
 };
