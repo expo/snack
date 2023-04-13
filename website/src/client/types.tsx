@@ -100,6 +100,7 @@ export type QueryInitParams = {
   iframeId?: string;
   waitForData?: 'boolean';
   saveToAccount?: 'true' | 'false';
+  testTransport?: 'snackpub' | 'trafficMirroring';
 };
 
 export type QueryStateParams = {

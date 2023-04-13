@@ -6,10 +6,6 @@ export function createTransport(options: SnackTransportOptions): SnackTransport 
   return result;
 }
 
-export function createSnackPubTransport(options: SnackTransportOptions): SnackTransport {
-  return new TestTransport(options);
-}
-
-export function createSnackPubOnlyTransport(options: SnackTransportOptions): SnackTransport {
+export function createTrafficMirroringTransport(options: SnackTransportOptions): SnackTransport {
   return new TestTransport(options);
 }
