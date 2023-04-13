@@ -70,7 +70,7 @@ type Props = AuthProps &
     isEmbedded?: boolean;
     files: SnackFiles;
     defaults: SnackDefaults;
-    testTransport: 'pubnub' | 'snackpub' | 'snackpubOnly';
+    testTransport: 'snackpub' | 'trafficMirroring';
   };
 
 type State = {
@@ -287,7 +287,7 @@ class Main extends React.Component<Props, State> {
       let webPreviewURL = state.session.webPreviewURL;
 
       let experienceURL = state.session.url;
-      if (['snackpub', 'snackpubOnly'].includes(_props.testTransport)) {
+      if (['trafficMirroring'].includes(_props.testTransport)) {
         experienceURL += `?testTransport=${_props.testTransport}`;
       }
 
@@ -852,7 +852,7 @@ class Main extends React.Component<Props, State> {
     const { isEmbedded, testTransport } = this.props;
 
     let experienceURL = this.state.session.url;
-    if (['snackpub', 'snackpubOnly'].includes(testTransport)) {
+    if (['trafficMirroring'].includes(testTransport)) {
       experienceURL += `?testTransport=${testTransport}`;
     }
 
@@ -957,7 +957,7 @@ class Main extends React.Component<Props, State> {
 const MainContainer = withPreferences(
   connect((state: any) => ({
     viewer: state.viewer,
-    testTransport: state.splitTestSettings.testTransport ?? 'pubnub',
+    testTransport: state.splitTestSettings.testTransport ?? 'snackpub',
   }))(withAuth(Main))
 );
 
