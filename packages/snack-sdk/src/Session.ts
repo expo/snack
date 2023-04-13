@@ -114,7 +114,7 @@ export default class Snack {
     const dependencies = options.dependencies ? { ...options.dependencies } : {};
     this.options = options;
     this.apiURL = options.apiURL ?? defaultConfig.apiURL;
-    this.snackpubURL = options.snackpubURL;
+    this.snackpubURL = options.snackpubURL ?? defaultConfig.snackpubURL;
     this.host = options.host ?? new URL(this.apiURL).host;
     this.logger = options.verbose ? createLogger(true) : undefined;
     this.codeChangesDelay = options.codeChangesDelay ?? 0;
