@@ -70,7 +70,6 @@ type Props = AuthProps &
     isEmbedded?: boolean;
     files: SnackFiles;
     defaults: SnackDefaults;
-    testTransport: 'snackpub' | 'trafficMirroring';
   };
 
 type State = {
@@ -206,7 +205,7 @@ class Main extends React.Component<Props, State> {
       verbose,
       codeChangesDelay: sendCodeOnChangeEnabled ? 1000 : -1,
       createTransport: isWorker
-        ? createSnackWorkerTransport.bind(null, props.testTransport)
+        ? createSnackWorkerTransport.bind(null, props.query.testTransport ?? 'snackpub')
         : undefined,
       reloadTimeout: 10000,
       deviceId: getDeviceId(),
@@ -287,8 +286,8 @@ class Main extends React.Component<Props, State> {
       let webPreviewURL = state.session.webPreviewURL;
 
       let experienceURL = state.session.url;
-      if (['trafficMirroring'].includes(_props.testTransport)) {
-        experienceURL += `?testTransport=${_props.testTransport}`;
+      if (_props.query.testTransport) {
+        experienceURL += `?testTransport=${_props.query.testTransport}`;
       }
 
       if (state.isLocalWebPreview) {
@@ -849,11 +848,11 @@ class Main extends React.Component<Props, State> {
   };
 
   render() {
-    const { isEmbedded, testTransport } = this.props;
+    const { isEmbedded } = this.props;
 
     let experienceURL = this.state.session.url;
-    if (['trafficMirroring'].includes(testTransport)) {
-      experienceURL += `?testTransport=${testTransport}`;
+    if (this.props.query.testTransport) {
+      experienceURL += `?testTransport=${this.props.query.testTransport}`;
     }
 
     if (this.state.isPreview) {
@@ -957,7 +956,6 @@ class Main extends React.Component<Props, State> {
 const MainContainer = withPreferences(
   connect((state: any) => ({
     viewer: state.viewer,
-    testTransport: state.splitTestSettings.testTransport ?? 'snackpub',
   }))(withAuth(Main))
 );
 
