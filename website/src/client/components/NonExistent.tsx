@@ -1,6 +1,5 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 
 export default function NonExistent() {
   return (
@@ -8,7 +7,7 @@ export default function NonExistent() {
       <div className={css(styles.content)}>
         <h1 className={css(styles.heading)}>Oops!</h1>
         <p className={css(styles.message)}>
-          We couldn't find the Snack you're looking for. Go to <Link to="/">the homepage</Link>.
+          We couldn't find the Snack you're looking for. Go to <a href="/">the homepage</a>.
         </p>
       </div>
     </div>
