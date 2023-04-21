@@ -2,6 +2,14 @@
 
 ## Unpublished
 
+## 4.0.0 - 2023-04-21
+
+### 🛠 Breaking changes
+
+- Replace the default transport from PubNub to SnackPub ([#376](https://github.com/expo/snack/pull/376), [#417](https://github.com/expo/snack/pull/417) by [@kudo](https://github.com/kudo)). To load SDK 45/46/47 snacks in Expo Go, you need to update your snack-sdk version to this version or a newer version that is compatible with the latest Expo Go snack runtime. There are no other migrations required.
+
+## 3.10.0 - 2023-02-14
+
 ### 🛠 Breaking changes
 
 - Dropped Expo SDK 44 ([#360](https://github.com/expo/snack/pull/360) by [@bycedric](https://github.com/byCedric))
