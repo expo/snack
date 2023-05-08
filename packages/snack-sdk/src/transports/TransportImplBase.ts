@@ -17,6 +17,9 @@ export default abstract class TransportImplBase implements SnackTransport {
   private connectionsCount: number = 0;
   protected readonly logSuffix: string;
 
+  // Limit for code size in diff message
+  protected static readonly CODE_SIZE_LIMIT_FOR_DIFF = 32768;
+
   constructor(options: SnackTransportOptions) {
     const { apiURL, channel, verbose } = options;
     this.channel = channel ?? '';
@@ -29,7 +32,7 @@ export default abstract class TransportImplBase implements SnackTransport {
         callback: this.onCodeMessageReady,
         apiURL,
         logger: this.logger,
-        maxDiffPlaceholder: 'X'.repeat(32768),
+        maxDiffPlaceholder: 'X'.repeat(TransportImplBase.CODE_SIZE_LIMIT_FOR_DIFF),
       });
     } else {
       this.codeMessageBuilder = new CodeMessageBuilder({

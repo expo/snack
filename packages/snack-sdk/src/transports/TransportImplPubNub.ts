@@ -89,13 +89,13 @@ export default class TransportImplPubNub extends TransportImplBase {
     for (const path in codeMessage.diff) {
       approxSize += path.length + codeMessage.diff[path].length;
     }
-    if (approxSize >= 32768) {
+    if (approxSize >= TransportImplBase.CODE_SIZE_LIMIT_FOR_DIFF) {
       return false;
     }
 
     // Calculate exact size and check whether it exceeds the limit
     const size = calcPubNubCodeMessageSize(this.channel, codeMessage);
-    return size < 32768;
+    return size < TransportImplBase.CODE_SIZE_LIMIT_FOR_DIFF;
   }
 
   private onPubNubPresence = (event: PubNub.PresenceEvent) => {
