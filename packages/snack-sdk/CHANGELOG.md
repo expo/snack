@@ -2,6 +2,10 @@
 
 ## Unpublished
 
+### 🐛 Bug fixes
+
+- Fixed `undefined` importing file when its size exceeds 32768. ([#360](https://github.com/expo/snack/pull/423) by [@kudo](https://github.com/kudo))
+
 ## 4.0.0 - 2023-04-21
 
 ### 🛠 Breaking changes
