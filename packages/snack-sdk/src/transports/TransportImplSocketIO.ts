@@ -94,16 +94,13 @@ export default class TransportImplSocketIO extends TransportImplBase {
   }
 
   protected onVerifyCodeMessageSize(codeMessage: ProtocolCodeMessage): boolean {
-    // https://socket.io/docs/v4/server-options/#maxhttpbuffersize
-    const MAX_SIZE = 1e6;
-
     // Calculate unencoded size (quickly) and if that exceeds the limit
     // then don't bother calculating the exact size (which is more expensive)
     let approxSize = 0;
     for (const path in codeMessage.diff) {
       approxSize += path.length + codeMessage.diff[path].length;
     }
-    return approxSize < MAX_SIZE;
+    return approxSize < TransportImplBase.CODE_SIZE_LIMIT_FOR_DIFF;
   }
 
   private onMessage = (data: {
