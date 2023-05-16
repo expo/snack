@@ -1,5 +1,6 @@
 import { Store, set as setItem, get as getItem } from 'idb-keyval';
 import path from 'path';
+import semver from 'semver';
 
 import resources from '../../../resources.json';
 
@@ -34,7 +35,7 @@ self.importScripts(resources.typescript);
 
 const ROOT_URL = `https://cdn.jsdelivr.net/`;
 
-const store = new Store('typescript-definitions-cache-v1');
+const store = new Store('typescript-definitions-cache-v2');
 const cache = new Map<string, Promise<string>>();
 
 const fetchAsText = (url: string): Promise<string> => {
@@ -62,13 +63,29 @@ const fetchAsText = (url: string): Promise<string> => {
   return promise;
 };
 
-// Fetch definitions published to npm from DefinitelyTyped (@types/x)
-const fetchFromDefinitelyTyped = (dependency: string, _version: string, output: FetchOutput) =>
-  fetchAsText(
-    `${ROOT_URL}npm/@types/${dependency.replace('@', '').replace(/\//g, '__')}/index.d.ts`
-  ).then((typings: string) => {
-    output.paths[`node_modules/${dependency}/index.d.ts`] = typings;
-  });
+/**
+ * Fetch definitions published to npm from DefinitelyTyped (@types/x)
+ * This has two different strategies:
+ *   - Try to fetch versioned types from `@types/<package>@<version>`.
+ *   - Try to fetch latest types from `@types/<package>@latest`.
+ *
+ * The reason for these two strategies is that we always prefer versioned types.
+ * But, the versions are never an exact match. Instead, we try to "guess" the version
+ * by using the `{major}.{minor}` version of the dependency, while ignoring the patch segment.
+ * If that fails, we still need to fetch the types, so we fall back to the latest version.
+ */
+function fetchFromDefinitelyTyped(dependency: string, version: string, output: FetchOutput) {
+  const dependencyName = dependency.replace('@', '').replace(/\//g, '__');
+  const guessedVersion = semver.valid(version)
+    ? `${semver.major(version)}.${semver.minor(version)}`
+    : 'latest';
+
+  return fetchAsText(`${ROOT_URL}npm/@types/${dependencyName}@${guessedVersion}/index.d.ts`)
+    .catch(() => fetchAsText(`${ROOT_URL}npm/@types/${dependencyName}@latest/index.d.ts`))
+    .then((typings: string) => {
+      output.paths[`node_modules/${dependency}/index.d.ts`] = typings;
+    });
+}
 
 const getRequireStatements = (title: string, code: string) => {
   const requires: string[] = [];
