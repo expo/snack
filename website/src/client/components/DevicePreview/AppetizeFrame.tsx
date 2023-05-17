@@ -35,7 +35,7 @@ type Props = AuthProps & {
   onShowModal: (modal: EditorModal) => void;
   onAppLaunch?: () => void;
   theme: ThemeName;
-  deviceFrame?: AppetizeDeviceFrame
+  deviceFrame?: AppetizeDeviceFrame;
 };
 
 type AppetizeStatus =

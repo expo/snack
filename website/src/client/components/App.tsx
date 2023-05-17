@@ -36,13 +36,13 @@ import getDependenciesFromQuery from '../utils/getDependenciesFromQuery';
 import getFilesFromQuery from '../utils/getFilesFromQuery';
 import { createSnackWorkerTransport } from '../utils/snackTransports';
 import AppDetails from './AppDetails';
+import { AppetizeDeviceFrame } from './DevicePreview/AppetizeFrame';
 import { EditorViewProps } from './EditorViewProps';
 import withPreferences, { PreferencesContextType } from './Preferences/withPreferences';
 import AppShell from './Shell/AppShell';
 import EmbeddedShell from './Shell/EmbeddedShell';
 import AnimatedLogo from './shared/AnimatedLogo';
 import LazyLoad from './shared/LazyLoad';
-import { AppetizeDeviceFrame } from './DevicePreview/AppetizeFrame';
 
 const DEVICE_ID_KEY = '__SNACK_DEVICE_ID';
 

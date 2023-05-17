@@ -27,6 +27,8 @@ function pickQueryStateParams(queryParams: QueryParams) {
       case 'supportedPlatforms':
       case 'appetizePayerCode':
       case 'verbose':
+      case 'deviceFrameAndroid':
+      case 'deviceFrameIos':
       case 'hideQueryParams':
         res[name] = queryParams[name] as any;
         break;
