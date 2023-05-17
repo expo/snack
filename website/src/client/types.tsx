@@ -13,10 +13,7 @@ import {
   SDKVersion,
 } from 'snack-sdk';
 
-import {
-  AppetizeDeviceAndroid,
-  AppetizeDeviceIos,
-} from './components/DevicePreview/AppetizeFrame';
+import { AppetizeDeviceAndroid, AppetizeDeviceIos } from './components/DevicePreview/AppetizeFrame';
 import { ThemeName } from './components/Preferences/withThemeName';
 
 export type {
