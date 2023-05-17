@@ -27,6 +27,8 @@ export const script = `
       options.theme = options.theme || container.dataset.snackTheme;
       options.appetizePayerCode = options.appetizePayerCode || container.dataset.snackAppetizePayerCode;
       options.loading = options.loading || container.dataset.snackLoading;
+      options.deviceFrameAndroid = options.deviceFrameAndroid || container.dataset.deviceFrameAndroid;
+      options.deviceFrameIos = options.deviceFrameIos || container.dataset.deviceFrameIos;
 
       if (!options.code && container.dataset.snackCode) {
         options.code = decodeURIComponent(container.dataset.snackCode);
@@ -79,6 +81,12 @@ export const script = `
       }
       if (options.verbose) {
         iframeQueryParams += '&verbose=' + options.verbose;
+      }
+      if (options.deviceFrameAndroid) {
+        iframeQueryParams += '&deviceFrameAndroid=' + options.deviceFrameAndroid;
+      }
+      if (options.deviceFrameIos) {
+        iframeQueryParams += '&deviceFrameIos=' + options.deviceFrameIos;
       }
       if (options.loading) {
         iframe.loading = options.loading;

@@ -42,6 +42,7 @@ import AppShell from './Shell/AppShell';
 import EmbeddedShell from './Shell/EmbeddedShell';
 import AnimatedLogo from './shared/AnimatedLogo';
 import LazyLoad from './shared/LazyLoad';
+import { AppetizeDeviceFrame } from './DevicePreview/AppetizeFrame';
 
 const DEVICE_ID_KEY = '__SNACK_DEVICE_ID';
 
@@ -89,6 +90,7 @@ type State = {
   devicePreviewShown: boolean;
   devicePreviewPlatform: Platform;
   devicePreviewPlatformOptions: PlatformOption[];
+  deviceFrame: AppetizeDeviceFrame;
   webPreviewURL: string;
   isLocalWebPreview: boolean;
   verbose: boolean;
@@ -244,6 +246,11 @@ class Main extends React.Component<Props, State> {
         'web',
     });
 
+    const deviceFrame = {
+      android: props.query.deviceFrameAndroid,
+      ios: props.query.deviceFrameIos,
+    };
+
     const selectedFile = files['App.js']
       ? 'App.js'
       : files['App.tsx']
@@ -274,6 +281,7 @@ class Main extends React.Component<Props, State> {
       devicePreviewShown,
       devicePreviewPlatform,
       devicePreviewPlatformOptions,
+      deviceFrame,
       verbose,
       annotations: [],
       snackagerURL,
@@ -919,6 +927,7 @@ class Main extends React.Component<Props, State> {
               onSelectFile={this._handleSelectFile}
               platform={this.state.devicePreviewPlatform}
               platformOptions={this.state.devicePreviewPlatformOptions}
+              deviceFrame={this.state.deviceFrame}
               previewRef={this._previewRef}
               previewShown={this.state.devicePreviewShown}
               previewURL={this.state.webPreviewURL}

@@ -14,6 +14,7 @@ import {
 } from 'snack-sdk';
 
 import { ThemeName } from './components/Preferences/withThemeName';
+import { AppetizeDeviceFrameAndroid, AppetizeDeviceFrameIos } from './components/DevicePreview/AppetizeFrame';
 
 export type {
   SnackState,
@@ -111,6 +112,8 @@ export type QueryStateParams = {
   appetizePayerCode?: string;
   verbose?: 'true' | 'false';
   hideQueryParams?: 'true' | 'false';
+  deviceFrameAndroid?: AppetizeDeviceFrameAndroid;
+  deviceFrameIos?: AppetizeDeviceFrameIos;
 };
 
 export type QueryParams = QueryInitParams & QueryStateParams;

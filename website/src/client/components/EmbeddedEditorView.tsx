@@ -93,6 +93,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
       previewRef,
       previewShown,
       previewURL,
+      deviceFrame,
       onChangePlatform,
       onDeviceConnectionAttempt,
       onReloadSnack,
@@ -165,6 +166,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
                     payerCode={this.props.payerCode}
                     platform={platform}
                     platformOptions={platformOptions}
+                    deviceFrame={deviceFrame}
                     previewRef={previewRef}
                     previewURL={previewURL}
                     sdkVersion={sdkVersion}

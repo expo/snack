@@ -1,4 +1,5 @@
 import { SnackFiles, SDKVersion, SnackDependencies, SnackFile, Annotation } from '../../types';
+import { AppetizeDeviceFrame } from '../DevicePreview/AppetizeFrame';
 
 export type EditorMode = 'normal' | 'vim';
 
@@ -24,4 +25,5 @@ export type EditorProps = {
   autoFocus?: boolean;
   fontFamily?: string;
   fontLigatures?: boolean;
+  deviceFrame?: AppetizeDeviceFrame;
 };

@@ -45,6 +45,8 @@ The `embed.js` script scans the DOM and populates any elements containing a `dat
 | `data-snack-sdkversion` |  The Expo SDK version to use (eg. `38.0.0`). Defaults to the latest released Expo SDK version. |
 | `data-snack-supportedplatforms` |  The platforms available for previewing the Snack. Defaults to `mydevice,ios,android,web` when not specified. |
 | `data-snack-theme` | The theme to use, `light` or `dark`. When omitted uses the theme that was configured by the user (defaults to `light`). |
+| `data-device-frame-android` | The device frame used when rendering the Android Appetize emulator. Valid values: `none`, or any of the [Appetize `device` Playback options](https://docs.appetize.io/core-features/playback-options).
+| `data-device-frame-ios` | The device frame used when rendering the iOS Appetize simulator. Valid values: `none`, or any of the [Appetize `device` Playback options](https://docs.appetize.io/core-features/playback-options).
 
 > All attribute values should be URL encoded, e.g. by using [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent).
 

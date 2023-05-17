@@ -1,5 +1,9 @@
 import querystring from 'query-string';
 
+import {
+  AppetizeDeviceFrameAndroid,
+  AppetizeDeviceFrameIos,
+} from '../components/DevicePreview/AppetizeFrame';
 import constants from '../configs/constants';
 
 type Props = {
@@ -11,6 +15,7 @@ type Props = {
   scale?: number;
   payerCode?: string;
   deviceColor?: 'black' | 'white';
+  deviceFrame?: AppetizeDeviceFrameAndroid | AppetizeDeviceFrameIos;
 };
 
 export default function constructAppetizeURL({
@@ -22,6 +27,7 @@ export default function constructAppetizeURL({
   payerCode,
   previewQueue,
   deviceColor = 'black',
+  deviceFrame,
 }: Props) {
   const appetizeOptions = {
     screenOnly,
@@ -37,6 +43,12 @@ export default function constructAppetizeURL({
     debug: true,
     pc: payerCode,
   };
+
+  if (deviceFrame === 'none') {
+    appetizeOptions.screenOnly = true;
+  } else if (deviceFrame) {
+    appetizeOptions.device = deviceFrame;
+  }
 
   const appetizeKey = constants.appetize.public_keys[previewQueue][platform];
   const appParams = {
