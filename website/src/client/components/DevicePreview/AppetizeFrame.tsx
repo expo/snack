@@ -67,12 +67,12 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
     const { experienceURL, platform, isEmbedded, payerCode, viewer, theme, deviceFrame } = props;
 
     return constructAppetizeURL({
+      type: isEmbedded ? 'embedded' : 'website',
       experienceURL,
       autoplay,
       platform,
       previewQueue: isEmbedded ? 'secondary' : 'main',
       deviceColor: theme === 'dark' ? 'white' : 'black',
-      scale: platform === 'android' ? (isEmbedded ? 73 : 81) : isEmbedded ? 66 : 73,
       payerCode: viewer?.user_metadata?.appetize_code ?? payerCode,
       deviceFrame,
     });
