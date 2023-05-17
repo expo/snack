@@ -248,20 +248,15 @@ class Main extends React.Component<Props, State> {
 
     const devices: AppetizeDevices = {
       _showFrame: props.query.deviceFrame !== 'false',
-    };
-
-    if (props.query.deviceAndroid || props.query.deviceAndroidScale) {
-      devices.android = {
+      android: {
         device: props.query.deviceAndroid,
         scale: props.query.deviceAndroidScale,
-      };
-    }
-    if (props.query.deviceIos || props.query.deviceIosScale) {
-      devices.ios = {
+      },
+      ios: {
         device: props.query.deviceIos,
         scale: props.query.deviceIosScale,
-      };
-    }
+      },
+    };
 
     const selectedFile = files['App.js']
       ? 'App.js'

@@ -147,7 +147,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
       sendCodeOnChangeEnabled,
       setDeviceId,
       theme,
-      devices: deviceFrame,
+      devices,
     } = this.props;
     return (
       <div
@@ -208,7 +208,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
             onPopupUrl={this.handlePopupUrl}
             onShowModal={onShowModal}
             onAppLaunch={onAppLaunch}
-            devices={deviceFrame}
+            devices={devices}
           />
         )}
       </div>

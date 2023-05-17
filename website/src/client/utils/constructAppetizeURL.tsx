@@ -70,7 +70,7 @@ export default function constructAppetizeURL({
   devices,
 }: Props) {
   const appetizeOptions = {
-    screenOnly: !devices?._showFrame || false,
+    screenOnly: devices?._showFrame === false,
     scale,
     autoplay: !!autoplay,
     embed: true,

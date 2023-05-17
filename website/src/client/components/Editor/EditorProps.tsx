@@ -25,5 +25,5 @@ export type EditorProps = {
   autoFocus?: boolean;
   fontFamily?: string;
   fontLigatures?: boolean;
-  deviceFrame?: AppetizeDevices;
+  devices?: AppetizeDevices;
 };
