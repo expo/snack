@@ -7,6 +7,7 @@ import { SDKVersion, Device, Platform } from '../../types';
 import * as PlatformOptions from '../../utils/PlatformOptions';
 import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
+import { c } from '../ThemeProvider';
 import ToggleButtons from '../shared/ToggleButtons';
 import AppetizeFrame from './AppetizeFrame';
 import MyDeviceFrame from './MyDeviceFrame';
@@ -243,7 +244,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '8px 0',
+    padding: '8px 0',
+    borderBottom: `1px solid ${c('border')}`,
   },
   toggleButtons: {
     zIndex: 3,

@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   fileInputLabel: {
     margin: 0,
     paddingLeft: 4,
-    color: c('selected'),
+    color: c('primary'),
     fontWeight: 'normal',
     cursor: 'pointer',
 

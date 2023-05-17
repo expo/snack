@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'left',
     width: '100%',
-    color: c('selected'),
+    color: c('primary'),
   },
 
   buttons: {
