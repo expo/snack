@@ -27,8 +27,8 @@ export const script = `
       options.theme = options.theme || container.dataset.snackTheme;
       options.appetizePayerCode = options.appetizePayerCode || container.dataset.snackAppetizePayerCode;
       options.loading = options.loading || container.dataset.snackLoading;
-      options.deviceFrameAndroid = options.deviceFrameAndroid || container.dataset.deviceFrameAndroid;
-      options.deviceFrameIos = options.deviceFrameIos || container.dataset.deviceFrameIos;
+      options.deviceFrameAndroid = options.deviceFrameAndroid || container.dataset.deviceFrameAndroid || container.dataset.snackDeviceFrameAndroid;
+      options.deviceFrameIos = options.deviceFrameIos || container.dataset.deviceFrameIos || container.dataset.snackDeviceFrameIos;
 
       if (!options.code && container.dataset.snackCode) {
         options.code = decodeURIComponent(container.dataset.snackCode);
