@@ -383,7 +383,7 @@ class EditorView extends React.Component<Props, State> {
       platformOptions,
       previewShown,
       isDownloading,
-      deviceFrame,
+      devices,
     } = this.props;
 
     const annotations = lintAnnotations.length
@@ -623,7 +623,7 @@ class EditorView extends React.Component<Props, State> {
                       sdkVersion={sdkVersion}
                       setDeviceId={this.props.setDeviceId}
                       sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
-                      deviceFrame={deviceFrame}
+                      devices={devices}
                     />
                   ) : null}
                 </div>

@@ -14,8 +14,8 @@ import {
 } from 'snack-sdk';
 
 import {
-  AppetizeDeviceFrameAndroid,
-  AppetizeDeviceFrameIos,
+  AppetizeDeviceAndroid,
+  AppetizeDeviceIos,
 } from './components/DevicePreview/AppetizeFrame';
 import { ThemeName } from './components/Preferences/withThemeName';
 
@@ -115,8 +115,11 @@ export type QueryStateParams = {
   appetizePayerCode?: string;
   verbose?: 'true' | 'false';
   hideQueryParams?: 'true' | 'false';
-  deviceFrameAndroid?: AppetizeDeviceFrameAndroid;
-  deviceFrameIos?: AppetizeDeviceFrameIos;
+  deviceFrame?: 'true' | 'false';
+  deviceAndroid?: AppetizeDeviceAndroid;
+  deviceAndroidScale?: number;
+  deviceIos?: AppetizeDeviceIos;
+  deviceIosScale?: number;
 };
 
 export type QueryParams = QueryInitParams & QueryStateParams;

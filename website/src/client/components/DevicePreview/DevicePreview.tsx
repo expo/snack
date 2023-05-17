@@ -8,7 +8,7 @@ import * as PlatformOptions from '../../utils/PlatformOptions';
 import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import ToggleButtons from '../shared/ToggleButtons';
-import AppetizeFrame, { AppetizeDeviceFrame } from './AppetizeFrame';
+import AppetizeFrame, { AppetizeDevices } from './AppetizeFrame';
 import MyDeviceFrame from './MyDeviceFrame';
 import WebFrame from './WebFrame';
 
@@ -31,7 +31,7 @@ type Props = {
   platformOptions: PlatformOptions.PlatformOption[];
   previewRef: React.MutableRefObject<Window | null>;
   previewURL: string;
-  deviceFrame?: AppetizeDeviceFrame;
+  devices?: AppetizeDevices;
   isEmbedded?: boolean;
   sdkVersion: SDKVersion;
   sendCodeOnChangeEnabled: boolean;
@@ -147,7 +147,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
       sendCodeOnChangeEnabled,
       setDeviceId,
       theme,
-      deviceFrame,
+      devices: deviceFrame,
     } = this.props;
     return (
       <div
@@ -208,7 +208,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
             onPopupUrl={this.handlePopupUrl}
             onShowModal={onShowModal}
             onAppLaunch={onAppLaunch}
-            deviceFrame={deviceFrame}
+            devices={deviceFrame}
           />
         )}
       </div>

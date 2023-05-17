@@ -1,6 +1,6 @@
 import querystring from 'query-string';
 
-import { AppetizeDeviceFrame } from '../components/DevicePreview/AppetizeFrame';
+import { AppetizeDevices } from '../components/DevicePreview/AppetizeFrame';
 import constants from '../configs/constants';
 
 // All default scales of each device for embeds
@@ -55,23 +55,22 @@ type Props = {
   scale?: number;
   payerCode?: string;
   deviceColor?: 'black' | 'white';
-  deviceFrame?: AppetizeDeviceFrame;
+  devices?: AppetizeDevices;
 };
 
 export default function constructAppetizeURL({
   type,
   experienceURL,
   platform,
-  screenOnly = false,
   scale,
   autoplay,
   payerCode,
   previewQueue,
   deviceColor = 'black',
-  deviceFrame,
+  devices,
 }: Props) {
   const appetizeOptions = {
-    screenOnly,
+    screenOnly: !devices?._showFrame || false,
     scale,
     autoplay: !!autoplay,
     embed: true,
@@ -85,20 +84,23 @@ export default function constructAppetizeURL({
     pc: payerCode,
   };
 
-  const deviceFrameForPlaform = deviceFrame?.[platform];
-  if (deviceFrameForPlaform === 'none') {
-    appetizeOptions.screenOnly = true;
-  } else if (deviceFrameForPlaform) {
-    appetizeOptions.device = deviceFrameForPlaform;
+  const deviceForPlatform = devices?.[platform];
+
+  if (deviceForPlatform?.device) {
+    appetizeOptions.device = deviceForPlatform.device;
   } else {
     appetizeOptions.device = platform === 'ios' ? 'iphone12' : 'pixel4';
   }
 
   if (appetizeOptions.device && !appetizeOptions.scale) {
-    appetizeOptions.scale =
-      type === 'embedded'
-        ? embeddedDeviceScales[appetizeOptions.device]
-        : websiteDeviceScales[appetizeOptions.device];
+    if (deviceForPlatform?.scale) {
+      appetizeOptions.scale = deviceForPlatform.scale;
+    } else {
+      appetizeOptions.scale =
+        type === 'embedded'
+          ? embeddedDeviceScales[appetizeOptions.device]
+          : websiteDeviceScales[appetizeOptions.device];
+    }
   }
 
   const appetizeKey = constants.appetize.public_keys[previewQueue][platform];

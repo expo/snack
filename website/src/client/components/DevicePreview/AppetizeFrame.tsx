@@ -14,13 +14,14 @@ import Button from '../shared/Button';
 import ButtonLink from '../shared/ButtonLink';
 
 /** @see https://docs.appetize.io/core-features/playback-options */
-export type AppetizeDeviceFrameAndroid = 'none' | string;
+export type AppetizeDeviceAndroid = 'none' | string;
 /** @see https://docs.appetize.io/core-features/playback-options */
-export type AppetizeDeviceFrameIos = 'none' | string;
+export type AppetizeDeviceIos = 'none' | string;
 
-export type AppetizeDeviceFrame = {
-  android?: AppetizeDeviceFrameAndroid;
-  ios?: AppetizeDeviceFrameIos;
+export type AppetizeDevices = {
+  _showFrame: boolean;
+  android?: { device?: AppetizeDeviceAndroid; scale?: number };
+  ios?: { device?: AppetizeDeviceIos; scale?: number };
 };
 
 type Props = AuthProps & {
@@ -35,7 +36,7 @@ type Props = AuthProps & {
   onShowModal: (modal: EditorModal) => void;
   onAppLaunch?: () => void;
   theme: ThemeName;
-  deviceFrame?: AppetizeDeviceFrame;
+  devices?: AppetizeDevices;
 };
 
 type AppetizeStatus =
@@ -64,7 +65,7 @@ type State = {
 
 class AppetizeFrame extends React.PureComponent<Props, State> {
   private static getAppetizeURL(props: Props, autoplay: boolean) {
-    const { experienceURL, platform, isEmbedded, payerCode, viewer, theme, deviceFrame } = props;
+    const { experienceURL, platform, isEmbedded, payerCode, viewer, theme, devices } = props;
 
     return constructAppetizeURL({
       type: isEmbedded ? 'embedded' : 'website',
@@ -74,7 +75,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
       previewQueue: isEmbedded ? 'secondary' : 'main',
       deviceColor: theme === 'dark' ? 'white' : 'black',
       payerCode: viewer?.user_metadata?.appetize_code ?? payerCode,
-      deviceFrame,
+      devices,
     });
   }
 

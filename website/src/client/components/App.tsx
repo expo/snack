@@ -36,7 +36,7 @@ import getDependenciesFromQuery from '../utils/getDependenciesFromQuery';
 import getFilesFromQuery from '../utils/getFilesFromQuery';
 import { createSnackWorkerTransport } from '../utils/snackTransports';
 import AppDetails from './AppDetails';
-import { AppetizeDeviceFrame } from './DevicePreview/AppetizeFrame';
+import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
 import { EditorViewProps } from './EditorViewProps';
 import withPreferences, { PreferencesContextType } from './Preferences/withPreferences';
 import AppShell from './Shell/AppShell';
@@ -90,7 +90,7 @@ type State = {
   devicePreviewShown: boolean;
   devicePreviewPlatform: Platform;
   devicePreviewPlatformOptions: PlatformOption[];
-  deviceFrame: AppetizeDeviceFrame;
+  devices: AppetizeDevices;
   webPreviewURL: string;
   isLocalWebPreview: boolean;
   verbose: boolean;
@@ -246,10 +246,22 @@ class Main extends React.Component<Props, State> {
         'web',
     });
 
-    const deviceFrame = {
-      android: props.query.deviceFrameAndroid,
-      ios: props.query.deviceFrameIos,
+    const devices: AppetizeDevices = {
+      _showFrame: props.query.deviceFrame !== 'false',
     };
+
+    if (props.query.deviceAndroid || props.query.deviceAndroidScale) {
+      devices.android = {
+        device: props.query.deviceAndroid,
+        scale: props.query.deviceAndroidScale,
+      };
+    }
+    if (props.query.deviceIos || props.query.deviceIosScale) {
+      devices.ios = {
+        device: props.query.deviceIos,
+        scale: props.query.deviceIosScale,
+      };
+    }
 
     const selectedFile = files['App.js']
       ? 'App.js'
@@ -281,7 +293,7 @@ class Main extends React.Component<Props, State> {
       devicePreviewShown,
       devicePreviewPlatform,
       devicePreviewPlatformOptions,
-      deviceFrame,
+      devices,
       verbose,
       annotations: [],
       snackagerURL,
@@ -927,7 +939,7 @@ class Main extends React.Component<Props, State> {
               onSelectFile={this._handleSelectFile}
               platform={this.state.devicePreviewPlatform}
               platformOptions={this.state.devicePreviewPlatformOptions}
-              deviceFrame={this.state.deviceFrame}
+              devices={this.state.devices}
               previewRef={this._previewRef}
               previewShown={this.state.devicePreviewShown}
               previewURL={this.state.webPreviewURL}

@@ -166,7 +166,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
                     payerCode={this.props.payerCode}
                     platform={platform}
                     platformOptions={platformOptions}
-                    deviceFrame={deviceFrame}
+                    devices={deviceFrame}
                     previewRef={previewRef}
                     previewURL={previewURL}
                     sdkVersion={sdkVersion}
