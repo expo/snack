@@ -1,9 +1,6 @@
 import querystring from 'query-string';
 
-import {
-  AppetizeDeviceFrameAndroid,
-  AppetizeDeviceFrameIos,
-} from '../components/DevicePreview/AppetizeFrame';
+import { AppetizeDeviceFrame } from '../components/DevicePreview/AppetizeFrame';
 import constants from '../configs/constants';
 
 type Props = {
@@ -15,7 +12,7 @@ type Props = {
   scale?: number;
   payerCode?: string;
   deviceColor?: 'black' | 'white';
-  deviceFrame?: AppetizeDeviceFrameAndroid | AppetizeDeviceFrameIos;
+  deviceFrame?: AppetizeDeviceFrame;
 };
 
 export default function constructAppetizeURL({
@@ -44,10 +41,11 @@ export default function constructAppetizeURL({
     pc: payerCode,
   };
 
-  if (deviceFrame === 'none') {
+  const deviceFrameForPlaform = deviceFrame?.[platform];
+  if (deviceFrameForPlaform === 'none') {
     appetizeOptions.screenOnly = true;
-  } else if (deviceFrame) {
-    appetizeOptions.device = deviceFrame;
+  } else if (deviceFrameForPlaform) {
+    appetizeOptions.device = deviceFrameForPlaform;
   } else {
     appetizeOptions.device = platform === 'ios' ? 'iphone12' : 'pixel4';
   }
