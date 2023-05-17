@@ -34,7 +34,7 @@ export default function constructAppetizeURL({
     scale,
     autoplay: !!autoplay,
     embed: true,
-    device: platform === 'ios' ? 'iphone12' : 'pixel4',
+    device: undefined as undefined | string,
     launchUrl: platform === 'android' ? experienceURL : undefined,
     xdocMsg: true,
     deviceColor,
@@ -48,6 +48,8 @@ export default function constructAppetizeURL({
     appetizeOptions.screenOnly = true;
   } else if (deviceFrame) {
     appetizeOptions.device = deviceFrame;
+  } else {
+    appetizeOptions.device = platform === 'ios' ? 'iphone12' : 'pixel4';
   }
 
   const appetizeKey = constants.appetize.public_keys[previewQueue][platform];
