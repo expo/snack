@@ -14,6 +14,7 @@ import {
   SDKVersion,
 } from '../types';
 import { PlatformOption } from '../utils/PlatformOptions';
+import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
 
 export type EditorModal =
   | 'device-instructions'
@@ -73,6 +74,7 @@ export type EditorViewProps = {
   previewURL: string;
   platform: Platform;
   platformOptions: PlatformOption[];
+  devices: AppetizeDevices;
   verbose: boolean;
   snackagerURL: string;
 };

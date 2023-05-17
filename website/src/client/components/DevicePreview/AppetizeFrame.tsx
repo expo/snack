@@ -13,6 +13,17 @@ import { c, s } from '../ThemeProvider';
 import Button from '../shared/Button';
 import ButtonLink from '../shared/ButtonLink';
 
+/** @see https://docs.appetize.io/core-features/playback-options */
+export type AppetizeDeviceAndroid = 'none' | string;
+/** @see https://docs.appetize.io/core-features/playback-options */
+export type AppetizeDeviceIos = 'none' | string;
+
+export type AppetizeDevices = {
+  _showFrame: boolean;
+  android?: { device?: AppetizeDeviceAndroid; scale?: number };
+  ios?: { device?: AppetizeDeviceIos; scale?: number };
+};
+
 type Props = AuthProps & {
   width: number;
   sdkVersion: SDKVersion;
@@ -25,6 +36,7 @@ type Props = AuthProps & {
   onShowModal: (modal: EditorModal) => void;
   onAppLaunch?: () => void;
   theme: ThemeName;
+  devices?: AppetizeDevices;
 };
 
 type AppetizeStatus =
@@ -53,15 +65,17 @@ type State = {
 
 class AppetizeFrame extends React.PureComponent<Props, State> {
   private static getAppetizeURL(props: Props, autoplay: boolean) {
-    const { experienceURL, platform, isEmbedded, payerCode, viewer, theme } = props;
+    const { experienceURL, platform, isEmbedded, payerCode, viewer, theme, devices } = props;
+
     return constructAppetizeURL({
+      type: isEmbedded ? 'embedded' : 'website',
       experienceURL,
       autoplay,
       platform,
       previewQueue: isEmbedded ? 'secondary' : 'main',
       deviceColor: theme === 'dark' ? 'white' : 'black',
-      scale: platform === 'android' ? (isEmbedded ? 73 : 81) : isEmbedded ? 66 : 73,
       payerCode: viewer?.user_metadata?.appetize_code ?? payerCode,
+      devices,
     });
   }
 
