@@ -9,7 +9,7 @@
   "scripts": {
     "start": "expo start",
     "web": "expo start --web",
-    "postinstall": "yarn prepare-reanimated && patch-package",
+    "postinstall": "patch-package",
     "lint": "eslint ./src ./types",
     "typescript": "tsc",
     "test": "jest",
@@ -18,8 +18,7 @@
     "predeploy:web:staging": "expo export:web",
     "predeploy:web:prod": "CLOUD_ENV=production NODE_ENV=production expo export:web",
     "deploy:web:staging": "s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player-staging --filePrefix v2/$(node -pe \"require('expo/package.json').version.split('.')[0]\")",
-    "deploy:web:prod": "s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player --filePrefix v2/$(node -pe \"require('expo/package.json').version.split('.')[0]\")",
-    "prepare-reanimated": "cp node_modules/react-native-reanimated/plugin.js node_modules/react-native-reanimated/plugin-standalone.js"
+    "deploy:web:prod": "s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player --filePrefix v2/$(node -pe \"require('expo/package.json').version.split('.')[0]\")"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
