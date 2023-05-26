@@ -80,8 +80,5 @@
   },
   "jest": {
     "preset": "jest-expo"
-  },
-  "resolutions": {
-    "@types/react": "~18.0.0"
   }
 }
