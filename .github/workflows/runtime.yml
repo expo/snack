@@ -19,6 +19,14 @@ on:
           - no-deploy
           - staging
           - production
+      platform:
+        description: What platform should be deployed
+        type: choice
+        default: all
+        options:
+          - all
+          - web
+          - native
   pull_request:
     paths:
       - .github/actions/setup-runtime/**
@@ -69,12 +77,14 @@ jobs:
         uses: ./.github/actions/setup-runtime
 
       - name: 🌐 Deploy web-player
+        if: ${{ contains('all web', github.event.inputs.platform) }}
         run: yarn deploy:web:staging
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
 
       - name: 📱 Deploy native runtime
+        if: ${{ contains('all native', github.event.inputs.platform) }}
         run: yarn deploy:staging
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_STAGING }}
@@ -90,6 +100,7 @@ jobs:
           status: ${{ job.status }}
           author_name: Deploy Runtime to Staging
           fields: message,commit,author,job,took
+          text: "platform: ${{ github.event.inputs.platform }}"
 
   deploy-production:
     if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
@@ -106,12 +117,14 @@ jobs:
         uses: ./.github/actions/setup-runtime
 
       - name: 🌐 Deploy web-player
+        if: ${{ contains('all web', github.event.inputs.platform) }}
         run: yarn deploy:web:prod
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_PRODUCTION }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_PRODUCTION }}
 
       - name: 📱 Deploy native runtime
+        if: ${{ contains('all native', github.event.inputs.platform) }}
         run: yarn deploy:prod
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_PRODUCTION }}
@@ -127,3 +140,4 @@ jobs:
           status: ${{ job.status }}
           author_name: Deploy Runtime to Production
           fields: message,commit,author,job,took
+          text: "platform: ${{ github.event.inputs.platform }}"
