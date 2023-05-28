@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: '8px 0',
-    borderBottom: `1px solid ${c('border')}`,
+    borderBottom: `1px solid ${c('border-editor')}`,
   },
   toggleButtons: {
     zIndex: 3,

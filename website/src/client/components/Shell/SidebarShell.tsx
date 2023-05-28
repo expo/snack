@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     minWidth: 240,
-    borderRight: `1px solid ${c('border')}`,
+    borderRight: `1px solid ${c('border-editor')}`,
     backgroundColor: c('content'),
   },
 });

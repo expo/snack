@@ -763,7 +763,7 @@ const styles = StyleSheet.create({
 
   preview: {
     backgroundColor: c('content'),
-    borderLeft: `1px solid ${c('border')}`,
+    borderLeft: `1px solid ${c('border-editor')}`,
   },
 
   previewToggle: {

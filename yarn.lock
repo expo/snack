@@ -1894,10 +1894,10 @@
   dependencies:
     cross-spawn "^6.0.5"
 
-"@expo/styleguide-base@^1.0.0-alpha.3":
-  version "1.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@expo/styleguide-base/-/styleguide-base-1.0.0-alpha.3.tgz#f7c068a91e63bcc948e56229bae069922c83efa0"
-  integrity sha512-3ahEeKUCYPje0MebFhzZDX72rjhLF6unx18bMdpUWacBjlyklr8UQUUsZ8p7jz1KFPUKrUNWfPLEafTGK7lV+Q==
+"@expo/styleguide-base@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@expo/styleguide-base/-/styleguide-base-1.0.0.tgz#acdbbebba7fdc80b09fed9e7d73c512e5e0cf1d7"
+  integrity sha512-peDW75rMhPx/UnIExX4ZI96Qg0zKucsCbSQ3NQLcIMY1HSDi4ccolEWsFpHJSwjLobFaMOtgj6FBrLc8C/EPPA==
   dependencies:
     "@radix-ui/colors" "^0.1.8"
 

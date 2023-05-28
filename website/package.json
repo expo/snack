@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@babel/parser": "^7.12.16",
-    "@expo/styleguide-base": "^1.0.0-alpha.3",
+    "@expo/styleguide-base": "^1.0.0",
     "aphrodite": "^2.2.3",
     "babel-plugin-file-loader": "^2.0.0",
     "broadcast-channel": "^2.1.8",

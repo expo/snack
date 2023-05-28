@@ -36,6 +36,7 @@ const lightColorsDef = {
   selected: lightTheme.background.selected,
   'selected-text': palette.white,
   border: lightTheme.border.default,
+  'border-editor': lightTheme.border.secondary,
 };
 
 const lightColors = Object.keys(lightColorsDef).reduce((acc, key) => {
@@ -70,6 +71,7 @@ const darkColorsDef: Colors = {
   selected: darkTheme.background.selected,
   'selected-text': palette.white,
   border: darkTheme.border.default,
+  'border-editor': palette.dark.gray4,
 };
 
 const darkColors = Object.keys(darkColorsDef).reduce((acc, key) => {

@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottom: `1px solid ${c('border')}`,
+    borderBottom: `1px solid ${c('border-editor')}`,
   },
   bottom: {
     padding: '16px 24px 24px 24px',
