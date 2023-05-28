@@ -29,6 +29,7 @@ import AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
+import { getDependency, loadBundle } from './modules/loadBundle';
 
 type Dependencies = {
   [key: string]: { resolved?: string; version: string; handle?: string };
@@ -42,9 +43,6 @@ type Load = {
     sourceMap?: RawSourceMap;
   };
 };
-
-const SNACKAGER_CDN_STAGING = 'https://ductmb1crhe2d.cloudfront.net';
-const SNACKAGER_CDN_PROD = 'https://d37p21p3n8r8ug.cloudfront.net';
 
 // This is super hacky
 // This avoids a bug where for some reason `react` is `undefined` in a dependency
@@ -250,78 +248,10 @@ const fetchPipeline = async (load: Load) => {
         }
       }
 
-      // Project-level dependency?
+      // Check if the import request is a dependency
       if (projectDependencies[path]) {
-        const dependency = projectDependencies[path];
-
-        // Based on https://github.com/expo/universe/blob/055b1f83685a0c4dd45c3b27a99114de0233c1b6/apps/snack/src/modules/ModuleManager.js#L191-L210
-        const name = path[0] + path.slice(1).replace(/@[^@]+$/, '');
-        const version = dependency.resolved ?? dependency.version;
-
-        // The handle may not exist for old snacks. In that case, construct it from name and version
-        const handle = dependency.handle ?? `${name}@${version}`.replace(/\//g, '~');
-
-        // Download bundle, keeping a local cache
-        let bundle: string | undefined;
-        const cacheHandle = handle.replace(/\//g, '~');
-        const cacheUri = `${FileSystem.cacheDirectory}snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`;
-        const { exists } = await FileSystem.getInfoAsync(cacheUri);
-        if (exists) {
-          bundle = await FileSystem.readAsStringAsync(cacheUri);
-          Logger.module(
-            'Loaded dependency',
-            cacheHandle,
-            `from cache ${bundle ? bundle.length : undefined} bytes`
-          );
-        } else {
-          // In development, try fetching from staging cloudfront first
-          const cloudFrontUrls =
-            Constants.manifest?.extra?.cloudEnv !== 'production'
-              ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
-              : [SNACKAGER_CDN_PROD];
-          for (const url of cloudFrontUrls) {
-            const fetchFrom = `${url}/${handle}-${Platform.OS}/bundle.js`;
-
-            try {
-              Logger.module('Fetching dependency', fetchFrom, '...');
-
-              const res = await fetch(fetchFrom);
-
-              if (res.ok) {
-                bundle = await res.text();
-              } else {
-                throw new Error(`Request failed with status ${res.status}: ${res.statusText}`);
-              }
-            } catch (e) {
-              if (url !== SNACKAGER_CDN_STAGING) {
-                Logger.error('Error fetching bundle', fetchFrom, e);
-                throw e;
-              } else {
-                Logger.warn(
-                  'Dependency could not be loaded from staging, trying production ...',
-                  handle
-                );
-              }
-            }
-
-            if (bundle) {
-              Logger.module(
-                'Fetched dependency',
-                fetchFrom,
-                `storing in cache ${bundle.length} bytes`
-              );
-              break;
-            }
-          }
-
-          if (!bundle) {
-            throw new Error(`Unable to fetch module ${handle} for ${Platform.OS}.`);
-          }
-
-          FileSystem.writeAsStringAsync(cacheUri, bundle).then(undefined, (error) => {
-            Logger.error('Failed to store dependency in cache', error);
-          });
-        }
+        const dependency = getDependency(path, projectDependencies[path]);
+        const bundle = await loadBundle(dependency);
 
         // The package server uses webpack's 'commonjs' format which puts root module exports in
         // `exports[<packageName>]`, so re-export in a way understood by SystemJS. Also, the bundle is
