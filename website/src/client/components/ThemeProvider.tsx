@@ -140,13 +140,9 @@ const styles = StyleSheet.create({
 
 function convertToHex(color: string) {
   if (color.startsWith('hsl')) {
-    const hslChunks = color
-      .replace('hsl(', '')
-      .replace(')', '')
-      .replace('%', '')
-      .split(',')
-      .map((c) => parseInt(c.trim(), 10));
-    return hsl(hslChunks[0], hslChunks[1], hslChunks[2]);
+    const hslChunks =
+      /hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)/.exec(color) ?? [];
+    return hsl(parseInt(hslChunks[1], 10), parseFloat(hslChunks[2]), parseFloat(hslChunks[3]));
   }
   return color;
 }
