@@ -23,6 +23,9 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
+    },
+    "ios": {
+      "bundleIdentifier": "com.bycedric.snack.runtime"
     }
   }
 }

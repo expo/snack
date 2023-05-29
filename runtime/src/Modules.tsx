@@ -29,6 +29,7 @@ import AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
+import snackInlineRequireContext from './RequireContext/babel';
 
 type Dependencies = {
   [key: string]: { resolved?: string; version: string; handle?: string };
@@ -73,6 +74,9 @@ GestureHandler; // eslint-disable-line no-unused-expressions,@typescript-eslint/
 // see: https://twitter.com/jamonholmgren/status/1561798978269618177
 // @ts-expect-error
 global['__DEV__'] = false;
+
+// @ts-expect-error
+global['______SNACK'] = System;
 
 // Maintain project-level dependency state in the `ExpoDependencyV2` format.
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
@@ -386,6 +390,7 @@ const translatePipeline = async (load: Load) => {
               ...(load.source.includes('react-native-reanimated') || load.source.includes('worklet')
                 ? [Reanimated2Plugin]
                 : []),
+              [snackInlineRequireContext],
             ],
             moduleIds: false,
             sourceMaps: true,
@@ -393,6 +398,8 @@ const translatePipeline = async (load: Load) => {
             filename,
             sourceFileName: filename,
           });
+
+          Logger.info('BABEL RESULT', filename, result);
 
           transformCache[filename] = { source: load.source, result };
 

@@ -7,7 +7,7 @@
   "main": "index.js",
   "owner": "exponent",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --dev-client",
     "web": "expo start --web",
     "postinstall": "patch-package",
     "lint": "eslint ./src ./types",
@@ -18,7 +18,9 @@
     "predeploy:web:staging": "expo export:web",
     "predeploy:web:prod": "CLOUD_ENV=production NODE_ENV=production expo export:web",
     "deploy:web:staging": "s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player-staging --filePrefix v2/$(node -pe \"require('expo/package.json').version.split('.')[0]\")",
-    "deploy:web:prod": "s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player --filePrefix v2/$(node -pe \"require('expo/package.json').version.split('.')[0]\")"
+    "deploy:web:prod": "s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player --filePrefix v2/$(node -pe \"require('expo/package.json').version.split('.')[0]\")",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
@@ -28,7 +30,7 @@
     "canvaskit-wasm": "0.38.0",
     "diff": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
-    "expo": "^48.0.17",
+    "expo": "~48.0.15",
     "expo-analytics-amplitude": "~11.3.0",
     "expo-asset": "~8.9.1",
     "expo-barcode-scanner": "~12.3.2",
@@ -51,7 +53,7 @@
     "react-native-safe-area-context": "4.5.0",
     "react-native-view-shot": "3.5.0",
     "react-native-web": "~0.18.10",
-    "snack-babel-standalone": "^2.2.0",
+    "snack-babel-standalone": "file:../packages/snack-babel-standalone",
     "socket.io-client": "~4.5.4",
     "source-map": "0.6.1"
   },

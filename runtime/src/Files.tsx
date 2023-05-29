@@ -3,6 +3,7 @@
 
 import { applyPatch } from 'diff';
 import Constants from 'expo-constants';
+import path from 'path';
 
 type Message = {
   type: 'CODE';
@@ -22,7 +23,7 @@ type File = {
   contents: string | undefined;
 };
 
-const files: { [key: string]: File } = {};
+export const files: { [key: string]: File } = {};
 
 // Initialize by reading from `extra.code` in manifest if present
 const manifest = Constants.manifest;
@@ -164,3 +165,34 @@ export const get = (path: string) => {
 };
 
 export const list = () => Object.keys(files);
+
+/**
+ * Create a new require context for the given SystemJS module.
+ * This includes the "parent file" to resolve relative paths against.
+ *
+ * Note, because this is executed at runtime in the app, we can only use `path.dirname` and `path.normalize`.
+ */
+// export function createRequireContext(parentFileRaw: string, systemRequire: typeof require) {
+//   return function resolveRequireContext(
+//     directory: string,
+//     recursive = true, // not turn-off able
+//     matching = /^\.\/.*$/,
+//     mode = 'sync' // its always sync
+//   ) {
+//     const contextMap: Record<string, any> = {};
+//     const contextFiles = getContextMatchingFiles(parentFileRaw, directory, matching);
+
+//     for (const filePath of contextFiles) {
+//       contextMap[filePath] = {
+//         enumerable: true,
+//         get() {
+//           return systemRequire(filePath);
+//         },
+//       };
+//     }
+
+//     const context = com
+
+//     return Object.defineProperties({}, contextMap);
+//   };
+// }

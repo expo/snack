@@ -1,4 +1,4 @@
-export { version, transform, transformFromAst, transformAsync, transformFileSync } from '@babel/core';
+export { version, transform, transformFromAst, transformAsync, transformFileSync, template as coreTemplate } from '@babel/core';
 export { default as generate } from '@babel/generator';
 export { default as traverse, visitors } from '@babel/traverse';
 export { parse } from '@babel/parser';
@@ -11,6 +11,9 @@ export const availablePresets: Record<string, any>;
  * @see https://github.com/babel/babel/blob/f1ac2906b1066e47503e4d82d0602acd4be94e60/packages/babel-core/src/index.ts#L6
  */
 export type buildExternalHelpers = any;
+
+/** Helper function to handle AST changes through templating */
+export type template = coreTemplate;
 
 /** Helper function to process options and resolve local plugins and presets */
 export function processOptions(options: any): any;

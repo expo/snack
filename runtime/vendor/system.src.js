@@ -1,5 +1,7 @@
 /* esilint-disable prettier */
 
+const { createRequireContext } = require('../src/Files');
+
 /*
  * SystemJS v0.20.0-rc.8 Dev
  */
@@ -495,6 +497,9 @@
 
   RegisterLoader$1.prototype = Object.create(Loader.prototype);
   RegisterLoader$1.prototype.constructor = RegisterLoader$1;
+  RegisterLoader$1.prototype.getInternalRegistry = function () {
+    return this[REGISTER_INTERNAL];
+  };
 
   var INSTANTIATE = (RegisterLoader$1.instantiate = createSymbol('instantiate'));
 
@@ -3644,6 +3649,10 @@
                 require.resolve = function(key) {
                   return requireResolve.call(loader, key, module.id);
                 };
+
+                // Generate a new require context for this module
+                // require.context = createRequireContext.call(loader, module.id, require);
+
                 // support module.paths ish
                 module.paths = [];
                 module.require = require;

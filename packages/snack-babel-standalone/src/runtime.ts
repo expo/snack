@@ -85,7 +85,6 @@ export function processOptions(options) {
   };
 }
 
-
 export function transform(code, options) {
   return Babel.transform(code, processOptions(options));
 }
@@ -111,6 +110,7 @@ export function traverse(parent, opts, scope, state, parentPath) {
 }
 
 export const visitors = Traverse.visitors;
+export const template = Babel.template;
 
 export function parse(input, options) {
   return Parser.parse(input, options);
