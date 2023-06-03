@@ -32,6 +32,7 @@ jobs:
           - snack-content
           - snack-eslint-standalone
           - snack-proxies
+          - snack-require-context
           - snack-sdk
           - snack-term
         include:
@@ -48,10 +49,10 @@ jobs:
         with:
           node-version: 16.x
           cache: yarn
-      
+
       - name: 📦 Install monorepo dependencies
         run: yarn install --frozen-lockfile
-      
+
       # When decoupled from the monorepo, make sure to install the local packages
       - name: 📦 Install local dependencies
         if: ${{ matrix.local-install }}
@@ -68,7 +69,7 @@ jobs:
       - name: 🧪 Test package
         run: yarn test --ci --maxWorkers 1
         working-directory: packages/${{ matrix.package }}
-      
+
       - name: 🛠 Build package
         run: yarn build
         working-directory: packages/${{ matrix.package }}
