@@ -74,22 +74,24 @@ export function convertVirtualModulePathToRequest(modulePath: string) {
 
 /**
  * Resolve the requested context from existing Snack Runtime files.
- * This returns a list of modules that match the requested context.
- * Note, the returned files are relative to the `require.context`'s directory.
+ * This returns an object of modules that match the requested context.
+ * Keys in this object are relative to the context directory, while values are relative to root.
  */
 export function resolveContextFiles(request: SnackRequireContextRequest, files: string[]) {
-  let contextFiles = files.filter((snackFilePath) => snackFilePath.startsWith(request.directory));
+  let contextFiles = files.filter((snackPath) => snackPath.startsWith(request.directory));
 
   if (request.isRecursive === false) {
     const maxSegments = request.directory.split('/').length + 1;
-    contextFiles = contextFiles.filter(
-      (snackFilePath) => snackFilePath.split('/').length <= maxSegments
-    );
+    contextFiles = contextFiles.filter((snackPath) => snackPath.split('/').length <= maxSegments);
   }
 
-  return contextFiles
-    .map((snackFilePath) => `./${snackFilePath}`)
-    .filter((filePath) => request.matching.test(filePath));
+  const relativePathReplace = new RegExp(`^${request.directory}/?`);
+
+  return Object.fromEntries(
+    contextFiles
+      .map((snackPath) => [`./${snackPath.replace(relativePathReplace, '')}`, snackPath])
+      .filter(([relativePath]) => request.matching.test(relativePath))
+  );
 }
 
 /**
@@ -106,16 +108,18 @@ export function resolveContextDirectory(filePath: string, requestedDir: string) 
  * Create a virtual module that represents the code for `require.context()`.
  * All paths MUST be relative from root.
  */
-export function createContextModuleTemplate(moduleList: string[]) {
+export function createContextModuleTemplate(moduleMap: Record<string, string>) {
+  const moduleList = Object.keys(moduleMap);
+
   if (!moduleList.length) {
     return createEmptyContextModuleTemplate();
   }
 
   // Create the entries for each module, from root using `module://` as prefix
   // The `module://` is a SystemJS feature used in the Snack Runtime
-  const moduleProperies = moduleList.map(
-    (module) => `'${module}': { enumerable: true, get() { return require('module://${module}'); } }`
-  );
+  const moduleProperies = moduleList.map((module) => {
+    return `'${module}': { enumerable: true, get() { return require('${moduleMap[module]}'); } }`;
+  });
 
   return `
     const moduleMap = Object.defineProperties({}, {

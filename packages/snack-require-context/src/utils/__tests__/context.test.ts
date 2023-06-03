@@ -79,42 +79,44 @@ describe(resolveContextDirectory, () => {
 
 describe(resolveContextFiles, () => {
   it('returns empty list without files', () => {
-    expect(resolveContextFiles(requireContext('app'), [])).toEqual([]);
+    expect(resolveContextFiles(requireContext('app'), [])).toEqual({});
   });
 
   it('returns single matching file', () => {
     const files = ['components/test.tsx'];
-    expect(resolveContextFiles(requireContext('components'), files)).toEqual([
-      './components/test.tsx',
-    ]);
+    expect(resolveContextFiles(requireContext('components'), files)).toMatchObject({
+      './test.tsx': 'components/test.tsx',
+    });
   });
 
   it('returns multiple matching files', () => {
     const files = ['ui/Avatar.js', 'components/User.tsx'];
-    expect(resolveContextFiles(requireContext('ui'), files)).toEqual(['./ui/Avatar.js']);
+    expect(resolveContextFiles(requireContext('ui'), files)).toMatchObject({
+      './Avatar.js': 'ui/Avatar.js',
+    });
   });
 
   it('returns multiple matching files from nested path', () => {
     const files = ['App.tsx', 'components/ui/Button.js', 'components/ui/form/Input.tsx'];
-    expect(resolveContextFiles(requireContext('components/ui'), files)).toEqual([
-      './components/ui/Button.js',
-      './components/ui/form/Input.tsx',
-    ]);
+    expect(resolveContextFiles(requireContext('components/ui'), files)).toMatchObject({
+      './Button.js': 'components/ui/Button.js',
+      './form/Input.tsx': 'components/ui/form/Input.tsx',
+    });
   });
 
   it('does not return nested files when not recursive', () => {
     const files = ['App.tsx', 'components/ui/Button.js', 'components/ui/form/Input.tsx'];
-    expect(resolveContextFiles(requireContext('components/ui', false), files)).toEqual([
-      './components/ui/Button.js',
-    ]);
+    expect(resolveContextFiles(requireContext('components/ui', false), files)).toMatchObject({
+      './Button.js': 'components/ui/Button.js',
+    });
   });
 
   it('returns files matching regex pattern', () => {
     const files = ['App.tsx', 'components/ui/Button.js', 'components/ui/Textual.tsx'];
-    expect(resolveContextFiles(requireContext('', true, /\.tsx$/), files)).toEqual([
-      './App.tsx',
-      './components/ui/Textual.tsx',
-    ]);
+    expect(resolveContextFiles(requireContext('', true, /\.tsx$/), files)).toMatchObject({
+      './App.tsx': 'App.tsx',
+      './components/ui/Textual.tsx': 'components/ui/Textual.tsx',
+    });
   });
 });
 
@@ -122,7 +124,7 @@ describe(createEmptyContextModuleTemplate, () => {
   /* eslint-disable no-eval */
 
   it('can be evaluated', () => {
-    const files = ['./non/existing/file.js'];
+    const files = { './non/existing/file.js': './non/existing/file.js' };
     expect(() => eval(createContextModuleTemplate(files))).not.toThrow();
   });
 
