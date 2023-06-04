@@ -80,7 +80,6 @@
     "debug": "kubectl.1.15 --context=minikube port-forward deploy/snackager 9229",
     "test": "env-cmd -e test node --async-stack-traces node_modules/.bin/jest --config jest/unit.config.js",
     "bundle": "env-cmd -e test tsnd --quiet --async-stack-traces -- src/cli.ts",
-    "ttt": "env-cmd -e test tsnd --quiet --async-stack-traces -- src/test.ts",
     "lint": "tsc --noEmit && eslint ./src"
   },
   "volta": {
