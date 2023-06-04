@@ -407,7 +407,11 @@ const translatePipeline = async (load: Load) => {
               ['@babel/plugin-syntax-dynamic-import'],
               ['@babel/plugin-proposal-dynamic-import'],
               ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
-              context.snackRequireContextVirtualModuleBabelPlugin,
+              [
+                context.snackRequireContextVirtualModuleBabelPlugin,
+                // We need to resolve the requested context directory in the user-provided code
+                { directoryResolution: 'relative' },
+              ],
               ...(load.source.includes('react-native-reanimated') || load.source.includes('worklet')
                 ? [Reanimated2Plugin]
                 : []),
@@ -568,6 +572,13 @@ const _initialize = async () => {
     if (baseUrl && startsWith(url, '.')) {
       const basePath = baseUrl.replace(/^module:\/\//, '');
       url = 'module://' + path.normalize(`${path.dirname(basePath)}/${url}`);
+    }
+
+    // TODO(cedric): figure out why importing `module://components` results in
+    // `module:/components`, and is resolved as `module://omponents`.
+    // This is a dirty workaround to make sure its always resolved correctly.
+    if (context.pathIsVirtualModule(url)) {
+      return await oldResolve.call(this, url.replace(/^module:\/\/?/, 'module://'), baseUrl);
     }
 
     if (/^module:\/\//.test(url)) {
