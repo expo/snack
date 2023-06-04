@@ -5,7 +5,7 @@ inputs:
   node-version:
     description: Version of Node to use
     default: 16.x
-  
+
   expo-version:
     description: Version of Expo CLI to use
     default: latest
@@ -25,8 +25,16 @@ runs:
       with:
         expo-version: ${{ inputs.expo-version }}
 
-    # Runtime is detached from the monorepo, we only need to install this
-    - name: 📦 Install dependencies
+    - name: 📦 Install monorepo dependencies
+      run: yarn install --frozen-lockfile
+      shell: bash
+
+    - name: 🛠 Build core packages
+      run: yarn build
+      shell: bash
+
+    # Runtime is detached from the monorepo, we also need to install this
+    - name: 📦 Install runtime dependencies
       run: yarn install --frozen-lockfile
       working-directory: runtime
       shell: bash

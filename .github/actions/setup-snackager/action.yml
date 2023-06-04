@@ -34,3 +34,8 @@ runs:
     - name: 👷 Build snack-sdk
       run: yarn workspace snack-sdk build
       shell: bash
+
+    # Snackager relies on snack-require-context
+    - name: 👷 Build snack-require-context
+      run: yarn workspace snack-require-context build
+      shell: bash
