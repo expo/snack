@@ -1,4 +1,5 @@
 import uniq from 'lodash/uniq';
+import { snackRequireContextVirtualModuleBabelPlugin } from 'snack-require-context/snackager';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
@@ -19,6 +20,7 @@ type Options = {
   externals: string[];
   platform: string;
   reanimatedPlugin?: boolean;
+  expoRouterPlugin?: boolean;
 };
 
 export default ({
@@ -28,6 +30,7 @@ export default ({
   externals,
   platform,
   reanimatedPlugin,
+  expoRouterPlugin,
 }: Options): webpack.Configuration => {
   return {
     context: root,
@@ -73,6 +76,7 @@ export default ({
                 RewriteImportsPlugin,
                 require.resolve('@babel/plugin-proposal-export-namespace-from'),
                 ...(reanimatedPlugin ? [require.resolve('react-native-reanimated/plugin')] : []),
+                ...(expoRouterPlugin ? [snackRequireContextVirtualModuleBabelPlugin] : []),
               ],
             },
           },
@@ -89,6 +93,11 @@ export default ({
     externals: [
       ...uniq([...externals, ...getCoreExternals(), ...getPackageExternals()]),
       ({ request }, callback) => {
+        // Mark the Expo Router entry point as external
+        if (expoRouterPlugin && request?.startsWith('module://app')) {
+          return callback(undefined, 'commonjs ' + request);
+        }
+
         // Mark imports such as react-native-gesture-handler/DrawerLayout to be external
         // Otherwise it will pull in the whole library
         if (/^react-native-gesture-handler\/[^/]+$/.test(request!)) {

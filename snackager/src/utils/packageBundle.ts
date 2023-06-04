@@ -124,6 +124,9 @@ async function packageBundleUnsafe({
         pkg.name === 'moti' ||
         pkg.name.startsWith('@motify/') ||
         externals.includes('react-native-reanimated'),
+
+      // Enable `require.context` and special environment variables replacements for Expo Router
+      expoRouterPlugin: pkg.name.startsWith('expo-router'),
     })
   );
 
