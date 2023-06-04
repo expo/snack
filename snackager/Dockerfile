@@ -11,6 +11,7 @@ COPY package.json yarn.lock .prettierrc ./
 # Workspace packages
 WORKDIR /app/packages
 COPY packages/snack-content ./snack-content
+COPY packages/snack-require-context ./snack-require-context
 COPY packages/snack-sdk ./snack-sdk
 
 # snackager
@@ -63,6 +64,8 @@ COPY --from=builder /app/snackager/package.json ./
 COPY --from=builder /app/node_modules node_modules
 COPY --from=builder /app/snackager/build build
 COPY --from=builder /app/packages/snack-content/build node_modules/snack-content
+COPY --from=builder /app/packages/snack-require-context/build node_modules/snack-require-context
+COPY --from=builder /app/packages/snack-require-context/snackager.js node_modules/snack-require-context/snackager.js
 COPY --from=builder /app/packages/snack-sdk/build node_modules/snack-sdk
 
 # Start
