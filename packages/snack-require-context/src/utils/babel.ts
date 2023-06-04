@@ -1,9 +1,15 @@
+// Note, this file is executed in the Snack Runtime. Do NOT add direct @babel dependencies.
 import type * as BabelCore from '@babel/core';
-import type { BooleanLiteral, RegExpLiteral, StringLiteral } from '@babel/types';
+import type { CallExpression } from '@babel/types';
 
-import type { SnackRequireContextRequest } from './context';
 import { convertRequestToVirtualModulePath, resolveContextDirectory } from './context';
 import { sanitizeFilePath } from './path';
+
+const defaultEnvVars: Record<string, string> = {
+  EXPO_ROUTER_APP_ROOT: 'module://app',
+  EXPO_ROUTER_IMPORT_MODE: 'sync',
+  EXPO_PROJECT_ROOT: '/',
+};
 
 /**
  * Convert `require.context` statements to virtual modules `require(<vmodule>)`.
@@ -16,8 +22,10 @@ export function snackRequireContextVirtualModuleBabelPlugin({
   return {
     name: 'snack-require-context-virtual-module',
     visitor: {
-      MemberExpression(path) {
+      MemberExpression(path, state) {
         const node = path.node;
+        // @ts-expect-error The plugin options aren't typed
+        const envVars = { ...defaultEnvVars, ...(state.opts?.envVars ?? {}) };
 
         if (
           types.isCallExpression(path.parent) &&
@@ -27,17 +35,26 @@ export function snackRequireContextVirtualModuleBabelPlugin({
           path.parent.arguments.length >= 1
         ) {
           // Gather the `require.context` arguments
-          const directory = path.parent.arguments[0] as StringLiteral;
-          const isRecursive = path.parent.arguments[1] as undefined | BooleanLiteral;
-          const matching = path.parent.arguments[2] as undefined | RegExpLiteral;
-          const mode = path.parent.arguments[3] as undefined | StringLiteral;
+          const directory = getStringValue(types, envVars, path.parent.arguments[0]);
+          if (!directory) return;
+
+          const isRecursive = getBooleanValue(types, envVars, path.parent.arguments[1]);
+          const matching = getRegexValue(types, envVars, path.parent.arguments[2]);
+          const mode = getStringValue(types, envVars, path.parent.arguments[3]);
+
+          // Resolve the context directory, either from user code or library code
+          const contextDirectory =
+            // @ts-expect-error The plugin options aren't typed
+            state.opts.directoryResolution === 'relative'
+              ? resolveContextDirectory(sanitizeFilePath(state.filename), directory)
+              : directory;
 
           // Convert the arguments into a virtual module path
           const contextModule = convertRequestToVirtualModulePath({
-            directory: resolveContextDirectory(sanitizeFilePath(this.filename), directory.value),
-            isRecursive: isRecursive?.value,
-            matching: matching?.pattern ? new RegExp(matching.pattern) : undefined,
-            mode: mode?.value as undefined | SnackRequireContextRequest['mode'],
+            directory: contextDirectory,
+            isRecursive,
+            matching: matching ? new RegExp(matching) : undefined,
+            mode: !mode ? undefined : mode === 'async' ? 'async' : 'sync',
           });
 
           // If everything succeeded, replace the `require.context` with `require(<vmodule>)`
@@ -51,6 +68,60 @@ export function snackRequireContextVirtualModuleBabelPlugin({
       },
     },
   };
+}
+
+function getStringValue(
+  types: typeof BabelCore.types,
+  envars: Record<string, string>,
+  node?: CallExpression['arguments'][0]
+) {
+  if (types.isStringLiteral(node)) return node.value;
+  return getEnvironmentValue(types, envars, node);
+}
+
+function getBooleanValue(
+  types: typeof BabelCore.types,
+  _envars: Record<string, string>,
+  node?: CallExpression['arguments'][0]
+) {
+  if (types.isBooleanLiteral(node)) return node.value;
+  return undefined;
+}
+
+function getRegexValue(
+  types: typeof BabelCore.types,
+  _envars: Record<string, string>,
+  node?: CallExpression['arguments'][0]
+) {
+  if (types.isRegExpLiteral(node)) return node.pattern;
+  return undefined;
+}
+
+/**
+ * Try to convert a `process.env.NAME` Babel node into a string.
+ * This uses the environment variables, defined in the plugin options.
+ */
+function getEnvironmentValue(
+  types: typeof BabelCore.types,
+  envars: Record<string, string>,
+  node?: CallExpression['arguments'][0]
+) {
+  if (
+    types.isMemberExpression(node) &&
+    types.isMemberExpression(node.object) &&
+    types.isIdentifier(node.object.object, { name: 'process' }) &&
+    types.isIdentifier(node.object.property, { name: 'env' })
+  ) {
+    for (const envName in envars) {
+      if (types.isIdentifier(node.property, { name: envName })) {
+        return envars[envName];
+      }
+    }
+
+    return '';
+  }
+
+  return undefined;
 }
 
 /**
