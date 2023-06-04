@@ -423,10 +423,6 @@ const translatePipeline = async (load: Load) => {
             sourceFileName: filename,
           });
 
-          if (context.pathIsVirtualModule(load.address)) {
-            Logger.module('Virtual Module', { uri: load.address, source: load.source });
-          }
-
           transformCache[filename] = { source: load.source, result };
 
           Logger.module(
@@ -848,8 +844,6 @@ export const flush = async ({
       (path) => delete transformCache[`module://${path}${path.endsWith('.js') ? '' : '.js'}`]
     );
   });
-
-  // TODO: add require.context flushes when anything in the context changes
 
   return awaitLastFlush;
 };
