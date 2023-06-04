@@ -23,7 +23,8 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "build"
+    "build",
+    "snackager.js"
   ],
   "repository": {
     "type": "git",
