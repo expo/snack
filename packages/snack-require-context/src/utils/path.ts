@@ -4,5 +4,5 @@
  */
 export function sanitizeFilePath(filePath: string) {
   // Remove starting `/`, `./`, or `module://` prefixes
-  return filePath.replace(/^(module:\/+|\.\/?|\/)+/, '');
+  return filePath.replace(/^(module:\/{1,2}|\.?\/)/, '');
 }
