@@ -36,7 +36,10 @@ export function snackRequireContextVirtualModuleBabelPlugin({
         ) {
           // Gather the `require.context` arguments
           const directory = getStringValue(types, envVars, path.parent.arguments[0]);
-          if (!directory) return;
+          // Determine if we can "likely" resolve the directory from a Snack project
+          if (!directory || /^module:\/{1,2}|\.?\//.test(directory)) {
+            return;
+          }
 
           const isRecursive = getBooleanValue(types, envVars, path.parent.arguments[1]);
           const matching = getRegexValue(types, envVars, path.parent.arguments[2]);
