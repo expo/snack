@@ -9,12 +9,10 @@ WORKDIR /app
 COPY package.json yarn.lock .prettierrc ./
 
 # Workspace packages
-WORKDIR /app/packages
-COPY packages/snack-content ./snack-content
-COPY packages/snack-require-context ./snack-require-context
-COPY packages/snack-sdk ./snack-sdk
+WORKDIR /app
+COPY packages ./packages
 
-# snackager
+# Snackager
 WORKDIR /app/snackager
 COPY snackager/jest ./jest
 COPY snackager/src ./src
@@ -27,12 +25,8 @@ COPY snackager/.eslint* ./
 # Install dependencies
 RUN yarn install --frozen-lockfile --production=false
 
-# Build snack-content
-WORKDIR /app/packages/snack-content
-RUN yarn build
-
-# Build snack-sdk
-WORKDIR /app/packages/snack-sdk
+# Build core packages
+WORKDIR /app
 RUN yarn build
 
 # Snackager
@@ -45,7 +39,7 @@ FROM dev as builder
 ARG APP_VERSION
 ENV APP_VERSION ${APP_VERSION}
 
-# Build
+# Build Snackager
 RUN yarn build
 
 # Minimize node_modules
@@ -60,13 +54,14 @@ ENV APP_VERSION ${APP_VERSION}
 RUN apk --no-cache add git openssh-client
 RUN npm install --global npm@^6
 
+# Prepare Snackager
 COPY --from=builder /app/snackager/package.json ./
 COPY --from=builder /app/node_modules node_modules
 COPY --from=builder /app/snackager/build build
-COPY --from=builder /app/packages/snack-content/build node_modules/snack-content
-COPY --from=builder /app/packages/snack-require-context/build node_modules/snack-require-context
-COPY --from=builder /app/packages/snack-require-context/snackager.js node_modules/snack-require-context/snackager.js
-COPY --from=builder /app/packages/snack-sdk/build node_modules/snack-sdk
+# Prepare Snackager dependencies
+COPY --from=builder /app/packages/snack-content node_modules/snack-content
+COPY --from=builder /app/packages/snack-require-context node_modules/snack-require-context
+COPY --from=builder /app/packages/snack-sdk node_modules/snack-sdk
 
 # Start
 CMD ["node", "--max-old-space-size=8192", "--async-stack-traces", "."]
