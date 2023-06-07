@@ -5,37 +5,37 @@ import { snackRequireContextVirtualModuleBabelPlugin } from '../babel';
 describe(snackRequireContextVirtualModuleBabelPlugin, () => {
   it(`creates virtual module for require.context('./app')`, () => {
     expect(transpile(`require.context('./app')`)).toMatchInlineSnapshot(
-      `"require.context('./app');"`
+      `"require(\\"./app?ctx=eyJyIjp0cnVlLCJtIjoiLioiLCJvIjoic3luYyJ9\\");"`
     );
   });
 
   it(`creates virtual module for require.context('module://components')`, () => {
     expect(transpile(`require.context('module://components')`)).toMatchInlineSnapshot(
-      `"require.context('module://components');"`
+      `"require(\\"module://components?ctx=eyJyIjp0cnVlLCJtIjoiLioiLCJvIjoic3luYyJ9\\");"`
     );
   });
 
   it('creates virtual module for require.context("./app", false)', () => {
     expect(transpile(`require.context('./app', false)`)).toMatchInlineSnapshot(
-      `"require.context('./app', false);"`
+      `"require(\\"./app?ctx=eyJyIjpmYWxzZSwibSI6Ii4qIiwibyI6InN5bmMifQ\\");"`
     );
   });
 
   it('creates virtual module for require.context("./app", false, /\\.mdx$/)', () => {
     expect(transpile(`require.context('./app', false, /\\.mdx$/)`)).toMatchInlineSnapshot(
-      `"require.context('./app', false, /\\\\.mdx$/);"`
+      `"require(\\"./app?ctx=eyJyIjpmYWxzZSwibSI6IlxcLm1keCQiLCJvIjoic3luYyJ9\\");"`
     );
   });
 
   it('creates virtual module for require.context("./app", false, /\\.mdx$/, "async")', () => {
     expect(transpile(`require.context('./app', false, /\\.mdx$/, 'async')`)).toMatchInlineSnapshot(
-      `"require.context('./app', false, /\\\\.mdx$/, 'async');"`
+      `"require(\\"./app?ctx=eyJyIjpmYWxzZSwibSI6IlxcLm1keCQiLCJvIjoiYXN5bmMifQ\\");"`
     );
   });
 
   it('creates virtual module for require.context(EXPO_ROUTER_APP_ROOT)', () => {
     expect(transpile(`require.context(process.env.EXPO_ROUTER_APP_ROOT)`)).toMatchInlineSnapshot(
-      `"require.context(process.env.EXPO_ROUTER_APP_ROOT);"`
+      `"require(\\"module://app?ctx=eyJyIjp0cnVlLCJtIjoiLioiLCJvIjoic3luYyJ9\\");"`
     );
   });
 
@@ -50,7 +50,7 @@ describe(snackRequireContextVirtualModuleBabelPlugin, () => {
     `;
 
     expect(transpile(code, { EXPO_ROUTER_IMPORT_MODE: 'async' })).toMatchInlineSnapshot(
-      `"require.context(process.env.EXPO_ROUTER_APP_ROOT, true, /.*/, process.env.EXPO_ROUTER_IMPORT_MODE);"`
+      `"require(\\"module://app?ctx=eyJyIjp0cnVlLCJtIjoiLioiLCJvIjoiYXN5bmMifQ\\");"`
     );
   });
 

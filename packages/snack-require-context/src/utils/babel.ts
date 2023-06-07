@@ -37,7 +37,7 @@ export function snackRequireContextVirtualModuleBabelPlugin({
           // Gather the `require.context` arguments
           const directory = getStringValue(types, envVars, path.parent.arguments[0]);
           // Determine if we can "likely" resolve the directory from a Snack project
-          if (!directory || /^module:\/{1,2}|\.?\//.test(directory)) {
+          if (!directory || !/^module:\/{1,2}|\.\//.test(directory)) {
             return;
           }
 
