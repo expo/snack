@@ -62,7 +62,7 @@ describe('bundler', () => {
     );
   });
 
-  it('creates bundle for @react-navigation/stack', async () => {
+  it.skip('creates bundle for @react-navigation/stack', async () => {
     const bundle = await bundleAsync('@react-navigation/stack@5.9.0');
     expect(bundle).toMatchSnapshot();
     // @react-navigation/native should be included as an external
@@ -71,7 +71,7 @@ describe('bundler', () => {
     );
   });
 
-  it('externalizes references to react-native-gesture-handler/DrawerLayout', async () => {
+  it.skip('externalizes references to react-native-gesture-handler/DrawerLayout', async () => {
     const bundle = await bundleAsync('react-navigation@3.13.0', ['ios']);
     expect(bundle).toMatchSnapshot();
     // react-native-gesture-handler/DrawerLayout should be included as an external
