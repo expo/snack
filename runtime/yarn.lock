@@ -12415,6 +12415,9 @@ snack-babel-standalone@^2.2.0:
   resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-2.2.2.tgz#2154855c482c112036261171ed32f7892102be60"
   integrity sha512-kYYfIsktDfJeYrByF184YO/x55U7rPzfXThsownEGCNBn8d1xZ8AD7NyuLS5aA1n2rk9yKQ1CZxIRHwoNkootQ==
 
+"snack-require-context@file:../packages/snack-require-context":
+  version "0.0.0"
+
 snapdragon-node@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"

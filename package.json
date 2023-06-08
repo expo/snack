@@ -7,13 +7,14 @@
     "node": "16.14.2"
   },
   "scripts": {
-    "build": "cd packages/snack-content && yarn build && cd .. && cd snack-sdk && yarn build",
+    "build": "cd packages/snack-content && yarn build && cd .. && cd snack-sdk && yarn build && cd .. && cd snack-require-context && yarn build",
     "start": "cd packages/snack-term && yarn start && cd .."
   },
   "workspaces": {
     "packages": [
       "packages/snack-content",
       "packages/snack-proxies",
+      "packages/snack-require-context",
       "packages/snack-sdk",
       "packages/snack-term",
       "website",

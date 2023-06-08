@@ -36,6 +36,7 @@
     "semver": "^5.3.0",
     "semver-utils": "^1.1.4",
     "snack-content": "*",
+    "snack-require-context": "*",
     "snack-sdk": "*",
     "source-map-support": "^0.4.15",
     "targz": "^1.0.1",

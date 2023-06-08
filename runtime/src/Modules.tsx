@@ -18,6 +18,7 @@ import * as GestureHandler from 'react-native-gesture-handler';
 // @ts-ignore: Could not find a declaration file for module 'react-native-reanimated/plugin'
 import Reanimated2Plugin from 'react-native-reanimated/plugin-standalone';
 import * as babel from 'snack-babel-standalone';
+import * as context from 'snack-require-context';
 // Highest supported version of source-map is 0.6.1. As of 7.x source-map uses
 // web-assembly which is not yet supported on react-native.
 import { SourceMapConsumer, RawSourceMap } from 'source-map';
@@ -80,6 +81,10 @@ global['__DEV__'] = false;
 const manifest = Constants.manifest;
 let projectDependencies: Dependencies = manifest?.extra?.dependencies ?? {};
 
+// This keeps track of all generated virutal modules
+// Unfortunately, asking SystemJS seems to return no loaded modules
+const virtualModules: Set<string> = new Set();
+
 // replacement for String.prototype.startsWith with consistent behaviour on iOS & Android
 const startsWith = (base: string, search: string) => String(base).indexOf(String(search)) === 0;
 
@@ -125,6 +130,25 @@ const fetchPipeline = async (load: Load) => {
 
     if (!startsWith(uri, 'module://')) {
       throw new Error(`Invalid module URI '${uri}', must start with 'module://'`);
+    }
+
+    // Handle virtual modules that enable `require.context` usage
+    if (context.pathIsVirtualModule(uri)) {
+      const contextUri = context.sanitizeFilePath(uri.replace(/(\.js)+$/, ''));
+      const contextRequest = context.convertVirtualModulePathToRequest(contextUri);
+      const contextFiles = context.resolveContextFiles(contextRequest, Files.list());
+
+      // To load modules by absolute path, we need to add `module://` before importing them
+      for (const fileName in contextFiles) {
+        contextFiles[fileName] = `module://${contextFiles[fileName]}`;
+      }
+
+      // The `require.context` package returns evaluatable JS code
+      load.skipTranslate = true;
+      // Register the virtual module to flush it on file changes
+      virtualModules.add(uri);
+
+      return context.createContextModuleTemplate(contextFiles);
     }
 
     try {
@@ -383,6 +407,11 @@ const translatePipeline = async (load: Load) => {
               ['@babel/plugin-syntax-dynamic-import'],
               ['@babel/plugin-proposal-dynamic-import'],
               ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
+              [
+                context.snackRequireContextVirtualModuleBabelPlugin,
+                // We need to resolve the requested context directory in the user-provided code
+                { directoryResolution: 'relative' },
+              ],
               ...(load.source.includes('react-native-reanimated') || load.source.includes('worklet')
                 ? [Reanimated2Plugin]
                 : []),
@@ -539,6 +568,13 @@ const _initialize = async () => {
     if (baseUrl && startsWith(url, '.')) {
       const basePath = baseUrl.replace(/^module:\/\//, '');
       url = 'module://' + path.normalize(`${path.dirname(basePath)}/${url}`);
+    }
+
+    // TODO(cedric): figure out why importing `module://components` results in
+    // `module:/components`, and is resolved as `module://omponents`.
+    // This is a dirty workaround to make sure its always resolved correctly.
+    if (context.pathIsVirtualModule(url)) {
+      return await oldResolve.call(this, url.replace(/^module:\/\/?/, 'module://'), baseUrl);
     }
 
     if (/^module:\/\//.test(url)) {
@@ -787,9 +823,15 @@ export const flush = async ({
     // Flush modules and their dependents -- skips modules that aren't loaded, returns URIs of all
     // modules that have been flushed
 
-    const paths = changedUris.concat(
-      changedPaths.map((path) => `module://${path}${path.endsWith('.js') ? '' : '.js'}`)
-    );
+    const paths = [
+      ...changedUris,
+      ...changedPaths.map((path) => `module://${path}${path.endsWith('.js') ? '' : '.js'}`),
+      ...Array.from(virtualModules),
+    ];
+
+    // reset the virtual modules cache
+    virtualModules.clear();
+
     const dependents = await System.dependents(paths);
     let modules = [...dependents, ...paths];
     modules = modules.filter((name, index) => System.has(name) && modules.indexOf(name) >= index);
@@ -802,6 +844,7 @@ export const flush = async ({
       (path) => delete transformCache[`module://${path}${path.endsWith('.js') ? '' : '.js'}`]
     );
   });
+
   return awaitLastFlush;
 };
 
