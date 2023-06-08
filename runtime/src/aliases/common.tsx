@@ -38,6 +38,18 @@ const aliases: { [key: string]: any } = {
 
   // Used by @shopify/react-native-skia, on web only
   '@shopify/react-native-skia/lib/module/web': SkiaWeb,
+
+  // Used by expo-router
+  '@react-navigation/bottom-tabs': require('@react-navigation/bottom-tabs'),
+  '@react-navigation/core': require('@react-navigation/core'),
+  '@react-navigation/drawer': require('@react-navigation/drawer'),
+  '@react-navigation/native': require('@react-navigation/native'),
+  '@react-navigation/native/src/useBackButton': require('@react-navigation/native/src/useBackButton'),
+  '@react-navigation/native/src/useDocumentTitle': require('@react-navigation/native/src/useDocumentTitle'),
+  '@react-navigation/native/src/useThenable': require('@react-navigation/native/src/useThenable'),
+  '@react-navigation/native/lib/module/useLinking': require('@react-navigation/native/lib/module/useLinking'),
+  '@react-navigation/native-stack': require('@react-navigation/native-stack'),
+  '@react-navigation/routers': require('@react-navigation/routers'),
 };
 
 export default aliases;

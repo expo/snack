@@ -97,7 +97,18 @@ const PACKAGE_EXTERNALS = [
   'expo-task-manager',
   'expo-web-browser',
   '@expo/vector-icons',
+
+  // Used by expo-router
+  '@react-navigation/bottom-tabs',
+  '@react-navigation/core',
+  '@react-navigation/drawer',
   '@react-navigation/native',
+  '@react-navigation/native/src/useBackButton',
+  '@react-navigation/native/src/useDocumentTitle',
+  '@react-navigation/native/src/useThenable',
+  '@react-navigation/native/lib/module/useLinking',
+  '@react-navigation/native-stack',
+  '@react-navigation/routers',
 ];
 
 export function getCoreExternals(): string[] {
