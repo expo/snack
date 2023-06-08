@@ -31,6 +31,9 @@ const config: SnackagerConfig = {
     'expo-firebase-analytics@~6.0.0': {
       peerDependencies,
     },
+    'expo-firebase-analytics@~7.1.1': {
+      peerDependencies,
+    },
     'expo-av@~10.2.0': {
       version: '10.2.0',
       peerDependencies,
@@ -45,6 +48,10 @@ const config: SnackagerConfig = {
     },
     'expo-av@~13.0.1': {
       version: '13.0.1',
+      peerDependencies,
+    },
+    'expo-av@~13.2.1': {
+      version: '13.2.1',
       peerDependencies,
     },
     '@react-navigation/native@5.1.1': {

@@ -1,9 +1,9 @@
 diff --git a/node_modules/react-native-reanimated/plugin-standalone.js b/node_modules/react-native-reanimated/plugin-standalone.js
 new file mode 100644
-index 0000000..b45e98d
+index 0000000..3d3cebc
 --- /dev/null
 +++ b/node_modules/react-native-reanimated/plugin-standalone.js
-@@ -0,0 +1,789 @@
+@@ -0,0 +1,794 @@
 +'use strict';
 +
 +// const generate = require('@babel/generator').default;
@@ -11,6 +11,7 @@ index 0000000..b45e98d
 +// const traverse = require('@babel/traverse').default;
 +// const { transformSync } = require('@babel/core');
 +
++// All babel imports should be used from `snack-babel-standalone` when running this plugin inside Snack runtime
 +const { generate, traverse, transformSync } = require('snack-babel-standalone');
 +
 +/**
@@ -715,10 +716,14 @@ index 0000000..b45e98d
 +}
 +
 +function processWorklets(t, path, state) {
++  const callee =
++    path.node.callee.type === 'SequenceExpression'
++      ? path.node.callee.expressions[path.node.callee.expressions.length - 1]
++      : path.node.callee;
++
 +  const name =
-+    path.node.callee.type === 'MemberExpression'
-+      ? path.node.callee.property.name
-+      : path.node.callee.name;
++    callee.type === 'MemberExpression' ? callee.property.name : callee.name;
++
 +  if (
 +    objectHooks.has(name) &&
 +    path.get('arguments.0').type === 'ObjectExpression'
