@@ -28,7 +28,7 @@
     "canvaskit-wasm": "0.38.0",
     "diff": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
-    "expo": "^48.0.17",
+    "expo": "^48.0.19",
     "expo-analytics-amplitude": "~11.3.0",
     "expo-asset": "~8.9.1",
     "expo-barcode-scanner": "~12.3.2",
