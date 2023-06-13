@@ -99,6 +99,7 @@ const PACKAGE_EXTERNALS = [
   '@expo/vector-icons',
 
   // Used by expo-router
+  'expo-modules-core',
   '@react-navigation/bottom-tabs',
   '@react-navigation/core',
   '@react-navigation/drawer',
