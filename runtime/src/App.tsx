@@ -32,6 +32,7 @@ import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 import { parseExperienceURL } from './UrlUtils';
+import { ExpoRouterApp } from './NativeModules/ExpoRouterEntry'
 
 const API_SERVER_URL_STAGING = 'https://staging.exp.host';
 const API_SERVER_URL_PROD = 'https://exp.host';
@@ -437,19 +438,26 @@ export default class App extends React.Component<object, State> {
     let rootElement: React.ReactElement | undefined;
     try {
       const rootModuleUri = 'module://' + Files.entry();
-
       if (changedPaths.length > 0) {
         await Modules.flush({ changedPaths, changedUris: [rootModuleUri] });
       }
 
-      const hasRootModuleUri = await Modules.has(rootModuleUri);
-      if (!hasRootModuleUri) {
-        const rootDefaultExport = (await Modules.load(rootModuleUri)).default;
-        if (!rootDefaultExport) {
-          throw new Error(`No default export of '${Files.entry()}' to render!`);
+      // Special handling for Expo Router projects
+      if (Modules.hasDependency('expo-router')) {
+        // NOTE(cedric): this is the default `require.context('./app')` virtual module equivalent, see `snack-require-context`
+        const ctx = await Modules.load('module://app?ctx=eyJyIjp0cnVlLCJtIjoiLioiLCJvIjoic3luYyJ9');
+        Logger.info('Updating Expo Router root element');
+        rootElement = React.createElement(ExpoRouterApp, { ctx });
+      } else {
+        const hasRootModuleUri = await Modules.has(rootModuleUri);
+        if (!hasRootModuleUri) {
+          const rootDefaultExport = (await Modules.load(rootModuleUri)).default;
+          if (!rootDefaultExport) {
+            throw new Error(`No default export of '${Files.entry()}' to render!`);
+          }
+          Logger.info('Updating root element');
+          rootElement = React.createElement(rootDefaultExport);
         }
-        Logger.info('Updating root element');
-        rootElement = React.createElement(rootDefaultExport);
       }
     } catch (e) {
       Errors.report(e);

@@ -38,6 +38,15 @@ const aliases: { [key: string]: any } = {
 
   // Used by @shopify/react-native-skia, on web only
   '@shopify/react-native-skia/lib/module/web': SkiaWeb,
+
+  // Only works when vendored into the runtime (expo-router@1.5.3)
+  'expo-router': require('expo-router'),
+  'expo-router/stack': require('expo-router/stack'),
+  'expo-router/tabs': require('expo-router/tabs'),
+  'expo-router/drawer': require('expo-router/drawer'),
+  'expo-router/html': require('expo-router/html'),
+  'expo-router/head': require('expo-router/head'),
+  'expo-router/entry': () => {}, // noop
 };
 
 export default aliases;
