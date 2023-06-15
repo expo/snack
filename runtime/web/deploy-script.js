@@ -77,10 +77,10 @@ async function uploadWeb(options) {
     [
       's3-deploy',
       './web-build/**',
-      `--cwd="${options.exportDir}"`,
+      `--cwd=${options.exportDir}`,
       '--region=us-west-1',
       `--bucket=${bucketName}`,
-      `--filePrefix="v2/${sdkVersion}"`,
+      `--filePrefix=v2/${sdkVersion}`,
     ],
     {
       cwd: options.workingDir,
