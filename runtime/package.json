@@ -15,10 +15,8 @@
     "test": "jest",
     "deploy:staging": "EXPO_STAGING=1 expo-cli publish --clear",
     "deploy:prod": "CLOUD_ENV=production NODE_ENV=production expo-cli publish --clear",
-    "predeploy:web:staging": "expo export:web",
-    "predeploy:web:prod": "CLOUD_ENV=production NODE_ENV=production expo export:web",
-    "deploy:web:staging": "s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player-staging --filePrefix v2/$(node -pe \"require('expo/package.json').version.split('.')[0]\")",
-    "deploy:web:prod": "s3-deploy './web-build/**' --cwd './web-build' --region us-west-1 --bucket snack-web-player --filePrefix v2/$(node -pe \"require('expo/package.json').version.split('.')[0]\")"
+    "deploy:web:staging": "node ./web/deploy-script.js",
+    "deploy:web:prod": "CLOUD_ENV=production NODE_ENV=production node ./web/deploy-script.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
@@ -59,6 +57,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@expo/spawn-async": "^1.7.2",
     "@expo/webpack-config": "^18.0.1",
     "@types/diff": "^5.0.0",
     "@types/jest": "^26.0.24",
@@ -77,6 +76,7 @@
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.4.1",
     "s3-deploy": "^1.4.0",
+    "semver": "^7.5.1",
     "typescript": "^4.9.4"
   },
   "jest": {
