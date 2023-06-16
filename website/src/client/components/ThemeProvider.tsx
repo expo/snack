@@ -1,96 +1,91 @@
-import { colors, shadows } from '@expo/styleguide';
+import { palette, lightTheme, darkTheme } from '@expo/styleguide-base';
 import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
+import hsl from 'hsl-to-hex';
 import mapKeys from 'lodash/mapKeys';
 import * as React from 'react';
 
 import usePreferences from './Preferences/usePreferences';
 import { ThemeName } from './Preferences/withThemeName';
 
-type Colors = typeof lightColors;
-type ColorName = keyof typeof lightColors;
+type Colors = typeof lightColorsDef;
+type ColorName = keyof typeof lightColorsDef;
 type Shadows = typeof lightShadows;
 type ShadowName = keyof typeof lightShadows;
 
-const lightColors = {
-  primary: colors.primary[500],
-  secondary: colors.black,
-  error: colors.semantic.error,
-  warning: colors.semantic.warning,
-  success: colors.semantic.success,
-  'primary-text': colors.white,
-  'secondary-text': colors.white,
-  'error-text': colors.white,
-  'warning-text': colors.white,
-  'success-text': colors.white,
+const lightColorsDef = {
+  primary: lightTheme.button.primary.background,
+  secondary: lightTheme.text.secondary,
+  error: lightTheme.text.danger,
+  warning: lightTheme.text.warning,
+  success: lightTheme.text.success,
+  'primary-text': palette.white,
+  'secondary-text': palette.white,
+  'error-text': palette.white,
+  'warning-text': palette.white,
+  'success-text': palette.white,
 
-  text: colors.gray[900],
-  soft: colors.gray[500],
-  'soft-text': colors.white,
-  // semantic.background offered too little contrast with content
-  // background: colors.semantic.background,
-  background: '#F9F9F9',
-  content: colors.white,
-  hover: colors.gray[100],
-  disabled: colors.gray[300],
-  selected: colors.primary[500],
-  'selected-text': colors.white,
-  border: colors.semantic.border,
+  text: lightTheme.text.default,
+  soft: lightTheme.text.secondary,
+  'soft-text': palette.white,
+
+  background: lightTheme.background.screen,
+  content: lightTheme.background.default,
+  hover: lightTheme.background.subtle,
+  disabled: lightTheme.background.screen,
+  selected: lightTheme.background.selected,
+  'selected-text': palette.white,
+  border: lightTheme.border.default,
+  'border-editor': lightTheme.border.secondary,
 };
+
+const lightColors = Object.keys(lightColorsDef).reduce((acc, key) => {
+  return { ...acc, [key]: convertToHex(lightColorsDef[key as ColorName]) };
+}, {});
 
 const lightShadows = {
-  popover: shadows.popover,
-  small: shadows.small,
+  popover: '0 15px 25px rgba(0, 0, 0, 0.12), 0 5px 10px rgba(0, 0, 0, 0.05)',
+  small: '0 3px 6px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.07)',
 };
 
-// Use custom colors for dark theme which are not
-// so saturated and blue-ish
-// const darkGray = colors.gray;
-const darkGray = {
-  100: '#F5F5F5',
-  200: '#EBEBEB',
-  250: '#DDDDDD',
-  300: '#CFCFCF',
-  400: '#B0B0B0',
-  500: '#8F8F8F',
-  600: '#5C5C5C',
-  700: '#3B3B3B',
-  800: '#2F2F2F',
-  900: '#212121',
+const darkColorsDef: Colors = {
+  primary: darkTheme.button.primary.background,
+  secondary: darkTheme.text.default,
+  error: darkTheme.text.danger,
+  warning: darkTheme.text.warning,
+  success: darkTheme.text.success,
+  'primary-text': palette.white,
+  'secondary-text': palette.white,
+  'error-text': palette.white,
+  'warning-text': palette.white,
+  'success-text': palette.white,
+
+  text: darkTheme.text.default,
+  soft: darkTheme.text.secondary,
+  'soft-text': palette.white,
+
+  background: darkTheme.background.screen,
+  content: darkTheme.background.default,
+  hover: darkTheme.background.subtle,
+  disabled: darkTheme.background.screen,
+  selected: darkTheme.background.selected,
+  'selected-text': palette.white,
+  border: darkTheme.border.default,
+  'border-editor': palette.dark.gray4,
 };
 
-const darkColors: Colors = {
-  primary: colors.primary[400],
-  secondary: colors.white,
-  error: colors.red[500],
-  warning: colors.yellow[500],
-  success: colors.green[600],
-  'primary-text': colors.white,
-  'secondary-text': colors.black,
-  'error-text': colors.white,
-  'warning-text': colors.white,
-  'success-text': colors.white,
-
-  text: darkGray[200],
-  soft: darkGray[500],
-  'soft-text': colors.black,
-  background: darkGray[900],
-  content: darkGray[800],
-  hover: darkGray[700],
-  disabled: darkGray[600],
-  selected: colors.white,
-  'selected-text': darkGray[800],
-  border: darkGray[700],
-};
+const darkColors = Object.keys(darkColorsDef).reduce((acc, key) => {
+  return { ...acc, [key]: convertToHex(darkColorsDef[key as ColorName]) };
+}, {});
 
 const darkShadows: Shadows = {
-  popover: shadows.popover,
-  small: 'none',
+  popover: '0 15px 25px rgba(0, 0, 0, 0.5), 0 5px 10px rgba(0, 0, 0, 0.25)',
+  small: '0 3px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.25)',
 };
 
 export function c(color: ColorName, theme?: ThemeName) {
   if (theme) {
-    const colors = theme === 'dark' ? darkColors : lightColors;
+    const colors = (theme === 'dark' ? darkColors : lightColors) as Colors;
     return colors[color];
   } else {
     return `var(--color-${color})`;
@@ -142,3 +137,12 @@ const styles = StyleSheet.create({
     ...mapKeys(darkShadows, (_, key) => `--shadow-${key}`),
   },
 });
+
+function convertToHex(color: string) {
+  if (color.startsWith('hsl')) {
+    const hslChunks =
+      /hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)/.exec(color) ?? [];
+    return hsl(parseInt(hslChunks[1], 10), parseFloat(hslChunks[2]), parseFloat(hslChunks[3]));
+  }
+  return color;
+}

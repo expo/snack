@@ -8,8 +8,13 @@ const css = String.raw;
 export default css`
   /* Common overrides */
   .snack-monaco-editor .monaco-editor .line-numbers {
-    color: currentColor;
-    opacity: 0.5;
+    color: ${c('secondary')};
+    opacity: 0.33;
+  }
+
+  .snack-monaco-editor .monaco-editor .line-numbers.active-line-number {
+    color: ${c('text')};
+    opacity: 0.45;
   }
 
   /* Context menu overrides */

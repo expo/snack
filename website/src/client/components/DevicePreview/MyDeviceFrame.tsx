@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '0 12px',
-    borderTop: `1px solid ${c('border')}`,
+    borderTop: `1px solid ${c('border-editor')}`,
   },
   connectedDevicesEmbedded: {
     border: 'none',

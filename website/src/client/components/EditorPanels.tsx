@@ -150,9 +150,7 @@ const styles = StyleSheet.create({
 
   panels: {
     backgroundColor: c('content'),
-    borderColor: c('border'),
-    borderWidth: '1px 0 0 0',
-    borderStyle: 'solid',
+    borderTop: `1px solid ${c('border-editor')}`,
     height: '100%',
     minHeight: 0,
   },

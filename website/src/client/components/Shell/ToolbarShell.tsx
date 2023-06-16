@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottom: `1px solid ${c('border')}`,
+    borderBottom: `1px solid ${c('border-editor')}`,
     height: 60,
     backgroundColor: c('content'),
   },

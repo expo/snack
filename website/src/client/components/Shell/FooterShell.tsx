@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: '0 .25em',
-    borderTop: `1px solid ${c('border')}`,
+    borderTop: `1px solid ${c('border-editor')}`,
     backgroundColor: c('content'),
     color: c('soft'),
     height: 30,

@@ -83,7 +83,7 @@ export default function EditorToolbar(props: Props) {
       <div className={css(styles.buttons)}>
         <SearchBar sdkVersion={sdkVersion} />
         <Button
-          variant="secondary"
+          variant="primary"
           onClick={() => onPublishAsync()}
           disabled={isPublishing || isResolving || isPublished}
           loading={isPublishing}

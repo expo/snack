@@ -113,6 +113,6 @@ const styles = StyleSheet.create({
     padding: 8,
     lineHeight: '11px',
     borderRadius: 3,
-    border: `1px solid ${c('border')}`,
+    border: `1px solid ${c('border-editor')}`,
   },
 });
