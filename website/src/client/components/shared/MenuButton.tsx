@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     backgroundColor: c('content'),
     borderColor: c('border'),
-    boxShadow: s('popover'),
+    boxShadow: s('small'),
     color: c('text'),
     zIndex: -1,
   },

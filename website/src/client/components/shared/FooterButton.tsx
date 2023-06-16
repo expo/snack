@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     border: 0,
     outline: 0,
     margin: 0,
-    height: 30,
+    height: 29,
     padding: '0 16px',
     appearance: 'none',
     backgroundColor: 'transparent',

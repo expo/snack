@@ -2,7 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
-import { c, s } from '../ThemeProvider';
+import { c } from '../ThemeProvider';
 
 type Props = {
   type?: 'info' | 'success' | 'error';
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     borderRadius: '0 0 4px 4px',
     transitionDuration: '200ms',
     pointerEvents: 'all',
-    boxShadow: s('popover'),
   },
   visible: {
     transform: 'translateY(0)',
