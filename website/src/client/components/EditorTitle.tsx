@@ -109,7 +109,7 @@ export default function EditorTitle(props: Props) {
           <p className={css(styles.status)}>{statusText}</p>
           {viewer && saveStatus === 'saving-draft' ? <div className={css(styles.spinner)} /> : null}
           {(viewer && saveStatus === 'saved-draft') || saveStatus === 'published' ? (
-            <svg className={css(styles.check)} width="11px" height="8px" viewBox="0 0 11 8">
+            <svg width="11px" height="8px" viewBox="0 0 11 8">
               <polygon
                 fill={c('success')}
                 points="3.34328358 6.32835821 0.835820896 3.82089552 0 4.65671642 3.34328358 8 10.5074627 0.835820896 9.67164179 0"
@@ -155,7 +155,9 @@ const styles = StyleSheet.create({
   metadata: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
+    gap: 4,
   },
 
   status: {
@@ -194,9 +196,5 @@ const styles = StyleSheet.create({
     animationName: [spin],
     animationIterationCount: 'infinite',
     animationTimingFunction: 'linear',
-  },
-
-  check: {
-    marginBottom: -4,
   },
 });
