@@ -26,13 +26,13 @@ import * as Logger from './Logger';
 import * as Messaging from './Messaging';
 import * as Modules from './Modules';
 import EXDevLauncher from './NativeModules/EXDevLauncher';
+import { ExpoRouterApp } from './NativeModules/ExpoRouterEntry';
 import Linking from './NativeModules/Linking';
 import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 import { parseExperienceURL } from './UrlUtils';
-import { ExpoRouterApp } from './NativeModules/ExpoRouterEntry'
 
 const API_SERVER_URL_STAGING = 'https://staging.exp.host';
 const API_SERVER_URL_PROD = 'https://exp.host';
