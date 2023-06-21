@@ -9,7 +9,7 @@ import { SDKVersion } from 'snack-sdk';
 export const versions: Record<SDKVersion, boolean> = {
   '46.0.0': true,
   '47.0.0': true,
-  '48.0.0': false,
+  '48.0.0': true,
 };
 
 export const DEFAULT_SDK_VERSION: SDKVersion = defaultSdkVersion;
