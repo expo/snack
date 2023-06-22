@@ -2,7 +2,7 @@
 import type * as BabelCore from '@babel/core';
 import type { CallExpression } from '@babel/types';
 
-import { convertRequestToVirtualModulePath, resolveContextDirectory } from './context';
+import { createVirtualModulePath, resolveContextDirectory } from './context';
 import { sanitizeFilePath } from './path';
 
 const defaultEnvVars: Record<string, string> = {
@@ -53,7 +53,7 @@ export function snackRequireContextVirtualModuleBabelPlugin({
               : directory;
 
           // Convert the arguments into a virtual module path
-          const contextModule = convertRequestToVirtualModulePath({
+          const contextModule = createVirtualModulePath({
             directory: contextDirectory,
             isRecursive,
             matching: matching ? new RegExp(matching) : undefined,
