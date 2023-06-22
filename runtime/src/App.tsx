@@ -14,6 +14,7 @@ import {
   EmitterSubscription,
   NativeEventSubscription,
 } from 'react-native';
+import { createVirtualModulePath } from 'snack-require-context';
 
 import * as Analytics from './Analytics';
 import { AppLoading } from './AppLoading';
@@ -444,8 +445,7 @@ export default class App extends React.Component<object, State> {
 
       // Special handling for Expo Router projects
       if (Modules.hasDependency('expo-router')) {
-        // NOTE(cedric): this is the default `require.context('./app')` virtual module equivalent, see `snack-require-context`
-        const ctx = await Modules.load('module://app?ctx=eyJyIjp0cnVlLCJtIjoiLioiLCJvIjoic3luYyJ9');
+        const ctx = await Modules.load(createVirtualModulePath({ directory: 'module://app' }));
         Logger.info('Updating Expo Router root element');
         rootElement = React.createElement(ExpoRouterApp, { ctx });
       } else {
