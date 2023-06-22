@@ -1,6 +1,6 @@
 import {
   SnackRequireContextRequest,
-  convertRequestToVirtualModulePath,
+  createVirtualModulePath,
   convertVirtualModulePathToRequest,
   createContextModuleTemplate,
   createEmptyContextModuleTemplate,
@@ -27,22 +27,22 @@ describe(pathIsVirtualModule, () => {
   });
 });
 
-describe(convertRequestToVirtualModulePath, () => {
+describe(createVirtualModulePath, () => {
   it('converts request to URL-safe virtual module path', () => {
     const request = requireContext('app', false, /\.tsx$/, 'sync');
-    const virtualModule = convertRequestToVirtualModulePath(request);
+    const virtualModule = createVirtualModulePath(request);
     expect(virtualModule).toBe(encodeURI(virtualModule));
   });
 
   it('converts empty paths', () => {
     const request = requireContext('', true, /\.mdx$/, 'async');
-    const virtualModule = convertRequestToVirtualModulePath(request);
+    const virtualModule = createVirtualModulePath(request);
     expect(virtualModule).toBe(encodeURI(virtualModule));
   });
 
   it('converts back and forth with identical request', () => {
     const request = requireContext('components', true, /.*/, 'async');
-    const virtualModule = convertRequestToVirtualModulePath(request);
+    const virtualModule = createVirtualModulePath(request);
     const convertedRequest = convertVirtualModulePathToRequest(virtualModule);
     expect(convertedRequest).toEqual(request);
     expect(convertedRequest).toHaveProperty('directory', 'components');
@@ -61,7 +61,7 @@ describe(convertVirtualModulePathToRequest, () => {
 
   it('converts empty directories', () => {
     const request = requireContext('', true, /\.tsx$/, 'sync');
-    const virtualModule = convertRequestToVirtualModulePath(request);
+    const virtualModule = createVirtualModulePath(request);
     const convertedRequest = convertVirtualModulePathToRequest(virtualModule);
     expect(convertedRequest).toEqual(request);
     expect(convertedRequest).toHaveProperty('directory', '');

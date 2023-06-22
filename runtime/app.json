@@ -3,6 +3,7 @@
   "expo": {
     "name": "Snack",
     "description": "Write code in Expo's online editor and instantly use it on your phone",
+    "scheme": "snack",
     "owner": "exponent",
     "slug": "snack",
     "version": "1.0.0",

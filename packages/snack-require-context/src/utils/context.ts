@@ -37,7 +37,7 @@ export function pathIsVirtualModule(modulePath: string) {
  * Create the path of a virtual module that represents a `require.context` result.
  * This embeds the context options into a base64 encoded query string, to evaluate inside the Snack Runtime.
  */
-export function convertRequestToVirtualModulePath(
+export function createVirtualModulePath(
   request: Omit<Partial<SnackRequireContextRequest>, 'directory'> &
     Pick<SnackRequireContextRequest, 'directory'>
 ) {

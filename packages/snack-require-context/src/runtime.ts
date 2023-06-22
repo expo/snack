@@ -6,6 +6,7 @@ export {
   resolveContextDirectory,
   pathIsVirtualModule,
   convertVirtualModulePathToRequest,
+  createVirtualModulePath,
 } from './utils/context';
 
 export { sanitizeFilePath } from './utils/path';

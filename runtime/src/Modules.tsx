@@ -120,6 +120,10 @@ export const updateProjectDependencies = async (newProjectDependencies: Dependen
   return changedDependencies.map(sanitizeModule);
 };
 
+export function hasDependency(name: string) {
+  return !!projectDependencies[name];
+}
+
 // SystemJS fetch pipeline
 const _get = (header: { [key: string]: string }, value: string) =>
   header?.hasOwnProperty(value) ? header[value] : null;

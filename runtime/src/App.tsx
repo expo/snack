@@ -14,6 +14,7 @@ import {
   EmitterSubscription,
   NativeEventSubscription,
 } from 'react-native';
+import { createVirtualModulePath } from 'snack-require-context';
 
 import * as Analytics from './Analytics';
 import { AppLoading } from './AppLoading';
@@ -26,6 +27,7 @@ import * as Logger from './Logger';
 import * as Messaging from './Messaging';
 import * as Modules from './Modules';
 import EXDevLauncher from './NativeModules/EXDevLauncher';
+import { ExpoRouterApp } from './NativeModules/ExpoRouterEntry';
 import Linking from './NativeModules/Linking';
 import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
@@ -437,19 +439,25 @@ export default class App extends React.Component<object, State> {
     let rootElement: React.ReactElement | undefined;
     try {
       const rootModuleUri = 'module://' + Files.entry();
-
       if (changedPaths.length > 0) {
         await Modules.flush({ changedPaths, changedUris: [rootModuleUri] });
       }
 
-      const hasRootModuleUri = await Modules.has(rootModuleUri);
-      if (!hasRootModuleUri) {
-        const rootDefaultExport = (await Modules.load(rootModuleUri)).default;
-        if (!rootDefaultExport) {
-          throw new Error(`No default export of '${Files.entry()}' to render!`);
+      // Special handling for Expo Router projects
+      if (Modules.hasDependency('expo-router')) {
+        const ctx = await Modules.load(createVirtualModulePath({ directory: 'module://app' }));
+        Logger.info('Updating Expo Router root element');
+        rootElement = React.createElement(ExpoRouterApp, { ctx });
+      } else {
+        const hasRootModuleUri = await Modules.has(rootModuleUri);
+        if (!hasRootModuleUri) {
+          const rootDefaultExport = (await Modules.load(rootModuleUri)).default;
+          if (!rootDefaultExport) {
+            throw new Error(`No default export of '${Files.entry()}' to render!`);
+          }
+          Logger.info('Updating root element');
+          rootElement = React.createElement(rootDefaultExport);
         }
-        Logger.info('Updating root element');
-        rootElement = React.createElement(rootDefaultExport);
       }
     } catch (e) {
       Errors.report(e);
