@@ -136,7 +136,7 @@ export const update = async ({ message }: { message: Message }) => {
 
 // Return the entrypoint path
 export const entry = () => {
-  const names = ['App.tsx', 'App.ts', 'App.js', 'app.js'];
+  const names = ['index.js', 'App.tsx', 'App.ts', 'App.js', 'app.js'];
 
   for (const name of names) {
     if (files[name]) {

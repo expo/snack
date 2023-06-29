@@ -27,7 +27,7 @@ import * as Logger from './Logger';
 import * as Messaging from './Messaging';
 import * as Modules from './Modules';
 import EXDevLauncher from './NativeModules/EXDevLauncher';
-import { ExpoRouterApp } from './NativeModules/ExpoRouterEntry';
+import { ExpoRouterApp, isExpoRouterEntry } from './NativeModules/ExpoRouterEntry';
 import Linking from './NativeModules/Linking';
 import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
@@ -443,12 +443,14 @@ export default class App extends React.Component<object, State> {
         await Modules.flush({ changedPaths, changedUris: [rootModuleUri] });
       }
 
-      // Special handling for Expo Router projects
-      if (Modules.hasDependency('expo-router')) {
+      // Handle Expo Router root with a Snack compatible components
+      if (isExpoRouterEntry(Files.get(Files.entry())?.contents)) {
         const ctx = await Modules.load(createVirtualModulePath({ directory: 'module://app' }));
         Logger.info('Updating Expo Router root element');
         rootElement = React.createElement(ExpoRouterApp, { ctx });
-      } else {
+      }
+      // Handle normal default exports
+      else {
         const hasRootModuleUri = await Modules.has(rootModuleUri);
         if (!hasRootModuleUri) {
           const rootDefaultExport = (await Modules.load(rootModuleUri)).default;

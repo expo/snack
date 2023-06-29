@@ -16,3 +16,10 @@ export function ExpoRouterApp({ ctx }: ExpoRouterAppProps) {
     </Head.Provider>
   );
 }
+
+/**
+ * Helper method to detect entry points of Expo Router.
+ */
+export function isExpoRouterEntry(fileContent = '') {
+  return /import.*expo-router\/entry/i.test(fileContent.trim());
+}
