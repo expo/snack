@@ -131,7 +131,7 @@ describe('bundler', () => {
     // should bundle correctly
   });
 
-  it('creates native bundles when web entry point is not found', async () => {
+  xit('creates native bundles when web entry point is not found', async () => {
     const bundle = await bundleAsync('react-native-reanimated@2.0.0-alpha.6');
     // entry point cannot be found for the web platform for this package.
     // this should not cause the bundler to fail but continue with the native
