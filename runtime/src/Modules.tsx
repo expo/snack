@@ -88,6 +88,7 @@ let projectDependencies: Dependencies = manifest?.extra?.dependencies ?? {};
 // This is a reversed map to efficiently find out which virtual modules need to be updated on change.
 // The data stored in this is the `SnackFilePath -> [VirtualModulePath]` mapping.
 const virtualModules: Map<string, Set<string>> = new Map();
+const allVirtualModules: Set<string> = new Set();
 
 // replacement for String.prototype.startsWith with consistent behaviour on iOS & Android
 const startsWith = (base: string, search: string) => String(base).indexOf(String(search)) === 0;
@@ -146,6 +147,7 @@ const fetchPipeline = async (load: Load) => {
       load.skipTranslate = true;
       // Register the virtual module to flush it later on file changes
       virtualModules.set(uri, new Set(Object.values(contextFiles)));
+      allVirtualModules.add(uri);
 
       // To load modules by absolute path, we need to add `module://` before importing them
       for (const fileName in contextFiles) {
@@ -839,9 +841,18 @@ export const flush = async ({
       ...changedPaths.map((path) => `module://${path}${path.endsWith('.js') ? '' : '.js'}`),
     ];
 
-    // Find all virtual modules affected by the changed paths
+    // Handle virtual module updates
     const virtualModulePaths: Set<string> = new Set();
     for (const path of paths) {
+      // Add affected virtual module paths for new files
+      // Note(cedric): it's a best effort check, it does not include transpiled-skipped files
+      if (!transformCache[`module://${path}${path.endsWith('.js') ? '' : '.js'}`]) {
+        Logger.module('New file detected, clearing all virtual modules.', path);
+        allVirtualModules.forEach((path) => virtualModulePaths.add(path));
+        break;
+      }
+
+      // Add affected virtual module paths for changed existing files
       virtualModules.get(path)?.forEach((path) => virtualModulePaths.add(path));
     }
 
