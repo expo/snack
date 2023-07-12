@@ -91,7 +91,7 @@ export function resolveContextFiles(request: SnackRequireContextRequest, files: 
     contextFiles
       .map((snackPath) => [`./${snackPath.replace(relativePathReplace, '')}`, snackPath])
       .filter(([relativePath]) => request.matching.test(relativePath))
-  );
+  ) as Record<string, string>;
 }
 
 /**
