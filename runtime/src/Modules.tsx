@@ -81,9 +81,14 @@ global['__DEV__'] = false;
 const manifest = Constants.manifest;
 let projectDependencies: Dependencies = manifest?.extra?.dependencies ?? {};
 
-// This keeps track of all generated virutal modules
-// Unfortunately, asking SystemJS seems to return no loaded modules
-const virtualModules: Set<string> = new Set();
+// This keeps track of all generated virutal modules, and the files it includes.
+// Unfortunately, asking SystemJS seems to return no loaded modules.
+
+// Keep track of any module included in a virtual module, and what virtual module is including it.
+// This is a reversed map to efficiently find out which virtual modules need to be updated on change.
+// The data stored in this is the `SnackFilePath -> [VirtualModulePath]` mapping.
+const virtualModules: Map<string, Set<string>> = new Map();
+const allVirtualModules: Set<string> = new Set();
 
 // replacement for String.prototype.startsWith with consistent behaviour on iOS & Android
 const startsWith = (base: string, search: string) => String(base).indexOf(String(search)) === 0;
@@ -138,15 +143,24 @@ const fetchPipeline = async (load: Load) => {
       const contextRequest = context.convertVirtualModulePathToRequest(contextUri);
       const contextFiles = context.resolveContextFiles(contextRequest, Files.list());
 
-      // To load modules by absolute path, we need to add `module://` before importing them
-      for (const fileName in contextFiles) {
-        contextFiles[fileName] = `module://${contextFiles[fileName]}`;
-      }
-
       // The `require.context` package returns evaluatable JS code
       load.skipTranslate = true;
-      // Register the virtual module to flush it on file changes
-      virtualModules.add(uri);
+      // Register the virtual module to flush it later on file changes
+      virtualModules.set(uri, new Set(Object.values(contextFiles)));
+      allVirtualModules.add(uri);
+
+      // To load modules by absolute path, we need to add `module://` before importing them
+      for (const fileName in contextFiles) {
+        // Add the `module://` prefix for system js, to indicate an absolute path
+        contextFiles[fileName] = `module://${contextFiles[fileName]}`;
+
+        // Register the dependent of the virtual module
+        if (virtualModules.has(contextFiles[fileName])) {
+          virtualModules.get(contextFiles[fileName])!.add(uri);
+        } else {
+          virtualModules.set(contextFiles[fileName], new Set([uri]));
+        }
+      }
 
       return context.createContextModuleTemplate(contextFiles);
     }
@@ -822,18 +836,28 @@ export const flush = async ({
   awaitLastFlush = awaitLastFlush.then(async () => {
     // Flush modules and their dependents -- skips modules that aren't loaded, returns URIs of all
     // modules that have been flushed
-
     const paths = [
       ...changedUris,
       ...changedPaths.map((path) => `module://${path}${path.endsWith('.js') ? '' : '.js'}`),
-      ...Array.from(virtualModules),
     ];
 
-    // reset the virtual modules cache
-    virtualModules.clear();
+    // Handle virtual module updates
+    const virtualModulePaths: Set<string> = new Set();
+    for (const path of paths) {
+      // Add affected virtual module paths for new files
+      // Note(cedric): it's a best effort check, it does not include transpiled-skipped files
+      if (!transformCache[`module://${path}${path.endsWith('.js') ? '' : '.js'}`]) {
+        Logger.module('New file detected, clearing all virtual modules.', path);
+        allVirtualModules.forEach((path) => virtualModulePaths.add(path));
+        break;
+      }
+
+      // Add affected virtual module paths for changed existing files
+      virtualModules.get(path)?.forEach((path) => virtualModulePaths.add(path));
+    }
 
     const dependents = await System.dependents(paths);
-    let modules = [...dependents, ...paths];
+    let modules = [...dependents, ...virtualModulePaths, ...paths];
     modules = modules.filter((name, index) => System.has(name) && modules.indexOf(name) >= index);
     if (modules.length) {
       Logger.module('Unloading modules', modules.map(sanitizeModule));

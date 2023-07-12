@@ -439,18 +439,20 @@ export default class App extends React.Component<object, State> {
     let rootElement: React.ReactElement | undefined;
     try {
       const rootModuleUri = 'module://' + Files.entry();
-      if (changedPaths.length > 0) {
-        await Modules.flush({ changedPaths, changedUris: [rootModuleUri] });
-      }
 
       // Handle Expo Router root with a Snack compatible components
       if (isExpoRouterEntry(Files.get(Files.entry())?.contents)) {
+        // Flush without flushing the root component
+        await Modules.flush({ changedPaths, changedUris: [] });
+
         const ctx = await Modules.load(createVirtualModulePath({ directory: 'module://app' }));
         Logger.info('Updating Expo Router root element');
         rootElement = React.createElement(ExpoRouterApp, { ctx });
       }
       // Handle normal default exports
       else {
+        // Flush with the root component
+        await Modules.flush({ changedPaths, changedUris: [rootModuleUri] });
         const hasRootModuleUri = await Modules.has(rootModuleUri);
         if (!hasRootModuleUri) {
           const rootDefaultExport = (await Modules.load(rootModuleUri)).default;
