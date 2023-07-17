@@ -18,7 +18,7 @@ build:
   tagPolicy:
     sha256: {}
   local:
-    push: true
+    push: false
 manifests:
   kustomize:
     paths:
