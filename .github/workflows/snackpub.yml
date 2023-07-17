@@ -110,7 +110,7 @@ jobs:
           service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build snackpub
-        run: skaffold build --filename snackpub/skaffold.yaml --file-output ~/tmp/build.json
+        run: skaffold build --filename snackpub/skaffold.yaml --file-output /tmp/build.json
         working-directory: ./
         env:
           SKAFFOLD_PUSH_IMAGE: 'true'
@@ -124,7 +124,7 @@ jobs:
         working-directory: snackpub
 
       - name: 🚀 Deploy snackpub to k8s
-        run: skaffold deploy --status-check --build-artifacts /tmp/workspace/build.json
+        run: skaffold deploy --status-check --build-artifacts /tmp/build.json
         working-directory: snackpub
         env:
           ENVIRONMENT: staging
@@ -164,7 +164,7 @@ jobs:
           service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build snackpub
-        run: skaffold build --filename snackpub/skaffold.yaml --file-output ~/tmp/build.json
+        run: skaffold build --filename snackpub/skaffold.yaml --file-output /tmp/build.json
         working-directory: ./
         env:
           ENVIRONMENT: production
@@ -175,7 +175,7 @@ jobs:
         working-directory: snackpub
 
       - name: 🚀 Deploy snackpub to k8s
-        run: skaffold deploy --status-check --build-artifacts /tmp/workspace/build.json
+        run: skaffold deploy --status-check --build-artifacts /tmp/build.json
         working-directory: snackpub
         env:
           ENVIRONMENT: production
