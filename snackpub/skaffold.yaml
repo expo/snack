@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
   name: snackpub
@@ -8,8 +8,8 @@ build:
     - image: gcr.io/exponentjs/snackpub
       sync:
         manual:
-          - src: src/**/*
-            dest: /snack/app
+        - src: src/**/*
+          dest: /snack/app
       docker:
         dockerfile: snackpub/Dockerfile
         buildArgs:
@@ -19,30 +19,38 @@ build:
     sha256: {}
   local:
     push: false
+manifests:
+  kustomize:
+    paths:
+      - k8s/staging
+deploy:
+  kubectl: {}
+  kubeContext: minikube
 profiles:
   - name: prod
-    build:
-      platforms: ['linux/amd64']
-      artifacts:
-        - image: gcr.io/exponentjs/snackpub
-          docker:
-            dockerfile: snackpub/Dockerfile
-            buildArgs:
-              node_version: 16.14.2
-              DEPLOY_ENVIRONMENT: production
     activation:
       - env: ENVIRONMENT=production
+    manifests:
+      kustomize:
+        paths:
+        - k8s/production
+  - name: staging
+    activation:
+      - env: ENVIRONMENT=staging
+    manifests:
+      kustomize:
+        paths:
+        - k8s/staging
+  - name: ci
+    activation:
+      - env: CI=true
+    deploy:
+      kubectl: {}
+      # kubeContext: gke_exponentjs_us-central1_general-central
+      kubeContext: general-central
   - name: main
+    activation:
+      - env: GITHUB_REF=refs/heads/main
     build:
       local:
         push: true
-    activation:
-      - env: SKAFFOLD_PUSH_IMAGE=true
-  - name: development
-    patches:
-      - op: add
-        path: /build/artifacts/0/docker/target
-        value: dev
-    activation:
-      - command: dev
-      - command: debug
