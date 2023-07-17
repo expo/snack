@@ -46,8 +46,7 @@ profiles:
       - env: CI=true
     deploy:
       kubectl: {}
-      # kubeContext: gke_exponentjs_us-central1_general-central
-      kubeContext: general-central
+      kubeContext: gke_exponentjs_us-central1_general-central
   - name: main
     activation:
       - env: GITHUB_REF=refs/heads/main

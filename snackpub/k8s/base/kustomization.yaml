@@ -4,5 +4,4 @@ commonLabels:
   app: snackpub
 resources:
   - deployment.yaml
-  - pdb.yaml
   - service.yaml
