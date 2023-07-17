@@ -127,6 +127,7 @@ export function prettyStack(error: Error) {
     .filter((line) => !line.match(/https?:\/\/.+/g)) // Filter bundle-related stacks
     .filter((line) => !line.match(/\(native\)/g)) // Filter (native) stacks
     .filter((line) => !line.match(/InternalBytecode/g)) // Filter Hermes bytecode stacks
+    .filter((line) => !line.match(/\(address at/g)) // Filter Android specific address stacks
     .filter(Boolean) // Filter empty lines
     .join('\n');
 }
