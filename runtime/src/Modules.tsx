@@ -496,7 +496,7 @@ export const unmap = ({
 global.evaluate = (src, options: { filename?: string } = {}) => {
   return Profiling.section(`\`Modules.evalPipeline('${options.filename}')\``, () => {
     // @ts-ignore
-    if (global.nativeInjectHMRUpdate) {
+    if (global.globalEvalWithSourceUrl) {
       // This function will let JavaScriptCore know about the URL of the source code so that errors
       // and stack traces are annotated. Thanks, React Native devs! We do need a top-level try/catch
       // to prevent a native crash if `eval`ing throws an exception though...
@@ -505,7 +505,7 @@ global.evaluate = (src, options: { filename?: string } = {}) => {
       src = `(function () { try { ${src}\n } catch (e) { this.__SNACK_EVAL_EXCEPTION = e; } })();`;
 
       // @ts-ignore
-      const r = global.nativeInjectHMRUpdate(src, options.filename);
+      const r = global.globalEvalWithSourceUrl(src, options.filename);
 
       // @ts-ignore
       if (global.__SNACK_EVAL_EXCEPTION) {
