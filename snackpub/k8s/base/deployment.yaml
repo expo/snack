@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snackpub
+spec:
+  revisionHistoryLimit: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 3
+  template:
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: snackpub
+          image: gcr.io/exponentjs/snackpub:SetBySkaffold
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: snackpub-env
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 300m
+          livenessProbe:
+            tcpSocket:
+              port: 3013
+            periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: 3013
+            periodSeconds: 20

@@ -110,7 +110,7 @@ jobs:
           service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build snackpub
-        run: skaffold build --filename snackpub/skaffold.yaml
+        run: skaffold build --filename snackpub/skaffold.yaml --file-output ~/tmp/build.json
         working-directory: ./
         env:
           SKAFFOLD_PUSH_IMAGE: 'true'
@@ -119,9 +119,15 @@ jobs:
         run: ./bin/prune-gcr snackpub --dry-run
         working-directory: ./
 
-      - name: 🚀 Deploy snackpub
+      - name: 🚀 Deploy snackpub to cloud run
         run: ./scripts/deploy.sh -e staging
         working-directory: snackpub
+
+      - name: 🚀 Deploy snackpub to k8s
+        run: skaffold deploy --status-check --build-artifacts /tmp/workspace/build.json
+        working-directory: snackpub
+        env:
+          ENVIRONMENT: staging
 
       - name: 💬 Notify Slack
         uses: 8398a7/action-slack@v3
@@ -158,15 +164,21 @@ jobs:
           service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build snackpub
-        run: skaffold build --filename snackpub/skaffold.yaml
+        run: skaffold build --filename snackpub/skaffold.yaml --file-output ~/tmp/build.json
         working-directory: ./
         env:
           ENVIRONMENT: production
           SKAFFOLD_PUSH_IMAGE: 'true'
 
-      - name: 🚀 Deploy snackpub
+      - name: 🚀 Deploy snackpub to cloud run
         run: ./scripts/deploy.sh -e production
         working-directory: snackpub
+
+      - name: 🚀 Deploy snackpub to k8s
+        run: skaffold deploy --status-check --build-artifacts /tmp/workspace/build.json
+        working-directory: snackpub
+        env:
+          ENVIRONMENT: production
 
       - name: 🧹 Prune docker image
         if: ${{ success() }}
