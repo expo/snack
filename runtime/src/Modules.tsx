@@ -483,7 +483,10 @@ export const unmap = ({
     if (result) {
       return {
         ...result,
-        path: sourceURL.replace(/!transpiled$/, '').replace(/^module:\/\//, ''),
+        path: sourceURL
+          .replace(/!transpiled$/, '')
+          .replace(/^module:\/\//, '')
+          .replace(/.([a-z]+).js$/, '.$1'),
       };
     }
   }
