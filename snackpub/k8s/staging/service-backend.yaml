@@ -3,4 +3,4 @@ kind: Service
 metadata:
   name: snackpub
   annotations:
-    controller.autoneg.dev/neg: '{"backend_services": {"80": [{"name":"snackpub-staging"}]}}'
+    controller.autoneg.dev/neg: '{"backend_services": {"80": [{"name":"snackpub-staging", "max_rate_per_endpoint":100}]}}'
