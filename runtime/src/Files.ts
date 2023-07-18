@@ -15,7 +15,7 @@ type Message = {
   };
 };
 
-type File = {
+export type FileInfo = {
   isAsset: boolean;
   isBundled?: boolean;
   s3Url: string | undefined;
@@ -37,10 +37,11 @@ const ENTRY_FILES = [
   'app.tsx',
 ];
 
-class FileManager {
+/** Exposed for testing */
+export class FileManager {
   constructor(
     /** All known files within the Snack, including code and asset files */
-    readonly files: Map<string, File> = new Map()
+    readonly files: Map<string, FileInfo> = new Map()
   ) {}
 
   /**
@@ -86,8 +87,9 @@ class FileManager {
 /**
  * Load all files embedded in the app manifest into the file manager.
  * This should be executed once when the app is loaded.
+ * Exposed for testing.
  */
-function handleManifestCode(manager: FileManager, manifest: AppManifest | null) {
+export function handleManifestCode(manager: FileManager, manifest: AppManifest | null) {
   const code: SnackFiles | undefined = manifest?.extra?.code;
 
   if (!code) {
