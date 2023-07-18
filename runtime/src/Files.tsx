@@ -3,6 +3,8 @@
 
 import { applyPatch } from 'diff';
 import Constants from 'expo-constants';
+import { AppManifest } from 'expo-constants/build/Constants.types';
+import { SnackFiles } from 'snack-content';
 
 type Message = {
   type: 'CODE';
@@ -22,146 +24,190 @@ type File = {
   contents: string | undefined;
 };
 
-const files: { [key: string]: File } = {};
+/** Order of file names to resolve as entry file */
+const ENTRY_FILES = [
+  'index.js',
+  'index.ts',
+  'index.tsx',
+  'App.js',
+  'App.ts',
+  'App.tsx',
+  'app.js',
+  'app.ts',
+  'app.tsx',
+];
 
-// Initialize by reading from `extra.code` in manifest if present
-const manifest = Constants.manifest;
+class FileManager {
+  constructor(
+    /** All known files within the Snack, including code and asset files */
+    readonly files: Map<string, File> = new Map()
+  ) {}
 
-if (manifest?.extra?.code) {
-  const initialCode = manifest.extra.code;
-  Object.keys(initialCode).forEach((path) => {
-    const initialFile = initialCode[path];
-    const isAsset = initialFile.type === 'ASSET';
-    files[path] = {
-      isAsset,
-      s3Url: isAsset ? initialFile.contents : undefined,
-      s3Contents: undefined,
-      diff: undefined,
-      contents: !isAsset ? initialFile.contents : undefined,
-    };
-  });
-}
+  /**
+   * Retrieve file information for a given file path.
+   * This path should be absolute, without a leading slash.
+   */
+  get(filePath: string) {
+    const fileInfo = this.files.get(filePath);
 
-// Update files -- currently only handles updates from remote `message`s. Returns an array
-// containing paths of changed files.
-export const update = async ({ message }: { message: Message }) => {
-  if (message && message.type === 'CODE') {
-    const { diff: newDiffs, s3url: newS3Urls } = message;
-    const changedPaths = [];
-    await Promise.all(
-      Object.keys(newDiffs).map(async (path) => {
-        const newDiff = newDiffs[path];
-        if (newS3Urls[path]) {
-          // Has content in S3?
-          const newS3Url = newS3Urls[path];
-          if (newS3Url.includes('~asset') || newS3Url.includes('%7Easset')) {
-            // Asset? Only save the S3 URL.
-            if (!files[path] || files[path].s3Url !== newS3Url) {
-              files[path] = {
-                ...files[path],
-                isAsset: true,
-                isBundled: false,
-                s3Url: newS3Url,
-                s3Contents: undefined,
-                diff: undefined,
-                contents: undefined,
-              };
-              changedPaths.push(path);
-            }
-          } else {
-            // Ensure cached S3 contents and diff are up to date, compute contents if any changes
-            //
-            // TODO(nikki): This case needs to be tested
-            if (
-              !files[path] ||
-              files[path].s3Url !== newS3Url ||
-              files[path].diff !== newDiffs[path]
-            ) {
-              const newS3Contents =
-                files[path] && files[path].s3Url === newS3Url
-                  ? (files[path].s3Contents as string)
-                  : await (
-                      await fetch(newS3Url, {
-                        headers: {
-                          'Content-Type': 'text/plain',
-                        },
-                      })
-                    ).text();
-              files[path] = {
-                ...files[path],
-                isAsset: false,
-                isBundled:
-                  path === 'reason.js' &&
-                  message.metadata &&
-                  message.metadata.webHostname === 'reason-snack.surge.sh',
-                s3Url: newS3Url,
-                s3Contents: newS3Contents,
-                diff: newDiff,
-                contents: applyPatch(newS3Contents, newDiff),
-              };
-              changedPaths.push(path);
-            }
-          }
-        } else {
-          // No content on S3 -- ensure cached diff is up to date, compute contents if any changes
-          if (!files[path] || files[path].diff !== newDiffs[path]) {
-            files[path] = {
-              ...files[path],
-              isAsset: false,
-              isBundled: false,
-              s3Url: undefined,
-              s3Contents: undefined,
-              diff: newDiff,
-              // Remove the first newline from `applyPatch`, since this is an non-existing newline
-              contents: applyPatch('', newDiff).replace('\n', ''),
-            };
-            changedPaths.push(path);
-          }
-        }
-      })
-    );
+    if (!fileInfo) {
+      return undefined;
+    }
 
-    for (const path in files) {
-      // Delete removed files
-      if (!newDiffs.hasOwnProperty(path)) {
-        delete files[path];
-        changedPaths.push(path);
+    return fileInfo.isAsset
+      ? { isAsset: true, isBundled: !!fileInfo.isBundled, s3Url: fileInfo.s3Url }
+      : { isAsset: false, isBundled: !!fileInfo.isBundled, contents: fileInfo.contents };
+  }
+
+  /**
+   * Retrieve all file paths loaded within the Snack.
+   * These paths are absolute, without a leading slash.
+   */
+  list() {
+    return [...this.files.keys()];
+  }
+
+  /**
+   * Resolve the entry file for the Snack, based on loaded files.
+   * When none of the known entry files are found, `App.js` is returned.
+   * @todo cache this value, and invalidate once the files are changed
+   */
+  entry() {
+    for (const filePath of ENTRY_FILES) {
+      if (this.files.has(filePath)) {
+        return filePath;
       }
     }
 
-    return changedPaths;
+    return 'App.js';
+  }
+}
+
+/**
+ * Load all files embedded in the app manifest into the file manager.
+ * This should be executed once when the app is loaded.
+ */
+function handleManifestCode(manager: FileManager, manifest: AppManifest | null) {
+  const code: SnackFiles | undefined = manifest?.extra?.code;
+
+  if (!code) {
+    return;
   }
 
-  throw new Error("`Files.update(...)` only accepts 'CODE' `message`s");
-};
+  for (const filePath in code) {
+    const manifestFile = code[filePath];
+    const isAsset = manifestFile.type === 'ASSET';
 
-// Return the entrypoint path
-export const entry = () => {
-  const names = ['index.js', 'index.ts', 'index.tsx', 'App.tsx', 'App.ts', 'App.js', 'app.js'];
+    manager.files.set(filePath, {
+      isAsset,
+      isBundled: false,
+      diff: undefined,
+      contents: !isAsset ? String(manifestFile.contents) : undefined,
+      s3Url: isAsset ? String(manifestFile.contents) : undefined,
+      s3Contents: undefined,
+    });
+  }
+}
 
-  for (const name of names) {
-    if (files[name]) {
-      return name;
+/**
+ * Update the file manager with all changes received within the update message.
+ * This returns an array of all file paths changed because of the update.
+ */
+export async function handleFileUpdate(manager: FileManager, message: Message) {
+  if (message.type !== 'CODE') {
+    throw new Error("`Files.update(...)` only accepts 'CODE' `message`s");
+  }
+
+  const { diff: newDiffs, s3url: newS3Urls } = message;
+  const changedPaths = [];
+
+  await Promise.all(
+    Object.keys(newDiffs).map(async (path) => {
+      const newDiff = newDiffs[path];
+      const oldFile = manager.files.get(path);
+
+      if (newS3Urls[path]) {
+        // Has content in S3?
+        const newS3Url = newS3Urls[path];
+        if (newS3Url.includes('~asset') || newS3Url.includes('%7Easset')) {
+          // Asset? Only save the S3 URL.
+          if (oldFile?.s3Url !== newS3Url) {
+            manager.files.set(path, {
+              ...(oldFile ?? {}),
+              isAsset: true,
+              isBundled: false,
+              s3Url: newS3Url,
+              s3Contents: undefined,
+              diff: undefined,
+              contents: undefined,
+            });
+            changedPaths.push(path);
+          }
+        } else {
+          // Ensure cached S3 contents and diff are up to date, compute contents if any changes
+          //
+          // TODO(nikki): This case needs to be tested
+          if (oldFile?.s3Url !== newS3Url || oldFile?.diff !== newDiffs[path]) {
+            const newS3Contents =
+              oldFile?.s3Url === newS3Url
+                ? (oldFile.s3Contents as string)
+                : await (
+                    await fetch(newS3Url, {
+                      headers: {
+                        'Content-Type': 'text/plain',
+                      },
+                    })
+                  ).text();
+
+            manager.files.set(path, {
+              ...(oldFile ?? {}),
+              isAsset: false,
+              isBundled:
+                path === 'reason.js' &&
+                message.metadata &&
+                message.metadata.webHostname === 'reason-snack.surge.sh',
+              s3Url: newS3Url,
+              s3Contents: newS3Contents,
+              diff: newDiff,
+              contents: applyPatch(newS3Contents, newDiff),
+            });
+
+            changedPaths.push(path);
+          }
+        }
+      } else {
+        // No content on S3 -- ensure cached diff is up to date, compute contents if any changes
+        if (oldFile?.diff !== newDiffs[path]) {
+          manager.files.set(path, {
+            ...(oldFile ?? {}),
+            isAsset: false,
+            isBundled: false,
+            s3Url: undefined,
+            s3Contents: undefined,
+            diff: newDiff,
+            // Remove the first newline from `applyPatch`, since this is an non-existing newline
+            contents: applyPatch('', newDiff).replace('\n', ''),
+          });
+
+          changedPaths.push(path);
+        }
+      }
+    })
+  );
+
+  for (const path in files) {
+    // Delete removed files
+    if (!newDiffs.hasOwnProperty(path)) {
+      manager.files.delete(path);
+      changedPaths.push(path);
     }
   }
 
-  return 'App.js';
-};
+  return changedPaths;
+}
 
-// Return information about a file in the form `{ isAsset: true, s3Url }` or
-// `{ isAsset: false, contents }`. Returns `undefined` if no such file.
-export const get = (path: string) => {
-  if (!files[path]) {
-    return undefined;
-  }
+/** Create a single file manager instance used within the runtime */
+export const files = new FileManager();
 
-  const { isAsset, isBundled, s3Url, contents } = files[path];
-
-  if (isAsset) {
-    return { isAsset, isBundled, s3Url };
-  } else {
-    return { isAsset, isBundled, contents };
-  }
-};
-
-export const list = () => Object.keys(files);
+// Initialize by reading from `extra.code` in manifest if present
+handleManifestCode(files, Constants.manifest);
