@@ -24,7 +24,7 @@ import * as context from 'snack-require-context';
 import { SourceMapConsumer, RawSourceMap } from 'source-map';
 
 import System from '../vendor/system.src';
-import * as Files from './Files';
+import { files as Files } from './Files';
 import * as Logger from './Logger';
 import AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';

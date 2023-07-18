@@ -21,7 +21,7 @@ import { AppLoading } from './AppLoading';
 import BarCodeScannerView from './BarCodeScannerView';
 import * as Console from './Console';
 import * as Errors from './Errors';
-import * as Files from './Files';
+import { files as Files, handleFileUpdate } from './Files';
 import LoadingView from './LoadingView';
 import * as Logger from './Logger';
 import * as Messaging from './Messaging';
@@ -411,7 +411,7 @@ export default class App extends React.Component<object, State> {
       }
 
       // Update local files and reload
-      const changedPaths = await Files.update({ message });
+      const changedPaths = await handleFileUpdate(Files, message);
 
       // Reload modules when anything has changed
       if (changedDependencies.length || changedPaths.length) {

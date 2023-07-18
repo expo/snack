@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import * as React from 'react';
 import { View, ScrollView, Text, StyleSheet, Platform } from 'react-native';
 
-import * as Files from './Files';
+import { files as Files } from './Files';
 import * as Logger from './Logger';
 import * as Messaging from './Messaging';
 import * as Modules from './Modules';
