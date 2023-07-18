@@ -92,25 +92,45 @@ export const report = (e: Error) => {
 
 export const status = () => (getError() ? 'FAILURE' : 'SUCCESS');
 
-// Prettified version of an `Error`'s stack trace. Performs the following transformations:
-//   1. Replace references to the Snack client bundle code with `[snack internals]`.
-//   2. Unmap references to user code to the original file and line and column.
-//   3. Make column numbers one-indexed.
-export const prettyStack = (e: Error) =>
-  (e.stack ?? '')
-    .replace(/https?:\/\/.+\n/g, '[snack internals]\n')
-    .replace(/(module:\/\/[^:]+):(\d+):(\d+)(\n|\))/g, (match, sourceURL, line, column) => {
+/**
+ * Generate a human-readable description of the error stack trace.
+ * This does a few things:
+ *   - Try to map transpiled code back to original source code with the known sourcemaps
+ *   - Filters references to the Snack client bundle code, since that's irrelevant for the user's code
+ *   - Filters Hermes internal bytecode references
+ *   - Clean up file names to remove the `module://` prefix, and `.js.js` suffix
+ *   - Clean up faulty column numbers and correct the line numbers, caused by `Files.tsx`'s `applyPatch` newlines
+ */
+export function prettyStack(error: Error) {
+  // Unmap transpiled code from known sourcemaps
+  const sourceUnmappedStack = error.stack?.replace(
+    /(module:\/\/[^:]+):(\d+):(\d+)(\n|\))/g,
+    (match, sourceURL, line, column) => {
       const u = Modules.unmap({
         sourceURL,
         line: parseInt(line, 10),
         column: parseInt(column, 10),
       });
       return u
-        ? u.path + (u.line !== null && u.column !== null ? `:${u.line}:${u.column}\n` : '\n')
-        : match.replace(/module:\/+/, '').replace(/\.js\.js/, '.js');
-    })
-    .replace(/:(\d+):(\d+)\n/g, (_, line, column) => `:${line}:${parseInt(column, 10) + 1}\n`)
-    .replace(/module:\/+/g, '');
+        ? // Avoid adding the `column`, `source-map@0.6.1` does not properly resolve the column. It uses the generated column number.
+          u.path + (u.line !== null && u.column !== null ? `:${u.line})\n` : '\n')
+        : match.replace(/module:\/+/, '').replace(/.([a-z]+).js/g, '.$1');
+    }
+  );
+
+  if (!sourceUnmappedStack) {
+    return 'No stacktrace available';
+  }
+
+  return sourceUnmappedStack
+    .split(/\r?\n/)
+    .filter((line) => !line.match(/https?:\/\/.+/g)) // Filter bundle-related stacks
+    .filter((line) => !line.match(/\(native\)/g)) // Filter (native) stacks
+    .filter((line) => !line.match(/InternalBytecode/g)) // Filter Hermes bytecode stacks
+    .filter((line) => !line.match(/\(address at/g)) // Filter Android specific address stacks
+    .filter(Boolean) // Filter empty lines
+    .join('\n');
+}
 
 // Acts as a boundary for upward error propagation in the React render tree. Displays errors with a
 // friendly dialog.

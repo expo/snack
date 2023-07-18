@@ -112,7 +112,8 @@ export const update = async ({ message }: { message: Message }) => {
               s3Url: undefined,
               s3Contents: undefined,
               diff: newDiff,
-              contents: applyPatch('', newDiff),
+              // Remove the first newline from `applyPatch`, since this is an non-existing newline
+              contents: applyPatch('', newDiff).replace('\n', ''),
             };
             changedPaths.push(path);
           }
