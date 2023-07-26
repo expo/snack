@@ -114,7 +114,4 @@ export const DEFAULT_DEPENDENCIES: SnackDependencies = {
   '@expo/vector-icons': {
     version: '*',
   },
-  'expo-constants': {
-    version: '*',
-  },
 };
