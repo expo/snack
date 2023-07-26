@@ -9,8 +9,7 @@ export const DEFAULT_DESCRIPTION = 'No description';
 // TODO(cedric): Drop `import React from 'react';` when dropping SDK 45
 export const DEFAULT_CODE: SnackFiles = {
   'App.js': {
-    contents: `import { Text, View, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
+    contents: `import { Text, SafeAreaView, StyleSheet } from 'react-native';
 
 // You can import from local files
 import AssetExample from './components/AssetExample';
@@ -20,14 +19,14 @@ import { Card } from 'react-native-paper';
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.paragraph}>
         Change code in the editor and watch it change on your phone! Save to get a shareable url.
       </Text>
       <Card>
         <AssetExample />
       </Card>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -35,7 +34,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
     padding: 8,
   },
