@@ -24,10 +24,12 @@ spec:
               memory: 512Mi
               cpu: 300m
           livenessProbe:
-            tcpSocket:
+            httpGet:
+              path: /status/live
               port: 3013
             periodSeconds: 20
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /status/ready
               port: 3013
             periodSeconds: 20
