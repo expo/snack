@@ -119,10 +119,6 @@ jobs:
         run: ./bin/prune-gcr snackpub --dry-run
         working-directory: ./
 
-      - name: 🚀 Deploy snackpub to cloud run
-        run: ./scripts/deploy.sh -e staging
-        working-directory: snackpub
-
       - name: 🚀 Deploy snackpub to k8s
         run: skaffold deploy --status-check --build-artifacts /tmp/build.json
         working-directory: snackpub
@@ -169,10 +165,6 @@ jobs:
         env:
           ENVIRONMENT: production
           SKAFFOLD_PUSH_IMAGE: 'true'
-
-      - name: 🚀 Deploy snackpub to cloud run
-        run: ./scripts/deploy.sh -e production
-        working-directory: snackpub
 
       - name: 🚀 Deploy snackpub to k8s
         run: skaffold deploy --status-check --build-artifacts /tmp/build.json
