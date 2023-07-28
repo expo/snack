@@ -6,28 +6,26 @@ export const DEFAULT_METADATA_DESCRIPTION_SAVED = `Try this project on your phon
 
 export const DEFAULT_DESCRIPTION = 'No description';
 
-// TODO(cedric): Drop `import React from 'react';` when dropping SDK 45
 export const DEFAULT_CODE: SnackFiles = {
   'App.js': {
-    contents: `import { Text, View, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
+    contents: `import { Text, SafeAreaView, StyleSheet } from 'react-native';
 
-// You can import from local files
-import AssetExample from './components/AssetExample';
-
-// or any pure javascript modules available in npm
+// You can import supported modules from npm
 import { Card } from 'react-native-paper';
+
+// or any files within the Snack
+import AssetExample from './components/AssetExample';
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.paragraph}>
         Change code in the editor and watch it change on your phone! Save to get a shareable url.
       </Text>
       <Card>
         <AssetExample />
       </Card>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -35,7 +33,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
     padding: 8,
   },
@@ -94,7 +91,7 @@ const styles = StyleSheet.create({
 
 Open the \`App.js\` file to start writing some code. You can preview the changes directly on your phone or tablet by scanning the **QR code** or use the iOS or Android emulators. When you're done, click **Save** and share the link!
 
-When you're ready to see everything that Expo provides (or if you want to use your own editor) you can **Download** your project and use it with [expo-cli](https://docs.expo.dev/get-started/installation/#expo-cli)).
+When you're ready to see everything that Expo provides (or if you want to use your own editor) you can **Download** your project and use it with [expo cli](https://docs.expo.dev/get-started/installation/#expo-cli)).
 
 All projects created in Snack are publicly available, so you can easily share the link to this project via link, or embed it on a web page with the \`<>\` button.
 
@@ -114,9 +111,6 @@ export const DEFAULT_DEPENDENCIES: SnackDependencies = {
     handle: 'snackager-1/react-native-paper@4.9.2',
   },
   '@expo/vector-icons': {
-    version: '*',
-  },
-  'expo-constants': {
     version: '*',
   },
 };
