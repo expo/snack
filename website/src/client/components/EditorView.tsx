@@ -8,6 +8,7 @@ import Analytics from '../utils/Analytics';
 import { isMobile } from '../utils/detectPlatform';
 import { isScript, isJson, isTest } from '../utils/fileUtilities';
 import lintFile from '../utils/lintFile';
+import { openExpoOrbitWithExperienceURL } from '../utils/orbit';
 import prettierCode from '../utils/prettierCode';
 import AssetViewer from './AssetViewer';
 import { withDependencyManager } from './DependencyManager';
@@ -15,6 +16,7 @@ import DeviceInstructionsModal, {
   ConnectionMethod,
 } from './DeviceInstructions/DeviceInstructionsModal';
 import DevicePreview from './DevicePreview/DevicePreview';
+import DownloadOrbitDialog from './DownloadOrbitDialog';
 import { EditorProps } from './Editor/EditorProps';
 import EditorFooter from './EditorFooter';
 import EditorPanels from './EditorPanels';
@@ -447,6 +449,11 @@ class EditorView extends React.Component<Props, State> {
                   onSubmitMetadata={this.props.onSubmitMetadata}
                   onDownloadCode={this.props.onDownloadAsync}
                   onPublishAsync={onPublishAsync}
+                  onOpenWithOrbit={() =>
+                    openExpoOrbitWithExperienceURL(experienceURL, () =>
+                      this._handleShowModal('install-orbit')
+                    )
+                  }
                 />
                 <div className={css(styles.editorAreaOuterWrapper)}>
                   <div className={css(styles.editorAreaOuter)}>
@@ -662,6 +669,12 @@ class EditorView extends React.Component<Props, State> {
                   setDeviceId={this.props.setDeviceId}
                   deviceId={deviceId}
                 />
+                <ModalDialog
+                  title="Expo Orbit"
+                  visible={currentModal === 'install-orbit'}
+                  onDismiss={this._handleHideModal}>
+                  <DownloadOrbitDialog />
+                </ModalDialog>
                 <ModalDialog
                   className={css(styles.embedModal)}
                   autoSize={false}

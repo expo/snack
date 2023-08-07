@@ -23,7 +23,8 @@ export type EditorModal =
   | 'shortcuts'
   | 'previous-saves'
   | 'import-repo'
-  | 'import-production';
+  | 'import-production'
+  | 'install-orbit';
 
 export type EditorViewProps = {
   createdAt: string | undefined;
