@@ -65,7 +65,7 @@ type State = {
 
 class AppetizeFrame extends React.PureComponent<Props, State> {
   private static getAppetizeURL(props: Props, autoplay: boolean) {
-    const { experienceURL, platform, isEmbedded, payerCode, viewer, theme, devices } = props;
+    const { experienceURL, platform, isEmbedded, payerCode, theme, devices } = props;
 
     return constructAppetizeURL({
       type: isEmbedded ? 'embedded' : 'website',
@@ -74,7 +74,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
       platform,
       previewQueue: isEmbedded ? 'secondary' : 'main',
       deviceColor: theme === 'dark' ? 'white' : 'black',
-      payerCode: viewer?.user_metadata?.appetize_code ?? payerCode,
+      payerCode,
       devices,
     });
   }
@@ -84,11 +84,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
     if (
       props.platform !== state.platform ||
       props.sdkVersion !== state.sdkVersion ||
-      props.theme !== state.theme ||
-      (props.viewer !== state.viewer &&
-        props.viewer &&
-        props.viewer.user_metadata &&
-        props.viewer.user_metadata.appetize_code)
+      props.theme !== state.theme
     ) {
       const autoplay = state.payerCodeFormStatus.type === 'submitted';
       return {

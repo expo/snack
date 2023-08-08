@@ -65,7 +65,7 @@ class UserMenu extends React.Component<Props, State> {
     return (
       <div className={css(styles.container)}>
         <button ref={this._avatar} className={css(styles.button)}>
-          <Avatar source={viewer?.picture ? viewer.picture : null} size={26} />
+          <Avatar source={viewer?.profilePhoto ? viewer.profilePhoto : null} size={26} />
         </button>
         <ContextMenu
           ref={this._menu}
