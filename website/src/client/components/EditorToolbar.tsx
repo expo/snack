@@ -1,6 +1,7 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import { Experiment } from '../auth/authManager';
 import { SaveStatus, SaveHistory, Viewer, SaveOptions, SDKVersion } from '../types';
 import EditorTitle from './EditorTitle';
 import type { EditorModal } from './EditorViewProps';
@@ -27,6 +28,7 @@ type Props = {
   onShowModal: (modal: EditorModal) => void;
   onHideModal: () => void;
   onDownloadCode: () => Promise<void>;
+  onOpenWithOrbit: () => void;
   onPublishAsync: (options?: SaveOptions) => Promise<void>;
 };
 
@@ -48,12 +50,17 @@ export default function EditorToolbar(props: Props) {
     onShowModal,
     onHideModal,
     onDownloadCode,
+    onOpenWithOrbit,
     onPublishAsync,
   } = props;
   const { theme } = preferences;
 
   const isPublishing = saveStatus === 'publishing';
   const isPublished = saveStatus === 'published';
+
+  const showOrbitButton =
+    viewer?.experiments?.find(({ experiment }) => experiment === Experiment.Orbit)?.enabled ??
+    false;
 
   return (
     <ToolbarShell>
@@ -105,6 +112,20 @@ export default function EditorToolbar(props: Props) {
             <rect x="8.333" y="1.667" width="5" height="2.5" rx=".833" stroke="none" />
           </svg>
         </IconButton>
+        {showOrbitButton ? (
+          <IconButton responsive title="Open with Orbit" onClick={onOpenWithOrbit}>
+            <svg width="20" height="20" viewBox="0 0 16 16">
+              <path
+                stroke="none"
+                d="M6.53747 12.9531C6.25915 12.0253 11.176 9.35779 13.6693 8.14001C13.5533 9.02918 13.4373 10.5176 11.9298 12.0253C10.5962 13.3591 6.88536 14.1129 6.53747 12.9531Z"
+              />
+              <path
+                stroke="none"
+                d="M5.84172 3.037C1.99171 4.79989 2.45941 8.66153 3.17452 10.3432C2.88459 10.4596 1.78288 10.5176 1.60898 10.2857C1.43507 10.0537 1.95691 9.53181 2.30481 9.29939L2.18883 8.83547C0.565336 9.64778 -0.19688 10.652 0.0434576 11.2135C0.217402 11.6199 2.18883 12.6628 8.85678 9.58934C15.5247 6.51589 16.2785 4.83465 15.9306 4.25476C15.6523 3.79084 13.708 4.00301 12.7996 4.19631L13.2634 4.71867C13.8432 4.60269 14.3071 4.60269 14.3071 4.89264C14.3071 5.36574 13.6693 5.78138 13.3214 5.99402C12.4323 4.29299 9.84249 1.20508 5.84172 3.037Z"
+              />
+            </svg>
+          </IconButton>
+        ) : null}
         <IconButton
           responsive
           title="Download as zip"

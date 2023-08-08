@@ -3,10 +3,19 @@ import ExtendableError from 'es6-error';
 import { getAuthStorageKey } from './config';
 import Storage from './storage';
 
+export enum Experiment {
+  Orbit = 'ORBIT',
+}
+
 export type UserData = {
   id: string;
   username: string;
   profilePhoto: string;
+  experiments: {
+    id: string;
+    enabled: boolean;
+    experiment: Experiment;
+  }[];
 };
 
 type Auth0TokenData = {
@@ -171,6 +180,11 @@ export default class AuthenticationManager {
             id
             username
             profilePhoto
+            experiments {
+              id
+              enabled
+              experiment
+            }
           }
         }`,
       },
