@@ -29,7 +29,7 @@ class ModalSuccessfulPublish extends React.PureComponent<Props> {
   };
 
   render() {
-    const picture = this.props.viewer?.picture;
+    const picture = this.props.viewer?.profilePhoto;
 
     return (
       <ModalDialog visible={this.props.visible} onDismiss={this.props.onDismiss}>

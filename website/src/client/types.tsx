@@ -13,6 +13,7 @@ import {
   SDKVersion,
 } from 'snack-sdk';
 
+import { UserData } from './auth/authManager';
 import { AppetizeDeviceAndroid, AppetizeDeviceIos } from './components/DevicePreview/AppetizeFrame';
 import { ThemeName } from './components/Preferences/withThemeName';
 
@@ -65,14 +66,7 @@ export type RouterData =
       defaults: SnackDefaults;
     };
 
-export type Viewer = {
-  username: string;
-  nickname: string;
-  picture?: string;
-  user_metadata?: {
-    appetize_code: string;
-  };
-};
+export type Viewer = UserData;
 
 export type Platform = 'android' | 'ios' | 'web' | 'mydevice';
 

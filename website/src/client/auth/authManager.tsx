@@ -3,24 +3,10 @@ import ExtendableError from 'es6-error';
 import { getAuthStorageKey } from './config';
 import Storage from './storage';
 
-type Auth0UserData = {
-  name: string;
-  username: string;
+export type UserData = {
   id: string;
-  given_name: string;
-  family_name: string;
-  nickname: string;
-  picture: string;
-  updated_at: string;
-  email: string;
-  email_verified: string;
-  nonce: string;
-  iss: string;
-  sub: string;
-  aud: string;
-  exp: string;
-  iat: string;
-  ['https://expo.io/isOnboarded']: boolean;
+  username: string;
+  profilePhoto: string;
 };
 
 type Auth0TokenData = {
@@ -38,7 +24,7 @@ export default class AuthenticationManager {
   private topLevelDomainCookie: Storage;
   private legacyCookie: Storage;
   public isLegacyLogoutEnabled: boolean;
-  private profilePromise?: Promise<Auth0UserData | null | undefined>;
+  private profilePromise?: Promise<UserData | null | undefined>;
 
   constructor() {
     this.topLevelDomainCookie = new Storage(getAuthStorageKey(), 'cookie');
@@ -177,14 +163,26 @@ export default class AuthenticationManager {
     if (!idToken && !sessionSecret) {
       return null;
     }
-    const result: { data?: Auth0UserData } = await _performApiRequest(`userInfo`, null, {
-      method: 'GET',
-      headers: {
-        ...(sessionSecret ? { 'Expo-Session': sessionSecret } : {}),
-        ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
+
+    const result: { data?: { me: UserData } } = await _performGraphQLApiRequest(
+      {
+        query: `{
+          me {
+            id
+            username
+            profilePhoto
+          }
+        }`,
       },
-    });
-    return result.data;
+      {
+        headers: {
+          ...(sessionSecret ? { 'Expo-Session': sessionSecret } : {}),
+          ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
+        },
+      }
+    );
+
+    return result.data?.me;
   });
 }
 
@@ -214,18 +212,17 @@ function _handleApiErrors<F extends Function>(fn: F): F {
 }
 
 /**
- * Generic helper method to perform an request to the Expo API
+ * Generic helper method to perform an request to the Expo GraphQL API
  */
-async function _performApiRequest<T>(
-  route: string,
+async function _performGraphQLApiRequest<T>(
   body: object | null,
-  options?: { method: 'GET' | 'POST'; headers?: { [key: string]: string } }
+  options?: { headers?: { [key: string]: string } }
 ): Promise<T> {
   const customHeaders = options?.headers ?? {};
   if (options) {
     delete options.headers;
   }
-  const response = await fetch(`${process.env.API_SERVER_URL}/--/api/v2/auth/${route}`, {
+  const response = await fetch(`${process.env.API_SERVER_URL}/--/graphql`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
