@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
 
   normal: {
     color: c('text'),
-    backgroundColor: c('secondary'),
     border: `1px solid ${c('border')}`,
   },
 

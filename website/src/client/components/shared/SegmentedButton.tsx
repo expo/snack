@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
 
   selected: {
-    color: c('selected-text'),
+    color: c('text'),
     backgroundColor: c('selected'),
     ':hover': {
       backgroundColor: c('selected'),
