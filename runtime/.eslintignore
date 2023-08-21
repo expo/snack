@@ -3,6 +3,7 @@
 
 # Ignore all build ouput
 **/build/**
+**/vendor/**
 
 # Ignore example app for now
 example/
