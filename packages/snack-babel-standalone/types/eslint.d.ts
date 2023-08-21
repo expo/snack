@@ -1,6 +1,4 @@
-export * from '../src/runtime';
-
-export { types, parseSync } from '@babel/core';
+export { types, parseSync, version } from '@babel/core';
 
 /**
  * Originally from `@babel/core`, but untyped internal.
