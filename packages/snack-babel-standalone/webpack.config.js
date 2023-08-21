@@ -14,8 +14,8 @@ const {
 const config = {
   mode: 'development',
   entry: {
-    runtime: path.resolve(__dirname, './src/runtime.ts'),
-    eslint: path.resolve(__dirname, './src/eslint.ts'),
+    runtime: path.resolve(__dirname, './src/entries/runtime.ts'),
+    eslint: path.resolve(__dirname, './src/entries/eslint.ts'),
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -28,7 +28,6 @@ const config = {
     new NodePolyfillPlugin(),
     new webpack.DefinePlugin({
       BABEL_VERSION: JSON.stringify(require('@babel/core/package.json').version),
-      VERSION: JSON.stringify(require('@babel/core/package.json').version),
     }),
   ],
   module: {
@@ -43,6 +42,9 @@ const config = {
               require('metro-react-native-babel-preset').getPreset(null, {
                 enableBabelRuntime: false,
               }),
+            ],
+            plugins: [
+              '@babel/plugin-proposal-export-namespace-from',
             ],
           },
         },
