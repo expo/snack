@@ -28,10 +28,13 @@ const config: SnackagerConfig = {
         mobx: '^4.0.0',
       },
     },
-    'expo-firebase-analytics@~6.0.0': {
+    'expo-camera@~13.0.0': {
       peerDependencies,
     },
-    'expo-firebase-analytics@~7.1.1': {
+    'expo-camera@~13.2.1': {
+      peerDependencies,
+    },
+    'expo-camera@~13.4.2': {
       peerDependencies,
     },
     'expo-av@~10.2.0': {
@@ -52,6 +55,10 @@ const config: SnackagerConfig = {
     },
     'expo-av@~13.2.1': {
       version: '13.2.1',
+      peerDependencies,
+    },
+    'expo-av@~13.4.1': {
+      version: '13.4.1',
       peerDependencies,
     },
     '@react-navigation/native@5.1.1': {

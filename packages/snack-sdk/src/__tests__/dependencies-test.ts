@@ -6,9 +6,9 @@ import Snack from './snack-sdk';
 // A set of SDK versions to test against.
 // When upgrading SDK version, make sure to update this list.
 const sdkVersions: { [key: string]: SDKVersion } = {
-  prev: '46.0.0',
-  current: '47.0.0',
-  next: '48.0.0',
+  prev: '47.0.0',
+  current: '48.0.0',
+  next: '49.0.0',
 };
 
 describe('dependencies', () => {
@@ -16,7 +16,7 @@ describe('dependencies', () => {
     const snack = new Snack({
       sdkVersion: sdkVersions.current,
       dependencies: {
-        'expo-firebase-analytics': { version: '~7.1.1' },
+        'expo-camera': { version: '~13.0.0' },
       },
     });
     const state = await snack.getStateAsync();
@@ -42,9 +42,9 @@ describe('dependencies', () => {
     const snack = new Snack({
       sdkVersion: sdkVersions.current,
       dependencies: {
-        'expo-firebase-analytics': {
-          version: '8.1.0',
-          handle: 'snackager-1/expo-firebase-analytics@8.1.0',
+        'expo-camera': {
+          version: '13.4.2',
+          handle: 'snackager-1/expo-camera@13.4.2',
         },
       },
     });
