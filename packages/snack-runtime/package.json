@@ -23,6 +23,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --ext js,jsx,ts,tsx",
+    "build": "echo 'This package ships TypeScript for Metro to compile.'",
     "prepublishOnly": "yarn clean && yarn build"
   },
   "dependencies": {
