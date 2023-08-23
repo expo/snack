@@ -1,0 +1,54 @@
+{
+  "name": "snack-runtime",
+  "version": "0.3.0-rc.0",
+  "description": "Load and run Expo Snacks in any React Native app",
+  "main": "./index.ts",
+  "files": [
+    "build",
+    "types"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expo/snack.git",
+    "directory": "packages/snack-runtime"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/snack/issues"
+  },
+  "author": "Expo <support@expo.dev>",
+  "license": "MIT",
+  "volta": {
+    "node": "16.14.2"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . --ext js,jsx,ts,tsx",
+    "prepublishOnly": "yarn clean && yarn build"
+  },
+  "dependencies": {
+    "await-lock": "^2.2.2",
+    "snack-babel-standalone": "^2.2.2",
+    "snack-require-context": "file:../snack-require-context"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "@typescript-eslint/parser": "^5.59.7",
+    "babel-preset-expo": "^9.3.0",
+    "eslint": "^8.20.0",
+    "eslint-config-universe": "^11.2.0",
+    "expo": "^48.0.19",
+    "react": "18.2.0",
+    "react-test-renderer": "18.2.0",
+    "react-native": "0.71.8",
+    "jest": "^29.2.1",
+    "jest-expo": "^47.0.1"
+  },
+  "peerDependencies": {
+    "expo": "^48.0.0",
+    "react": "18.2.0",
+    "react-native": "0.71.8"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  }
+}
