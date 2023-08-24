@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { activateKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
-import * as Updates from 'expo-updates';
 import * as React from 'react';
 import {
   AppState,
@@ -360,7 +359,7 @@ export default class App extends React.Component<Props, State> {
         })
       );
 
-      await Updates.reloadAsync();
+      await this.props.onSnackReload?.();
     } else {
       Logger.info("Got a reload request, but we don't have a URL");
     }

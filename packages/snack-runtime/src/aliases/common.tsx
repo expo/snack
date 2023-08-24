@@ -20,7 +20,7 @@ const aliases: { [key: string]: any } = {
   // Packages that are used internally by the runtime
   'expo-constants': require('expo-constants'),
   'expo-file-system': require('expo-file-system'),
-  'expo-updates': require('expo-updates'),
+  // 'expo-updates': require('expo-updates'), TODO: add this back through the new context API
   '@react-native-async-storage/async-storage': require('@react-native-async-storage/async-storage'),
 
   // Renamed `@react-native-community` packages
