@@ -28,18 +28,7 @@ const files: { [key: string]: File } = {};
 const manifest = Constants.manifest;
 
 if (manifest?.extra?.code) {
-  const initialCode = manifest.extra.code;
-  Object.keys(initialCode).forEach((path) => {
-    const initialFile = initialCode[path];
-    const isAsset = initialFile.type === 'ASSET';
-    files[path] = {
-      isAsset,
-      s3Url: isAsset ? initialFile.contents : undefined,
-      s3Contents: undefined,
-      diff: undefined,
-      contents: !isAsset ? initialFile.contents : undefined,
-    };
-  });
+  updateProjectFiles(manifest.extra.code);
 }
 
 // Update files -- currently only handles updates from remote `message`s. Returns an array
@@ -165,3 +154,27 @@ export const get = (path: string) => {
 };
 
 export const list = () => Object.keys(files);
+
+/**
+ * Reset the current project files to only include the files from object.
+ * This is useful to manually load the files from our API instead of PubNub.
+ */
+export function updateProjectFiles(
+  newFiles: Record<string, { type: 'CODE' | 'ASSET'; contents: string }>
+) {
+  for (const filePath in files) {
+    delete files[filePath];
+  }
+
+  for (const filePath in newFiles) {
+    const newFile = newFiles[filePath];
+    const isAsset = newFile.type === 'ASSET';
+    files[filePath] = {
+      isAsset,
+      s3Url: isAsset ? newFile.contents : undefined,
+      s3Contents: undefined,
+      diff: undefined,
+      contents: !isAsset ? newFile.contents : undefined,
+    };
+  }
+}
