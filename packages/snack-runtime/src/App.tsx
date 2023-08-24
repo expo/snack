@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 import { createVirtualModulePath } from 'snack-require-context';
 
-import * as Analytics from './Analytics';
 import { AppLoading } from './AppLoading';
 import BarCodeScannerView from './BarCodeScannerView';
 import * as Console from './Console';
@@ -451,10 +450,6 @@ export default class App extends React.Component<Props, State> {
   _handleCodeUpdate = async (message: any, waitForPromise: Promise<any>, deviceId: string) => {
     await waitForPromise;
     await Profiling.section(`'CODE' message`, async () => {
-      if (deviceId !== null) {
-        Analytics.receivedCode({ message, deviceId });
-      }
-
       this.setState(() => ({ isLoading: true }));
 
       // Update project-level dependency info if given
