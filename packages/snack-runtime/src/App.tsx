@@ -39,6 +39,8 @@ import { extractChannelFromSnackUrl, extractSnackIdentifierFromSnackUrl } from '
 const API_SERVER_URL_STAGING = 'https://staging.exp.host';
 const API_SERVER_URL_PROD = 'https://exp.host';
 
+export type SnackState = 'loading' | 'finished' | 'error';
+
 type Props = {
   /**
    * When passing a Snack URL, the Snack will be loaded instead of the barcode scanner.
@@ -52,6 +54,17 @@ type Props = {
    * @example https://exp.host/@bycedric/great-pancake
    */
   snackUrl?: string;
+
+  /**
+   * Callback for when the Snack wants to reload the current URL.
+   * This is invoked by the "reload now" button on the Snack website.
+   */
+  onSnackReload?: () => Promise<any>;
+
+  /**
+   * Callback for Snack state changes, like "loading" or "finished".
+   */
+  onSnackState?: (state: SnackState) => any;
 };
 
 type State = {
@@ -70,6 +83,15 @@ type State = {
 
 const RELOAD_URL_KEY = 'snack-reload-url';
 const ONE_MINUTE = 1000 * 60;
+
+// Last known Snack state workaround, the App component is too big to incorporate the state updates
+let prevSnackState: SnackState;
+/** Notify the `onSnackState` event callback whenever the Snack changes its state */
+function notifyStateChange(props: Pick<Props, 'onSnackState'>, state: SnackState) {
+  if (state !== prevSnackState) {
+    props.onSnackState?.(state);
+  }
+}
 
 // The root component for Snack's viewer. Allows scanning a barcode to identify a Snack, listens for
 // updates and displays the Snack.
@@ -248,6 +270,9 @@ export default class App extends React.Component<Props, State> {
   // Open Snack session at given `url`, throw if bad URL or couldn't connect. All we need to do is
   // subscribe to the associated messaging channel, everything else is triggered by messages.
   _openUrl = (url: string): boolean => {
+    // Notify the `onSnackState` event callback that a Snack is being loaded
+    notifyStateChange(this.props, 'loading');
+
     // Connect to the Snack website session, if the URL contains a channel or session ID
     const channel = extractChannelFromSnackUrl(url);
     if (channel) {
@@ -303,6 +328,9 @@ export default class App extends React.Component<Props, State> {
         - 'https://exp.host/@USERNAME/SNACK_SLUG'
       `
     );
+
+    // Notify that a misformed URL being passed, and the Snack can't be loaded
+    notifyStateChange(this.props, 'error');
 
     return false;
   };
@@ -469,6 +497,8 @@ export default class App extends React.Component<Props, State> {
         Logger.warn('Code message received but no changes detected, ignoring');
         this.setState(() => ({ isLoading: false }));
       }
+
+      notifyStateChange(this.props, 'finished');
     });
   };
 
@@ -494,6 +524,8 @@ export default class App extends React.Component<Props, State> {
         Logger.warn('Code message received but no changes detected, ignoring');
         this.setState(() => ({ isLoading: false }));
       }
+
+      notifyStateChange(this.props, 'finished');
     });
   };
 
