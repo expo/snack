@@ -1,5 +1,5 @@
-import AssetRegistry from '../NativeModules/AssetRegistry';
 import common from './common';
+import AssetRegistry from '../NativeModules/AssetRegistry';
 
 const aliases: { [key: string]: any } = {
   ...common,

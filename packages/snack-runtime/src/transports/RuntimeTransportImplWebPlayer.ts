@@ -1,5 +1,5 @@
-import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
+import * as Logger from '../Logger';
 
 /**
  * The Snack web-player is served directly from S3. This means that anyone

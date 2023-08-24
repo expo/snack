@@ -2,8 +2,8 @@
 
 import PubNub from 'pubnub';
 
-import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
+import * as Logger from '../Logger';
 
 const PRESENCE_TIMEOUT = 600;
 const HEARTBEAT_INTERVAL = 60;

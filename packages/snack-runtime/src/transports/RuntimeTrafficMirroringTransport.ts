@@ -1,9 +1,9 @@
 import AwaitLock from 'await-lock';
 
-import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
 import RuntimeTransportImplPubNub from './RuntimeTransportImplPubNub';
 import RuntimeTransportImplSocketIO from './RuntimeTransportImplSocketIO';
+import * as Logger from '../Logger';
 
 const FALLBACK_ALWAYS_AFTER_MISSED_THRESHOLD = 5;
 const FALLBACK_ACK_WAIT_MS = 3000;
