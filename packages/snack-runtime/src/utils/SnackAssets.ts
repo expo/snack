@@ -25,7 +25,7 @@ export function resolveSnackAssetSource(assetMeta: any) {
 
       return { uri: assetMeta.uri, hash };
     }
-  } catch (e) {}
+  } catch {}
 
   return null;
 }
