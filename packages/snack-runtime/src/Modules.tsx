@@ -15,8 +15,6 @@ import path from 'path';
 import React from 'react';
 import { Platform, PixelRatio } from 'react-native';
 import * as GestureHandler from 'react-native-gesture-handler';
-// @ts-ignore: Could not find a declaration file for module 'react-native-reanimated/plugin'
-import Reanimated2Plugin from 'react-native-reanimated/plugin-standalone';
 import * as babel from 'snack-babel-standalone';
 import * as context from 'snack-require-context';
 // Highest supported version of source-map is 0.6.1. As of 7.x source-map uses
@@ -29,6 +27,7 @@ import AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
+import Reanimated2Plugin from '../vendor/reanimated-plugin';
 import System from '../vendor/system.src';
 
 type Dependencies = {
