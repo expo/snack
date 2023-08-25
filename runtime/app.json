@@ -8,9 +8,9 @@
     "slug": "snack",
     "version": "1.0.0",
     "primaryColor": "#000",
-    "icon": "https://s3.amazonaws.com/exp-brand-assets/SnackIcon_200.png",
+    "icon": "https://exp-brand-assets.s3.amazonaws.com/SnackIcon_200.png",
     "notification": {
-      "icon": "https://s3.amazonaws.com/exp-us-standard/placeholder-push-icon-blue-circle.png",
+      "icon": "https://exp-us-standard.s3.amazonaws.com/placeholder-push-icon-blue-circle.png",
       "color": "#000000"
     },
     "splash": {
