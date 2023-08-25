@@ -14,6 +14,7 @@ async function run() {
 
   await exportWeb({ workingDir, exportDir });
   await patchBundleImportPath({ workingDir, exportDir });
+  await patchAssetPath({ workingDir, exportDir });
   await uploadWeb({ workingDir, exportDir });
 }
 
@@ -31,6 +32,10 @@ async function exportWeb(options) {
     {
       cwd: options.workingDir,
       stdio: process.env.CI ? 'inherit' : 'ignore',
+      env: {
+        ...process.env,
+        SNACK_EXPORT_WEB: 'true',
+      },
     }
   );
   console.log(
@@ -58,6 +63,42 @@ async function patchBundleImportPath(options) {
 
   await fs.writeFile(indexPath, patchedFile, 'utf8');
   console.log(`✅ Patched bundle import path in: ${indexPath}`);
+}
+
+/**
+ * Fix the asset export paths in the `dist/...` export.
+ * This is required because we use the `transformer.publicPath`, in the Metro config,
+ * to host the Snack Runtime on an S3 bucket subfolder.
+ *
+ * @param {object} options
+ * @param {string} options.workingDir
+ * @param {string} options.exportDir
+ */
+async function patchAssetPath(options) {
+  const exportPath = path.resolve(options.workingDir, options.exportDir);
+  const publicFolder = path.resolve(exportPath, 'v2', String(semver.major(expoVersion)), 'assets');
+  const assetFolder = path.resolve(exportPath, 'assets');
+
+  const filesOrFolders = await fs.readdir(publicFolder);
+
+  for (const fileOrFolder of filesOrFolders) {
+    const fileOrFolderPath = path.resolve(publicFolder, fileOrFolder);
+    const assetPath = path.resolve(assetFolder, fileOrFolder);
+
+    await fs.rename(fileOrFolderPath, assetPath);
+
+    const relativeFilesOrFolderPath = path.relative(options.workingDir, fileOrFolderPath);
+    const relativeAssetPath = path.relative(options.workingDir, assetPath);
+
+    console.log(`✅ Moved public asset: "${relativeFilesOrFolderPath}" → "${relativeAssetPath}"`);
+  }
+
+  // Clean up folders without force-deleting it, if anything is left, it should fail on this part.
+  await fs.rmdir(path.resolve(exportPath, 'v2', String(semver.major(expoVersion)), 'assets'));
+  await fs.rmdir(path.resolve(exportPath, 'v2', String(semver.major(expoVersion))));
+  await fs.rmdir(path.resolve(exportPath, 'v2'));
+
+  console.log(`✅ Moved ${filesOrFolders.length} public assets`);
 }
 
 /**
