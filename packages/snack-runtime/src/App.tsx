@@ -32,6 +32,7 @@ import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 import { parseExperienceURL } from './UrlUtils';
+import { SnackConfigContext } from './config/SnackConfig';
 import { type SnackApiCode, fetchCodeBySnackIdentifier } from './utils/ExpoApi';
 import { extractChannelFromSnackUrl, extractSnackIdentifierFromSnackUrl } from './utils/SnackUrls';
 
@@ -95,6 +96,8 @@ function notifyStateChange(props: Pick<Props, 'onSnackState'>, state: SnackState
 // The root component for Snack's viewer. Allows scanning a barcode to identify a Snack, listens for
 // updates and displays the Snack.
 export default class App extends React.Component<Props, State> {
+  static contextType = SnackConfigContext;
+
   state: State = {
     initialLoad: true,
     initialURL: '',
@@ -125,7 +128,7 @@ export default class App extends React.Component<Props, State> {
     Messaging.init(deviceId, testTransport);
 
     // Initialize various things
-    this._awaitingModulesInitialization = Modules.initialize();
+    this._awaitingModulesInitialization = Modules.initialize(this.context);
     Console.initialize((method: string, payload: unknown[]) => {
       // Send any intercepted console.x calls to the sdk.
       // Errors are made serializable and converted to a string.

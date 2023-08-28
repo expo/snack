@@ -21,14 +21,15 @@ import * as context from 'snack-require-context';
 // web-assembly which is not yet supported on react-native.
 import { SourceMapConsumer, RawSourceMap } from 'source-map';
 
+import Reanimated2Plugin from '../vendor/reanimated-plugin';
+import System from '../vendor/system.src';
 import * as Files from './Files';
 import * as Logger from './Logger';
 import AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
-import Reanimated2Plugin from '../vendor/reanimated-plugin';
-import System from '../vendor/system.src';
+import { SnackConfig } from './config/SnackConfig';
 
 type Dependencies = {
   [key: string]: { resolved?: string; version: string; handle?: string };
@@ -209,7 +210,6 @@ const fetchPipeline = async (load: Load) => {
               });
 
               if (response.headers?.hasOwnProperty('map')) {
-                // @ts-expect-error: expression of type '"map"' can't be used to index type 'Headers'
                 const mapHeaders = response.headers['map'];
                 if (mapHeaders) {
                   metaData = {
@@ -527,7 +527,7 @@ global.evaluate = (src, options: { filename?: string } = {}) => {
 };
 
 // Initialize the module system. This basically consists of initializing and configuring SystemJS.
-const _initialize = async () => {
+const _initialize = async (config: SnackConfig) => {
   // SystemJS config. Create and use a plugin with our pipeline, turn on default '.js' extensions
   // and tracing (makes SystemJS collect dependency info).
   await System.set(
@@ -550,11 +550,10 @@ const _initialize = async () => {
 
   System.trace = true; // Dependency tracking
 
-  // Pre-loaded modules
+  // Pre-loaded modules from config
   await Promise.all(
-    Object.keys(aliases).map(
-      async (key) =>
-        await System.set(key, System.newModule({ default: aliases[key], __useDefault: true }))
+    Object.keys(config.modules).map((key) =>
+      System.set(key, System.newModule({ default: aliases[key], __useDefault: true }))
     )
   );
 
@@ -876,8 +875,8 @@ export const flush = async ({
 
 // Wrap initialize and guard that it is initialized once only
 let waitForInitialize: Promise<void>;
-export const initialize = async () => {
-  waitForInitialize = waitForInitialize || _initialize();
+export const initialize = async (config: SnackConfig) => {
+  waitForInitialize = waitForInitialize || _initialize(config);
   return waitForInitialize;
 };
 
