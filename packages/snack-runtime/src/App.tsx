@@ -25,7 +25,7 @@ import * as Logger from './Logger';
 import * as Messaging from './Messaging';
 import * as Modules from './Modules';
 import EXDevLauncher from './NativeModules/EXDevLauncher';
-import { ExpoRouterApp, isExpoRouterEntry } from './NativeModules/ExpoRouterEntry';
+import { isExpoRouterEntry } from './NativeModules/ExpoRouter';
 import Linking from './NativeModules/Linking';
 import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
@@ -543,14 +543,24 @@ export default class App extends React.Component<Props, State> {
     try {
       const rootModuleUri = 'module://' + Files.entry();
 
+      // Determine if we should render the Expo Router entry component
+      const shouldRenderExpoRouter = isExpoRouterEntry(Files.get(Files.entry())?.contents);
+      // Determine if the Expo Router entry component is available
+      const ExpoRouterEntry = this.context.experimental?.expoRouterEntry;
+
+      // Provide a helpful message when Expo Router was requested but is not available
+      if (shouldRenderExpoRouter && !ExpoRouterEntry) {
+        Logger.warn('Expo Router entry component is not available, falling back to default export');
+      }
+
       // Handle Expo Router root with a Snack compatible components
-      if (isExpoRouterEntry(Files.get(Files.entry())?.contents)) {
+      if (shouldRenderExpoRouter && ExpoRouterEntry) {
         // Flush without flushing the root component
         await Modules.flush({ changedPaths, changedUris: [] });
 
         const ctx = await Modules.load(createVirtualModulePath({ directory: 'module://app' }));
         Logger.info('Updating Expo Router root element');
-        rootElement = React.createElement(ExpoRouterApp, { ctx });
+        rootElement = React.createElement(ExpoRouterEntry, { ctx });
       }
       // Handle normal default exports
       else {

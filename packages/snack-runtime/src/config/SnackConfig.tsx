@@ -1,8 +1,15 @@
-import { createContext, useRef, type PropsWithChildren } from 'react';
+import { createContext, useRef, type PropsWithChildren, ComponentType } from 'react';
+
+import { type ExpoRouterEntryProps } from '../NativeModules/ExpoRouter';
 
 export type SnackConfig = {
   /** All "linked" modules which are "passed through" to the runtime context */
   modules: Record<string, ReturnType<NodeRequire>>;
+  /** Experimental configuration options */
+  experimental?: {
+    /** The custom entry point, generated when using `expo-router` in the Snack */
+    expoRouterEntry?: ComponentType<ExpoRouterEntryProps>;
+  };
 };
 
 export const SnackRuntimeContext = createContext<SnackConfig>({

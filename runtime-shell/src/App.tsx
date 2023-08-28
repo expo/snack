@@ -9,7 +9,6 @@ import {
 const config: SnackConfig = {
   modules: {
     ...defaultSnackModules,
-
     // Only works when vendored into the runtime (expo-router@1.5.3)
     'expo-router': require('expo-router'),
     'expo-router/stack': require('expo-router/stack'),
@@ -18,6 +17,9 @@ const config: SnackConfig = {
     'expo-router/html': require('expo-router/html'),
     'expo-router/head': require('expo-router/head'),
     'expo-router/entry': () => {}, // noop
+  },
+  experimental: {
+    expoRouterEntry: require('./NativeModules/ExpoRouter').ExpoRouterApp,
   },
 };
 
