@@ -27,7 +27,6 @@ import * as Logger from './Logger';
 import AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
-import aliases from './aliases';
 import { SnackConfig } from './config/SnackConfig';
 import Reanimated2Plugin from '../vendor/reanimated-plugin';
 import System from '../vendor/system.src';
