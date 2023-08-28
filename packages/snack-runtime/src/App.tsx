@@ -1,7 +1,6 @@
 import './polyfill';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Constants from 'expo-constants';
 import { activateKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
@@ -18,6 +17,7 @@ import { createVirtualModulePath } from 'snack-require-context';
 import { AppLoading } from './AppLoading';
 import BarCodeScannerView from './BarCodeScannerView';
 import * as Console from './Console';
+import { SNACK_API_URL } from './Constants';
 import * as Errors from './Errors';
 import * as Files from './Files';
 import LoadingView from './LoadingView';
@@ -32,12 +32,9 @@ import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 import { parseExperienceURL } from './UrlUtils';
-import { SnackConfigContext } from './config/SnackConfig';
+import { SnackRuntimeContext } from './config/SnackConfig';
 import { type SnackApiCode, fetchCodeBySnackIdentifier } from './utils/ExpoApi';
 import { extractChannelFromSnackUrl, extractSnackIdentifierFromSnackUrl } from './utils/SnackUrls';
-
-const API_SERVER_URL_STAGING = 'https://staging.exp.host';
-const API_SERVER_URL_PROD = 'https://exp.host';
 
 export type SnackState = 'loading' | 'finished' | 'error';
 
@@ -96,7 +93,7 @@ function notifyStateChange(props: Pick<Props, 'onSnackState'>, state: SnackState
 // The root component for Snack's viewer. Allows scanning a barcode to identify a Snack, listens for
 // updates and displays the Snack.
 export default class App extends React.Component<Props, State> {
-  static contextType = SnackConfigContext;
+  static contextType = SnackRuntimeContext;
 
   state: State = {
     initialLoad: true,
@@ -397,11 +394,7 @@ export default class App extends React.Component<Props, State> {
   };
 
   _uploadPreviewToS3 = async (asset: string, height: number, width: number) => {
-    const url = `${
-      Constants.manifest?.extra?.cloudEnv !== 'production'
-        ? API_SERVER_URL_STAGING
-        : API_SERVER_URL_PROD
-    }/--/api/v2/snack/uploadPreview`;
+    const url = `${SNACK_API_URL}/--/api/v2/snack/uploadPreview`;
     const body = JSON.stringify({ asset, height, width });
     try {
       Logger.info('Uploading preview...', 'width', width, 'height', height);

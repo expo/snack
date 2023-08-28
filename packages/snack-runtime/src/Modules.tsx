@@ -21,6 +21,7 @@ import * as context from 'snack-require-context';
 // web-assembly which is not yet supported on react-native.
 import { SourceMapConsumer, RawSourceMap } from 'source-map';
 
+import { SNACKAGER_API_URLS } from './Constants';
 import * as Files from './Files';
 import * as Logger from './Logger';
 import AssetRegistry from './NativeModules/AssetRegistry';
@@ -43,9 +44,6 @@ type Load = {
     sourceMap?: RawSourceMap;
   };
 };
-
-const SNACKAGER_CDN_STAGING = 'https://ductmb1crhe2d.cloudfront.net';
-const SNACKAGER_CDN_PROD = 'https://d37p21p3n8r8ug.cloudfront.net';
 
 // This is super hacky
 // This avoids a bug where for some reason `react` is `undefined` in a dependency
@@ -311,12 +309,7 @@ const fetchPipeline = async (load: Load) => {
             `from cache ${bundle ? bundle.length : undefined} bytes`
           );
         } else {
-          // In development, try fetching from staging cloudfront first
-          const cloudFrontUrls =
-            Constants.manifest?.extra?.cloudEnv !== 'production'
-              ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
-              : [SNACKAGER_CDN_PROD];
-          for (const url of cloudFrontUrls) {
+          for (const [urlIndex, url] of SNACKAGER_API_URLS.entries()) {
             const fetchFrom = `${url}/${handle}-${Platform.OS}/bundle.js`;
 
             try {
@@ -330,14 +323,15 @@ const fetchPipeline = async (load: Load) => {
                 throw new Error(`Request failed with status ${res.status}: ${res.statusText}`);
               }
             } catch (e) {
-              if (url !== SNACKAGER_CDN_STAGING) {
-                Logger.error('Error fetching bundle', fetchFrom, e);
-                throw e;
-              } else {
+              // Retry if there are more URLs to try
+              if (urlIndex < SNACKAGER_API_URLS.length - 1) {
                 Logger.warn(
-                  'Dependency could not be loaded from staging, trying production ...',
+                  'Dependency could not be loaded, trying next Snackager URL (production) ...',
                   handle
                 );
+              } else {
+                Logger.error('Error fetching bundle', fetchFrom, e);
+                throw e;
               }
             }
 
