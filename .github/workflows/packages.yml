@@ -26,6 +26,7 @@ jobs:
   review:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         package:
           - snack-babel-standalone
@@ -33,12 +34,15 @@ jobs:
           - snack-eslint-standalone
           - snack-proxies
           - snack-require-context
+          - snack-runtime
           - snack-sdk
           - snack-term
         include:
           - package: snack-babel-standalone
             local-install: true
           - package: snack-eslint-standalone
+            local-install: true
+          - package: snack-runtime
             local-install: true
     steps:
       - name: 🏗 Setup repository
