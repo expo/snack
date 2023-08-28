@@ -9573,14 +9573,18 @@ smart-buffer@^4.2.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.2.0.tgz#6e1d71fa4f18c05f7d0ff216dd16a481d0e8d9ae"
   integrity sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==
 
-"snack-babel-standalone@file:../packages/snack-babel-standalone":
+snack-babel-standalone@^2.2.2:
   version "2.2.2"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-2.2.2.tgz#2154855c482c112036261171ed32f7892102be60"
+  integrity sha512-kYYfIsktDfJeYrByF184YO/x55U7rPzfXThsownEGCNBn8d1xZ8AD7NyuLS5aA1n2rk9yKQ1CZxIRHwoNkootQ==
 
-"snack-require-context@file:../packages/snack-require-context":
-  version "0.0.0"
+snack-require-context@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/snack-require-context/-/snack-require-context-0.1.0.tgz#dd48f6e2c6b7299b7d7f34c873220cb80a8a42a7"
+  integrity sha512-A3wTu9vHquHOP5I7T1WBfO51LuJaXA1htg4WurdmhePZr3CizS4XSwX5dh2fwc92U5R70W11AzoVvOg/Xqa+Nw==
 
 "snack-runtime@file:../packages/snack-runtime":
-  version "0.3.0-rc.0"
+  version "0.3.0-rc.1"
   dependencies:
     "@babel/polyfill" "^7.8.3"
     "@react-native-async-storage/async-storage" "1.17.11"
@@ -9589,8 +9593,8 @@ smart-buffer@^4.2.0:
     diff "^5.0.0"
     escape-string-regexp "^5.0.0"
     pubnub "^7.2.0"
-    snack-babel-standalone "file:../../../../Library/Caches/Yarn/v6/npm-snack-runtime-0.3.0-rc.0-3a60f489-9805-467b-85f1-189fd605f77d-1692883508737/node_modules/snack-babel-standalone"
-    snack-require-context "file:../../../../Library/Caches/Yarn/v6/npm-snack-runtime-0.3.0-rc.0-3a60f489-9805-467b-85f1-189fd605f77d-1692883508737/node_modules/snack-require-context"
+    snack-babel-standalone "^2.2.2"
+    snack-require-context "^0.1.0"
     socket.io-client "~4.5.4"
     source-map "0.6.1"
 

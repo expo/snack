@@ -1,7 +1,7 @@
 import { reloadAsync } from 'expo-updates';
 import {
-  defaultSnackModules,
   type SnackConfig,
+  defaultSnackModules,
   SnackRuntimeProvider,
   SnackRuntime,
 } from 'snack-runtime';
