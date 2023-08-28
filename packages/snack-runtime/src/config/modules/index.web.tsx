@@ -1,6 +1,6 @@
+import { allPlatformModules } from './common';
 import AssetRegistry from '../../NativeModules/AssetRegistry';
 import { SnackConfig } from '../SnackConfig';
-import { allPlatformModules } from './common';
 
 export const modules: SnackConfig['modules'] = {
   // Modules that are common to all platforms
