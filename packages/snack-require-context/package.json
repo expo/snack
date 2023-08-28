@@ -1,6 +1,6 @@
 {
   "name": "snack-require-context",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A Snack-compatible implementation of `require.context`",
   "main": "./build/runtime.js",
   "types": "./build/runtime.d.ts",
