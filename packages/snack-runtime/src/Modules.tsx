@@ -547,7 +547,7 @@ const _initialize = async (config: SnackConfig) => {
   // Pre-loaded modules from config
   await Promise.all(
     Object.keys(config.modules).map((key) =>
-      System.set(key, System.newModule({ default: aliases[key], __useDefault: true }))
+      System.set(key, System.newModule({ default: config.modules[key], __useDefault: true }))
     )
   );
 
