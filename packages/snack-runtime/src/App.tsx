@@ -31,10 +31,13 @@ import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
-import { parseExperienceURL } from './UrlUtils';
 import { SnackRuntimeContext } from './config/SnackConfig';
 import { type SnackApiCode, fetchCodeBySnackIdentifier } from './utils/ExpoApi';
-import { extractChannelFromSnackUrl, extractSnackIdentifierFromSnackUrl } from './utils/SnackUrls';
+import {
+  extractChannelFromSnackUrl,
+  extractSnackIdentifierFromSnackUrl,
+  parseExperienceURL,
+} from './utils/SnackUrls';
 
 export type SnackState = 'loading' | 'finished' | 'error';
 
