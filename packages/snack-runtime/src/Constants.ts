@@ -1,4 +1,3 @@
-import assert from 'assert';
 import Constants from 'expo-constants';
 
 /**
@@ -8,10 +7,10 @@ import Constants from 'expo-constants';
 export const SNACK_ENVIRONMENT: 'staging' | 'production' =
   Constants.manifest?.extra?.cloudEnv ?? 'production';
 
-assert(
-  ['staging', 'production'].includes(SNACK_ENVIRONMENT),
-  'Invalid Snack environment set through `manifest.extra.cloudEnv`, must be "staging" or "production".'
-);
+// Ensure the environment is valid
+if (!['staging', 'production'].includes(SNACK_ENVIRONMENT)) {
+  throw new Error(`Invalid Snack environment set through "manifest.extra.cloudEnv", must be "staging" or "production", received "${SNACK_ENVIRONMENT}".`);
+}
 
 /** Get the value based on the detected Snack environment. */
 export function getSnackEnvironmentValue<T extends any>(
