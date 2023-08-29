@@ -6,7 +6,7 @@ RUN apk --no-cache add git openssh-client
 
 # Workspace files
 WORKDIR /app
-COPY package.json yarn.lock .prettierrc ./
+COPY package.json yarn.lock .prettierrc turbo.json node_modules/.cache/turbo ./
 
 # Workspace packages
 WORKDIR /app
@@ -25,9 +25,9 @@ COPY snackager/.eslint* ./
 # Install dependencies
 RUN yarn install --frozen-lockfile --production=false
 
-# Build core packages
+# Build Snackager
 WORKDIR /app
-RUN yarn build
+RUN yarn turbo build -- --filter "./snackager"
 
 # Snackager
 WORKDIR /app/snackager
@@ -40,7 +40,7 @@ ARG APP_VERSION
 ENV APP_VERSION ${APP_VERSION}
 
 # Build Snackager
-RUN yarn build
+RUN yarn turbo build -- --filter "./snackager"
 
 # Minimize node_modules
 RUN yarn install --frozen-lockfile --offline --production

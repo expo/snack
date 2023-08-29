@@ -1,5 +1,6 @@
 # npm dependencies
 **/node_modules/
+!node_modules/.cache/turbo
 
 # Compiled JavaScript
 packages/**/build

@@ -15,6 +15,19 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: yarn
 
+    # Cache the build files when coupled within the monorepo
+    - name: 🏗 Setup caching
+      uses: actions/cache@v3
+      if: ${{ !matrix.monorepo-detached }}
+      with:
+        key: turbo-snackager-${{ runner.os }}-${{ github.sha }}
+        restore-keys: |
+          turbo-snackager-${{ runner.os }}
+          turbo-snackager
+        path: |
+          node_modules/.cache/turbo
+          packages/*/.turbo
+
     # npm v7+ doesn't work well with our monorepo
     - name: 🐛 Downgrade npm to v6
       run: npm install --global npm@^6
@@ -25,17 +38,6 @@ runs:
       run: yarn install --frozen-lockfile --ignore-scripts
       shell: bash
 
-    # Snackager relies on snack-content, which relies on snack-sdk
-    - name: 👷 Build snack-content
-      run: yarn workspace snack-content build
-      shell: bash
-
-    # Snackager relies on snack-content
-    - name: 👷 Build snack-sdk
-      run: yarn workspace snack-sdk build
-      shell: bash
-
-    # Snackager relies on snack-require-context
-    - name: 👷 Build snack-require-context
-      run: yarn workspace snack-require-context build
+    - name: 🛠 Build packages
+      run: yarn turbo build -- --filter "{./snackager}..."
       shell: bash

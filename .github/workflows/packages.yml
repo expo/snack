@@ -12,6 +12,7 @@ on:
       - packages/**
       - .eslint*
       - .prettier*
+      - turbo.json
       - yarn.lock
   push:
     branches: [main]
@@ -20,6 +21,7 @@ on:
       - packages/**
       - .eslint*
       - .prettier*
+      - turbo.json
       - yarn.lock
 
 jobs:
