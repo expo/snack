@@ -54,6 +54,19 @@ jobs:
           node-version: 16.x
           cache: yarn
 
+      # Cache the build files when coupled within the monorepo
+      - name: 🏗 Setup caching
+        uses: actions/cache@v3
+        if: ${{ !matrix.monorepo-detached }}
+        with:
+          key: turbo-${{ matrix.package }}-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ matrix.package }}-${{ runner.os }}
+            turbo-${{ matrix.package }}
+          path: |
+            node_modules/.cache/turbo
+            packages/*/.turbo
+
       - name: 📦 Install monorepo dependencies
         run: yarn install --frozen-lockfile
 
