@@ -15267,6 +15267,11 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
+turborepo@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/turborepo/-/turborepo-0.0.1.tgz#0f86976a6246108387777542ba7a585b1dcf4f94"
+  integrity sha512-x+4Q9iy252nr6zuU/TvQIF4na8OVLe2pBTwTJKA/aTPzdR4W8q0uhEj/U69G09IznNDjMg8jXG2nm9gan4KQ1g==
+
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
