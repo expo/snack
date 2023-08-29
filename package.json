@@ -7,8 +7,10 @@
     "node": "16.14.2"
   },
   "scripts": {
-    "build": "cd packages/snack-content && yarn build && cd .. && cd snack-sdk && yarn build && cd .. && cd snack-require-context && yarn build",
-    "start": "cd packages/snack-term && yarn start && cd .."
+    "start": "turbo build --filter '{./packages/snack-term}...' && yarn --cwd ./packages/snack-term start",
+    "lint": "turbo lint --filter './packages/*'",
+    "test": "turbo test --filter './packages/*'",
+    "build": "turbo build --filter './packages/*'"
   },
   "workspaces": {
     "packages": [
@@ -30,6 +32,6 @@
     "eslint": "^8.12.0",
     "eslint-config-universe": "^10.0.0",
     "prettier": "^2.6.2",
-    "turborepo": "^0.0.1"
+    "turbo": "^1.10.13"
   }
 }
