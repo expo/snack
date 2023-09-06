@@ -6,6 +6,10 @@ export function isIOS(userAgent: string) {
   return /iPhone|iPad|iPod/i.test(userAgent);
 }
 
+export function isMacOS(userAgent: string) {
+  return /Mac OS/i.test(userAgent);
+}
+
 export function isMobile(
   userAgent: string = typeof navigator !== 'undefined' ? navigator.userAgent : ''
 ) {
