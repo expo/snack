@@ -97,6 +97,7 @@ const sdks: { [version: string]: SDKSpec } = {
       'expo-router/html': '*',
       'expo-router/head': '*',
       'expo-router/entry': '*',
+      'react-native-pager-view': '*',
     },
     deprecatedModules: {},
   },

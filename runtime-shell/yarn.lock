@@ -8846,6 +8846,11 @@ react-native-gradle-plugin@^0.71.18:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.19.tgz#3379e28341fcd189bc1f4691cefc84c1a4d7d232"
   integrity sha512-1dVk9NwhoyKHCSxcrM6vY6cxmojeATsBobDicX0ZKr7DgUF2cBQRTKsimQFvzH8XhOVXyH8p4HyDSZNIFI8OlQ==
 
+react-native-pager-view@6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-6.1.2.tgz#3522079b9a9d6634ca5e8d153bc0b4d660254552"
+  integrity sha512-qs2KSFc+7N7B+UZ6SG2sTvCkppagm5fVyRclv1KFKc7lDtrhXLzN59tXJw575LDP/dRJoXsNwqUAhZJdws6ABQ==
+
 react-native-reanimated@~2.14.4:
   version "2.14.4"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.14.4.tgz#3fa3da4e7b99f5dfb28f86bcf24d9d1024d38836"
@@ -9584,7 +9589,7 @@ snack-require-context@^0.1.0:
   integrity sha512-A3wTu9vHquHOP5I7T1WBfO51LuJaXA1htg4WurdmhePZr3CizS4XSwX5dh2fwc92U5R70W11AzoVvOg/Xqa+Nw==
 
 "snack-runtime@file:../packages/snack-runtime":
-  version "0.3.0-rc.1"
+  version "0.3.0-rc.3"
   dependencies:
     "@babel/polyfill" "^7.8.3"
     "@react-native-async-storage/async-storage" "1.17.11"
@@ -9592,6 +9597,7 @@ snack-require-context@^0.1.0:
     canvaskit-wasm "0.38.0"
     diff "^5.0.0"
     escape-string-regexp "^5.0.0"
+    path "^0.12.7"
     pubnub "^7.2.0"
     snack-babel-standalone "^2.2.2"
     snack-require-context "^0.1.0"
