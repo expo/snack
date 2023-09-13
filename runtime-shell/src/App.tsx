@@ -7,9 +7,18 @@ import {
   SnackRuntime,
 } from 'snack-runtime';
 
+const platformModules: SnackConfig['modules'] = Platform.select({
+  default: {},
+  native: {
+    // Does not work in Snackager, likely due to Webpack / Codegen
+    'react-native-pager-view': require('react-native-pager-view'),
+  },
+});
+
 const config: SnackConfig = {
   modules: {
     ...defaultSnackModules,
+    ...platformModules,
     // Only works when vendored into the runtime (expo-router@1.5.3)
     'expo-router': require('expo-router'),
     'expo-router/stack': require('expo-router/stack'),
@@ -18,14 +27,6 @@ const config: SnackConfig = {
     'expo-router/html': require('expo-router/html'),
     'expo-router/head': require('expo-router/head'),
     'expo-router/entry': () => {}, // noop
-    // Platform specific modules
-    ...Platform.select({
-      web: {},
-      native: {
-        // Does not work in Snackager, likely due to Webpack / Codegen
-        'react-native-pager-view': require('react-native-pager-view'),
-      },
-    }),
   },
   experimental: {
     expoRouterEntry: require('./NativeModules/ExpoRouter').ExpoRouterApp,
