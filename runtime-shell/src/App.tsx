@@ -1,4 +1,5 @@
 import { reloadAsync } from 'expo-updates';
+import { Platform } from 'react-native';
 import {
   type SnackConfig,
   defaultSnackModules,
@@ -6,9 +7,18 @@ import {
   SnackRuntime,
 } from 'snack-runtime';
 
+const platformModules: SnackConfig['modules'] = Platform.select({
+  default: {},
+  native: {
+    // Does not work in Snackager, likely due to Webpack / Codegen
+    'react-native-pager-view': require('react-native-pager-view'),
+  },
+});
+
 const config: SnackConfig = {
   modules: {
     ...defaultSnackModules,
+    ...platformModules,
     // Only works when vendored into the runtime (expo-router@1.5.3)
     'expo-router': require('expo-router'),
     'expo-router/stack': require('expo-router/stack'),
