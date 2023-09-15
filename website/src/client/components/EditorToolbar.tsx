@@ -1,8 +1,8 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { Experiment } from '../auth/authManager';
 import { SaveStatus, SaveHistory, Viewer, SaveOptions, SDKVersion } from '../types';
+import { useOrbit } from '../utils/orbit';
 import EditorTitle from './EditorTitle';
 import type { EditorModal } from './EditorViewProps';
 import usePreferences from './Preferences/usePreferences';
@@ -24,11 +24,11 @@ type Props = {
   isDownloading: boolean;
   isResolving: boolean;
   visibleModal: EditorModal | null;
+  experienceURL: string;
   onSubmitMetadata: (details: { name: string; description: string }) => void;
   onShowModal: (modal: EditorModal) => void;
   onHideModal: () => void;
   onDownloadCode: () => Promise<void>;
-  onOpenWithOrbit: () => void;
   onPublishAsync: (options?: SaveOptions) => Promise<void>;
 };
 
@@ -46,11 +46,11 @@ export default function EditorToolbar(props: Props) {
     isDownloading,
     isResolving,
     visibleModal,
+    experienceURL,
     onSubmitMetadata,
     onShowModal,
     onHideModal,
     onDownloadCode,
-    onOpenWithOrbit,
     onPublishAsync,
   } = props;
   const { theme } = preferences;
@@ -58,9 +58,9 @@ export default function EditorToolbar(props: Props) {
   const isPublishing = saveStatus === 'publishing';
   const isPublished = saveStatus === 'published';
 
-  const showOrbitButton =
-    viewer?.experiments?.find(({ experiment }) => experiment === Experiment.Orbit)?.enabled ??
-    false;
+  const { isEnabled: showOrbitButton, openWithExperienceURL: onOpenWithOrbit } = useOrbit({
+    experiments: viewer?.experiments,
+  });
 
   return (
     <ToolbarShell>
@@ -113,7 +113,10 @@ export default function EditorToolbar(props: Props) {
           </svg>
         </IconButton>
         {showOrbitButton ? (
-          <IconButton responsive title="Open with Orbit" onClick={onOpenWithOrbit}>
+          <IconButton
+            responsive
+            title="Open with Orbit"
+            onClick={() => onOpenWithOrbit(experienceURL, () => onShowModal('install-orbit'))}>
             <svg width="20" height="20" viewBox="0 0 16 16">
               <path
                 stroke="none"

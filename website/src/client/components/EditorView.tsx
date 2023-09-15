@@ -8,7 +8,6 @@ import Analytics from '../utils/Analytics';
 import { isMobile } from '../utils/detectPlatform';
 import { isScript, isJson, isTest } from '../utils/fileUtilities';
 import lintFile from '../utils/lintFile';
-import { openExpoOrbitWithExperienceURL } from '../utils/orbit';
 import prettierCode from '../utils/prettierCode';
 import AssetViewer from './AssetViewer';
 import { withDependencyManager } from './DependencyManager';
@@ -443,17 +442,13 @@ class EditorView extends React.Component<Props, State> {
                   viewer={viewer}
                   isDownloading={isDownloading}
                   isResolving={isResolving}
+                  experienceURL={experienceURL}
                   visibleModal={currentModal as EditorModal}
                   onShowModal={this._handleShowModal}
                   onHideModal={this._handleHideModal}
                   onSubmitMetadata={this.props.onSubmitMetadata}
                   onDownloadCode={this.props.onDownloadAsync}
                   onPublishAsync={onPublishAsync}
-                  onOpenWithOrbit={() =>
-                    openExpoOrbitWithExperienceURL(experienceURL, () =>
-                      this._handleShowModal('install-orbit')
-                    )
-                  }
                 />
                 <div className={css(styles.editorAreaOuterWrapper)}>
                   <div className={css(styles.editorAreaOuter)}>
