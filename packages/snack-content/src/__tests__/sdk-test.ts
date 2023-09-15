@@ -122,7 +122,8 @@ describe('getDeprecatedModule', () => {
     expect(getDeprecatedModule('expo-constants', oldestSdkVersion)).toBe(undefined);
   });
 
-  it('returns description for deprecated modules', () => {
+  // Temporarily disabaled, we don't have deprecated modules for SDK 49.
+  xit('returns description for deprecated modules', () => {
     expect(getDeprecatedModule('@react-native-community/async-storage', oldestSdkVersion)).toBe(
       'Async Storage has moved to new organization: https://github.com/react-native-async-storage/async-storage'
     );

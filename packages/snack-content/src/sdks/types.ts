@@ -1,7 +1,7 @@
 /**
  * Version of the Expo SDK to use (e.g. "48.0.0").
  */
-export type SDKVersion = '46.0.0' | '47.0.0' | '48.0.0';
+export type SDKVersion = '47.0.0' | '48.0.0' | '49.0.0';
 
 /** @internal */
 export type SDKSpec = {
