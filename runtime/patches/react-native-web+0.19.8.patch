@@ -1,10 +1,10 @@
 diff --git a/node_modules/react-native-web/dist/exports/Image/index.js b/node_modules/react-native-web/dist/exports/Image/index.js
-index 1a19d21..4c93470 100644
+index 95355d5..634bd25 100644
 --- a/node_modules/react-native-web/dist/exports/Image/index.js
 +++ b/node_modules/react-native-web/dist/exports/Image/index.js
-@@ -132,7 +132,7 @@ function resolveAssetUri(source) {
+@@ -117,7 +117,7 @@ function resolveAssetUri(source) {
+       scale = asset.scales.reduce((prev, curr) => Math.abs(curr - preferredScale) < Math.abs(prev - preferredScale) ? curr : prev);
      }
- 
      var scaleSuffix = scale !== 1 ? "@" + scale + "x" : '';
 -    uri = asset ? asset.httpServerLocation + "/" + asset.name + scaleSuffix + "." + asset.type : '';
 +    uri = asset ? asset.httpServerLocation + "/" + asset.name + scaleSuffix + (asset.type ? ("." + asset.type) : '') : '';
