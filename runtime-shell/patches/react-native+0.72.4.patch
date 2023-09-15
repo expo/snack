@@ -1,12 +1,13 @@
 diff --git a/node_modules/react-native/Libraries/ReactNative/requireNativeComponent.js b/node_modules/react-native/Libraries/ReactNative/requireNativeComponent.js
-index 7402bbf..0ba2338 100644
+index e9be731..b834f63 100644
 --- a/node_modules/react-native/Libraries/ReactNative/requireNativeComponent.js
 +++ b/node_modules/react-native/Libraries/ReactNative/requireNativeComponent.js
-@@ -29,4 +29,16 @@ const requireNativeComponent = <T>(uiViewClassName: string): HostComponent<T> =>
+@@ -29,4 +29,17 @@ const requireNativeComponent = <T>(uiViewClassName: string): HostComponent<T> =>
      getNativeComponentAttributes(uiViewClassName),
    ): any): HostComponent<T>);
  
--module.exports = requireNativeComponent;
+-export default requireNativeComponent;
++/* export default requireNativeComponent; */
 +
 +/**
 + * Cache React components to prevent "ViewManager is already loaded" errors
