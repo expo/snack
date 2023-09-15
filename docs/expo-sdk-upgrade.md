@@ -25,7 +25,8 @@ Update the Snack runtime (managed Expo app), snack-sdk and website to the latest
 
 ### runtime
 
-- Either run `expo update <version>` or upgrade the dependencies in `package.json` to match those in `bundledNativeModules.json`.
+- Run `yarn add expo@^...` to upgrade Expo.
+- Run `yarn expo install --fix` to upgrade all dependencies of Expo.
 - Update the patched packages in `./patches`.
 - Update any default project files to match the template in `expo/templates/expo-template-blank`.
 - Update the files in `./web` to match the latest expo-cli defaults (`expo customize:web`).
