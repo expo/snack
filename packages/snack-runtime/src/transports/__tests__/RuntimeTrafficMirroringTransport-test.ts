@@ -8,6 +8,7 @@ import RuntimeTransportImplPubNub from '../RuntimeTransportImplPubNub';
 import RuntimeTransportImplSocketIO from '../RuntimeTransportImplSocketIO';
 
 jest.mock('../../Logger');
+jest.mock('../../NativeModules/LogBox');
 jest.mock('../RuntimeTransportImplPubNub');
 jest.mock('../RuntimeTransportImplSocketIO');
 
