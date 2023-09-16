@@ -5,7 +5,7 @@ defaults:
     working-directory: website
 
 concurrency:
-  group: website-${{ github.ref }}
+  group: website-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 on:
