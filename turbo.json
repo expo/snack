@@ -26,6 +26,29 @@
       "env": [
         "APP_VERSION" // see: ./snackager/Dockerfile#L52
       ]
+    },
+    "@expo/web-snack#build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "build/**" // TODO: validate this
+      ],
+      "env": [
+        "API_SERVER_URL", // see: ./website/Dockerfile#L47
+        "APP_VERSION", // see: ./website/Dockerfile#L50
+        "DEPLOY_ENVIRONMENT", // see: ./website/Dockerfile#L53
+        "IMPORT_SERVER_URL", // see: ./website/Dockerfile#L56
+        "LEGACY_SERVER_URL", // see: ./website/Dockerfile#L59
+        "LEGACY_SNACK_SERVER_URL", // see: ./website/Dockerfile#L62
+        "NODE_ENV", // see: ./website/webpack.config.js#L56
+        "RUDDERSTACK_DATA_PLANE_URL", // see: ./website/Dockerfile#L65
+        "RUDDERSTACK_WRITE_KEY", // see: ./website/Dockerfile#L68
+        "SERVER_URL", // see: ./website/Dockerfile#L71
+        "SNACK_AMPLITUDE_KEY", // see: ./website/Dockerfile#L74
+        "SNACK_SERVER_URL", // see: ./website/Dockerfile#L77
+        "SNACK_WEBPLAYER_CDN", // see: ./website/Dockerfile#L80
+        "SNACK_WEBPLAYER_URL", // see: ./website/Dockerfile#L83
+        "SNACKPUB_URL" // see: ./website/Dockerfile#L86
+      ]
     }
   }
 }
