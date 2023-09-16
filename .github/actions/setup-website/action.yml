@@ -19,12 +19,6 @@ runs:
       run: yarn install --frozen-lockfile --ignore-scripts
       shell: bash
 
-    # Website relies on snack-content, which relies on snack-sdk
-    - name: 👷 Build snack-content
-      run: yarn workspace snack-content build
-      shell: bash
-
-    # Website relies on snack-content
-    - name: 👷 Build snack-sdk
-      run: yarn workspace snack-sdk build
+    - name: 🛠 Build dependencies
+      run: yarn turbo build --filter '{./website}^...'
       shell: bash
