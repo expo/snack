@@ -27,6 +27,7 @@ on:
       - .github/workflows/snackager.yml
       - snackager/**
       - packages/snack-content/**
+      - packages/snack-require-context/**
       - packages/snack-sdk/**
       - .eslint*
       - .prettier*
@@ -40,6 +41,7 @@ on:
       - .github/workflows/snackager.yml
       - snackager/**
       - packages/snack-content/**
+      - packages/snack-require-context/**
       - packages/snack-sdk/**
       - .eslint*
       - .prettier*
@@ -63,13 +65,27 @@ jobs:
       - name: 🚨 Lint snackager
         run: yarn lint --max-warnings 0
 
-      - name: 🧪 Unit test snackager
+      - name: 🧪 Test snackager
         run: yarn test --ci --maxWorkers 1 --testPathIgnorePatterns=__integration-tests__
 
-      - name: 🧪 E2E test snackager
+  e2e:
+    # Takes a long time, best to only run this on PRs
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup secrets
+        uses: ./.github/actions/setup-secrets
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: 🏗 Setup snackager
+        uses: ./.github/actions/setup-snackager
+
+      - name: 🧪 Test snackager
         run: yarn test --ci --maxWorkers 1 --testPathPattern=__integration-tests__
-        # Takes a long time, best to only run this on PRs
-        if: ${{ github.event_name == 'pull_request' }}
 
   build:
     if: ${{ github.event_name == 'pull_request' }}
