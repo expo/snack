@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    // See: https://github.com/vercel/turbo/pull/1472
+    "turbo.json": "jsonc"
+  }
+}
