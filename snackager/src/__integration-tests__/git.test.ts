@@ -4,7 +4,7 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import os from 'os';
 import path from 'path';
-import { SnackFiles } from 'snack-sdk';
+import { SDKVersion, SnackFiles } from 'snack-sdk';
 import util from 'util';
 
 import { importAsync } from '../git';
@@ -14,6 +14,10 @@ const rimraf = util.promisify(require('rimraf'));
 
 const SAVE_ID = '7777771777';
 const ASSET_URL = 'https://myuploadedasset.com/777';
+
+// The main SDK version to use in testing,
+// this should type-fail when needs upgrade.
+const sdkVersion: SDKVersion = '49.0.0';
 
 jest.setTimeout(50000);
 jest.mock('node-fetch', () => {
@@ -49,7 +53,7 @@ describe('git', () => {
   it('imports basic repository', async () => {
     const repoPath = await createRepo({
       name: 'test1',
-      sdkVersion: '46.0.0',
+      sdkVersion,
     });
     const id = await importAsync({
       repo: repoPath,
@@ -91,7 +95,7 @@ describe('git', () => {
   it('imports repository without app.json', async () => {
     const repoPath = await createRepo({
       name: 'some-example',
-      sdkVersion: '46.0.0',
+      sdkVersion,
       appConfig: 'none',
     });
     const id = await importAsync({
@@ -106,7 +110,7 @@ describe('git', () => {
   it('imports repository with app.config.js', async () => {
     const repoPath = await createRepo({
       name: 'some-example',
-      sdkVersion: '46.0.0',
+      sdkVersion,
       appConfig: 'app.config.js',
     });
     const id = await importAsync({
@@ -121,7 +125,7 @@ describe('git', () => {
   it('imports repository with assets', async () => {
     const repoPath = await createRepo({
       name: 'some-example',
-      sdkVersion: '46.0.0',
+      sdkVersion,
       extraFiles: {
         'assets/image.png': {
           type: 'ASSET',
@@ -142,7 +146,7 @@ describe('git', () => {
   it('imports repository created with main branch', async () => {
     const repoPath = await createRepo({
       name: 'test1',
-      sdkVersion: '46.0.0',
+      sdkVersion,
       branch: 'main',
     });
     const id = await importAsync({
@@ -157,7 +161,7 @@ describe('git', () => {
   it('imports repository with custom branch', async () => {
     const repoPath = await createRepo({
       name: 'test1',
-      sdkVersion: '46.0.0',
+      sdkVersion,
       branch: 'feature-a',
     });
     const id = await importAsync({
@@ -173,7 +177,7 @@ describe('git', () => {
   it('fails to import repository with wrong branch', async () => {
     const repoPath = await createRepo({
       name: 'test1',
-      sdkVersion: '46.0.0',
+      sdkVersion,
       branch: 'feature-a',
     });
     expect(

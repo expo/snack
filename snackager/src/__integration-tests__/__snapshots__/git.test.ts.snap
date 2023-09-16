@@ -11,7 +11,7 @@ Array [
           "type": "CODE",
         },
         "app.json": Object {
-          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"46.0.0\\"}}",
+          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"49.0.0\\"}}",
           "type": "CODE",
         },
       },
@@ -27,7 +27,7 @@ Array [
         },
         "description": "test1 @ Jan 1, 2020",
         "name": "test1",
-        "sdkVersion": "46.0.0",
+        "sdkVersion": "49.0.0",
       },
     },
     "headers": Object {
@@ -49,7 +49,7 @@ Array [
           "type": "CODE",
         },
         "app.json": Object {
-          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"46.0.0\\"}}",
+          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"49.0.0\\"}}",
           "type": "CODE",
         },
       },
@@ -65,7 +65,7 @@ Array [
         },
         "description": "test1 @ Jan 1, 2020",
         "name": "test1",
-        "sdkVersion": "46.0.0",
+        "sdkVersion": "49.0.0",
       },
     },
     "headers": Object {
@@ -87,7 +87,7 @@ Array [
           "type": "CODE",
         },
         "app.config.js": Object {
-          "contents": "export default {\\"name\\":\\"some-example\\",\\"sdkVersion\\":\\"46.0.0\\"};",
+          "contents": "export default {\\"name\\":\\"some-example\\",\\"sdkVersion\\":\\"49.0.0\\"};",
           "type": "CODE",
         },
       },
@@ -103,7 +103,7 @@ Array [
         },
         "description": "some-example @ Jan 1, 2020",
         "name": "some-example",
-        "sdkVersion": "46.0.0",
+        "sdkVersion": "49.0.0",
       },
     },
     "headers": Object {
@@ -127,7 +127,7 @@ Array [
           "type": "CODE",
         },
         "app.json": Object {
-          "contents": "{\\"expo\\":{\\"name\\":\\"some-example\\",\\"sdkVersion\\":\\"46.0.0\\"}}",
+          "contents": "{\\"expo\\":{\\"name\\":\\"some-example\\",\\"sdkVersion\\":\\"49.0.0\\"}}",
           "type": "CODE",
         },
         "assets/image.png": Object {
@@ -147,7 +147,7 @@ Array [
         },
         "description": "some-example @ Jan 1, 2020",
         "name": "some-example",
-        "sdkVersion": "46.0.0",
+        "sdkVersion": "49.0.0",
       },
     },
     "headers": Object {
@@ -169,7 +169,7 @@ Array [
           "type": "CODE",
         },
         "app.json": Object {
-          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"46.0.0\\"}}",
+          "contents": "{\\"expo\\":{\\"name\\":\\"test1\\",\\"sdkVersion\\":\\"49.0.0\\"}}",
           "type": "CODE",
         },
       },
@@ -185,7 +185,7 @@ Array [
         },
         "description": "test1@feature-a @ Jan 1, 2020",
         "name": "test1@feature-a",
-        "sdkVersion": "46.0.0",
+        "sdkVersion": "49.0.0",
       },
     },
     "headers": Object {
@@ -223,7 +223,7 @@ Array [
         },
         "description": "test2 @ Jan 1, 2020",
         "name": "test2",
-        "sdkVersion": "47.0.0",
+        "sdkVersion": "48.0.0",
       },
     },
     "headers": Object {
@@ -261,7 +261,7 @@ Array [
         },
         "description": "test3 @ Jan 1, 2020",
         "name": "test3",
-        "sdkVersion": "47.0.0",
+        "sdkVersion": "48.0.0",
       },
     },
     "headers": Object {
@@ -295,7 +295,7 @@ Array [
         },
         "description": "some-example @ Jan 1, 2020",
         "name": "some-example",
-        "sdkVersion": "47.0.0",
+        "sdkVersion": "48.0.0",
       },
     },
     "headers": Object {
