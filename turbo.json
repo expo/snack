@@ -17,6 +17,15 @@
       "outputs": [
         "build/**"
       ]
+    },
+    "snack-modules-packager#build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "build/**"
+      ],
+      "env": [
+        "APP_VERSION" // see: ./snackager/Dockerfile#L52
+      ]
     }
   }
 }
