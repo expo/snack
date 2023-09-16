@@ -1,7 +1,7 @@
 name: Packages
 
 concurrency:
-  group: packages-${{ github.ref }}
+  group: packages-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 on:

@@ -5,7 +5,7 @@ defaults:
     working-directory: snackager
 
 concurrency:
-  group: snackager-${{ github.ref }}
+  group: snackager-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 on:

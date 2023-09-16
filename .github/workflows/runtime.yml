@@ -5,7 +5,7 @@ defaults:
     working-directory: runtime
 
 concurrency:
-  group: runtime-${{ github.ref }}
+  group: runtime-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 on:
