@@ -47,20 +47,20 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SERVER_URL: JSON.stringify(env('SERVER_URL')),
-        LEGACY_SERVER_URL: JSON.stringify(env('LEGACY_SERVER_URL')),
         API_SERVER_URL: JSON.stringify(env('API_SERVER_URL')),
-        SNACKPUB_URL: JSON.stringify(env('SNACKPUB_URL')),
+        BUILD_TIMESTAMP: JSON.stringify(Date.now()),
+        DEPLOY_ENVIRONMENT: JSON.stringify(env('DEPLOY_ENVIRONMENT')),
+        IMPORT_SERVER_URL: JSON.stringify(env('IMPORT_SERVER_URL')),
+        LEGACY_SERVER_URL: JSON.stringify(env('LEGACY_SERVER_URL')),
+        LEGACY_SNACK_SERVER_URL: JSON.stringify(env('LEGACY_SNACK_SERVER_URL')),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         RUDDERSTACK_DATA_PLANE_URL: JSON.stringify(env('RUDDERSTACK_DATA_PLANE_URL')),
         RUDDERSTACK_WRITE_KEY: JSON.stringify(env('RUDDERSTACK_WRITE_KEY')),
+        SERVER_URL: JSON.stringify(env('SERVER_URL')),
         SNACK_AMPLITUDE_KEY: JSON.stringify(env('SNACK_AMPLITUDE_KEY')),
-        LEGACY_SNACK_SERVER_URL: JSON.stringify(env('LEGACY_SNACK_SERVER_URL')),
         SNACK_SERVER_URL: JSON.stringify(env('SNACK_SERVER_URL')),
         SNACK_WEBPLAYER_URL: JSON.stringify(env('SNACK_WEBPLAYER_URL')),
-        IMPORT_SERVER_URL: JSON.stringify(env('IMPORT_SERVER_URL')),
-        DEPLOY_ENVIRONMENT: JSON.stringify(env('DEPLOY_ENVIRONMENT')),
-        BUILD_TIMESTAMP: JSON.stringify(Date.now()),
+        SNACKPUB_URL: JSON.stringify(env('SNACKPUB_URL')),
       },
     }),
     new webpack.IgnorePlugin(
