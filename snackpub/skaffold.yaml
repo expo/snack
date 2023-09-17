@@ -49,7 +49,7 @@ profiles:
       kubeContext: gke_exponentjs_us-central1_general-central
   - name: main
     activation:
-      - env: GITHUB_REF=refs/heads/main
+      - env: SKAFFOLD_PUSH_IMAGE=true
     build:
       local:
         push: true
