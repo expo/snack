@@ -30,7 +30,7 @@
   "author": "Expo <support@expo.dev>",
   "license": "MIT",
   "volta": {
-    "node": "12.18.4"
+    "node": "18.17.1"
   },
   "dependencies": {
     "babel-runtime": "^6.23.0",
