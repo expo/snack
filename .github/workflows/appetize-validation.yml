@@ -34,7 +34,7 @@ jobs:
           script: |
             const config = require('./website/src/client/configs/sdk')
             const versions = Object.keys(config.versions)
-            
+
             core.info(`Resolved supported website SDKs`)
             for (const version of versions) {
               core.info(`  - ${version} ${version === config.DEFAULT_SDK_VERSION ? '(default)' : ''}`)
@@ -56,21 +56,21 @@ jobs:
       - name: 🏗 Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-          
+          node-version: 18.x
+
       - name: 📋 Download Appetize information
         # Redirect output because the endpoint returns the public and private app keys
         run: curl --silent --fail -o appetize.json https://$TOKEN@api.appetize.io/v1/apps/$APP > /dev/null
         env:
           TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
           APP: ${{ secrets[format('APPETIZE_{0}_{1}', matrix.appetize, matrix.platform)] }}
-    
+
       - name: 📋 Download SDK information
         run: curl --silent -o versions.json https://exp.host/--/api/v2/versions
 
       - name: 🧶 Install semver
         run: yarn add semver
-      
+
       - name: Validate version
         uses: actions/github-script@v6
         with:
@@ -80,7 +80,7 @@ jobs:
             const { sdkVersions } = require('./versions.json')
             const platform = '${{ matrix.platform }}'.toLowerCase()
             const appetize = '${{ matrix.appetize }}'.toLowerCase()
-            
+
             const website = JSON.parse('${{ needs.website.outputs.config }}')
             const websiteSdk = sdkVersions[website.default]
             const websiteVersion = (websiteSdk || {})[`${platform}ClientVersion`]
