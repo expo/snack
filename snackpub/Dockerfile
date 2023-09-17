@@ -1,79 +1,76 @@
 ARG node_version
 
-# Set up dev image
-FROM node:${node_version}-alpine AS dev
+# --- Scoper - Remove unused workspaces for Snackager
+FROM node:${node_version}-alpine as scoper
 WORKDIR /app
 
-RUN apk add --no-cache --upgrade \
-    bash \
-    busybox \
-    g++ \
-    make \
-    python3
+# Copy repository
+COPY . .
+# Prune repository and remove unused workspaces
+RUN apk --no-cache add jq && \
+  yarn global add turbo@$(jq --raw-output '.devDependencies.turbo' package.json) && \
+  turbo prune --docker --scope=snackpub
 
-# Set up monorepo
-COPY . ./
-# Install dependencies
-RUN yarn install --frozen-lockfile
-# Build monorepo
-RUN yarn build
 
-# Start snackpub
+# --- Development - Prepare SnackPub for development
+FROM node:${node_version}-alpine as development
+WORKDIR /app
+
+# Copy "package.json"-only repository
+COPY --from=scoper /app/out/json .
+COPY --from=scoper /app/out/yarn.lock .
+# Install (system) dependencies
+RUN apk --no-cache --upgrade add bash busybox g++ make python3 && \
+  yarn install --frozen-lockfile
+
+# Copy "scoped" repository
+COPY --from=scoper /app/out/full .
+# Build SnackPub dependencies
+RUN yarn turbo build --filter "{./snackpub}^..."
+
+# Setup SnackPub for development
 WORKDIR /app/snackpub
 CMD ["yarn", "start"]
 
-# Prepare builder for production image without any other sub-packages
-FROM node:${node_version}-alpine AS builder
+
+# --- Deploy - Prepare SnackPub for production
+FROM node:${node_version}-alpine as deploy
 WORKDIR /app
 
-RUN apk add --no-cache --upgrade \
-    bash \
-    busybox \
-    g++ \
-    make \
-    python3
+# Istall system dependencies
+RUN apk --no-cache --upgrade add \
+  bash \
+  busybox \
+  g++ \
+  make \
+  python3
 
-# - root monorepo files
-COPY --from=dev /app/package.json ./
-COPY --from=dev /app/yarn.lock ./
-# - snackpub files
-COPY --from=dev /app/snackpub/src ./snackpub/src
-COPY --from=dev /app/snackpub/package.json ./snackpub/package.json
-COPY --from=dev /app/snackpub/.env-cmdrc.json ./snackpub/.env-cmdrc.json
-COPY --from=dev /app/snackpub/tsconfig.json ./snackpub/tsconfig.json
-
-# Set up envs
+# Prepare environment variables
 ENV NODE_ENV "production"
 
 ARG DEPLOY_ENVIRONMENT
 ENV DEPLOY_ENVIRONMENT ${DEPLOY_ENVIRONMENT}
 
-# Reinstall dependencies to link the monorepo
-RUN yarn install --frozen-lockfile --production=false
+# Copy built repository
+COPY --from=development /app .
+# Ensure SnackPub is build, has dependencies, and remove unnecessary dependencies from workspaces
+RUN yarn turbo build --filter "{./snackpub}..." && \
+  yarn install --frozen-lockfile --production
 
-WORKDIR /app/snackpub
-# Build snackpub
-RUN yarn build
-# Reinstall only production dependencies
-RUN yarn install --frozen-lockfile --production
-# Finalize production image
-RUN yarn cache clean
 
-# Build minimized production image
+# --- Production - Run SnackPub in production
 FROM node:${node_version}-alpine
 WORKDIR /app
 
-# Set up envs
+# Prepare environment variables
 ENV NODE_ENV "production"
 
 ARG DEPLOY_ENVIRONMENT
 ENV DEPLOY_ENVIRONMENT ${DEPLOY_ENVIRONMENT}
 
-COPY --from=builder /app/snackpub/build ./snackpub/build
-COPY --from=builder /app/snackpub/package.json ./snackpub/package.json
-COPY --from=builder /app/snackpub/node_modules ./snackpub/node_modules
-COPY --from=builder /app/node_modules ./node_modules
+# Copy deployment-ready repository
+COPY --from=deploy /app .
 
+# Setup SnackPub for production
 WORKDIR /app/snackpub
-
 CMD ["node", "."]
