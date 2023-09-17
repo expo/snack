@@ -29,6 +29,7 @@ on:
       - .eslint*
       - .prettier*
       - yarn.lock
+      - turbo.json
   push:
     branches: [main]
     paths:
@@ -40,6 +41,7 @@ on:
       - .eslint*
       - .prettier*
       - yarn.lock
+      - turbo.json
 
 jobs:
   review:
@@ -59,8 +61,8 @@ jobs:
       - name: 🚨 Lint snackpub
         run: yarn lint --max-warnings 0
 
-      - name: 🧪 Unit test website
-        run: yarn test --ci
+      - name: 🧪 Test snackpub
+        run: yarn test --ci --maxWorkers 1
 
   build:
     if: ${{ github.event_name == 'pull_request' }}
