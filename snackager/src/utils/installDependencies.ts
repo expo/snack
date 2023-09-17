@@ -38,19 +38,34 @@ export function spawnSafeAsync(
   });
 }
 
-export async function getYarnPackagerAsync(): Promise<string> {
-  const npmBinOutput = await spawnSafeAsync('npm', ['bin']);
-  const yarn = path.resolve(npmBinOutput.stdout.trim(), 'yarn');
-  return yarn;
+export async function getBunPackagerAsync(): Promise<string | undefined> {
+  try {
+    const whichOutput = await spawnSafeAsync('which', ['bun']);
+    const bun = whichOutput.stdout.trim();
+    return bun;
+  } catch {
+    return undefined;
+  }
 }
 
-async function installDependencyAsync(
-  yarn: string,
-  name: string,
-  version: string,
-  cwd: string,
-  packages: string[]
-): Promise<void> {
+export async function getYarnPackagerAsync(): Promise<string | undefined> {
+  try {
+    const npmBinOutput = await spawnSafeAsync('npm', ['bin']);
+    const yarn = path.resolve(npmBinOutput.stdout.trim(), 'yarn');
+    return yarn;
+  } catch {
+    return undefined;
+  }
+}
+
+async function installDependencyAsync(options: {
+  bun?: string;
+  yarn?: string;
+  name: string;
+  version: string;
+  cwd: string;
+  packages: string[];
+}): Promise<void> {
   /**
    ***************************************************
    * ____    _    _   _  ____ _____ ____
@@ -63,6 +78,7 @@ async function installDependencyAsync(
    *
    ***************************************************
    */
+
   const flags = [
     '--ignore-scripts', // Don't want to run malicious post-install scripts.
     '--production', // Don't need to install dev dependencies.
@@ -71,15 +87,35 @@ async function installDependencyAsync(
     '--non-interactive', // In some cases yarn/npm will show an interactive prompt. Throw an error instead.
   ];
 
-  try {
-    await spawnSafeAsync(yarn, ['add', ...flags, ...packages], cwd);
-  } catch (e) {
-    logger.warn(
-      { pkg: { name, version }, error: e },
-      `error running yarn: ${e.message}. trying npm instead.`
-    );
-    await spawnSafeAsync('npm', ['install', ...flags, ...packages], cwd);
+  if (options.bun) {
+    const bunFlags = [
+      '--ignore-scripts', // Don't want to run malicious post-install scripts.
+    ];
+
+    try {
+      await spawnSafeAsync(options.bun, ['add', ...bunFlags, ...options.packages], options.cwd);
+      return;
+    } catch (error) {
+      logger.warn(
+        { pkg: { name, version: options.version }, error },
+        `error running bun: ${error.message}. trying yarn instead.`
+      );
+    }
   }
+
+  if (options.yarn) {
+    try {
+      await spawnSafeAsync(options.yarn, ['add', ...flags, ...options.packages], options.cwd);
+      return;
+    } catch (error) {
+      logger.warn(
+        { pkg: { name, version: options.version }, error },
+        `error running yarn: ${error.message}. trying npm instead.`
+      );
+    }
+  }
+
+  await spawnSafeAsync('npm', ['install', ...flags, ...options.packages], options.cwd);
 }
 
 export default async function installDependencies(
@@ -101,7 +137,7 @@ export default async function installDependencies(
 
   logger.info({ ...logMetadata, dependencies }, `installing dependencies: ${packages.join(', ')}`);
 
-  const yarn = await getYarnPackagerAsync();
+  const [bun, yarn] = await Promise.all([getBunPackagerAsync(), getYarnPackagerAsync()]);
 
-  await installDependencyAsync(yarn, pkg.name, pkg.version, cwd, packages);
+  await installDependencyAsync({ bun, yarn, name: pkg.name, version: pkg.version, cwd, packages });
 }

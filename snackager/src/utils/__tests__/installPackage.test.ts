@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import config from '../../config';
-import { spawnSafeAsync, getYarnPackagerAsync } from '../installDependencies';
+import { spawnSafeAsync, getYarnPackagerAsync, getBunPackagerAsync } from '../installDependencies';
 import installPackage from '../installPackage';
 
 jest.mock('../installDependencies');
@@ -59,7 +59,23 @@ it('adds `@babel/runtime` by default', async () => {
   });
 });
 
+it('executes bun install with everything ignored', async () => {
+  (getBunPackagerAsync as jest.Mock).mockReturnValue('bun');
+
+  writePackage({ name: 'test', dependencies: { expo: 'latest' } });
+  await installPackage(tmpDir);
+
+  expect(spawnSafeAsync).toBeCalledWith(
+    'bun',
+    expect.arrayContaining([
+      '--ignore-scripts', // Don't want to run malicious post-install scripts.
+    ]),
+    tmpDir
+  );
+});
+
 it('executes yarn install with everything ignored', async () => {
+  (getBunPackagerAsync as jest.Mock).mockReturnValue(undefined);
   (getYarnPackagerAsync as jest.Mock).mockReturnValue('yarn');
 
   writePackage({ name: 'test', dependencies: { expo: 'latest' } });
@@ -78,9 +94,10 @@ it('executes yarn install with everything ignored', async () => {
 });
 
 it('retries with NPM when Yarn fails', async () => {
-  (spawnSafeAsync as jest.Mock)
-    .mockRejectedValueOnce(new Error('test')) // yarn execution
-    .mockResolvedValueOnce({}); // npm execution
+  (getBunPackagerAsync as jest.Mock).mockReturnValue(undefined);
+  (getYarnPackagerAsync as jest.Mock).mockReturnValue(undefined);
+
+  (spawnSafeAsync as jest.Mock).mockResolvedValueOnce({}); // npm execution
 
   writePackage({ name: 'test', dependencies: { expo: 'latest' } });
   await installPackage(tmpDir);

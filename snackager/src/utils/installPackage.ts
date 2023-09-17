@@ -2,7 +2,7 @@ import path from 'path';
 
 import { isExternal } from '../bundler/externals';
 import logger from '../logger';
-import { spawnSafeAsync, getYarnPackagerAsync } from './installDependencies';
+import { spawnSafeAsync, getYarnPackagerAsync, getBunPackagerAsync } from './installDependencies';
 
 // TODO: find the typescript definitions for this package, `@types/sander` doesn't exists
 const { readFile, writeFile } = require('sander');
@@ -49,7 +49,8 @@ export default async function installPackage(
     `running yarn --production, dependencies: ${regularDependencies.join(', ')}`
   );
 
-  const yarn = await getYarnPackagerAsync();
+  const [bun, yarn] = await Promise.all([getBunPackagerAsync(), getYarnPackagerAsync()]);
+
   const flags = [
     ...packagerFlags,
     '--ignore-scripts', // Don't want to run malicious post-install scripts.
@@ -58,10 +59,30 @@ export default async function installPackage(
     '--ignore-platform', // Some libraries use fsevents, which is not compatible on linux. Don't care, try anway.
     '--non-interactive', // In some cases yarn/npm will show an interactive prompt. Throw an error instead.
   ];
-  try {
-    await spawnSafeAsync(yarn, [...flags], cwd);
-  } catch (e) {
-    logger.warn({ pkg, error: e }, `error running yarn: ${e.message}. trying npm instead.`);
-    await spawnSafeAsync('npm', ['install', ...flags], cwd);
+
+  if (bun) {
+    try {
+      await spawnSafeAsync(bun, ['add', ...packagerFlags, '--ignore-scripts'], cwd);
+      return;
+    } catch (bunError) {
+      logger.warn(
+        { pkg, error: bunError },
+        `error running bun: ${bunError.message}. trying yarn instead.`
+      );
+    }
   }
+
+  if (yarn) {
+    try {
+      await spawnSafeAsync(yarn, [...flags], cwd);
+      return;
+    } catch (bunError) {
+      logger.warn(
+        { pkg, error: bunError },
+        `error running yarn: ${bunError.message}. trying npm instead.`
+      );
+    }
+  }
+
+  await spawnSafeAsync('npm', ['install', ...flags], cwd);
 }

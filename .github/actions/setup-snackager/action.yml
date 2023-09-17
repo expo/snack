@@ -2,6 +2,9 @@ name: Setup Snackager
 description: Prepare Snackager in GitHub Actions
 
 inputs:
+  bun-version:
+    description: Version of Bun to use
+    default: 1.x
   node-version:
     description: Version of Node to use
     default: 16.x
@@ -14,6 +17,11 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
         cache: yarn
+
+    - name: 🏗️ Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: ${{ inputs.bun-version }}
 
     # npm v7+ doesn't work well with our monorepo
     - name: 🐛 Downgrade npm to v6
