@@ -57,7 +57,7 @@
     "@types/loader-utils": "^1.1.4",
     "@types/lodash": "^4.14.164",
     "@types/memory-fs": "^0.3.2",
-    "@types/node": "^16.11.26",
+    "@types/node": "^18.17.17",
     "@types/node-fetch": "^2.5.7",
     "@types/raven": "^2.5.3",
     "@types/redis": "^2.8.28",
