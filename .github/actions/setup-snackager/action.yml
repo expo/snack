@@ -28,3 +28,10 @@ runs:
     - name: 🛠 Build dependencies
       run: yarn turbo build --filter '{./snackager}^...'
       shell: bash
+
+    # Webpack 4 uses legacy hashing algorithm that is not supported by Node 18+
+    # This adds the workaround, AFTER Node is fully installed, avoiding "is not allowed" error
+    # See: https://stackoverflow.com/questions/72866798/node-openssl-legacy-provider-is-not-allowed-in-node-options
+    - name: 🐛 Add Webpack 4 workaround
+      run: echo "NODE_OPTIONS=\"--openssl-legacy-provider\"" >> $GITHUB_ENV
+      shell: bash
