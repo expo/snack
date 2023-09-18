@@ -1,21 +1,15 @@
 {
   "extends": "@tsconfig/node18",
   "compilerOptions": {
+    "baseUrl": "./",
     "rootDir": "src",
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
     "jsx": "react",
     "lib": ["webworker", "dom", "esnext", "scripthost"],
     "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
-    "noStrictGenericChecks": false,
+    "isolatedModules": true,
     "resolveJsonModule": true,
     "useUnknownInCatchVariables": false,
-    "strict": true,
-    "baseUrl": "./",
   },
   "ts-node": {
     "transpileOnly": true
