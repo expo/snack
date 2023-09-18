@@ -21,7 +21,8 @@ export default function ToggleButtons<T extends string>(props: Props<T>) {
       className={classnames(
         css(styles.buttons, props.disabled && styles.disabled),
         props.className
-      )}>
+      )}
+    >
       {props.options.map((o) => (
         <button
           key={o.value}
@@ -33,7 +34,8 @@ export default function ToggleButtons<T extends string>(props: Props<T>) {
                 : styles.active
               : undefined
           )}
-          onClick={() => props.onValueChange(o.value)}>
+          onClick={() => props.onValueChange(o.value)}
+        >
           {o.label}
         </button>
       ))}

@@ -1,12 +1,12 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import constants from '../configs/constants';
-import { isIOS, isAndroid } from '../utils/detectPlatform';
 import QRCode from './QRCode';
 import { c } from './ThemeProvider';
 import Button from './shared/Button';
 import OpenWithExpoButton from './shared/OpenWithExpoButton';
+import constants from '../configs/constants';
+import { isIOS, isAndroid } from '../utils/detectPlatform';
 
 type Props = {
   name: string;
@@ -56,7 +56,8 @@ export default function AppDetails({
                 target="_blank"
                 rel="noopener noreferrer"
                 href={constants.links.playstore}
-                className={css(styles.download)}>
+                className={css(styles.download)}
+              >
                 <img
                   className={css(styles.downloadIcon)}
                   src={require('../assets/play-store-button.png')}
@@ -68,7 +69,8 @@ export default function AppDetails({
                 target="_blank"
                 rel="noopener noreferrer"
                 href={constants.links.itunes}
-                className={css(styles.download)}>
+                className={css(styles.download)}
+              >
                 <img
                   className={css(styles.downloadIcon)}
                   src={require('../assets/app-store-button.png')}

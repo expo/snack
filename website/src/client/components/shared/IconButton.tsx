@@ -18,7 +18,8 @@ function IconButton({ title, label, responsive, children, small, ...rest }: Prop
   return (
     <button
       {...rest}
-      className={css(styles.button, small && styles.small, rest.disabled && styles.disabled)}>
+      className={css(styles.button, small && styles.small, rest.disabled && styles.disabled)}
+    >
       {children}
       {label ? (
         <span
@@ -26,7 +27,8 @@ function IconButton({ title, label, responsive, children, small, ...rest }: Prop
             styles.label,
             !children && styles.labelNoIcon,
             responsive && styles.responsive
-          )}>
+          )}
+        >
           {label}
         </span>
       ) : null}

@@ -91,7 +91,8 @@ export default class Popover extends React.PureComponent<Props, State> {
         )}
         <div
           ref={this._popover}
-          className={css(styles.popover, this.state.visible ? styles.visible : styles.hidden)}>
+          className={css(styles.popover, this.state.visible ? styles.visible : styles.hidden)}
+        >
           <span ref={this._arrow} className={css(styles.arrow)} />
           {content}
         </div>

@@ -200,7 +200,7 @@ const findDependencies = (
         this.traverse(path);
       },
     });
-  } catch (err) {
+  } catch {
     // Ignore error: did not recognize object of type "..."
   }
 

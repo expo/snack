@@ -1,7 +1,7 @@
-import { c, s } from '../../ThemeProvider';
 import * as darkColors from './colors-dark';
 import * as lightColors from './colors-light';
 import { light, dark } from './monaco';
+import { c, s } from '../../ThemeProvider';
 
 const css = String.raw;
 

@@ -2,8 +2,8 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
-import { c, s } from '../ThemeProvider';
 import ShortcutLabel from './ShortcutLabel';
+import { c, s } from '../ThemeProvider';
 
 export type Action = {
   label: string;
@@ -61,7 +61,8 @@ class ContextMenu extends React.PureComponent<Props> {
                 marginTop: -8,
               }
             : {}
-        }>
+        }
+      >
         {shownActions.map(({ label, handler, disabled, combo }: Action) => (
           <li key={label}>
             <button
@@ -70,7 +71,8 @@ class ContextMenu extends React.PureComponent<Props> {
               onClick={() => {
                 handler();
                 onHide();
-              }}>
+              }}
+            >
               <div>{label}</div>
               {combo ? <ShortcutLabel combo={combo} className={css(styles.hint)} /> : null}
             </button>

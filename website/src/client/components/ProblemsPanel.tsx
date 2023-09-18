@@ -2,8 +2,8 @@ import { StyleSheet, css } from 'aphrodite';
 import trim from 'lodash/trim';
 import * as React from 'react';
 
-import { Annotation } from '../types';
 import { c, s } from './ThemeProvider';
+import { Annotation } from '../types';
 
 type Props = {
   annotations: Annotation[];
@@ -30,7 +30,8 @@ export default ({ annotations, onSelectFile }: Props) => {
         const file = location?.fileName ? (
           <span
             className={css(styles.location, locationStyle)}
-            onClick={() => onSelectFile(location.fileName)}>
+            onClick={() => onSelectFile(location.fileName)}
+          >
             {`${location.fileName} (${location.startLineNumber}:${location.startColumn})`}
           </span>
         ) : (

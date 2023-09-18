@@ -7,6 +7,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Snack, SnackLogEvent, SnackListenerSubscription, isModulePreloaded } from 'snack-sdk';
 
+import AppDetails from './AppDetails';
+import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
+import { EditorViewProps } from './EditorViewProps';
+import withPreferences, { PreferencesContextType } from './Preferences/withPreferences';
+import AppShell from './Shell/AppShell';
+import EmbeddedShell from './Shell/EmbeddedShell';
+import AnimatedLogo from './shared/AnimatedLogo';
+import LazyLoad from './shared/LazyLoad';
 import withAuth, { AuthProps } from '../auth/withAuth';
 import { DEFAULT_DESCRIPTION, DEFAULT_CODE, DEFAULT_DEPENDENCIES } from '../configs/defaults';
 import { versions, DEFAULT_SDK_VERSION } from '../configs/sdk';
@@ -35,14 +43,6 @@ import { isMobile } from '../utils/detectPlatform';
 import getDependenciesFromQuery from '../utils/getDependenciesFromQuery';
 import getFilesFromQuery from '../utils/getFilesFromQuery';
 import { createSnackWorkerTransport } from '../utils/snackTransports';
-import AppDetails from './AppDetails';
-import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
-import { EditorViewProps } from './EditorViewProps';
-import withPreferences, { PreferencesContextType } from './Preferences/withPreferences';
-import AppShell from './Shell/AppShell';
-import EmbeddedShell from './Shell/EmbeddedShell';
-import AnimatedLogo from './shared/AnimatedLogo';
-import LazyLoad from './shared/LazyLoad';
 
 const DEVICE_ID_KEY = '__SNACK_DEVICE_ID';
 
@@ -103,7 +103,7 @@ function getDeviceId(): string | undefined {
     if (typeof window !== 'undefined' && window.localStorage) {
       return localStorage.getItem(DEVICE_ID_KEY) ?? undefined;
     }
-  } catch (e) {
+  } catch {
     // Ignore error
   }
   return undefined;
@@ -771,7 +771,7 @@ class Main extends React.Component<Props, State> {
     if (typeof window !== 'undefined' && window.localStorage) {
       try {
         window.localStorage.setItem(DEVICE_ID_KEY, deviceId);
-      } catch (e) {
+      } catch {
         // Do nothing
       }
     }
@@ -899,7 +899,8 @@ class Main extends React.Component<Props, State> {
 
     return (
       <LazyLoad<React.ComponentType<EditorViewProps>>
-        load={() => (isEmbedded ? import('./EmbeddedEditorView') : import('./EditorView'))}>
+        load={() => (isEmbedded ? import('./EmbeddedEditorView') : import('./EditorView'))}
+      >
         {({ loaded, data: Comp }) =>
           loaded && Comp ? (
             <Comp

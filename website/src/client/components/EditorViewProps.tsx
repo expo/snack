@@ -1,3 +1,4 @@
+import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
 import {
   SaveStatus,
   SaveHistory,
@@ -14,7 +15,6 @@ import {
   SDKVersion,
 } from '../types';
 import { PlatformOption } from '../utils/PlatformOptions';
-import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
 
 export type EditorModal =
   | 'device-instructions'

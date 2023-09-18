@@ -1,16 +1,16 @@
 import * as React from 'react';
 
+import ModalPublishOverwriteError from './ModalPublishOverwriteError';
+import ModalPublishToProfile from './ModalPublishToProfile';
+import ModalPublishUnknownError from './ModalPublishUnknownError';
+import ModalPublishing from './ModalPublishing';
+import ModalSuccessfulPublish from './ModalSuccessfulPublish';
 import { getSnackWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
 import type { SDKVersion, SaveOptions } from '../../types';
 import { isIntentionallyNamed } from '../../utils/projectNames';
 import ModalEditTitleAndDescription from '../ModalEditTitleAndDescription';
-import ModalPublishOverwriteError from './ModalPublishOverwriteError';
-import ModalPublishToProfile from './ModalPublishToProfile';
-import ModalPublishUnknownError from './ModalPublishUnknownError';
-import ModalPublishing from './ModalPublishing';
-import ModalSuccessfulPublish from './ModalSuccessfulPublish';
 
 export type PublishModals =
   | 'publish-prompt-save'

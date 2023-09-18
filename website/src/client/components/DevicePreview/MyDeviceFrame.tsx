@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import RecentlyInDevelopmentPreview from './RecentlyInDevelopmentPreview';
 import { getWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
@@ -16,7 +17,6 @@ import IconButton from '../shared/IconButton';
 import MenuButton from '../shared/MenuButton';
 import ShortcutLabel from '../shared/ShortcutLabel';
 import ToggleSwitch from '../shared/ToggleSwitch';
-import RecentlyInDevelopmentPreview from './RecentlyInDevelopmentPreview';
 
 type Props = AuthProps & {
   width: number;
@@ -93,7 +93,8 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
               className={css(
                 styles.connectedDevicesHeader,
                 isEmbedded ? styles.connectedDevicesEmbedded : undefined
-              )}>
+              )}
+            >
               <div className={css(styles.connectedDevicesTitle)}>
                 <h3>Connected devices</h3>
                 <span className={css(styles.connectedDevicesCount)}>{connectedDevices.length}</span>
@@ -167,7 +168,8 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
               small
               title={`Update changes on connected ${deviceText}`}
               label="Update now"
-              onClick={onSendCode}>
+              onClick={onSendCode}
+            >
               <svg width="14px" height="17px" viewBox="0 0 14 17">
                 <path
                   transform="translate(-5.000000, -3.000000)"
@@ -184,7 +186,8 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
               small
               title={`Reload ${appText} on connected ${deviceText}`}
               label={`Reload ${appText}`}
-              onClick={onReloadSnack}>
+              onClick={onReloadSnack}
+            >
               <svg width="16px" height="20px" viewBox="0 0 16 20">
                 <path d="M8,3.5 L8,0 L3,5 L8,10 L8,5.5 C11.314,5.5 14,8.186 14,11.5 C14,14.814 11.314,17.5 8,17.5 C4.686,17.5 2,14.814 2,11.5 L0,11.5 C0,15.918 3.582,19.5 8,19.5 C12.418,19.5 16,15.918 16,11.5 C16,7.082 12.418,3.5 8,3.5" />
               </svg>
@@ -239,7 +242,8 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
           <a
             href={isEmbedded ? `${getWebsiteURL()}/login` : getLoginHref()}
             target={isEmbedded ? '_blank' : undefined}
-            className={css(styles.link)}>
+            className={css(styles.link)}
+          >
             Log in
           </a>
           <span> </span>or set a<span> </span>

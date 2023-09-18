@@ -1,5 +1,5 @@
-import { SDKVersion, SnackDependencies, SnackFiles, Platform } from '../types';
 import { getReloadURL } from './reloadURL';
+import { SDKVersion, SnackDependencies, SnackFiles, Platform } from '../types';
 
 type SnackEmbeddedSession = {
   name: string;

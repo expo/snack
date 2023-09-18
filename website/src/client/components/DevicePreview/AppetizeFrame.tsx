@@ -275,7 +275,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
       <>
         <div
           className={css(isEmbedded ? styles.containerEmbedded : styles.container)}
-          style={{ width: isEmbedded ? width : width - 10 }}>
+          style={{ width: isEmbedded ? width : width - 10 }}
+        >
           <iframe
             ref={this.iframe}
             key={appetizeURL}
@@ -294,7 +295,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
                 flexDirection: 'column',
                 paddingTop:
                   platform === 'android' ? (isEmbedded ? 95 : 110) : isEmbedded ? 60 : 110,
-              }}>
+              }}
+            >
               <a className={css(styles.largeButton)} onClick={this.handleTapToPlay}>
                 <div className={css(styles.buttonFrame)}>
                   <span className={css(styles.buttonText)}>Tap to play</span>
@@ -318,7 +320,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
                   className={css(styles.dismissButton)}
                   onClick={() => {
                     this.setState({ appetizeStatus: { type: 'unknown' } });
-                  }}>
+                  }}
+                >
                   X
                 </button>
               ) : null}
@@ -341,7 +344,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
                         <Button
                           type="submit"
                           variant="primary"
-                          className={css(styles.activateButton)}>
+                          className={css(styles.activateButton)}
+                        >
                           Activate
                         </Button>
                       </form>
@@ -353,14 +357,16 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
                         href={`${constants.appetize.url}/payer-code`}
                         onClick={this.handlePayerCodeLink}
                         target="_blank"
-                        className={css(styles.blockButton)}>
+                        className={css(styles.blockButton)}
+                      >
                         Use Appetize.io
                       </ButtonLink>
                     ) : (
                       <ButtonLink
                         variant="primary"
                         href={getLoginHref()}
-                        className={css(styles.blockButton)}>
+                        className={css(styles.blockButton)}
+                      >
                         Log in to Expo
                       </ButtonLink>
                     )}
@@ -372,7 +378,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
               <ButtonLink
                 variant="primary"
                 onClick={this.onClickRunOnPhone}
-                className={css(styles.blockButton)}>
+                className={css(styles.blockButton)}
+              >
                 Run it on your phone
               </ButtonLink>
             </div>

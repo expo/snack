@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import WhyNoQrBanner from './WhyNoQrBanner';
 import QRCode from '../QRCode';
 import { c, s } from '../ThemeProvider';
-import WhyNoQrBanner from './WhyNoQrBanner';
 
 type Props = {
   experienceURL: string;

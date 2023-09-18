@@ -18,7 +18,8 @@ export default class ModalPublishOverwriteError extends React.Component<Props> {
       <ModalDialog
         visible={this.props.visible}
         onDismiss={this.props.onDismiss}
-        title="Experience already exists!">
+        title="Experience already exists!"
+      >
         <p className={css(styles.text)}>
           You already have an experience published under "
           {this.props.username ? `@${this.props.username}/${this.props.slug}` : this.props.slug}" in

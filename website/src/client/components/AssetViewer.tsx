@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import { c } from './ThemeProvider';
 import { SnackFiles } from '../types';
 import { isImage } from '../utils/fileUtilities';
-import { c } from './ThemeProvider';
 
 type Props = {
   selectedFile: string;
@@ -72,7 +72,8 @@ export default class AssetViewer extends React.PureComponent<Props, State> {
             className={css(styles.link)}
             href={files[selectedFile]?.contents as string}
             target="_blank"
-            title="Open in tab">
+            title="Open in tab"
+          >
             <h4 className={css(styles.name)}>{selectedFile.split('/').pop()}</h4>
           </a>
           <div className={css(styles.layout)}>

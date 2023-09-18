@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { QueryParams } from '../types';
 import App from './App';
 import EmbeddedShell from './Shell/EmbeddedShell';
+import { QueryParams } from '../types';
 
 type Props = React.ComponentProps<typeof App> & {
   query: QueryParams;

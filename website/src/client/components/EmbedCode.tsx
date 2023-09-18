@@ -2,15 +2,15 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import constants from '../configs/constants';
-import { Platform, SDKVersion } from '../types';
-import { PlatformOption } from '../utils/PlatformOptions';
 import withThemeName, { ThemeName } from './Preferences/withThemeName';
 import { c } from './ThemeProvider';
 import Banner from './shared/Banner';
 import Button from './shared/Button';
 import ToggleButtons from './shared/ToggleButtons';
 import ToggleSwitch from './shared/ToggleSwitch';
+import constants from '../configs/constants';
+import { Platform, SDKVersion } from '../types';
+import { PlatformOption } from '../utils/PlatformOptions';
 
 const handleClick = (e: any) => e.target.select();
 

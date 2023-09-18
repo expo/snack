@@ -24,7 +24,8 @@ export default function FileListPane({
         <div
           className={css(styles.left)}
           onClick={onClick}
-          data-test-id={`file-list-pane-${title.toLowerCase().replace(/[^a-z]/g, '-')}`}>
+          data-test-id={`file-list-pane-${title.toLowerCase().replace(/[^a-z]/g, '-')}`}
+        >
           <svg
             className={css(
               styles.collapse,
@@ -32,14 +33,16 @@ export default function FileListPane({
             )}
             width="12px"
             height="12px"
-            viewBox="0 0 12 12">
+            viewBox="0 0 12 12"
+          >
             <g
               stroke="none"
               strokeWidth="2"
               fill="none"
               fillRule="evenodd"
               strokeLinecap="round"
-              strokeLinejoin="round">
+              strokeLinejoin="round"
+            >
               <polyline
                 stroke="currentColor"
                 transform="translate(6.000000, 6.000000) scale(-1, 1) rotate(180.000000) translate(-6.000000, -6.000000) "

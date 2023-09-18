@@ -14,7 +14,8 @@ const OpenWithExpoButton = ({ experienceURL, onDeviceConnectionAttempt }: Props)
     target="_blank"
     href={experienceURL}
     className={css(styles.button)}
-    onClick={onDeviceConnectionAttempt}>
+    onClick={onDeviceConnectionAttempt}
+  >
     Open with Expo Go
   </ButtonLink>
 );

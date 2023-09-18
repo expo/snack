@@ -1,7 +1,7 @@
-import { isInsideFolder, changeParentPath } from '../../../utils/fileUtilities';
-import { FileSystemEntry } from '../types';
 import createEntryAtPath from './createEntryAtPath';
 import updateEntry from './updateEntry';
+import { isInsideFolder, changeParentPath } from '../../../utils/fileUtilities';
+import { FileSystemEntry } from '../types';
 
 export default function handleEntryPaste(
   entries: FileSystemEntry[],

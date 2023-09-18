@@ -6,6 +6,8 @@ import {
   getDeprecatedModule,
 } from 'snack-sdk';
 
+import type { FileDependencies } from './findDependencies';
+import { getAbsolutePath } from './path';
 import {
   SDKVersion,
   SnackCodeFile,
@@ -13,8 +15,6 @@ import {
   Annotation,
   AnnotationAction,
 } from '../types';
-import type { FileDependencies } from './findDependencies';
-import { getAbsolutePath } from './path';
 
 const LOCAL_FILES = ['.js', '.ts', '.tsx', '/index.js', '/index.ts', '/index.tsx'];
 
@@ -42,7 +42,7 @@ export function getPackageJsonDependencies(
       }
     });
     return jsonDeps;
-  } catch (e) {}
+  } catch {}
   return undefined;
 }
 
@@ -98,7 +98,7 @@ export function getDependencyAnnotations(
   let json: any;
   try {
     json = JSON.parse(packageJson.contents);
-  } catch (e) {
+  } catch {
     return [
       {
         message: 'Invalid JSON.',

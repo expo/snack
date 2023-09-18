@@ -2,11 +2,11 @@ import debounce from 'lodash/debounce';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import type { PreferencesContextType } from './withPreferences';
+import type { ThemeName } from './withThemeName';
 import type { Platform, QueryStateParams } from '../../types';
 import { isMobile } from '../../utils/detectPlatform';
 import type { ConnectionMethod } from '../DeviceInstructions/DeviceInstructionsModal';
-import type { PreferencesContextType } from './withPreferences';
-import type { ThemeName } from './withThemeName';
 
 export type PanelType = 'errors' | 'logs';
 export type EditorModeType = 'normal' | 'vim';
@@ -68,7 +68,7 @@ class PreferencesProvider extends React.Component<Props, State> {
         overrides.editorMode = localStorage.getItem('editorMode') as EditorModeType;
         overrides.theme = localStorage.getItem('theme') as ThemeName;
       }
-    } catch (e) {
+    } catch {
       // Ignore error
     }
 
@@ -78,7 +78,7 @@ class PreferencesProvider extends React.Component<Props, State> {
       if (overrides.devicePreviewPlatform !== 'mydevice') {
         overrides.devicePreviewPlatform = undefined;
       }
-    } catch (e) {
+    } catch {
       // Ignore error
     }
 
@@ -99,7 +99,7 @@ class PreferencesProvider extends React.Component<Props, State> {
       ) {
         overrides.devicePreviewPlatform = platform;
       }
-    } catch (e) {
+    } catch {
       // Ignore error
     }
 
@@ -126,7 +126,7 @@ class PreferencesProvider extends React.Component<Props, State> {
 
     try {
       cookies.set?.(EDITOR_CONFIG_KEY, JSON.stringify(this.state.preferences));
-    } catch (e) {
+    } catch {
       // Ignore
     }
   }, 1000);
@@ -149,7 +149,8 @@ class PreferencesProvider extends React.Component<Props, State> {
         value={{
           setPreferences: this._setPreferences,
           preferences: this.state.preferences,
-        }}>
+        }}
+      >
         {this.props.children}
       </PreferencesContext.Provider>
     );

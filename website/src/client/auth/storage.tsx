@@ -16,7 +16,7 @@ export default class StorageHandler implements IStorageBackend {
       case 'localstorage':
         try {
           this._storageBackend = window.localStorage;
-        } catch (e) {
+        } catch {
           this._storageBackend = new CookieStorage();
         }
         break;
@@ -32,7 +32,7 @@ export default class StorageHandler implements IStorageBackend {
   getItem(key: string) {
     try {
       return this.storageBackend.getItem(this._getKey(key));
-    } catch (e) {
+    } catch {
       this._failover();
       return this.storageBackend.getItem(this._getKey(key));
     }
@@ -41,7 +41,7 @@ export default class StorageHandler implements IStorageBackend {
   removeItem(key: string) {
     try {
       this.storageBackend.removeItem(this._getKey(key));
-    } catch (e) {
+    } catch {
       this._failover();
       this.storageBackend.removeItem(this._getKey(key));
     }
@@ -50,7 +50,7 @@ export default class StorageHandler implements IStorageBackend {
   setItem(key: string, value: string, options?: object) {
     try {
       this.storageBackend.setItem(this._getKey(key), value, options);
-    } catch (e) {
+    } catch {
       this._failover();
       this.storageBackend.setItem(this._getKey(key), value, options);
     }

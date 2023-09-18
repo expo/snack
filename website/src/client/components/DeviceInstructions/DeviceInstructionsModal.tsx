@@ -1,13 +1,13 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import AccountTab from './AccountTab';
+import DeviceIDTab from './DeviceIDTab';
+import QRCodeTab from './QRCodeTab';
 import constants from '../../configs/constants';
 import ButtonLink from '../shared/ButtonLink';
 import ModalDialog from '../shared/ModalDialog';
 import SegmentedButton from '../shared/SegmentedButton';
-import AccountTab from './AccountTab';
-import DeviceIDTab from './DeviceIDTab';
-import QRCodeTab from './QRCodeTab';
 
 export type EmbeddedConnectionMethod = 'device-id' | 'qr-code';
 export type ConnectionMethod = 'account' | EmbeddedConnectionMethod;
@@ -54,7 +54,8 @@ export default class DeviceInstructionsModal extends React.Component<Props> {
         autoSize={!large}
         visible={visible}
         title={large ? undefined : 'Run on your device'}
-        onDismiss={onDismiss}>
+        onDismiss={onDismiss}
+      >
         <div className={css(styles.container)}>
           <SegmentedButton
             selectedId={method}
@@ -66,7 +67,8 @@ export default class DeviceInstructionsModal extends React.Component<Props> {
               className={css(styles.pages)}
               style={{
                 left: `${-segments.findIndex((s) => s.id === method) * 100}%`,
-              }}>
+              }}
+            >
               {segments.map(({ id }) => {
                 let content;
 
@@ -88,7 +90,8 @@ export default class DeviceInstructionsModal extends React.Component<Props> {
                   <div
                     key={id}
                     className={css(styles.page)}
-                    style={{ visibility: id === method ? 'visible' : 'hidden' }}>
+                    style={{ visibility: id === method ? 'visible' : 'hidden' }}
+                  >
                     {content}
                   </div>
                 );
@@ -99,13 +102,15 @@ export default class DeviceInstructionsModal extends React.Component<Props> {
             <ButtonLink
               target="_blank"
               href={constants.links.itunes}
-              className={css(styles.button, styles.appstore)}>
+              className={css(styles.button, styles.appstore)}
+            >
               Get iOS App
             </ButtonLink>
             <ButtonLink
               target="_blank"
               href={constants.links.playstore}
-              className={css(styles.button, styles.playstore)}>
+              className={css(styles.button, styles.playstore)}
+            >
               Get Android App
             </ButtonLink>
           </div>

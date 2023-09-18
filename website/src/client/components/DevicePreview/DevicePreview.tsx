@@ -2,6 +2,9 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
+import AppetizeFrame, { AppetizeDevices } from './AppetizeFrame';
+import MyDeviceFrame from './MyDeviceFrame';
+import WebFrame from './WebFrame';
 import constants from '../../configs/constants';
 import { SDKVersion, Device, Platform } from '../../types';
 import * as PlatformOptions from '../../utils/PlatformOptions';
@@ -9,9 +12,6 @@ import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import { c } from '../ThemeProvider';
 import ToggleButtons from '../shared/ToggleButtons';
-import AppetizeFrame, { AppetizeDevices } from './AppetizeFrame';
-import MyDeviceFrame from './MyDeviceFrame';
-import WebFrame from './WebFrame';
 
 type Props = {
   className?: string;
@@ -153,7 +153,8 @@ class DevicePreview extends React.PureComponent<Props, State> {
     return (
       <div
         className={classnames(css(isEmbedded ? styles.embedded : styles.container), className)}
-        style={{ width }}>
+        style={{ width }}
+      >
         {isEmbedded ? null : (
           <div className={css(styles.header)}>
             <ToggleButtons

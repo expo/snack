@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { DeviceLog } from '../types';
 import { c } from './ThemeProvider';
 import CollapsibleObject from './shared/CollapsibleObject';
+import { DeviceLog } from '../types';
 
 type GroupedLog = {
   items: DeviceLog[];
@@ -23,7 +23,7 @@ export default function EditorPanelLogs({ deviceLogs }: Props) {
       try {
         // @ts-ignore text might not be a string
         return JSON.parse(text);
-      } catch (e) {
+      } catch {
         return text;
       }
     });
@@ -66,7 +66,8 @@ export default function EditorPanelLogs({ deviceLogs }: Props) {
                       styles.item,
                       method === 'error' && styles.error,
                       method === 'warn' && styles.warning
-                    )}>
+                    )}
+                  >
                     {String(item)}
                   </div>
                 )

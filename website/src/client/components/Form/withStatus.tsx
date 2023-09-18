@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { $Subtract } from '../../types';
 import { FormValidationContext } from './Form';
+import { $Subtract } from '../../types';
 
 type InjectedProps = {
   disabled: boolean | undefined;

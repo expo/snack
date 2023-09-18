@@ -58,7 +58,8 @@ export default class Banner extends React.PureComponent<Props, State> {
               this.props.type === 'success' && styles.success,
               this.props.type === 'error' && styles.error
             )
-          )}>
+          )}
+        >
           {this.props.children}
         </div>
       </div>

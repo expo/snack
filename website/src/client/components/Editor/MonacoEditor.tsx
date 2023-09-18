@@ -6,6 +6,10 @@ import { initVimMode } from 'monaco-vim';
 import * as React from 'react';
 import { getPreloadedModules, isValidSemver } from 'snack-sdk';
 
+import { EditorProps, EditorMode } from './EditorProps';
+import { light, dark } from './themes/monaco';
+import overrides from './themes/monaco-overrides';
+import { vendoredTypes } from './types/vendored';
 import { SDKVersion, Annotation, SnackDependencies } from '../../types';
 import getFileLanguage from '../../utils/getFileLanguage';
 import { getRelativePath, getAbsolutePath } from '../../utils/path';
@@ -13,10 +17,6 @@ import prettierCode from '../../utils/prettierCode';
 import type { TypingsResult } from '../../workers/typings.worker';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import ResizeDetector from '../shared/ResizeDetector';
-import { EditorProps, EditorMode } from './EditorProps';
-import { light, dark } from './themes/monaco';
-import overrides from './themes/monaco-overrides';
-import { vendoredTypes } from './types/vendored';
 
 // @ts-ignore
 global.MonacoEnvironment = {

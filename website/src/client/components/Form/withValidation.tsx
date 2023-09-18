@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { $Subtract } from '../../types';
 import { FormValidationContext, FormValidation } from './Form';
+import { $Subtract } from '../../types';
 
 type ExternalProps = {
   value: any;

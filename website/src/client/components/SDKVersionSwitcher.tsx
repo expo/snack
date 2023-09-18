@@ -2,9 +2,9 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
+import { c } from './ThemeProvider';
 import { versions } from '../configs/sdk';
 import { SDKVersion } from '../types';
-import { c } from './ThemeProvider';
 
 type Props = {
   sdkVersion: SDKVersion;
@@ -38,7 +38,8 @@ export default function SDKVersionSwitcher({
               e.target.value === 'localhost'
             )
           }
-          className={classnames(css(styles.select), selectClassName)}>
+          className={classnames(css(styles.select), selectClassName)}
+        >
           {options.map((option) => (
             <option className={css(styles.option)} key={option} value={option}>
               {option === 'localhost' ? option : `v${option}`}

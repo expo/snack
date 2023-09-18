@@ -11,7 +11,8 @@ export default function WhyNoQrBanner({ className }: Props) {
       <br />
       <a
         href="https://blog.expo.io/upcoming-limitations-to-ios-expo-client-8076d01aee1a"
-        target="_blank">
+        target="_blank"
+      >
         Read more.
       </a>
     </p>

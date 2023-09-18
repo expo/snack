@@ -2,9 +2,9 @@ import { StyleSheet, css } from 'aphrodite';
 import format from 'date-fns/format';
 import * as React from 'react';
 
-import { SaveHistory } from '../types';
 import withThemeName, { ThemeName } from './Preferences/withThemeName';
 import { c } from './ThemeProvider';
+import { SaveHistory } from '../types';
 
 type Props = {
   saveHistory: SaveHistory;
@@ -29,7 +29,8 @@ class PreviousSaves extends React.Component<Props> {
                 key={data.hashId}
                 target="_blank"
                 href={`/${data.hashId}`}
-                className={css(styles.item)}>
+                className={css(styles.item)}
+              >
                 <div>
                   <h4 className={css(styles.title)}>{format(data.savedAt, 'hh:mm a, dddd')}</h4>
                   <p className={css(styles.description)}>{format(data.savedAt, 'Do MMMM YYYY')}</p>

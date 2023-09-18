@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = (api) => {
   const isWebpack = api.caller((caller) => Boolean(caller && caller.name === 'babel-loader'));
 

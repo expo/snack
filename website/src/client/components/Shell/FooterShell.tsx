@@ -18,7 +18,8 @@ export default function FooterShell({ type, children }: Props) {
           : type === 'loading'
           ? styles.footerLoading
           : undefined
-      )}>
+      )}
+    >
       {children}
     </div>
   );

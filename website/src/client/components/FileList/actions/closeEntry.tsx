@@ -1,5 +1,5 @@
-import { FileSystemEntry } from '../types';
 import updateEntry from './updateEntry';
+import { FileSystemEntry } from '../types';
 
 export default function closeEntry(entry: FileSystemEntry) {
   if (entry.item.type === 'file') {

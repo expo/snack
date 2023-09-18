@@ -2,10 +2,6 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import constants from '../configs/constants';
-import { isMobile, isAndroid } from '../utils/detectPlatform';
-import { openEmbeddedSessionFullScreen } from '../utils/embeddedSession';
-import { getWebsiteURL } from '../utils/getWebsiteURL';
 import { withDependencyManager } from './DependencyManager';
 import DeviceInstructionsModal, {
   EmbeddedConnectionMethod,
@@ -22,6 +18,10 @@ import EmbeddedToolbarShell from './Shell/EmbeddedToolbarShell';
 import { c } from './ThemeProvider';
 import LazyLoad from './shared/LazyLoad';
 import OpenWithExpoButton from './shared/OpenWithExpoButton';
+import constants from '../configs/constants';
+import { isMobile, isAndroid } from '../utils/detectPlatform';
+import { openEmbeddedSessionFullScreen } from '../utils/embeddedSession';
+import { getWebsiteURL } from '../utils/getWebsiteURL';
 
 type Props = PreferencesContextType &
   EditorViewProps & {
@@ -120,7 +120,8 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
             href={getWebsiteURL()}
             target="_blank"
             rel="noopener noreferrer"
-            className={css(styles.logo)}>
+            className={css(styles.logo)}
+          >
             <img
               className={css(styles.wordmark)}
               src={
@@ -142,7 +143,8 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
           />
           {previewShown ? (
             <LazyLoad
-              load={() => import(/* webpackPreload: true */ './DevicePreview/DevicePreview')}>
+              load={() => import(/* webpackPreload: true */ './DevicePreview/DevicePreview')}
+            >
               {({ loaded, data: Comp }) => {
                 if (!(loaded && Comp)) {
                   return null;
@@ -211,7 +213,8 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
               className={css(styles.download)}
               target="_blank"
               rel="noopener noreferrer"
-              href={isAndroid(userAgent) ? constants.links.playstore : constants.links.itunes}>
+              href={isAndroid(userAgent) ? constants.links.playstore : constants.links.itunes}
+            >
               Download Expo Go
             </a>
           </div>

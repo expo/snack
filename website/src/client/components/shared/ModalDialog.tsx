@@ -2,8 +2,8 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
-import { c } from '../ThemeProvider';
 import ModalSheet, { ModalSheetProps } from './ModalSheet';
+import { c } from '../ThemeProvider';
 
 type Props = ModalSheetProps & {
   title?: string;
@@ -16,7 +16,8 @@ export default function ModalDialog(props: Props) {
   return (
     <ModalSheet
       {...rest}
-      className={classnames(css(props.autoSize !== false && styles.small), props.className)}>
+      className={classnames(css(props.autoSize !== false && styles.small), props.className)}
+    >
       {title ? <div className={css(styles.title)}>{title}</div> : null}
       <div className={css(title ? styles.bottom : styles.content)}>{children}</div>
     </ModalSheet>

@@ -3,12 +3,6 @@ import debounce from 'lodash/debounce';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Viewer, SnackFiles, Annotation, SDKVersion } from '../types';
-import Analytics from '../utils/Analytics';
-import { isMobile } from '../utils/detectPlatform';
-import { isScript, isJson, isTest } from '../utils/fileUtilities';
-import lintFile from '../utils/lintFile';
-import prettierCode from '../utils/prettierCode';
 import AssetViewer from './AssetViewer';
 import { withDependencyManager } from './DependencyManager';
 import DeviceInstructionsModal, {
@@ -41,6 +35,12 @@ import KeybindingsManager from './shared/KeybindingsManager';
 import LazyLoad from './shared/LazyLoad';
 import ModalDialog from './shared/ModalDialog';
 import ProgressIndicator from './shared/ProgressIndicator';
+import { Viewer, SnackFiles, Annotation, SDKVersion } from '../types';
+import Analytics from '../utils/Analytics';
+import { isMobile } from '../utils/detectPlatform';
+import { isScript, isJson, isTest } from '../utils/fileUtilities';
+import lintFile from '../utils/lintFile';
+import prettierCode from '../utils/prettierCode';
 
 const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000;
 
@@ -404,7 +404,8 @@ class EditorView extends React.Component<Props, State> {
           onPublishAsync={this.props.onPublishAsync}
           onShowModal={this._handleShowModal}
           onHideModal={this._handleHideModal}
-          currentModal={currentModal}>
+          currentModal={currentModal}
+        >
           {({ onPublishAsync }) => {
             return (
               <>
@@ -505,7 +506,8 @@ class EditorView extends React.Component<Props, State> {
 
                             return editor;
                           });
-                        }}>
+                        }}
+                      >
                         {({ loaded, data: Comp }) => {
                           this._EditorComponent = Comp;
                           const file = files[selectedFile];
@@ -531,12 +533,14 @@ class EditorView extends React.Component<Props, State> {
                                   </LazyLoad>
                                   <button
                                     className={css(styles.previewToggle)}
-                                    onClick={this._toggleMarkdownPreview}>
+                                    onClick={this._toggleMarkdownPreview}
+                                  >
                                     <svg
                                       width="12px"
                                       height="12px"
                                       viewBox="0 0 18 18"
-                                      className={css(styles.previewToggleIcon)}>
+                                      className={css(styles.previewToggleIcon)}
+                                    >
                                       <g transform="translate(-147.000000, -99.000000)">
                                         <g transform="translate(144.000000, 96.000000)">
                                           <path d="M3,17.25 L3,21 L6.75,21 L17.81,9.94 L14.06,6.19 L3,17.25 L3,17.25 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 L20.71,7.04 L20.71,7.04 Z" />
@@ -566,12 +570,14 @@ class EditorView extends React.Component<Props, State> {
                                   {isMarkdown ? (
                                     <button
                                       className={css(styles.previewToggle)}
-                                      onClick={this._toggleMarkdownPreview}>
+                                      onClick={this._toggleMarkdownPreview}
+                                    >
                                       <svg
                                         width="16px"
                                         height="12px"
                                         viewBox="0 0 22 16"
-                                        className={css(styles.previewToggleIcon)}>
+                                        className={css(styles.previewToggleIcon)}
+                                      >
                                         <g transform="translate(-145.000000, -1156.000000)">
                                           <g transform="translate(144.000000, 1152.000000)">
                                             <path d="M12,4.5 C7,4.5 2.73,7.61 1,12 C2.73,16.39 7,19.5 12,19.5 C17,19.5 21.27,16.39 23,12 C21.27,7.61 17,4.5 12,4.5 L12,4.5 Z M12,17 C9.24,17 7,14.76 7,12 C7,9.24 9.24,7 12,7 C14.76,7 17,9.24 17,12 C17,14.76 14.76,17 12,17 L12,17 Z M12,9 C10.34,9 9,10.34 9,12 C9,13.66 10.34,15 12,15 C13.66,15 15,13.66 15,12 C15,10.34 13.66,9 12,9 L12,9 Z" />
@@ -667,25 +673,29 @@ class EditorView extends React.Component<Props, State> {
                 <ModalDialog
                   title="Expo Orbit"
                   visible={currentModal === 'install-orbit'}
-                  onDismiss={this._handleHideModal}>
+                  onDismiss={this._handleHideModal}
+                >
                   <DownloadOrbitDialog />
                 </ModalDialog>
                 <ModalDialog
                   className={css(styles.embedModal)}
                   autoSize={false}
                   visible={currentModal === 'embed'}
-                  onDismiss={this._handleHideModal}>
+                  onDismiss={this._handleHideModal}
+                >
                   <EmbedCode id={id} sdkVersion={sdkVersion} platformOptions={platformOptions} />
                 </ModalDialog>
                 <ModalDialog
                   visible={currentModal === 'previous-saves'}
                   title="Previous saves"
-                  onDismiss={this._handleHideModal}>
+                  onDismiss={this._handleHideModal}
+                >
                   <PreviousSaves saveHistory={saveHistory} />
                 </ModalDialog>
                 <ModalDialog
                   visible={currentModal === 'shortcuts'}
-                  onDismiss={this._handleHideModal}>
+                  onDismiss={this._handleHideModal}
+                >
                   <KeyboardShortcuts />
                 </ModalDialog>
                 <ImportRepoModal
