@@ -1,5 +1,5 @@
 import Snack from './snack-sdk';
-import fetch from '../__mocks__/fetch';
+import fetch from '../__mocks__/node-fetch';
 
 describe('disabled', () => {
   it('is enabled by default', async () => {

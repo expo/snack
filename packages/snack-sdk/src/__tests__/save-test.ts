@@ -1,5 +1,7 @@
 import Snack from './snack-sdk';
-import fetch from '../__mocks__/fetch';
+import fetch from '../__mocks__/node-fetch';
+
+jest.mock('node-fetch');
 
 describe('save', () => {
   it('is saved initially', async () => {

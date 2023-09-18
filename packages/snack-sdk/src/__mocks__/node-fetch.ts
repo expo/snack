@@ -5,8 +5,6 @@ import createVersions from './versions';
 import createWww from './www';
 import { defaultConfig } from '..';
 
-// console.log(defaultConfig.apiURL);
-
 const actualFetch = jest.requireActual('node-fetch');
 
 jest.mock('node-fetch', () => {

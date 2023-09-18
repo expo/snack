@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import formData from 'form-data';
 
-import '../__mocks__/fetch';
+import '../__mocks__/node-fetch';
 import Snack, { SnackFile } from './snack-sdk';
 import {
   ProtocolCodeMessage,

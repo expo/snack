@@ -1,4 +1,4 @@
-import '../__mocks__/fetch';
+import '../__mocks__/node-fetch';
 import Snack from './snack-sdk';
 import { ProtocolStatusMessage } from '../transports/Protocol';
 import Transport from '../transports/__mocks__/TestTransport';
