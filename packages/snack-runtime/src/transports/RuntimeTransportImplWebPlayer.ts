@@ -76,7 +76,7 @@ export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
       Logger.comm('Connecting to parent');
       this.parent?.postMessage(
         JSON.stringify({ type: 'CONNECT', device: this.device }),
-        this.origin
+        this.origin,
       );
       window.addEventListener('message', this.onMessage, false);
     }
@@ -87,7 +87,7 @@ export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
       Logger.comm('Disconnecting from parent');
       this.parent?.postMessage(
         JSON.stringify({ type: 'DISCONNECT', device: this.device }),
-        this.origin
+        this.origin,
       );
       window.removeEventListener('message', this.onMessage, false);
     }
@@ -105,7 +105,7 @@ export default class RuntimeTransportImplWebPlayer implements RuntimeTransport {
           type: 'MESSAGE',
           message: { ...message, device: this.device },
         }),
-        this.origin
+        this.origin,
       );
     }
   }

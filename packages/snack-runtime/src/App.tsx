@@ -242,7 +242,7 @@ export default class App extends React.Component<Props, State> {
   };
 
   _handleAppStateChange = (
-    appState: 'active' | 'inactive' | 'background' | 'unknown' | 'extension'
+    appState: 'active' | 'inactive' | 'background' | 'unknown' | 'extension',
   ) => {
     const foreground = appState === 'active';
 
@@ -328,7 +328,7 @@ export default class App extends React.Component<Props, State> {
         - 'https://exp.host/@snack/sdk.14.0.0-CHANNEL_UUID'
         - 'https://exp.host/@snack/SAVE_UUID'
         - 'https://exp.host/@USERNAME/SNACK_SLUG'
-      `
+      `,
     );
 
     // Notify that a misformed URL being passed, and the Snack can't be loaded
@@ -359,7 +359,7 @@ export default class App extends React.Component<Props, State> {
         JSON.stringify({
           url,
           timestamp: Date.now(),
-        })
+        }),
       );
 
       await this.props.onSnackReload?.();
@@ -429,7 +429,7 @@ export default class App extends React.Component<Props, State> {
           this._lastCodeUpdatePromise = this._handleCodeUpdate(
             message,
             this._lastCodeUpdatePromise,
-            deviceId
+            deviceId,
           );
           break;
         }

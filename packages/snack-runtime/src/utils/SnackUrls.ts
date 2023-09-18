@@ -97,7 +97,7 @@ export function isEphemeralSnackUrl(url = ''): boolean {
  * Note, this should only be used within Snack itself and is intended to test the socket systems.
  */
 export function parseExperienceURL(
-  experienceURL: string
+  experienceURL: string,
 ): { channel: string; testTransport: string | null } | null {
   const matches = experienceURL.match(/(\+|\/sdk\..*-)([^?]*)\??(.*$)/);
   if (!matches) {

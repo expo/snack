@@ -22,7 +22,7 @@ export type SnackApiCode = {
  * @param snackIdentifier The ID of snack, can be `@snack/<hashId>` or `@<username>/<hashId>` format.
  */
 export async function fetchCodeBySnackIdentifier(
-  snackIdentifier: string
+  snackIdentifier: string,
 ): Promise<SnackApiCode | null> {
   const snackId = snackIdentifier.startsWith('@snack/')
     ? snackIdentifier.substring('@snack/'.length)
