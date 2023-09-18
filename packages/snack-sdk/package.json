@@ -84,9 +84,15 @@
     ],
     "rules": {
       "@typescript-eslint/no-unused-vars": [
-        "error",
+        "warn",
         {
-          "varsIgnorePattern": "^_"
+          "vars": "all",
+          "args": "none",
+          "ignoreRestSiblings": true,
+          "caughtErrors": "all",
+          "caughtErrorsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "argsIgnorePattern": "^_"
         }
       ]
     }
