@@ -18,6 +18,7 @@
     "react": "^17.0.1"
   },
   "devDependencies": {
-    "@tsconfig/node18": "^18.2.2"
+    "@tsconfig/node18": "^18.2.2",
+    "typescript": "^5.2.2"
   }
 }
