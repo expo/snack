@@ -111,7 +111,7 @@ export default class AuthenticationManager {
         throw new Error('Expired');
       }
       return JSON.stringify(sessionSecret);
-    } catch (e) {
+    } catch {
       this.clearLegacySessionSecretData();
       return null;
     }
@@ -154,7 +154,7 @@ export default class AuthenticationManager {
     if (rawTokenData) {
       try {
         return JSON.parse(rawTokenData);
-      } catch (e) {
+      } catch {
         return null;
       }
     }

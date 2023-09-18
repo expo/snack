@@ -1,5 +1,5 @@
-import { FileSystemEntry } from '../types';
 import updateEntry from './updateEntry';
+import { FileSystemEntry } from '../types';
 
 export default function openEntry(
   entries: FileSystemEntry[],

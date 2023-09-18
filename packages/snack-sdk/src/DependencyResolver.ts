@@ -20,7 +20,7 @@ export type DependencyResolverCallback = (
     sdkVersion: SDKVersion;
   },
   result?: any,
-  error?: SnackError
+  error?: SnackError,
 ) => any;
 
 function getKey(name: string, version: string) {
@@ -65,7 +65,7 @@ export default class DependencyResolver {
     key: string,
     name: string,
     version: string,
-    sdkVersion: SDKVersion
+    sdkVersion: SDKVersion,
   ): Promise<any> {
     const versionSnackager = sdkVersion >= '37.0.0' ? 'version_snackager=true&' : '';
     const url = `${this.snackagerURL}/bundle/${key}?${versionSnackager}platforms=ios,android,web`;
@@ -94,7 +94,7 @@ export default class DependencyResolver {
                   version,
                   sdkVersion,
                 },
-                data
+                data,
               );
               return;
             } catch (e) {
@@ -124,7 +124,7 @@ export default class DependencyResolver {
             sdkVersion,
           },
           undefined,
-          error
+          error,
         );
       }
     }
@@ -134,7 +134,7 @@ export default class DependencyResolver {
 export function getMissingDependencies(
   dependencies: SnackDependencies,
   sdkVersion: SDKVersion,
-  wantedDependencyVersions?: SnackDependencyVersions
+  wantedDependencyVersions?: SnackDependencyVersions,
 ): SnackMissingDependencies {
   const result: SnackMissingDependencies = {};
   for (const name in dependencies) {

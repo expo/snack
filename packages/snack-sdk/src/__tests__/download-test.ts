@@ -11,7 +11,7 @@ fetch.mockReturnValue(
     ok: true,
     status: 200,
     json: async () => ({ id: SAVE_ID }),
-  })
+  }),
 );
 
 beforeEach(() => {

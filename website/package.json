@@ -16,7 +16,7 @@
     "clean": "yarn clean:server && yarn clean:client",
     "clean:server": "del build/",
     "clean:client": "del dist/",
-    "lint": "eslint ./src",
+    "lint": "eslint .",
     "test": "env-cmd -e test jest --config jest/unit.config.js",
     "prebuild": "yarn clean"
   },
@@ -152,6 +152,8 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.6.1",
+    "eslint": "^8.49.0",
+    "eslint-config-universe": "^11.0.0",
     "file-loader": "^3.0.1",
     "idb-keyval": "^3.1.0",
     "jest": "^26.6.3",
@@ -169,6 +171,16 @@
     "webpack-dev-middleware": "^3.5.1",
     "webpack-stats-plugin": "^0.2.1",
     "worker-plugin": "^3.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "universe/node",
+      "universe/web"
+    ],
+    "ignorePatterns": [
+      "build",
+      "dist"
+    ]
   },
   "resolutions": {
     "**/babel-core": "7.0.0-bridge.0"

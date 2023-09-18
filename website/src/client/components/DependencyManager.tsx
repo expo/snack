@@ -4,6 +4,8 @@ import isEqual from 'lodash/isEqual';
 import * as React from 'react';
 import { SnackMissingDependencies } from 'snack-sdk';
 
+import { EditorViewProps } from './EditorViewProps';
+import Toast from './shared/Toast';
 import {
   SnackCodeFile,
   SnackFile,
@@ -22,8 +24,6 @@ import {
 import { openEmbeddedSessionFullScreen } from '../utils/embeddedSession';
 import { isScript, isPackageJson, isTest } from '../utils/fileUtilities';
 import type { FileDependencies } from '../utils/findDependencies';
-import { EditorViewProps } from './EditorViewProps';
-import Toast from './shared/Toast';
 
 type State = {
   files: SnackFiles;
@@ -256,7 +256,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
               newFilesDep = newFilesDep ?? { ...filesDependencies };
               newFilesDep[path] = fileDependencies;
             }
-          } catch (e) {
+          } catch {
             // babel could not compile this file, ignore
           }
         }

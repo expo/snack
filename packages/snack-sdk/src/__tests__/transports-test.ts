@@ -1,6 +1,6 @@
-import '../__mocks__/fetch';
-import { SnackTransportOptions } from '../transports';
+import '../__mocks__/node-fetch';
 import Snack from './snack-sdk';
+import { SnackTransportOptions } from '../transports';
 
 const mock = {
   addEventListener: jest.fn(),

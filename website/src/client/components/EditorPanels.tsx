@@ -1,12 +1,12 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { DeviceLog, Annotation } from '../types';
 import EditorPanelLogs from './EditorPanelLogs';
 import type { PanelType } from './Preferences/PreferencesProvider';
 import ProblemsPanel from './ProblemsPanel';
 import { c } from './ThemeProvider';
 import ResizablePane from './shared/ResizablePane';
+import { DeviceLog, Annotation } from '../types';
 
 type Props = {
   annotations: Annotation[];
@@ -60,12 +60,14 @@ export default class EditorPanels extends React.Component<Props> {
           <div className={css(styles.header)}>
             <button
               onClick={onShowErrorPanel}
-              className={css(styles.tab, panelType !== 'errors' && styles.inactive)}>
+              className={css(styles.tab, panelType !== 'errors' && styles.inactive)}
+            >
               Problems
             </button>
             <button
               onClick={onShowDeviceLogs}
-              className={css(styles.tab, panelType !== 'logs' && styles.inactive)}>
+              className={css(styles.tab, panelType !== 'logs' && styles.inactive)}
+            >
               Logs
             </button>
             <div className={css(styles.buttons)}>

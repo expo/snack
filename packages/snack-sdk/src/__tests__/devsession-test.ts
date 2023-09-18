@@ -15,7 +15,7 @@ fetch.mockReturnValue(
         url: 'whoop',
       },
     }),
-  })
+  }),
 );
 
 beforeEach(() => {
@@ -90,7 +90,7 @@ describe('devsession', () => {
         headers: expect.objectContaining({
           'Expo-Session': '{"some":"json"}',
         }),
-      })
+      }),
     );
     snack.setOnline(false);
   });
@@ -108,7 +108,7 @@ describe('devsession', () => {
         headers: expect.objectContaining({
           Authorization: 'Bearer sometoken',
         }),
-      })
+      }),
     );
     snack.setOnline(false);
   });

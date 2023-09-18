@@ -98,7 +98,7 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
           didFail = true;
         }
       }
-    } catch (e) {
+    } catch {
       didFail = true;
     }
 
@@ -143,7 +143,8 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
       <ModalDialog
         visible={this.props.visible}
         onDismiss={this._hideImportModal}
-        title="Import git repository">
+        title="Import git repository"
+      >
         {isImporting ? (
           <ProgressIndicator duration={45000} className={css(styles.progress)} />
         ) : null}
@@ -194,7 +195,8 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
           <button
             type="button"
             onClick={() => this.setState((state) => ({ advanced: !state.advanced }))}
-            className={css(styles.advanced)}>
+            className={css(styles.advanced)}
+          >
             {advanced ? 'Hide' : 'Show'} advanced options
           </button>
           <div className={css(styles.buttons)}>

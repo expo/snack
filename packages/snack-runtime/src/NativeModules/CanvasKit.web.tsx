@@ -36,7 +36,7 @@ export async function loadCanvasKit(options?: CanvasKitInitOptions) {
     global.CanvasKit = await global.CanvasKitInit(options);
   } else {
     console.error(
-      'CanvasKitInit is not loaded, this is likely an issue with Snack. - Open a new issue at http://github.com/expo/snack.'
+      'CanvasKitInit is not loaded, this is likely an issue with Snack. - Open a new issue at http://github.com/expo/snack.',
     );
   }
 }
@@ -53,7 +53,7 @@ export async function loadCanvasKitScript() {
     $script.setAttribute('async', '');
     $script.setAttribute(
       'src',
-      `https://cdn.jsdelivr.net/npm/canvaskit-wasm@${version}/bin/full/canvaskit.js`
+      `https://cdn.jsdelivr.net/npm/canvaskit-wasm@${version}/bin/full/canvaskit.js`,
     );
 
     document.body.appendChild($script);

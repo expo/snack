@@ -78,7 +78,8 @@ export default class Form extends React.Component<Props, State> {
           unregister: this._unregister,
           update: this._update,
           valid: this.state.isValid,
-        }}>
+        }}
+      >
         <form onSubmit={this._handleSubmit}>{this.props.children}</form>
       </FormValidationContext.Provider>
     );

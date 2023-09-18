@@ -3,22 +3,6 @@ import pickBy from 'lodash/pickBy';
 import * as React from 'react';
 import { isModulePreloaded } from 'snack-sdk';
 
-import eslintrc from '../../configs/eslint.json';
-import { SDKVersion, SaveStatus, SnackFiles, SnackFile, Annotation } from '../../types';
-import {
-  isPackageJson,
-  getUniquePath,
-  isInsideFolder,
-  isESLintConfig,
-} from '../../utils/fileUtilities';
-import type { EditorModal } from '../EditorViewProps';
-import ImportExportMenu from '../Import/ImportExportMenu';
-import ImportFilesManager from '../Import/ImportFilesManager';
-import withThemeName, { ThemeName } from '../Preferences/withThemeName';
-import SidebarShell from '../Shell/SidebarShell';
-import { c } from '../ThemeProvider';
-import ResizablePane from '../shared/ResizablePane';
-import Toast from '../shared/Toast';
 import FileListChildren from './FileListChildren';
 import FileListEntryDropTarget from './FileListEntryDropTarget';
 import FileListOpenEntry from './FileListOpenEntry';
@@ -35,6 +19,22 @@ import selectEntry from './actions/selectEntry';
 import updateEntry from './actions/updateEntry';
 import { FileSystemEntry, TextFileEntry, AssetFileEntry } from './types';
 import { filesToEntries, findFocusedEntry } from './utils/convertFileStructure';
+import eslintrc from '../../configs/eslint.json';
+import { SDKVersion, SaveStatus, SnackFiles, SnackFile, Annotation } from '../../types';
+import {
+  isPackageJson,
+  getUniquePath,
+  isInsideFolder,
+  isESLintConfig,
+} from '../../utils/fileUtilities';
+import type { EditorModal } from '../EditorViewProps';
+import ImportExportMenu from '../Import/ImportExportMenu';
+import ImportFilesManager from '../Import/ImportFilesManager';
+import withThemeName, { ThemeName } from '../Preferences/withThemeName';
+import SidebarShell from '../Shell/SidebarShell';
+import { c } from '../ThemeProvider';
+import ResizablePane from '../shared/ResizablePane';
+import Toast from '../shared/Toast';
 
 type Props = {
   visible: boolean;
@@ -273,7 +273,7 @@ class FileList extends React.PureComponent<Props, State> {
                 ),
               },
             } as TextFileEntry;
-          } catch (err) {
+          } catch {
             // Do nothing
           }
         }
@@ -326,7 +326,7 @@ class FileList extends React.PureComponent<Props, State> {
             },
           })
         );
-      } catch (e) {
+      } catch {
         // Ignore errors
         entries = this.state.entries;
       }
@@ -396,7 +396,8 @@ class FileList extends React.PureComponent<Props, State> {
                   )}
                   title="Open files"
                   expanded={this.state.openFilesPane}
-                  onClick={this._toggleOpenFilesPane}>
+                  onClick={this._toggleOpenFilesPane}
+                >
                   <ul className={css(styles.tabs)} data-test-id="file-list-open-files-content">
                     {this.state.entries
                       .filter((e) => e.item.type === 'file' && e.state.isOpen)
@@ -427,7 +428,8 @@ class FileList extends React.PureComponent<Props, State> {
                     </FileListPaneButton>,
                     <FileListPaneButton
                       key="create-folder"
-                      onClick={() => this._handleCreateFolder()}>
+                      onClick={() => this._handleCreateFolder()}
+                    >
                       <path
                         fillOpacity="0.7"
                         d="M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z"
@@ -443,11 +445,13 @@ class FileList extends React.PureComponent<Props, State> {
                       saveStatus={this.props.saveStatus}
                       hasSnackId={this.props.hasSnackId}
                     />,
-                  ]}>
+                  ]}
+                >
                   <FileListEntryDropTarget
                     className={css(styles.files)}
                     rest={this.state.entries}
-                    onRename={this._handleEntryRename}>
+                    onRename={this._handleEntryRename}
+                  >
                     <div className={css(styles.children)} data-test-id="file-list-project-content">
                       <FileListChildren
                         parent=""

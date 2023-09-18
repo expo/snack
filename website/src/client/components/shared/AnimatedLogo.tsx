@@ -17,7 +17,8 @@ const Block = ({ className, white, black }: ShapeProps) => (
       stroke={black}
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="3">
+      strokeWidth="3"
+    >
       <polygon fill={white} points="0 22 40 44 40 91 0 69" />
       <polygon fill={white} points="0 22 39 0 78 22 39 44" />
       <polygon fill={black} points="78 69 40 91 40 44 78 22" />

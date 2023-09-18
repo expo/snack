@@ -8,11 +8,11 @@ import path from 'path';
 import { Snack } from 'snack-sdk';
 import util from 'util';
 
+import { getCachedObj, cacheObj } from './cacheSnackObj';
+import { clone, getLatestHash, getLatestCommitDate } from './clone';
 import config from '../config';
 import logger from '../logger';
 import { GitSnackObj, GitSnackFiles, GitSnackDependencies } from '../types';
-import { getCachedObj, cacheObj } from './cacheSnackObj';
-import { clone, getLatestHash, getLatestCommitDate } from './clone';
 
 const readFile = util.promisify(fs.readFile);
 
@@ -23,7 +23,7 @@ export async function getGitSnackObj(
   subpath: string = '/',
   branch: string = '',
   hash: string = 'latest',
-  noCache: boolean = false
+  noCache: boolean = false,
 ): Promise<GitSnackObj> {
   try {
     if (hash === 'latest') {
@@ -37,7 +37,7 @@ export async function getGitSnackObj(
   const name = `${parsed.resource}/${parsed.owner}/${parsed.name}`;
   const id = `${encodeURIComponent(name)}:${encodeURIComponent(subpath)}@${encodeURIComponent(
     // Fallback to the `master` branch-name, to prevent the cache from resetting
-    branch || 'master'
+    branch || 'master',
   )}!${hash}`;
   const clonePath = path.join(CLONE_DIR, id);
 
@@ -93,7 +93,7 @@ function getGitSdkVersion(dirname: string): string {
   try {
     const config = getConfig(path.join(process.cwd(), dirname));
     return config.exp.sdkVersion ?? '';
-  } catch (e) {
+  } catch {
     return '';
   }
 }
@@ -161,7 +161,7 @@ async function generateFilesObj(dirname: string): Promise<GitSnackFiles> {
           type: 'CODE',
           contents: await readFile(filePath, 'utf8'),
         };
-      })
+      }),
     );
   } catch (error) {
     throw new Error('Error parsing files: ' + error.message);

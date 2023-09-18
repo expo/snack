@@ -75,7 +75,8 @@ export default class Modal extends React.PureComponent<Props, State> {
           !this.state.initial && styles.initial,
           this.props.visible ? styles.visible : styles.hidden
         )}
-        onMouseDown={this._handleDismiss}>
+        onMouseDown={this._handleDismiss}
+      >
         <div ref={this._content} className={css(styles.content)}>
           {this.state.rendered ? this.props.children : null}
         </div>

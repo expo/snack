@@ -30,7 +30,7 @@ describe('bundler', () => {
     const bundle = await bundleAsync('expo-google-app-auth@8.1.3');
     expect(bundle).toMatchSnapshot();
     expect(bundle.files.android['bundle.js'].externals).toEqual(
-      expect.arrayContaining(['expo-app-auth'])
+      expect.arrayContaining(['expo-app-auth']),
     );
   });
 
@@ -49,7 +49,7 @@ describe('bundler', () => {
     const bundle = await bundleAsync('react-native-responsive-grid@0.32.4');
     expect(bundle).toMatchSnapshot();
     expect(bundle.files.android['bundle.js'].externals).not.toEqual(
-      expect.arrayContaining(['prop-types'])
+      expect.arrayContaining(['prop-types']),
     );
   });
 
@@ -58,7 +58,7 @@ describe('bundler', () => {
     expect(bundle).toMatchSnapshot();
     // @react-navigation/core should be included in the bundle and not an external
     expect(bundle.files.android['bundle.js'].externals).not.toEqual(
-      expect.arrayContaining(['@react-navigation/core'])
+      expect.arrayContaining(['@react-navigation/core']),
     );
   });
 
@@ -67,7 +67,7 @@ describe('bundler', () => {
     expect(bundle).toMatchSnapshot();
     // @react-navigation/native should be included as an external
     expect(bundle.files.android['bundle.js'].externals).toEqual(
-      expect.arrayContaining(['@react-navigation/native'])
+      expect.arrayContaining(['@react-navigation/native']),
     );
   });
 
@@ -76,7 +76,7 @@ describe('bundler', () => {
     expect(bundle).toMatchSnapshot();
     // react-native-gesture-handler/DrawerLayout should be included as an external
     expect(bundle.files.ios['bundle.js'].externals).toEqual(
-      expect.arrayContaining(['react-native-gesture-handler/DrawerLayout'])
+      expect.arrayContaining(['react-native-gesture-handler/DrawerLayout']),
     );
   });
 
@@ -87,21 +87,21 @@ describe('bundler', () => {
 
   it('disallows bundling of core modules', async () => {
     await expect(bundleAsync('expo', ['ios'])).rejects.toEqual(
-      new Error(`Bundling core module 'expo' is prohibited`)
+      new Error(`Bundling core module 'expo' is prohibited`),
     );
     await expect(bundleAsync('react-native', ['ios'])).rejects.toEqual(
-      new Error(`Bundling core module 'react-native' is prohibited`)
+      new Error(`Bundling core module 'react-native' is prohibited`),
     );
     await expect(bundleAsync('react-native-web', ['ios'])).rejects.toEqual(
-      new Error(`Bundling core module 'react-native-web' is prohibited`)
+      new Error(`Bundling core module 'react-native-web' is prohibited`),
     );
     await expect(bundleAsync('react-native-windows', ['ios'])).rejects.toEqual(
-      new Error(`Bundling core module 'react-native-windows' is prohibited`)
+      new Error(`Bundling core module 'react-native-windows' is prohibited`),
     );
     await expect(
-      bundleAsync('react-native/Libraries/Image/AssetRegistry', ['ios'])
+      bundleAsync('react-native/Libraries/Image/AssetRegistry', ['ios']),
     ).rejects.toEqual(
-      new Error(`Bundling core module 'react-native/Libraries/Image/AssetRegistry' is prohibited`)
+      new Error(`Bundling core module 'react-native/Libraries/Image/AssetRegistry' is prohibited`),
     );
   });
 
@@ -155,7 +155,7 @@ describe('bundler', () => {
       expect(bundle.files[platform]['bundle.js'].code!.match(/worklet/g)!.length).toBe(11);
       expect(bundle.files[platform]['bundle.js'].size).toBeLessThanOrEqual(200000);
       expect(bundle.files[platform]['bundle.js'].externals).toEqual(
-        expect.arrayContaining(['react-native-reanimated'])
+        expect.arrayContaining(['react-native-reanimated']),
       );
     });
   });
@@ -187,7 +187,7 @@ describe('bundler', () => {
     expect(bundle).toMatchSnapshot();
     ['ios', 'android', 'web'].forEach((platform) => {
       expect(bundle.files[platform]['bundle.js'].externals).toEqual(
-        expect.arrayContaining(['react-native-safe-area-context'])
+        expect.arrayContaining(['react-native-safe-area-context']),
       );
     });
   });
@@ -202,7 +202,7 @@ describe('bundler', () => {
     // Also validate that we don't have any relative extenals
     ['android', 'ios', 'web'].forEach((platform) => {
       expect(bundle.files[platform]['bundle.js'].externals).not.toEqual(
-        expect.arrayContaining([expect.stringContaining('./')])
+        expect.arrayContaining([expect.stringContaining('./')]),
       );
     });
   });
@@ -215,7 +215,7 @@ describe('bundler', () => {
     // Also validate that we don't have any relative externals
     ['android', 'ios', 'web'].forEach((platform) => {
       expect(bundle.files[platform]['bundle.js'].externals).not.toEqual(
-        expect.arrayContaining([expect.stringContaining('./')])
+        expect.arrayContaining([expect.stringContaining('./')]),
       );
     });
   });

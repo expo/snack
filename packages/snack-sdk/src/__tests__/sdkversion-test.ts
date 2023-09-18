@@ -1,4 +1,4 @@
-import '../__mocks__/fetch';
+import '../__mocks__/node-fetch';
 import { getSupportedSDKVersions, oldestSdkVersion, newestSdkVersion } from 'snack-content';
 
 import Snack, { defaultConfig } from './snack-sdk';
@@ -34,7 +34,7 @@ describe('sdkVersion', () => {
         new Snack({
           // @ts-ignore Type '"30.0.0"' is not assignable to type 'SDKVersion'
           sdkVersion: '30.0.0',
-        })
+        }),
     ).toThrowError();
   });
 
@@ -42,7 +42,7 @@ describe('sdkVersion', () => {
     const snack = new Snack({});
     expect(() =>
       // @ts-ignore Type '"30.0.0"' is not assignable to type 'SDKVersion'
-      snack.setSDKVersion('thisaintright')
+      snack.setSDKVersion('thisaintright'),
     ).toThrowError();
   });
 

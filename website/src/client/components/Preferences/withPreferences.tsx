@@ -1,8 +1,8 @@
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import * as React from 'react';
 
-import { $Subtract } from '../../types';
 import { PreferencesContext, PreferencesType, SetPreferencesType } from './PreferencesProvider';
+import { $Subtract } from '../../types';
 
 export type PreferencesContextType = {
   setPreferences: SetPreferencesType;

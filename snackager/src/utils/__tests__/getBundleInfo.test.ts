@@ -33,7 +33,7 @@ it('returns info for scoped package importing .js file', () => {
 
 it('returns info for multi-importing .js file', () => {
   const content = Buffer.from(
-    `const spawnAsync = require("@expo/spawn-async")\nconst path = require("path")`
+    `const spawnAsync = require("@expo/spawn-async")\nconst path = require("path")`,
   );
   expect(getBundleInfo('code.js', content)).toMatchObject({
     size: content.length,

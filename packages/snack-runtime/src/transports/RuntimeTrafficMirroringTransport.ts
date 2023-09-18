@@ -48,7 +48,7 @@ export default class RuntimeTrafficMirroringTransport implements RuntimeTranspor
       Logger.warn(
         `[RuntimeTrafficMirroringTransport] publish message from fallback transport - primaryTransportConnected[${this.transport.isConnected()}] missedMessageCount[${
           this.missedMessageCount
-        }]`
+        }]`,
       );
       this.fallbackTransport.publish(message);
     }
@@ -68,7 +68,7 @@ export default class RuntimeTrafficMirroringTransport implements RuntimeTranspor
   private onMessage = async (
     fromFallback: boolean,
     upperLayerListener: ListenerType,
-    payload: RuntimeMessagePayload
+    payload: RuntimeMessagePayload,
   ) => {
     if (this.shouldUseFallbackAlways()) {
       Logger.warn('[RuntimeTrafficMirroringTransport] ack upper from fallback transport');

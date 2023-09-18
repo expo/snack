@@ -10,13 +10,13 @@ export const SNACK_ENVIRONMENT: 'staging' | 'production' =
 // Ensure the environment is valid
 if (!['staging', 'production'].includes(SNACK_ENVIRONMENT)) {
   throw new Error(
-    `Invalid Snack environment set through "manifest.extra.cloudEnv", must be "staging" or "production", received "${SNACK_ENVIRONMENT}".`
+    `Invalid Snack environment set through "manifest.extra.cloudEnv", must be "staging" or "production", received "${SNACK_ENVIRONMENT}".`,
   );
 }
 
 /** Get the value based on the detected Snack environment. */
 export function getSnackEnvironmentValue<T extends any>(
-  values: Record<typeof SNACK_ENVIRONMENT, T>
+  values: Record<typeof SNACK_ENVIRONMENT, T>,
 ): T {
   return values[SNACK_ENVIRONMENT];
 }

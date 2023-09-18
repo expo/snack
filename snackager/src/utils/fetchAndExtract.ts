@@ -12,7 +12,7 @@ const { createWriteStream } = require('sander');
 export default async function fetchAndExtract(
   pkg: Package,
   _version: string,
-  dir: string
+  dir: string,
 ): Promise<void> {
   const url = pkg.dist.tarball;
 
@@ -42,7 +42,7 @@ export default async function fetchAndExtract(
             logger.info({ pkg }, `done extracting`);
             resolve();
           }
-        }
+        },
       );
     });
   });

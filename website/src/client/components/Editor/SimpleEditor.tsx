@@ -13,9 +13,9 @@ import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-markdown';
 import 'prismjs/components/prism-tsx';
-import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import { EditorProps } from './EditorProps';
 import { light, dark } from './themes/simple-editor';
+import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 
 type Props = EditorProps & {
   theme: ThemeName;
@@ -96,7 +96,8 @@ class SimpleEditor extends React.Component<Props> {
     const file = files[selectedFile];
     return (
       <div
-        className={css(styles.container, lineNumbers === 'on' && styles.containerWithLineNumbers)}>
+        className={css(styles.container, lineNumbers === 'on' && styles.containerWithLineNumbers)}
+      >
         <Editor
           // @ts-ignore
           ref={this._editor}

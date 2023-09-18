@@ -2,12 +2,12 @@ import { StyleSheet, css } from 'aphrodite';
 import distanceInWords from 'date-fns/distance_in_words';
 import * as React from 'react';
 
-import { getLoginHref } from '../auth/login';
-import { c } from '../components/ThemeProvider';
-import { SaveStatus, Viewer, SaveHistory } from '../types';
 import EditorTitleName from './EditorTitleName';
 import type { EditorModal } from './EditorViewProps';
 import ModalEditTitleAndDescription from './ModalEditTitleAndDescription';
+import { getLoginHref } from '../auth/login';
+import { c } from '../components/ThemeProvider';
+import { SaveStatus, Viewer, SaveHistory } from '../types';
 
 type Props = {
   name: string;

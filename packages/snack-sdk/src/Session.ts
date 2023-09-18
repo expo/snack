@@ -134,7 +134,7 @@ export default class Snack {
           verbose: options.verbose,
           apiURL: this.apiURL,
           snackpubURL: this.snackpubURL,
-        })
+        }),
       );
     }
     if (options.webPreviewRef) {
@@ -146,7 +146,7 @@ export default class Snack {
           verbose: options.verbose,
           window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
           webPlayerURL,
-        })
+        }),
       );
     }
 
@@ -174,7 +174,7 @@ export default class Snack {
         accountSnackId: options.accountSnackId,
         webPlayerURL,
       },
-      SnackIdentityState
+      SnackIdentityState,
     );
     this.state.unsaved = false;
 
@@ -219,10 +219,10 @@ export default class Snack {
             missingDependencies: getMissingDependencies(
               state.dependencies,
               sdkVersion,
-              state.wantedDependencyVersions
+              state.wantedDependencyVersions,
             ),
           }
-        : null
+        : null,
     );
   }
 
@@ -307,7 +307,7 @@ export default class Snack {
             verbose: this.options.verbose,
             window: nullthrows(typeof window !== 'undefined' ? window : (global as any)),
             webPlayerURL: newWebPlayerURL,
-          })
+          }),
         );
         return { webPlayerURL: newWebPlayerURL, transports };
       }
@@ -334,7 +334,7 @@ export default class Snack {
     if (!immediate && this.codeChangesDelay > 0) {
       this.codeChangesTimer = setTimeout(
         () => this._sendCodeChangesDebounced(state, true),
-        this.codeChangesDelay
+        this.codeChangesDelay,
       );
       return;
     } else if (!immediate && this.codeChangesDelay < 0) {
@@ -729,7 +729,7 @@ export default class Snack {
             missingDependencies: getMissingDependencies(
               newDependencies,
               state.sdkVersion,
-              state.wantedDependencyVersions
+              state.wantedDependencyVersions,
             ),
           }
         : null;
@@ -794,7 +794,7 @@ export default class Snack {
   private onWantedDependencyVersions: WantedDependencyVersionsCallback = (
     _sdkVersion,
     result,
-    error
+    error,
   ) => {
     const wantedDependencyVersions = error ? {} : result;
     this.setState(({ dependencies, sdkVersion }) => ({
@@ -802,7 +802,7 @@ export default class Snack {
       missingDependencies: getMissingDependencies(
         dependencies,
         sdkVersion,
-        wantedDependencyVersions
+        wantedDependencyVersions,
       ),
     }));
   };
@@ -829,7 +829,7 @@ export default class Snack {
           this.dependencyResolver.remove(
             name,
             prevDependencies[name].version,
-            prevState.sdkVersion
+            prevState.sdkVersion,
           );
         }
       }
@@ -884,7 +884,7 @@ export default class Snack {
             missingDependencies: getMissingDependencies(
               newDependencies,
               sdkVersion,
-              wantedDependencyVersions
+              wantedDependencyVersions,
             ),
           }
         : null;
@@ -924,7 +924,7 @@ export default class Snack {
               snackpubURL: this.snackpubURL,
               channel: state.channel,
               verbose: !!this.logger,
-            })
+            }),
           ),
         };
       } else if (!enabled && state.transports['pubsub']) {
@@ -959,7 +959,7 @@ export default class Snack {
         this.host,
         sdkVersion,
         channel,
-        savedSDKVersion && savedSDKVersion !== sdkVersion ? undefined : id
+        savedSDKVersion && savedSDKVersion !== sdkVersion ? undefined : id,
       );
       state.onlineName = `${name || 'Unnamed Snack'}`;
     }
@@ -1034,7 +1034,7 @@ export default class Snack {
     const { connectedClients, transports } = this.state;
     const connectedTransports = new Set<SnackTransport>();
     Object.values(connectedClients).forEach(({ transport }) =>
-      connectedTransports.add(transports[transport])
+      connectedTransports.add(transports[transport]),
     );
     if (!connectedTransports.size) {
       return Promise.resolve(connectedClients);
@@ -1128,7 +1128,7 @@ export default class Snack {
     ) {
       this._sendCodeChangesDebounced(
         state,
-        prevTransports !== transports || (!State.isBusy(state) && State.isBusy(prevState))
+        prevTransports !== transports || (!State.isBusy(state) && State.isBusy(prevState)),
       );
     }
   }
@@ -1226,7 +1226,7 @@ export default class Snack {
   private onProtocolMessageReceived(
     transport: string,
     connectedClientId: string,
-    message: ProtocolIncomingMessage
+    message: ProtocolIncomingMessage,
   ) {
     // Ignore messages from clients that are not setup yet or have disconnected
     if (!this.state.connectedClients[connectedClientId]) {
@@ -1311,7 +1311,7 @@ export default class Snack {
           status: 'error',
         }),
       }));
-    } catch (e) {
+    } catch {
       this.logger?.error('Failed to parse received error message', message);
     }
   }

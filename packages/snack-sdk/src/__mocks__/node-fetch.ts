@@ -1,11 +1,9 @@
 import type { Server } from 'http';
 
-import { defaultConfig } from '..';
 import createSnackager from './snackager';
 import createVersions from './versions';
 import createWww from './www';
-
-// console.log(defaultConfig.apiURL);
+import { defaultConfig } from '..';
 
 const actualFetch = jest.requireActual('node-fetch');
 

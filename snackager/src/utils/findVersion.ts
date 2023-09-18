@@ -35,7 +35,7 @@ export default function findVersion(qualified: string, meta: Metadata, tag: stri
   }
   if (!semver.valid(version)) {
     throw new Error(
-      `Invalid version '${String(version)}' for package '${qualified}' (using '${tag}')`
+      `Invalid version '${String(version)}' for package '${qualified}' (using '${tag}')`,
     );
   }
 

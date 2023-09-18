@@ -1,7 +1,7 @@
-import { isInsideFolder } from '../../../utils/fileUtilities';
-import { FileSystemEntry } from '../types';
 import createEntryAtPath from './createEntryAtPath';
 import updateEntry from './updateEntry';
+import { isInsideFolder } from '../../../utils/fileUtilities';
+import { FileSystemEntry } from '../types';
 
 export default function createNewEntry(
   entries: FileSystemEntry[],

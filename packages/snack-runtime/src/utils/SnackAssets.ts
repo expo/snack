@@ -8,7 +8,7 @@ import { setCustomSourceTransformer } from 'react-native/Libraries/Image/resolve
 
 export function registerSnackAssetSourceTransformer() {
   setCustomSourceTransformer(
-    (resolver: any) => resolveSnackAssetSource(resolver.asset) || resolver.defaultAsset()
+    (resolver: any) => resolveSnackAssetSource(resolver.asset) || resolver.defaultAsset(),
   );
 }
 

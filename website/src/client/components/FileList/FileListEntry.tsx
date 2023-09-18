@@ -1,16 +1,16 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import FileListChildren from './FileListChildren';
+import FileListEntryBase from './FileListEntryBase';
+import FileListEntryIcon from './FileListEntryIcon';
+import { FileSystemEntry } from './types';
 import { SDKVersion } from '../../types';
 import { isEntryPoint, getParentPath, isTest } from '../../utils/fileUtilities';
 import { ThemeName } from '../Preferences/withThemeName';
 import { c } from '../ThemeProvider';
 import { Action } from '../shared/ContextMenu';
 import { KeyMap } from '../shared/KeybindingsManager';
-import FileListChildren from './FileListChildren';
-import FileListEntryBase from './FileListEntryBase';
-import FileListEntryIcon from './FileListEntryIcon';
-import { FileSystemEntry } from './types';
 
 type Props = {
   entry: FileSystemEntry;
@@ -280,7 +280,8 @@ export default class FileListEntry extends React.Component<Props, State> {
             styles.label,
             isTest(entry.item.path) ? styles.labelTest : undefined,
             entry.state.isError ? styles.labelError : undefined
-          )}>
+          )}
+        >
           {displayName}
         </span>
         {isRenaming ? (

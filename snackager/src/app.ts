@@ -20,7 +20,7 @@ export default function createApp(): SnackagerExpressApp {
     bunyanMiddleware({
       filter: (req) => req.url === '/status',
       logger,
-    })
+    }),
   );
   app.use(cors());
 

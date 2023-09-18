@@ -39,7 +39,7 @@ async function main(): Promise<void> {
   }
 
   const { qualified, scope, id, tag, deep, platforms } = parseRequest(
-    `/${packageSpec}${platformArgs}`
+    `/${packageSpec}${platformArgs}`,
   );
 
   const workdir = path.join(fs.realpathSync(os.tmpdir()), qualified);
@@ -49,7 +49,7 @@ async function main(): Promise<void> {
 
   try {
     await rimraf(workdir);
-  } catch (e) {}
+  } catch {}
 
   fs.mkdirSync(workdir, { recursive: true });
 

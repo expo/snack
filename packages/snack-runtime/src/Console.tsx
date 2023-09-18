@@ -26,7 +26,7 @@ export const initialize = (callback: (method: string, payload: unknown[]) => voi
               '%c APP %c ERROR ',
               'background: #01FFA2;',
               'background: #f44336; color: #fff;',
-              ...args
+              ...args,
             );
             break;
           case 'warn':
@@ -34,7 +34,7 @@ export const initialize = (callback: (method: string, payload: unknown[]) => voi
               '%c APP %c WARN ',
               'background: #01FFA2;',
               'background: #FF9800; color: #fff;',
-              ...args
+              ...args,
             );
             break;
         }
@@ -42,7 +42,7 @@ export const initialize = (callback: (method: string, payload: unknown[]) => voi
 
       if (
         ignoredWarnings.some(
-          (warning) => typeof args[0] === 'string' && (args[0] as string).startsWith(warning)
+          (warning) => typeof args[0] === 'string' && (args[0] as string).startsWith(warning),
         )
       ) {
         return;

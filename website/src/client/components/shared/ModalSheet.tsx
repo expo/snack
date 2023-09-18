@@ -1,8 +1,8 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import ThemeProvider, { c, s } from '../ThemeProvider';
 import Modal from './Modal';
+import ThemeProvider, { c, s } from '../ThemeProvider';
 
 export type ModalSheetProps = {
   visible: boolean;
@@ -19,7 +19,8 @@ export default function ModalSheet(props: ModalSheetProps) {
           <button
             className={css(styles.close)}
             onClick={props.onDismiss}
-            data-test-id="modal-close">
+            data-test-id="modal-close"
+          >
             ✕
           </button>
         ) : null}

@@ -4,7 +4,7 @@ import logger from '../logger';
 
 export default async function addS3Redirect(
   key: string,
-  destination: string
+  destination: string,
 ): Promise<S3.PutObjectOutput | undefined> {
   try {
     return await s3
@@ -20,7 +20,7 @@ export default async function addS3Redirect(
   } catch (error) {
     logger.error(
       { error, key, destination, bucket: config.s3.bucket },
-      'unable to add s3 redirect'
+      'unable to add s3 redirect',
     );
   }
   return undefined;

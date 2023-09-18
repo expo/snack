@@ -44,7 +44,8 @@ class ModalPublishToProfile extends React.Component<Props> {
       <ModalDialog
         visible={this.props.visible}
         title="Save your snack"
-        onDismiss={this.props.onDismiss}>
+        onDismiss={this.props.onDismiss}
+      >
         <p className={css(styles.text)} style={{ marginTop: 16 }}>
           The shareable link to your Snack{' '}
           <a href={this.props.snackUrl} target="blank">
@@ -59,7 +60,8 @@ class ModalPublishToProfile extends React.Component<Props> {
           large
           variant="primary"
           onClick={this.props.onPublish}
-          loading={this.props.isPublishing}>
+          loading={this.props.isPublishing}
+        >
           {cta}
         </Button>
         {this.props.zipUrl ? (

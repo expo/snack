@@ -30,7 +30,8 @@ export default function SegmentedButton<T extends string>({
             onSelect(id);
           }}
           className={css(styles.button, selectedId === id ? styles.selected : null)}
-          key={id}>
+          key={id}
+        >
           <span>{text}</span>
         </button>
       ))}

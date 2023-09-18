@@ -2,10 +2,10 @@ import { Context as ServerContext } from 'koa';
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import type { RouterData, QueryParams } from '../types';
 import App from './App';
 import EmbeddedApp from './EmbeddedApp';
 import NonExistent from './NonExistent';
+import type { RouterData, QueryParams } from '../types';
 
 type RouterProps = {
   /** The server context if Snack is being server-side rendered */

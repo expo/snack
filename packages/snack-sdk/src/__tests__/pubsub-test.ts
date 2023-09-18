@@ -1,5 +1,5 @@
-import Transport from '../transports/__mocks__/TestTransport';
 import Snack from './snack-sdk';
+import Transport from '../transports/__mocks__/TestTransport';
 
 jest.mock('../transports');
 

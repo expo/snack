@@ -1,10 +1,10 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import ContextMenu, { Action } from '../shared/ContextMenu';
-import { isKeyCombo } from '../shared/KeybindingsManager';
 import FileListEntryDropTarget from './FileListEntryDropTarget';
 import { FileSystemEntry } from './types';
+import ContextMenu, { Action } from '../shared/ContextMenu';
+import { isKeyCombo } from '../shared/KeybindingsManager';
 
 type Props = {
   entry: FileSystemEntry;
@@ -172,7 +172,8 @@ export default class FileListEntry extends React.Component<Props, State> {
           onMouseLeave={this._handleMouseLeave}
           onMouseDown={this._handleMouseDown}
           onFocus={this._handleFocus}
-          onKeyDown={this._handleKeyDown}>
+          onKeyDown={this._handleKeyDown}
+        >
           {this.props.renderItem()}
         </div>
         <div
@@ -195,7 +196,8 @@ export default class FileListEntry extends React.Component<Props, State> {
           className={css(
             styles.more,
             isHovered || menu ? styles.moreVisible : styles.moreInvisible
-          )}>
+          )}
+        >
           {this.props.renderMenuIcon()}
         </button>
         {this.props.renderTree?.()}

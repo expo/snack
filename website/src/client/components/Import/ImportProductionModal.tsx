@@ -150,7 +150,8 @@ export default class ImportProductionModal extends React.PureComponent<Props, St
       <ModalDialog
         visible={visible}
         onDismiss={this._hideImportModal}
-        title="Import from production">
+        title="Import from production"
+      >
         {isLoading ? <ProgressIndicator duration={45000} className={css(styles.progress)} /> : null}
         <form onSubmit={this._handleImportClick}>
           <p className={!error ? css(styles.paragraph) : css(styles.errorParagraph)}>

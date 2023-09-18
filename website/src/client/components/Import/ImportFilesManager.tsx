@@ -251,7 +251,8 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
               </h4>
               <button
                 onClick={this._handleProgressDismiss}
-                className={css(styles.importProgressButton)}>
+                className={css(styles.importProgressButton)}
+              >
                 {importProgress === importTotal ? 'Dismiss' : 'Cancel'}
               </button>
             </div>
@@ -275,7 +276,8 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
         <ModalDialog
           visible={isImportModalShown}
           onDismiss={this._hideImportModal}
-          title="Import files">
+          title="Import files"
+        >
           <div className={css(styles.dropzoneSmall)}>
             {itemsToImport.length ? (
               <ul className={css(styles.fileList)}>
@@ -291,7 +293,8 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
                     </span>
                     <button
                       onClick={() => this._handleRemoveFileImport(f)}
-                      className={css(styles.fileEntryClose)}>
+                      className={css(styles.fileEntryClose)}
+                    >
                       ×
                     </button>
                   </li>
@@ -316,7 +319,8 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
             large
             variant="primary"
             onClick={this._handleImportClick}
-            disabled={!itemsToImport.length}>
+            disabled={!itemsToImport.length}
+          >
             {itemsToImport.length
               ? `Import ${itemsToImport.length} item${itemsToImport.length >= 2 ? 's' : ''}`
               : 'Import'}

@@ -25,7 +25,7 @@ export default function resolveDependencies(
   meta: Metadata,
   version: string,
   isLatest: boolean,
-  deep?: string | null
+  deep?: string | null,
 ): ResolvedDependencies {
   const pkg = meta.versions[version];
   const { peerDependencies = {} } = pkg;

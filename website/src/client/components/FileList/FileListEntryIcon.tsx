@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import { FileSystemEntry } from './types';
 import { isEntryPoint, isPackageJson, isImage, isTest } from '../../utils/fileUtilities';
 import { c } from '../ThemeProvider';
-import { FileSystemEntry } from './types';
 
 type Props = {
   entry: FileSystemEntry;
@@ -59,7 +59,8 @@ export default function FileListEntryIcon({ entry }: Props) {
         isTest(entry.item.path) ? styles.test : undefined,
         entry.state.isError ? styles.error : undefined
       )}
-      viewBox="0 0 16 16">
+      viewBox="0 0 16 16"
+    >
       {icon}
     </svg>
   );

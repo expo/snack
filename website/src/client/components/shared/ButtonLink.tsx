@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import * as React from 'react';
 
-import Analytics from '../../utils/Analytics';
 import { getClassNames, ButtonCommonProps } from './Button';
+import Analytics from '../../utils/Analytics';
 
 type Props = ButtonCommonProps & {
   href?: string;

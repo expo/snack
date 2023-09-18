@@ -21,7 +21,7 @@ import { Package } from '../types';
 export function spawnSafeAsync(
   cmd: string,
   args?: string[],
-  cwd?: string
+  cwd?: string,
 ): SpawnPromise<SpawnResult> {
   // spawn handles shell escaping for us, since we can have untrusted input here
   return spawnAsync(cmd, args, {
@@ -49,7 +49,7 @@ async function installDependencyAsync(
   name: string,
   version: string,
   cwd: string,
-  packages: string[]
+  packages: string[],
 ): Promise<void> {
   /**
    ***************************************************
@@ -76,7 +76,7 @@ async function installDependencyAsync(
   } catch (e) {
     logger.warn(
       { pkg: { name, version }, error: e },
-      `error running yarn: ${e.message}. trying npm instead.`
+      `error running yarn: ${e.message}. trying npm instead.`,
     );
     await spawnSafeAsync('npm', ['install', ...flags, ...packages], cwd);
   }
@@ -85,7 +85,7 @@ async function installDependencyAsync(
 export default async function installDependencies(
   pkg: Package,
   cwd: string,
-  dependencies: { [key: string]: string | null } // peerDependencies,
+  dependencies: { [key: string]: string | null }, // peerDependencies,
 ): Promise<void> {
   const logMetadata = {
     pkg: {
@@ -96,7 +96,7 @@ export default async function installDependencies(
 
   const packages = Object.keys(dependencies).map(
     // babel-preset-expo aliases 'react-native-vector-icons' to '@expo/vector-icons'
-    (name) => `${name}${dependencies[name] ? `@${dependencies[name]}` : ''}`
+    (name) => `${name}${dependencies[name] ? `@${dependencies[name]}` : ''}`,
   );
 
   logger.info({ ...logMetadata, dependencies }, `installing dependencies: ${packages.join(', ')}`);

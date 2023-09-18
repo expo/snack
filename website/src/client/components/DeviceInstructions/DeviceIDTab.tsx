@@ -46,7 +46,7 @@ export default class DeviceIDTab extends React.Component<Props, State> {
       await this.props.setDeviceId(this.state.deviceId);
 
       this.setState({ status: 'success' });
-    } catch (e) {
+    } catch {
       this.setState({ status: 'error' });
     } finally {
       setTimeout(() => {
@@ -75,7 +75,8 @@ export default class DeviceIDTab extends React.Component<Props, State> {
             variant="primary"
             type="submit"
             loading={state.status === 'loading'}
-            disabled={state.status !== 'loading' && props.deviceId === state.deviceId}>
+            disabled={state.status !== 'loading' && props.deviceId === state.deviceId}
+          >
             Save
           </Button>
         </form>

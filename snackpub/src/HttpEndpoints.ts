@@ -3,7 +3,7 @@ import http from 'http';
 import { type NullableRedisClientType } from './types';
 
 export function createHttpEndpointsListener(
-  requestHandlers: RequestHandler[]
+  requestHandlers: RequestHandler[],
 ): http.RequestListener {
   return async (req: http.IncomingMessage, res: http.ServerResponse) => {
     for (const requestHandler of requestHandlers) {

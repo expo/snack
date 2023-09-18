@@ -1,5 +1,5 @@
-import { QueryInitParams, SnackFiles } from '../types';
 import { isEntryPoint } from './fileUtilities';
+import { QueryInitParams, SnackFiles } from '../types';
 
 export default function getFilesFromQuery(query: QueryInitParams, defaultFiles: SnackFiles): any {
   let files;

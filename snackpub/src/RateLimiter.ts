@@ -11,7 +11,7 @@ export default class RateLimiter {
   public hasExceededRemoteAddressRateAsync(
     remoteAddress: string,
     _socketId: string,
-    options: RateLimiterOptions = { maxOperations: 30, intervalSeconds: 60 } // 30 connections per IP per minute
+    options: RateLimiterOptions = { maxOperations: 30, intervalSeconds: 60 }, // 30 connections per IP per minute
   ): Promise<boolean> {
     return this.hasExceededKeyAsync(remoteAddress, `remoteAddr:${remoteAddress}`, options);
   }
@@ -22,7 +22,7 @@ export default class RateLimiter {
     options?: {
       dosPrevention?: RateLimiterOptions;
       fairUsage?: RateLimiterOptions;
-    }
+    },
   ): Promise<boolean> {
     // A short internal to prevent DOS: 600 messages per socket.id per second
     const optsDosPrevention = options?.dosPrevention ?? { maxOperations: 600, intervalSeconds: 1 };
@@ -34,7 +34,7 @@ export default class RateLimiter {
       this.hasExceededKeyAsync(
         remoteAddress,
         `messagesDosPrevention:${socketId}`,
-        optsDosPrevention
+        optsDosPrevention,
       ),
       this.hasExceededKeyAsync(remoteAddress, `messagesFairUsage:${socketId}`, optsFairUsage),
     ]);
@@ -45,7 +45,7 @@ export default class RateLimiter {
   public hasExceededChannelsRateAsync(
     remoteAddress: string,
     socketId: string,
-    options: RateLimiterOptions = { maxOperations: 30, intervalSeconds: 60 } // 30 channels per socket.id per minute
+    options: RateLimiterOptions = { maxOperations: 30, intervalSeconds: 60 }, // 30 channels per socket.id per minute
   ): Promise<boolean> {
     return this.hasExceededKeyAsync(remoteAddress, `channels:${socketId}`, options);
   }
@@ -53,7 +53,7 @@ export default class RateLimiter {
   private async hasExceededKeyAsync(
     remoteAddress: string,
     key: string,
-    options: RateLimiterOptions
+    options: RateLimiterOptions,
   ): Promise<boolean> {
     const { intervalSeconds } = options;
     const redisKey = this.createRedisKey(key, intervalSeconds);
@@ -68,7 +68,7 @@ export default class RateLimiter {
     if (operationsInt === options.maxOperations + 1) {
       // Log only once when exceeding limits
       console.log(
-        `[RateLimiter] exceeding limits - remoteAddress[${remoteAddress}] redisKey[${redisKey}]`
+        `[RateLimiter] exceeding limits - remoteAddress[${remoteAddress}] redisKey[${redisKey}]`,
       );
     }
     if (operationsInt > options.maxOperations) {

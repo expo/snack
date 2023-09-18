@@ -1,15 +1,15 @@
 import path from 'path';
 
+import { spawnSafeAsync, getYarnPackagerAsync } from './installDependencies';
 import { isExternal } from '../bundler/externals';
 import logger from '../logger';
-import { spawnSafeAsync, getYarnPackagerAsync } from './installDependencies';
 
 // TODO: find the typescript definitions for this package, `@types/sander` doesn't exists
 const { readFile, writeFile } = require('sander');
 
 export default async function installPackage(
   cwd: string,
-  packagerFlags: string[] = []
+  packagerFlags: string[] = [],
 ): Promise<void> {
   const content = await readFile(path.join(cwd, 'package.json'));
   const pkg = JSON.parse(content);
@@ -42,11 +42,11 @@ export default async function installPackage(
   };
 
   const regularDependencies = Object.keys(pkg.dependencies || {}).map(
-    (name) => `${name}${pkg.dependencies[name] ? `@${pkg.dependencies[name]}` : ''}`
+    (name) => `${name}${pkg.dependencies[name] ? `@${pkg.dependencies[name]}` : ''}`,
   );
   logger.info(
     { ...logMetadata, dependencies: regularDependencies },
-    `running yarn --production, dependencies: ${regularDependencies.join(', ')}`
+    `running yarn --production, dependencies: ${regularDependencies.join(', ')}`,
   );
 
   const yarn = await getYarnPackagerAsync();

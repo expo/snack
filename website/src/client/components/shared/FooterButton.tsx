@@ -19,7 +19,8 @@ export default function FooterButton({ active, icon, children, onClick }: Props)
         styles.button,
         children ? styles.buttonLabel : undefined,
         active && styles.active
-      )}>
+      )}
+    >
       {children}
     </button>
   );

@@ -67,7 +67,8 @@ export default function Spinner({
         stroke={rgbaColor}
         strokeWidth={segmentWidth}
         strokeLinecap="round"
-        transform={`translate(${radius}, ${radius})`}>
+        transform={`translate(${radius}, ${radius})`}
+      >
         {lines}
       </g>
     </svg>

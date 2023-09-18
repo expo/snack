@@ -92,13 +92,15 @@ export default class Toast extends React.Component<Props, State> {
       <ThemeProvider
         {...props}
         style={styles.toast}
-        className={css(this.state.dismissing ? styles.dismissing : styles.appearing)}>
+        className={css(this.state.dismissing ? styles.dismissing : styles.appearing)}
+      >
         <div className={css(styles.label)}>{this.props.label}</div>
         {this.props.actions.map((action) => (
           <button
             key={action.label}
             className={css(styles.button)}
-            onClick={action.action ?? this._handleDismiss}>
+            onClick={action.action ?? this._handleDismiss}
+          >
             {action.label}
           </button>
         ))}

@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { reload } from '../utils/reloadURL';
 import ThemeProvider from './ThemeProvider';
 import Banner from './shared/Banner';
+import { reload } from '../utils/reloadURL';
 
 type State = {
   banner: boolean;
@@ -98,7 +98,8 @@ export default class ServiceWorkerManager extends React.Component<object, State>
           and start using the new version.
           <button
             className={css(styles.button, styles.close)}
-            onClick={() => this.setState({ banner: false })}>
+            onClick={() => this.setState({ banner: false })}
+          >
             ✕
           </button>
         </Banner>

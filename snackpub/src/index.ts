@@ -43,7 +43,7 @@ async function runAsync() {
     httpServer,
     {
       serveClient: false,
-    }
+    },
   );
 
   let redisClient: NullableRedisClientType = null;
@@ -162,7 +162,7 @@ function registerShutdownHandlers(server: Server, redisClients: NullableRedisCli
   for (const signal of shutdownSignals) {
     process.once(signal, (signal: NodeJS.Signals) => {
       console.log(
-        `Received ${signal}; the HTTP server is shutting down and draining existing connections`
+        `Received ${signal}; the HTTP server is shutting down and draining existing connections`,
       );
       shutdownAsync(server, redisClients);
     });
@@ -181,7 +181,7 @@ function registerRedisClientErrorHandlers(redisClients: NullableRedisClientType[
     });
     redisClient?.on('reconnecting', () => {
       debug(
-        `Reconnecting to Redis server in ${REDIS_RECONNECT_RETRY_DELAY_MS}ms - redisURL[${Env.redisURL}]`
+        `Reconnecting to Redis server in ${REDIS_RECONNECT_RETRY_DELAY_MS}ms - redisURL[${Env.redisURL}]`,
       );
     });
   }
@@ -214,7 +214,7 @@ function closeServerAsync(server: Server): Promise<void> {
  */
 function terminateSocket(
   socket: Socket<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>,
-  reason: string
+  reason: string,
 ) {
   let timeoutHandler: NodeJS.Timeout | null = null;
   socket.once('disconnect', () => {

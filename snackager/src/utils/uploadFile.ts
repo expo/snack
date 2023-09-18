@@ -4,7 +4,7 @@ import logger from '../logger';
 
 export default async function uploadFile(
   key: string,
-  body: Buffer
+  body: Buffer,
 ): Promise<S3.ManagedUpload.SendData | undefined> {
   try {
     return await s3

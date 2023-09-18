@@ -1,6 +1,6 @@
+import updateEntry from './updateEntry';
 import { getUniquePath, getParentPath } from '../../../utils/fileUtilities';
 import { FileSystemEntry } from '../types';
-import updateEntry from './updateEntry';
 
 export default function createEntryAtPath(
   entries: FileSystemEntry[],

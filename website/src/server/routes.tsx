@@ -13,6 +13,9 @@ import { StaticRouter } from 'react-router-dom';
 import { standardizeDependencies } from 'snack-sdk';
 import { URL } from 'url';
 
+import * as EmbeddedSnackScript from './EmbeddedSnackScript';
+import Document from './pages/Document';
+import getSplitTests from './utils/getSplitTests';
 import { getAuthStorageKey } from '../client/auth/config';
 import PreferencesProvider from '../client/components/Preferences/PreferencesProvider';
 import ClientRouter from '../client/components/Router';
@@ -23,9 +26,6 @@ import type { RouterData, SnackDefaults, QueryParams } from '../client/types';
 import { getSnackWebsiteURL } from '../client/utils/getWebsiteURL';
 import { getSnackName } from '../client/utils/projectNames';
 import { redirectToDevDomain } from '../expo-dev-migration';
-import * as EmbeddedSnackScript from './EmbeddedSnackScript';
-import Document from './pages/Document';
-import getSplitTests from './utils/getSplitTests';
 
 // + and - are used as delimiters in the uri, ensure they do not appear in the channel itself
 const createChannel = customAlphabet(

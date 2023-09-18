@@ -26,7 +26,7 @@ describe(SnackRuntimeProvider, () => {
     const { getByTestId } = render(
       <SnackRuntimeProvider config={config}>
         <Text testID="child">Hello</Text>
-      </SnackRuntimeProvider>
+      </SnackRuntimeProvider>,
     );
 
     expect(getByTestId('child')).toBeDefined();
@@ -42,7 +42,7 @@ describe(SnackRuntimeProvider, () => {
     const newConfig = { ...config, modules: { expo: 'test2' } };
     rerender(<SnackRuntimeProvider config={newConfig} />);
     expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('Snack Runtime config cannot be changed after initial render')
+      expect.stringContaining('Snack Runtime config cannot be changed after initial render'),
     );
   });
 });

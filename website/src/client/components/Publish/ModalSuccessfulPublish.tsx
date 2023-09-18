@@ -48,7 +48,8 @@ class ModalSuccessfulPublish extends React.PureComponent<Props> {
             <a
               href={`${getWebsiteURL()}/@${this.props.viewer.username}/snacks`}
               onClick={this._dismissModal}
-              target="blank">
+              target="blank"
+            >
               View your Snacks
             </a>
           </p>

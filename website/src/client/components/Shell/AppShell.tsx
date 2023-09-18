@@ -1,8 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import Button from '../shared/Button';
-import ProgressIndicator from '../shared/ProgressIndicator';
 import ContentShell from './ContentShell';
 import EditorShell from './EditorShell';
 import FooterShell from './FooterShell';
@@ -11,6 +9,8 @@ import PreviewShell from './PreviewShell';
 import SidebarShell from './SidebarShell';
 import ToolbarShell from './ToolbarShell';
 import ToolbarTitleShell from './ToolbarTitleShell';
+import Button from '../shared/Button';
+import ProgressIndicator from '../shared/ProgressIndicator';
 
 type Props = {
   title?: string | null;

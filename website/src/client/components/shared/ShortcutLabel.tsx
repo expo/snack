@@ -3,8 +3,8 @@ import classnames from 'classnames';
 import findKey from 'lodash/findKey';
 import * as React from 'react';
 
-import { c } from '../ThemeProvider';
 import { KeyMap } from './KeybindingsManager';
+import { c } from '../ThemeProvider';
 
 type Props = {
   combo: number[];
@@ -34,7 +34,8 @@ export default function ShortcutLabel({ combo, className, boxed = false }: Props
         css(styles.shortcutLabel),
         boxed && css(styles.boxedShortcut),
         className
-      )}>
+      )}
+    >
       {combo
         .map((code) => {
           const name = findKey(KeyMap, (c) => c === code);

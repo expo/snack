@@ -1,8 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { SaveStatus, SaveHistory, Viewer, SaveOptions, SDKVersion } from '../types';
-import { useOrbit } from '../utils/orbit';
 import EditorTitle from './EditorTitle';
 import type { EditorModal } from './EditorViewProps';
 import usePreferences from './Preferences/usePreferences';
@@ -12,6 +10,8 @@ import ToolbarTitleShell from './Shell/ToolbarTitleShell';
 import UserMenu from './UserMenu';
 import Button from './shared/Button';
 import IconButton from './shared/IconButton';
+import { SaveStatus, SaveHistory, Viewer, SaveOptions, SDKVersion } from '../types';
+import { useOrbit } from '../utils/orbit';
 
 type Props = {
   name: string;
@@ -94,13 +94,15 @@ export default function EditorToolbar(props: Props) {
           onClick={() => onPublishAsync()}
           disabled={isPublishing || isResolving || isPublished}
           loading={isPublishing}
-          className={css(styles.saveButton)}>
+          className={css(styles.saveButton)}
+        >
           {isPublishing ? 'Saving…' : isPublished ? 'Saved' : 'Save'}
         </Button>
         <IconButton
           responsive
           title="Run on device"
-          onClick={() => onShowModal('device-instructions')}>
+          onClick={() => onShowModal('device-instructions')}
+        >
           <svg width="20" height="20" viewBox="0 0 20 20">
             <path d="M8.333 7.083v5.667l4.534-2.833-4.534-2.834z" stroke="none" />
             <path d="M8.333 10H2.5" strokeWidth="1.25" strokeLinecap="round" />
@@ -116,7 +118,8 @@ export default function EditorToolbar(props: Props) {
           <IconButton
             responsive
             title="Open with Orbit"
-            onClick={() => onOpenWithOrbit(experienceURL, () => onShowModal('install-orbit'))}>
+            onClick={() => onOpenWithOrbit(experienceURL, () => onShowModal('install-orbit'))}
+          >
             <svg width="20" height="20" viewBox="0 0 16 16">
               <path
                 stroke="none"
@@ -133,7 +136,8 @@ export default function EditorToolbar(props: Props) {
           responsive
           title="Download as zip"
           onClick={onDownloadCode}
-          disabled={isDownloading || isPublishing}>
+          disabled={isDownloading || isPublishing}
+        >
           <svg width="20" height="20">
             <path d="M14.167 10H5.833L10 16.667 14.167 10z" />
             <path d="M2.5 18.333h15M10 10V1.667" strokeWidth="2" strokeLinecap="round" />

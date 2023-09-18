@@ -1,7 +1,7 @@
-import { changeParentPath, isInsideFolder } from '../../../utils/fileUtilities';
-import { FileSystemEntry } from '../types';
 import recursivelyCreateParents from './recursivelyCreateParents';
 import updateEntry from './updateEntry';
+import { changeParentPath, isInsideFolder } from '../../../utils/fileUtilities';
+import { FileSystemEntry } from '../types';
 
 export default function renameEntry(entries: FileSystemEntry[], oldPath: string, newPath: string) {
   const entry = entries.find((e) => e.item.path === oldPath);

@@ -29,7 +29,7 @@ describe('cacheObj', () => {
         Body: expect.any(String),
         Bucket: 'imports',
         Key: 'my-file',
-      })
+      }),
     );
   });
 
@@ -40,7 +40,7 @@ describe('cacheObj', () => {
       },
     });
     await expect(cacheObj(testSnackObject, 'my-file')).rejects.toThrowError(
-      'CacheObj failure: test'
+      'CacheObj failure: test',
     );
   });
 });
@@ -87,7 +87,7 @@ describe('removeFromCache', () => {
       expect.objectContaining({
         Bucket: 'imports',
         Key: 'my-file',
-      })
+      }),
     );
   });
 

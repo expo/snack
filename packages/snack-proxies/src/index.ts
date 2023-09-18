@@ -23,5 +23,5 @@ Promise.all([
   }),
 ]).then(
   () => console.log(chalk.green('All proxies started')),
-  (err) => console.error(chalk.red(`Failed to start proxies (${err})`))
+  (err) => console.error(chalk.red(`Failed to start proxies (${err})`)),
 );

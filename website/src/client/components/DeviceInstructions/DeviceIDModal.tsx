@@ -1,8 +1,8 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import ModalDialog from '../shared/ModalDialog';
 import DeviceIDTab from './DeviceIDTab';
+import ModalDialog from '../shared/ModalDialog';
 
 type Props = {
   onDismiss: () => void;
@@ -22,7 +22,8 @@ export default class DeviceIDModal extends React.Component<Props> {
         autoSize={!large}
         visible={visible}
         title="Set Device ID"
-        onDismiss={onDismiss}>
+        onDismiss={onDismiss}
+      >
         <div className={css(styles.container)}>
           <div className={css(styles.wrapper)}>
             <DeviceIDTab deviceId={deviceId} setDeviceId={setDeviceId} />
