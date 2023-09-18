@@ -8,7 +8,7 @@ export type VersionsConfig = {
 };
 
 export default function createApp(
-  config: VersionsConfig = require('../__fixtures__/bundledNativeModules.json')
+  config: VersionsConfig = require('../__fixtures__/bundledNativeModules.json'),
 ) {
   const app = new Koa();
   const router = new Router();

@@ -1,8 +1,8 @@
 import assert from 'assert';
 
-import type { SnackWindowRef } from '../types';
 import type { ProtocolOutgoingMessage, ProtocolCodeMessage } from './Protocol';
 import TransportImplBase from './TransportImplBase';
+import type { SnackWindowRef } from '../types';
 
 export interface TransportWebPlayerConfig {
   name?: string;
@@ -71,7 +71,7 @@ export default class TransportImplWebPlayer extends TransportImplBase {
           const connectionId = JSON.stringify(message.message.device);
           this.handleMessage(connectionId, message.message);
         }
-      } catch (e: unknown) {
+      } catch {
         this.logger?.warn('Invalid message', event.data);
       }
     }

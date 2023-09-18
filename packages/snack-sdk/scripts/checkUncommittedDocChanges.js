@@ -13,7 +13,7 @@ function checkUncommittedDocChanges() {
       });
 
       throw new Error(
-        `The docs/snack-sdk-api folder for has uncommitted changes after building the docs.`
+        `The docs/snack-sdk-api folder for has uncommitted changes after building the docs.`,
       );
     }
   });

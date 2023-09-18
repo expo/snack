@@ -1,9 +1,9 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 
+import Snack from './snack-sdk';
 import fetch from '../__mocks__/fetch';
 import type { ProtocolCodeMessage } from '../transports/Protocol';
 import Transport from '../transports/__mocks__/TestTransport';
-import Snack from './snack-sdk';
 
 jest.mock('../transports');
 
@@ -15,7 +15,7 @@ describe('upload', () => {
         ok: true,
         status: 200,
         json: async () => ({ url: uploadURL }),
-      })
+      }),
     );
 
     Transport.mockVerifyCodeMessageSize.mockImplementation((codeMessage: ProtocolCodeMessage) => {

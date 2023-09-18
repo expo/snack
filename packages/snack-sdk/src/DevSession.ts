@@ -37,7 +37,7 @@ export default class DevSession {
       this.close(
         prevState.url,
         isCloseUser ? prevState.user : undefined,
-        isCloseDevice ? prevState.deviceId : undefined
+        isCloseDevice ? prevState.deviceId : undefined,
       );
     }
 
@@ -130,7 +130,7 @@ export default class DevSession {
                 : {}),
             }),
           ],
-          { type: 'text/plain' }
+          { type: 'text/plain' },
         ),
       });
     } catch (e) {

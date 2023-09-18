@@ -1,8 +1,8 @@
 import { SDKVersion } from 'snack-content';
 
-import { SnackWindowRef } from '../types';
 import TransportImplWebPlayer from './TransportImplWebPlayer';
 import { SnackTransport } from './types';
+import { SnackWindowRef } from '../types';
 
 export function createWebPlayerTransport(config: {
   name?: string;
@@ -18,7 +18,7 @@ export function getWebPlayerIFrameURL(
   webPlayerURL: string,
   sdkVersion: SDKVersion,
   initialURL: string,
-  verbose: boolean
+  verbose: boolean,
 ) {
   if (sdkVersion < '40.0.0' || typeof window === 'undefined') {
     return undefined;
@@ -26,8 +26,8 @@ export function getWebPlayerIFrameURL(
 
   return `${webPlayerURL.replace(
     '%%SDK_VERSION%%',
-    sdkVersion.split('.')[0]
+    sdkVersion.split('.')[0],
   )}/index.html?initialUrl=${encodeURIComponent(initialURL)}&origin=${encodeURIComponent(
-    window.location.origin
+    window.location.origin,
   )}&verbose=${verbose}`;
 }

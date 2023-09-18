@@ -1,5 +1,5 @@
-import fetch from '../__mocks__/fetch';
 import Snack from './snack-sdk';
+import fetch from '../__mocks__/fetch';
 
 describe('save', () => {
   it('is saved initially', async () => {
@@ -143,7 +143,7 @@ describe('save', () => {
         headers: expect.objectContaining({
           'Expo-Session': '{"some":"json"}',
         }),
-      })
+      }),
     );
   });
 
@@ -164,7 +164,7 @@ describe('save', () => {
         headers: expect.objectContaining({
           Authorization: 'Bearer sometoken',
         }),
-      })
+      }),
     );
   });
 });

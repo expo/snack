@@ -10,8 +10,8 @@ export function calcPubNubCodeMessageSize(channel: string, codeMessage: Protocol
       channel +
         JSON.stringify(codeMessage).replace(
           /[!~*'()]/g,
-          (x) => `%${x.charCodeAt(0).toString(16).toUpperCase()}`
-        )
+          (x) => `%${x.charCodeAt(0).toString(16).toUpperCase()}`,
+        ),
     ).length + 200
   );
 }

@@ -1,4 +1,3 @@
-import { createLogger, Logger } from '../Logger';
 import CodeMessageBuilder, { CodeMessageBuilderCallback } from './CodeMessageBuilder';
 import { ProtocolOutgoingMessage, ProtocolIncomingMessage, ProtocolCodeMessage } from './Protocol';
 import {
@@ -7,6 +6,7 @@ import {
   SnackTransportMessage,
   SnackTransportOptions,
 } from './types';
+import { createLogger, Logger } from '../Logger';
 
 export default abstract class TransportImplBase implements SnackTransport {
   protected readonly channel: string;
@@ -125,7 +125,7 @@ export default abstract class TransportImplBase implements SnackTransport {
           this.logger?.comm('Sending code...', this.logSuffix);
           this.publish(this.codeMessage);
         }
-      } catch (e) {
+      } catch {
         // Wasn't from the device
       }
     } else {

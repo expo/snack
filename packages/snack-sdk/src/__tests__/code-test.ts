@@ -2,13 +2,13 @@
 import formData from 'form-data';
 
 import '../__mocks__/fetch';
+import Snack, { SnackFile } from './snack-sdk';
 import {
   ProtocolCodeMessage,
   ProtocolErrorMessage,
   ProtocolResendCodeMessage,
 } from '../transports/Protocol';
 import Transport from '../transports/__mocks__/TestTransport';
-import Snack, { SnackFile } from './snack-sdk';
 
 jest.mock('../transports');
 
