@@ -148,7 +148,7 @@ describe(createEmptyContextModuleTemplate, () => {
 
   it('throws when using resolve', () => {
     expect(() => eval(createEmptyContextModuleTemplate()).resolve('./test')).toThrow(
-      /Unimplemented/
+      /Unimplemented/,
     );
   });
 });
@@ -157,7 +157,7 @@ function requireContext(
   directory: string,
   isRecursive = true,
   matching = /^\.\/.*$/,
-  mode: 'sync' | 'async' = 'sync'
+  mode: 'sync' | 'async' = 'sync',
 ): SnackRequireContextRequest {
   return { directory, isRecursive, matching, mode };
 }
