@@ -12,8 +12,22 @@ RUN apk --no-cache add jq && \
   turbo prune --docker --scope=snack-modules-packager
 
 
+# --- Base - Prepare all environment variables for development/production
+FROM node:${node_version}-alpine as base
+
+# Enable Webpack 4 with newer Node versions
+ENV NODE_OPTIONS --openssl-legacy-provider
+
+# Prepare environment variables
+ARG APP_VERSION
+ENV APP_VERSION ${APP_VERSION}
+
+# Install system dependencies
+RUN npm install --global npm@^6
+
+
 # --- Development - Prepare Snackager for development
-FROM node:${node_version}-alpine as development
+FROM base as development
 WORKDIR /app
 
 # Copy "package.json"-only repository
@@ -33,16 +47,11 @@ CMD ["yarn", "start"]
 
 
 # --- Deploy - Prepare Snackager for production
-FROM node:${node_version}-alpine as deploy
+FROM base as deploy
 WORKDIR /app
 
 # Install system dependencies
-RUN apk --no-cache add git openssh-client && \
-  npm install --global npm@^6
-
-# Prepare environment variables
-ARG APP_VERSION
-ENV APP_VERSION ${APP_VERSION}
+RUN apk --no-cache add git openssh-client
 
 # Copy built repository
 COPY --from=development /app .
@@ -52,12 +61,8 @@ RUN yarn turbo build --filter "{./snackager}..." && \
 
 
 # --- Production - Run Snackager in production
-FROM node:${node_version}-alpine
+FROM base
 WORKDIR /app
-
-# Prepare environment variables
-ARG APP_VERSION
-ENV APP_VERSION ${APP_VERSION}
 
 # Copy deployment-ready repository
 COPY --from=deploy /app .

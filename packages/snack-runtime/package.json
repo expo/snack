@@ -20,7 +20,7 @@
   "author": "Expo <support@expo.dev>",
   "license": "MIT",
   "volta": {
-    "node": "16.14.2"
+    "node": "18.17.1"
   },
   "scripts": {
     "test": "jest",

@@ -15,6 +15,9 @@ RUN apk --no-cache add jq && \
 # --- Base - Prepare all environment variables for development/production
 FROM node:${node_version}-alpine as base
 
+# Enable Webpack 4 with newer Node versions
+ENV NODE_OPTIONS --openssl-legacy-provider
+
 # Prepare environment variables
 ARG API_SERVER_URL
 ENV API_SERVER_URL ${API_SERVER_URL}
