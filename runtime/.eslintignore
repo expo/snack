@@ -1,8 +1,9 @@
 # Ignore all node_modules
-**/node_modules/**
+/node_modules
 
 # Ignore all build ouput
-**/build/**
+/build
+/vendor
 
 # Ignore example app for now
 example/

@@ -33,6 +33,11 @@ runs:
       run: yarn build
       shell: bash
 
+    - name: 🛠 Build babel
+      run: yarn && yarn build
+      working-directory: packages/snack-babel-standalone
+      shell: bash
+
     # Runtime is detached from the monorepo, we also need to install this
     - name: 📦 Install runtime dependencies
       run: yarn install --frozen-lockfile
