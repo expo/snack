@@ -80,6 +80,7 @@
     "jest-expo": "^49.0.0",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
+    "prettier": "^3.0.3",
     "s3-deploy": "^1.4.0",
     "semver": "^7.5.1",
     "typescript": "^4.9.4"

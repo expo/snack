@@ -1,5 +1,5 @@
 export function parseExperienceURL(
-  experienceURL: string
+  experienceURL: string,
 ): { channel: string; testTransport: string | null } | null {
   const matches = experienceURL.match(/(\+|\/sdk\..*-)([^?]*)\??(.*$)/);
   if (!matches) {

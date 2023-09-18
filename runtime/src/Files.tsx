@@ -118,7 +118,7 @@ export const update = async ({ message }: { message: Message }) => {
             changedPaths.push(path);
           }
         }
-      })
+      }),
     );
 
     for (const path in files) {
