@@ -45,7 +45,7 @@
     "yarn": "^1.22.5"
   },
   "devDependencies": {
-    "@tsconfig/node16": "^1.0.2",
+    "@tsconfig/node18": "^18.2.2",
     "@types/cors": "^2.8.8",
     "@types/enhanced-resolve": "^3.0.6",
     "@types/escape-string-regexp": "^1.0.0",

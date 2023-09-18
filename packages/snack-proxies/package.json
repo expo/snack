@@ -21,6 +21,6 @@
     "koa-better-http-proxy": "^0.2.8"
   },
   "devDependencies": {
-    "@tsconfig/node12": "^1.0.7"
+    "@tsconfig/node18": "^18.2.2"
   }
 }

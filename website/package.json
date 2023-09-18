@@ -95,7 +95,7 @@
     "@babel/preset-env": "^7.12.16",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.12.16",
-    "@tsconfig/node16": "^1.0.2",
+    "@tsconfig/node18": "^18.2.2",
     "@types/amplitude-js": "^6.0.0",
     "@types/aphrodite": "^0.5.13",
     "@types/bunyan": "^1.8.6",
