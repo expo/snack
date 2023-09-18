@@ -3,12 +3,6 @@ import debounce from 'lodash/debounce';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Viewer, SnackFiles, Annotation, SDKVersion } from '../types';
-import Analytics from '../utils/Analytics';
-import { isMobile } from '../utils/detectPlatform';
-import { isScript, isJson, isTest } from '../utils/fileUtilities';
-import lintFile from '../utils/lintFile';
-import prettierCode from '../utils/prettierCode';
 import AssetViewer from './AssetViewer';
 import { withDependencyManager } from './DependencyManager';
 import DeviceInstructionsModal, {
@@ -41,6 +35,12 @@ import KeybindingsManager from './shared/KeybindingsManager';
 import LazyLoad from './shared/LazyLoad';
 import ModalDialog from './shared/ModalDialog';
 import ProgressIndicator from './shared/ProgressIndicator';
+import { Viewer, SnackFiles, Annotation, SDKVersion } from '../types';
+import Analytics from '../utils/Analytics';
+import { isMobile } from '../utils/detectPlatform';
+import { isScript, isJson, isTest } from '../utils/fileUtilities';
+import lintFile from '../utils/lintFile';
+import prettierCode from '../utils/prettierCode';
 
 const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000;
 
@@ -214,7 +214,7 @@ class EditorView extends React.Component<Props, State> {
       this.setState(() => ({
         lintedFiles: newLintedFiles as LintedFiles,
         lintAnnotations: Object.values(newLintedFiles as LintedFiles).flatMap(
-          ({ annotations }) => annotations
+          ({ annotations }) => annotations,
         ),
       }));
     }
@@ -744,7 +744,7 @@ class EditorView extends React.Component<Props, State> {
 export default withPreferences(
   connect((state: any) => ({
     viewer: state.viewer,
-  }))(withDependencyManager(EditorView))
+  }))(withDependencyManager(EditorView)),
 );
 
 const styles = StyleSheet.create({

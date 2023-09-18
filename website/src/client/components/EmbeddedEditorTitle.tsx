@@ -25,7 +25,7 @@ export default function EmbeddedEditorTitle({ name, description, onOpenFullEdito
         <button
           className={css(
             styles.icon,
-            theme === 'light' ? styles.externalLight : styles.externalDark
+            theme === 'light' ? styles.externalLight : styles.externalDark,
           )}
           onClick={onOpenFullEditor}
         />

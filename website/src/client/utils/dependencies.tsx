@@ -6,6 +6,8 @@ import {
   getDeprecatedModule,
 } from 'snack-sdk';
 
+import type { FileDependencies } from './findDependencies';
+import { getAbsolutePath } from './path';
 import {
   SDKVersion,
   SnackCodeFile,
@@ -13,8 +15,6 @@ import {
   Annotation,
   AnnotationAction,
 } from '../types';
-import type { FileDependencies } from './findDependencies';
-import { getAbsolutePath } from './path';
 
 const LOCAL_FILES = ['.js', '.ts', '.tsx', '/index.js', '/index.ts', '/index.tsx'];
 
@@ -24,14 +24,14 @@ export function getPackageJsonFromDependencies(dependencies: SnackDependencies):
     contents: JSON.stringify(
       { dependencies: mapValues(dependencies, (dep) => dep.version) },
       null,
-      2
+      2,
     ),
   };
 }
 
 export function getPackageJsonDependencies(
   packageJson: SnackCodeFile,
-  sdkVersion: SDKVersion
+  sdkVersion: SDKVersion,
 ): { [name: string]: string } | undefined {
   try {
     const { dependencies: jsonDeps } = JSON.parse(packageJson.contents);
@@ -42,14 +42,14 @@ export function getPackageJsonDependencies(
       }
     });
     return jsonDeps;
-  } catch (e) {}
+  } catch {}
   return undefined;
 }
 
 function getPackageJsonLocation(
   name: string,
   lines: string[],
-  version: boolean = false
+  version: boolean = false,
 ): {
   fileName: string;
   startLineNumber: number;
@@ -91,14 +91,14 @@ export function getDependencyAnnotations(
     name: string,
     version: string,
     dependencies: SnackDependencies,
-    sdkVersion: SDKVersion
-  ) => AnnotationAction
+    sdkVersion: SDKVersion,
+  ) => AnnotationAction,
 ): Annotation[] {
   const lines = packageJson.contents.split('\n');
   let json: any;
   try {
     json = JSON.parse(packageJson.contents);
-  } catch (e) {
+  } catch {
     return [
       {
         message: 'Invalid JSON.',
@@ -178,7 +178,7 @@ export function getDependencyAnnotations(
   for (const name in missingDependencies) {
     annotations.push({
       message: `'${missingDependencies[name].dependents.join(
-        ','
+        ',',
       )}' requires peer-dependency '${name}'.`,
       location: getPackageJsonLocation(missingDependencies[name].dependents[0], lines, false),
       severity: isModulePreloaded(name, sdkVersion, true)
@@ -191,7 +191,7 @@ export function getDependencyAnnotations(
         name,
         missingDependencies[name].wantedVersion!,
         dependencies,
-        sdkVersion
+        sdkVersion,
       ),
     });
   }

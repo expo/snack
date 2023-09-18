@@ -1,3 +1,4 @@
+import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
 import {
   SaveStatus,
   SaveHistory,
@@ -14,7 +15,6 @@ import {
   SDKVersion,
 } from '../types';
 import { PlatformOption } from '../utils/PlatformOptions';
-import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
 
 export type EditorModal =
   | 'device-instructions'
@@ -61,7 +61,7 @@ export type EditorViewProps = {
   onSelectFile: (path: string) => void;
   updateFiles: (updateFn: (files: SnackFiles) => { [path: string]: SnackFile | null }) => void;
   updateDependencies: (
-    updateFn: (dependencies: SnackDependencies) => { [name: string]: SnackDependency | null }
+    updateFn: (dependencies: SnackDependencies) => { [name: string]: SnackDependency | null },
   ) => void;
   uploadFileAsync: (file: File) => Promise<string>;
   setDeviceId: (deviceId: string) => void;

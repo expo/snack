@@ -1,7 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import * as defaults from '../configs/defaults';
 import Form from './Form/Form';
 import withStatus from './Form/withStatus';
 import withValidation from './Form/withValidation';
@@ -10,6 +9,7 @@ import Button from './shared/Button';
 import ModalDialog from './shared/ModalDialog';
 import TextArea from './shared/TextArea';
 import TextInput from './shared/TextInput';
+import * as defaults from '../configs/defaults';
 
 type Props = {
   visible: boolean;

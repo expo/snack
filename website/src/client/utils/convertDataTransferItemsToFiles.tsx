@@ -3,7 +3,7 @@ export type WebkitDirectoryReaderResult = (WebkitFileEntry | WebkitDirectoryEntr
 export type WebkitDirectoryReader = {
   readEntries: (
     success: (result: WebkitDirectoryReaderResult) => void,
-    error: (e: Error) => void
+    error: (e: Error) => void,
   ) => void;
 };
 
@@ -48,7 +48,7 @@ const whitelist = [/^\.eslintrc(\.json)?$/];
 const processEntry = async (
   entry: WebkitFileEntry | WebkitDirectoryEntry,
   files: { file: File; path: string }[],
-  path: string
+  path: string,
 ) => {
   if (blacklist.some((r) => r.test(entry.name)) && !whitelist.some((r) => r.test(entry.name))) {
     return;
@@ -63,19 +63,19 @@ const processEntry = async (
   } else if (entry.isDirectory) {
     const reader = entry.createReader();
     const entries = await new Promise<WebkitDirectoryReaderResult>((resolve, reject) =>
-      reader.readEntries(resolve, reject)
+      reader.readEntries(resolve, reject),
     );
     await Promise.all(
       entries.map(async (e: WebkitFileEntry | WebkitDirectoryEntry) =>
-        processEntry(e, files, `${path}/${e.name}`)
-      )
+        processEntry(e, files, `${path}/${e.name}`),
+      ),
     );
   }
 };
 
 export default async function convertDataTransferItemsToFiles(
   items: (File | WebkitFileEntry | WebkitDirectoryEntry)[],
-  mappings: { [key: string]: string }
+  mappings: { [key: string]: string },
 ) {
   const files: { file: File; path: string }[] = [];
   await Promise.all(
@@ -91,7 +91,7 @@ export default async function convertDataTransferItemsToFiles(
       } else {
         return processEntry(it, files, path);
       }
-    })
+    }),
   );
   return files;
 }

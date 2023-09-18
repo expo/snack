@@ -1,8 +1,8 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import ThemeProvider, { c, s } from '../ThemeProvider';
 import Modal from './Modal';
+import ThemeProvider, { c, s } from '../ThemeProvider';
 
 export type ModalSheetProps = {
   visible: boolean;

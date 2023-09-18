@@ -7,6 +7,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Snack, SnackLogEvent, SnackListenerSubscription, isModulePreloaded } from 'snack-sdk';
 
+import AppDetails from './AppDetails';
+import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
+import { EditorViewProps } from './EditorViewProps';
+import withPreferences, { PreferencesContextType } from './Preferences/withPreferences';
+import AppShell from './Shell/AppShell';
+import EmbeddedShell from './Shell/EmbeddedShell';
+import AnimatedLogo from './shared/AnimatedLogo';
+import LazyLoad from './shared/LazyLoad';
 import withAuth, { AuthProps } from '../auth/withAuth';
 import { DEFAULT_DESCRIPTION, DEFAULT_CODE, DEFAULT_DEPENDENCIES } from '../configs/defaults';
 import { versions, DEFAULT_SDK_VERSION } from '../configs/sdk';
@@ -35,14 +43,6 @@ import { isMobile } from '../utils/detectPlatform';
 import getDependenciesFromQuery from '../utils/getDependenciesFromQuery';
 import getFilesFromQuery from '../utils/getFilesFromQuery';
 import { createSnackWorkerTransport } from '../utils/snackTransports';
-import AppDetails from './AppDetails';
-import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
-import { EditorViewProps } from './EditorViewProps';
-import withPreferences, { PreferencesContextType } from './Preferences/withPreferences';
-import AppShell from './Shell/AppShell';
-import EmbeddedShell from './Shell/EmbeddedShell';
-import AnimatedLogo from './shared/AnimatedLogo';
-import LazyLoad from './shared/LazyLoad';
 
 const DEVICE_ID_KEY = '__SNACK_DEVICE_ID';
 
@@ -103,7 +103,7 @@ function getDeviceId(): string | undefined {
     if (typeof window !== 'undefined' && window.localStorage) {
       return localStorage.getItem(DEVICE_ID_KEY) ?? undefined;
     }
-  } catch (e) {
+  } catch {
     // Ignore error
   }
   return undefined;
@@ -309,7 +309,7 @@ class Main extends React.Component<Props, State> {
         webPreviewURL = `${
           window.location.origin
         }/web-player/localhost/index.html?initialUrl=${encodeURIComponent(
-          experienceURL
+          experienceURL,
         )}&origin=${encodeURIComponent(window.location.origin)}&verbose=true`;
       }
 
@@ -323,7 +323,7 @@ class Main extends React.Component<Props, State> {
       console.info(
         `%c INFO `,
         `background: #2196f3; color: #fff`,
-        'Verbose logging is enabled, open the web-preview in a popup to view runtime logs'
+        'Verbose logging is enabled, open the web-preview in a popup to view runtime logs',
       );
     }
 
@@ -597,7 +597,7 @@ class Main extends React.Component<Props, State> {
           connectedDevices: connectedDevices ?? st.connectedDevices,
         };
       },
-      () => this._saveDraftIfNeeded(true)
+      () => this._saveDraftIfNeeded(true),
     );
   };
 
@@ -715,7 +715,7 @@ class Main extends React.Component<Props, State> {
       Analytics.getInstance().logEvent(
         'SAVED_SNACK',
         { cntCodeFile, cntAssetFile, codeSize, cntDependencies },
-        'lastSave'
+        'lastSave',
       );
       Analytics.getInstance().startTimer('lastSave');
     }
@@ -771,7 +771,7 @@ class Main extends React.Component<Props, State> {
     if (typeof window !== 'undefined' && window.localStorage) {
       try {
         window.localStorage.setItem(DEVICE_ID_KEY, deviceId);
-      } catch (e) {
+      } catch {
         // Do nothing
       }
     }
@@ -797,7 +797,7 @@ class Main extends React.Component<Props, State> {
       (state) => ({
         devicePreviewShown: !state.devicePreviewShown,
       }),
-      this._enablePubNubIfNeeded
+      this._enablePubNubIfNeeded,
     );
   };
 
@@ -811,7 +811,7 @@ class Main extends React.Component<Props, State> {
       () => ({
         devicePreviewPlatform: platform,
       }),
-      this._enablePubNubIfNeeded
+      this._enablePubNubIfNeeded,
     );
     // On device toggle, update URL to include platform
     if (platform === 'mydevice') {
@@ -851,7 +851,7 @@ class Main extends React.Component<Props, State> {
   };
 
   _updateDependencies = (
-    updateFn: (dependencies: SnackDependencies) => { [path: string]: SnackDependency | null }
+    updateFn: (dependencies: SnackDependencies) => { [path: string]: SnackDependency | null },
   ) => {
     const state = this._snack.getState();
     const dependenciesUpdate = updateFn(state.dependencies);
@@ -972,7 +972,7 @@ class Main extends React.Component<Props, State> {
 const MainContainer = withPreferences(
   connect((state: any) => ({
     viewer: state.viewer,
-  }))(withAuth(Main))
+  }))(withAuth(Main)),
 );
 
 /**
@@ -1041,7 +1041,7 @@ export default class AsyncApp extends React.Component<Props, AsyncState> {
           } else {
             throw new Error(`No code specified for file "${path}"`);
           }
-        })
+        }),
       );
       files = { ...files };
       paths.forEach((path, index) => {
@@ -1075,7 +1075,7 @@ export default class AsyncApp extends React.Component<Props, AsyncState> {
           files,
         });
       },
-      duration < MIN_LOADING_MS ? MIN_LOADING_MS - duration : 0
+      duration < MIN_LOADING_MS ? MIN_LOADING_MS - duration : 0,
     );
   }
 

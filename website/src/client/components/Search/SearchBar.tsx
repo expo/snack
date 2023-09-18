@@ -43,7 +43,7 @@ class SearchBar extends React.Component<Props> {
         _event: any,
         suggestion: any,
         _datasetNumber: any,
-        context: any
+        context: any,
       ) => {
         // Prevents the default behavior on click and rather opens the suggestion
         // in a new tab.

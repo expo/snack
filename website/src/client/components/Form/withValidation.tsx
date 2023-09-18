@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { $Subtract } from '../../types';
 import { FormValidationContext, FormValidation } from './Form';
+import { $Subtract } from '../../types';
 
 type ExternalProps = {
   value: any;
@@ -23,7 +23,7 @@ type State = {
 };
 
 export default function withValidation<P extends InjectedProps>(
-  Comp: React.ComponentType<P>
+  Comp: React.ComponentType<P>,
 ): React.ComponentType<$Subtract<P, InjectedProps> & ExternalProps> {
   class EnhancedComponent extends React.Component<Props, State> {
     static displayName = `withValidation(${Comp.displayName ?? Comp.name})`;

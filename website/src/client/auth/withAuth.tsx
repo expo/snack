@@ -4,9 +4,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import AuthManager from './authManager';
 import { Viewer, $Subtract } from '../types';
 import Analytics from '../utils/Analytics';
-import AuthManager from './authManager';
 
 export type AuthProps = {
   legacyLogout?: () => Promise<void>;
@@ -74,7 +74,7 @@ const enhanceWithAuthMethods = (Comp: React.ComponentType<AuthProps>) => {
         if (!json.errors) {
           this.updateViewer();
         }
-      } catch (e) {
+      } catch {
         // nop
       }
     };
@@ -103,7 +103,7 @@ const enhanceWithAuthMethods = (Comp: React.ComponentType<AuthProps>) => {
 };
 
 export default function withAuth<P extends AuthProps>(
-  Comp: React.ComponentType<P>
+  Comp: React.ComponentType<P>,
 ): React.ComponentType<$Subtract<P, AuthProps>> {
   return compose(
     connect((state: { viewer: Viewer | null }) => {
@@ -111,6 +111,6 @@ export default function withAuth<P extends AuthProps>(
         viewer: state.viewer,
       };
     }),
-    enhanceWithAuthMethods
+    enhanceWithAuthMethods,
   )(Comp) as any;
 }

@@ -38,7 +38,7 @@ it('renders children', () => {
         },
       ]}
       {...fakeProps}
-    />
+    />,
   );
 
   expect(toJSON(wrapper)).toMatchSnapshot();
@@ -54,7 +54,7 @@ it('triggers rename if rendered with `isCreating`', () => {
         state: { isCreating: true },
       }}
       onRename={onRename}
-    />
+    />,
   );
 
   // @ts-ignore
@@ -101,7 +101,7 @@ it('expands folder', () => {
       {...fakeProps}
       entry={{ item: { path: 'app/test', type: 'folder' }, state: {} }}
       onExpand={onExpand}
-    />
+    />,
   );
 
   // @ts-ignore
@@ -137,7 +137,7 @@ it('deletes entry', () => {
         state: {},
       }}
       onDelete={onDelete}
-    />
+    />,
   );
 
   // @ts-ignore

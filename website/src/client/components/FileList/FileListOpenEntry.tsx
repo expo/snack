@@ -1,11 +1,11 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import FileListEntryIcon from './FileListEntryIcon';
+import { TextFileEntry, AssetFileEntry } from './types';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import { c } from '../ThemeProvider';
 import ContextMenu from '../shared/ContextMenu';
-import FileListEntryIcon from './FileListEntryIcon';
-import { TextFileEntry, AssetFileEntry } from './types';
 
 type Props = {
   entry: TextFileEntry | AssetFileEntry;
@@ -98,7 +98,7 @@ class FileListOpenEntry extends React.PureComponent<Props, State> {
         tabIndex={-1}
         className={css(
           styles.item,
-          entry.state.isFocused && (theme === 'dark' ? styles.focusedDark : styles.focusedLight)
+          entry.state.isFocused && (theme === 'dark' ? styles.focusedDark : styles.focusedLight),
         )}
         onMouseEnter={this._handleMouseEnter}
         onMouseLeave={this._handleMouseLeave}>
@@ -106,7 +106,7 @@ class FileListOpenEntry extends React.PureComponent<Props, State> {
           onClick={this.props.onClose}
           className={css(
             styles.close,
-            this.state.isHovered ? styles.closeFocused : styles.closeBlurred
+            this.state.isHovered ? styles.closeFocused : styles.closeBlurred,
           )}>
           ×
         </button>

@@ -1,12 +1,12 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import constants from '../configs/constants';
-import { isIOS, isAndroid } from '../utils/detectPlatform';
 import QRCode from './QRCode';
 import { c } from './ThemeProvider';
 import Button from './shared/Button';
 import OpenWithExpoButton from './shared/OpenWithExpoButton';
+import constants from '../configs/constants';
+import { isIOS, isAndroid } from '../utils/detectPlatform';
 
 type Props = {
   name: string;

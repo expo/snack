@@ -2,10 +2,6 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import constants from '../configs/constants';
-import { isMobile, isAndroid } from '../utils/detectPlatform';
-import { openEmbeddedSessionFullScreen } from '../utils/embeddedSession';
-import { getWebsiteURL } from '../utils/getWebsiteURL';
 import { withDependencyManager } from './DependencyManager';
 import DeviceInstructionsModal, {
   EmbeddedConnectionMethod,
@@ -22,6 +18,10 @@ import EmbeddedToolbarShell from './Shell/EmbeddedToolbarShell';
 import { c } from './ThemeProvider';
 import LazyLoad from './shared/LazyLoad';
 import OpenWithExpoButton from './shared/OpenWithExpoButton';
+import constants from '../configs/constants';
+import { isMobile, isAndroid } from '../utils/detectPlatform';
+import { openEmbeddedSessionFullScreen } from '../utils/embeddedSession';
+import { getWebsiteURL } from '../utils/getWebsiteURL';
 
 type Props = PreferencesContextType &
   EditorViewProps & {
@@ -225,8 +225,8 @@ export default withThemeName(
   withPreferences(
     connect((state: any) => ({
       testConnectionMethod: state.splitTestSettings.defaultConnectionMethod,
-    }))(withDependencyManager(EmbeddedEditorView, true))
-  )
+    }))(withDependencyManager(EmbeddedEditorView, true)),
+  ),
 );
 
 const styles = StyleSheet.create({

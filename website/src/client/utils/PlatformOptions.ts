@@ -20,13 +20,13 @@ export function filter(params: {
 }): PlatformOption[] {
   const defaultPlatformOptions: PlatformOption[] = all();
   const fallbackPlatformOptions: PlatformOption[] = defaultPlatformOptions.filter(
-    (option) => option.value === 'mydevice'
+    (option) => option.value === 'mydevice',
   );
 
   if (params.supportedPlatformsQueryParam) {
     const parsedSupportedPlatformsQueryParam = params.supportedPlatformsQueryParam.split(',');
     const supportedPlatforms = defaultPlatformOptions.filter((option) =>
-      parsedSupportedPlatformsQueryParam.includes(option.value)
+      parsedSupportedPlatformsQueryParam.includes(option.value),
     );
 
     // Ensure that local 'mydevice' is included when ios or android is requested

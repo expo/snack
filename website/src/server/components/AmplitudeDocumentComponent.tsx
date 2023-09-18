@@ -27,7 +27,7 @@ export default class AmplitudeDocumentComponent extends React.Component {
     ;e.amplitude=n})(window,document);
 
     amplitude.getInstance().init(${JSON.stringify(
-      process.env.SNACK_AMPLITUDE_KEY ?? ''
+      process.env.SNACK_AMPLITUDE_KEY ?? '',
     )}, null, { includeReferrer: true });`;
   }
 

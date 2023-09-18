@@ -8,7 +8,7 @@ it('constructs appetize URL', () => {
       experienceURL: `exp://exp.host/@snack/sdk.${TEST_SDK_VERSION}-456a768`,
       platform: 'ios',
       previewQueue: 'main',
-    })
+    }),
   ).toMatchSnapshot();
   expect(
     constructAppetizeURL({
@@ -19,6 +19,6 @@ it('constructs appetize URL', () => {
       scale: 2,
       payerCode: 'asdf',
       previewQueue: 'secondary',
-    })
+    }),
   ).toMatchSnapshot();
 });

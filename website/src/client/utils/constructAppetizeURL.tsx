@@ -111,6 +111,6 @@ export default function constructAppetizeURL({
   };
 
   return `${constants.appetize.url}/embed/${appetizeKey}?${querystring.stringify(
-    appetizeOptions
+    appetizeOptions,
   )}&params=${encodeURIComponent(JSON.stringify(appParams))}`;
 }

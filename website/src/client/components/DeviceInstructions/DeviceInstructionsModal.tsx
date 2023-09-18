@@ -1,13 +1,13 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import AccountTab from './AccountTab';
+import DeviceIDTab from './DeviceIDTab';
+import QRCodeTab from './QRCodeTab';
 import constants from '../../configs/constants';
 import ButtonLink from '../shared/ButtonLink';
 import ModalDialog from '../shared/ModalDialog';
 import SegmentedButton from '../shared/SegmentedButton';
-import AccountTab from './AccountTab';
-import DeviceIDTab from './DeviceIDTab';
-import QRCodeTab from './QRCodeTab';
 
 export type EmbeddedConnectionMethod = 'device-id' | 'qr-code';
 export type ConnectionMethod = 'account' | EmbeddedConnectionMethod;

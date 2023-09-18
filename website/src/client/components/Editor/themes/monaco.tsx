@@ -5,7 +5,7 @@ const c = (color: string) => color.substr(1);
 
 const theme = (
   { ui, syntax }: { ui: lightColors.UIColors; syntax: lightColors.SyntaxColors },
-  base: 'vs' | 'vs-dark'
+  base: 'vs' | 'vs-dark',
 ) => ({
   base,
   inherit: true,

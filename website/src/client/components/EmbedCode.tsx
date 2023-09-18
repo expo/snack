@@ -2,15 +2,15 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import constants from '../configs/constants';
-import { Platform, SDKVersion } from '../types';
-import { PlatformOption } from '../utils/PlatformOptions';
 import withThemeName, { ThemeName } from './Preferences/withThemeName';
 import { c } from './ThemeProvider';
 import Banner from './shared/Banner';
 import Button from './shared/Button';
 import ToggleButtons from './shared/ToggleButtons';
 import ToggleSwitch from './shared/ToggleSwitch';
+import constants from '../configs/constants';
+import { Platform, SDKVersion } from '../types';
+import { PlatformOption } from '../utils/PlatformOptions';
 
 const handleClick = (e: any) => e.target.select();
 
@@ -105,10 +105,10 @@ class EmbedCode extends React.PureComponent<Props, State> {
     const html = `<div data-snack-id="${
       this.props.id ?? ''
     }" data-snack-platform="${platform}" data-snack-preview="${String(
-      preview
+      preview,
     )}" data-snack-theme="${theme}" style="overflow:hidden;background:${c(
       'background',
-      theme
+      theme,
     )};border:1px solid ${c('border')};border-radius:4px;height:505px;width:100%"></div>`;
     const code = `${html}\n<script async src="${url}"></script>`;
 

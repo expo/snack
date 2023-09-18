@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import { c } from './ThemeProvider';
 import { SnackFiles } from '../types';
 import { isImage } from '../utils/fileUtilities';
-import { c } from './ThemeProvider';
 
 type Props = {
   selectedFile: string;

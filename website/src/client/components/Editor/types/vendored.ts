@@ -48,7 +48,7 @@ export const vendoredTypes: Record<string, string> = {
        * @see https://shopify.github.io/react-native-skia/docs/getting-started/web/
        */
        export function LoadSkiaWeb(options?: CanvasKitInitOptions): Promise<void>;
-    }`
+    }`,
   ),
 };
 

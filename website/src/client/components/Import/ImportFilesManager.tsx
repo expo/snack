@@ -175,7 +175,7 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
                         asset: true,
                       },
                       state: {},
-                    } as AssetFileEntry)
+                    }) as AssetFileEntry,
                 );
 
           if (!this.state.itemsToImport.length) {
@@ -194,7 +194,7 @@ export default class ImportFilesManager extends React.PureComponent<Props, State
             importProgress: state.importProgress + 1,
           }));
         }
-      })
+      }),
     );
 
     this.setState({

@@ -30,7 +30,7 @@ export const getClassNames = ({ variant, icon, large, disabled, loading }: Butto
     styles[variant ?? 'normal'],
     icon ? styles.iconButton : large ? styles.largeButton : styles.normalButton,
     loading && styles.loading,
-    disabled && styles.disabled
+    disabled && styles.disabled,
   );
 };
 

@@ -1,12 +1,12 @@
+import updateEntry from './updateEntry';
 import { getUniquePath, getParentPath } from '../../../utils/fileUtilities';
 import { FileSystemEntry } from '../types';
-import updateEntry from './updateEntry';
 
 export default function createEntryAtPath(
   entries: FileSystemEntry[],
   path: string | undefined,
   e: FileSystemEntry,
-  suffix?: string
+  suffix?: string,
 ): FileSystemEntry {
   // Check if an entry exists for the path we want to create the entry at
   const entry = path ? entries.find((e) => e.item.path === path) : null;
@@ -26,7 +26,7 @@ export default function createEntryAtPath(
       path: getUniquePath(
         entries.map((e) => e.item.path),
         parent ? `${parent}/${name}` : name,
-        suffix
+        suffix,
       ),
     },
   });

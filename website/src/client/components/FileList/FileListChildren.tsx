@@ -2,11 +2,11 @@ import { StyleSheet, css } from 'aphrodite';
 import escapeRegexp from 'escape-string-regexp';
 import * as React from 'react';
 
+import FileListEntry from './FileListEntry';
+import { FileSystemEntry } from './types';
 import { SDKVersion } from '../../types';
 import { isInsideFolder } from '../../utils/fileUtilities';
 import { ThemeName } from '../Preferences/withThemeName';
-import FileListEntry from './FileListEntry';
-import { FileSystemEntry } from './types';
 
 type Props = {
   parent: string;
@@ -33,7 +33,7 @@ export default class FileListChildren extends React.PureComponent<Props> {
     this.props.entries.filter(
       (e) =>
         // Filter-out non-immediate children
-        !e.item.path.replace(new RegExp(`^${escapeRegexp(this.props.parent)}/`), '').includes('/')
+        !e.item.path.replace(new RegExp(`^${escapeRegexp(this.props.parent)}/`), '').includes('/'),
     );
 
   render() {

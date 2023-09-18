@@ -1,5 +1,5 @@
-import { c } from '../../ThemeProvider';
 import type { SyntaxColors, UIColors } from './colors-light';
+import { c } from '../../ThemeProvider';
 
 export const syntax: SyntaxColors = {
   text: '#d9d7ce',

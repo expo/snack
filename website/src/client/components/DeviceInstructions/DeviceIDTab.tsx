@@ -46,7 +46,7 @@ export default class DeviceIDTab extends React.Component<Props, State> {
       await this.props.setDeviceId(this.state.deviceId);
 
       this.setState({ status: 'success' });
-    } catch (e) {
+    } catch {
       this.setState({ status: 'error' });
     } finally {
       setTimeout(() => {

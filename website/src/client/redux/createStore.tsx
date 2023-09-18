@@ -23,6 +23,6 @@ export default function createStoreWithPreloadedState(state: any) {
       viewer,
       splitTestSettings,
     }),
-    state
+    state,
   );
 }

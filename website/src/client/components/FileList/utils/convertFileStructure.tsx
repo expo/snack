@@ -23,10 +23,10 @@ function fileToEntry(
   path: string,
   file: SnackFile,
   annotations: Annotation[],
-  prevEntry?: FileSystemEntry
+  prevEntry?: FileSystemEntry,
 ): any {
   const isLoading = !!annotations.find(
-    ({ location, severity }) => location?.fileName === path && severity < 0
+    ({ location, severity }) => location?.fileName === path && severity < 0,
   );
   const isError =
     !isLoading &&
@@ -104,7 +104,7 @@ function fileToEntry(
 export function filesToEntries(
   files: SnackFiles,
   annotations: Annotation[],
-  prevEntries: FileSystemEntry[]
+  prevEntries: FileSystemEntry[],
 ): FileSystemEntry[] {
   const fileSystem: FileSystemEntry[] = [];
   const foldersInFileSystem = new Set();
@@ -120,7 +120,7 @@ export function filesToEntries(
               type: 'folder',
             },
             state: {},
-          }
+          },
         );
         foldersInFileSystem.add(folder);
       }
@@ -141,7 +141,7 @@ export function filesToEntries(
 }
 
 export function findFocusedEntry(
-  entries: FileSystemEntry[]
+  entries: FileSystemEntry[],
 ): TextFileEntry | AssetFileEntry | undefined {
   return entries.find((entry) => entry.item.type === 'file' && entry.state.isFocused) as any;
 }

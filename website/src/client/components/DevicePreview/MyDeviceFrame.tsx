@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import RecentlyInDevelopmentPreview from './RecentlyInDevelopmentPreview';
 import { getWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
@@ -16,7 +17,6 @@ import IconButton from '../shared/IconButton';
 import MenuButton from '../shared/MenuButton';
 import ShortcutLabel from '../shared/ShortcutLabel';
 import ToggleSwitch from '../shared/ToggleSwitch';
-import RecentlyInDevelopmentPreview from './RecentlyInDevelopmentPreview';
 
 type Props = AuthProps & {
   width: number;
@@ -92,7 +92,7 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
             <div
               className={css(
                 styles.connectedDevicesHeader,
-                isEmbedded ? styles.connectedDevicesEmbedded : undefined
+                isEmbedded ? styles.connectedDevicesEmbedded : undefined,
               )}>
               <div className={css(styles.connectedDevicesTitle)}>
                 <h3>Connected devices</h3>

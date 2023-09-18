@@ -2,6 +2,9 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
+import AppetizeFrame, { AppetizeDevices } from './AppetizeFrame';
+import MyDeviceFrame from './MyDeviceFrame';
+import WebFrame from './WebFrame';
 import constants from '../../configs/constants';
 import { SDKVersion, Device, Platform } from '../../types';
 import * as PlatformOptions from '../../utils/PlatformOptions';
@@ -9,9 +12,6 @@ import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import { c } from '../ThemeProvider';
 import ToggleButtons from '../shared/ToggleButtons';
-import AppetizeFrame, { AppetizeDevices } from './AppetizeFrame';
-import MyDeviceFrame from './MyDeviceFrame';
-import WebFrame from './WebFrame';
 
 type Props = {
   className?: string;
@@ -57,7 +57,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
 
   componentDidMount() {
     this.mql = window.matchMedia(
-      this.props.isEmbedded ? VISIBILITY_MEDIA_QUERY_EMBEDDED : VISIBILITY_MEDIA_QUERY
+      this.props.isEmbedded ? VISIBILITY_MEDIA_QUERY_EMBEDDED : VISIBILITY_MEDIA_QUERY,
     );
     this.mql.addListener(this.handleMediaQuery);
     this.handleMediaQuery(this.mql);
@@ -95,7 +95,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
       },
       () => {
         this.props.previewRef.current = this.popup;
-      }
+      },
     );
 
     clearInterval(this.popupInterval);
@@ -166,7 +166,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
               className={css(
                 styles.popupButton,
                 theme === 'dark' ? styles.popupButtonDark : styles.popupButtonLight,
-                platform === 'mydevice' && styles.popupButtonHidden
+                platform === 'mydevice' && styles.popupButtonHidden,
               )}
               disabled={platform === 'mydevice'}
               onClick={this.handlePopup}

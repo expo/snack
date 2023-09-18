@@ -103,7 +103,7 @@ export default class Toast extends React.Component<Props, State> {
           </button>
         ))}
       </ThemeProvider>,
-      this._container
+      this._container,
     );
   }
 }

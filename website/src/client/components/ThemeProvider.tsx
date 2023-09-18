@@ -116,7 +116,7 @@ export default function ThemeProvider({ children, style, className, theme }: Pro
     <div
       className={classnames(
         css(style || styles.container, prefs.theme === 'dark' ? styles.dark : styles.light),
-        className
+        className,
       )}>
       {children}
     </div>

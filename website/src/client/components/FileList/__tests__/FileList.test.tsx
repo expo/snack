@@ -38,7 +38,7 @@ it('renders children', () => {
       sdkVersion={TEST_SDK_VERSION}
       visible
       annotations={[]}
-    />
+    />,
   );
 
   expect(toJSON(wrapper)).toMatchSnapshot();
@@ -67,7 +67,7 @@ it('deletes entry', () => {
       sdkVersion={TEST_SDK_VERSION}
       visible
       annotations={[]}
-    />
+    />,
   );
 
   // @ts-ignore
@@ -98,7 +98,7 @@ it('copies item to clipboard', () => {
       sdkVersion={TEST_SDK_VERSION}
       visible
       annotations={[]}
-    />
+    />,
   );
 
   // @ts-ignore

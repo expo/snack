@@ -87,7 +87,7 @@ export default class Popover extends React.PureComponent<Props, State> {
           {
             ref: this._anchor,
             onClick: this._togglePopover,
-          }
+          },
         )}
         <div
           ref={this._popover}

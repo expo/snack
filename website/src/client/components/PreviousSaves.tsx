@@ -2,9 +2,9 @@ import { StyleSheet, css } from 'aphrodite';
 import format from 'date-fns/format';
 import * as React from 'react';
 
-import { SaveHistory } from '../types';
 import withThemeName, { ThemeName } from './Preferences/withThemeName';
 import { c } from './ThemeProvider';
+import { SaveHistory } from '../types';
 
 type Props = {
   saveHistory: SaveHistory;

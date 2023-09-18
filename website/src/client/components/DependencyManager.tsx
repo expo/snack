@@ -4,6 +4,8 @@ import isEqual from 'lodash/isEqual';
 import * as React from 'react';
 import { SnackMissingDependencies } from 'snack-sdk';
 
+import { EditorViewProps } from './EditorViewProps';
+import Toast from './shared/Toast';
 import {
   SnackCodeFile,
   SnackFile,
@@ -22,8 +24,6 @@ import {
 import { openEmbeddedSessionFullScreen } from '../utils/embeddedSession';
 import { isScript, isPackageJson, isTest } from '../utils/fileUtilities';
 import type { FileDependencies } from '../utils/findDependencies';
-import { EditorViewProps } from './EditorViewProps';
-import Toast from './shared/Toast';
 
 type State = {
   files: SnackFiles;
@@ -39,13 +39,13 @@ type State = {
     name: string,
     version: string,
     dependencies: SnackDependencies,
-    sdkVersion: SDKVersion
+    sdkVersion: SDKVersion,
   ) => AnnotationAction;
 };
 
 export function withDependencyManager<Props extends EditorViewProps>(
   WrappedComponent: React.ComponentType<Props>,
-  isEmbedded?: boolean
+  isEmbedded?: boolean,
 ) {
   return class DependencyManager extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -65,7 +65,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
           props.files,
           {},
           props.sdkVersion,
-          this.getDependencyAction
+          this.getDependencyAction,
         ),
         uncheckedFiles: new Set(),
         filesDependencies: {},
@@ -133,7 +133,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
                     files,
                     state.filesDependencies,
                     sdkVersion,
-                    state.getDependencyAction
+                    state.getDependencyAction,
                   )
                 : state.annotations,
             uncheckedFiles: uncheckedFiles ?? state.uncheckedFiles,
@@ -159,7 +159,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
      * to the dependencies.
      */
     private updateFiles = (
-      updateFn: (files: SnackFiles) => { [path: string]: SnackFile | null }
+      updateFn: (files: SnackFiles) => { [path: string]: SnackFile | null },
     ) => {
       this.props.updateFiles((files) => {
         const filesUpdate = updateFn(files);
@@ -176,10 +176,10 @@ export function withDependencyManager<Props extends EditorViewProps>(
                 st.files,
                 st.filesDependencies,
                 st.sdkVersion,
-                st.getDependencyAction
+                st.getDependencyAction,
               ),
             }),
-            this.updateDependenciesFromPackageJson
+            this.updateDependenciesFromPackageJson,
           );
         }
         return filesUpdate;
@@ -222,7 +222,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
      * Intercept any updates to dependencies and edit package.json accordingly.
      */
     private updateDependencies = (
-      updateFn: (dependencies: SnackDependencies) => { [name: string]: SnackDependency | null }
+      updateFn: (dependencies: SnackDependencies) => { [name: string]: SnackDependency | null },
     ) => {
       // @ts-ignore
       const dependencies: SnackDependencies = this.props.updateDependencies(updateFn);
@@ -256,7 +256,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
               newFilesDep = newFilesDep ?? { ...filesDependencies };
               newFilesDep[path] = fileDependencies;
             }
-          } catch (e) {
+          } catch {
             // babel could not compile this file, ignore
           }
         }
@@ -275,7 +275,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
               state.files,
               filesDependencies,
               state.sdkVersion,
-              state.getDependencyAction
+              state.getDependencyAction,
             )
           : state.annotations,
       }));
@@ -285,7 +285,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
       name: string,
       version: string,
       dependencies: SnackDependencies,
-      _sdkVersion: SDKVersion
+      _sdkVersion: SDKVersion,
     ): AnnotationAction => {
       if (isEmbedded) {
         return {
@@ -352,7 +352,7 @@ export function withDependencyManager<Props extends EditorViewProps>(
               location?.fileName === selectedFile &&
               !!action &&
               selectedFile !== 'package.json' &&
-              severity > 2
+              severity > 2,
           )
         : false;
 

@@ -1,5 +1,5 @@
-import { SDKVersion, SnackDependencies, SnackFiles, Platform } from '../types';
 import { getReloadURL } from './reloadURL';
+import { SDKVersion, SnackDependencies, SnackFiles, Platform } from '../types';
 
 type SnackEmbeddedSession = {
   name: string;
@@ -27,7 +27,7 @@ export function openEmbeddedSessionFullScreen(session: SnackEmbeddedSession) {
       theme: undefined, // Use default theme setting
       supportedPlatforms: undefined,
     },
-    { noEmbedded: true }
+    { noEmbedded: true },
   );
 
   // Open full-screen

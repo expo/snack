@@ -1,5 +1,5 @@
-import { SnackFiles, Annotation } from '../types';
 import { isESLintConfig, isScript, isJson } from './fileUtilities';
+import { SnackFiles, Annotation } from '../types';
 
 async function lintCode(path: string, code: string, files: SnackFiles): Promise<Annotation[]> {
   const eslintrc = Object.keys(files).find(isESLintConfig);
@@ -9,7 +9,7 @@ async function lintCode(path: string, code: string, files: SnackFiles): Promise<
       // Use the custom config provided by the user, must be JSON
       // @ts-ignore
       config = JSON.parse(files[eslintrc].contents);
-    } catch (e) {
+    } catch {
       return [
         {
           message: `Content of the ESLint config (${eslintrc}) is not valid JSON`,
@@ -33,7 +33,7 @@ async function lintCode(path: string, code: string, files: SnackFiles): Promise<
 
 export default async function lintFile(
   selectedFile: string,
-  files: SnackFiles
+  files: SnackFiles,
 ): Promise<Annotation[]> {
   const file = files[selectedFile];
 

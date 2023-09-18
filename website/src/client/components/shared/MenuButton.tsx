@@ -1,8 +1,8 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { c, s } from '../ThemeProvider';
 import FooterButton from './FooterButton';
+import { c, s } from '../ThemeProvider';
 
 type Props = {
   icon?: string;

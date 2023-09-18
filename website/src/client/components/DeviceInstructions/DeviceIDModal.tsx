@@ -1,8 +1,8 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import ModalDialog from '../shared/ModalDialog';
 import DeviceIDTab from './DeviceIDTab';
+import ModalDialog from '../shared/ModalDialog';
 
 type Props = {
   onDismiss: () => void;

@@ -24,7 +24,7 @@ type Props = {
   onChangeSDKVersion: (sdkVersion: SDKVersion) => void;
   updateFiles: (updateFn: (files: SnackFiles) => { [path: string]: SnackFile | null }) => void;
   updateDependencies: (
-    updateFn: (dependencies: SnackDependencies) => { [name: string]: SnackDependency | null }
+    updateFn: (dependencies: SnackDependencies) => { [name: string]: SnackDependency | null },
   ) => void;
 };
 

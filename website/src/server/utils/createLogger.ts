@@ -18,7 +18,7 @@ const replacementValue = '[Filtered]';
 function replaceValueForKeysRecursive(
   keysToReplace: Set<string>,
   replacementValue: string,
-  maybeObj: any
+  maybeObj: any,
 ): any {
   if (!isPlainObject(maybeObj)) {
     // filter out any unexpected non-recursable objects to err on the safe side,
@@ -38,7 +38,7 @@ function replaceValueForKeysRecursive(
       } else {
         return [key, replaceValueForKeysRecursive(keysToReplace, replacementValue, value)];
       }
-    })
+    }),
   );
 }
 
@@ -120,7 +120,7 @@ function createLogger(loggerConfig: Logger.LoggerOptions): Logger {
         safeStringify({
           message: `We were unable to convert an error object to JSON. This is a serious error because we are losing visibility into our logs and errors now.`,
           err: e,
-        })
+        }),
       );
     }
   });

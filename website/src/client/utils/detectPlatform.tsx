@@ -11,7 +11,7 @@ export function isMacOS(userAgent: string) {
 }
 
 export function isMobile(
-  userAgent: string = typeof navigator !== 'undefined' ? navigator.userAgent : ''
+  userAgent: string = typeof navigator !== 'undefined' ? navigator.userAgent : '',
 ) {
   return isAndroid(userAgent) || isIOS(userAgent);
 }

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
+import { lastDraggedEntry } from './FileListEntryBase';
+import { FileSystemEntry } from './types';
 import dragEventIncludes from '../../utils/dragEventIncludes';
 import { getUniquePath } from '../../utils/fileUtilities';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
-import { lastDraggedEntry } from './FileListEntryBase';
-import { FileSystemEntry } from './types';
 
 type Props = {
   entry?: FileSystemEntry;
@@ -130,10 +130,10 @@ class FileListEntryDropTarget extends React.PureComponent<Props> {
         entry.item.path,
         getUniquePath(
           this.props.rest.map((e) => e.item.path),
-          this.props.entry ? this.props.entry.item.path + '/' + name : name
-        )
+          this.props.entry ? this.props.entry.item.path + '/' + name : name,
+        ),
       );
-    } catch (e) {
+    } catch {
       // Something else other than a file/folder was dragged
     }
   };

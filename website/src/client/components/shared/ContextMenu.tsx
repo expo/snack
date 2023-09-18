@@ -2,8 +2,8 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
-import { c, s } from '../ThemeProvider';
 import ShortcutLabel from './ShortcutLabel';
+import { c, s } from '../ThemeProvider';
 
 export type Action = {
   label: string;
@@ -55,7 +55,7 @@ class ContextMenu extends React.PureComponent<Props> {
                 position: 'fixed',
                 top: Math.min(
                   position.pageY,
-                  window.innerHeight - BOTTOM_OFFSET - shownActions.length * MENU_ITEM_HEIGHT
+                  window.innerHeight - BOTTOM_OFFSET - shownActions.length * MENU_ITEM_HEIGHT,
                 ),
                 left: position.pageX,
                 marginTop: -8,

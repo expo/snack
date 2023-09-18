@@ -1,10 +1,10 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import ContextMenu, { Action } from '../shared/ContextMenu';
-import { isKeyCombo } from '../shared/KeybindingsManager';
 import FileListEntryDropTarget from './FileListEntryDropTarget';
 import { FileSystemEntry } from './types';
+import ContextMenu, { Action } from '../shared/ContextMenu';
+import { isKeyCombo } from '../shared/KeybindingsManager';
 
 type Props = {
   entry: FileSystemEntry;
@@ -88,7 +88,7 @@ export default class FileListEntry extends React.Component<Props, State> {
     }
 
     const bindings = this.props.actions.filter((action) =>
-      action?.combo ? isKeyCombo(event as any, action.combo) : false
+      action?.combo ? isKeyCombo(event as any, action.combo) : false,
     );
 
     if (bindings.length) {
@@ -179,7 +179,7 @@ export default class FileListEntry extends React.Component<Props, State> {
           className={css(
             styles.highlight,
             theme === 'dark' ? styles.highlightDark : styles.highlightLight,
-            entry.state.isSelected ? styles.highlightActive : null
+            entry.state.isSelected ? styles.highlightActive : null,
           )}
         />
         <ContextMenu
@@ -194,7 +194,7 @@ export default class FileListEntry extends React.Component<Props, State> {
           tabIndex={-1}
           className={css(
             styles.more,
-            isHovered || menu ? styles.moreVisible : styles.moreInvisible
+            isHovered || menu ? styles.moreVisible : styles.moreInvisible,
           )}>
           {this.props.renderMenuIcon()}
         </button>

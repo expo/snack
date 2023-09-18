@@ -1,10 +1,10 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import * as defaults from '../configs/defaults';
 import withThemeName, { ThemeName } from './Preferences/withThemeName';
 import { c } from './ThemeProvider';
 import Popover from './shared/Popover';
+import * as defaults from '../configs/defaults';
 
 type Props = {
   name: string;

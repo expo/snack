@@ -1,12 +1,12 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { Platform, Annotation, SDKVersion } from '../types';
-import { PlatformOption } from '../utils/PlatformOptions';
 import EmbeddedFooterShell from './Shell/EmbeddedFooterShell';
 import LoadingText from './shared/LoadingText';
 import ToggleButtons from './shared/ToggleButtons';
 import ToggleSwitch from './shared/ToggleSwitch';
+import { Platform, Annotation, SDKVersion } from '../types';
+import { PlatformOption } from '../utils/PlatformOptions';
 
 type Props = {
   annotations: Annotation[];

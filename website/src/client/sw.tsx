@@ -45,9 +45,9 @@ self.addEventListener('activate', (event) => {
       Promise.all(
         names
           .filter((name) => name !== CACHE_NAME && name !== WEB_PLAYER_CACHE_NAME)
-          .map((name) => caches.delete(name))
-      )
-    )
+          .map((name) => caches.delete(name)),
+      ),
+    ),
   );
 });
 
@@ -71,7 +71,7 @@ self.addEventListener('fetch', (event) => {
             })
           );
         });
-      })
+      }),
     );
   }
 
@@ -101,13 +101,13 @@ self.addEventListener('fetch', (event) => {
                   status: copy.status,
                   statusText: copy.statusText,
                   headers,
-                })
+                }),
               );
             });
             return fetchResponse;
           });
         });
-      })
+      }),
     );
   }
 });

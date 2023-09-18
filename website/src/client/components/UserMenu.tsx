@@ -1,12 +1,12 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { getLoginHref } from '../auth/login';
-import withAuth, { AuthProps } from '../auth/withAuth';
-import { getWebsiteURL } from '../utils/getWebsiteURL';
 import { c } from './ThemeProvider';
 import Avatar from './shared/Avatar';
 import ContextMenu from './shared/ContextMenu';
+import { getLoginHref } from '../auth/login';
+import withAuth, { AuthProps } from '../auth/withAuth';
+import { getWebsiteURL } from '../utils/getWebsiteURL';
 
 type State = {
   visible: boolean;

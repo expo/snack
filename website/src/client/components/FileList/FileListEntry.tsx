@@ -1,16 +1,16 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
+import FileListChildren from './FileListChildren';
+import FileListEntryBase from './FileListEntryBase';
+import FileListEntryIcon from './FileListEntryIcon';
+import { FileSystemEntry } from './types';
 import { SDKVersion } from '../../types';
 import { isEntryPoint, getParentPath, isTest } from '../../utils/fileUtilities';
 import { ThemeName } from '../Preferences/withThemeName';
 import { c } from '../ThemeProvider';
 import { Action } from '../shared/ContextMenu';
 import { KeyMap } from '../shared/KeybindingsManager';
-import FileListChildren from './FileListChildren';
-import FileListEntryBase from './FileListEntryBase';
-import FileListEntryIcon from './FileListEntryIcon';
-import { FileSystemEntry } from './types';
 
 type Props = {
   entry: FileSystemEntry;
@@ -67,7 +67,7 @@ export default class FileListEntry extends React.Component<Props, State> {
     this.props.onExpand(
       this.props.entry.item.path,
 
-      !this.props.entry.state.isExpanded
+      !this.props.entry.state.isExpanded,
     );
 
   _handleToggleRename = () => {
@@ -86,7 +86,7 @@ export default class FileListEntry extends React.Component<Props, State> {
             isRenaming: true,
             name: props.entry.item.path.split('/').pop() ?? '',
             error: null,
-          }
+          },
     );
   };
 
@@ -125,7 +125,7 @@ export default class FileListEntry extends React.Component<Props, State> {
           usedCharacters.length === 1
             ? `${usedCharacters[0]} is`
             : `${usedCharacters.join(', ')} are`
-        } not allowed`
+        } not allowed`,
       );
     }
 
@@ -133,7 +133,7 @@ export default class FileListEntry extends React.Component<Props, State> {
 
     if (
       adjacentEntries.some(
-        (e) => (e.item.path.split('/').pop() ?? '').toLowerCase() === name.toLowerCase()
+        (e) => (e.item.path.split('/').pop() ?? '').toLowerCase() === name.toLowerCase(),
       )
     ) {
       return new Error(`Another entry already exists with same name`);
@@ -279,7 +279,7 @@ export default class FileListEntry extends React.Component<Props, State> {
           className={css(
             styles.label,
             isTest(entry.item.path) ? styles.labelTest : undefined,
-            entry.state.isError ? styles.labelError : undefined
+            entry.state.isError ? styles.labelError : undefined,
           )}>
           {displayName}
         </span>

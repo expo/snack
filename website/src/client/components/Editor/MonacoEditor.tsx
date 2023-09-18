@@ -6,6 +6,10 @@ import { initVimMode } from 'monaco-vim';
 import * as React from 'react';
 import { getPreloadedModules, isValidSemver } from 'snack-sdk';
 
+import { EditorProps, EditorMode } from './EditorProps';
+import { light, dark } from './themes/monaco';
+import overrides from './themes/monaco-overrides';
+import { vendoredTypes } from './types/vendored';
 import { SDKVersion, Annotation, SnackDependencies } from '../../types';
 import getFileLanguage from '../../utils/getFileLanguage';
 import { getRelativePath, getAbsolutePath } from '../../utils/path';
@@ -13,10 +17,6 @@ import prettierCode from '../../utils/prettierCode';
 import type { TypingsResult } from '../../workers/typings.worker';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import ResizeDetector from '../shared/ResizeDetector';
-import { EditorProps, EditorMode } from './EditorProps';
-import { light, dark } from './themes/monaco';
-import overrides from './themes/monaco-overrides';
-import { vendoredTypes } from './types/vendored';
 
 // @ts-ignore
 global.MonacoEnvironment = {
@@ -208,7 +208,7 @@ class MonacoEditor extends React.Component<Props, State> {
     // So spreading this object doesn't work, we must mutate it
     codeEditorService.openCodeEditor = async (
       { resource, options }: any,
-      editor: monaco.editor.IStandaloneCodeEditor
+      editor: monaco.editor.IStandaloneCodeEditor,
     ) => {
       // Remove the leading slash added by the Uri
       this.props.onSelectFile(resource.path.replace(/^\//, ''));
@@ -224,7 +224,7 @@ class MonacoEditor extends React.Component<Props, State> {
     const editor = monaco.editor.create(
       this._node.current as HTMLDivElement,
       rest,
-      codeEditorService
+      codeEditorService,
     );
     this._editor = editor;
     this._disposables = [editor];
@@ -258,10 +258,10 @@ class MonacoEditor extends React.Component<Props, State> {
       provideCompletionItems: this._handleProvideCompletionItems,
     };
     this._disposables.push(
-      monaco.languages.registerCompletionItemProvider('javascript', completionProvider)
+      monaco.languages.registerCompletionItemProvider('javascript', completionProvider),
     );
     this._disposables.push(
-      monaco.languages.registerCompletionItemProvider('typescript', completionProvider)
+      monaco.languages.registerCompletionItemProvider('typescript', completionProvider),
     );
 
     // Register the vendored types
@@ -363,13 +363,13 @@ class MonacoEditor extends React.Component<Props, State> {
             range: model.getFullModelRange(),
             text: value,
           },
-        ]
+        ],
       );
     } else {
       model = monaco.editor.createModel(
         value,
         undefined,
-        monaco.Uri.from({ scheme: 'file', path })
+        monaco.Uri.from({ scheme: 'file', path }),
       );
 
       model.updateOptions({
@@ -417,7 +417,7 @@ class MonacoEditor extends React.Component<Props, State> {
 
   _handleProvideHover = (
     model: monaco.editor.ITextModel,
-    position: monaco.Position
+    position: monaco.Position,
   ): monaco.languages.ProviderResult<monaco.languages.Hover> => {
     // Get the current line
     const line = model.getLineContent(position.lineNumber);
@@ -455,7 +455,7 @@ class MonacoEditor extends React.Component<Props, State> {
               position.lineNumber,
               current.offset + 1,
               position.lineNumber,
-              end
+              end,
             ),
             contents: [
               {
@@ -474,7 +474,7 @@ class MonacoEditor extends React.Component<Props, State> {
   _getImportAtPosition(
     model: monaco.editor.ITextModel,
     position: monaco.Position,
-    untilPosition?: boolean
+    untilPosition?: boolean,
   ): monaco.IRange | void {
     // Get editor content before the pointer
     const textUntilPosition = model.getValueInRange({
@@ -486,7 +486,7 @@ class MonacoEditor extends React.Component<Props, State> {
 
     // Find the import name
     const matches = textUntilPosition.match(
-      /(([\s|\n]+(import|from)\s+)|(\brequire\b\s*\())["|'][^'^"]*$/
+      /(([\s|\n]+(import|from)\s+)|(\brequire\b\s*\())["|'][^'^"]*$/,
     );
     if (!matches) return undefined;
     const line = model.getValueInRange({
@@ -515,7 +515,7 @@ class MonacoEditor extends React.Component<Props, State> {
     model: monaco.editor.ITextModel,
     position: monaco.Position,
     _context: monaco.languages.CompletionContext,
-    _token: monaco.CancellationToken
+    _token: monaco.CancellationToken,
   ) => {
     const range = this._getImportAtPosition(model, position, true);
     if (range) {
@@ -642,7 +642,7 @@ class MonacoEditor extends React.Component<Props, State> {
       // @ts-ignore
       this._editor.getModel(),
       null,
-      annotations.filter((a) => a.location?.fileName === path).map(this._annotationToMarker)
+      annotations.filter((a) => a.location?.fileName === path).map(this._annotationToMarker),
     );
 
   _toggleMode = (mode: EditorMode) => {
@@ -680,7 +680,7 @@ class MonacoEditor extends React.Component<Props, State> {
             className={classnames(
               css(styles.editor),
               'snack-monaco-editor',
-              `theme-${this.props.theme}`
+              `theme-${this.props.theme}`,
             )}
           />
         </ResizeDetector>

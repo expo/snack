@@ -76,14 +76,14 @@ const removeCommentFromPath = (path: any) => {
 
   node.comments = node.comments || [];
   node.comments = node.comments.filter(
-    (comment: any) => !(comment.type === 'CommentLine' && comment.trailing)
+    (comment: any) => !(comment.type === 'CommentLine' && comment.trailing),
   );
 };
 
 const findDependencies = (
   code: string,
   filename: string,
-  removeVersionComments: boolean = false
+  removeVersionComments: boolean = false,
 ): FileDependencies => {
   const babelPlugins = [...parserPlugins];
   const language = getFileLanguage(filename);
@@ -128,7 +128,7 @@ const findDependencies = (
 
     if (name) {
       const version = getVersionFromComments(
-        args[0]?.trailingComments || path.parentPath.parentPath.node.trailingComments
+        args[0]?.trailingComments || path.parentPath.parentPath.node.trailingComments,
       );
 
       if (removeVersionComments) {
@@ -200,7 +200,7 @@ const findDependencies = (
         this.traverse(path);
       },
     });
-  } catch (err) {
+  } catch {
     // Ignore error: did not recognize object of type "..."
   }
 

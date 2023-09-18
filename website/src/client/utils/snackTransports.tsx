@@ -9,7 +9,7 @@ import Analytics from './Analytics';
 
 export function createSnackWorkerTransport(
   testTransport: 'snackpub' | 'trafficMirroring',
-  options: SnackTransportOptions
+  options: SnackTransportOptions,
 ) {
   let transport: SnackTransport | null = null;
   function getTransport(): SnackTransport {

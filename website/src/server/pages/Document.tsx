@@ -178,7 +178,7 @@ export default function Document(props: Props) {
                  {
                    quotes: 'double',
                    isScriptContext: true,
-                 }
+                 },
                )} `,
           }}
         />

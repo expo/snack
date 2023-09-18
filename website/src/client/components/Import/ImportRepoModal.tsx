@@ -90,7 +90,7 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
           Analytics.getInstance().logEvent(
             'IMPORT_COMPLETED',
             { reason: 'success' },
-            'importStart'
+            'importStart',
           );
           this.props.preventRedirectWarning();
           window.location.href = `/${snackId}`;
@@ -98,7 +98,7 @@ export default class ImportRepoModal extends React.PureComponent<Props, State> {
           didFail = true;
         }
       }
-    } catch (e) {
+    } catch {
       didFail = true;
     }
 

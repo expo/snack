@@ -111,7 +111,7 @@ export default class AuthenticationManager {
         throw new Error('Expired');
       }
       return JSON.stringify(sessionSecret);
-    } catch (e) {
+    } catch {
       this.clearLegacySessionSecretData();
       return null;
     }
@@ -154,7 +154,7 @@ export default class AuthenticationManager {
     if (rawTokenData) {
       try {
         return JSON.parse(rawTokenData);
-      } catch (e) {
+      } catch {
         return null;
       }
     }
@@ -193,7 +193,7 @@ export default class AuthenticationManager {
           ...(sessionSecret ? { 'Expo-Session': sessionSecret } : {}),
           ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
         },
-      }
+      },
     );
 
     return result.data?.me;
@@ -230,7 +230,7 @@ function _handleApiErrors<F extends Function>(fn: F): F {
  */
 async function _performGraphQLApiRequest<T>(
   body: object | null,
-  options?: { headers?: { [key: string]: string } }
+  options?: { headers?: { [key: string]: string } },
 ): Promise<T> {
   const customHeaders = options?.headers ?? {};
   if (options) {

@@ -1,12 +1,12 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { DeviceLog, Annotation } from '../types';
 import EditorPanelLogs from './EditorPanelLogs';
 import type { PanelType } from './Preferences/PreferencesProvider';
 import ProblemsPanel from './ProblemsPanel';
 import { c } from './ThemeProvider';
 import ResizablePane from './shared/ResizablePane';
+import { DeviceLog, Annotation } from '../types';
 
 type Props = {
   annotations: Annotation[];

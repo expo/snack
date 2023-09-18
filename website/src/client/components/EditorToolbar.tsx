@@ -1,8 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { SaveStatus, SaveHistory, Viewer, SaveOptions, SDKVersion } from '../types';
-import { useOrbit } from '../utils/orbit';
 import EditorTitle from './EditorTitle';
 import type { EditorModal } from './EditorViewProps';
 import usePreferences from './Preferences/usePreferences';
@@ -12,6 +10,8 @@ import ToolbarTitleShell from './Shell/ToolbarTitleShell';
 import UserMenu from './UserMenu';
 import Button from './shared/Button';
 import IconButton from './shared/IconButton';
+import { SaveStatus, SaveHistory, Viewer, SaveOptions, SDKVersion } from '../types';
+import { useOrbit } from '../utils/orbit';
 
 type Props = {
   name: string;

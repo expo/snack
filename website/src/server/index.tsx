@@ -89,8 +89,8 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
             res.setHeader('Cache-Control', 'public, no-cache');
           }
         },
-      })
-    )
+      }),
+    ),
   );
 } else {
   // Use webpack dev middleware in development
@@ -115,7 +115,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
           ctx.set(name, value);
         },
       },
-      next
+      next,
     );
   });
 }
@@ -133,7 +133,7 @@ app.use(
       ctx.response.status = 503;
       ctx.body = 'shutting down';
     }
-  })
+  }),
 );
 
 app.use(bodyParser());
@@ -145,7 +145,7 @@ const httpServer = app.listen(port, host, backlog, () => {
   console.log(
     `The Snack web server is listening on http://${address}:${port}, took ${
       (Date.now() - startTime) / 1000
-    } seconds`
+    } seconds`,
   );
 });
 
@@ -182,7 +182,7 @@ httpServer.on('close', () => {
 
 const shutdown = (signal: ShutdownSignal) => {
   console.log(
-    `Received ${signal}; the HTTP server is shutting down and draining existing connections`
+    `Received ${signal}; the HTTP server is shutting down and draining existing connections`,
   );
   ready = false;
   exitSignal = signal;

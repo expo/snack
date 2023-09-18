@@ -1,8 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import constants from '../configs/constants';
-import { Device, Annotation, SDKVersion } from '../types';
 import type { EditorModal } from './EditorViewProps';
 import { Shortcuts } from './KeyboardShortcuts';
 import type { PanelType } from './Preferences/PreferencesProvider';
@@ -15,6 +13,8 @@ import LoadingText from './shared/LoadingText';
 import MenuButton from './shared/MenuButton';
 import ShortcutLabel from './shared/ShortcutLabel';
 import ToggleSwitch from './shared/ToggleSwitch';
+import constants from '../configs/constants';
+import { Device, Annotation, SDKVersion } from '../types';
 
 type Props = {
   annotations: Annotation[];
@@ -122,7 +122,7 @@ export default function EditorFooter(props: Props) {
             onClick={() => onTogglePanels(text ? 'errors' : undefined)}
             className={css(
               styles.statusText,
-              text ? (isErrorFatal ? styles.errorTextFatal : styles.errorText) : styles.successText
+              text ? (isErrorFatal ? styles.errorTextFatal : styles.errorText) : styles.successText,
             )}>
             {text ??
               `No errors${

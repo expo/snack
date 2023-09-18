@@ -2,8 +2,8 @@ import { StyleSheet, css } from 'aphrodite';
 import trim from 'lodash/trim';
 import * as React from 'react';
 
-import { Annotation } from '../types';
 import { c, s } from './ThemeProvider';
+import { Annotation } from '../types';
 
 type Props = {
   annotations: Annotation[];

@@ -53,7 +53,7 @@ const fetchAsText = (url: string): Promise<string> => {
     }
 
     throw new Error(
-      `Failed to fetch typings (${response.statusText || response.status}) for: ${url}`
+      `Failed to fetch typings (${response.statusText || response.status}) for: ${url}`,
     );
   });
 
@@ -95,7 +95,7 @@ const getRequireStatements = (title: string, code: string) => {
     code,
     ts.ScriptTarget.Latest,
     true,
-    ts.ScriptKind.TS
+    ts.ScriptKind.TS,
   );
 
   ts.forEachChild(sourceFile, (node: any) => {
@@ -118,7 +118,7 @@ const getRequireStatements = (title: string, code: string) => {
 const getFileMetaData = (
   dependency: string,
   version: string,
-  depPath: string
+  depPath: string,
 ): Promise<FileMetadata> =>
   fetchAsText(`https://data.jsdelivr.com/v1/package/npm/${dependency}@${version}/flat`)
     .then((response: string) => JSON.parse(response))
@@ -157,7 +157,7 @@ const getFileTypes = (
   dependency: string,
   depPath: string,
   output: FetchOutput,
-  fileMetaData: FileMetadata
+  fileMetaData: FileMetadata,
 ): Promise<any> => {
   const virtualPath = path.join('node_modules', dependency, depPath);
 
@@ -177,11 +177,11 @@ const getFileTypes = (
       getRequireStatements(depPath, content)
         .filter(
           // Don't add global deps
-          (dep) => dep.startsWith('.')
+          (dep) => dep.startsWith('.'),
         )
         .map((relativePath) => path.join(path.dirname(depPath), relativePath))
         .map((relativePath) => resolveAppropiateFile(fileMetaData, relativePath))
-        .map((nextDepPath) => getFileTypes(depUrl, dependency, nextDepPath, output, fileMetaData))
+        .map((nextDepPath) => getFileTypes(depUrl, dependency, nextDepPath, output, fileMetaData)),
     );
   });
 };
@@ -219,15 +219,15 @@ function fetchFromMeta(dependency: string, version: string, output: FetchOutput)
       return Promise.all(
         declarations.map((file) =>
           fetchAsText(`${ROOT_URL}npm/${dependency}@${version}${file}`).then(
-            (content: string): [string, string] => [`node_modules/${dependency}${file}`, content]
-          )
-        )
+            (content: string): [string, string] => [`node_modules/${dependency}${file}`, content],
+          ),
+        ),
       ).then((items: [string, string][]) => {
         items.forEach(([key, value]) => {
           output.paths[key] = value;
         });
       });
-    }
+    },
   );
 }
 
@@ -249,7 +249,7 @@ function fetchFromTypings(dependency: string, version: string, output: FetchOutp
         return getFileMetaData(
           dependency,
           resolvedVersion,
-          path.join('/', path.dirname(types))
+          path.join('/', path.dirname(types)),
         ).then((fileMetaData: FileMetadata) => {
           const resolvedDepUrl = `${ROOT_URL}npm/${dependency}@${resolvedVersion}`;
           return getFileTypes(
@@ -257,7 +257,7 @@ function fetchFromTypings(dependency: string, version: string, output: FetchOutp
             dependency,
             resolveAppropiateFile(fileMetaData, types),
             output,
-            fileMetaData
+            fileMetaData,
           );
         });
       }
@@ -355,6 +355,6 @@ Falling back to "declare module '${name}';".
       if (process.env.NODE_ENV !== 'production') {
         console.error(error);
       }
-    }
+    },
   );
 });

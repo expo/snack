@@ -13,6 +13,9 @@ import { StaticRouter } from 'react-router-dom';
 import { standardizeDependencies } from 'snack-sdk';
 import { URL } from 'url';
 
+import * as EmbeddedSnackScript from './EmbeddedSnackScript';
+import Document from './pages/Document';
+import getSplitTests from './utils/getSplitTests';
 import { getAuthStorageKey } from '../client/auth/config';
 import PreferencesProvider from '../client/components/Preferences/PreferencesProvider';
 import ClientRouter from '../client/components/Router';
@@ -23,14 +26,11 @@ import type { RouterData, SnackDefaults, QueryParams } from '../client/types';
 import { getSnackWebsiteURL } from '../client/utils/getWebsiteURL';
 import { getSnackName } from '../client/utils/projectNames';
 import { redirectToDevDomain } from '../expo-dev-migration';
-import * as EmbeddedSnackScript from './EmbeddedSnackScript';
-import Document from './pages/Document';
-import getSplitTests from './utils/getSplitTests';
 
 // + and - are used as delimiters in the uri, ensure they do not appear in the channel itself
 const createChannel = customAlphabet(
   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!_',
-  10
+  10,
 );
 
 const render = async (ctx: Context) => {
@@ -65,7 +65,7 @@ const render = async (ctx: Context) => {
             'Snack-Api-Version': '3.0.0',
             ...(expoSession ? { 'expo-session': decodeURIComponent(expoSession) } : {}),
           },
-        }
+        },
       );
 
       const text = await response.text();
@@ -152,10 +152,10 @@ const render = async (ctx: Context) => {
                   </ThemeProvider>
                 </PreferencesProvider>
               </Provider>
-            </>
+            </>,
           );
         })}
-      />
+      />,
     );
 
   if (context.url) {
@@ -209,18 +209,18 @@ export default function routes() {
     const baseURL = nullthrows(
       isRedirect && (process.env.NODE_ENV === 'production' || process.env.SNACK_WEBPLAYER_CDN)
         ? process.env.SNACK_WEBPLAYER_CDN
-        : process.env.SNACK_WEBPLAYER_URL
+        : process.env.SNACK_WEBPLAYER_URL,
     );
     const isLocalhost =
       ctx.params.version === 'localhost' && process.env.NODE_ENV === 'development';
     const url = new URL(
-      isLocalhost ? 'http://localhost:19006' : `${baseURL}/${ctx.params.version}`
+      isLocalhost ? 'http://localhost:19006' : `${baseURL}/${ctx.params.version}`,
     );
     url.pathname =
       url.pathname +
       ctx.request.path.replace(
         isLocalhost ? /^\/web-player\/localhost/ : /^\/web-player\/[0-9]+/,
-        ''
+        '',
       );
     url.search = ctx.request.search;
 

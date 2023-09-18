@@ -24,7 +24,7 @@ export default class CollapsibleObject extends React.Component<Props, State> {
           ? null
           : typeof value === 'string'
           ? styles.string
-          : styles.value
+          : styles.value,
       )}>
       {typeof value === 'object' && value !== null
         ? Array.isArray(value)

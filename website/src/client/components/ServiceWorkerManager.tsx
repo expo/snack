@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
-import { reload } from '../utils/reloadURL';
 import ThemeProvider from './ThemeProvider';
 import Banner from './shared/Banner';
+import { reload } from '../utils/reloadURL';
 
 type State = {
   banner: boolean;

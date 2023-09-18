@@ -28,7 +28,7 @@ export default function FileListPane({
           <svg
             className={css(
               styles.collapse,
-              expanded ? styles.collapseExpanded : styles.collapseCollapsed
+              expanded ? styles.collapseExpanded : styles.collapseCollapsed,
             )}
             width="12px"
             height="12px"

@@ -110,7 +110,7 @@ export default class ResizablePane extends React.PureComponent<Props, State> {
                 : styles.horizontalNormal
               : inverted
               ? styles.verticalInverted
-              : styles.verticalNormal
+              : styles.verticalNormal,
           )}
           onMouseDown={this._handleMouseDown}
           onMouseUp={this._handleMouseUp}

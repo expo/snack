@@ -4,7 +4,7 @@ import { FileSystemEntry } from '../types';
 export default function recursivelyCreateParents(
   entries: FileSystemEntry[],
   path: string,
-  expand?: boolean
+  expand?: boolean,
 ): FileSystemEntry[] {
   const next: FileSystemEntry[] = [];
 

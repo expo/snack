@@ -25,7 +25,7 @@ function IconButton({ title, label, responsive, children, small, ...rest }: Prop
           className={css(
             styles.label,
             !children && styles.labelNoIcon,
-            responsive && styles.responsive
+            responsive && styles.responsive,
           )}>
           {label}
         </span>

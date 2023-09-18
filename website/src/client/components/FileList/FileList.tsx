@@ -3,22 +3,6 @@ import pickBy from 'lodash/pickBy';
 import * as React from 'react';
 import { isModulePreloaded } from 'snack-sdk';
 
-import eslintrc from '../../configs/eslint.json';
-import { SDKVersion, SaveStatus, SnackFiles, SnackFile, Annotation } from '../../types';
-import {
-  isPackageJson,
-  getUniquePath,
-  isInsideFolder,
-  isESLintConfig,
-} from '../../utils/fileUtilities';
-import type { EditorModal } from '../EditorViewProps';
-import ImportExportMenu from '../Import/ImportExportMenu';
-import ImportFilesManager from '../Import/ImportFilesManager';
-import withThemeName, { ThemeName } from '../Preferences/withThemeName';
-import SidebarShell from '../Shell/SidebarShell';
-import { c } from '../ThemeProvider';
-import ResizablePane from '../shared/ResizablePane';
-import Toast from '../shared/Toast';
 import FileListChildren from './FileListChildren';
 import FileListEntryDropTarget from './FileListEntryDropTarget';
 import FileListOpenEntry from './FileListOpenEntry';
@@ -35,6 +19,22 @@ import selectEntry from './actions/selectEntry';
 import updateEntry from './actions/updateEntry';
 import { FileSystemEntry, TextFileEntry, AssetFileEntry } from './types';
 import { filesToEntries, findFocusedEntry } from './utils/convertFileStructure';
+import eslintrc from '../../configs/eslint.json';
+import { SDKVersion, SaveStatus, SnackFiles, SnackFile, Annotation } from '../../types';
+import {
+  isPackageJson,
+  getUniquePath,
+  isInsideFolder,
+  isESLintConfig,
+} from '../../utils/fileUtilities';
+import type { EditorModal } from '../EditorViewProps';
+import ImportExportMenu from '../Import/ImportExportMenu';
+import ImportFilesManager from '../Import/ImportFilesManager';
+import withThemeName, { ThemeName } from '../Preferences/withThemeName';
+import SidebarShell from '../Shell/SidebarShell';
+import { c } from '../ThemeProvider';
+import ResizablePane from '../shared/ResizablePane';
+import Toast from '../shared/Toast';
 
 type Props = {
   visible: boolean;
@@ -164,7 +164,7 @@ class FileList extends React.PureComponent<Props, State> {
           .forEach((renamedFile) => {
             this.props.onRenameFile(
               renamedFile.item.path,
-              `${newPath}${renamedFile.item.path.substring(oldPath.length)}`
+              `${newPath}${renamedFile.item.path.substring(oldPath.length)}`,
             );
           });
       } else {
@@ -183,10 +183,10 @@ class FileList extends React.PureComponent<Props, State> {
           item: {
             path: getUniquePath(
               this.state.entries.map((it) => it.item.path),
-              e.item.path
+              e.item.path,
             ),
           },
-        })
+        }),
       ),
     ]);
 
@@ -217,7 +217,7 @@ class FileList extends React.PureComponent<Props, State> {
           }
         }
         return !remove;
-      })
+      }),
     );
 
     this.setState((state) => ({
@@ -264,16 +264,16 @@ class FileList extends React.PureComponent<Props, State> {
 
                           return acc;
                         },
-                        {}
+                        {},
                       ),
                     },
                   },
                   null,
-                  2
+                  2,
                 ),
               },
             } as TextFileEntry;
-          } catch (err) {
+          } catch {
             // Do nothing
           }
         }
@@ -287,7 +287,7 @@ class FileList extends React.PureComponent<Props, State> {
         // Cleanup the config file to remove unsupported plugins and rules
         if (content.plugins) {
           content.plugins = content.plugins.filter((name: string) =>
-            eslintrc.plugins.includes(name)
+            eslintrc.plugins.includes(name),
           );
 
           if (!content.plugins.length) {
@@ -324,9 +324,9 @@ class FileList extends React.PureComponent<Props, State> {
             item: {
               content: JSON.stringify(content, null, 2),
             },
-          })
+          }),
         );
-      } catch (e) {
+      } catch {
         // Ignore errors
         entries = this.state.entries;
       }
@@ -339,10 +339,10 @@ class FileList extends React.PureComponent<Props, State> {
           item: {
             path: getUniquePath(
               entries.map((e) => e.item.path),
-              entry.item.path
+              entry.item.path,
             ),
           },
-        })
+        }),
       );
     }
 
@@ -369,7 +369,7 @@ class FileList extends React.PureComponent<Props, State> {
   _handleCreateFile = (path?: string | undefined) => {
     let entries = createNewEntry(this.state.entries, 'file', path);
     const newEntry = entries.find(
-      (e) => !this.state.entries.find((e2) => e2.item.path === e.item.path)
+      (e) => !this.state.entries.find((e2) => e2.item.path === e.item.path),
     );
     entries = newEntry ? openEntry(entries, newEntry.item.path, true) : entries;
     this.updateEntries(entries);
@@ -392,7 +392,7 @@ class FileList extends React.PureComponent<Props, State> {
               <SidebarShell>
                 <FileListPane
                   className={css(
-                    this.state.projectPane ? styles.openFilesSmall : styles.openFilesLarge
+                    this.state.projectPane ? styles.openFilesSmall : styles.openFilesLarge,
                   )}
                   title="Open files"
                   expanded={this.state.openFilesPane}

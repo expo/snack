@@ -1,8 +1,8 @@
 import customProtocolCheck from 'custom-protocol-check';
 import { useCallback, useEffect, useState } from 'react';
 
-import { Experiment, UserData } from '../auth/authManager';
 import { isMacOS } from './detectPlatform';
+import { Experiment, UserData } from '../auth/authManager';
 
 const ORBIT_SERVER_PORTS = [35783, 47909, 44171, 50799];
 
@@ -33,7 +33,7 @@ interface LocalServerRoutes extends BaseServerRoutes {
 
 async function fetchLocalOrbitServer<T extends keyof LocalServerRoutes>(
   route: T,
-  searchParams: LocalServerRoutes[T]['searchParams'] = {}
+  searchParams: LocalServerRoutes[T]['searchParams'] = {},
 ): Promise<LocalServerRoutes[T]['response'] | undefined> {
   let path = `orbit/${route}`;
   if (searchParams) {
@@ -83,7 +83,7 @@ export function useOrbit({ experiments }: UseOrbitParams = {}) {
 
       customProtocolCheck(experienceURL.replace('exp://', 'expo-orbit://'), onFail);
     },
-    [isRunning]
+    [isRunning],
   );
 
   useEffect(() => {

@@ -54,7 +54,7 @@ export default function Spinner({
         y2={innerRadius + segmentLength}
         style={{ opacity }}
         transform={`rotate(${rotation})`}
-      />
+      />,
     );
   }
 

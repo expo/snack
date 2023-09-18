@@ -30,7 +30,7 @@ export default class LazyLoad<T> extends React.Component<Props<T>, State<T>> {
 
   render() {
     return this.props.children(
-      this.state.data ? { loaded: true, data: this.state.data } : { loaded: false, data: null }
+      this.state.data ? { loaded: true, data: this.state.data } : { loaded: false, data: null },
     );
   }
 }

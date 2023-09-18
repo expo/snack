@@ -2,7 +2,7 @@ import { FileSystemEntry } from '../types';
 
 export default function updateEntry<T extends FileSystemEntry>(
   entry: T,
-  updates: { item?: Partial<T['item']>; state?: Partial<T['state']> }
+  updates: { item?: Partial<T['item']>; state?: Partial<T['state']> },
 ): T {
   return {
     ...(entry as any),

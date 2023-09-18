@@ -2,8 +2,8 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
-import { c } from '../ThemeProvider';
 import ModalSheet, { ModalSheetProps } from './ModalSheet';
+import { c } from '../ThemeProvider';
 
 type Props = ModalSheetProps & {
   title?: string;
