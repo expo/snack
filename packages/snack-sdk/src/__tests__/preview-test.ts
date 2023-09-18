@@ -1,7 +1,7 @@
 import '../__mocks__/fetch';
+import Snack from './snack-sdk';
 import { ProtocolStatusMessage } from '../transports/Protocol';
 import Transport from '../transports/__mocks__/TestTransport';
-import Snack from './snack-sdk';
 
 jest.mock('../transports');
 

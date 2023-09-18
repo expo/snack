@@ -64,7 +64,7 @@ export function snackRequireContextVirtualModuleBabelPlugin({
           if (contextModule) {
             path.parentPath.replaceWith(
               // @ts-expect-error Somehow typescript doesnt like this
-              createRequireStatement(contextModule)
+              createRequireStatement(contextModule),
             );
           }
         }
@@ -76,7 +76,7 @@ export function snackRequireContextVirtualModuleBabelPlugin({
 function getStringValue(
   types: typeof BabelCore.types,
   envars: Record<string, string>,
-  node?: CallExpression['arguments'][0]
+  node?: CallExpression['arguments'][0],
 ) {
   if (types.isStringLiteral(node)) return node.value;
   return getEnvironmentValue(types, envars, node);
@@ -85,7 +85,7 @@ function getStringValue(
 function getBooleanValue(
   types: typeof BabelCore.types,
   _envars: Record<string, string>,
-  node?: CallExpression['arguments'][0]
+  node?: CallExpression['arguments'][0],
 ) {
   if (types.isBooleanLiteral(node)) return node.value;
   return undefined;
@@ -94,7 +94,7 @@ function getBooleanValue(
 function getRegexValue(
   types: typeof BabelCore.types,
   _envars: Record<string, string>,
-  node?: CallExpression['arguments'][0]
+  node?: CallExpression['arguments'][0],
 ) {
   if (types.isRegExpLiteral(node)) return node.pattern;
   return undefined;
@@ -107,7 +107,7 @@ function getRegexValue(
 function getEnvironmentValue(
   types: typeof BabelCore.types,
   envars: Record<string, string>,
-  node?: CallExpression['arguments'][0]
+  node?: CallExpression['arguments'][0],
 ) {
   if (
     types.isMemberExpression(node) &&

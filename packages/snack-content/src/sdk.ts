@@ -10,7 +10,7 @@ import { SDKVersion, SDKFeature, SnackDependencies, SnackDependencyVersions } fr
 export function isModulePreloaded(
   name: string,
   sdkVersion: SDKVersion,
-  coreModulesOnly?: boolean
+  coreModulesOnly?: boolean,
 ): boolean {
   const sdk = sdks[sdkVersion];
   if (!sdk) return false;
@@ -22,7 +22,7 @@ export function isModulePreloaded(
  */
 export function getPreloadedModules(
   sdkVersion: SDKVersion,
-  coreModulesOnly?: boolean
+  coreModulesOnly?: boolean,
 ): { [name: string]: string } {
   const sdk = sdks[sdkVersion];
   if (!sdk) return {};
@@ -37,7 +37,7 @@ export function getPreloadedModules(
 export function validateSDKVersion(sdkVersion: SDKVersion): SDKVersion {
   if (Object.keys(sdks).indexOf(sdkVersion) < 0) {
     throw new Error(
-      `Invalid SDKVersion, the following versions are supported: ${Object.keys(sdks)}`
+      `Invalid SDKVersion, the following versions are supported: ${Object.keys(sdks)}`,
     );
   }
   return sdkVersion;
@@ -73,7 +73,7 @@ export function isFeatureSupported(feature: SDKFeature, sdkVersion: string): boo
   const featureVersion = features[feature];
   if (!featureVersion) {
     throw new Error(
-      `Invalid SDKFeature, the following versions are supported: ${Object.keys(features)}`
+      `Invalid SDKFeature, the following versions are supported: ${Object.keys(features)}`,
     );
   }
   return semver.gte(sdkVersion, featureVersion);

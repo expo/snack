@@ -7,7 +7,7 @@ import { fetch } from './utils';
 export type WantedDependencyVersionsCallback = (
   sdkVersion: SDKVersion,
   result?: SnackDependencyVersions,
-  error?: SnackError
+  error?: SnackError,
 ) => any;
 
 interface WantedDependencyVersionsOptions {

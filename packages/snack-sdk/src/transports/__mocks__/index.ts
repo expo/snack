@@ -1,5 +1,5 @@
-import { SnackTransport, SnackTransportOptions } from '../index';
 import TestTransport from './TestTransport';
+import { SnackTransport, SnackTransportOptions } from '../index';
 
 export function createTransport(options: SnackTransportOptions): SnackTransport {
   const result = new TestTransport(options);

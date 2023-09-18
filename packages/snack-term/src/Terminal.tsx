@@ -38,7 +38,7 @@ export default function SnackTerminal(props: Props) {
         .filter((line) => line.length)
         .map((line) => ({ message: line, color }));
       setLogs((logs) =>
-        [...logs, ...newLogs].slice(Math.max(logs.length + newLogs.length - maxLogCount, 0))
+        [...logs, ...newLogs].slice(Math.max(logs.length + newLogs.length - maxLogCount, 0)),
       );
     }
     const onStdout = (buffer: any) => onData(buffer);
@@ -85,7 +85,7 @@ export default function SnackTerminal(props: Props) {
           {cwd}
         </Text>
         <Text color={exitCode != null ? 'gray' : 'green'} dimColor>{` (${command} ${args?.join(
-          ' '
+          ' ',
         )})`}</Text>
       </Box>
       <Box

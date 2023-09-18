@@ -1,9 +1,9 @@
 import type { Server } from 'http';
 
-import { defaultConfig } from '..';
 import createSnackager from './snackager';
 import createVersions from './versions';
 import createWww from './www';
+import { defaultConfig } from '..';
 
 // console.log(defaultConfig.apiURL);
 

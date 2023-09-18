@@ -8,10 +8,10 @@ import {
 } from 'snack-content';
 import { UAParser } from 'ua-parser-js';
 
+import { ProtocolCodeMessage, ProtocolCodeMessageDependencies } from './Protocol';
 import FileUploader, { FileUploaderCallback } from '../FileUploader';
 import { Logger } from '../Logger';
 import { SnackIdentityState } from '../defaultConfig';
-import { ProtocolCodeMessage, ProtocolCodeMessageDependencies } from './Protocol';
 
 export type SnackCode = {
   files: SnackFiles;
@@ -137,7 +137,7 @@ export default class CodeMessageBuilder {
   private createCodeMessage(
     code: SnackCode,
     prevCodeMessage?: ProtocolCodeMessage,
-    prevCode?: SnackCode
+    prevCode?: SnackCode,
   ): ProtocolCodeMessage {
     const { files, dependencies, sdkVersion } = code;
 

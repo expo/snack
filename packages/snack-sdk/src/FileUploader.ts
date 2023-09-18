@@ -12,7 +12,7 @@ export type FileUploaderRequest = {
 export type FileUploaderCallback = (
   request: FileUploaderRequest,
   resultURL?: string,
-  error?: SnackError
+  error?: SnackError,
 ) => any;
 
 export default class FileUploader {
@@ -94,7 +94,7 @@ export default class FileUploader {
             // TODO: Add support for uploading files using ArrayBuffer in body to the /snack/uploadAsset end-point
             // That way it's no longer neccessary to polyfill FormData is environments such as node.
             throw new Error(
-              'Uploading assets is not supported in this environment. Make sure FormData is polyfilled or provide the data as a FormData object'
+              'Uploading assets is not supported in this environment. Make sure FormData is polyfilled or provide the data as a FormData object',
             );
           }
           break;

@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import '../__mocks__/fetch';
-import Window, { postMessage } from '../__mocks__/window';
 import Snack from './snack-sdk';
+import Window, { postMessage } from '../__mocks__/window';
 
 const device = {
   id: '1234567890',
@@ -104,7 +104,7 @@ describe('webpreview', () => {
     postMessage(JSON.stringify({ type: 'CONNECT', device }), origin);
     postMessage(
       JSON.stringify({ type: 'MESSAGE', message: { type: 'RESEND_CODE', device } }),
-      origin
+      origin,
     );
     // Snack-sdk sends CODE in response
     expect(contentWindow.postMessage).toHaveBeenCalled();

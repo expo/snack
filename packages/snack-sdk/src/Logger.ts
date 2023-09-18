@@ -15,7 +15,7 @@ function logFn(isEnabled: boolean, type: string, color: string, textColor?: stri
       console.log(
         `%c ${type.toUpperCase()} `,
         `background: ${color}; color: ${textColor ?? '#fff'}`,
-        ...messages
+        ...messages,
       );
     }
   };

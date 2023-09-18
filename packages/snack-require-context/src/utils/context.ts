@@ -39,7 +39,7 @@ export function pathIsVirtualModule(modulePath: string) {
  */
 export function createVirtualModulePath(
   request: Omit<Partial<SnackRequireContextRequest>, 'directory'> &
-    Pick<SnackRequireContextRequest, 'directory'>
+    Pick<SnackRequireContextRequest, 'directory'>,
 ) {
   const contextHash = JSON.stringify({
     r: request.isRecursive ?? true,
@@ -90,7 +90,7 @@ export function resolveContextFiles(request: SnackRequireContextRequest, files: 
   return Object.fromEntries(
     contextFiles
       .map((snackPath) => [`./${snackPath.replace(relativePathReplace, '')}`, snackPath])
-      .filter(([relativePath]) => request.matching.test(relativePath))
+      .filter(([relativePath]) => request.matching.test(relativePath)),
   ) as Record<string, string>;
 }
 

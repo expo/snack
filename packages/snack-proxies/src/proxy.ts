@@ -26,8 +26,8 @@ export async function createProxy(config: {
         chalk.green(
           `Detected change in local "${name}" service, now proxying to -> ${
             useLocalhost ? localURL : stagingURL
-          }`
-        )
+          }`,
+        ),
       );
     }
   }, 1000);
@@ -41,7 +41,7 @@ export async function createProxy(config: {
         const path = url.parse(ctx.url).path!;
         return localPathResolver ? localPathResolver(ctx, path) : path!;
       },
-    })
+    }),
   );
   app.use(
     proxy(stagingURL, {
@@ -50,7 +50,7 @@ export async function createProxy(config: {
         console.log(chalk.yellow(`${ctx.request.method} ${ctx.url} (staging)`));
         return url.parse(ctx.url).path!;
       },
-    })
+    }),
   );
 
   const server = app.listen(port);
@@ -58,8 +58,8 @@ export async function createProxy(config: {
     chalk.green(
       `Listening for "${name}" connections on port ${port}, proxying to -> ${
         useLocalhost ? localURL : stagingURL
-      }`
-    )
+      }`,
+    ),
   );
 
   return server;

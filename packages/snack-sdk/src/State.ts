@@ -10,7 +10,7 @@ export type StateObject<T> = {
 export function addObjects<T>(
   state: StateObject<T>,
   content: { [key: string]: T },
-  filter?: (a: T, b: T) => boolean
+  filter?: (a: T, b: T) => boolean,
 ): StateObject<T> {
   let newState: StateObject<T> | null = null;
   for (const key in content) {
@@ -26,7 +26,7 @@ export function addObject<T>(
   state: StateObject<T>,
   key: string,
   content: T,
-  filter?: (a: T, b: T) => boolean
+  filter?: (a: T, b: T) => boolean,
 ): StateObject<T> {
   return addObjects(state, { [key]: content }, filter);
 }
@@ -50,7 +50,7 @@ export function removeObject<T>(state: StateObject<T>, key: string): StateObject
 export function updateObjects<T>(
   state: StateObject<T>,
   content: { [key: string]: T | null },
-  compareFn: (a: T, b: T) => boolean = isEqual
+  compareFn: (a: T, b: T) => boolean = isEqual,
 ): StateObject<T> {
   let newState: StateObject<T> | null = null;
   for (const key in content) {
@@ -71,10 +71,10 @@ export function updateObjects<T>(
 export function isBusy(state: SnackState): boolean {
   return (
     !!Object.keys(state.dependencies).find(
-      (name) => !state.dependencies[name].handle && !isModulePreloaded(name, state.sdkVersion)
+      (name) => !state.dependencies[name].handle && !isModulePreloaded(name, state.sdkVersion),
     ) ||
     !!Object.values(state.files).find(
-      (file) => file.type === 'ASSET' && typeof file.contents !== 'string'
+      (file) => file.type === 'ASSET' && typeof file.contents !== 'string',
     )
   );
 }
