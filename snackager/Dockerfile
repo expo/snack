@@ -1,67 +1,67 @@
 ARG node_version
 
-FROM node:${node_version}-alpine as dev
-
-RUN apk --no-cache add git openssh-client
-
-# Workspace files
+# --- Scoper - Remove unused workspaces for Snackager
+FROM node:${node_version}-alpine as scoper
 WORKDIR /app
-COPY package.json yarn.lock .prettierrc ./
 
-# Workspace packages
+# Copy repository
+COPY . .
+# Prune repository and remove unused workspaces
+RUN apk --no-cache add jq && \
+  yarn global add turbo@$(jq --raw-output '.devDependencies.turbo' package.json) && \
+  turbo prune --docker --scope=snack-modules-packager
+
+
+# --- Development - Prepare Snackager for development
+FROM node:${node_version}-alpine as development
 WORKDIR /app
-COPY packages ./packages
 
-# Snackager
-WORKDIR /app/snackager
-COPY snackager/jest ./jest
-COPY snackager/src ./src
-COPY snackager/structure-tests ./structure-tests
-COPY snackager/package.json ./
-COPY snackager/.env-cmdrc.js ./
-COPY snackager/tsconfig*.json ./
-COPY snackager/.eslint* ./
-
+# Copy "package.json"-only repository
+COPY --from=scoper /app/out/json .
+COPY --from=scoper /app/out/yarn.lock .
 # Install dependencies
-RUN yarn install --frozen-lockfile --production=false
+RUN yarn install --frozen-lockfile
 
-# Build core packages
-WORKDIR /app
-RUN yarn build
+# Copy "scoped" repository
+COPY --from=scoper /app/out/full .
+# Build Snackager dependencies
+RUN yarn turbo build --filter "{./snackager}^..."
 
-# Snackager
+# Setup Snackager for development
 WORKDIR /app/snackager
-
 CMD ["yarn", "start"]
 
-FROM dev as builder
 
+# --- Deploy - Prepare Snackager for production
+FROM node:${node_version}-alpine as deploy
+WORKDIR /app
+
+# Install system dependencies
+RUN apk --no-cache add git openssh-client && \
+  npm install --global npm@^6
+
+# Prepare environment variables
 ARG APP_VERSION
 ENV APP_VERSION ${APP_VERSION}
 
-# Build Snackager
-RUN yarn build
+# Copy built repository
+COPY --from=development /app .
+# Ensure Snackager is build, has dependencies, and remove unnecessary dependencies from workspaces
+RUN yarn turbo build --filter "{./snackager}..." && \
+  yarn install --frozen-lockfile --production
 
-# Minimize node_modules
-RUN yarn install --frozen-lockfile --offline --production
 
-# Build minimized production image
+# --- Production - Run Snackager in production
 FROM node:${node_version}-alpine
+WORKDIR /app
 
+# Prepare environment variables
 ARG APP_VERSION
 ENV APP_VERSION ${APP_VERSION}
 
-RUN apk --no-cache add git openssh-client
-RUN npm install --global npm@^6
+# Copy deployment-ready repository
+COPY --from=deploy /app .
 
-# Prepare Snackager
-COPY --from=builder /app/snackager/package.json ./
-COPY --from=builder /app/node_modules node_modules
-COPY --from=builder /app/snackager/build build
-# Prepare Snackager dependencies
-COPY --from=builder /app/packages/snack-content node_modules/snack-content
-COPY --from=builder /app/packages/snack-require-context node_modules/snack-require-context
-COPY --from=builder /app/packages/snack-sdk node_modules/snack-sdk
-
-# Start
+# Setup Snackager for production
+WORKDIR /app/snackager
 CMD ["node", "--max-old-space-size=8192", "--async-stack-traces", "."]

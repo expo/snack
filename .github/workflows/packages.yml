@@ -13,6 +13,7 @@ on:
       - .eslint*
       - .prettier*
       - yarn.lock
+      - turbo.json
   push:
     branches: [main]
     paths:
@@ -21,6 +22,7 @@ on:
       - .eslint*
       - .prettier*
       - yarn.lock
+      - turbo.json
 
 jobs:
   review:
@@ -39,11 +41,11 @@ jobs:
           - snack-term
         include:
           - package: snack-babel-standalone
-            local-install: true
+            monorepo-detached: true
           - package: snack-eslint-standalone
-            local-install: true
+            monorepo-detached: true
           - package: snack-runtime
-            local-install: true
+            monorepo-detached: true
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -57,14 +59,16 @@ jobs:
       - name: 📦 Install monorepo dependencies
         run: yarn install --frozen-lockfile
 
+      # When coupled within the monorepo, make sure to build all packages related to the tested one
+      - name: 🛠 Build dependencies
+        if: ${{ !matrix.monorepo-detached }}
+        run: yarn turbo build --filter "{./packages/${{ matrix.package }}}^..."
+
       # When decoupled from the monorepo, make sure to install the local packages
       - name: 📦 Install local dependencies
-        if: ${{ matrix.local-install }}
+        if: ${{ matrix.monorepo-detached }}
         run: yarn install --frozen-lockfile
         working-directory: packages/${{ matrix.package }}
-
-      - name: 🛠 Build core packages
-        run: yarn build
 
       - name: 🚨 Lint package
         run: yarn lint --max-warnings 0

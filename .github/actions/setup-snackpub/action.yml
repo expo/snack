@@ -19,3 +19,7 @@ runs:
     - name: 📦 Install dependencies
       run: yarn install --frozen-lockfile --ignore-scripts
       shell: bash
+
+    - name: 🛠 Build dependencies
+      run: yarn turbo build --filter '{./snackpub}^...'
+      shell: bash
