@@ -25,7 +25,7 @@ it('stores new s3 website redirect', async () => {
       Bucket: 'bucket',
       Key: 'from',
       WebsiteRedirectLocation: '/to',
-    })
+    }),
   );
 });
 

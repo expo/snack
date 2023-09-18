@@ -24,7 +24,7 @@ describe('clone', () => {
     expect(spawnAsync).toBeCalledWith(
       'git',
       expect.arrayContaining(['clone', repository, directory, '--single-branch']),
-      expect.objectContaining({ env: expect.any(Object) }) // important for git authentication
+      expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
     );
   });
 
@@ -33,7 +33,7 @@ describe('clone', () => {
     expect(spawnAsync).toBeCalledWith(
       'git',
       expect.arrayContaining(['clone', repository, directory, '--branch', 'main']),
-      expect.objectContaining({ env: expect.any(Object) }) // important for git authentication
+      expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
     );
   });
 
@@ -42,7 +42,7 @@ describe('clone', () => {
     expect(spawnAsync).toBeCalledWith(
       'git',
       expect.arrayContaining(['checkout', hash]),
-      expect.objectContaining({ cwd }) // important for pointing to proper repo
+      expect.objectContaining({ cwd }), // important for pointing to proper repo
     );
   });
 
@@ -68,7 +68,7 @@ describe('getLatestHash', () => {
     expect(spawnAsync).toBeCalledWith(
       'git',
       expect.arrayContaining(['ls-remote', repository, 'HEAD']),
-      expect.objectContaining({ env: expect.any(Object) }) // important for git authentication
+      expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
     );
   });
 
@@ -78,7 +78,7 @@ describe('getLatestHash', () => {
     expect(spawnAsync).toBeCalledWith(
       'git',
       expect.arrayContaining(['ls-remote', repository, 'feature-a']),
-      expect.objectContaining({ env: expect.any(Object) }) // important for git authentication
+      expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
     );
   });
 });
@@ -92,7 +92,7 @@ describe('getLatestCommitDate', () => {
     expect(spawnAsync).toBeCalledWith(
       'git',
       expect.arrayContaining(['log', '-1']),
-      expect.objectContaining({ cwd })
+      expect.objectContaining({ cwd }),
     );
   });
 });

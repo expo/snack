@@ -14,7 +14,7 @@ export async function getCachedObj(filename: string): Promise<GitSnackObj | unde
         Key: filename,
       })
       .promise();
-  } catch (e) {
+  } catch {
     return;
   }
   if (!s3Response.Body) {
@@ -48,7 +48,7 @@ export async function removeFromCache(filename: string): Promise<void> {
         Key: filename,
       })
       .promise();
-  } catch (e) {
+  } catch {
     // Ignore error
   }
 }

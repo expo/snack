@@ -26,7 +26,7 @@ it('uploads new file to s3', async () => {
       Body: testBody,
       Bucket: 'bucket',
       Key: 'my-file',
-    })
+    }),
   );
 });
 

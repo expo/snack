@@ -20,6 +20,6 @@ it('factory creates secure redis instance with tls ca and options', () => {
     'rediss://127.0.0.1:6379',
     expect.objectContaining({
       custom: 'option',
-    })
+    }),
   );
 });

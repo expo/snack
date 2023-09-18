@@ -15,7 +15,7 @@ class LogStream {
     // prepend the package name & version to the message
     if (msg === 'request finish') {
       msg = `--> ${record.req.method} ${record.req.url} ${record.res.statusCode} ${Math.round(
-        record.duration
+        record.duration,
       )}ms`;
       if (level <= bunyan.INFO && record.res.statusCode >= 400) {
         level = bunyan.ERROR;

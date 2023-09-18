@@ -65,7 +65,7 @@ export default class AssetResolver {
                     ? '@1x'
                     : Object.keys(map).sort(
                         (a, b) =>
-                          Number(a.replace(/[^\d.]/g, '')) - Number(b.replace(/[^\d.]/g, ''))
+                          Number(a.replace(/[^\d.]/g, '')) - Number(b.replace(/[^\d.]/g, '')),
                       )[0];
                   resolved = map[key]?.name
                     ? path.resolve(path.dirname(requestPath), map[key].name)
@@ -83,18 +83,18 @@ export default class AssetResolver {
                 } else {
                   callback();
                 }
-              }
+              },
             );
           } else {
             callback();
           }
-        }
+        },
       );
   }
 
   static collect = (
     list: string[],
-    { name, type, platform }: { name: string; type: string; platform: string }
+    { name, type, platform }: { name: string; type: string; platform: string },
   ): CollectedAssets => {
     const suffix = `(\\.(${platform === 'web' ? 'web' : `${platform}|native`}))?\\.${type}$`;
     const regex = /^(bmp|gif|jpg|jpeg|png|psd|tiff|webp|svg)$/.test(type)
