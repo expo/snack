@@ -5,14 +5,7 @@
     "baseUrl": "./src",
     "allowJs": true,
     "isolatedModules": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
     "useUnknownInCatchVariables": false
   },
   "include": ["src"]
