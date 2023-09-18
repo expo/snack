@@ -5,7 +5,7 @@ import { type RedisClientType } from './types';
 
 export async function bindRedisAdapterAsync(
   server: Server,
-  redisClient: RedisClientType
+  redisClient: RedisClientType,
 ): Promise<RedisClientType> {
   const redisSubscriptionClient = redisClient.duplicate();
   await redisSubscriptionClient.connect();
