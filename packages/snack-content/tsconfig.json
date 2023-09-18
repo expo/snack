@@ -1,19 +1,12 @@
 {
+  "extends": "@tsconfig/node18",
 	"compilerOptions":{
+    "lib": ["es2023", "DOM"],
+    "outDir": "./build",
     "declaration": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "inlineSources": true,
-    "lib": ["es2018", "DOM"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "outDir": "./build",
-    "skipLibCheck": true,
     "sourceMap": true,
-    "strict": true,
-    "target": "es2018"
   },
   "include": ["./src"]
 }
