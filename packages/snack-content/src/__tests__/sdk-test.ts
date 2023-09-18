@@ -108,7 +108,7 @@ describe('isFeatureSupported', () => {
   it('throws for invalid feature', () => {
     expect(() =>
       // @ts-expect-error Type '"Bogus"' is not assignable to type 'SDKFeature'
-      isFeatureSupported('Bogus', '38.0.0')
+      isFeatureSupported('Bogus', '38.0.0'),
     ).toThrowError();
   });
 
@@ -125,7 +125,7 @@ describe('getDeprecatedModule', () => {
   // Temporarily disabaled, we don't have deprecated modules for SDK 49.
   xit('returns description for deprecated modules', () => {
     expect(getDeprecatedModule('@react-native-community/async-storage', oldestSdkVersion)).toBe(
-      'Async Storage has moved to new organization: https://github.com/react-native-async-storage/async-storage'
+      'Async Storage has moved to new organization: https://github.com/react-native-async-storage/async-storage',
     );
   });
 });
@@ -135,7 +135,7 @@ describe('standardizeDependencies', () => {
     expect(
       standardizeDependencies({
         dep1: '1.2.3',
-      })
+      }),
     ).toMatchObject({
       dep1: {
         version: '1.2.3',
@@ -154,7 +154,7 @@ describe('standardizeDependencies', () => {
             },
           },
         },
-      })
+      }),
     ).toMatchObject({
       dep1: {
         version: '1.2.3',
