@@ -1,3 +1,4 @@
+// @ts-expect-error Parameter 'specifier' implicitly has an 'any' type.ts(7006)
 function rewriteImports(specifier) {
   // Rewrite invalid "@babel/runtime/helpers/esm/..." imports.
   // Some packages such as `@material-ui/core` incorrectly import helpers from the @babel/runtime
@@ -17,9 +18,11 @@ function rewriteImports(specifier) {
 export default function RewriteImportsPlugin() {
   return {
     visitor: {
+      // @ts-expect-error Parameter 'path' implicitly has an 'any' type.ts(7006)
       'ImportDeclaration|ExportNamedDeclaration'(path) {
         if (path.node.source) rewriteImports(path.node.source);
       },
+      // @ts-expect-error Parameter 'path' implicitly has an 'any' type.ts(7006)
       CallExpression(path) {
         if (path.node.callee.name === 'require') {
           const [specifier] = path.node.arguments;

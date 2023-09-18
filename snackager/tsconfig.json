@@ -1,15 +1,12 @@
 {
   "extends": "@tsconfig/node18",
   "compilerOptions": {
+    "baseUrl": "./src",
     "allowJs": true,
     "noEmit": true,
-    "noImplicitAny": false,
     "isolatedModules": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "useUnknownInCatchVariables": false,
-    "baseUrl": "./"
+    "useUnknownInCatchVariables": false
   },
   "include": ["./src"]
 }

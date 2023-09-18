@@ -40,6 +40,7 @@
     "snack-sdk": "*",
     "source-map-support": "^0.4.15",
     "targz": "^1.0.1",
+    "terser-webpack-plugin": "^5.2.1",
     "validate-npm-package-name": "^3.0.0",
     "webpack": "^5.40.0",
     "yarn": "^1.22.5"
@@ -71,7 +72,7 @@
     "supertest": "^6.1.3",
     "ts-jest": "^26.4.4",
     "ts-node-dev": "^1.1.1",
-    "typescript": "^4.6.3"
+    "typescript": "^5.2.2"
   },
   "scripts": {
     "start": "REDIS_ENVIRONMENT=staging scripts/dev.sh",

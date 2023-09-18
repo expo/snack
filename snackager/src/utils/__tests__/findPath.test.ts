@@ -6,7 +6,7 @@ import findPath from '../findPath';
 
 const tmpDir = path.join(config.tmpdir, '__tests__', 'findPath');
 // TODO: implement memfs for these tests
-const mkdirSync = (...segments): void => {
+const mkdirSync = (...segments: string[]): void => {
   fs.mkdirSync(path.join(...segments), { recursive: true });
 };
 

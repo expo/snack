@@ -241,6 +241,7 @@ async function createRepo(config: {
     if (!fs.existsSync(path.dirname(fullpath))) {
       fs.mkdirSync(path.dirname(fullpath));
     }
+    // @ts-expect-error No index signature with a parameter of type 'string' was found on type '{ 'package.json': string; 'App.js': string; 'app.config.js'?: string | undefined; 'app.json'?: string | undefined; }'. ts(7053)
     fs.writeFileSync(fullpath, String(files[filename]));
   });
 
