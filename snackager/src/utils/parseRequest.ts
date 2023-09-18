@@ -75,7 +75,7 @@ export default function parseRequest(url: string): BundleRequest {
     platforms,
     rebuild: Boolean(
       query?.rebuild === 'true' &&
-        (process.env.DEBUG_LOCAL_FILES || process.env.NODE_ENV === 'development')
+        (process.env.DEBUG_LOCAL_FILES || process.env.NODE_ENV === 'development'),
     ),
     bypassMetadataCache: Boolean(query?.bypassCache === 'true'),
     versionSnackager: Boolean(query?.version_snackager === 'true'),

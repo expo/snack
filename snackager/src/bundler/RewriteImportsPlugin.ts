@@ -10,7 +10,7 @@ function rewriteImports(specifier) {
   ) {
     specifier.value = specifier.value.replace(
       '@babel/runtime/helpers/esm/',
-      '@babel/runtime/helpers/'
+      '@babel/runtime/helpers/',
     );
   }
 }

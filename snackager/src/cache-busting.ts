@@ -22,7 +22,7 @@ const cacheBusting: { version: number; packages: { [name: string]: number } } = 
 
 export default function getCachePrefix(name: string): string {
   const match = Object.keys(cacheBusting.packages).find((spec) =>
-    new RegExp(`^${spec}$`).test(name)
+    new RegExp(`^${spec}$`).test(name),
   );
   const packageVersion = match ? cacheBusting.packages[match] : undefined;
   return `${cacheBusting.version}${packageVersion ? `-${packageVersion}` : ''}`;

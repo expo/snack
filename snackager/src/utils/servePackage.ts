@@ -1,10 +1,10 @@
-import { createRedisClient } from '../external/redis';
-import logger from '../logger';
 import fetchBundle, { BundleResponse } from './fetchBundle';
 import fetchMetadata from './fetchMetadata';
 import findVersion from './findVersion';
 import type { BundleRequest } from './parseRequest';
 import resolveDependencies from './resolveDependencies';
+import { createRedisClient } from '../external/redis';
+import logger from '../logger';
 
 const redisClient = createRedisClient();
 
@@ -30,7 +30,7 @@ export default async function servePackage({
     meta,
     version,
     isLatest,
-    deep
+    deep,
   );
 
   try {

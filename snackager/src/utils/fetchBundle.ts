@@ -2,17 +2,17 @@ import fetch from 'node-fetch';
 import path from 'path';
 import raven from 'raven';
 
-import getCachePrefix from '../cache-busting';
-import config from '../config';
-import { createRedisClient } from '../external/redis';
-import logger from '../logger';
-import { Package } from '../types';
 import addS3Redirect from './addS3Redirect';
 import fetchAndExtract from './fetchAndExtract';
 import findPath from './findPath';
 import installPackage from './installPackage';
 import packageBundle from './packageBundle';
 import uploadFile from './uploadFile';
+import getCachePrefix from '../cache-busting';
+import config from '../config';
+import { createRedisClient } from '../external/redis';
+import logger from '../logger';
+import { Package } from '../types';
 
 // TODO: find the typescript definitions for this package, `@types/sander` doesn't exists
 const { mkdir, rimraf, writeFile, exists } = require('sander');
@@ -89,7 +89,7 @@ export default async function fetchBundle({
         } else {
           resolve(value);
         }
-      })
+      }),
     ));
 
   if (inProgress) {
@@ -130,12 +130,12 @@ export default async function fetchBundle({
         if (await exists(path.join(config.tmpdir, 'output', `${handle}-${platform}/.done`))) {
           logger.info(
             { ...logMetadata, platform },
-            `package is cached locally for platform: ${platform}`
+            `package is cached locally for platform: ${platform}`,
           );
         } else {
           logger.info(
             { ...logMetadata, platform },
-            `is not cached locally for platform: ${platform}`
+            `is not cached locally for platform: ${platform}`,
           );
           unavailable.push(platform);
         }
@@ -151,12 +151,12 @@ export default async function fetchBundle({
         if (response.status !== 200) {
           logger.info(
             { ...logMetadata, platform, status: response.status },
-            `is not cached for platform: ${platform}`
+            `is not cached for platform: ${platform}`,
           );
           unavailable.push(platform);
         }
       }
-    })
+    }),
   );
 
   if (!unavailable.length) {
@@ -171,7 +171,7 @@ export default async function fetchBundle({
 
   logger.info(
     { ...logMetadata, unavailable },
-    `package is not cached for ${unavailable.join(', ')}`
+    `package is not cached for ${unavailable.join(', ')}`,
   );
 
   const dir = `${config.tmpdir}/${buildStatusRedisId}`;
@@ -229,11 +229,11 @@ export default async function fetchBundle({
 
               await mkdir(path.dirname(filename));
               await writeFile(filename, files[platform][file]);
-            })
+            }),
           );
 
           await writeFile(path.join(dir, '.done'), '');
-        })
+        }),
       );
     } else {
       logger.info(logMetadata, 'uploading files');
@@ -248,7 +248,7 @@ export default async function fetchBundle({
                 current: i + 1,
                 total: arr.length,
               },
-              `uploading artifact for platform: ${platform}`
+              `uploading artifact for platform: ${platform}`,
             );
             return uploadFile(`${handle}-${platform}/${file}`, files[platform][file]);
           });
@@ -258,9 +258,9 @@ export default async function fetchBundle({
             promises.push(
               addS3Redirect(
                 `${latestHandle}-${platform}/bundle.js`,
-                `${handle}-${platform}/bundle.js`
+                `${handle}-${platform}/bundle.js`,
               ),
-              addS3Redirect(`${latestHandle}-${platform}/.done`, `${handle}-${platform}/.done`)
+              addS3Redirect(`${latestHandle}-${platform}/.done`, `${handle}-${platform}/.done`),
             );
           }
 
@@ -268,7 +268,7 @@ export default async function fetchBundle({
 
           logger.info(
             { ...logMetadata, platform, hash },
-            `marking platform as complete: ${platform}`
+            `marking platform as complete: ${platform}`,
           );
           await uploadFile(`${handle}-${platform}/.done`, Buffer.alloc(0));
 
@@ -278,9 +278,9 @@ export default async function fetchBundle({
 
           logger.info(
             { ...logMetadata, platform },
-            `finished uploading artifacts for platform: ${platform}`
+            `finished uploading artifacts for platform: ${platform}`,
           );
-        })
+        }),
       );
     }
 
@@ -289,7 +289,7 @@ export default async function fetchBundle({
   } catch (error) {
     logger.error(
       { ...logMetadata, error },
-      `unable to bundle, removing key from redis. error: ${error.message}`
+      `unable to bundle, removing key from redis. error: ${error.message}`,
     );
     // Remove at a delay so we don't keep retrying
     client

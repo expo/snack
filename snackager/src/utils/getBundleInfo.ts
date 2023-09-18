@@ -9,7 +9,7 @@ export type BundleInfo = {
 export default function getBundleInfo(
   filename: string,
   buffer: Buffer,
-  includeCode?: boolean
+  includeCode?: boolean,
 ): BundleInfo {
   if (!filename.endsWith('.js')) {
     return { size: buffer.length };
@@ -17,7 +17,7 @@ export default function getBundleInfo(
   const code: string = buffer.toString();
   return {
     externals: uniq(
-      Array.from(code.matchAll(/require\("([^"]+)"\)/g)).map((match) => match[1])
+      Array.from(code.matchAll(/require\("([^"]+)"\)/g)).map((match) => match[1]),
     ).sort(),
     size: code.length,
     ...(includeCode ? { code } : {}),

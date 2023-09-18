@@ -73,7 +73,7 @@ it('executes yarn install with everything ignored', async () => {
       '--ignore-engines', // Sometimes sub-dependencies will want a specific version of Node. Don't care, try anyway.
       '--non-interactive', // In some cases yarn/npm will show an interactive prompt. Throw an error instead.
     ]),
-    tmpDir
+    tmpDir,
   );
 });
 
@@ -94,6 +94,6 @@ it('retries with NPM when Yarn fails', async () => {
       '--ignore-engines', // Sometimes sub-dependencies will want a specific version of Node. Don't care, try anyway.
       '--non-interactive', // In some cases yarn/npm will show an interactive prompt. Throw an error instead.
     ]),
-    tmpDir
+    tmpDir,
   );
 });

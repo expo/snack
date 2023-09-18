@@ -13,7 +13,7 @@ export async function clone(
   repo: string,
   branch: string | undefined,
   hash: string,
-  dirname: string
+  dirname: string,
 ): Promise<void> {
   try {
     await spawnAsync(
@@ -23,7 +23,7 @@ export async function clone(
         : ['clone', '--single-branch', repo, dirname],
       {
         env: { ...process.env, ...gitEnv },
-      }
+      },
     );
   } catch (e) {
     throw e;
@@ -61,7 +61,7 @@ export async function getLatestHash(repo: string, branch: string): Promise<strin
     throw new Error(
       `Failed to get latest commit hash for ${repo} ${
         branch ? `on branch ${branch} ` : ''
-      }with error: ${e.message}`
+      }with error: ${e.message}`,
     );
   }
 }

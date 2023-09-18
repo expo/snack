@@ -185,7 +185,7 @@ describe('git', () => {
         repo: repoPath,
         branch: 'feature-b',
         noCache: true,
-      })
+      }),
     ).rejects.toEqual(new Error(`Error cloning repo: git exited with non-zero code: 128`));
   });
 });
@@ -230,11 +230,11 @@ async function createRepo(config: {
     'snackager',
     '__integration-tests__',
     'git',
-    name
+    name,
   );
   try {
     await rimraf(workdir);
-  } catch (e) {}
+  } catch {}
   fs.mkdirSync(workdir, { recursive: true });
   Object.keys(files).map((filename) => {
     const fullpath = path.join(workdir, filename);

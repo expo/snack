@@ -36,7 +36,7 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
 
   try {
     info = size(this.resourcePath);
-  } catch (e) {
+  } catch {
     // Asset is not an image
   }
 
@@ -57,7 +57,7 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
       } else {
         resolve(res);
       }
-    })
+    }),
   );
 
   const map = AssetResolver.collect(result, {
@@ -87,9 +87,9 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
               content: res,
             });
           }
-        })
+        }),
       );
-    })
+    }),
   );
 
   pairs.forEach((item) => {
@@ -116,7 +116,7 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
     publicPath = JSON.stringify(
       typeof config.publicPath === 'function'
         ? config.publicPath(url)
-        : path.join(config.publicPath, url)
+        : path.join(config.publicPath, url),
     );
   }
 
@@ -128,7 +128,7 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
       null,
       `
       module.exports = ${publicPath} + ${JSON.stringify(`/${longname}.${type}`)};
-      `
+      `,
     );
     return '';
   }
@@ -147,7 +147,7 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
       fileHashes: ${JSON.stringify(hashes)},
       scales: ${JSON.stringify(scales)},
     });
-  `
+  `,
   );
   return '';
 };

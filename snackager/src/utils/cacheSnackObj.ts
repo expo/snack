@@ -14,7 +14,7 @@ export async function getCachedObj(filename: string): Promise<GitSnackObj | unde
         Key: filename,
       })
       .promise();
-  } catch (e) {
+  } catch {
     return;
   }
   if (!s3Response.Body) {
@@ -34,9 +34,12 @@ export async function cacheObj(snackObj: GitSnackObj, filename: string): Promise
         CacheControl: 'public, max-age=31536000',
       })
       .promise();
-  } catch (e) {
-    logger.error({ e, filename, bucket: config.s3.imports_bucket }, 'unable to upload file to s3');
-    throw new Error('CacheObj failure: ' + e.message);
+  } catch (error) {
+    logger.error(
+      { e: error, filename, bucket: config.s3.imports_bucket },
+      'unable to upload file to s3',
+    );
+    throw new Error('CacheObj failure: ' + error.message);
   }
 }
 
@@ -48,7 +51,7 @@ export async function removeFromCache(filename: string): Promise<void> {
         Key: filename,
       })
       .promise();
-  } catch (e) {
+  } catch {
     // Ignore error
   }
 }

@@ -5,12 +5,12 @@ import path from 'path';
 import validate from 'validate-npm-package-name';
 import webpack from 'webpack';
 
+import installDependencies from './installDependencies';
 import { isExternal } from '../bundler/externals';
 import getResolverConfig from '../bundler/getResolverConfig';
 import makeConfig from '../bundler/makeConfig';
 import logger from '../logger';
 import { Package } from '../types';
-import installDependencies from './installDependencies';
 
 // TODO: find the typescript definitions for this package, `@types/sander` doesn't exists
 const { stat, readFile } = require('sander');
@@ -61,10 +61,10 @@ async function packageBundleUnsafe({
               platform,
               entry: err ? '' : res,
               error: err,
-            })
+            }),
           );
-        })
-    )
+        }),
+    ),
   );
   const validEntries = entries.filter(({ error }) => !error);
   const invalidEntries = entries.filter(({ error }) => error);
@@ -76,14 +76,14 @@ async function packageBundleUnsafe({
       await stat(file.endsWith('.d.ts') ? file : `${file}.d.ts`);
       logger.warn(
         { pkg, platforms },
-        `no valid entry found, assuming this is a TypeScript definition package`
+        `no valid entry found, assuming this is a TypeScript definition package`,
       );
       return platforms.reduce(
         (acc, platform) => ({
           ...acc,
           [platform]: '',
         }),
-        {}
+        {},
       );
     } catch (err) {
       throw entries.length ? entries[0].error : err;
@@ -98,7 +98,7 @@ async function packageBundleUnsafe({
         .map(({ platform }) => platform)
         .join(', ')}" could not be found. Proceeding with platforms "${validEntries
         .map(({ platform }) => platform)
-        .join(', ')}".`
+        .join(', ')}".`,
     );
   }
 
@@ -127,7 +127,7 @@ async function packageBundleUnsafe({
 
       // Enable `require.context` and special environment variables replacements for Expo Router
       expoRouterPlugin: pkg.name.startsWith('expo-router'),
-    })
+    }),
   );
 
   logger.info(
@@ -140,7 +140,7 @@ async function packageBundleUnsafe({
       },
       platforms,
     },
-    `creating bundle with webpack`
+    `creating bundle with webpack`,
   );
 
   const compiler = webpack(configs);
@@ -157,7 +157,7 @@ async function packageBundleUnsafe({
         } else {
           resolve(stats!);
         }
-      })
+      }),
     );
   } catch (error) {
     logger.error({ error }, 'error running compiler');
@@ -175,7 +175,7 @@ async function packageBundleUnsafe({
   const list = (
     root: string,
     items: { [key: string]: Buffer },
-    replace: RegExp | string
+    replace: RegExp | string,
   ): { [key: string]: Buffer } => {
     memoryFs.readdirSync(root).forEach((name) => {
       const stat = memoryFs.statSync(path.join(root, name));
@@ -202,7 +202,7 @@ async function packageBundleUnsafe({
       ...acc,
       [platform]: list(path.join('/', platform), {}, new RegExp(`^/${platform}/`)),
     }),
-    {}
+    {},
   );
 
   return files;
@@ -269,7 +269,7 @@ export default (async function packageBundle({
 
               if (installedDependencies.includes(packageName)) {
                 throw new Error(
-                  `Cannot resolve module ${module} after installing it as a dependency`
+                  `Cannot resolve module ${module} after installing it as a dependency`,
                 );
               }
 
@@ -279,7 +279,7 @@ export default (async function packageBundle({
                 packageUsesSources[packageName] = true;
               }
               return packageName;
-            })
+            }),
           );
 
           if (missingPackages.length) {
@@ -302,7 +302,7 @@ export default (async function packageBundle({
                 } else {
                   logger.warn(
                     logMetadata,
-                    `Dependency found on "${packageName}" that is required for bundling, but its version is not defined in package.json. Using "*" instead.`
+                    `Dependency found on "${packageName}" that is required for bundling, but its version is not defined in package.json. Using "*" instead.`,
                   );
                 }
                 missingDependencies[packageName] = version;
@@ -344,8 +344,8 @@ export default (async function packageBundle({
             `An error occured "${
               err.message.split('\n')[0]
             }" when bundling the "web" platform. Proceeding with platforms "${platforms.join(
-              ', '
-            )}".`
+              ', ',
+            )}".`,
           );
         } else {
           throw err;

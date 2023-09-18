@@ -72,7 +72,7 @@ export async function importAsync(options: Config): Promise<string> {
   let sdkVersion: SDKVersion = uncheckedSDKVersion as SDKVersion;
   if (!getSupportedSDKVersions().includes(sdkVersion)) {
     console.warn(
-      `Unsupported SDK version "${sdkVersion}". Using "${defaultConfig.sdkVersion}" instead.`
+      `Unsupported SDK version "${sdkVersion}". Using "${defaultConfig.sdkVersion}" instead.`,
     );
     sdkVersion = defaultConfig.sdkVersion;
   }
@@ -108,7 +108,7 @@ export async function importAsync(options: Config): Promise<string> {
     dependencies: Object.fromEntries(
       Object.entries(dependencies)
         .filter(([name]) => !isModulePreloaded(name, sdkVersion, true))
-        .map(([name, version]) => [name, { version }])
+        .map(([name, version]) => [name, { version }]),
     ),
     sdkVersion,
     name,

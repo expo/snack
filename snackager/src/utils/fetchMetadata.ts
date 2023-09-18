@@ -16,7 +16,7 @@ const EXPIRATION_SECONDS = 60 * 60;
 
 export default async function fetchMetadata(
   qualified: string,
-  { scope, id, bypassCache, redisClient }: Options
+  { scope, id, bypassCache, redisClient }: Options,
 ): Promise<Metadata> {
   let response;
 
@@ -40,7 +40,7 @@ export default async function fetchMetadata(
           } else {
             resolve(value);
           }
-        })
+        }),
       );
 
       if (!bypassCache && cachedResult) {
@@ -76,7 +76,7 @@ export default async function fetchMetadata(
         redisClient.set(redisId, JSON.stringify(json), 'EX', EXPIRATION_SECONDS);
         logger.info(
           logMetadata,
-          `Added package metadata ${redisId} to redis with ${EXPIRATION_SECONDS}s expiration.`
+          `Added package metadata ${redisId} to redis with ${EXPIRATION_SECONDS}s expiration.`,
         );
       }
 
@@ -90,7 +90,7 @@ export default async function fetchMetadata(
     throw new Error(
       e.name === 'NotFoundError'
         ? `Package '${qualified}' not found in the registry`
-        : `Failed to fetch '${qualified}' from the registry`
+        : `Failed to fetch '${qualified}' from the registry`,
     );
   }
 }

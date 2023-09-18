@@ -30,6 +30,6 @@ it('returns paths for `@react-navigation/native`', () => {
   mkdirSync(tmpDir, 'package');
   mkdirSync(tmpDir, 'native');
   expect(findPath('@react-navigation/native', tmpDir)).toEqual(
-    expect.arrayContaining(['package', 'native'])
+    expect.arrayContaining(['package', 'native']),
   );
 });

@@ -34,20 +34,20 @@ const testedPackages: string[] = [];
 export default async function bundleAsync(
   packageSpec: string,
   bundlePlatforms: string[] = DEFAULT_PLATFORMS,
-  includeCode?: boolean
+  includeCode?: boolean,
 ): Promise<BundledPackage> {
   const { qualified, id, tag, scope, deep, platforms } = parseRequest(
-    `/${packageSpec}?platforms=${bundlePlatforms.join(',')}`
+    `/${packageSpec}?platforms=${bundlePlatforms.join(',')}`,
   );
   const workdir = path.join(
     fs.realpathSync(os.tmpdir()),
     'snackager',
     '__integration-tests__',
-    qualified
+    qualified,
   );
   try {
     await rimraf(workdir);
-  } catch (e) {}
+  } catch {}
   const packagedir = path.join(workdir, 'package');
 
   const meta = await fetchMetadata(qualified, { scope, id });
@@ -90,12 +90,12 @@ export default async function bundleAsync(
         (metadata.externals ?? []).forEach((external) => {
           if (!getCoreExternals().includes(external) && !dependencies[external]) {
             console.warn(
-              `Bundle "${qualified}@${version}/${platform}-${filename}" contains external "${external}" which is not listed as a peer dependency in package.json`
+              `Bundle "${qualified}@${version}/${platform}-${filename}" contains external "${external}" which is not listed as a peer dependency in package.json`,
             );
           }
         });
         return metadata;
-      })
+      }),
     ),
     peerDependencies: dependencies,
   };
@@ -141,7 +141,7 @@ export async function cleanUnusedLockfiles(): Promise<void> {
   });
 
   const unusedPackages = existingPackages.filter(
-    (packageSpec) => !testedPackages.includes(packageSpec)
+    (packageSpec) => !testedPackages.includes(packageSpec),
   );
 
   // remove unused package lockfiles from the repo
