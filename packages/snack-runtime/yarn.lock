@@ -8641,11 +8641,15 @@ smart-buffer@^4.2.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.2.0.tgz#6e1d71fa4f18c05f7d0ff216dd16a481d0e8d9ae"
   integrity sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==
 
-"snack-babel-standalone@file:../snack-babel-standalone":
+snack-babel-standalone@^3.0.0:
   version "3.0.0"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-3.0.0.tgz#dfd99ffc306439054862303755a8d4700733af6e"
+  integrity sha512-RFUjiT6wMiC3hjiekvmt66pzY//tEbCVbc8J8uxQ6KXTnWOcn/b0FoeEKX8DlzglHCf0KcCFtFgCf1LTfh61Cg==
 
-"snack-require-context@file:../snack-require-context":
+snack-require-context@^0.1.0:
   version "0.1.0"
+  resolved "https://registry.yarnpkg.com/snack-require-context/-/snack-require-context-0.1.0.tgz#dd48f6e2c6b7299b7d7f34c873220cb80a8a42a7"
+  integrity sha512-A3wTu9vHquHOP5I7T1WBfO51LuJaXA1htg4WurdmhePZr3CizS4XSwX5dh2fwc92U5R70W11AzoVvOg/Xqa+Nw==
 
 socket.io-client@~4.5.4:
   version "4.5.4"
