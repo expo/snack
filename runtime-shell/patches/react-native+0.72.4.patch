@@ -20,4 +20,4 @@ index e9be731..b834f63 100644
 +  return cache[uiViewClassName];
 +};
 +
-+module.exports = requireNativeComponentCached;
++export default requireNativeComponentCached;
