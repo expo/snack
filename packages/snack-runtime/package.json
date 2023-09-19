@@ -36,8 +36,8 @@
     "escape-string-regexp": "^5.0.0",
     "path": "^0.12.7",
     "pubnub": "^7.2.0",
-    "snack-babel-standalone": "file:../snack-babel-standalone",
-    "snack-require-context": "file:../snack-require-context",
+    "snack-babel-standalone": "^3.0.0",
+    "snack-require-context": "^0.1.0",
     "socket.io-client": "~4.5.4",
     "source-map": "0.6.1"
   },
