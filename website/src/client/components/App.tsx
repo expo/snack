@@ -44,8 +44,6 @@ import getDependenciesFromQuery from '../utils/getDependenciesFromQuery';
 import getFilesFromQuery from '../utils/getFilesFromQuery';
 import { createSnackWorkerTransport } from '../utils/snackTransports';
 
-const DEVICE_ID_KEY = '__SNACK_DEVICE_ID';
-
 const BROADCAST_CHANNEL_NAME = 'SNACK_BROADCAST_CHANNEL';
 
 type Params = {
@@ -97,17 +95,6 @@ type State = {
   annotations: Annotation[];
   snackagerURL: string;
 };
-
-function getDeviceId(): string | undefined {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem(DEVICE_ID_KEY) ?? undefined;
-    }
-  } catch {
-    // Ignore error
-  }
-  return undefined;
-}
 
 class Main extends React.Component<Props, State> {
   _previewRef = React.createRef<Window>();
@@ -210,7 +197,6 @@ class Main extends React.Component<Props, State> {
         ? createSnackWorkerTransport.bind(null, props.query.testTransport ?? 'snackpub')
         : undefined,
       reloadTimeout: 10000,
-      deviceId: getDeviceId(),
       id: !wasUpgraded ? id : undefined,
       user: sessionSecret ? { sessionSecret } : undefined,
       apiURL: nullthrows(process.env.API_SERVER_URL),
@@ -767,18 +753,6 @@ class Main extends React.Component<Props, State> {
     }
   };
 
-  _setDeviceId = (deviceId: string) => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      try {
-        window.localStorage.setItem(DEVICE_ID_KEY, deviceId);
-      } catch {
-        // Do nothing
-      }
-    }
-
-    this._snack.setDeviceId(deviceId);
-  };
-
   _handleOpenEditor = () => {
     this.setState({ isPreview: false });
   };
@@ -911,7 +885,6 @@ class Main extends React.Component<Props, State> {
               dependencies={this.state.session.dependencies}
               missingDependencies={this.state.session.missingDependencies}
               description={this.state.session.description}
-              deviceId={this.state.session.deviceId}
               deviceLogs={this.state.deviceLogs}
               experienceURL={experienceURL}
               experienceName={this.state.session.onlineName ?? this.state.session.name}
@@ -945,7 +918,6 @@ class Main extends React.Component<Props, State> {
               sdkVersion={this.state.session.sdkVersion}
               selectedFile={this.state.selectedFile}
               sendCodeOnChangeEnabled={this.state.sendCodeOnChangeEnabled}
-              setDeviceId={this._setDeviceId}
               snackagerURL={this.state.snackagerURL}
               updateDependencies={this._updateDependencies}
               updateFiles={this._updateFiles}

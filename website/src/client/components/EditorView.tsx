@@ -360,7 +360,6 @@ class EditorView extends React.Component<Props, State> {
       files,
       selectedFile,
       dependencies,
-      deviceId,
       isResolving,
       sendCodeOnChangeEnabled,
       sdkVersion,
@@ -615,7 +614,6 @@ class EditorView extends React.Component<Props, State> {
                       className={css(styles.preview)}
                       width={334}
                       connectedDevices={connectedDevices}
-                      deviceId={deviceId}
                       experienceURL={experienceURL}
                       experienceName={experienceName}
                       name={name}
@@ -629,7 +627,6 @@ class EditorView extends React.Component<Props, State> {
                       previewRef={previewRef}
                       previewURL={previewURL}
                       sdkVersion={sdkVersion}
-                      setDeviceId={this.props.setDeviceId}
                       sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
                       devices={devices}
                     />
@@ -667,8 +664,6 @@ class EditorView extends React.Component<Props, State> {
                   method={preferences.deviceConnectionMethod}
                   experienceURL={experienceURL}
                   isEmbedded={false}
-                  setDeviceId={this.props.setDeviceId}
-                  deviceId={deviceId}
                 />
                 <ModalDialog
                   title="Expo Orbit"

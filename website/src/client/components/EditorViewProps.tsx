@@ -64,8 +64,6 @@ export type EditorViewProps = {
     updateFn: (dependencies: SnackDependencies) => { [name: string]: SnackDependency | null }
   ) => void;
   uploadFileAsync: (file: File) => Promise<string>;
-  setDeviceId: (deviceId: string) => void;
-  deviceId: string | undefined;
   upgradedFromSDKVersion?: string;
   autosaveEnabled: boolean;
   payerCode: string | undefined;

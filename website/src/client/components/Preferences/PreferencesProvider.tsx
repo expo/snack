@@ -42,7 +42,7 @@ type State = {
 const EDITOR_CONFIG_KEY = 'snack-editor-config';
 
 const defaults: PreferencesType = {
-  deviceConnectionMethod: 'device-id',
+  deviceConnectionMethod: 'qr-code',
   devicePreviewPlatform: 'web',
   devicePreviewShown: true,
   editorMode: 'normal',
