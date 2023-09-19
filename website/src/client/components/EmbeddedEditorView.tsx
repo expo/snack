@@ -40,7 +40,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    let deviceConnectionMethod = this.props.testConnectionMethod ?? 'device-id';
+    let deviceConnectionMethod = this.props.testConnectionMethod ?? 'qr-code';
     if (deviceConnectionMethod === 'account') {
       deviceConnectionMethod = 'qr-code';
     }
@@ -80,7 +80,6 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
       name,
       description,
       connectedDevices,
-      deviceId,
       experienceURL,
       experienceName,
       selectedFile,
@@ -102,7 +101,6 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
       onToggleSendCode,
       sdkVersion,
       sendCodeOnChangeEnabled,
-      setDeviceId,
       theme,
       userAgent,
     } = this.props;
@@ -155,7 +153,6 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
                     className={css(styles.preview)}
                     width={285}
                     connectedDevices={connectedDevices}
-                    deviceId={deviceId}
                     experienceURL={experienceURL}
                     experienceName={experienceName}
                     name={name}
@@ -174,7 +171,6 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
                     sdkVersion={sdkVersion}
                     isEmbedded
                     sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
-                    setDeviceId={setDeviceId}
                   />
                 );
               }}
@@ -189,8 +185,6 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
           experienceURL={experienceURL}
           onChangeMethod={this._handleChangeConnectionMethod}
           method={this.state.deviceConnectionMethod}
-          setDeviceId={this.props.setDeviceId}
-          deviceId={deviceId}
         />
         <div className={css(styles.footer)}>
           <EmbeddedEditorFooter

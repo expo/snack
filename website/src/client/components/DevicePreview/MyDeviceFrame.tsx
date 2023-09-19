@@ -7,7 +7,6 @@ import { getWebsiteURL } from '../../../client/utils/getWebsiteURL';
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
 import { Device, SDKVersion } from '../../types';
-import DeviceIDModal from '../DeviceInstructions/DeviceIDModal';
 import { Shortcuts } from '../KeyboardShortcuts';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import QRCode from '../QRCode';
@@ -21,7 +20,6 @@ import ToggleSwitch from '../shared/ToggleSwitch';
 type Props = AuthProps & {
   width: number;
   connectedDevices: Device[];
-  deviceId: string | undefined;
   experienceURL: string;
   experienceName: string;
   name: string;
@@ -31,13 +29,11 @@ type Props = AuthProps & {
   sdkVersion: SDKVersion;
   isEmbedded?: boolean;
   sendCodeOnChangeEnabled: boolean;
-  setDeviceId: (deviceId: string) => void;
   theme: ThemeName;
 };
 
 type State = {
   connectedDevices: Device[];
-  visibleModal: 'none' | 'deviceid';
   copiedToClipboard: boolean;
 };
 
@@ -50,7 +46,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
       { id: 'fg34-4563', name: 'Web emulator', platform: 'web' },
       { id: 'fg34-4564', name: 'Errr', platform: 'unknown' }, */
     ],
-    visibleModal: 'none',
     copiedToClipboard: false,
   };
 
@@ -62,8 +57,8 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { experienceURL, deviceId, isEmbedded, width } = this.props;
-    const { connectedDevices, visibleModal, copiedToClipboard } = this.state;
+    const { experienceURL, isEmbedded, width } = this.props;
+    const { connectedDevices, copiedToClipboard } = this.state;
     const isConnected = connectedDevices.length >= 1;
 
     return (
@@ -109,30 +104,10 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
             {!isConnected && this.renderNoConnectedDevices()}
             {connectedDevices.map(this.renderConnectedDevice)}
           </div>
-          <DeviceIDModal
-            visible={visibleModal === 'deviceid'}
-            deviceId={deviceId}
-            setDeviceId={this.handleSetDeviceId}
-            onDismiss={this.handleDismissModal}
-          />
         </div>
       </div>
     );
   }
-
-  private handleDismissModal = () => {
-    this.setState({
-      visibleModal: 'none',
-    });
-  };
-
-  private handleSetDeviceId = async (deviceId: string) => {
-    const { setDeviceId } = this.props;
-    await setDeviceId(deviceId);
-    this.setState({
-      visibleModal: 'none',
-    });
-  };
 
   private _handleCopyToClipboard = () => {
     this.setState({ copiedToClipboard: true });
@@ -147,14 +122,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
     const isConnected = connectedDevices.length > 0;
     return (
       <div className={css(styles.popupContainer)}>
-        <div className={css(styles.popupRow)}>
-          <IconButton
-            small
-            title="Set ID of your device"
-            label="Set Device ID"
-            onClick={this.onClickDeviceId}
-          />
-        </div>
         {isConnected && (
           <ToggleSwitch
             checked={sendCodeOnChangeEnabled}
@@ -198,41 +165,15 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
     );
   }
 
-  onClickDeviceId = () => {
-    this.setState({
-      visibleModal: 'deviceid',
-    });
-  };
-
   private renderNoConnectedDevices() {
-    const { viewer, deviceId, experienceURL, experienceName, isEmbedded } = this.props;
+    const { viewer, experienceURL, experienceName, isEmbedded } = this.props;
 
-    if (viewer || deviceId) {
+    if (viewer) {
       return (
         <>
-          {viewer ? (
-            <p className={css(styles.notConnectedText)}>
-              This Snack is visible on the "Projects" tab of your signed in Expo Go app
-              {deviceId ? ', and on device ' : '. Or set a '}
-              <button onClick={this.onClickDeviceId} className={css(styles.link)}>
-                {deviceId ? (
-                  <span className={css(styles.deviceIDText)}>{deviceId}</span>
-                ) : (
-                  'Device ID'
-                )}
-              </button>
-              .
-            </p>
-          ) : (
-            <p className={css(styles.notConnectedText)}>
-              This Snack is visible on the "Projects" tab of Expo Go with device ID
-              <span> </span>
-              <button onClick={this.onClickDeviceId} className={css(styles.link)}>
-                <span className={css(styles.deviceIDText)}>{deviceId}</span>
-              </button>
-              .
-            </p>
-          )}
+          <p className={css(styles.notConnectedText)}>
+            This Snack is visible on the "Projects" tab of your signed in Expo Go app.
+          </p>
           <RecentlyInDevelopmentPreview name={experienceName} experienceURL={experienceURL} />
         </>
       );
@@ -246,10 +187,6 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
           >
             Log in
           </a>
-          <span> </span>or set a<span> </span>
-          <button onClick={this.onClickDeviceId} className={css(styles.link)}>
-            Device ID
-          </button>
           <span> </span>to open this Snack from Expo Go on your device or simulator.
         </p>
       );

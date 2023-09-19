@@ -2,14 +2,13 @@ import { StyleSheet, css } from 'aphrodite';
 import * as React from 'react';
 
 import AccountTab from './AccountTab';
-import DeviceIDTab from './DeviceIDTab';
 import QRCodeTab from './QRCodeTab';
 import constants from '../../configs/constants';
 import ButtonLink from '../shared/ButtonLink';
 import ModalDialog from '../shared/ModalDialog';
 import SegmentedButton from '../shared/SegmentedButton';
 
-export type EmbeddedConnectionMethod = 'device-id' | 'qr-code';
+export type EmbeddedConnectionMethod = 'qr-code';
 export type ConnectionMethod = 'account' | EmbeddedConnectionMethod;
 
 type Props = {
@@ -18,28 +17,16 @@ type Props = {
   method: ConnectionMethod;
   onChangeMethod: (method: ConnectionMethod) => void;
   onDismiss: () => void;
-  setDeviceId: (deviceId: string) => void;
-  deviceId: string | undefined;
   visible: boolean;
   large?: boolean;
 };
 
 export default class DeviceInstructionsModal extends React.Component<Props> {
   render() {
-    const {
-      large,
-      visible,
-      onDismiss,
-      onChangeMethod,
-      setDeviceId,
-      deviceId,
-      method,
-      isEmbedded,
-      experienceURL,
-    } = this.props;
+    const { large, visible, onDismiss, onChangeMethod, method, isEmbedded, experienceURL } =
+      this.props;
 
     const segments = [
-      { id: 'device-id', text: 'Device ID' },
       ...(!isEmbedded ? [{ id: 'account', text: 'Account' }] : []),
       { id: 'qr-code', text: 'QR Code' },
     ];
@@ -73,11 +60,6 @@ export default class DeviceInstructionsModal extends React.Component<Props> {
                 let content;
 
                 switch (id) {
-                  case 'device-id':
-                    content = (
-                      <DeviceIDTab key={id} deviceId={deviceId} setDeviceId={setDeviceId} />
-                    );
-                    break;
                   case 'account':
                     content = <AccountTab key={id} />;
                     break;
