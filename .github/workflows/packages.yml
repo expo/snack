@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - .github/actions/setup-cache/**
       - .github/workflows/packages.yml
       - packages/**
       - .eslint*
@@ -17,6 +18,7 @@ on:
   push:
     branches: [main]
     paths:
+      - .github/actions/setup-cache/**
       - .github/workflows/packages.yml
       - packages/**
       - .eslint*
@@ -54,7 +56,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: yarn
+
+      - name: 🏗 Setup cache
+        uses: ./.github/actions/setup-cache
 
       - name: 📦 Install monorepo dependencies
         run: yarn install --frozen-lockfile
