@@ -21,6 +21,7 @@
   "dependencies": {
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
+    "assert": "^2.1.0",
     "expo": "^49.0.10",
     "expo-analytics-amplitude": "~11.3.0",
     "expo-asset": "~8.10.1",

@@ -68,6 +68,7 @@
     "typescript": "^4.6.3"
   },
   "peerDependencies": {
+    "assert": "^2.0.0",
     "expo": "^49.0.0",
     "expo-asset": "~8.10.0",
     "expo-barcode-scanner": "~12.5.0",
