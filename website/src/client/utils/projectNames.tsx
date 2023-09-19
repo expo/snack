@@ -1,5 +1,7 @@
 import sample from 'lodash/sample';
 
+const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+
 const emotions = [
   'mad',
   'bad',
@@ -156,8 +158,10 @@ const snacks = [
   'stroopwafels',
 ];
 
-export const getSnackName = () => `${sample(emotions)} ${sample(snacks)}`;
+export const getSnackName = () => `${sample(emotions)} ${sample(rainbowColors)} ${sample(snacks)}`;
 export const isIntentionallyNamed = (name: string) => {
-  const [first, ...rest] = name.split(' ');
-  return !emotions.includes(first) || !snacks.includes(rest.join(' '));
+  const [first, second, ...rest] = name.split(' ');
+  return (
+    !emotions.includes(first) || !rainbowColors.includes(second) || !snacks.includes(rest.join(' '))
+  );
 };
