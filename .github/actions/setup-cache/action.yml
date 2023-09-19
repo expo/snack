@@ -4,7 +4,7 @@ description: Prepare Snack's build cache in GitHub Actions
 runs:
   using: composite
   steps:
-    - name: ♻️ Find modules cache
+    - name: 🔍 Find modules cache
       id: modules-cache
       run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       shell: bash
