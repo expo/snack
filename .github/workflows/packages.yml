@@ -60,9 +60,6 @@ jobs:
       - name: 🏗 Setup cache
         uses: ./.github/actions/setup-cache
 
-      - name: 📦 Install monorepo dependencies
-        run: yarn install --frozen-lockfile
-
       # When coupled within the monorepo, make sure to build all packages related to the tested one
       - name: 🛠 Build dependencies
         if: ${{ !matrix.monorepo-detached }}

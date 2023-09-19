@@ -17,12 +17,16 @@ runs:
         restore-keys: |
           yarn-TEST_1-${{ runner.os }}-
 
+    - name: 📦 Install monorepo dependencies
+      run: yarn install --frozen-lockfile
+      shell: bash
+
     - name: ♻️ Restore build cache
       uses: actions/cache@v3
       with:
-        key: turbo-TEST_3-${{ runner.os }}-${{ github.sha }}
+        key: turbo-TEST_4-${{ runner.os }}-${{ github.sha }}
         restore-keys: |
-          turbo-TEST_3-${{ runner.os }}-
+          turbo-TEST_4-${{ runner.os }}-
         path: |
           node_modules/.cache/turbo
           packages/*/.turbo
