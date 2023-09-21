@@ -55,7 +55,7 @@ it('adds `@babel/runtime` by default', async () => {
 
   expect(readPackage()).toMatchObject({
     name: 'test',
-    dependencies: { '@babel/runtime': '*' },
+    dependencies: { '@babel/runtime': require('@babel/runtime/package.json').version },
   });
 });
 

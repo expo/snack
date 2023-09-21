@@ -10,7 +10,7 @@ Object {
           "react-native",
           "react-native/Libraries/Image/resolveAssetSource",
         ],
-        "size": 556221,
+        "size": 540000,
       },
     },
     "ios": Object {
@@ -20,7 +20,7 @@ Object {
           "react-native",
           "react-native/Libraries/Image/resolveAssetSource",
         ],
-        "size": 556221,
+        "size": 540000,
       },
     },
     "web": Object {
@@ -29,7 +29,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 18197,
+        "size": 15000,
       },
     },
   },
@@ -51,7 +51,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 57340,
+        "size": 51000,
       },
     },
     "ios": Object {
@@ -60,7 +60,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 55542,
+        "size": 48000,
       },
     },
     "web": Object {
@@ -69,7 +69,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 121491,
+        "size": 108000,
       },
     },
   },
@@ -124,22 +124,22 @@ Object {
   "files": Object {
     "android": Object {
       "assets/src_views_assets_backicon.png": Object {
-        "size": 100,
+        "size": 0,
       },
       "assets/src_views_assets_backicon@1.5x.png": Object {
-        "size": 134,
+        "size": 0,
       },
       "assets/src_views_assets_backicon@2x.png": Object {
-        "size": 134,
+        "size": 0,
       },
       "assets/src_views_assets_backicon@3x.png": Object {
-        "size": 167,
+        "size": 0,
       },
       "assets/src_views_assets_backicon@4x.png": Object {
-        "size": 207,
+        "size": 0,
       },
       "assets/src_views_assets_backiconmask.png": Object {
-        "size": 913,
+        "size": 0,
       },
       "bundle.js": Object {
         "externals": Array [
@@ -152,27 +152,27 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 94988,
+        "size": 90000,
       },
     },
     "ios": Object {
       "assets/src_views_assets_backicon.png": Object {
-        "size": 290,
+        "size": 0,
       },
       "assets/src_views_assets_backicon@1.5x.png": Object {
-        "size": 373,
+        "size": 0,
       },
       "assets/src_views_assets_backicon@2x.png": Object {
-        "size": 405,
+        "size": 0,
       },
       "assets/src_views_assets_backicon@3x.png": Object {
-        "size": 761,
+        "size": 0,
       },
       "assets/src_views_assets_backicon@4x.png": Object {
-        "size": 812,
+        "size": 0,
       },
       "assets/src_views_assets_backiconmask.png": Object {
-        "size": 913,
+        "size": 0,
       },
       "bundle.js": Object {
         "externals": Array [
@@ -185,15 +185,15 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 95967,
+        "size": 90000,
       },
     },
     "web": Object {
       "assets/lib_module_views_assets_backicon.png": Object {
-        "size": 207,
+        "size": 0,
       },
       "assets/lib_module_views_assets_backiconmask.png": Object {
-        "size": 913,
+        "size": 0,
       },
       "bundle.js": Object {
         "externals": Array [
@@ -204,7 +204,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 104626,
+        "size": 99000,
       },
     },
   },
@@ -235,7 +235,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 319938,
+        "size": 312000,
       },
     },
     "ios": Object {
@@ -248,7 +248,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 319938,
+        "size": 312000,
       },
     },
     "web": Object {
@@ -261,7 +261,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 319938,
+        "size": 312000,
       },
     },
   },
@@ -282,7 +282,7 @@ Object {
         "externals": Array [
           "mobx",
         ],
-        "size": 43729,
+        "size": 42000,
       },
     },
   },
@@ -300,19 +300,19 @@ Object {
     "android": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 221625,
+        "size": 219000,
       },
     },
     "ios": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 221625,
+        "size": 219000,
       },
     },
     "web": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 221625,
+        "size": 219000,
       },
     },
   },
@@ -328,25 +328,67 @@ Object {
     "android": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 183888,
+        "size": 183000,
       },
     },
     "ios": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 183888,
+        "size": 183000,
       },
     },
     "web": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 183888,
+        "size": 183000,
       },
     },
   },
   "name": "graphql",
   "peerDependencies": Object {},
   "version": "15.5.1",
+}
+`;
+
+exports[`bundler creates bundle for react-native-reanimated@2.9.1 1`] = `
+Object {
+  "files": Object {
+    "android": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+          "react-native/Libraries/Renderer/shims/ReactNative",
+        ],
+        "size": 432000,
+      },
+    },
+    "ios": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+          "react-native/Libraries/Renderer/shims/ReactNative",
+        ],
+        "size": 432000,
+      },
+    },
+    "web": Object {
+      "bundle.js": Object {
+        "externals": Array [
+          "react",
+          "react-native",
+        ],
+        "size": 420000,
+      },
+    },
+  },
+  "name": "react-native-reanimated",
+  "peerDependencies": Object {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "2.9.1",
 }
 `;
 
@@ -362,7 +404,7 @@ Object {
           "react-native-screens",
           "react-native/Libraries/ReactNative/AppContainer",
         ],
-        "size": 7102,
+        "size": 6000,
       },
     },
     "ios": Object {
@@ -374,7 +416,7 @@ Object {
           "react-native-screens",
           "react-native/Libraries/ReactNative/AppContainer",
         ],
-        "size": 7102,
+        "size": 6000,
       },
     },
     "web": Object {
@@ -386,7 +428,7 @@ Object {
           "react-native-screens",
           "react-native/Libraries/ReactNative/AppContainer",
         ],
-        "size": 8347,
+        "size": 6000,
       },
     },
   },
@@ -409,7 +451,7 @@ Object {
           "react-native",
           "react-native/Libraries/BatchedBridge/BatchedBridge",
         ],
-        "size": 11423,
+        "size": 9000,
       },
     },
     "ios": Object {
@@ -418,7 +460,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 11088,
+        "size": 9000,
       },
     },
     "web": Object {
@@ -427,7 +469,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 891,
+        "size": 0,
       },
     },
   },
@@ -448,7 +490,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 37862,
+        "size": 33000,
       },
     },
     "ios": Object {
@@ -457,7 +499,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 37862,
+        "size": 33000,
       },
     },
     "web": Object {
@@ -466,7 +508,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 103808,
+        "size": 90000,
       },
     },
   },
@@ -482,19 +524,19 @@ Object {
     "android": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 5978,
+        "size": 3000,
       },
     },
     "ios": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 5978,
+        "size": 3000,
       },
     },
     "web": Object {
       "bundle.js": Object {
         "externals": Array [],
-        "size": 5978,
+        "size": 3000,
       },
     },
   },
@@ -518,7 +560,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 13510,
+        "size": 12000,
       },
     },
     "ios": Object {
@@ -529,7 +571,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 13510,
+        "size": 12000,
       },
     },
     "web": Object {
@@ -540,7 +582,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 13510,
+        "size": 12000,
       },
     },
   },
@@ -615,22 +657,22 @@ Object {
   "files": Object {
     "ios": Object {
       "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon.png": Object {
-        "size": 290,
+        "size": 0,
       },
       "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@1.5x.png": Object {
-        "size": 373,
+        "size": 0,
       },
       "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@2x.png": Object {
-        "size": 405,
+        "size": 0,
       },
       "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@3x.png": Object {
-        "size": 761,
+        "size": 0,
       },
       "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@4x.png": Object {
-        "size": 812,
+        "size": 0,
       },
       "assets/node_modules_reactnavigationstack_lib_module_views_assets_backiconmask.png": Object {
-        "size": 1619,
+        "size": 0,
       },
       "bundle.js": Object {
         "externals": Array [
@@ -642,7 +684,7 @@ Object {
           "react-native-gesture-handler/DrawerLayout",
           "react-native-screens",
         ],
-        "size": 212702,
+        "size": 201000,
       },
     },
   },
@@ -664,7 +706,7 @@ Object {
         "externals": Array [
           "react-native",
         ],
-        "size": 12250,
+        "size": 12000,
       },
     },
     "ios": Object {
@@ -673,7 +715,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 8200,
+        "size": 6000,
       },
     },
     "web": Object {
@@ -682,7 +724,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 772,
+        "size": 0,
       },
     },
   },
@@ -705,7 +747,7 @@ Object {
           "react-native",
           "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 6540,
+        "size": 3000,
       },
     },
     "ios": Object {
@@ -715,7 +757,7 @@ Object {
           "react-native",
           "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 6540,
+        "size": 3000,
       },
     },
     "web": Object {
@@ -725,7 +767,7 @@ Object {
           "react-native",
           "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 6540,
+        "size": 3000,
       },
     },
   },
@@ -747,7 +789,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 18141,
+        "size": 15000,
       },
     },
     "ios": Object {
@@ -756,7 +798,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 18141,
+        "size": 15000,
       },
     },
     "web": Object {
@@ -765,7 +807,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 18141,
+        "size": 15000,
       },
     },
   },
@@ -785,7 +827,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 7231,
+        "size": 3000,
       },
     },
     "ios": Object {
@@ -795,7 +837,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 6615,
+        "size": 3000,
       },
     },
     "web": Object {
@@ -804,7 +846,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 16724,
+        "size": 15000,
       },
     },
   },
