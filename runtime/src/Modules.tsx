@@ -43,8 +43,8 @@ type Load = {
   };
 };
 
-const SNACKAGER_CDN_STAGING = 'https://ductmb1crhe2d.cloudfront.net';
-const SNACKAGER_CDN_PROD = 'https://d37p21p3n8r8ug.cloudfront.net';
+const SNACKAGER_CDN_STAGING = 'https://snackager-artifacts-staging.s3.us-west-1.amazonaws.com';
+const SNACKAGER_CDN_PROD = 'https://snackager-artifacts-staging.s3.us-west-1.amazonaws.com';
 
 // This is super hacky
 // This avoids a bug where for some reason `react` is `undefined` in a dependency
@@ -296,7 +296,10 @@ const fetchPipeline = async (load: Load) => {
         const version = dependency.resolved ?? dependency.version;
 
         // The handle may not exist for old snacks. In that case, construct it from name and version
-        const handle = dependency.handle ?? `${name}@${version}`.replace(/\//g, '~');
+        // const handle = dependency.handle ?? `${name}@${version}`.replace(/\//g, '~');
+        let handle = dependency.handle ?? `${name}@${version}`.replace(/\//g, '~');
+        // try to remove cache buster from handle
+        handle = handle.replace(/snackager-.+?\//, '');
 
         // Download bundle, keeping a local cache
         let bundle: string | undefined;
