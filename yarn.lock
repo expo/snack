@@ -14743,15 +14743,15 @@ smart-buffer@^4.1.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.1.0.tgz#91605c25d91652f4661ea69ccf45f1b331ca21ba"
   integrity sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
 
-snack-babel-standalone@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-3.0.0.tgz#dfd99ffc306439054862303755a8d4700733af6e"
-  integrity sha512-RFUjiT6wMiC3hjiekvmt66pzY//tEbCVbc8J8uxQ6KXTnWOcn/b0FoeEKX8DlzglHCf0KcCFtFgCf1LTfh61Cg==
+snack-babel-standalone@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-3.0.1.tgz#c619711c4e2e59b44846b28dbbdfdaaed76495c4"
+  integrity sha512-sqmBEX7kuW1ZwgviIYi06ILnVhDHCxiZk/DDrISejxUUyFnu3zXQxrYAwtWksj3v7VlGyC2TsALXQN3GhDi0Hg==
 
-snack-eslint-standalone@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/snack-eslint-standalone/-/snack-eslint-standalone-1.1.3.tgz#2c83a044d40244976bb4f11e741032a3c9162e1c"
-  integrity sha512-7uJ9I3xHK5CV48ZXJRB+WAG3uyJBSRrhPAjPmzX4xbUCRCInok7znaW9u5J/vFxCAyyEcdeoWR+AfN0sgCCq8w==
+snack-eslint-standalone@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/snack-eslint-standalone/-/snack-eslint-standalone-2.0.0.tgz#99157a29b05eb4849ddaae1dde1c25363f43d899"
+  integrity sha512-v4XwV1UTnhgSTAjimLzBgdoG4xJKkwONRaEMFw1N34J1Eu5Mkujck73h+mXcdQ8HYDotrTltevzo17tvMhEu4w==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
