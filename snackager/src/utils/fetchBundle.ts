@@ -27,6 +27,7 @@ type Options = {
   hash: string;
   latestHash?: string | null;
   versionSnackager: boolean;
+  sdkVersion?: string;
 };
 
 const EXPIRATION_SECONDS = 60 * 30;
@@ -59,6 +60,7 @@ export default async function fetchBundle({
   hash,
   latestHash = null,
   versionSnackager,
+  sdkVersion,
 }: Options): Promise<BundleResponse> {
   const fullName = `${pkg.name}${deep ? `/${deep}` : ''}`;
   const cachePrefix = getCachePrefix(fullName);
@@ -214,6 +216,7 @@ export default async function fetchBundle({
       externalDependencies: peerDependencies,
       base: `${config.cloudfront.url}/${encodeURIComponent(handle)}`,
       platforms: unavailable,
+      sdkVersion,
     });
 
     if (process.env.DEBUG_LOCAL_FILES) {

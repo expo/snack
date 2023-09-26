@@ -30,6 +30,11 @@ it('gets tag from request', () => {
   expect(parsed).toMatchSnapshot();
 });
 
+it('gets sdkVersion from request', () => {
+  const parsed = parseRequest('/lodash/bounce/index?sdkVersion=49.0.0&platforms=ios');
+  expect(parsed).toMatchSnapshot();
+});
+
 it('gets platforms from request', () => {
   const parsed = parseRequest('/lodash/bounce/index?platforms=ios,android');
   expect(parsed).toMatchSnapshot();

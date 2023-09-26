@@ -1,6 +1,7 @@
 import enhancedResolve from 'enhanced-resolve';
 import _ from 'lodash';
 import MemoryFS from 'memory-fs';
+import fetch from 'node-fetch';
 import path from 'path';
 import validate from 'validate-npm-package-name';
 import webpack from 'webpack';
@@ -9,6 +10,7 @@ import installDependencies from './installDependencies';
 import { isExternal } from '../bundler/externals';
 import getResolverConfig from '../bundler/getResolverConfig';
 import makeConfig from '../bundler/makeConfig';
+import config from '../config';
 import logger from '../logger';
 import { Package } from '../types';
 
@@ -31,6 +33,7 @@ type Options = {
   base: string;
   externalDependencies: { [key: string]: string | null };
   platforms: string[];
+  sdkVersion?: string;
 };
 
 type ResolvedEntry = {
@@ -215,6 +218,7 @@ export default (async function packageBundle({
   externalDependencies,
   platforms,
   base,
+  sdkVersion,
 }: Options): Promise<{ [key: string]: { [key: string]: Buffer } }> {
   let externals = Object.keys(externalDependencies);
   const logMetadata = { pkg };
@@ -285,7 +289,7 @@ export default (async function packageBundle({
           if (missingPackages.length) {
             const missingDependencies: { [key: string]: string } = {};
             externals = [...externals];
-            missingPackages.forEach((packageName) => {
+            for (const packageName of missingPackages) {
               // Install all missing packages that either require the source-code
               // to be present, or which are not marked as external
               if (
@@ -299,7 +303,14 @@ export default (async function packageBundle({
                   version = externalDependencies[packageName]!;
                 } else if (pkg.devDependencies?.[packageName]) {
                   version = pkg.devDependencies[packageName];
-                } else {
+                } else if (sdkVersion) {
+                  const bundledVersion = await getBundledVersionAsync(packageName, sdkVersion);
+                  if (bundledVersion != null) {
+                    version = bundledVersion;
+                  }
+                }
+
+                if (version === '*') {
                   logger.warn(
                     logMetadata,
                     `Dependency found on "${packageName}" that is required for bundling, but its version is not defined in package.json. Using "*" instead.`,
@@ -312,7 +323,7 @@ export default (async function packageBundle({
               if (!externals.includes(packageName) && isExternal(packageName)) {
                 externals.push(packageName);
               }
-            });
+            }
 
             // Install dependencies and re-try bundling
             if (Object.keys(missingDependencies).length) {
@@ -359,3 +370,18 @@ export default (async function packageBundle({
   // does not resolve the "Missing modules" reported by the bundler.
   throw new Error('Bundling failed, too many cycles');
 });
+
+/**
+ * Get the package's recommended version based on given sdkVersion
+ */
+export async function getBundledVersionAsync(
+  packageName: string,
+  sdkVersion: string,
+): Promise<string | null> {
+  const url = `${config.api.url}/--/api/v2/sdks/${sdkVersion}/native-modules`;
+  const resp = await fetch(url);
+  const bundledNativeModules = await resp.json();
+  return (
+    bundledNativeModules?.data.find((item) => item.npmPackage === packageName)?.versionRange ?? null
+  );
+}

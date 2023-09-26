@@ -68,7 +68,7 @@ export default class DependencyResolver {
     sdkVersion: SDKVersion,
   ): Promise<any> {
     const versionSnackager = sdkVersion >= '37.0.0' ? 'version_snackager=true&' : '';
-    const url = `${this.snackagerURL}/bundle/${key}?${versionSnackager}platforms=ios,android,web`;
+    const url = `${this.snackagerURL}/bundle/${key}?${versionSnackager}sdkVersion=${sdkVersion}&platforms=ios,android,web`;
     this.logger?.module('Resolving dependency', key, '...');
     try {
       for (let i = 0; i < 30; i++) {

@@ -18,6 +18,7 @@ export default async function servePackage({
   rebuild,
   bypassMetadataCache,
   versionSnackager,
+  sdkVersion,
 }: BundleRequest): Promise<BundleResponse> {
   const meta = await fetchMetadata(qualified, {
     scope,
@@ -44,6 +45,7 @@ export default async function servePackage({
       hash,
       latestHash,
       versionSnackager,
+      sdkVersion,
     });
 
     return result;
