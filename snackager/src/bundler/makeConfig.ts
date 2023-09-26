@@ -89,8 +89,6 @@ export default ({
                     helpers: true,
                     regenerator: true,
                     version: require('@babel/runtime/package.json').version,
-                    // Current SystemJS only supports ESM
-                    useESModules: true,
                   },
                 ],
                 ...(reanimatedPlugin ? [require.resolve('react-native-reanimated/plugin')] : []),
