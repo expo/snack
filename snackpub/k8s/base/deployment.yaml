@@ -20,9 +20,11 @@ spec:
             - secretRef:
                 name: snackpub-env
           resources:
+            limits:
+              memory: 420Mi
             requests:
-              memory: 512Mi
-              cpu: 300m
+              memory: 420Mi
+              cpu: 130m
           livenessProbe:
             httpGet:
               path: /status/live
