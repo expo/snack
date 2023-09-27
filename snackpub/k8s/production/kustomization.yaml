@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: production
 resources:
   - ../base
+  - vertical-pod-autoscaler.yaml
 patchesStrategicMerge:
   - service-backend.yaml
   - deployment-replicas.yaml

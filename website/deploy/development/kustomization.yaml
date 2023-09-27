@@ -3,8 +3,15 @@ kind: Kustomization
 namespace: default
 bases:
 - ../staging
-patchesStrategicMerge:
-- deployment-increase-memory-limit.yaml
+patches:
+- patch: |-
+    - op: remove
+      path: /spec/template/spec/containers/0/resources
+  target:
+    group: apps
+    kind: Deployment
+    name: snack
+    version: v1
 configMapGenerator:
 - name: snack
   behavior: merge

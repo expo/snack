@@ -3,8 +3,16 @@ kind: Kustomization
 namespace: default
 resources:
 - ../staging
-patchesStrategicMerge:
-- deployment-delay-probes.yaml
+patches:
+- path: deployment-delay-probes.yaml
+- patch: |-
+    - op: remove
+      path: /spec/template/spec/containers/0/resources
+  target:
+    group: apps
+    kind: Deployment
+    name: snackager
+    version: v1
 configMapGenerator:
 - name: snackager-config
   behavior: merge
