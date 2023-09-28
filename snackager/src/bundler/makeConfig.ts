@@ -71,10 +71,26 @@ export default ({
             options: {
               babelrc: false,
               configFile: false,
-              presets: [require.resolve('metro-react-native-babel-preset')],
+              presets: [
+                [
+                  require.resolve('metro-react-native-babel-preset'),
+                  {
+                    // Disable the implicit plugin-transform-runtime and add ourselves in the plugins list
+                    enableBabelRuntime: false,
+                  },
+                ],
+              ],
               plugins: [
                 RewriteImportsPlugin,
                 require.resolve('@babel/plugin-proposal-export-namespace-from'),
+                [
+                  require.resolve('@babel/plugin-transform-runtime'),
+                  {
+                    helpers: true,
+                    regenerator: true,
+                    version: require('@babel/runtime/package.json').version,
+                  },
+                ],
                 ...(reanimatedPlugin ? [require.resolve('react-native-reanimated/plugin')] : []),
                 ...(expoRouterPlugin ? [snackRequireContextVirtualModuleBabelPlugin] : []),
               ],

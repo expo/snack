@@ -16,7 +16,7 @@ afterAll(() => cleanUnusedLockfiles());
 describe('bundler', () => {
   it('creates bundle for a single platform', async () => {
     const bundle = await bundleAsync('firestorter@2.0.1', ['ios']);
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
   });
 
   it('fails when no package name is specified', async () => {
@@ -28,7 +28,7 @@ describe('bundler', () => {
     // The `expo-app-auth` dependency should however still be externalized and
     // not linked into the bundle.
     const bundle = await bundleAsync('expo-google-app-auth@8.1.3');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     expect(bundle.files.android['bundle.js'].externals).toEqual(
       expect.arrayContaining(['expo-app-auth']),
     );
@@ -40,14 +40,14 @@ describe('bundler', () => {
     // The bundler should install `react-native-web` and resolve the import correctly.
     // All regular `react-native-web` imports should be externalized.
     const bundle = await bundleAsync('expo-linear-gradient@8.2.1');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
   });
 
   it('resolves commonly missing peer-deps (prop-types)', async () => {
     // For example 'react-native-responsive-grid@0.32.4' has a dependency
     // on prop-types but no peerDep listed in package.json.
     const bundle = await bundleAsync('react-native-responsive-grid@0.32.4');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     expect(bundle.files.android['bundle.js'].externals).not.toEqual(
       expect.arrayContaining(['prop-types']),
     );
@@ -55,7 +55,7 @@ describe('bundler', () => {
 
   it.skip('creates bundle for @react-navigation/native', async () => {
     const bundle = await bundleAsync('@react-navigation/native@5.7.3');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // @react-navigation/core should be included in the bundle and not an external
     expect(bundle.files.android['bundle.js'].externals).not.toEqual(
       expect.arrayContaining(['@react-navigation/core']),
@@ -64,7 +64,7 @@ describe('bundler', () => {
 
   it('creates bundle for @react-navigation/stack', async () => {
     const bundle = await bundleAsync('@react-navigation/stack@5.9.0');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // @react-navigation/native should be included as an external
     expect(bundle.files.android['bundle.js'].externals).toEqual(
       expect.arrayContaining(['@react-navigation/native']),
@@ -73,7 +73,7 @@ describe('bundler', () => {
 
   it('externalizes references to react-native-gesture-handler/DrawerLayout', async () => {
     const bundle = await bundleAsync('react-navigation@3.13.0', ['ios']);
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // react-native-gesture-handler/DrawerLayout should be included as an external
     expect(bundle.files.ios['bundle.js'].externals).toEqual(
       expect.arrayContaining(['react-native-gesture-handler/DrawerLayout']),
@@ -82,7 +82,7 @@ describe('bundler', () => {
 
   it('creates bundle for subpath', async () => {
     const bundle = await bundleAsync('react-native-gesture-handler/DrawerLayout@1.6.0');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
   });
 
   it('disallows bundling of core modules', async () => {
@@ -107,17 +107,17 @@ describe('bundler', () => {
 
   it('creates bundle for subpath of core package', async () => {
     const bundle2 = await bundleAsync('react-native-web/src/modules/normalizeColor@0.14.4');
-    expect(bundle2).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle2)).toMatchSnapshot();
   });
 
   it('created bundle for react-native-gesture-handler', async () => {
     const bundle = await bundleAsync('react-native-gesture-handler@1.6.0');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
   });
 
   it('creates bundle for react-native-webview', async () => {
     const bundle = await bundleAsync('react-native-webview@10.9.1');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // react-native-webview contains a direct reference to
     // 'react-native/Libraries/BatchedBridge/BatchedBridge` and
     // should bundle correctly
@@ -125,7 +125,7 @@ describe('bundler', () => {
 
   it('creates bundle for react-native-screens/native-stack', async () => {
     const bundle = await bundleAsync('react-native-screens/native-stack@2.11.0');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // react-native-webview contains a direct reference to
     // 'react-native/Libraries/ReactNative/AppContainer` and
     // should bundle correctly
@@ -162,7 +162,7 @@ describe('bundler', () => {
 
   it('filter aliased react-native dependencies', async () => {
     const bundle = await bundleAsync('@react-native-community/datetimepicker@3.0.3');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // datetimepicker contains a peer-dependency on `react-native-windows`
     // which causes the snack-sdk to try and bundle that dependency as it is not
     // listed as a preloaded module. 'react-native-windows' is considered a special
@@ -174,7 +174,7 @@ describe('bundler', () => {
     const bundle = await bundleAsync('@react-native-community/viewpager@4.2.0');
     // this version detects TextInputState as missing package on `react-native@^0.57.0`
     // validate that we can install and bundle it properly
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     expect(bundle.peerDependencies['TextInputState']).toBeUndefined();
   });
 
@@ -184,7 +184,7 @@ describe('bundler', () => {
     // on `react-native-safe-area-context`. `react-native-safe-area-context` is
     // a package dependency which should be excluded from the bundle, even
     // if the import happens in a dependency of the requested package
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     ['ios', 'android', 'web'].forEach((platform) => {
       expect(bundle.files[platform]['bundle.js'].externals).toEqual(
         expect.arrayContaining(['react-native-safe-area-context']),
@@ -198,7 +198,7 @@ describe('bundler', () => {
     // because aws-amplify is HUGE, we are only testing `graphql@14.0.0` here.
     // see: https://github.com/graphql/graphql-js/issues/1272
     const bundle = await bundleAsync('graphql@14.0.0');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // Also validate that we don't have any relative extenals
     ['android', 'ios', 'web'].forEach((platform) => {
       expect(bundle.files[platform]['bundle.js'].externals).not.toEqual(
@@ -211,7 +211,7 @@ describe('bundler', () => {
     // This version of graphql contains a fix for the issue in graphql@14.
     // In this version, mjs files have the `.mjs` extension when imported.
     const bundle = await bundleAsync('graphql@15.5.1');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // Also validate that we don't have any relative externals
     ['android', 'ios', 'web'].forEach((platform) => {
       expect(bundle.files[platform]['bundle.js'].externals).not.toEqual(
@@ -222,23 +222,19 @@ describe('bundler', () => {
 
   it('bundles packages with json imports', async () => {
     const bundle = await bundleAsync('react-native-svg@12.1.1');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
   });
 
   it('creates bundle for @sentry/react-native@3.4.2', async () => {
     // This included a lot of new externals, see ../bundler/externals.ts
     const bundle = await bundleAsync('@sentry/react-native@3.4.2');
-    expect(bundle).toMatchSnapshot();
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
   });
 
   it('creates bundle for react-native-reanimated@2.9.1', async () => {
     // This version needs the `@babel/plugin-proposal-export-namespace-from` to bundle
     const bundle = await bundleAsync('react-native-reanimated@2.9.1');
-    // Note, on Linux/CI this seems to be 3 bytes less 🙈
-    // Let's manually check it instead.
-    expect(isInRange(bundle.files.android['bundle.js'].size, 457500, 458000)).toBe(true);
-    expect(isInRange(bundle.files.ios['bundle.js'].size, 457500, 458000)).toBe(true);
-    expect(isInRange(bundle.files.web['bundle.js'].size, 446500, 447000)).toBe(true);
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
   });
 
   it('creates bundle for @shopify/flash-list@1.2.0 without babel peer dependency', async () => {
@@ -248,6 +244,15 @@ describe('bundler', () => {
   });
 });
 
-function isInRange(value: number, rangeStart: number, rangeEnd: number) {
-  return rangeStart <= value && value <= rangeEnd;
+function normalizeBundleSize(bundle: Awaited<ReturnType<typeof bundleAsync>>) {
+  // The bundle size is not stable from platforms, so we have to normalize it for around 3kb bias
+  const BIAS = 3000;
+
+  for (const platform of Object.keys(bundle.files)) {
+    for (const file of Object.keys(bundle.files[platform])) {
+      bundle.files[platform][file].size =
+        Math.floor(bundle.files[platform][file].size / BIAS) * BIAS;
+    }
+  }
+  return bundle;
 }

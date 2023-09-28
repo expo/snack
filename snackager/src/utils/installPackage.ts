@@ -28,7 +28,7 @@ export default async function installPackage(
 
   // Add commonly used dependencies
   if (!pkg.dependencies['@babel/runtime']) {
-    pkg.dependencies['@babel/runtime'] = '*';
+    pkg.dependencies['@babel/runtime'] = require('@babel/runtime/package.json').version;
   }
 
   // Rewrite file

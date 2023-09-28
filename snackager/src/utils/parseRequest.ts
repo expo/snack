@@ -13,6 +13,7 @@ export type BundleRequest = {
   rebuild: boolean;
   bypassMetadataCache: boolean;
   versionSnackager: boolean;
+  sdkVersion?: string;
 };
 
 // parses a bundle request, resulting in these fields:
@@ -66,6 +67,7 @@ export default function parseRequest(url: string): BundleRequest {
     ? (query.platforms as string).split(',').filter((p) => p)
     : ['ios', 'android', 'web'];
 
+  const sdkVersion = Array.isArray(query?.sdkVersion) ? query?.sdkVersion[0] : query?.sdkVersion;
   return {
     qualified,
     scope,
@@ -79,5 +81,6 @@ export default function parseRequest(url: string): BundleRequest {
     ),
     bypassMetadataCache: Boolean(query?.bypassCache === 'true'),
     versionSnackager: Boolean(query?.version_snackager === 'true'),
+    sdkVersion,
   };
 }
