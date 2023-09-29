@@ -1,4 +1,3 @@
-import { originalConsole } from './Console';
 import { isVerbose } from './NativeModules/Linking';
 
 const verbose = isVerbose();
@@ -7,7 +6,7 @@ const logger =
   (type: string, color: string, textColor?: string) =>
   (...messages: unknown[]) => {
     if (verbose) {
-      originalConsole.log(
+      console.log(
         `%c ${type.toUpperCase()} `,
         `background: ${color}; color: ${textColor ?? '#fff'}`,
         ...messages

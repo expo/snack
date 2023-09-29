@@ -4,9 +4,7 @@ import Constants from 'expo-constants';
 import * as React from 'react';
 import { View, ScrollView, Text, StyleSheet, Platform } from 'react-native';
 
-import * as Files from './Files';
 import * as Logger from './Logger';
-import * as Messaging from './Messaging';
 import * as Modules from './Modules';
 import ExceptionManager from './NativeModules/ExceptionManager';
 
@@ -40,54 +38,55 @@ console.reportErrorsAsExceptions = false;
 
 // Report an error
 export const report = (e: Error) => {
-  Logger.error(e);
-  setError(e);
+  return;
+  // Logger.error(e);
+  // setError(e);
 
-  // Ensure the error is a real error
-  if (typeof e !== 'object') {
-    e = new Error(String(e));
-  }
+  // // Ensure the error is a real error
+  // if (typeof e !== 'object') {
+  //   e = new Error(String(e));
+  // }
 
-  // Try to resolve the location of the error
-  const name = e.name;
-  const stack = e.stack;
-  const message = e.message;
-  // @ts-ignore: fileName is not a default field of Error
-  let fileName: string = e.fileName || '';
-  // @ts-ignore: line fields are optional
-  let lineNumber: number | undefined = e.lineNumber ?? e.startLine ?? e.line;
-  // @ts-ignore: column fields are optional
-  let columnNumber: number | undefined = e.columnNumber ?? e.startColumn ?? e.column;
-  const lines = message.split('\n');
-  for (let i = 0; i < lines.length; i++) {
-    let match = lines[i].match(/module:\/+(.*):(.*)\s\((\d+):(\d+)(\n|\))/);
-    if (match) {
-      fileName = Modules.sanitizeModule(match[1]);
-      lineNumber = Number(match[3]);
-      columnNumber = Number(match[4]);
-      break;
-    }
-    match = lines[i].match(/module:\/+(.*)/);
-    if (match) {
-      fileName = Modules.sanitizeModule(match[1]);
-      if (Files.get(fileName)) {
-        break;
-      }
-    }
-  }
+  // // Try to resolve the location of the error
+  // const name = e.name;
+  // const stack = e.stack;
+  // const message = e.message;
+  // // @ts-ignore: fileName is not a default field of Error
+  // let fileName: string = e.fileName || '';
+  // // @ts-ignore: line fields are optional
+  // let lineNumber: number | undefined = e.lineNumber ?? e.startLine ?? e.line;
+  // // @ts-ignore: column fields are optional
+  // let columnNumber: number | undefined = e.columnNumber ?? e.startColumn ?? e.column;
+  // const lines = message.split('\n');
+  // for (let i = 0; i < lines.length; i++) {
+  //   let match = lines[i].match(/module:\/+(.*):(.*)\s\((\d+):(\d+)(\n|\))/);
+  //   if (match) {
+  //     fileName = Modules.sanitizeModule(match[1]);
+  //     lineNumber = Number(match[3]);
+  //     columnNumber = Number(match[4]);
+  //     break;
+  //   }
+  //   match = lines[i].match(/module:\/+(.*)/);
+  //   if (match) {
+  //     fileName = Modules.sanitizeModule(match[1]);
+  //     if (Files.get(fileName)) {
+  //       break;
+  //     }
+  //   }
+  // }
 
   // Send error
-  Messaging.publish({
-    type: 'ERROR',
-    error: JSON.stringify({
-      name,
-      message,
-      fileName,
-      lineNumber,
-      columnNumber,
-      stack,
-    }),
-  });
+  // Messaging.publish({
+  //   type: 'ERROR',
+  //   error: JSON.stringify({
+  //     name,
+  //     message,
+  //     fileName,
+  //     lineNumber,
+  //     columnNumber,
+  //     stack,
+  //   }),
+  // });
 };
 
 export const status = () => (getError() ? 'FAILURE' : 'SUCCESS');

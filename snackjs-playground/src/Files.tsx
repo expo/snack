@@ -24,6 +24,25 @@ type File = {
 
 const files: { [key: string]: File } = {};
 
+export function setFiles(_files: Record<string, string | Partial<File>>) {
+  for (const name in _files) {
+    let file = _files[name];
+
+    if (typeof file === 'string') {
+      file = { contents: file };
+    }
+
+    files[name] = {
+      isAsset: file.isAsset ?? false,
+      isBundled: file.isBundled ?? false,
+      s3Url: file.s3Url ?? undefined,
+      s3Contents: file.s3Contents ?? undefined,
+      diff: file.diff ?? undefined,
+      contents: file.contents ?? undefined,
+    };
+  }
+}
+
 // Initialize by reading from `extra.code` in manifest if present
 const manifest = Constants.manifest;
 
