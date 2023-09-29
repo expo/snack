@@ -30,6 +30,34 @@ import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
 
+// Resolve a request to a library, using module id + parent module
+function resolveMetroDependencyFile(requestedUrl: string, requestedBaseUrl = '') {
+  const sanitizedBaseUrl = requestedBaseUrl
+    .replace(/^module:\/\//, '')
+    .replace(/(\.js)(\.js)+/, '$1');
+
+  const metroUrl =
+    `http://localhost:8089/_expo/resolve?platform=${Platform.OS}` +
+    `&module=${encodeURIComponent(requestedUrl)}` +
+    `&origin=${encodeURIComponent(sanitizedBaseUrl)}`;
+
+  Logger.info('[Metro] Attempting to resolve', metroUrl);
+
+  return metroUrl;
+}
+
+// Fetch the contents of the file from Metro
+async function fetchMetroDependencyFile(metroUrl: string) {
+  Logger.info('[Metro] Attempting to fetch', metroUrl);
+
+  const response = await fetch(metroUrl);
+  if (response.ok) {
+    return await response.text();
+  }
+
+  throw new Error(`Failed to fetch Metro dependency file` + (response.statusText ?? ''));
+}
+
 type Dependencies = {
   [key: string]: { resolved?: string; version: string; handle?: string };
 };
@@ -131,6 +159,11 @@ const _get = (header: { [key: string]: string }, value: string) =>
 const fetchPipeline = async (load: Load) => {
   return await Profiling.section(`\`Modules.fetchPipeline('${load.address}')\``, async () => {
     const uri = load.address;
+
+    // Handle Metro HTTP requests
+    if (uri.startsWith('http')) {
+      return await fetchMetroDependencyFile(uri);
+    }
 
     if (!startsWith(uri, 'module://')) {
       throw new Error(`Invalid module URI '${uri}', must start with 'module://'`);
@@ -580,6 +613,9 @@ const _initialize = async () => {
   const oldResolve = System.resolve;
 
   System.resolve = async function (url: string, baseUrl?: string) {
+    const originalUrl = url;
+    const originalBaseUrl = baseUrl;
+
     // Relative URI? Use 'path.normalize(...)' to deal with '..'s properly.
     if (baseUrl && startsWith(url, '.')) {
       const basePath = baseUrl.replace(/^module:\/\//, '');
@@ -760,6 +796,14 @@ const _initialize = async () => {
       // Add a '.js' extension so that the SystemJS plugin handles this file
       // This extra extension will be stripped in the fetch and transform pipeline
       url += '.js';
+
+      if (!resolved) {
+        url += '?baseUrl=' + originalBaseUrl ? encodeURIComponent(String(originalBaseUrl)) : '';
+      }
+    }
+
+    if (!System.has(url) && !url.startsWith('module://')) {
+      url = resolveMetroDependencyFile(originalUrl, originalBaseUrl);
     }
 
     return await oldResolve.call(this, url, baseUrl);
