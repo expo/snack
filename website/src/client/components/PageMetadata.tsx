@@ -44,6 +44,8 @@ export function getPageMetadata(props: Props) {
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description },
     { name: 'twitter:image', content: image },
+    // Crawlers (SEO)
+    { name: 'robots', content: !props.id ? 'all' : 'none' }, // Only allow indexing on root URL (no Snack loaded)
   ];
 
   return {
