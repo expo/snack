@@ -1,7 +1,7 @@
-import Constants from 'expo-constants';
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 
+import { selectEnvironment } from '../Environment';
 import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
 
@@ -30,10 +30,10 @@ export default class RuntimeTransportImplSocketIO implements RuntimeTransport {
   constructor(device: Device) {
     this.device = device;
     this.sender = JSON.stringify(device);
-    const snackpubURL =
-      Constants.manifest?.extra?.cloudEnv !== 'production'
-        ? SNACKPUB_URL_STAGING
-        : SNACKPUB_URL_PRODUCTION;
+    const snackpubURL = selectEnvironment({
+      staging: SNACKPUB_URL_STAGING,
+      production: SNACKPUB_URL_PRODUCTION,
+    });
     this.socket = io(snackpubURL, { transports: ['websocket'] });
     this.socket.on('terminate', (reason) => {
       Logger.comm(`Terminating connection: ${reason}`);

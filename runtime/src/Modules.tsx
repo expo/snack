@@ -23,6 +23,7 @@ import { SourceMapConsumer, RawSourceMap } from 'source-map';
 
 import ReanimatedPlugin from '../vendor/reanimated-plugin';
 import System from '../vendor/system.src';
+import { selectEnvironment } from './Environment';
 import * as Files from './Files';
 import * as Logger from './Logger';
 import AssetRegistry from './NativeModules/AssetRegistry';
@@ -312,10 +313,10 @@ const fetchPipeline = async (load: Load) => {
           );
         } else {
           // In development, try fetching from staging cloudfront first
-          const cloudFrontUrls =
-            Constants.manifest?.extra?.cloudEnv !== 'production'
-              ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
-              : [SNACKAGER_CDN_PROD];
+          const cloudFrontUrls = selectEnvironment({
+            staging: [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD],
+            production: [SNACKAGER_CDN_PROD],
+          });
           for (const url of cloudFrontUrls) {
             const fetchFrom = `${url}/${handle}-${Platform.OS}/bundle.js`;
 
