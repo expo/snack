@@ -6770,11 +6770,6 @@ expect@^29.5.0:
     jest-message-util "^29.5.0"
     jest-util "^29.5.0"
 
-expo-analytics-amplitude@~11.3.0:
-  version "11.3.0"
-  resolved "https://registry.yarnpkg.com/expo-analytics-amplitude/-/expo-analytics-amplitude-11.3.0.tgz#349e718d8bb8ba8962ac47c3916ae5a8c2092666"
-  integrity sha512-Gq1tE0L753cxiGmm3F+MEq+oXMsY1wicRc5stFIQa/jxjpJ2wUZRhWSmoBcuAlAwgkdGgwSPpEnd36IQf/GWnA==
-
 expo-application@~5.3.0:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-5.3.1.tgz#074bbfc6bb5d65ae74a67f5288fa3eb582237e53"
@@ -12500,7 +12495,7 @@ smart-buffer@^4.1.0:
   integrity sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
 
 "snack-babel-standalone@file:../packages/snack-babel-standalone":
-  version "3.0.0"
+  version "3.0.1"
 
 "snack-require-context@file:../packages/snack-require-context":
   version "0.1.0"

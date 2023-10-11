@@ -30,7 +30,6 @@
     "diff": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
     "expo": "^49.0.10",
-    "expo-analytics-amplitude": "~11.3.0",
     "expo-asset": "~8.10.1",
     "expo-barcode-scanner": "~12.5.3",
     "expo-constants": "~14.4.2",
