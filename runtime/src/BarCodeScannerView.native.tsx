@@ -1,7 +1,6 @@
 import { BarCodeScanner, BarCodeScannedCallback } from 'expo-barcode-scanner';
-import Constants from 'expo-constants';
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 
 import LoadingView from './LoadingView';
 
@@ -44,7 +43,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
 
     if (hasCameraPermission) {
       return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Text style={styles.initialURL}>{`Launch URL: ${initialURL}`}</Text>
           <Text style={styles.paragraph}>
             Open up https://snack.expo.dev and scan the QR code to get started!
@@ -54,7 +53,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
           </Text>
           {/* @ts-ignore Property 'style' does not exist on type */}
           <BarCodeScanner style={styles.camera} onBarCodeScanned={onBarCodeScanned} />
-        </View>
+        </SafeAreaView>
       );
     }
 
@@ -72,7 +71,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
   },
   initialURL: {

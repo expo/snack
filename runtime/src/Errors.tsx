@@ -1,8 +1,7 @@
 // Currently only one error is saved at a time for display
 
-import Constants from 'expo-constants';
 import * as React from 'react';
-import { View, ScrollView, Text, StyleSheet, Platform } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Platform, SafeAreaView } from 'react-native';
 
 import * as Files from './Files';
 import * as Logger from './Logger';
@@ -194,7 +193,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
 
   _renderOverlay(error: Error) {
     return (
-      <View style={styles.overlay}>
+      <SafeAreaView style={styles.overlay}>
         <View style={styles.header}>
           <Text style={styles.title}>
             <Text style={styles.titleBold}>Did you know: </Text>
@@ -205,7 +204,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
           {this._renderErrorMessage(error)}
           {this._renderStackTrace(error)}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -268,7 +267,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     position: 'absolute',
-    top: 28 + Constants.statusBarHeight,
+    top: 28,
     bottom: 28,
     left: 28,
     right: 28,

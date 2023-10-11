@@ -1,7 +1,6 @@
 import type { BarCodeEvent } from 'expo-barcode-scanner';
-import Constants from 'expo-constants';
 import * as React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { TextInput, StyleSheet, SafeAreaView } from 'react-native';
 
 type Props = {
   onBarCodeScanned: (event: Pick<BarCodeEvent, 'type' | 'data'>) => any;
@@ -10,13 +9,13 @@ type Props = {
 
 export default function BarCodeScannerView({ onBarCodeScanned }: Props) {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TextInput
         style={styles.input}
         onSubmitEditing={(e) => onBarCodeScanned({ data: e.nativeEvent.text, type: 'url' })}
         placeholder="Enter URL to load"
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -24,7 +23,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
   },
   input: {
