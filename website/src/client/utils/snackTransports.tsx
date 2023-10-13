@@ -5,8 +5,6 @@ import {
   SnackTransportListener,
 } from 'snack-sdk';
 
-import Analytics from './Analytics';
-
 export function createSnackWorkerTransport(
   testTransport: 'snackpub' | 'trafficMirroring',
   options: SnackTransportOptions
@@ -26,10 +24,6 @@ export function createSnackWorkerTransport(
       if (!transportListener) {
         transportListener = (event: any) => {
           const message = event.data;
-          if (message?.type === 'transportConnectionUpdates' && message?.payload?.name) {
-            Analytics.getInstance().logEvent(message.payload.name, message.payload);
-            return;
-          }
           listener(message);
         };
       }

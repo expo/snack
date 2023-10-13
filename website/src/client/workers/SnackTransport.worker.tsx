@@ -5,11 +5,7 @@ declare const self: WorkerGlobalScope;
 // @ts-ignore
 self.window = self; // Needed for pubnub to work
 
-const {
-  createTrafficMirroringTransport,
-  createTransport,
-  ConnectionMetricsEmitter,
-} = require('snack-sdk');
+const { createTrafficMirroringTransport, createTransport } = require('snack-sdk');
 
 let transport: SnackTransport | undefined = undefined;
 const transportCallback = (event: SnackTransportEvent) => postMessage(event);
@@ -29,10 +25,6 @@ onmessage = (event) => {
     }
   }
 };
-
-ConnectionMetricsEmitter.setUpdateListener((event: object) => {
-  postMessage({ type: 'transportConnectionUpdates', payload: event });
-});
 
 function transportFactory(testTransport: string, data: any) {
   if (testTransport === 'trafficMirroring') {
