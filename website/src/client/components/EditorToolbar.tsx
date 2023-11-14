@@ -58,9 +58,7 @@ export default function EditorToolbar(props: Props) {
   const isPublishing = saveStatus === 'publishing';
   const isPublished = saveStatus === 'published';
 
-  const { isEnabled: showOrbitButton, openWithExperienceURL: onOpenWithOrbit } = useOrbit({
-    experiments: viewer?.experiments,
-  });
+  const { isEnabled: showOrbitButton, openWithExperienceURL: onOpenWithOrbit } = useOrbit();
 
   return (
     <ToolbarShell>

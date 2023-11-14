@@ -2,7 +2,6 @@ import customProtocolCheck from 'custom-protocol-check';
 import { useCallback, useEffect, useState } from 'react';
 
 import { isMacOS } from './detectPlatform';
-import { Experiment, UserData } from '../auth/authManager';
 
 const ORBIT_SERVER_PORTS = [35783, 47909, 44171, 50799];
 
@@ -57,16 +56,9 @@ async function fetchLocalOrbitServer<T extends keyof LocalServerRoutes>(
   return undefined;
 }
 
-interface UseOrbitParams {
-  experiments?: UserData['experiments'];
-}
-
-export function useOrbit({ experiments }: UseOrbitParams = {}) {
+export function useOrbit() {
   const [isRunning, setIsRunning] = useState(false);
   const isRunningMacOS = isMacOS(navigator?.userAgent);
-
-  const hasEnabledOrbitExperiment =
-    experiments?.find(({ experiment }) => experiment === Experiment.Orbit)?.enabled ?? false;
 
   const openWithExperienceURL = useCallback(
     async (experienceURL: string, onFail?: () => void) => {
@@ -97,7 +89,7 @@ export function useOrbit({ experiments }: UseOrbitParams = {}) {
   }, [isRunningMacOS]);
 
   return {
-    isEnabled: hasEnabledOrbitExperiment || isRunning,
+    isEnabled: isRunningMacOS,
     openWithExperienceURL,
   };
 }
