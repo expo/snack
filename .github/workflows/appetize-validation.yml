@@ -62,8 +62,8 @@ jobs:
         # Redirect output because the endpoint returns the public and private app keys
         run: curl --silent --fail -o appetize.json https://$TOKEN@api.appetize.io/v1/apps/$APP > /dev/null
         env:
-          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
-          APP: ${{ secrets[format('APPETIZE_{0}_{1}', matrix.appetize, matrix.platform)] }}
+          TOKEN: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_{1}', matrix.appetize, matrix.platform)] }}
 
       - name: 📋 Download SDK information
         run: curl --silent -o versions.json https://exp.host/--/api/v2/versions

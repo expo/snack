@@ -8,7 +8,7 @@ on:
         description: Appetize queue to use
         default: main
         options:
-          - all 
+          - all
           - embed
           - main
       sdkPlatform:
@@ -90,8 +90,8 @@ jobs:
         # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
         run: curl --silent --fail -o appetize.json https://$TOKEN@api.appetize.io/v1/apps/$APP > /dev/null
         env:
-          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
-          APP: ${{ secrets[format('APPETIZE_{0}_ANDROID', matrix.appetize)] }}
+          TOKEN: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_ANDROID', matrix.appetize)] }}
 
       - name: 🔍 Resolve Appetize version
         uses: actions/github-script@v4
@@ -106,7 +106,7 @@ jobs:
       - name: 📱 Download Android client (${{ matrix.androidVersion }})
         if: github.event.inputs.deploy == 'deploy'
         run: curl -o exponent-android.apk ${{ matrix.androidUrl }}
-      
+
       - name: 🚀 Upload to Appetize
         if: github.event.inputs.deploy == 'deploy'
         # This step MUST NOT output anything, the endpoint returns the public and private app keys
@@ -114,8 +114,8 @@ jobs:
           curl --silent --fail --http1.1 https://$TOKEN@api.appetize.io/v1/apps/$APP -F "file=@exponent-android.apk" -F "platform=android" > /dev/null
           rm -rf exponent-android.apk appetize.json
         env:
-          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
-          APP: ${{ secrets[format('APPETIZE_{0}_ANDROID', matrix.appetize)] }}
+          TOKEN: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_ANDROID', matrix.appetize)] }}
 
       - name: 📢 Notify on Slack
         uses: 8398a7/action-slack@v3
@@ -125,7 +125,7 @@ jobs:
         with:
           channel: '#snack'
           status: ${{ job.status }}
-          author_name: Deploy Android (${{ steps.appetize.outputs.oldVersion }} -> ${{ matrix.androidVersion }}) on ${{ matrix.appetize }} 
+          author_name: Deploy Android (${{ steps.appetize.outputs.oldVersion }} -> ${{ matrix.androidVersion }}) on ${{ matrix.appetize }}
           fields: author
 
   ios:
@@ -143,8 +143,8 @@ jobs:
         # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
         run: curl --silent --fail -o appetize.json https://$TOKEN@api.appetize.io/v1/apps/$APP > /dev/null
         env:
-          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
-          APP: ${{ secrets[format('APPETIZE_{0}_IOS', matrix.appetize)] }}
+          TOKEN: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_IOS', matrix.appetize)] }}
 
       - name: 🔍 Resolve Appetize version
         uses: actions/github-script@v4
@@ -155,7 +155,7 @@ jobs:
             if (!appVersionName) throw new Error('Invalid Appetize response')
             core.info(`Appetize (${{ matrix.appetize }}) is running iOS ${appVersionName}`)
             core.setOutput('oldVersion', appVersionName)
-      
+
       - name: 📱 Download iOS client (${{ matrix.iosVersion }})
         if: github.event.inputs.deploy == 'deploy'
         run: curl -o exponent-ios.tar.gz ${{ matrix.iosUrl }}
@@ -175,8 +175,8 @@ jobs:
           curl --silent --fail --http1.1 https://$TOKEN@api.appetize.io/v1/apps/$APP -F "file=@exponent-ios.zip" -F "platform=ios" > /dev/null
           rm -rf exponent-ios.zip appetize.json
         env:
-          TOKEN: ${{ secrets[format('APPETIZE_{0}_TOKEN', matrix.appetize)] }}
-          APP: ${{ secrets[format('APPETIZE_{0}_IOS', matrix.appetize)] }}
+          TOKEN: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_TOKEN', matrix.appetize)] }}
+          APP: ${{ secrets[format('SNACK_RUNTIME_APPETIZE_{0}_IOS', matrix.appetize)] }}
 
       - name: 📢 Notify on Slack
         uses: 8398a7/action-slack@v3
@@ -186,5 +186,5 @@ jobs:
         with:
           channel: '#snack'
           status: ${{ job.status }}
-          author_name: Deploy iOS (${{ steps.appetize.outputs.oldVersion }} -> ${{ matrix.androidVersion }}) on ${{ matrix.appetize }} 
+          author_name: Deploy iOS (${{ steps.appetize.outputs.oldVersion }} -> ${{ matrix.androidVersion }}) on ${{ matrix.appetize }}
           fields: author

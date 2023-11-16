@@ -80,14 +80,14 @@ jobs:
         if: ${{ contains('all web', github.event.inputs.platform) }}
         run: yarn deploy:web:staging
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_SECRET }}
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
         run: yarn deploy:staging
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_STAGING }}
+          EXPO_TOKEN: ${{ secrets.SNACK_RUNTIME_EXPO_STAGING }}
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: 💬 Notify Slack
@@ -120,14 +120,14 @@ jobs:
         if: ${{ contains('all web', github.event.inputs.platform) }}
         run: yarn deploy:web:prod
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_PRODUCTION }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_PRODUCTION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_SECRET }}
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
         run: yarn deploy:prod
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_PRODUCTION }}
+          EXPO_TOKEN: ${{ secrets.SNACK_RUNTIME_EXPO_PRODUCTION }}
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: 💬 Notify Slack
