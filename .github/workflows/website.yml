@@ -81,7 +81,7 @@ jobs:
           project-id: exponentjs
           project-zone: us-central1
           project-cluster: general-central
-          service-key: ${{ secrets.GCLOUD_KEY }}
+          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build website
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
@@ -130,7 +130,7 @@ jobs:
           project-id: exponentjs
           project-zone: us-central1
           project-cluster: general-central
-          service-key: ${{ secrets.GCLOUD_KEY }}
+          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build website
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
@@ -185,7 +185,7 @@ jobs:
           project-id: exponentjs
           project-zone: us-central1
           project-cluster: general-central
-          service-key: ${{ secrets.GCLOUD_KEY }}
+          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build website
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json

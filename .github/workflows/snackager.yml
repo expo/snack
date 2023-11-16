@@ -113,7 +113,7 @@ jobs:
           project-id: exponentjs
           project-zone: us-central1
           project-cluster: general-central
-          service-key: ${{ secrets.GCLOUD_KEY }}
+          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build snackager
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
@@ -141,7 +141,7 @@ jobs:
           project-id: exponentjs
           project-zone: us-central1
           project-cluster: general-central
-          service-key: ${{ secrets.GCLOUD_KEY }}
+          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build snackager
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
@@ -196,7 +196,7 @@ jobs:
           project-id: exponentjs
           project-zone: us-central1
           project-cluster: general-central
-          service-key: ${{ secrets.GCLOUD_KEY }}
+          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
 
       - name: 🛠 Build snackager
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
