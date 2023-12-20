@@ -22,7 +22,6 @@ on:
   pull_request:
     paths:
       - .github/actions/setup-google-cloud/**
-      - .github/actions/setup-secrets/**
       - .github/actions/setup-snackager/**
       - .github/workflows/snackager.yml
       - snackager/**
@@ -37,7 +36,6 @@ on:
     branches: [main]
     paths:
       - .github/actions/setup-google-cloud/**
-      - .github/actions/setup-secrets/**
       - .github/actions/setup-snackager/**
       - .github/workflows/snackager.yml
       - snackager/**
@@ -55,11 +53,6 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup snackager
         uses: ./.github/actions/setup-snackager
@@ -81,11 +74,6 @@ jobs:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
 
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
-
       - name: 🏗 Setup snackager
         uses: ./.github/actions/setup-snackager
 
@@ -101,11 +89,6 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
@@ -129,11 +112,6 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
@@ -185,11 +163,6 @@ jobs:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
 
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
-
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
         with:
@@ -231,4 +204,3 @@ jobs:
           status: ${{ job.status }}
           author_name: Deploy Snackager to Production
           fields: message,commit,author,job,took
-

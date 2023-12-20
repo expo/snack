@@ -22,7 +22,6 @@ on:
   pull_request:
     paths:
       - .github/actions/setup-google-cloud/**
-      - .github/actions/setup-secrets/**
       - .github/actions/setup-snackpub/**
       - .github/workflows/snackpub.yml
       - snackpub/**
@@ -34,7 +33,6 @@ on:
     branches: [main]
     paths:
       - .github/actions/setup-google-cloud/**
-      - .github/actions/setup-secrets/**
       - .github/actions/setup-snackpub/**
       - .github/workflows/snackpub.yml
       - snackpub/**
@@ -49,11 +47,6 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup snackpub
         uses: ./.github/actions/setup-snackpub
@@ -70,11 +63,6 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
@@ -97,11 +85,6 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
@@ -147,11 +130,6 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
-
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
