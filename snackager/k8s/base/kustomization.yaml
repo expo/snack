@@ -5,6 +5,8 @@ commonLabels:
 resources:
 - deployment.yaml
 - service.yaml
+configurations:
+  - external-secrets-config.yaml
 configMapGenerator:
 - name: snackager-config
   envs:
@@ -14,8 +16,4 @@ configMapGenerator:
   - NODE_ENV=production
 secretGenerator:
 - name: snackager-config
-  files:
-  - secrets/SENTRY_DSN
 - name: git-account-credentials
-  files:
-  - id_rsa=secrets/github-key.pem
