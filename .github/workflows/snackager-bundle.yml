@@ -32,6 +32,8 @@ jobs:
 
       - name: 🏗 Setup snackager
         uses: ./.github/actions/setup-snackager
+        with:
+          node-version: 16.x
 
       - name: 🛠 Bundle package
         run: |
