@@ -10,7 +10,8 @@
     "start": "turbo build --filter '{./packages/snack-term}...' && yarn --cwd ./packages/snack-term start",
     "lint": "turbo lint --filter './packages/*' --",
     "test": "turbo test --filter './packages/*' --",
-    "build": "turbo build --filter './packages/*' --"
+    "build": "turbo build --filter './packages/*' --",
+    "postinstall": "yarn run build"
   },
   "workspaces": {
     "packages": [
