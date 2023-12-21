@@ -72,6 +72,7 @@ export default ({
               babelrc: false,
               configFile: false,
               presets: [
+                require.resolve('@babel/preset-typescript'),
                 [
                   require.resolve('metro-react-native-babel-preset'),
                   {
