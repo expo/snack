@@ -27,8 +27,6 @@ jobs:
 
       - name: 🏗 Setup snackager
         uses: ./.github/actions/setup-snackager
-        with:
-          node-version: 16.x
 
       - name: 🛠 Bundle package
         run: |
@@ -37,3 +35,5 @@ jobs:
           PLATFORMS="${{ github.event.inputs.platforms }}"
 
           yarn bundle "$NAME@$VERSION?platforms=$PLATFORMS" | yarn bunyan --level DEBUG
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
