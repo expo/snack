@@ -69,7 +69,7 @@
     "lodash": "^4.17.20",
     "nanoid": "^3.1.20",
     "nullthrows": "^1.1.1",
-    "pubnub": "^7.2.0",
+    "pubnub": "^7.4.0",
     "semver": "^7.3.4",
     "snack-content": "~1.6.0",
     "socket.io-client": "~4.5.4",
