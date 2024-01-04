@@ -3,6 +3,7 @@
 
 import { applyPatch } from 'diff';
 import Constants from 'expo-constants';
+import { type SnackFiles } from 'snack-content';
 
 type Message = {
   type: 'CODE';
@@ -25,16 +26,15 @@ type File = {
 const files: { [key: string]: File } = {};
 
 // Initialize by reading from `extra.code` in manifest if present
-const manifest = Constants.manifest;
+const manifest = Constants.manifest as { extra?: { code: SnackFiles } };
 
 if (manifest?.extra?.code) {
   const initialCode = manifest.extra.code;
-  Object.keys(initialCode).forEach((path) => {
-    const initialFile = initialCode[path];
+  Object.entries(initialCode).forEach(([path, initialFile]) => {
     const isAsset = initialFile.type === 'ASSET';
     files[path] = {
       isAsset,
-      s3Url: isAsset ? initialFile.contents : undefined,
+      s3Url: isAsset ? String(initialFile.contents) : undefined,
       s3Contents: undefined,
       diff: undefined,
       contents: !isAsset ? initialFile.contents : undefined,
