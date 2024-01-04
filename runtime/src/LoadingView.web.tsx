@@ -24,17 +24,18 @@ const styles = StyleSheet.create({
     height: 100,
     resizeMode: 'contain',
     opacity: 0,
-    animationDelay: '2s',
-    animationDuration: '2s',
-    transitionTimingFunction: 'ease-out',
-    animationIterationCount: 'infinite',
-    animationKeyframes: [
-      {
-        '0%': { opacity: 0.1 },
-        '48%': { opacity: 0.5 },
-        '52%': { opacity: 0.5 },
-        '100%': { opacity: 0.1 },
-      },
-    ],
+    // TODO: clean up unused animation properties
+    // animationDelay: '2s',
+    // animationDuration: '2s',
+    // transitionTimingFunction: 'ease-out',
+    // animationIterationCount: 'infinite',
+    // animationKeyframes: [
+    //   {
+    //     '0%': { opacity: 0.1 },
+    //     '48%': { opacity: 0.5 },
+    //     '52%': { opacity: 0.5 },
+    //     '100%': { opacity: 0.1 },
+    //   },
+    // ],
   },
 });
