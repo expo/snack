@@ -12,7 +12,7 @@ module.exports = async function (env, argv) {
       p.constructor.name !== 'WebpackDeepScopeAnalysisPlugin' &&
       // We don't need PWA support for now\
       // Leaving this enabled produces a broken manifest link for sub paths
-      p.constructor.name !== 'WebpackPwaManifest'
+      p.constructor.name !== 'WebpackPwaManifest',
   );
 
   // We serve the app under a subpath
@@ -23,7 +23,7 @@ module.exports = async function (env, argv) {
     path.join(__dirname, 'assets', 'favicon.png');
 
   config.plugins.find(
-    (p) => p.constructor.name === 'InterpolateHtmlPlugin'
+    (p) => p.constructor.name === 'InterpolateHtmlPlugin',
   ).replacements.PUBLIC_URL = '';
 
   config.plugins.find((p) => p.constructor.name === 'ManifestPlugin').opts.publicPath = '';

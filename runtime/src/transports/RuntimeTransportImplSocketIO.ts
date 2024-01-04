@@ -2,8 +2,8 @@ import Constants from 'expo-constants';
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 
-import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
+import * as Logger from '../Logger';
 
 const SNACKPUB_URL_STAGING = 'https://staging-snackpub.expo.dev';
 const SNACKPUB_URL_PRODUCTION = 'https://snackpub.expo.dev';
