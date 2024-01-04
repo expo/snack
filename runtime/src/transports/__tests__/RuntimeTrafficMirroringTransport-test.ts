@@ -40,7 +40,7 @@ describe(RuntimeTrafficMirroringTransport, () => {
 
   function emitCallbacks(
     transport: typeof RuntimeTransportImplSocketIO | typeof RuntimeTransportImplPubNub,
-    message: RuntimeMessagePayload['message']
+    message: RuntimeMessagePayload['message'],
   ) {
     const mockTransportClass = transport as jest.MockedClass<typeof transport>;
     const mockTransport = mockTransportClass.mock.instances[0];
@@ -63,12 +63,12 @@ describe(RuntimeTrafficMirroringTransport, () => {
     if (primaryTransport) {
       const mockLogger = Logger.comm as jest.MockedFunction<typeof Logger.comm>;
       expect(mockLogger).toBeCalledWith(
-        '[RuntimeTrafficMirroringTransport] ack upper from primary transport'
+        '[RuntimeTrafficMirroringTransport] ack upper from primary transport',
       );
     } else {
       const mockLogger = Logger.warn as jest.MockedFunction<typeof Logger.warn>;
       expect(mockLogger).toBeCalledWith(
-        '[RuntimeTrafficMirroringTransport] ack upper from fallback transport'
+        '[RuntimeTrafficMirroringTransport] ack upper from fallback transport',
       );
     }
   }

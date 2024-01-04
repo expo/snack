@@ -199,7 +199,7 @@ export default class App extends React.Component<object, State> {
   };
 
   _handleAppStateChange = (
-    appState: 'active' | 'inactive' | 'background' | 'unknown' | 'extension'
+    appState: 'active' | 'inactive' | 'background' | 'unknown' | 'extension',
   ) => {
     const foreground = appState === 'active';
 
@@ -233,7 +233,7 @@ export default class App extends React.Component<object, State> {
 
     if (!channel) {
       Logger.warn(
-        `Snack URL didn't have either the format 'https://exp.host/@snack/SAVE_UUID+CHANNEL_UUID' or 'https://exp.host/@snack/sdk.14.0.0-UUID'`
+        `Snack URL didn't have either the format 'https://exp.host/@snack/SAVE_UUID+CHANNEL_UUID' or 'https://exp.host/@snack/sdk.14.0.0-UUID'`,
       );
       return false;
     }
@@ -277,7 +277,7 @@ export default class App extends React.Component<object, State> {
         JSON.stringify({
           url,
           timestamp: Date.now(),
-        })
+        }),
       );
 
       await Updates.reloadAsync();
@@ -351,7 +351,7 @@ export default class App extends React.Component<object, State> {
           this._lastCodeUpdatePromise = this._handleCodeUpdate(
             message,
             this._lastCodeUpdatePromise,
-            deviceId
+            deviceId,
           );
           break;
         }

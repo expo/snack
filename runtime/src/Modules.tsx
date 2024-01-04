@@ -21,14 +21,14 @@ import * as context from 'snack-require-context';
 // web-assembly which is not yet supported on react-native.
 import { SourceMapConsumer, RawSourceMap } from 'source-map';
 
-import ReanimatedPlugin from '../vendor/reanimated-plugin';
-import System from '../vendor/system.src';
 import * as Files from './Files';
 import * as Logger from './Logger';
 import AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
+import ReanimatedPlugin from '../vendor/reanimated-plugin';
+import System from '../vendor/system.src';
 
 type Dependencies = {
   [key: string]: { resolved?: string; version: string; handle?: string };
@@ -97,10 +97,10 @@ export const updateProjectDependencies = async (newProjectDependencies: Dependen
   const removedOrChangedDependencies = Object.keys(projectDependencies).filter(
     (name) =>
       !newProjectDependencies[name] ||
-      newProjectDependencies[name].resolved !== projectDependencies[name].resolved
+      newProjectDependencies[name].resolved !== projectDependencies[name].resolved,
   );
   const addedDependencies = Object.keys(newProjectDependencies).filter(
-    (name) => !projectDependencies[name]
+    (name) => !projectDependencies[name],
   );
   const changedDependencies = removedOrChangedDependencies.concat(addedDependencies);
   if (changedDependencies.length) {
@@ -114,8 +114,8 @@ export const updateProjectDependencies = async (newProjectDependencies: Dependen
                 ? `${projectDependencies[name].resolved} -> ${newProjectDependencies[name].resolved}`
                 : newProjectDependencies[name].resolved
               : 'removed'
-          })`
-      )
+          })`,
+      ),
     );
   }
   const removedOrChangedUris = removedOrChangedDependencies.map((name) => `module://${name}`);
@@ -199,7 +199,7 @@ const fetchPipeline = async (load: Load) => {
               Logger.module(
                 'Loaded asset metadata',
                 s3Url,
-                `from cache ${contents ? contents.length : undefined} bytes`
+                `from cache ${contents ? contents.length : undefined} bytes`,
               );
             } else {
               Logger.module('Fetching asset metadata', s3Url, '...');
@@ -230,7 +230,7 @@ const fetchPipeline = async (load: Load) => {
                   undefined,
                   (error) => {
                     Logger.error('Failed to store asset metadata in cache', error);
-                  }
+                  },
                 );
               }
             }
@@ -308,7 +308,7 @@ const fetchPipeline = async (load: Load) => {
           Logger.module(
             'Loaded dependency',
             cacheHandle,
-            `from cache ${bundle ? bundle.length : undefined} bytes`
+            `from cache ${bundle ? bundle.length : undefined} bytes`,
           );
         } else {
           // In development, try fetching from staging cloudfront first
@@ -336,7 +336,7 @@ const fetchPipeline = async (load: Load) => {
               } else {
                 Logger.warn(
                   'Dependency could not be loaded from staging, trying production ...',
-                  handle
+                  handle,
                 );
               }
             }
@@ -345,7 +345,7 @@ const fetchPipeline = async (load: Load) => {
               Logger.module(
                 'Fetched dependency',
                 fetchFrom,
-                `storing in cache ${bundle.length} bytes`
+                `storing in cache ${bundle.length} bytes`,
               );
               break;
             }
@@ -441,11 +441,11 @@ const translatePipeline = async (load: Load) => {
           Logger.module(
             'Transpiled',
             sanitizeModule(filename),
-            `${result?.code ? result.code.length : '???'} bytes`
+            `${result?.code ? result.code.length : '???'} bytes`,
           );
 
           return result;
-        }
+        },
       );
       // @ts-ignore
       load.metadata.sourceMap = transformed.map;
@@ -454,8 +454,8 @@ const translatePipeline = async (load: Load) => {
         async () =>
           await new SourceMapConsumer(
             // @ts-ignore
-            transformed.map
-          )
+            transformed.map,
+          ),
       );
       return transformed!.code;
     } catch (e) {
@@ -532,7 +532,7 @@ const _initialize = async () => {
   // and tracing (makes SystemJS collect dependency info).
   await System.set(
     'systemjs-expo-snack-plugin',
-    System.newModule({ translate: translatePipeline, fetch: fetchPipeline })
+    System.newModule({ translate: translatePipeline, fetch: fetchPipeline }),
   );
   await System.config({
     packages: {
@@ -554,8 +554,8 @@ const _initialize = async () => {
   await Promise.all(
     Object.keys(aliases).map(
       async (key) =>
-        await System.set(key, System.newModule({ default: aliases[key], __useDefault: true }))
-    )
+        await System.set(key, System.newModule({ default: aliases[key], __useDefault: true })),
+    ),
   );
 
   // Special handling for vector-icons to allow deep imports
@@ -573,7 +573,7 @@ const _initialize = async () => {
 
       await System.set(`@expo/vector-icons/${name}`, iconSetModule);
       await System.set(`react-native-vector-icons/${name}`, iconSetModule);
-    })
+    }),
   );
 
   // Fix SystemJS path normalization to handle Snack-related special cases
@@ -622,7 +622,7 @@ const _initialize = async () => {
         const regex = new RegExp(
           `^${escapeStringRegexp(filename.replace(/\.[^.]+$/i, ''))}(${
             isImage ? '@\\d+(\\.\\d+)?x' : '()'
-          })?(\\.([a-z]+(\.expo)?))?\\.${ext}$` // eslint-disable-line no-useless-escape
+          })?(\\.([a-z]+(\.expo)?))?\\.${ext}$`, // eslint-disable-line no-useless-escape
         );
 
         // Build a map of files according to the scale and platform
@@ -632,37 +632,40 @@ const _initialize = async () => {
         //   1.5: { path: image@1.5x.png, platform: 'android' },
         //   2: { path: image@2x.png, platform: 'android' },
         // }
-        const map = Files.list().reduce((acc, curr) => {
-          const match = curr.match(regex);
+        const map = Files.list().reduce(
+          (acc, curr) => {
+            const match = curr.match(regex);
 
-          if (match) {
-            // eslint-disable-next-line no-unused-vars
-            const [, scaleString, , , platform] = match;
+            if (match) {
+              // eslint-disable-next-line no-unused-vars
+              const [, scaleString, , , platform] = match;
 
-            // If file doesn't have a scale, default to 1
-            // This can happen for asset files without scale, or JS files
-            const scale = scaleString ? parseFloat(scaleString.substr(1)) : 1;
+              // If file doesn't have a scale, default to 1
+              // This can happen for asset files without scale, or JS files
+              const scale = scaleString ? parseFloat(scaleString.substr(1)) : 1;
 
-            if (platform && !platforms.includes(platform)) {
-              // If the file has a platform, but it's not the current platform,
-              // return what we had
-              return acc;
+              if (platform && !platforms.includes(platform)) {
+                // If the file has a platform, but it's not the current platform,
+                // return what we had
+                return acc;
+              }
+
+              if (
+                acc[scale] &&
+                platforms.indexOf(acc[scale].platform) > platforms.indexOf(platform)
+              ) {
+                // If we have already found the platform with a higher priority than current platform,
+                // return what we had
+                return acc;
+              }
+
+              return { ...acc, [scale]: { path: curr, platform } };
             }
 
-            if (
-              acc[scale] &&
-              platforms.indexOf(acc[scale].platform) > platforms.indexOf(platform)
-            ) {
-              // If we have already found the platform with a higher priority than current platform,
-              // return what we had
-              return acc;
-            }
-
-            return { ...acc, [scale]: { path: curr, platform } };
-          }
-
-          return acc;
-        }, {} as { [key: string]: { path: string; platform: string } });
+            return acc;
+          },
+          {} as { [key: string]: { path: string; platform: string } },
+        );
 
         if (Object.keys(map).length) {
           // Get the device's pixel density and find the closest bigger matching scale
@@ -696,7 +699,7 @@ const _initialize = async () => {
         if (Files.get(basename + '/package.json')) {
           try {
             const pack = JSON.parse(
-              (Files.get(basename + '/package.json') ?? { contents: '' }).contents || '{}' // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing
+              (Files.get(basename + '/package.json') ?? { contents: '' }).contents || '{}', // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing
             );
             index = pack['react-native'] || pack['main'] || 'index';
             ext = index.split('.').pop()!;
@@ -781,9 +784,9 @@ const _initialize = async () => {
       Object.keys(this.loads).map((url) => {
         dependsOn[url] = {};
         return this.loads[url].deps.map(
-          async (dep: string) => (dependsOn[url][await this.resolve(dep, url)] = true)
+          async (dep: string) => (dependsOn[url][await this.resolve(dep, url)] = true),
         );
-      })
+      }),
     );
 
     // Visit immediate dependents of `rootModuleNames` by post-order DFS, skipping modules that
@@ -820,7 +823,7 @@ const _initialize = async () => {
 export function sanitizeModule(moduleName: string): string {
   return moduleName.substring(
     moduleName.startsWith('module://') ? 9 : 0,
-    moduleName.endsWith('.js.js') ? moduleName.length - 3 : moduleName.length
+    moduleName.endsWith('.js.js') ? moduleName.length - 3 : moduleName.length,
   );
 }
 
@@ -867,7 +870,7 @@ export const flush = async ({
     modules.forEach((dep: string) => System.delete(dep));
 
     changedPaths.forEach(
-      (path) => delete transformCache[`module://${path}${path.endsWith('.js') ? '' : '.js'}`]
+      (path) => delete transformCache[`module://${path}${path.endsWith('.js') ? '' : '.js'}`],
     );
   });
 
@@ -896,7 +899,7 @@ export const load = async (name: string, relativeTo?: string) => {
     'Loaded modules',
     Array.from<string>(System.keys())
       .filter((name) => name.toLowerCase().indexOf('app.js') >= 0 || name.indexOf('module://') >= 0)
-      .map(sanitizeModule)
+      .map(sanitizeModule),
   );
   return res;
 };

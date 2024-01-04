@@ -10,7 +10,7 @@ const logger =
       originalConsole.log(
         `%c ${type.toUpperCase()} `,
         `background: ${color}; color: ${textColor ?? '#fff'}`,
-        ...messages
+        ...messages,
       );
     }
   };
