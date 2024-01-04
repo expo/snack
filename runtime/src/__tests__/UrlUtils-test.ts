@@ -9,7 +9,7 @@ describe(parseExperienceURL, () => {
 
   it('should parse snack url with testTransport', () => {
     const result = parseExperienceURL(
-      'exp://exp.host/@snack/sdk.47.0.0-4AQkc5pxqe?foo=foo&testTransport=snackpub&bar=bar'
+      'exp://exp.host/@snack/sdk.47.0.0-4AQkc5pxqe?foo=foo&testTransport=snackpub&bar=bar',
     );
     expect(result?.channel).toBe('4AQkc5pxqe');
     expect(result?.testTransport).toBe('snackpub');
@@ -23,7 +23,7 @@ describe(parseExperienceURL, () => {
 
   it('should parse account snack full name url with testTransport', () => {
     const result = parseExperienceURL(
-      'exp://exp.host/@johndoe/the-snack+4AQkc5pxqe?foo=foo&testTransport=snackpub&bar=bar'
+      'exp://exp.host/@johndoe/the-snack+4AQkc5pxqe?foo=foo&testTransport=snackpub&bar=bar',
     );
     expect(result?.channel).toBe('4AQkc5pxqe');
     expect(result?.testTransport).toBe('snackpub');

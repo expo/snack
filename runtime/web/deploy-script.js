@@ -36,10 +36,10 @@ async function exportWeb(options) {
         ...process.env,
         SNACK_EXPORT_WEB: 'true',
       },
-    }
+    },
   );
   console.log(
-    `✅ Exported the Snack Runtime to: ${path.join(options.workingDir, options.exportDir)}`
+    `✅ Exported the Snack Runtime to: ${path.join(options.workingDir, options.exportDir)}`,
   );
 }
 
@@ -126,7 +126,7 @@ async function uploadWeb(options) {
     {
       cwd: options.workingDir,
       stdio: process.env.CI ? 'inherit' : 'ignore',
-    }
+    },
   );
 
   console.log(`✅ Uploaded the Snack Runtime to S3: ${bucketName} (v2/${sdkVersion})`);

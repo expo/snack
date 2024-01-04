@@ -34,7 +34,7 @@ export default class LoadingView extends React.PureComponent<Props, State> {
           duration: (inputRange.length - 1) * 1000,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     ).start();
   }
 
