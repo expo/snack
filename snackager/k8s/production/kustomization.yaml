@@ -4,6 +4,8 @@ namespace: production
 resources:
 - ../base
 - vertical-pod-autoscaler.yaml
+- external-secret-env.yaml
+- external-secret-private-key.yaml
 patchesStrategicMerge:
 - deployment-increase-replicas.yaml
 - service-backend.yaml
@@ -15,5 +17,9 @@ configMapGenerator:
 secretGenerator:
 - name: snackager-config
   behavior: merge
-  envs:
-  - secrets/snackager.env
+  files:
+  - ./external-secret-env.yaml
+- name: git-account-credentials
+  behavior: merge
+  files:
+  - ./external-secret-private-key.yaml

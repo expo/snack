@@ -20,8 +20,6 @@ spec:
           envFrom:
           - configMapRef:
               name: snack
-          - secretRef:
-              name: snack
           ports:
           - containerPort: 3011
             name: http

@@ -5,3 +5,7 @@ commonLabels:
 resources:
   - deployment.yaml
   - service.yaml
+configurations:
+  - external-secrets-config.yaml
+secretGenerator:
+- name: snackpub-env

@@ -4,10 +4,12 @@ namespace: production
 resources:
   - ../base
   - vertical-pod-autoscaler.yaml
+  - external-secret-env.yaml
 patchesStrategicMerge:
   - service-backend.yaml
   - deployment-replicas.yaml
 secretGenerator:
   - name: snackpub-env
-    envs:
-      - secrets/snackpub.env
+    behavior: merge
+    files:
+      - ./external-secret-env.yaml

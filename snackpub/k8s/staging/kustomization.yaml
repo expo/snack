@@ -3,9 +3,11 @@ kind: Kustomization
 namespace: staging
 resources:
   - ../base
+  - external-secret-env.yaml
 patchesStrategicMerge:
   - service-backend.yaml
 secretGenerator:
   - name: snackpub-env
-    envs:
-      - secrets/snackpub.env
+    behavior: merge
+    files:
+      - ./external-secret-env.yaml

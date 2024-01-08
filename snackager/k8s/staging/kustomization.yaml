@@ -3,6 +3,8 @@ kind: Kustomization
 namespace: staging
 bases:
 - ../base
+- external-secret-env.yaml
+- external-secret-private-key.yaml
 patchesStrategicMerge:
 - service-backend.yaml
 configMapGenerator:
@@ -13,5 +15,9 @@ configMapGenerator:
 secretGenerator:
 - name: snackager-config
   behavior: merge
-  envs:
-  - secrets/snackager.env
+  files:
+  - ./external-secret-env.yaml
+- name: git-account-credentials
+  behavior: merge
+  files:
+  - ./external-secret-private-key.yaml

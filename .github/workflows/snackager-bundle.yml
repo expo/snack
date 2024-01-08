@@ -25,11 +25,6 @@ jobs:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
 
-      - name: 🏗 Setup secrets
-        uses: ./.github/actions/setup-secrets
-        with:
-          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
-
       - name: 🏗 Setup snackager
         uses: ./.github/actions/setup-snackager
         with:
