@@ -1,7 +1,10 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ['babel-preset-expo'],
-    plugins: ['@babel/plugin-proposal-export-namespace-from', 'react-native-reanimated/plugin'],
+    presets: [
+      'babel-preset-expo',
+      '@babel/preset-typescript', // See: https://github.com/software-mansion/react-native-reanimated/issues/5112#issuecomment-1864747318
+    ],
+    plugins: ['react-native-reanimated/plugin'],
   };
 };

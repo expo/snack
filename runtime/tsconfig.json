@@ -1,20 +1,7 @@
 {
   "compilerOptions": {
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "module": "esnext",
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
-    "noStrictGenericChecks": false,
-    "useUnknownInCatchVariables": false,
     "strict": true,
+    "useUnknownInCatchVariables": false,
   },
   "extends": "expo/tsconfig.base"
 }
