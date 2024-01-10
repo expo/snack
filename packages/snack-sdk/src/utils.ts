@@ -22,6 +22,10 @@ export function createChannel(channel?: string): string {
     throw new Error('Please use a channel id with more characters (entropy)');
   }
 
+  if (channel.length > 128) {
+    throw new Error('Channel id too long, use a channel id thats shorter than 128 characters');
+  }
+
   for (const char of channel) {
     if (VALID_CHANNEL_CHARS.indexOf(char) < 0) {
       throw new Error(
