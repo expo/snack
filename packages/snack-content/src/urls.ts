@@ -82,14 +82,16 @@ export function parseEASUpdateSnackRuntimeUrl(url: string): SnackRuntimeInfo {
   const { searchParams } = parseUrl(url);
   const info: SnackRuntimeInfo = {};
 
-  if (searchParams.has('snack')) info.snack = searchParams.get('snack') ?? undefined;
+  if (searchParams.has('snack')) {
+    info.snack = searchParams.get('snack') ?? undefined;
+  }
+
   if (searchParams.has('snack-channel')) {
     info.channel = searchParams.get('snack-channel') ?? undefined;
   }
 
-  const sdkVersion = searchParams.get('runtime-version');
-  if (sdkVersion) {
-    info.sdkVersion = sdkVersion.replace(/^exposdk:/i, '');
+  if (searchParams.has('runtime-version')) {
+    info.sdkVersion = searchParams.get('runtime-version')!.replace(/^exposdk:/i, '');
   }
 
   return info;
