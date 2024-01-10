@@ -1,24 +1,22 @@
-import Constants from 'expo-constants';
-
 /**
  * The detected Snack environment based on the `manifest.extra.cloudEnv` setting.
  * This defaults to `production` if not set.
  */
-export const SNACK_ENVIRONMENT: 'staging' | 'production' =
-  (Constants.manifest as any)?.extra?.cloudEnv ?? 'production';
+export const SNACK_ENV: 'staging' | 'production' =
+  (process.env.EXPO_PUBLIC_SNACK_ENV as any) ?? 'production';
 
-// Ensure the environment is valid
-if (!['staging', 'production'].includes(SNACK_ENVIRONMENT)) {
+// Ensure the `SNACK_ENV` is valid
+if (!['staging', 'production'].includes(SNACK_ENV)) {
   throw new Error(
-    `Invalid Snack environment set through "manifest.extra.cloudEnv", must be "staging" or "production", received "${SNACK_ENVIRONMENT}".`,
+    `Invalid Snack environment set through "EXPO_PUBLIC_SNACK_ENV", must be "staging" or "production", received "${SNACK_ENV}".`,
   );
 }
 
 /** Get the value based on the detected Snack environment. */
 export function getSnackEnvironmentValue<T extends any>(
-  values: Record<typeof SNACK_ENVIRONMENT, T>,
+  values: Record<typeof SNACK_ENV, T>,
 ): T {
-  return values[SNACK_ENVIRONMENT];
+  return values[SNACK_ENV];
 }
 
 /** The Snack or Expo API endpoint. */
