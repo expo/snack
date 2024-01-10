@@ -32,7 +32,7 @@ import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
-import { parseExperienceURL } from './UrlUtils';
+import { getSnackFromUrl, parseExperienceURL } from './UrlUtils';
 
 type State = {
   initialLoad: boolean;
@@ -225,20 +225,20 @@ export default class App extends React.Component<object, State> {
   // Open Snack session at given `url`, throw if bad URL or couldn't connect. All we need to do is
   // subscribe to the associated messaging channel, everything else is triggered by messages.
   _openUrl = (url: string): boolean => {
-    const parsedUrl = parseExperienceURL(url);
+    const { channel } = getSnackFromUrl(url);
 
-    if (!parsedUrl) {
-      Logger.warn(
-        `Snack URL didn't have either the format 'https://exp.host/@snack/SAVE_UUID+CHANNEL_UUID' or 'https://exp.host/@snack/sdk.14.0.0-UUID'`,
-      );
-      return false;
-    }
+    console.log('Opening Snack with:', { channel });
+
+    // if (!parsedUrl) {
+    //   Logger.warn(
+    //     `Snack URL didn't have either the format 'https://exp.host/@snack/SAVE_UUID+CHANNEL_UUID' or 'https://exp.host/@snack/sdk.14.0.0-UUID'`,
+    //   );
+    //   return false;
+    // }
 
     this._currentUrl = url;
 
     Logger.info('Opening URL', url);
-
-    const { channel } = parsedUrl;
 
     this.setState({
       channel,
@@ -247,7 +247,10 @@ export default class App extends React.Component<object, State> {
 
     Profiling.checkpoint('`_openUrl()` read');
 
-    Messaging.subscribe({ channel });
+    if (channel) {
+      Messaging.subscribe({ channel });
+    }
+
     this._askForCode();
 
     return true;

@@ -1,3 +1,4 @@
+/** @deprecated This function is using legacy URL format */
 export function parseExperienceURL(
   experienceURL: string,
 ): { channel: string; testTransport: string | null } | null {
@@ -18,5 +19,17 @@ export function parseExperienceURL(
   return {
     channel,
     testTransport,
+  };
+}
+
+export function getSnackFromUrl(initialUrl: string): {
+  /** The code transport channel to listen to, for communications with the Snack website */
+  channel: string | null;
+} {
+  // Remove non-standard protocols and default to http, so we can parse the URL properly
+  const url = new URL(initialUrl.replace(/^[a-z]+:/i, 'http:'));
+
+  return {
+    channel: url.searchParams.get('snack-channel'),
   };
 }

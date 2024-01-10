@@ -200,7 +200,8 @@ class Main extends React.Component<Props, State> {
       id: !wasUpgraded ? id : undefined,
       user: sessionSecret ? { sessionSecret } : undefined,
       apiURL: nullthrows(process.env.API_SERVER_URL),
-      snackpubURL: process.env.SNACKPUB_URL,
+      // snackpubURL: process.env.SNACKPUB_URL,
+      snackpubURL: 'https://staging-snackpub.expo.dev',
       snackagerURL,
       host:
         // Use staging server in development, otherwise Expo Go and appetize

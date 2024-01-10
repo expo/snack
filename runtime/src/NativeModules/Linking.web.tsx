@@ -1,6 +1,6 @@
 export default {
   async getInitialURL(): Promise<string> {
-    return new URL(document.URL).searchParams.get('initialUrl') ?? '';
+    return new URL(document.URL).searchParams.get('initialUrl') ?? document.URL;
   },
 
   addEventListener(_type: string, _handler: (event: { url: string }) => void): void {

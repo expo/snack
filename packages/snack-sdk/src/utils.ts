@@ -28,17 +28,26 @@ export function createChannel(channel?: string): string {
 }
 
 export function createURL(host: string, sdkVersion: SDKVersion, channel?: string, id?: string) {
-  if (channel) {
-    return id
-      ? id.startsWith('@')
-        ? `exp://${host}/${id}+${channel}`
-        : `exp://${host}/@snack/${id}+${channel}`
-      : `exp://${host}/@snack/sdk.${sdkVersion}-${channel}`;
-  } else if (id) {
-    return `exp://${host}/${id.match(/.*\/.*/) ? id : `@snack/${id}`}`;
-  } else {
-    return '';
-  }
+  const params = new URLSearchParams();
+
+  if (id) params.set('snack', id);
+  if (channel) params.set('snack-channel', channel);
+  // if (sdkVersion) params.set('runtime-version', `exposdk:${sdkVersion}`);
+
+  return `exp://snack.finest.dev?${params}`;
+
+  // Classic updates URL format
+  // if (channel) {
+  //   return id
+  //     ? id.startsWith('@')
+  //       ? `exp://${host}/${id}+${channel}`
+  //       : `exp://${host}/@snack/${id}+${channel}`
+  //     : `exp://${host}/@snack/sdk.${sdkVersion}-${channel}`;
+  // } else if (id) {
+  //   return `exp://${host}/${id.match(/.*\/.*/) ? id : `@snack/${id}`}`;
+  // } else {
+  //   return '';
+  // }
 }
 
 export function createError(config: {

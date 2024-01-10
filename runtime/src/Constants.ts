@@ -1,11 +1,9 @@
-import Constants from 'expo-constants';
-
 /**
  * The detected Snack environment based on the `manifest.extra.cloudEnv` setting.
  * This defaults to `production` if not set.
  */
 export const SNACK_ENVIRONMENT: 'staging' | 'production' =
-  (Constants.manifest as any)?.extra?.cloudEnv ?? 'production';
+  (process.env.EXPO_PUBLIC_SNACK_ENV as any) ?? 'production';
 
 // Ensure the environment is valid
 if (!['staging', 'production'].includes(SNACK_ENVIRONMENT)) {
@@ -44,4 +42,10 @@ export const SNACKAGER_API_URLS = getSnackEnvironmentValue({
 export const SNACKPUB_URL = getSnackEnvironmentValue({
   production: 'https://snackpub.expo.dev',
   staging: 'https://staging-snackpub.expo.dev',
+});
+
+console.log(`Initialized Snack environment: ${SNACK_ENVIRONMENT}`, {
+  SNACK_API_URL,
+  SNACKAGER_API_URLS,
+  SNACKPUB_URL,
 });
