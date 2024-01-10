@@ -11,12 +11,19 @@ type SnackRuntimeInfo = {
  * Create a URL that can be used to launch the Snack Runtime.
  * This supports both classic updates as well as the new EAS Update format.
  */
-export function createSnackRuntimeUrl(
-  info: SnackRuntimeInfo & { platform?: 'android' | 'ios' | 'web' },
-) {
+export function createSnackRuntimeUrl(info: SnackRuntimeInfo) {
   return info.sdkVersion && getMajorVersion(info.sdkVersion) >= 50
     ? createEASUpdateSnackRuntimeUrl(info)
     : createClassicUpdateSnackRuntimeUrl(info);
+}
+
+/**
+ * Parse the Snack information from Snack Runtme URL.
+ * This supports both classic updates as well as the new EAS Update format.
+ */
+export function parseSnackRuntimeUrl(url: string): SnackRuntimeInfo {
+  const classic = parseClassicUpdateSnackRuntimeUrl(url);
+  return Object.keys(classic).length ? classic : parseEASUpdateSnackRuntimeUrl(url);
 }
 
 /**
@@ -143,7 +150,7 @@ const LEGACY_PATHNAME_PATTERN = /^\/(@[^/]+)\/(?:sdk.([0-9.]+)-|([^/+]+)\+)(.*)?
  */
 export function parseClassicUpdateSnackRuntimeUrl(url: string): SnackRuntimeInfo {
   const { pathname } = parseUrl(url);
-  const [owner, sdkVersion, name, channel] = pathname.match(LEGACY_PATHNAME_PATTERN) ?? [];
+  const [_, owner, sdkVersion, name, channel] = pathname.match(LEGACY_PATHNAME_PATTERN) ?? [];
 
   // exp://exp.host/@snack/sdk.<sdkVersion>-<channel>
   if (sdkVersion) return { sdkVersion, channel };

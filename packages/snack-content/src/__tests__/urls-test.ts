@@ -1,5 +1,6 @@
 import {
   createSnackRuntimeUrl,
+  parseSnackRuntimeUrl,
   createEASUpdateSnackRuntimeUrl,
   createClassicUpdateSnackRuntimeUrl,
   parseEASUpdateSnackRuntimeUrl,
@@ -19,6 +20,30 @@ describe(createSnackRuntimeUrl, () => {
     expect(createSnackRuntimeUrl({ channel, sdkVersion: '50.0.0' })).toMatchInlineSnapshot(
       `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0"`,
     );
+  });
+});
+
+describe(parseSnackRuntimeUrl, () => {
+  it('parses classic updates url with "channel" and "sdkVersion"', () => {
+    expect(parseSnackRuntimeUrl('exp://exp.host/@snack/sdk.49.0.0-xy!z1_')).toMatchInlineSnapshot(`
+      Object {
+        "channel": "xy!z1_",
+        "sdkVersion": "49.0.0",
+      }
+    `);
+  });
+
+  it('parses eas update url with "channel" and "sdkVersion"', () => {
+    expect(
+      parseSnackRuntimeUrl(
+        'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0',
+      ),
+    ).toMatchInlineSnapshot(`
+      Object {
+        "channel": "xy!z1_",
+        "sdkVersion": "50.0.0",
+      }
+    `);
   });
 });
 
@@ -170,8 +195,8 @@ describe(parseClassicUpdateSnackRuntimeUrl, () => {
     expect(parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/sdk.49.0.0-qWeqG1!'))
       .toMatchInlineSnapshot(`
       Object {
-        "channel": undefined,
-        "sdkVersion": "@snack",
+        "channel": "qWeqG1!",
+        "sdkVersion": "49.0.0",
       }
     `);
   });
@@ -185,8 +210,7 @@ describe(parseClassicUpdateSnackRuntimeUrl, () => {
     expect(parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snack-name+qWeqG1!'))
       .toMatchInlineSnapshot(`
       Object {
-        "channel": "snack-name",
-        "sdkVersion": "@snack",
+        "channel": "qWeqG1!",
       }
     `);
   });
@@ -195,8 +219,8 @@ describe(parseClassicUpdateSnackRuntimeUrl, () => {
     expect(parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@owner-name/snack-name+qWeqG1!'))
       .toMatchInlineSnapshot(`
       Object {
-        "channel": "snack-name",
-        "sdkVersion": "@owner-name",
+        "channel": "qWeqG1!",
+        "snack": "@owner-name/snack-name",
       }
     `);
   });
