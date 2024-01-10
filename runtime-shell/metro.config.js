@@ -6,11 +6,11 @@ const { boolish } = require('getenv');
 const config = getDefaultConfig(__dirname);
 
 // Workaround for paths hosting web on a subdirectory (https://<s3-bucket>/v2/<expo-sdk-version>/)
-// if (boolish('SNACK_EXPORT_WEB', false)) {
-//   const expoVersion = require('expo/package.json').version;
-//   const semver = require('semver');
+if (boolish('SNACK_EXPORT_WEB', false)) {
+  const expoVersion = require('expo/package.json').version;
+  const semver = require('semver');
 
-//   config.transformer.publicPath = `/v2/${semver.major(expoVersion)}/assets`;
-// }
+  config.transformer.publicPath = `/v2/${semver.major(expoVersion)}/assets`;
+}
 
 module.exports = config;
