@@ -14,6 +14,7 @@ import {
   EmitterSubscription,
   NativeEventSubscription,
 } from 'react-native';
+import { parseSnackRuntimeUrl } from 'snack-content';
 import { createVirtualModulePath } from 'snack-require-context';
 
 import { AppLoading } from './AppLoading';
@@ -32,7 +33,7 @@ import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
-import { parseExperienceURL } from './UrlUtils';
+import { parseTestTransportFromUrl } from './UrlUtils';
 
 const API_SERVER_URL_STAGING = 'https://staging.exp.host';
 const API_SERVER_URL_PROD = 'https://exp.host';
@@ -80,7 +81,7 @@ export default class App extends React.Component<object, State> {
     const deviceId = await getDeviceIdAsync();
 
     // Initialize messaging transport
-    const testTransport = initialURL ? parseExperienceURL(initialURL)?.testTransport : null;
+    const testTransport = initialURL ? parseTestTransportFromUrl(initialURL) : null;
     Messaging.init(deviceId, testTransport);
 
     // Initialize various things
@@ -228,9 +229,9 @@ export default class App extends React.Component<object, State> {
   // Open Snack session at given `url`, throw if bad URL or couldn't connect. All we need to do is
   // subscribe to the associated messaging channel, everything else is triggered by messages.
   _openUrl = (url: string): boolean => {
-    const parsedUrl = parseExperienceURL(url);
+    const { channel } = parseSnackRuntimeUrl(url);
 
-    if (!parsedUrl) {
+    if (!channel) {
       Logger.warn(
         `Snack URL didn't have either the format 'https://exp.host/@snack/SAVE_UUID+CHANNEL_UUID' or 'https://exp.host/@snack/sdk.14.0.0-UUID'`
       );
@@ -240,8 +241,6 @@ export default class App extends React.Component<object, State> {
     this._currentUrl = url;
 
     Logger.info('Opening URL', url);
-
-    const { channel } = parsedUrl;
 
     this.setState({
       channel,
