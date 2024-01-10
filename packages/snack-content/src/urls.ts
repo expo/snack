@@ -150,7 +150,7 @@ const LEGACY_PATHNAME_PATTERN = /^\/(@[^/]+)\/(?:sdk.([0-9.]+)-|([^/+]+)\+)(.*)?
  */
 export function parseClassicUpdateSnackRuntimeUrl(url: string): SnackRuntimeInfo {
   const { pathname } = parseUrl(url);
-  const [_, owner, sdkVersion, name, channel] = pathname.match(LEGACY_PATHNAME_PATTERN) ?? [];
+  const [, owner, sdkVersion, name, channel] = pathname.match(LEGACY_PATHNAME_PATTERN) ?? [];
 
   // exp://exp.host/@snack/sdk.<sdkVersion>-<channel>
   if (sdkVersion) return { sdkVersion, channel };
