@@ -13,9 +13,7 @@ if (!['staging', 'production'].includes(SNACK_ENV)) {
 }
 
 /** Get the value based on the detected Snack environment. */
-export function getSnackEnvironmentValue<T extends any>(
-  values: Record<typeof SNACK_ENV, T>,
-): T {
+export function getSnackEnvironmentValue<T extends any>(values: Record<typeof SNACK_ENV, T>): T {
   return values[SNACK_ENV];
 }
 
