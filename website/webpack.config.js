@@ -61,10 +61,6 @@ module.exports = {
         SNACK_SERVER_URL: JSON.stringify(env('SNACK_SERVER_URL')),
         SNACK_WEBPLAYER_URL: JSON.stringify(env('SNACK_WEBPLAYER_URL')),
         SNACKPUB_URL: JSON.stringify(env('SNACKPUB_URL')),
-        SNACK_RUNTIME_HOST_EAS_UPDATES: JSON.stringify(env('SNACK_RUNTIME_HOST_EAS_UPDATES')),
-        SNACK_RUNTIME_HOST_CLASSIC_UPDATES: JSON.stringify(
-          env('SNACK_RUNTIME_HOST_CLASSIC_UPDATES')
-        ),
       },
     }),
     new webpack.IgnorePlugin(

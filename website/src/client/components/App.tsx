@@ -857,8 +857,8 @@ class Main extends React.Component<Props, State> {
       experienceURL = replaceSnackRuntimeUrlHost(experienceURL, 'localhost:8081');
     } else {
       experienceURL = replaceSnackRuntimeUrlHost(experienceURL, {
-        classicUpdate: process.env.SNACK_RUNTIME_HOST_CLASSIC_UPDATES!,
-        easUpdate: process.env.SNACK_RUNTIME_HOST_EAS_UPDATES!,
+        classicUpdate: 'staging.exp.host',
+        easUpdate: 'u.expo.dev/2dce2748-c51f-4865-bae0-392af794d60a',
       });
     }
 
