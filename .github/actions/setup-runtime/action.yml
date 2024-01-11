@@ -6,8 +6,8 @@ inputs:
     description: Version of Node to use
     default: 18.x
 
-  expo-version:
-    description: Version of Expo CLI to use
+  eas-version:
+    description: Version of EAS CLI to use
     default: latest
 
 runs:
@@ -20,10 +20,10 @@ runs:
         cache: yarn
         cache-dependency-path: runtime/yarn.lock
 
-    - name: 🏗 Setup Expo
-      uses: expo/expo-github-action@v7
+    - name: 🏗 Setup EAS
+      uses: expo/expo-github-action@v8
       with:
-        expo-version: ${{ inputs.expo-version }}
+        eas-version: ${{ inputs.eas-version }}
 
     - name: 📦 Install monorepo dependencies
       run: yarn install --frozen-lockfile
