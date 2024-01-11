@@ -855,6 +855,11 @@ class Main extends React.Component<Props, State> {
     }
     if (this.state.isLocalWebPreview) {
       experienceURL = replaceSnackRuntimeUrlHost(experienceURL, 'localhost:8081');
+    } else {
+      experienceURL = replaceSnackRuntimeUrlHost(experienceURL, {
+        classicUpdate: process.env.SNACK_RUNTIME_HOST_CLASSIC_UPDATES!,
+        easUpdate: process.env.SNACK_RUNTIME_HOST_EAS_UPDATES!,
+      });
     }
 
     if (this.state.isPreview) {

@@ -39,10 +39,22 @@ export function parseSnackRuntimeUrl(url: string): SnackRuntimeInfo {
  *
  * @internal Used for internal Snack URL transformations, avoid using this
  */
-export function replaceSnackRuntimeUrlHost(url: string, host: string) {
-  return url.includes(SNACK_RUNTIME_CLASSIC_UPDATE_HOST)
-    ? url.replace(SNACK_RUNTIME_CLASSIC_UPDATE_HOST, host)
-    : url.replace(SNACK_RUNTIME_EAS_UPDATE_HOST, host);
+export function replaceSnackRuntimeUrlHost(
+  url: string,
+  host: string | { classicUpdate: string; easUpdate: string },
+) {
+  const isEasUpdateUrl = url.includes(SNACK_RUNTIME_EAS_UPDATE_HOST);
+  const hostPerType =
+    typeof host === 'object'
+      ? host
+      : {
+          classicUpdate: host,
+          easUpdate: host,
+        };
+
+  return isEasUpdateUrl
+    ? url.replace(SNACK_RUNTIME_EAS_UPDATE_HOST, hostPerType.easUpdate)
+    : url.replace(SNACK_RUNTIME_CLASSIC_UPDATE_HOST, hostPerType.classicUpdate);
 }
 
 /**
