@@ -309,8 +309,12 @@ const fetchPipeline = async (load: Load) => {
             `from cache ${bundle ? bundle.length : undefined} bytes`,
           );
         } else {
-          for (const [urlIndex, url] of SNACKAGER_API_URLS.entries()) {
+          for (let i = 0; i < SNACKAGER_API_URLS.length; i++) {
+            const url = SNACKAGER_API_URLS[i];
             const fetchFrom = `${url}/${handle}-${Platform.OS}/bundle.js`;
+
+            // Check if we can retry with another URL, this would determine if we need to throw or swallow errors
+            const hasFallbackUrl = i < SNACKAGER_API_URLS.length - 1;
 
             try {
               Logger.module('Fetching dependency', fetchFrom, '...');
@@ -323,7 +327,7 @@ const fetchPipeline = async (load: Load) => {
                 throw new Error(`Request failed with status ${res.status}: ${res.statusText}`);
               }
             } catch (e) {
-              if (urlIndex < SNACKAGER_API_URLS.length - 1) {
+              if (!hasFallbackUrl) {
                 Logger.error('Error fetching bundle', fetchFrom, e);
                 throw e;
               } else {
