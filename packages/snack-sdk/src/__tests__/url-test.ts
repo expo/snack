@@ -17,7 +17,9 @@ const config: SnackOptions = {
 describe('url', () => {
   it('has initial unnamed url', async () => {
     const snack = new Snack(config);
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.${sdkVersion}-${channel}`);
+    expect(snack.getState().url).toBe(
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=sdk-50`,
+    );
   });
 
   it('has initial named url when save-id provided', async () => {
@@ -25,7 +27,9 @@ describe('url', () => {
       ...config,
       id,
     });
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/${id}+${channel}`);
+    expect(snack.getState().url).toBe(
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=${id}&snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=sdk-50`,
+    );
   });
 
   it('keeps named url after changing code', async () => {
@@ -39,7 +43,9 @@ describe('url', () => {
         contents: `console.log('hello world');`,
       },
     });
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/${id}+${channel}`);
+    expect(snack.getState().url).toBe(
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=${id}&snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=sdk-50`,
+    );
   });
 
   it('updates url when changing sdk-version', async () => {

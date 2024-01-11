@@ -190,7 +190,7 @@ export function parseClassicUpdateSnackRuntimeUrl(url: string): SnackRuntimeInfo
   if (sdkVersion) return { sdkVersion, channel };
 
   // exp://exp.host/@snack/<name>+<channel>
-  if (owner === '@snack') return { channel };
+  if (owner === '@snack') return { channel, snack: name };
 
   // exp://exp.host/@<owner>/<name>+<channel>
   if (owner && name) return { snack: `${owner}/${name}`, channel };
