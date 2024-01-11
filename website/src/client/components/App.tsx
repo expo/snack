@@ -847,6 +847,13 @@ class Main extends React.Component<Props, State> {
         experienceURL += `?testTransport=${this.props.query.testTransport}`;
       }
     }
+    // TODO: fold this into `snack-content`?
+    if (this.state.isLocalWebPreview) {
+      experienceURL = experienceURL.replace(
+        /exp:\/\/u.expo.dev\/[a-z0-9-]+/i,
+        'exp://localhost:8081'
+      );
+    }
 
     if (this.state.isPreview) {
       return (
