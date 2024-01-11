@@ -7,20 +7,30 @@ import { SnackError, SnackUser } from './types';
 const { fetch } = fetchPonyfill();
 export { fetch };
 
-// + and - are used as delimiters in the uri, ensure they do not appear in the channel itself
-const VALID_CHANNEL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!_';
+/**
+ * All valid characters to generate a new channel ID.
+ * Both `+` and `-` are used as delimiters in the classic updates URL.
+ * In the new URL format, we prefer URL/sub-domain safe characters.
+ */
+const VALID_CHANNEL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const generateChannel = customAlphabet(VALID_CHANNEL_CHARS, 10);
 
 export function createChannel(channel?: string): string {
   channel = channel ?? generateChannel();
 
   if (channel.length < 6) {
-    throw new Error('Please use a channel id with more entropy');
+    throw new Error('Please use a channel id with more characters (entropy)');
+  }
+
+  if (channel.length > 128) {
+    throw new Error('Channel id too long, use a channel id thats shorter than 128 characters');
   }
 
   for (const char of channel) {
     if (VALID_CHANNEL_CHARS.indexOf(char) < 0) {
-      throw new Error('Channel id contains invalid characters');
+      throw new Error(
+        `Channel id contains an invalid character "${char}", only "[0-9a-zA-Z]" are allowed`,
+      );
     }
   }
 
