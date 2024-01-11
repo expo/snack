@@ -86,9 +86,10 @@ jobs:
       - name: 👷 Configure EAS Update for staging
         if: ${{ contains('all native', github.event.inputs.platform) }}
         run: |
-          eas init --id 2dce2748-c51f-4865-bae0-392af794d60a
+          eas init --id 2dce2748-c51f-4865-bae0-392af794d60a --force
           eas update:configure
         env:
+          EXPO_TOKEN: ${{ secrets.SNACK_RUNTIME_EXPO_STAGING }}
           EXPO_STAGING: 'true'
 
       - name: 📱 Deploy native runtime
@@ -134,8 +135,10 @@ jobs:
       - name: 👷 Configure EAS Update for production
         if: ${{ contains('all native', github.event.inputs.platform) }}
         run: |
-          eas init --id 933fd9c0-1666-11e7-afca-d980795c5824
+          eas init --id 933fd9c0-1666-11e7-afca-d980795c5824 --force
           eas update:configure
+        env:
+          EXPO_TOKEN: ${{ secrets.SNACK_RUNTIME_EXPO_PRODUCTION }}
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
