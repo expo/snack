@@ -8,8 +8,8 @@ export type PlatformOption = {
 export function all(): PlatformOption[] {
   return [
     { label: 'My Device', value: 'mydevice' },
-    { label: 'iOS', value: 'ios' },
     { label: 'Android', value: 'android' },
+    { label: 'iOS', value: 'ios' },
     { label: 'Web', value: 'web' },
   ];
 }
