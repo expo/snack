@@ -5,7 +5,13 @@ import nullthrows from 'nullthrows';
 import Raven from 'raven-js';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Snack, SnackLogEvent, SnackListenerSubscription, isModulePreloaded } from 'snack-sdk';
+import {
+  Snack,
+  SnackLogEvent,
+  SnackListenerSubscription,
+  isModulePreloaded,
+  replaceSnackRuntimeUrlHost,
+} from 'snack-sdk';
 
 import AppDetails from './AppDetails';
 import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
@@ -847,12 +853,8 @@ class Main extends React.Component<Props, State> {
         experienceURL += `?testTransport=${this.props.query.testTransport}`;
       }
     }
-    // TODO: fold this into `snack-content`?
     if (this.state.isLocalWebPreview) {
-      experienceURL = experienceURL.replace(
-        /exp:\/\/u.expo.dev\/[a-z0-9-]+/i,
-        'exp://localhost:8081'
-      );
+      experienceURL = replaceSnackRuntimeUrlHost(experienceURL, 'localhost:8081');
     }
 
     if (this.state.isPreview) {
