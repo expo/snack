@@ -43,7 +43,7 @@ export function replaceSnackRuntimeUrlHost(
   url: string,
   host: string | { classicUpdate: string; easUpdate: string },
 ) {
-  const isEasUpdateUrl = url.includes(SNACK_RUNTIME_EAS_UPDATE_HOST);
+  const isEasUpdateUrl = url.includes('u.expo.dev');
   const hostPerType =
     typeof host === 'object'
       ? host
@@ -52,9 +52,22 @@ export function replaceSnackRuntimeUrlHost(
           easUpdate: host,
         };
 
-  return isEasUpdateUrl
-    ? url.replace(SNACK_RUNTIME_EAS_UPDATE_HOST, hostPerType.easUpdate)
-    : url.replace(SNACK_RUNTIME_CLASSIC_UPDATE_HOST, hostPerType.classicUpdate);
+  const targetUrl = parseUrl(url);
+  const sourceUrl = isEasUpdateUrl
+    ? parseUrl(`http://${hostPerType.easUpdate}`)
+    : parseUrl(`http://${hostPerType.classicUpdate}`);
+
+  targetUrl.host = sourceUrl.host;
+
+  if (isEasUpdateUrl || sourceUrl.pathname.length > 1) {
+    targetUrl.pathname = sourceUrl.pathname;
+  }
+
+  if (sourceUrl.port) {
+    targetUrl.port = sourceUrl.port;
+  }
+
+  return targetUrl.toString().replace(/^http:/i, 'exp:');
 }
 
 /**
