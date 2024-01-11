@@ -2,8 +2,6 @@
 // diffs etc. Does NOT deal with evaluating code, that happens in `Modules`.
 
 import { applyPatch } from 'diff';
-import Constants from 'expo-constants';
-import { type SnackFiles } from 'snack-content';
 
 type Message = {
   type: 'CODE';
@@ -24,23 +22,6 @@ type File = {
 };
 
 const files: { [key: string]: File } = {};
-
-// Initialize by reading from `extra.code` in manifest if present
-const manifest = Constants.manifest as { extra?: { code: SnackFiles } };
-
-if (manifest?.extra?.code) {
-  const initialCode = manifest.extra.code;
-  Object.entries(initialCode).forEach(([path, initialFile]) => {
-    const isAsset = initialFile.type === 'ASSET';
-    files[path] = {
-      isAsset,
-      s3Url: isAsset ? String(initialFile.contents) : undefined,
-      s3Contents: undefined,
-      diff: undefined,
-      contents: !isAsset ? initialFile.contents : undefined,
-    };
-  });
-}
 
 // Update files -- currently only handles updates from remote `message`s. Returns an array
 // containing paths of changed files.
@@ -97,7 +78,7 @@ export const update = async ({ message }: { message: Message }) => {
                 s3Url: newS3Url,
                 s3Contents: newS3Contents,
                 diff: newDiff,
-                contents: applyPatch(newS3Contents, newDiff),
+                contents: applyPatch(newS3Contents, newDiff) || '',
               };
               changedPaths.push(path);
             }
@@ -113,7 +94,7 @@ export const update = async ({ message }: { message: Message }) => {
               s3Contents: undefined,
               diff: newDiff,
               // Remove the first newline from `applyPatch`, since this is an non-existing newline
-              contents: applyPatch('', newDiff).replace('\n', ''),
+              contents: (applyPatch('', newDiff) || '').replace('\n', ''),
             };
             changedPaths.push(path);
           }
