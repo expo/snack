@@ -221,15 +221,15 @@ describe(parseClassicUpdateSnackRuntimeUrl, () => {
   });
 
   it('parses url using format "exp://exp.host/@snack/<snack>+<channel>"', () => {
-    // We ignore these formats, as we can't determine the Snack without owner
     expect(
-      parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snack-name'),
+      parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snackid'),
     ).toMatchInlineSnapshot(`Object {}`);
 
-    expect(parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snack-name+qWeqG1!'))
+    expect(parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snackid+qWeqG1!'))
       .toMatchInlineSnapshot(`
       Object {
         "channel": "qWeqG1!",
+        "snack": "snackid",
       }
     `);
   });
