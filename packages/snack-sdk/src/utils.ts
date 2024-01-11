@@ -1,6 +1,6 @@
 import fetchPonyfill from 'fetch-ponyfill';
 import { customAlphabet } from 'nanoid';
-import { SDKVersion } from 'snack-content';
+import { SDKVersion, createSnackRuntimeUrl } from 'snack-content';
 
 import { SnackError, SnackUser } from './types';
 
@@ -38,17 +38,10 @@ export function createChannel(channel?: string): string {
 }
 
 export function createURL(host: string, sdkVersion: SDKVersion, channel?: string, id?: string) {
-  if (channel) {
-    return id
-      ? id.startsWith('@')
-        ? `exp://${host}/${id}+${channel}`
-        : `exp://${host}/@snack/${id}+${channel}`
-      : `exp://${host}/@snack/sdk.${sdkVersion}-${channel}`;
-  } else if (id) {
-    return `exp://${host}/${id.match(/.*\/.*/) ? id : `@snack/${id}`}`;
-  } else {
-    return '';
-  }
+  const url = createSnackRuntimeUrl({ channel, sdkVersion, snack: id });
+
+  // This is only supported for classic update urls
+  return url.replace('exp.host/', `${host}/`);
 }
 
 export function createError(config: {

@@ -841,7 +841,11 @@ class Main extends React.Component<Props, State> {
 
     let experienceURL = this.state.session.url;
     if (this.props.query.testTransport) {
-      experienceURL += `?testTransport=${this.props.query.testTransport}`;
+      if (experienceURL.includes('?')) {
+        experienceURL += `&testTransport=${this.props.query.testTransport}`;
+      } else {
+        experienceURL += `?testTransport=${this.props.query.testTransport}`;
+      }
     }
 
     if (this.state.isPreview) {

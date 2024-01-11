@@ -1,41 +1,24 @@
-import { parseExperienceURL } from '../UrlUtils';
+import { parseTestTransportFromUrl } from '../UrlUtils';
 
-describe(parseExperienceURL, () => {
-  it('should parse snack url', () => {
-    const result = parseExperienceURL('exp://exp.host/@snack/sdk.47.0.0-4AQkc5pxqe');
-    expect(result?.channel).toBe('4AQkc5pxqe');
-    expect(result?.testTransport).toBe(null);
+describe(parseTestTransportFromUrl, () => {
+  it('returns `null` without "testTransport"', () => {
+    expect(parseTestTransportFromUrl('exp://exp.host/@snack/sdk')).toBeNull();
   });
 
-  it('should parse snack url with testTransport', () => {
-    const result = parseExperienceURL(
-      'exp://exp.host/@snack/sdk.47.0.0-4AQkc5pxqe?foo=foo&testTransport=snackpub&bar=bar'
+  it('returns test transport when defined as query paramter', () => {
+    expect(parseTestTransportFromUrl('exp://exp.host/@snack/sdk?testTransport=snackpub')).toBe(
+      'snackpub'
     );
-    expect(result?.channel).toBe('4AQkc5pxqe');
-    expect(result?.testTransport).toBe('snackpub');
-  });
+    expect(
+      parseTestTransportFromUrl(
+        'exp://exp.host/@johndoe/the-snack+4AQkc5pxqe?testTransport=snackpub'
+      )
+    ).toBe('snackpub');
 
-  it('should parse account snack full name url', () => {
-    const result = parseExperienceURL('exp://exp.host/@johndoe/the-snack+4AQkc5pxqe');
-    expect(result?.channel).toBe('4AQkc5pxqe');
-    expect(result?.testTransport).toBe(null);
-  });
-
-  it('should parse account snack full name url with testTransport', () => {
-    const result = parseExperienceURL(
-      'exp://exp.host/@johndoe/the-snack+4AQkc5pxqe?foo=foo&testTransport=snackpub&bar=bar'
-    );
-    expect(result?.channel).toBe('4AQkc5pxqe');
-    expect(result?.testTransport).toBe('snackpub');
-  });
-
-  it('should return null for account snack full name url without channel', () => {
-    const result = parseExperienceURL('exp://exp.host/@johndoe/the-snack');
-    expect(result).toBe(null);
-  });
-
-  it('should return null for invalid url', () => {
-    const result = parseExperienceURL('exp://exp.host/');
-    expect(result).toBe(null);
+    expect(
+      parseTestTransportFromUrl(
+        'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824/?snack-channel=4AQkc5pxqe&testTransport=snackpub'
+      )
+    ).toBe('snackpub');
   });
 });
