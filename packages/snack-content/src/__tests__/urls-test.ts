@@ -58,11 +58,33 @@ describe(replaceSnackRuntimeUrlHost, () => {
     );
   });
 
+  it('replaces classic updates URL host by type', () => {
+    const oldUrl = createSnackRuntimeUrl({ channel, sdkVersion: '69.0.0' });
+    const newUrl = replaceSnackRuntimeUrlHost(oldUrl, {
+      classicUpdate: 'bad.exp.host',
+      easUpdate: 'u.expo.dev/good-url',
+    });
+
+    expect(newUrl).toMatchInlineSnapshot(
+      `"exp://u.expo.dev/good-url?snack-channel=xy%21z1_&runtime-version=exposdk%3A69.0.0&channel-name=sdk-50"`,
+    );
+  });
+
   it('replaces eas updates URL host', () => {
     const url = createSnackRuntimeUrl({ channel, sdkVersion: 51 });
     expect(replaceSnackRuntimeUrlHost(url, 'localhost:8081')).toMatchInlineSnapshot(
       `"exp://localhost:8081?snack-channel=xy%21z1_&runtime-version=exposdk%3A51.0.0&channel-name=sdk-50"`,
     );
+  });
+
+  it('replaces classic updates URL host by type', () => {
+    const oldUrl = createSnackRuntimeUrl({ channel, sdkVersion: '49.0.1' });
+    const newUrl = replaceSnackRuntimeUrlHost(oldUrl, {
+      classicUpdate: 'good.exp.host',
+      easUpdate: 'u.expo.dev/bad-url',
+    });
+
+    expect(newUrl).toMatchInlineSnapshot(`"exp://good.exp.host/@snack/sdk.49.0.0-xy!z1_"`);
   });
 });
 

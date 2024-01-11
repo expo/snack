@@ -83,6 +83,14 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_SECRET }}
 
+      - name: 👷 Configure EAS Update for staging
+        if: ${{ contains('all native', github.event.inputs.platform) }}
+        run: |
+          eas init --id 2dce2748-c51f-4865-bae0-392af794d60a
+          eas update:configure
+        env:
+          EXPO_STAGING: 'true'
+
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
         run: yarn deploy:staging
@@ -122,6 +130,12 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_SECRET }}
+
+      - name: 👷 Configure EAS Update for production
+        if: ${{ contains('all native', github.event.inputs.platform) }}
+        run: |
+          eas init --id 933fd9c0-1666-11e7-afca-d980795c5824
+          eas update:configure
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
