@@ -858,7 +858,12 @@ class Main extends React.Component<Props, State> {
     } else {
       experienceURL = replaceSnackRuntimeUrlHost(experienceURL, {
         classicUpdate: 'staging.exp.host',
-        easUpdate: 'staging-u.expo.dev/2dce2748-c51f-4865-bae0-392af794d60a',
+        easUpdate:
+          this.props.query.urlFormat === 'universal'
+            ? this._snack.getState().id
+              ? `${this._snack.getState().id}.expo-snack.app`
+              : 'expo-snack.app'
+            : 'staging-u.expo.dev/2dce2748-c51f-4865-bae0-392af794d60a',
       });
     }
 

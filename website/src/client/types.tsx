@@ -96,6 +96,7 @@ export type QueryInitParams = {
   waitForData?: 'boolean';
   saveToAccount?: 'true' | 'false';
   testTransport?: 'snackpub' | 'trafficMirroring';
+  urlFormat?: 'universal';
 };
 
 export type QueryStateParams = {
