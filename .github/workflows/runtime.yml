@@ -69,6 +69,8 @@ jobs:
     environment:
       name: runtime-staging
       url: https://staging.expo.dev/@exponent/snack
+    env:
+      EXPO_PUBLIC_SNACK_ENV: staging
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -118,6 +120,8 @@ jobs:
     environment:
       name: runtime-production
       url: https://expo.dev/@exponent/snack
+    env:
+      EXPO_PUBLIC_SNACK_ENV: production
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
