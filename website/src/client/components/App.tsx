@@ -844,8 +844,16 @@ class Main extends React.Component<Props, State> {
 
   render() {
     const { isEmbedded } = this.props;
+    const sdkVersionMajor = this.state.session.sdkVersion.split('.')[0];
+    const latestHashId = this.state.saveHistory[0]?.hashId;
 
-    let experienceURL = this.state.session.url;
+    let experienceURL =
+      this.props.query.urlFormat === 'universal'
+        ? latestHashId
+          ? `exp://${latestHashId}--${this.state.session.channel}-${sdkVersionMajor}.expo-snack.app`
+          : `exp://${this.state.session.channel}-${sdkVersionMajor}.expo-snack.app`
+        : this.state.session.url;
+
     if (this.props.query.testTransport) {
       if (experienceURL.includes('?')) {
         experienceURL += `&testTransport=${this.props.query.testTransport}`;
@@ -855,15 +863,10 @@ class Main extends React.Component<Props, State> {
     }
     if (this.state.isLocalWebPreview) {
       experienceURL = replaceSnackRuntimeUrlHost(experienceURL, 'localhost:8081');
-    } else {
+    } else if (this.props.query.urlFormat !== 'universal') {
       experienceURL = replaceSnackRuntimeUrlHost(experienceURL, {
         classicUpdate: 'staging.exp.host',
-        easUpdate:
-          this.props.query.urlFormat === 'universal'
-            ? this._snack.getState().id
-              ? `${this._snack.getState().id}.expo-snack.app`
-              : 'expo-snack.app'
-            : 'staging-u.expo.dev/2dce2748-c51f-4865-bae0-392af794d60a',
+        easUpdate: 'staging-u.expo.dev/2dce2748-c51f-4865-bae0-392af794d60a',
       });
     }
 
