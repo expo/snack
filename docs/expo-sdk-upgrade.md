@@ -47,6 +47,7 @@ Update the Snack runtime (managed Expo app), snack-sdk and website to the latest
 ### website
 
 - Add new SDK version to `snack/website/src/client/configs/sdk.tsx` (versions)
+- Add new Appetize (app) instance to `snack/website/src/client/configs/constants.tsx` (appetize)
 - Set the value to `false` to deploy the website with preliminary support for the new SDK (see `sdk.tsx`)
 - Run `yarn test` and fix any failing tests
 

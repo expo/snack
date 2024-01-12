@@ -1,4 +1,5 @@
 import querystring from 'query-string';
+import type { SDKVersion } from 'snack-sdk';
 
 import { AppetizeDevices } from '../components/DevicePreview/AppetizeFrame';
 import constants from '../configs/constants';
@@ -56,7 +57,19 @@ type Props = {
   payerCode?: string;
   deviceColor?: 'black' | 'white';
   devices?: AppetizeDevices;
+  sdkVersion: SDKVersion;
 };
+
+export function getAppetizeConfig(sdkVersion: SDKVersion) {
+  const config = constants.appetize?.[sdkVersion];
+  if (!config) {
+    throw new Error(
+      `No Appetize config found for SDK ${sdkVersion}, configure it in client/configs/constants.tsx`
+    );
+  }
+
+  return config;
+}
 
 export default function constructAppetizeURL({
   type,
@@ -68,6 +81,7 @@ export default function constructAppetizeURL({
   previewQueue,
   deviceColor = 'black',
   devices,
+  sdkVersion,
 }: Props) {
   const appetizeOptions = {
     screenOnly: devices?._showFrame === false,
@@ -103,14 +117,15 @@ export default function constructAppetizeURL({
     }
   }
 
-  const appetizeKey = constants.appetize.public_keys[previewQueue][platform];
+  const appetizeConfig = getAppetizeConfig(sdkVersion);
+  const appetizeKey = appetizeConfig[previewQueue][platform];
   const appParams = {
     EXDevMenuDisableAutoLaunch: true,
     EXKernelLaunchUrlDefaultsKey: experienceURL,
     EXKernelDisableNuxDefaultsKey: true,
   };
 
-  return `${constants.appetize.url}/embed/${appetizeKey}?${querystring.stringify(
+  return `${appetizeConfig.url}/embed/${appetizeKey}?${querystring.stringify(
     appetizeOptions
   )}&params=${encodeURIComponent(JSON.stringify(appParams))}`;
 }
