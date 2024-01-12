@@ -21,12 +21,20 @@
     },
     "platforms": ["android", "ios", "web"],
     "assetBundlePatterns": ["**/*"],
-    "updates": {
-      "useClassicUpdates": true
-    },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824"
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "933fd9c0-1666-11e7-afca-d980795c5824"
+      }
     }
   }
 }
