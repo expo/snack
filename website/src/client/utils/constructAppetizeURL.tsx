@@ -118,7 +118,11 @@ export default function constructAppetizeURL({
   }
 
   const appetizeConfig = getAppetizeConfig(sdkVersion);
-  const appetizeKey = appetizeConfig[previewQueue][platform];
+  const appetizeKey =
+    previewQueue === 'secondary'
+      ? appetizeConfig.embed[platform] // Secondary has been renamed to embed
+      : appetizeConfig[previewQueue][platform];
+
   const appParams = {
     EXDevMenuDisableAutoLaunch: true,
     EXKernelLaunchUrlDefaultsKey: experienceURL,

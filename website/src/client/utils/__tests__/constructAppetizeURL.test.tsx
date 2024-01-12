@@ -35,7 +35,7 @@ describe(getAppetizeConfig, () => {
         android: expect.any(String),
         ios: expect.any(String),
       }),
-      secondary: expect.objectContaining({
+      embed: expect.objectContaining({
         android: expect.any(String),
         ios: expect.any(String),
       }),
