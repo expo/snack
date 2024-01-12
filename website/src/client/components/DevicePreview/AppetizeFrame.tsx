@@ -3,10 +3,9 @@ import * as React from 'react';
 
 import { getLoginHref } from '../../auth/login';
 import withAuth, { AuthProps } from '../../auth/withAuth';
-import constants from '../../configs/constants';
 import { SDKVersion, Viewer } from '../../types';
 import Analytics from '../../utils/Analytics';
-import constructAppetizeURL from '../../utils/constructAppetizeURL';
+import constructAppetizeURL, { getAppetizeConfig } from '../../utils/constructAppetizeURL';
 import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 import { c, s } from '../ThemeProvider';
@@ -65,7 +64,7 @@ type State = {
 
 class AppetizeFrame extends React.PureComponent<Props, State> {
   private static getAppetizeURL(props: Props, autoplay: boolean) {
-    const { experienceURL, platform, isEmbedded, payerCode, theme, devices } = props;
+    const { experienceURL, platform, isEmbedded, payerCode, theme, devices, sdkVersion } = props;
 
     return constructAppetizeURL({
       type: isEmbedded ? 'embedded' : 'website',
@@ -76,6 +75,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
       deviceColor: theme === 'dark' ? 'white' : 'black',
       payerCode,
       devices,
+      sdkVersion,
     });
   }
 
@@ -150,7 +150,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
   };
 
   private handlePostMessage = ({ origin, data }: MessageEvent) => {
-    if (origin === constants.appetize.url) {
+    if (origin === getAppetizeConfig(this.props.sdkVersion).url) {
       let status: AppetizeStatus | undefined;
 
       if (this.waitingForMessage) {
@@ -354,7 +354,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
                     ) : viewer ? (
                       <ButtonLink
                         variant="primary"
-                        href={`${constants.appetize.url}/payer-code`}
+                        href={`${getAppetizeConfig(this.props.sdkVersion).url}/payer-code`}
                         onClick={this.handlePayerCodeLink}
                         target="_blank"
                         className={css(styles.blockButton)}
