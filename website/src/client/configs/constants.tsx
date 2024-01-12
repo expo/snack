@@ -5,42 +5,42 @@ type AppetizeConfig = {
   url: string;
   /** Appetize main queue instances */
   main: Record<'android' | 'ios', string>;
-  /** Appetize secondary quere instances */
-  secondary: Record<'android' | 'ios', string>;
+  /** Appetize embed queue instances */
+  embed: Record<'android' | 'ios', string>;
 };
 
 const appetize: Record<SDKVersion, AppetizeConfig> = {
   '49.0.0': {
     url: 'https://appetize.io',
     main: {
-      android: 'xc1w6f1krd589zhp22a0mgftyw',
-      ios: '8bnmakzrptf1hv9dq7v7bnteem',
+      android: 'akgy6sx2wxqpi7tylwniocatnu',
+      ios: '7zohmhvo3upsnznntigdxjt5pa',
     },
-    secondary: {
-      android: 'af5yxyj38991wyb09c5p7n1790',
-      ios: 'tq08t4qj50qjtmgg716hn6jut4',
+    embed: {
+      android: 'b2ch4fyexf6migif2avgiq7zqe',
+      ios: 'j64d66porsz3yaltg7foslosr4',
     },
   },
   '48.0.0': {
     url: 'https://appetize.io',
     main: {
-      android: 'xc1w6f1krd589zhp22a0mgftyw',
-      ios: '8bnmakzrptf1hv9dq7v7bnteem',
+      android: 'dprul2v3lnp2p2okkylszo6tc4',
+      ios: '4piegq2iwqmc2alvrlqvenp3dy',
     },
-    secondary: {
-      android: 'af5yxyj38991wyb09c5p7n1790',
-      ios: 'tq08t4qj50qjtmgg716hn6jut4',
+    embed: {
+      android: '5aemtcdrvz6kq7togroc2fvtdu',
+      ios: 'gq7nkndjvprkhmcuktyp6bgc7y',
     },
   },
   '47.0.0': {
     url: 'https://appetize.io',
     main: {
-      android: 'xc1w6f1krd589zhp22a0mgftyw',
-      ios: '8bnmakzrptf1hv9dq7v7bnteem',
+      android: 'wop4o4fzxdbgbekmpz2wmqt6hy',
+      ios: '3hwm6iozkskvxlgssxkvsp2bou',
     },
-    secondary: {
-      android: 'af5yxyj38991wyb09c5p7n1790',
-      ios: 'tq08t4qj50qjtmgg716hn6jut4',
+    embed: {
+      android: 'wzgngzxmpcdzo76mrnjtfdm7la',
+      ios: 'r3tfsdh7v7v5vjvjm3dgfahxry',
     },
   },
 };
