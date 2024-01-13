@@ -89,7 +89,7 @@ export default function constructAppetizeURL({
     autoplay: !!autoplay,
     embed: true,
     device: undefined as undefined | string,
-    launchUrl: platform === 'android' ? experienceURL : undefined,
+    launchUrl: experienceURL,
     xdocMsg: true,
     deviceColor,
     xDocMsg: true,
@@ -125,7 +125,7 @@ export default function constructAppetizeURL({
 
   const appParams = {
     EXDevMenuDisableAutoLaunch: true,
-    EXKernelLaunchUrlDefaultsKey: experienceURL,
+    // EXKernelLaunchUrlDefaultsKey: experienceURL, // TODO: figure out why this crashes the app on iOS
     EXKernelDisableNuxDefaultsKey: true,
   };
 
