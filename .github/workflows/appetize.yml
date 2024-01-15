@@ -91,10 +91,10 @@ jobs:
   android:
     if: contains('all android', github.event.inputs.sdkPlatform)
     needs: prepare
-    name: "android (sdk: ${{ matrix.sdkVersion }}, appetize: ${{ matrix.environment }})"
+    name: "android (sdk: ${{ matrix.sdkVersion }}, appetize: ${{ matrix.appetizeName }})"
     runs-on: ubuntu-latest
     environment:
-      name: appetize-${{ matrix.environment }}-android-${{ matrix.sdkVersion }}
+      name: appetize-${{ matrix.appetizeName }}-android-${{ matrix.sdkVersion }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
@@ -120,6 +120,7 @@ jobs:
         run: curl -o exponent-android.apk ${{ matrix.androidUrl }}
 
       - name: 🚀 Upload to Appetize
+        if: ${{ steps.appetize.outputs.oldVersion != matrix.androidVersion }}
         # This step MUST NOT output anything, the endpoint returns the public and private app keys
         run: |
           curl --silent --fail --http1.1 https://$TOKEN@api.appetize.io/v1/apps/$APP -F "file=@exponent-android.apk" -F "platform=android" > /dev/null
@@ -131,10 +132,10 @@ jobs:
   ios:
     if: contains('all ios', github.event.inputs.sdkPlatform)
     needs: prepare
-    name: "ios (sdk: ${{ matrix.sdkVersion }}, appetize: ${{ matrix.environment }})"
+    name: "ios (sdk: ${{ matrix.sdkVersion }}, appetize: ${{ matrix.appetizeName }})"
     runs-on: ubuntu-latest
     environment:
-      name: appetize-${{ matrix.environment }}-ios
+      name: appetize-${{ matrix.appetizeName }}-ios-${{ matrix.sdkVersion }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
@@ -157,9 +158,11 @@ jobs:
             core.setOutput('oldVersion', appVersionName)
 
       - name: 📱 Download iOS client (${{ matrix.iosVersion }})
+        if: ${{ steps.appetize.outputs.oldVersion != matrix.iosVersion }}
         run: curl -o exponent-ios.tar.gz ${{ matrix.iosUrl }}
 
       - name: 📦 Prepare iOS package
+        if: ${{ steps.appetize.outputs.oldVersion != matrix.iosVersion }}
         run: |
           mkdir exponent-ios.app
           tar -xf exponent-ios.tar.gz -C exponent-ios.app
@@ -167,6 +170,7 @@ jobs:
           rm -rf exponent-ios.app exponent-ios.tar.gz
 
       - name: 🚀 Upload to Appetize
+        if: ${{ steps.appetize.outputs.oldVersion != matrix.iosVersion }}
         # This step MUST NOT output anything, the endpoint returns the public and private app keys
         run: |
           curl --silent --fail --http1.1 https://$TOKEN@api.appetize.io/v1/apps/$APP -F "file=@exponent-ios.zip" -F "platform=ios" > /dev/null
@@ -176,7 +180,7 @@ jobs:
           APP: ${{ matrix.iosAppetizeId }}
 
   notify:
-    if: ${{ always() }}
+    if: ${{ needs.prepare.result == 'failure' || needs.android.result == 'failure' || needs.ios.result == 'failure' }}
     needs: [prepare, android, ios]
     runs-on: ubuntu-latest
     steps:
@@ -188,6 +192,6 @@ jobs:
           channel: '#snack'
           status: ${{ (needs.prepare.result == 'failure' || needs.android.result == 'failure' || needs.ios.result == 'failure') && 'failure' || 'success' }}
           author_name: Appetize deployment failed
-          fields: author
+          fields: author,job
 
 
