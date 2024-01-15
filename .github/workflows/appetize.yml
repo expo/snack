@@ -26,14 +26,22 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.result }}
     steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
       - name: 🏗 Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+
       - name: 📋 Download SDK information
         run: curl --silent -o ci_versions.json https://exp.host/--/api/v2/versions
+
       - name: 🕵️ Read Appetize information
         run: bun --eval "console.log(JSON.stringify(require('./website/src/client/configs/constants.tsx').default.appetize))" > ci_appetize.json
+
       - name: 👷‍♀️ Prepare tasks
         uses: actions/github-script@v7
         id: matrix
