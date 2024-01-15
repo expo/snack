@@ -1,6 +1,8 @@
 name: Appetize
 
 on:
+  schedule:
+    - cron: '0 8 * * 1' # Run every week on Monday at 08:00 UTC
   workflow_dispatch:
     inputs:
       appetizeQueue:
@@ -117,6 +119,7 @@ jobs:
             core.setOutput('oldVersion', appVersionName)
 
       - name: 📱 Download Android client (${{ matrix.androidVersion }})
+        if: ${{ steps.appetize.outputs.oldVersion != matrix.androidVersion }}
         run: curl -o exponent-android.apk ${{ matrix.androidUrl }}
 
       - name: 🚀 Upload to Appetize
