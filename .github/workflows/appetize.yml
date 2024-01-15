@@ -183,17 +183,18 @@ jobs:
           APP: ${{ matrix.iosAppetizeId }}
 
   notify:
-    if: ${{ needs.prepare.result == 'failure' || needs.android.result == 'failure' || needs.ios.result == 'failure' }}
+    if: ${{ always() }}
     needs: [prepare, android, ios]
     runs-on: ubuntu-latest
     steps:
       - name: 📢 Notify on Slack
         uses: 8398a7/action-slack@v3
+        if: ${{ needs.prepare.result == 'failure' || needs.android.result == 'failure' || needs.ios.result == 'failure' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
         with:
           channel: '#snack'
-          status: ${{ (needs.prepare.result == 'failure' || needs.android.result == 'failure' || needs.ios.result == 'failure') && 'failure' || 'success' }}
+          status: failure
           author_name: Appetize deployment failed
           fields: author,job
 
