@@ -26,6 +26,10 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.result }}
     steps:
+      - name: 🏗 Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
       - name: 📋 Download SDK information
         run: curl --silent -o ci_versions.json https://exp.host/--/api/v2/versions
       - name: 🕵️ Read Appetize information
@@ -164,7 +168,7 @@ jobs:
           APP: ${{ matrix.iosAppetizeId }}
 
   notify:
-    if: ${{ failure() }}
+    if: ${{ always() }}
     needs: [prepare, android, ios]
     runs-on: ubuntu-latest
     steps:
@@ -174,7 +178,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
         with:
           channel: '#snack'
-          status: ${{ job.status }}
+          status: ${{ (needs.prepare.result == 'failure' || needs.android.result == 'failure' || needs.ios.result == 'failure') && 'failure' || 'success' }}
           author_name: Appetize deployment failed
           fields: author
 
