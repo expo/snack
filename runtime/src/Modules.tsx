@@ -10,7 +10,6 @@
 
 import escapeStringRegexp from 'escape-string-regexp';
 import { Asset } from 'expo-asset';
-import Constants from 'expo-constants';
 import path from 'path';
 import React from 'react';
 import { Platform, PixelRatio } from 'react-native';
@@ -23,6 +22,7 @@ import { SourceMapConsumer, RawSourceMap } from 'source-map';
 
 import ReanimatedPlugin from '../vendor/reanimated-plugin';
 import System from '../vendor/system.src';
+import { SNACKAGER_API_URLS } from './Constants';
 import * as Files from './Files';
 import * as Logger from './Logger';
 import AssetRegistry from './NativeModules/AssetRegistry';
@@ -42,9 +42,6 @@ type Load = {
     sourceMap?: RawSourceMap;
   };
 };
-
-const SNACKAGER_CDN_STAGING = 'https://ductmb1crhe2d.cloudfront.net';
-const SNACKAGER_CDN_PROD = 'https://d37p21p3n8r8ug.cloudfront.net';
 
 // This is super hacky
 // This avoids a bug where for some reason `react` is `undefined` in a dependency
@@ -76,9 +73,7 @@ global['__DEV__'] = false;
 
 // Maintain project-level dependency state in the `ExpoDependencyV2` format.
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
-
-const manifest = Constants.manifest;
-let projectDependencies: Dependencies = manifest?.extra?.dependencies ?? {};
+let projectDependencies: Dependencies = {};
 
 // This keeps track of all generated virutal modules, and the files it includes.
 // Unfortunately, asking SystemJS seems to return no loaded modules.
@@ -311,12 +306,9 @@ const fetchPipeline = async (load: Load) => {
             `from cache ${bundle ? bundle.length : undefined} bytes`
           );
         } else {
-          // In development, try fetching from staging cloudfront first
-          const cloudFrontUrls =
-            Constants.manifest?.extra?.cloudEnv !== 'production'
-              ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
-              : [SNACKAGER_CDN_PROD];
-          for (const url of cloudFrontUrls) {
+          for (const [i, url] of SNACKAGER_API_URLS.entries()) {
+            // Determine if there is another URL to try on fetch failures
+            const hasNextUrl = i < SNACKAGER_API_URLS.length - 1;
             const fetchFrom = `${url}/${handle}-${Platform.OS}/bundle.js`;
 
             try {
@@ -330,7 +322,7 @@ const fetchPipeline = async (load: Load) => {
                 throw new Error(`Request failed with status ${res.status}: ${res.statusText}`);
               }
             } catch (e) {
-              if (url !== SNACKAGER_CDN_STAGING) {
+              if (hasNextUrl) {
                 Logger.error('Error fetching bundle', fetchFrom, e);
                 throw e;
               } else {

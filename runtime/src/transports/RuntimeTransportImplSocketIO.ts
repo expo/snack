@@ -1,12 +1,9 @@
-import Constants from 'expo-constants';
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 
+import { SNACKPUB_URL } from '../Constants';
 import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
-
-const SNACKPUB_URL_STAGING = 'https://staging-snackpub.expo.dev';
-const SNACKPUB_URL_PRODUCTION = 'https://snackpub.expo.dev';
 
 interface ServerToClientEvents {
   message: (data: { channel: string; sender: string } & RuntimeMessagePayload) => void;
@@ -30,11 +27,7 @@ export default class RuntimeTransportImplSocketIO implements RuntimeTransport {
   constructor(device: Device) {
     this.device = device;
     this.sender = JSON.stringify(device);
-    const snackpubURL =
-      Constants.manifest?.extra?.cloudEnv !== 'production'
-        ? SNACKPUB_URL_STAGING
-        : SNACKPUB_URL_PRODUCTION;
-    this.socket = io(snackpubURL, { transports: ['websocket'] });
+    this.socket = io(SNACKPUB_URL, { transports: ['websocket'] });
     this.socket.on('terminate', (reason) => {
       Logger.comm(`Terminating connection: ${reason}`);
       this.socket.disconnect();

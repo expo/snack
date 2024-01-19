@@ -13,10 +13,10 @@
     "lint": "eslint .",
     "typescript": "tsc",
     "test": "jest",
-    "deploy:staging": "EXPO_STAGING=1 expo-cli publish --clear",
-    "deploy:prod": "CLOUD_ENV=production NODE_ENV=production expo-cli publish --clear",
-    "deploy:web:staging": "node ./web/deploy-script.js",
-    "deploy:web:prod": "CLOUD_ENV=production NODE_ENV=production node ./web/deploy-script.js"
+    "deploy:staging": "EXPO_PUBLIC_SNACK_ENV=staging EXPO_STAGING=1 expo-cli publish --clear",
+    "deploy:prod": "expo-cli publish --clear",
+    "deploy:web:staging": "EXPO_PUBLIC_SNACK_ENV=staging node ./web/deploy-script.js",
+    "deploy:web:prod": "node ./web/deploy-script.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
