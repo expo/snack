@@ -18,7 +18,7 @@ describe('url', () => {
   it('has initial unnamed url', async () => {
     const snack = new Snack(config);
     expect(snack.getState().url).toBe(
-      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}`,
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=production`,
     );
   });
 
@@ -28,7 +28,7 @@ describe('url', () => {
       id,
     });
     expect(snack.getState().url).toBe(
-      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=${id}&snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}`,
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=${id}&snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=production`,
     );
   });
 
@@ -44,7 +44,7 @@ describe('url', () => {
       },
     });
     expect(snack.getState().url).toBe(
-      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=${id}&snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}`,
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=${id}&snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=production`,
     );
   });
 
