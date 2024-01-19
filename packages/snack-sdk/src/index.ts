@@ -17,13 +17,8 @@ import {
   isFeatureSupported,
   standardizeDependencies,
   getDeprecatedModule,
-  createSnackRuntimeUrl,
-  parseSnackRuntimeUrl,
-  replaceSnackRuntimeUrlHost,
-  createEASUpdateSnackRuntimeUrl,
-  createClassicUpdateSnackRuntimeUrl,
-  parseEASUpdateSnackRuntimeUrl,
-  parseClassicUpdateSnackRuntimeUrl,
+  createRuntimeUrl,
+  parseRuntimeUrl,
 } from 'snack-content';
 
 import Snack, {
@@ -63,11 +58,6 @@ export {
   getDeprecatedModule,
   defaultConfig,
   Snack,
-  createSnackRuntimeUrl,
-  parseSnackRuntimeUrl,
-  replaceSnackRuntimeUrlHost,
-  createEASUpdateSnackRuntimeUrl,
-  createClassicUpdateSnackRuntimeUrl,
-  parseEASUpdateSnackRuntimeUrl,
-  parseClassicUpdateSnackRuntimeUrl,
+  createRuntimeUrl,
+  parseRuntimeUrl,
 };
