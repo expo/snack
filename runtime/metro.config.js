@@ -2,7 +2,6 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const { boolish } = require('getenv');
 
-/* eslint-env node */
 const config = getDefaultConfig(__dirname);
 
 // Workaround for paths hosting web on a subdirectory (https://<s3-bucket>/v2/<expo-sdk-version>/)
