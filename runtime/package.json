@@ -63,7 +63,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@expo/spawn-async": "^1.7.2",
     "@types/diff": "^5.0.0",
     "@types/jest": "^26.0.24",
