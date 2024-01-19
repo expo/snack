@@ -13,7 +13,7 @@ import {
   EmitterSubscription,
   NativeEventSubscription,
 } from 'react-native';
-import { parseSnackRuntimeUrl } from 'snack-content';
+import { parseRuntimeUrl } from 'snack-content';
 import { createVirtualModulePath } from 'snack-require-context';
 
 import { AppLoading } from './AppLoading';
@@ -226,7 +226,7 @@ export default class App extends React.Component<object, State> {
   // Open Snack session at given `url`, throw if bad URL or couldn't connect. All we need to do is
   // subscribe to the associated messaging channel, everything else is triggered by messages.
   _openUrl = (url: string): boolean => {
-    const { channel } = parseSnackRuntimeUrl(url);
+    const { channel } = parseRuntimeUrl(url) ?? {};
 
     if (!channel) {
       Logger.warn(

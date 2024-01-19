@@ -53,7 +53,7 @@ describe('save', () => {
     });
     expect(snack.getState().id).toBe('myawesomeid');
     expect(snack.getState().saveURL).toBeDefined();
-    expect(snack.getState().url).toBe(`${snack.getState().saveURL}+3V353a70WJ`);
+    expect(snack.getState().url).toBe(`${snack.getState().saveURL}&snack-channel=3V353a70WJ`);
     snack.setOnline(false);
   });
 
@@ -70,7 +70,7 @@ describe('save', () => {
     const { url } = snack.getState();
     const result = await snack.saveAsync();
     expect(result.id.length).toBeGreaterThanOrEqual(3);
-    expect(result.url.length).toBeGreaterThanOrEqual(3);
+    expect(result.url?.length).toBeGreaterThanOrEqual(3);
     expect(snack.getState().unsaved).toBe(false);
     expect(snack.getState().url).not.toBe(url);
     expect(snack.getState().saveURL).toBeDefined();
@@ -90,7 +90,7 @@ describe('save', () => {
     const { url } = snack.getState();
     const result = await snack.saveAsync();
     expect(result.id.length).toBeGreaterThanOrEqual(3);
-    expect(result.url.length).toBeGreaterThanOrEqual(3);
+    expect(result.url?.length).toBeGreaterThanOrEqual(3);
     expect(snack.getState().unsaved).toBe(false);
     expect(snack.getState().url).not.toBe(url);
     expect(snack.getState().saveURL).toBeDefined();
