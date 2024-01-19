@@ -1,3 +1,5 @@
+import { newestSdkVersion, oldestSdkVersion } from 'snack-content';
+
 import Snack from './snack-sdk';
 import fetch from '../__mocks__/node-fetch';
 
@@ -99,7 +101,7 @@ describe('save', () => {
 
   it('does not use saveURL after changing sdkVersion', async () => {
     const snack = new Snack({
-      sdkVersion: '47.0.0',
+      sdkVersion: oldestSdkVersion,
       online: true,
       files: {
         'App.js': {
@@ -110,7 +112,7 @@ describe('save', () => {
     });
     await snack.saveAsync();
     const { url } = snack.getState();
-    snack.setSDKVersion('48.0.0');
+    snack.setSDKVersion(newestSdkVersion);
     expect(snack.getState().unsaved).toBe(true);
     expect(snack.getState().url).not.toBe(url);
     snack.setOnline(false);
