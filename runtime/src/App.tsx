@@ -72,8 +72,7 @@ export default class App extends React.Component<object, State> {
   async componentDidMount() {
     Profiling.checkpoint('`App.componentDidMount()` start');
 
-    // let initialURL: string | null = EXDevLauncher.manifestURL ?? (await Linking.getInitialURL());
-    let initialURL = 'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A50.0.0&channel-name=production&snack-channel=NrcjSAUJ5F';
+    let initialURL: string | null = EXDevLauncher.manifestURL ?? (await Linking.getInitialURL());
 
     // Generate unique device-id
     const deviceId = await getDeviceIdAsync();

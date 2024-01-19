@@ -208,7 +208,7 @@ class Main extends React.Component<Props, State> {
       apiURL: nullthrows(process.env.API_SERVER_URL),
       snackpubURL: process.env.SNACKPUB_URL,
       snackagerURL,
-      host: nullthrows(process.env.SNACK_RUNTIME_ENDPOINT),
+      runtimeEndpoint: nullthrows(process.env.SNACK_RUNTIME_ENDPOINT),
       webPreviewRef: typeof window !== 'undefined' ? this._previewRef : undefined,
       webPlayerURL: this._makeWebPlayerURL(isLocalWebPreview),
       snackId: props.snack?.id,
