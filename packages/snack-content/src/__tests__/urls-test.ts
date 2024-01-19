@@ -1,6 +1,7 @@
 import {
   createSnackRuntimeUrl,
   parseSnackRuntimeUrl,
+  replaceSnackRuntimeUrlHost,
   createEASUpdateSnackRuntimeUrl,
   createClassicUpdateSnackRuntimeUrl,
   parseEASUpdateSnackRuntimeUrl,
@@ -18,7 +19,7 @@ describe(createSnackRuntimeUrl, () => {
 
   it('creates eas update url with "channel" and "sdkVersion" >= 50', () => {
     expect(createSnackRuntimeUrl({ channel, sdkVersion: '50.0.0' })).toMatchInlineSnapshot(
-      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0"`,
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=sdk-50"`,
     );
   });
 });
@@ -47,19 +48,79 @@ describe(parseSnackRuntimeUrl, () => {
   });
 });
 
+describe(replaceSnackRuntimeUrlHost, () => {
+  const channel = 'xy!z1_';
+
+  it('replaces classic updates URL host', () => {
+    const url = createSnackRuntimeUrl({ channel, sdkVersion: '49.0.1' });
+    expect(replaceSnackRuntimeUrlHost(url, 'localhost:8081')).toMatchInlineSnapshot(
+      `"exp://localhost:8081/@snack/sdk.49.0.0-xy!z1_"`,
+    );
+  });
+
+  it('replaces classic updates URL host by type', () => {
+    const oldUrl = createSnackRuntimeUrl({ channel, sdkVersion: '49.0.1' });
+    const newUrl = replaceSnackRuntimeUrlHost(oldUrl, {
+      classicUpdate: 'good.exp.host',
+      easUpdate: 'u.expo.dev/bad-url',
+    });
+
+    expect(newUrl).toMatchInlineSnapshot(`"exp://good.exp.host/@snack/sdk.49.0.0-xy!z1_"`);
+  });
+
+  it('replaces classic updates URL multiple times', () => {
+    const oldUrl = createSnackRuntimeUrl({ channel, sdkVersion: '49.0.1' });
+    const newUrl1 = replaceSnackRuntimeUrlHost(oldUrl, 'staging.exp.host');
+    const newUrl2 = replaceSnackRuntimeUrlHost(newUrl1, 'staging.exp.host');
+    const newUrl3 = replaceSnackRuntimeUrlHost(newUrl2, 'staging.exp.host');
+
+    expect(newUrl3).toMatchInlineSnapshot(`"exp://staging.exp.host/@snack/sdk.49.0.0-xy!z1_"`);
+  });
+
+  it('replaces eas updates URL host', () => {
+    const url = createSnackRuntimeUrl({ channel, sdkVersion: 51 });
+    expect(replaceSnackRuntimeUrlHost(url, 'localhost:8081')).toMatchInlineSnapshot(
+      `"exp://localhost:8081/?snack-channel=xy%21z1_&runtime-version=exposdk%3A51.0.0&channel-name=sdk-50"`,
+    );
+  });
+
+  it('replaces eas updates URL host by type', () => {
+    const oldUrl = createSnackRuntimeUrl({ channel, sdkVersion: '69.0.0' });
+    const newUrl = replaceSnackRuntimeUrlHost(oldUrl, {
+      classicUpdate: 'bad.exp.host',
+      easUpdate: 'u.expo.dev/good-url',
+    });
+
+    expect(newUrl).toMatchInlineSnapshot(
+      `"exp://u.expo.dev/good-url?snack-channel=xy%21z1_&runtime-version=exposdk%3A69.0.0&channel-name=sdk-50"`,
+    );
+  });
+
+  it('replaces eas updates URL multiple times', () => {
+    const oldUrl = createSnackRuntimeUrl({ channel, sdkVersion: '50.0.0' });
+    const newUrl1 = replaceSnackRuntimeUrlHost(oldUrl, 'staging-u.expo.dev');
+    const newUrl2 = replaceSnackRuntimeUrlHost(newUrl1, 'staging-u.expo.dev');
+    const newUrl3 = replaceSnackRuntimeUrlHost(newUrl2, 'staging-u.expo.dev/projectid');
+
+    expect(newUrl3).toMatchInlineSnapshot(
+      `"exp://staging-u.expo.dev/projectid?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=sdk-50"`,
+    );
+  });
+});
+
 describe(createEASUpdateSnackRuntimeUrl, () => {
   const channel = 'xy!z1_';
   const snack = 'JxS_FUOcGz';
 
   it('creates url with "channel"', () => {
     expect(createEASUpdateSnackRuntimeUrl({ channel })).toMatchInlineSnapshot(
-      '"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_"',
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&channel-name=sdk-50"`,
     );
   });
 
   it('creates url with "channel" and "sdkVersion"', () => {
     expect(createEASUpdateSnackRuntimeUrl({ channel, sdkVersion: '50.0.1' })).toMatchInlineSnapshot(
-      '"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0"',
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=sdk-50"`,
     );
   });
 
@@ -67,7 +128,7 @@ describe(createEASUpdateSnackRuntimeUrl, () => {
     expect(
       createEASUpdateSnackRuntimeUrl({ channel, snack, sdkVersion: 50 }),
     ).toMatchInlineSnapshot(
-      '"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=JxS_FUOcGz&snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0"',
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=JxS_FUOcGz&snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=sdk-50"`,
     );
   });
 });
@@ -202,15 +263,15 @@ describe(parseClassicUpdateSnackRuntimeUrl, () => {
   });
 
   it('parses url using format "exp://exp.host/@snack/<snack>+<channel>"', () => {
-    // We ignore these formats, as we can't determine the Snack without owner
     expect(
-      parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snack-name'),
+      parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snackid'),
     ).toMatchInlineSnapshot(`Object {}`);
 
-    expect(parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snack-name+qWeqG1!'))
+    expect(parseClassicUpdateSnackRuntimeUrl('exp://exp.host/@snack/snackid+qWeqG1!'))
       .toMatchInlineSnapshot(`
       Object {
         "channel": "qWeqG1!",
+        "snack": "snackid",
       }
     `);
   });
