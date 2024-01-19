@@ -10,6 +10,17 @@ type AppetizeConfig = {
 };
 
 const appetize: Record<SDKVersion, AppetizeConfig> = {
+  '50.0.0': {
+    url: 'https://appetize.io',
+    main: {
+      android: 'vesv2fdfihxqdf2mf4t4gm2ogu',
+      ios: 'pervthlacse7rmjfnafyrnhdoy',
+    },
+    embed: {
+      android: 'hgzdls2srwti2a6s4saomqojwa',
+      ios: '6bdvj26c3efkcdaoghibydqq6i',
+    },
+  },
   '49.0.0': {
     url: 'https://appetize.io',
     main: {
