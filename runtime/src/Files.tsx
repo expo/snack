@@ -2,7 +2,6 @@
 // diffs etc. Does NOT deal with evaluating code, that happens in `Modules`.
 
 import { applyPatch } from 'diff';
-import Constants from 'expo-constants';
 
 type Message = {
   type: 'CODE';
@@ -24,23 +23,24 @@ type File = {
 
 const files: { [key: string]: File } = {};
 
+// TODO(cedric): replace this code with an initial fetch call to the server
 // Initialize by reading from `extra.code` in manifest if present
-const manifest = Constants.manifest;
+// const manifest = Constants.manifest;
 
-if (manifest?.extra?.code) {
-  const initialCode = manifest.extra.code;
-  Object.keys(initialCode).forEach((path) => {
-    const initialFile = initialCode[path];
-    const isAsset = initialFile.type === 'ASSET';
-    files[path] = {
-      isAsset,
-      s3Url: isAsset ? initialFile.contents : undefined,
-      s3Contents: undefined,
-      diff: undefined,
-      contents: !isAsset ? initialFile.contents : undefined,
-    };
-  });
-}
+// if (manifest?.extra?.code) {
+//   const initialCode = manifest.extra.code;
+//   Object.keys(initialCode).forEach((path) => {
+//     const initialFile = initialCode[path];
+//     const isAsset = initialFile.type === 'ASSET';
+//     files[path] = {
+//       isAsset,
+//       s3Url: isAsset ? initialFile.contents : undefined,
+//       s3Contents: undefined,
+//       diff: undefined,
+//       contents: !isAsset ? initialFile.contents : undefined,
+//     };
+//   });
+// }
 
 // Update files -- currently only handles updates from remote `message`s. Returns an array
 // containing paths of changed files.
