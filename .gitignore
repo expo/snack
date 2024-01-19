@@ -18,3 +18,7 @@ snackpub/build
 
 # turborepo
 .turbo/
+
+# dotenv
+.env*
+!.env.example
