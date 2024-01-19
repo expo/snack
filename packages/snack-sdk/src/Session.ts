@@ -972,7 +972,7 @@ export default class Snack {
       webPlayerURL !== prevState.webPlayerURL
     ) {
       state.webPreviewURL =
-        transports['webplayer'] && webPlayerURL && url
+        transports['webplayer'] && webPlayerURL
           ? getWebPlayerIFrameURL(webPlayerURL, sdkVersion, url, !!this.logger)
           : undefined;
     }

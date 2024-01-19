@@ -27,13 +27,9 @@ export const SNACK_URL_PROTOCOL = 'exp';
 
 /**
  * Create a Snack URL from the provided information, that opens a Snack.
+ * The URL must have `sdkVersion`, and either a `snack` or `channel` in order to be useful.
  */
-export function createRuntimeUrl(options: RuntimeUrlInfo & RuntimeUrlOptions): string | null {
-  // Runtime URL must have a snack or channel reference
-  if (!options.snack && !options.channel) {
-    return null;
-  }
-
+export function createRuntimeUrl(options: RuntimeUrlInfo & RuntimeUrlOptions): string {
   const protocol = options.protocol || SNACK_URL_PROTOCOL;
   const endpoint = options.endpoint || SNACK_URL_ENDPOINT;
   const parameters = new URLSearchParams();
@@ -51,6 +47,7 @@ export function createRuntimeUrl(options: RuntimeUrlInfo & RuntimeUrlOptions): s
 
 /**
  * Parse the Snack URL info usable information, using the unified URL format.
+ * The URL must have `sdkVersion`, and either a `snack` or `channel` in order to be useful.
  */
 export function parseRuntimeUrl(uri: string | URL): RuntimeUrlInfo | null {
   const url =
@@ -64,10 +61,13 @@ export function parseRuntimeUrl(uri: string | URL): RuntimeUrlInfo | null {
   const runtimeVersion = url.searchParams.get('runtime-version');
   const [, sdkVersion] = runtimeVersion?.match(/exposdk:([0-9]+)\.0\.0/) ?? [];
 
-  // Only return the URL if required parameters are present
-  if (sdkVersion && (snack || channel)) {
-    return { snack, channel, sdkVersion: parseInt(sdkVersion, 10) };
+  if (!sdkVersion) {
+    return null;
   }
 
-  return null;
+  return {
+    sdkVersion: parseInt(sdkVersion, 10),
+    snack,
+    channel,
+  };
 }

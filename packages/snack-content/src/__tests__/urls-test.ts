@@ -4,8 +4,10 @@ const snack = 'xxxxxx';
 const channel = 'AsZ12sasd11G';
 
 describe(createRuntimeUrl, () => {
-  it('returns null with only "sdkVersion"', () => {
-    expect(createRuntimeUrl({ sdkVersion: 69 })).toBeNull();
+  it('returns url with only "sdkVersion"', () => {
+    expect(createRuntimeUrl({ sdkVersion: 69 })).toMatchInlineSnapshot(
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A69.0.0&channel-name=production"`,
+    );
   });
 
   it(`returns url with "sdkVersion" and "snack"`, () => {
@@ -36,8 +38,15 @@ describe(createRuntimeUrl, () => {
 });
 
 describe(parseRuntimeUrl, () => {
-  it('returns null with only "sdkVersion"', () => {
-    expect(parseRuntimeUrl('exp://u.expo.dev/xxx?runtime-version=exposdk:69.0.0')).toBeNull();
+  it('returns info with only "sdkVersion"', () => {
+    expect(parseRuntimeUrl('exp://u.expo.dev/xxx?runtime-version=exposdk:69.0.0'))
+      .toMatchInlineSnapshot(`
+      Object {
+        "channel": undefined,
+        "sdkVersion": 69,
+        "snack": undefined,
+      }
+    `);
   });
 
   it('returns info with "sdkVersion" and "snack"', () => {
