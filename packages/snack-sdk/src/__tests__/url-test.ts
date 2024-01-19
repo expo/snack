@@ -18,7 +18,7 @@ describe('url', () => {
   it('has initial unnamed url', async () => {
     const snack = new Snack(config);
     expect(snack.getState().url).toBe(
-      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=production`,
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A${sdkVersion}&channel-name=production&snack-channel=${channel}`,
     );
   });
 
@@ -28,7 +28,7 @@ describe('url', () => {
       id,
     });
     expect(snack.getState().url).toBe(
-      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=${id}&snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=production`,
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A${sdkVersion}&channel-name=production&snack=${id}&snack-channel=${channel}`,
     );
   });
 
@@ -44,14 +44,16 @@ describe('url', () => {
       },
     });
     expect(snack.getState().url).toBe(
-      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=${id}&snack-channel=${channel}&runtime-version=exposdk%3A${sdkVersion}&channel-name=production`,
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A${sdkVersion}&channel-name=production&snack=${id}&snack-channel=${channel}`,
     );
   });
 
   it('updates url when changing sdk-version', async () => {
     const snack = new Snack(config);
     snack.setSDKVersion(oldestSdkVersion);
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.${oldestSdkVersion}-${channel}`);
+    expect(snack.getState().url).toBe(
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A${oldestSdkVersion}&channel-name=production&snack-channel=${channel}`,
+    );
   });
 
   it('reverts to unnamed url after changing sdk-version', async () => {
@@ -60,6 +62,8 @@ describe('url', () => {
       id,
     });
     snack.setSDKVersion(oldestSdkVersion);
-    expect(snack.getState().url).toBe(`exp://${host}/@snack/sdk.${oldestSdkVersion}-${channel}`);
+    expect(snack.getState().url).toBe(
+      `exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A${oldestSdkVersion}&channel-name=production&snack-channel=${channel}`,
+    );
   });
 });

@@ -164,10 +164,10 @@ export default class Snack {
         transports,
         user: options.user,
         id: options.id,
-        saveURL: options.id ? createURL(this.host, sdkVersion, undefined, options.id) : undefined,
+        saveURL: options.id ? createURL(sdkVersion, undefined, options.id) : undefined,
         savedSDKVersion: options.id ? sdkVersion : undefined,
         online: false,
-        url: createURL(this.host, sdkVersion, channel, options.id),
+        url: createURL(sdkVersion, channel, options.id),
         channel,
         deviceId: options.deviceId,
         snackId: options.snackId,
@@ -412,7 +412,7 @@ export default class Snack {
       this.logger?.info('Saved', data);
 
       const id: string = data.id;
-      const saveURL = createURL(this.host, sdkVersion, undefined, id);
+      const saveURL = createURL(sdkVersion, undefined, id);
       const hashId: string | undefined = data.hashId;
       const accountSnackId: string | undefined = data.accountSnackId;
       const snackId: string | undefined = data.snackId;
@@ -956,7 +956,6 @@ export default class Snack {
     ) {
       state.online = !!transports['pubsub'] && !disabled;
       state.url = createURL(
-        this.host,
         sdkVersion,
         channel,
         savedSDKVersion && savedSDKVersion !== sdkVersion ? undefined : id,
@@ -973,7 +972,7 @@ export default class Snack {
       webPlayerURL !== prevState.webPlayerURL
     ) {
       state.webPreviewURL =
-        transports['webplayer'] && webPlayerURL
+        transports['webplayer'] && webPlayerURL && url
           ? getWebPlayerIFrameURL(webPlayerURL, sdkVersion, url, !!this.logger)
           : undefined;
     }
