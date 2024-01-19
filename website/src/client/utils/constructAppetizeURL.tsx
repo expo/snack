@@ -89,7 +89,7 @@ export default function constructAppetizeURL({
     autoplay: !!autoplay,
     embed: true,
     device: undefined as undefined | string,
-    launchUrl: platform === 'android' ? experienceURL : undefined,
+    launchUrl: experienceURL,
     xdocMsg: true,
     deviceColor,
     xDocMsg: true,
@@ -125,7 +125,8 @@ export default function constructAppetizeURL({
 
   const appParams = {
     EXDevMenuDisableAutoLaunch: true,
-    EXKernelLaunchUrlDefaultsKey: experienceURL,
+    // TODO(cedric): figure out why this crashes on iOS SDK 50+
+    // EXKernelLaunchUrlDefaultsKey: experienceURL,
     EXKernelDisableNuxDefaultsKey: true,
   };
 
