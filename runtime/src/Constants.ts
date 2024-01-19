@@ -5,7 +5,7 @@ if (snackEnv === 'production' || snackEnv === 'staging') {
   console.log('Snack is running in', snackEnv, 'mode');
 } else {
   throw new Error(
-    `EXPO_PUBLIC_SNACK_ENV must be  must be "staging" or "production", received "${snackEnv}".`
+    `EXPO_PUBLIC_SNACK_ENV must be  must be "staging" or "production", received "${snackEnv}".`,
   );
 }
 

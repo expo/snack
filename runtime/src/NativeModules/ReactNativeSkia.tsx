@@ -38,7 +38,7 @@ export function WithSkiaWeb({ fallback, getComponent, opts: options }: WithSkiaP
         await loadCanvasKit(options);
         return getComponent();
       }),
-    [getComponent, options]
+    [getComponent, options],
   );
 
   return (
