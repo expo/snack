@@ -8,6 +8,7 @@ import {
   SnackFiles,
   isModulePreloaded,
   validateSDKVersion,
+  SNACK_RUNTIME_URL_ENDPOINT,
 } from 'snack-content';
 
 import DependencyResolver, {
@@ -56,8 +57,8 @@ export type SnackOptions = {
   dependencies?: SnackDependencies;
   files?: SnackFiles;
   apiURL?: string;
-  snackpubURL?: string | undefined;
-  host?: string;
+  snackpubURL?: string;
+  runtimeEndpoint?: string;
   snackagerURL?: string;
   verbose?: boolean;
   disabled?: boolean;
@@ -94,7 +95,7 @@ export default class Snack {
   private readonly logger?: Logger;
   private readonly apiURL: string;
   private readonly snackpubURL: string | undefined;
-  private readonly host: string;
+  private readonly runtimeEndpoint: string;
   private readonly dependencyResolver: DependencyResolver;
   private readonly fileUploader: FileUploader;
   private readonly DevSession: DevSession;
@@ -115,7 +116,7 @@ export default class Snack {
     this.options = options;
     this.apiURL = options.apiURL ?? defaultConfig.apiURL;
     this.snackpubURL = options.snackpubURL ?? defaultConfig.snackpubURL;
-    this.host = options.host ?? new URL(this.apiURL).host;
+    this.runtimeEndpoint = options.runtimeEndpoint ?? SNACK_RUNTIME_URL_ENDPOINT;
     this.logger = options.verbose ? createLogger(true) : undefined;
     this.codeChangesDelay = options.codeChangesDelay ?? 0;
     this.reloadTimeout = options.reloadTimeout ?? 0;
@@ -164,10 +165,12 @@ export default class Snack {
         transports,
         user: options.user,
         id: options.id,
-        saveURL: options.id ? createURL(sdkVersion, undefined, options.id) : undefined,
+        saveURL: options.id
+          ? createURL(this.runtimeEndpoint, sdkVersion, undefined, options.id)
+          : undefined,
         savedSDKVersion: options.id ? sdkVersion : undefined,
         online: false,
-        url: createURL(sdkVersion, channel, options.id),
+        url: createURL(this.runtimeEndpoint, sdkVersion, channel, options.id),
         channel,
         deviceId: options.deviceId,
         snackId: options.snackId,
@@ -412,7 +415,7 @@ export default class Snack {
       this.logger?.info('Saved', data);
 
       const id: string = data.id;
-      const saveURL = createURL(sdkVersion, undefined, id);
+      const saveURL = createURL(this.runtimeEndpoint, sdkVersion, undefined, id);
       const hashId: string | undefined = data.hashId;
       const accountSnackId: string | undefined = data.accountSnackId;
       const snackId: string | undefined = data.snackId;
@@ -956,6 +959,7 @@ export default class Snack {
     ) {
       state.online = !!transports['pubsub'] && !disabled;
       state.url = createURL(
+        this.runtimeEndpoint,
         sdkVersion,
         channel,
         savedSDKVersion && savedSDKVersion !== sdkVersion ? undefined : id,

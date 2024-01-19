@@ -21,17 +21,17 @@ export type RuntimeUrlOptions = {
 };
 
 /** The default domain for every Snack URL */
-export const SNACK_URL_ENDPOINT = 'u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824';
+export const SNACK_RUNTIME_URL_ENDPOINT = 'u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824';
 /** The default protocol for every Snack URL */
-export const SNACK_URL_PROTOCOL = 'exp';
+export const SNACK_RUNTIME_URL_PROTOCOL = 'exp';
 
 /**
  * Create a Snack URL from the provided information, that opens a Snack.
  * The URL must have `sdkVersion`, and either a `snack` or `channel` in order to be useful.
  */
 export function createRuntimeUrl(options: RuntimeUrlInfo & RuntimeUrlOptions): string {
-  const protocol = options.protocol || SNACK_URL_PROTOCOL;
-  const endpoint = options.endpoint || SNACK_URL_ENDPOINT;
+  const protocol = options.protocol || SNACK_RUNTIME_URL_PROTOCOL;
+  const endpoint = options.endpoint || SNACK_RUNTIME_URL_ENDPOINT;
   const parameters = new URLSearchParams();
 
   // Add the EAS Update references, `platform` is added by Expo Go

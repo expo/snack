@@ -37,9 +37,9 @@ export function createChannel(channel?: string): string {
   return channel;
 }
 
-export function createURL(sdkVersion: SDKVersion, channel?: string, id?: string) {
-  const version = parseInt(sdkVersion.split('.')[0], 10);
-  return createRuntimeUrl({ channel, sdkVersion: version, snack: id });
+export function createURL(endpoint: string, version: SDKVersion, channel?: string, id?: string) {
+  const sdkVersion = parseInt(version.split('.')[0], 10);
+  return createRuntimeUrl({ endpoint, channel, sdkVersion, snack: id });
 }
 
 export function createError(config: {

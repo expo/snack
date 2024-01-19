@@ -208,12 +208,7 @@ class Main extends React.Component<Props, State> {
       apiURL: nullthrows(process.env.API_SERVER_URL),
       snackpubURL: process.env.SNACKPUB_URL,
       snackagerURL,
-      host:
-        // Use staging server in development, otherwise Expo Go and appetize
-        // can't access the runtime. Replace with ngrok url to test locally.
-        process.env.NODE_ENV === 'development'
-          ? 'staging.exp.host'
-          : new URL(nullthrows(process.env.API_SERVER_URL)).host,
+      host: nullthrows(process.env.SNACK_RUNTIME_ENDPOINT),
       webPreviewRef: typeof window !== 'undefined' ? this._previewRef : undefined,
       webPlayerURL: this._makeWebPlayerURL(isLocalWebPreview),
       snackId: props.snack?.id,
