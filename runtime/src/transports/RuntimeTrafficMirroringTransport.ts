@@ -1,9 +1,9 @@
 import AwaitLock from 'await-lock';
 
-import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
 import RuntimeTransportImplPubNub from './RuntimeTransportImplPubNub';
 import RuntimeTransportImplSocketIO from './RuntimeTransportImplSocketIO';
+import * as Logger from '../Logger';
 
 const FALLBACK_ALWAYS_AFTER_MISSED_THRESHOLD = 5;
 const FALLBACK_ACK_WAIT_MS = 3000;
@@ -48,7 +48,7 @@ export default class RuntimeTrafficMirroringTransport implements RuntimeTranspor
       Logger.warn(
         `[RuntimeTrafficMirroringTransport] publish message from fallback transport - primaryTransportConnected[${this.transport.isConnected()}] missedMessageCount[${
           this.missedMessageCount
-        }]`
+        }]`,
       );
       this.fallbackTransport.publish(message);
     }
@@ -68,7 +68,7 @@ export default class RuntimeTrafficMirroringTransport implements RuntimeTranspor
   private onMessage = async (
     fromFallback: boolean,
     upperLayerListener: ListenerType,
-    payload: RuntimeMessagePayload
+    payload: RuntimeMessagePayload,
   ) => {
     if (this.shouldUseFallbackAlways()) {
       Logger.warn('[RuntimeTrafficMirroringTransport] ack upper from fallback transport');

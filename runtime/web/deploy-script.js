@@ -14,7 +14,7 @@ async function run() {
 
   await exportWeb({ workingDir, exportDir });
   await patchBundleImportPath({ workingDir, exportDir });
-  await patchAssetPath({ workingDir, exportDir });
+  await patchFaviconImportPath({ workingDir, exportDir });
   await uploadWeb({ workingDir, exportDir });
 }
 
@@ -36,17 +36,17 @@ async function exportWeb(options) {
         ...process.env,
         SNACK_EXPORT_WEB: 'true',
       },
-    }
+    },
   );
   console.log(
-    `✅ Exported the Snack Runtime to: ${path.join(options.workingDir, options.exportDir)}`
+    `✅ Exported the Snack Runtime to: ${path.join(options.workingDir, options.exportDir)}`,
   );
 }
 
 /**
  * Fix the bundle path import in the `dist/index.html` export.
  * This is required because the Snack Runtime is hosted in S3 under subfolders.
- * We need to convert `<script src="/bundles/web-...">` to `<script src="bundles/web-...">`.
+ * We need to convert `<script src="/_expo/static...">` to `<script src="_expo/static...">`.
  *
  * @param {object} options
  * @param {string} options.workingDir
@@ -55,7 +55,7 @@ async function exportWeb(options) {
 async function patchBundleImportPath(options) {
   const indexPath = path.resolve(options.workingDir, options.exportDir, './index.html');
   const indexFile = await fs.readFile(indexPath, 'utf8');
-  const patchedFile = indexFile.replace(`<script src="/bundles/web-`, `<script src="bundles/web-`);
+  const patchedFile = indexFile.replace(`<script src="/_expo`, `<script src="_expo`);
 
   if (patchedFile === indexFile) {
     throw new Error('Could not patch the bundle import path in the index.html file');
@@ -66,39 +66,25 @@ async function patchBundleImportPath(options) {
 }
 
 /**
- * Fix the asset export paths in the `dist/...` export.
- * This is required because we use the `transformer.publicPath`, in the Metro config,
- * to host the Snack Runtime on an S3 bucket subfolder.
+ * Fix the favicon import in the `dist/index.html` export.
+ * This is required because the Snack Runtime is hosted in S3 under subfolders.
+ * We need to convert `<link rel="shortcut icon" href="/favicon.ico" />` to `<link rel="shortcut icon" href="favicon.ico" />`.
  *
  * @param {object} options
  * @param {string} options.workingDir
  * @param {string} options.exportDir
  */
-async function patchAssetPath(options) {
-  const exportPath = path.resolve(options.workingDir, options.exportDir);
-  const publicFolder = path.resolve(exportPath, 'v2', String(semver.major(expoVersion)), 'assets');
-  const assetFolder = path.resolve(exportPath, 'assets');
+async function patchFaviconImportPath(options) {
+  const indexPath = path.resolve(options.workingDir, options.exportDir, './index.html');
+  const indexFile = await fs.readFile(indexPath, 'utf8');
+  const patchedFile = indexFile.replace(`href="/favicon.ico"`, `href="favicon.ico"`);
 
-  const filesOrFolders = await fs.readdir(publicFolder);
-
-  for (const fileOrFolder of filesOrFolders) {
-    const fileOrFolderPath = path.resolve(publicFolder, fileOrFolder);
-    const assetPath = path.resolve(assetFolder, fileOrFolder);
-
-    await fs.rename(fileOrFolderPath, assetPath);
-
-    const relativeFilesOrFolderPath = path.relative(options.workingDir, fileOrFolderPath);
-    const relativeAssetPath = path.relative(options.workingDir, assetPath);
-
-    console.log(`✅ Moved public asset: "${relativeFilesOrFolderPath}" → "${relativeAssetPath}"`);
+  if (patchedFile === indexFile) {
+    throw new Error('Could not patch the favicon path in the index.html file');
   }
 
-  // Clean up folders without force-deleting it, if anything is left, it should fail on this part.
-  await fs.rmdir(path.resolve(exportPath, 'v2', String(semver.major(expoVersion)), 'assets'));
-  await fs.rmdir(path.resolve(exportPath, 'v2', String(semver.major(expoVersion))));
-  await fs.rmdir(path.resolve(exportPath, 'v2'));
-
-  console.log(`✅ Moved ${filesOrFolders.length} public assets`);
+  await fs.writeFile(indexPath, patchedFile, 'utf8');
+  console.log(`✅ Patched favicon path in: ${indexPath}`);
 }
 
 /**
@@ -126,7 +112,7 @@ async function uploadWeb(options) {
     {
       cwd: options.workingDir,
       stdio: process.env.CI ? 'inherit' : 'ignore',
-    }
+    },
   );
 
   console.log(`✅ Uploaded the Snack Runtime to S3: ${bucketName} (v2/${sdkVersion})`);

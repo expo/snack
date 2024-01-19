@@ -115,7 +115,7 @@ export function prettyStack(error: Error) {
         ? // Avoid adding the `column`, `source-map@0.6.1` does not properly resolve the column. It uses the generated column number.
           u.path + (u.line !== null && u.column !== null ? `:${u.line})\n` : '\n')
         : match.replace(/module:\/+/, '').replace(/.([a-z]+).js/g, '.$1');
-    }
+    },
   );
 
   if (!sourceUnmappedStack) {
@@ -222,7 +222,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
           children.push(
             <Text key={children.length + ''} style={styles.plain}>
               {text}
-            </Text>
+            </Text>,
           );
           text = '';
         }
@@ -231,7 +231,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
         children.push(
           <Text key={children.length + ''} style={styles.code}>
             {text}
-          </Text>
+          </Text>,
         );
         isCode = false;
         text = '';
@@ -246,7 +246,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
       children.push(
         <Text key={children.length + ''} style={isCode ? styles.code : styles.plain}>
           {text}
-        </Text>
+        </Text>,
       );
     }
 

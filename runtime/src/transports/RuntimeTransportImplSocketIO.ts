@@ -1,9 +1,9 @@
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 
+import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
 import { SNACKPUB_URL } from '../Constants';
 import * as Logger from '../Logger';
-import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
 
 interface ServerToClientEvents {
   message: (data: { channel: string; sender: string } & RuntimeMessagePayload) => void;
