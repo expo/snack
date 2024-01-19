@@ -89,6 +89,12 @@
     "extends": "universe/native",
     "ignorePatterns": [
       "vendor"
+    ],
+    "overrides": [
+      {
+        "files": ["*.config.js"],
+        "extends": "universe/node"
+      }
     ]
   },
   "jest": {
