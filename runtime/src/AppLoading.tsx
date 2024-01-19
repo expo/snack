@@ -8,13 +8,13 @@ import * as Logger from './Logger';
 export class AppLoading extends PureComponent {
   constructor(props: any) {
     super(props);
-    SplashScreen.preventAutoHideAsync().catch((error) => {
+    SplashScreen.preventAutoHideAsync()?.catch((error) => {
       Logger.error('Failed to prevent auto-hide on splash screen', error);
     });
   }
 
   componentWillUnmount() {
-    SplashScreen.hideAsync().catch((error) => {
+    SplashScreen.hideAsync()?.catch((error) => {
       Logger.error('Failed to hide splash screen', error);
     });
   }
