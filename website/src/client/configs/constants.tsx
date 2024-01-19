@@ -43,17 +43,6 @@ const appetize: Record<SDKVersion, AppetizeConfig> = {
       ios: 'gq7nkndjvprkhmcuktyp6bgc7y',
     },
   },
-  '47.0.0': {
-    url: 'https://appetize.io',
-    main: {
-      android: 'wop4o4fzxdbgbekmpz2wmqt6hy',
-      ios: '3hwm6iozkskvxlgssxkvsp2bou',
-    },
-    embed: {
-      android: 'wzgngzxmpcdzo76mrnjtfdm7la',
-      ios: 'r3tfsdh7v7v5vjvjm3dgfahxry',
-    },
-  },
 };
 
 export default {

@@ -7,7 +7,6 @@ import { SDKVersion } from 'snack-sdk';
  * This is useful when deploying the website  with preliminary support for a new SDK version.
  */
 export const versions: Record<SDKVersion, boolean> = {
-  '47.0.0': true,
   '48.0.0': true,
   '49.0.0': true,
   '50.0.0': true,
