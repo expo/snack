@@ -97,7 +97,9 @@ async function patchFaviconImportPath(options) {
 async function uploadWeb(options) {
   const sdkVersion = semver.major(expoVersion);
   const bucketName =
-    process.env.NODE_ENV === 'production' ? 'snack-web-player' : 'snack-web-player-staging';
+    process.env.EXPO_PUBLIC_SNACK_ENV === 'production'
+      ? 'snack-web-player'
+      : 'snack-web-player-staging';
 
   await spawnAsync(
     'yarn',
