@@ -21,9 +21,6 @@
     },
     "platforms": ["android", "ios", "web"],
     "assetBundlePatterns": ["**/*"],
-    "updates": {
-      "useClassicUpdates": true
-    },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
