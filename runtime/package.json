@@ -65,7 +65,6 @@
     "@babel/core": "^7.20.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@expo/spawn-async": "^1.7.2",
-    "@expo/webpack-config": "^19.0.0",
     "@types/diff": "^5.0.0",
     "@types/jest": "^26.0.24",
     "@types/pubnub": "^7.2.0",
