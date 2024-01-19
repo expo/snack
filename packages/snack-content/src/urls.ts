@@ -118,8 +118,7 @@ export function createEASUpdateSnackRuntimeUrl(info: SnackRuntimeInfo): string {
     url.searchParams.set('runtime-version', `exposdk:${getMajorVersion(sdkVersion)}.0.0`);
   }
 
-  // TODO: finalize this before merging SDK 50
-  url.searchParams.set('channel-name', 'sdk-50');
+  url.searchParams.set('channel-name', 'production');
 
   return url.toString().replace(/^https:/, 'exp:');
 }

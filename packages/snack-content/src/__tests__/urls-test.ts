@@ -19,7 +19,7 @@ describe(createSnackRuntimeUrl, () => {
 
   it('creates eas update url with "channel" and "sdkVersion" >= 50', () => {
     expect(createSnackRuntimeUrl({ channel, sdkVersion: '50.0.0' })).toMatchInlineSnapshot(
-      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=sdk-50"`,
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=production"`,
     );
   });
 });
@@ -80,7 +80,7 @@ describe(replaceSnackRuntimeUrlHost, () => {
   it('replaces eas updates URL host', () => {
     const url = createSnackRuntimeUrl({ channel, sdkVersion: 51 });
     expect(replaceSnackRuntimeUrlHost(url, 'localhost:8081')).toMatchInlineSnapshot(
-      `"exp://localhost:8081/?snack-channel=xy%21z1_&runtime-version=exposdk%3A51.0.0&channel-name=sdk-50"`,
+      `"exp://localhost:8081/?snack-channel=xy%21z1_&runtime-version=exposdk%3A51.0.0&channel-name=production"`,
     );
   });
 
@@ -92,7 +92,7 @@ describe(replaceSnackRuntimeUrlHost, () => {
     });
 
     expect(newUrl).toMatchInlineSnapshot(
-      `"exp://u.expo.dev/good-url?snack-channel=xy%21z1_&runtime-version=exposdk%3A69.0.0&channel-name=sdk-50"`,
+      `"exp://u.expo.dev/good-url?snack-channel=xy%21z1_&runtime-version=exposdk%3A69.0.0&channel-name=production"`,
     );
   });
 
@@ -103,7 +103,7 @@ describe(replaceSnackRuntimeUrlHost, () => {
     const newUrl3 = replaceSnackRuntimeUrlHost(newUrl2, 'staging-u.expo.dev/projectid');
 
     expect(newUrl3).toMatchInlineSnapshot(
-      `"exp://staging-u.expo.dev/projectid?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=sdk-50"`,
+      `"exp://staging-u.expo.dev/projectid?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=production"`,
     );
   });
 });
@@ -114,13 +114,13 @@ describe(createEASUpdateSnackRuntimeUrl, () => {
 
   it('creates url with "channel"', () => {
     expect(createEASUpdateSnackRuntimeUrl({ channel })).toMatchInlineSnapshot(
-      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&channel-name=sdk-50"`,
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&channel-name=production"`,
     );
   });
 
   it('creates url with "channel" and "sdkVersion"', () => {
     expect(createEASUpdateSnackRuntimeUrl({ channel, sdkVersion: '50.0.1' })).toMatchInlineSnapshot(
-      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=sdk-50"`,
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=production"`,
     );
   });
 
@@ -128,7 +128,7 @@ describe(createEASUpdateSnackRuntimeUrl, () => {
     expect(
       createEASUpdateSnackRuntimeUrl({ channel, snack, sdkVersion: 50 }),
     ).toMatchInlineSnapshot(
-      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=JxS_FUOcGz&snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=sdk-50"`,
+      `"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?snack=JxS_FUOcGz&snack-channel=xy%21z1_&runtime-version=exposdk%3A50.0.0&channel-name=production"`,
     );
   });
 });
