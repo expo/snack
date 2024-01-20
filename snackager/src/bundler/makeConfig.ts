@@ -72,6 +72,7 @@ export default ({
               babelrc: false,
               configFile: false,
               presets: [
+                require.resolve('@babel/preset-typescript'),
                 [
                   require.resolve('metro-react-native-babel-preset'),
                   {
@@ -82,7 +83,7 @@ export default ({
               ],
               plugins: [
                 RewriteImportsPlugin,
-                require.resolve('@babel/plugin-proposal-export-namespace-from'),
+                require.resolve('@babel/plugin-transform-export-namespace-from'),
                 [
                   require.resolve('@babel/plugin-transform-runtime'),
                   {

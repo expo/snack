@@ -116,7 +116,7 @@ describe('bundler', () => {
   });
 
   it('creates bundle for react-native-webview', async () => {
-    const bundle = await bundleAsync('react-native-webview@10.9.1');
+    const bundle = await bundleAsync('react-native-webview@13.2.2');
     expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // react-native-webview contains a direct reference to
     // 'react-native/Libraries/BatchedBridge/BatchedBridge` and
@@ -171,7 +171,7 @@ describe('bundler', () => {
   });
 
   it(`filter internal react-native dependency TextInputState`, async () => {
-    const bundle = await bundleAsync('@react-native-community/viewpager@4.2.0');
+    const bundle = await bundleAsync('@react-native-community/viewpager@5.0.11');
     // this version detects TextInputState as missing package on `react-native@^0.57.0`
     // validate that we can install and bundle it properly
     expect(normalizeBundleSize(bundle)).toMatchSnapshot();

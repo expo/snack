@@ -51,7 +51,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 51000,
+        "size": 54000,
       },
     },
     "ios": Object {
@@ -60,7 +60,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 48000,
+        "size": 51000,
       },
     },
     "web": Object {
@@ -69,7 +69,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 108000,
+        "size": 111000,
       },
     },
   },
@@ -152,7 +152,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 90000,
+        "size": 105000,
       },
     },
     "ios": Object {
@@ -185,7 +185,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 90000,
+        "size": 105000,
       },
     },
     "web": Object {
@@ -204,7 +204,7 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 99000,
+        "size": 114000,
       },
     },
   },
@@ -235,7 +235,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 312000,
+        "size": 303000,
       },
     },
     "ios": Object {
@@ -248,7 +248,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 312000,
+        "size": 303000,
       },
     },
     "web": Object {
@@ -261,7 +261,7 @@ Object {
           "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
           "react-native/Libraries/Utilities/PolyfillFunctions",
         ],
-        "size": 312000,
+        "size": 303000,
       },
     },
   },
@@ -360,7 +360,7 @@ Object {
           "react-native",
           "react-native/Libraries/Renderer/shims/ReactNative",
         ],
-        "size": 432000,
+        "size": 423000,
       },
     },
     "ios": Object {
@@ -370,7 +370,7 @@ Object {
           "react-native",
           "react-native/Libraries/Renderer/shims/ReactNative",
         ],
-        "size": 432000,
+        "size": 423000,
       },
     },
     "web": Object {
@@ -379,7 +379,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 420000,
+        "size": 414000,
       },
     },
   },
@@ -450,8 +450,9 @@ Object {
           "react",
           "react-native",
           "react-native/Libraries/BatchedBridge/BatchedBridge",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
         ],
-        "size": 9000,
+        "size": 453000,
       },
     },
     "ios": Object {
@@ -459,8 +460,9 @@ Object {
         "externals": Array [
           "react",
           "react-native",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
         ],
-        "size": 9000,
+        "size": 459000,
       },
     },
     "web": Object {
@@ -475,9 +477,10 @@ Object {
   },
   "name": "react-native-webview",
   "peerDependencies": Object {
-    "react-native": "0.64.0",
+    "react": "*",
+    "react-native": "*",
   },
-  "version": "10.9.1",
+  "version": "13.2.2",
 }
 `;
 
@@ -508,7 +511,7 @@ Object {
           "react",
           "react-native",
         ],
-        "size": 90000,
+        "size": 93000,
       },
     },
   },
@@ -560,7 +563,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 12000,
+        "size": 6000,
       },
     },
     "ios": Object {
@@ -571,7 +574,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 12000,
+        "size": 6000,
       },
     },
     "web": Object {
@@ -582,7 +585,7 @@ Object {
           "expo-constants",
           "react-native",
         ],
-        "size": 12000,
+        "size": 6000,
       },
     },
   },
@@ -684,7 +687,7 @@ Object {
           "react-native-gesture-handler/DrawerLayout",
           "react-native-screens",
         ],
-        "size": 201000,
+        "size": 219000,
       },
     },
   },
@@ -706,7 +709,7 @@ Object {
         "externals": Array [
           "react-native",
         ],
-        "size": 12000,
+        "size": 3000,
       },
     },
     "ios": Object {
@@ -745,9 +748,8 @@ Object {
         "externals": Array [
           "react",
           "react-native",
-          "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 3000,
+        "size": 6000,
       },
     },
     "ios": Object {
@@ -755,9 +757,8 @@ Object {
         "externals": Array [
           "react",
           "react-native",
-          "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 3000,
+        "size": 6000,
       },
     },
     "web": Object {
@@ -765,18 +766,17 @@ Object {
         "externals": Array [
           "react",
           "react-native",
-          "react-native/Libraries/Utilities/dismissKeyboard",
         ],
-        "size": 3000,
+        "size": 6000,
       },
     },
   },
   "name": "@react-native-community/viewpager",
   "peerDependencies": Object {
-    "react": "16.0.0",
-    "react-native": "^0.57.0",
+    "react": "*",
+    "react-native": "*",
   },
-  "version": "4.2.0",
+  "version": "5.0.11",
 }
 `;
 
