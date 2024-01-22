@@ -1,6 +1,7 @@
 import { parseExperienceURL } from '../UrlUtils';
 
-describe(parseExperienceURL, () => {
+// These have been replaced with EAS Update URLs and tested in snack-content
+xdescribe(parseExperienceURL, () => {
   it('should parse snack url', () => {
     const result = parseExperienceURL('exp://exp.host/@snack/sdk.47.0.0-4AQkc5pxqe');
     expect(result?.channel).toBe('4AQkc5pxqe');
