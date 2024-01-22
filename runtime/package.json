@@ -56,7 +56,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-view-shot": "3.7.0",
     "react-native-web": "~0.19.6",
-    "snack-babel-standalone": "file:../packages/snack-babel-standalone",
+    "snack-babel-standalone": "^4.0.0",
     "snack-require-context": "file:../packages/snack-require-context",
     "socket.io-client": "~4.5.4",
     "source-map": "0.6.1"

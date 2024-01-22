@@ -12447,8 +12447,10 @@ smart-buffer@^4.1.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.1.0.tgz#91605c25d91652f4661ea69ccf45f1b331ca21ba"
   integrity sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
 
-"snack-babel-standalone@file:../packages/snack-babel-standalone":
-  version "3.0.1"
+snack-babel-standalone@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-4.0.0.tgz#17ee9134a515af3e2fc44d90598656c0903f665c"
+  integrity sha512-DB01CChul97KielzlP88miUx93E0o6ebnbNa2aah+KIl+vwcXbTuzc55KNNNrGELF5N8rpd74PYi23y/DqemKA==
 
 "snack-require-context@file:../packages/snack-require-context":
   version "0.1.0"
