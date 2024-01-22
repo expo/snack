@@ -18,7 +18,7 @@ registerPlugins({
 });
 
 registerPresets({
-  'module:metro-react-native-babel-preset': require('metro-react-native-babel-preset').getPreset(null, {
+  '@react-native/babel-preset': require('@react-native/babel-preset').getPreset(null, {
     enableBabelRuntime: false,
   }),
   // Required for the Reanimated +2.3.x plugin
