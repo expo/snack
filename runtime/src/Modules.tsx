@@ -405,7 +405,7 @@ const translatePipeline = async (load: Load) => {
           Logger.module('Transpiling', sanitizeModule(filename), '...');
 
           const result = babel.transform(load.source, {
-            presets: ['module:metro-react-native-babel-preset'],
+            presets: ['module:@react-native/babel-preset'],
             plugins: [
               ['@babel/plugin-transform-async-to-generator'],
               ['@babel/plugin-proposal-decorators', { legacy: true }],
