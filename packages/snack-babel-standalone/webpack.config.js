@@ -39,7 +39,7 @@ const config = {
           loader: 'babel-loader',
           options: {
             presets: [
-              require('metro-react-native-babel-preset').getPreset(null, {
+              require('@react-native/babel-preset').getPreset(null, {
                 enableBabelRuntime: false,
               }),
             ],
