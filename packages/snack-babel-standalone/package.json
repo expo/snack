@@ -1,6 +1,6 @@
 {
   "name": "snack-babel-standalone",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Babel for Snack Runtime and Website",
   "main": "./build/runtime.js",
   "types": "./types/runtime.d.ts",
