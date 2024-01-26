@@ -66,7 +66,7 @@ export function useOrbit() {
         return;
       }
 
-      const deeplink = `expo-orbit://snack/${experienceURL.replace('exp://', '')}`;
+      const deeplink = `expo-orbit://snack/?url=${encodeURIComponent(experienceURL)}`;
       if (isRunning) {
         const response = await fetchLocalOrbitServer('open', { url: deeplink });
         if (response?.ok) {
