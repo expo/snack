@@ -66,14 +66,15 @@ export function useOrbit() {
         return;
       }
 
+      const deeplink = `expo-orbit:///snack/?url=${encodeURIComponent(experienceURL)}`;
       if (isRunning) {
-        const response = await fetchLocalOrbitServer('open', { url: experienceURL });
+        const response = await fetchLocalOrbitServer('open', { url: deeplink });
         if (response?.ok) {
           return;
         }
       }
 
-      customProtocolCheck(experienceURL.replace('exp://', 'expo-orbit://'), onFail);
+      customProtocolCheck(deeplink, onFail);
     },
     [isRunning]
   );
