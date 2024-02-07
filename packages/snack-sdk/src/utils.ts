@@ -37,8 +37,7 @@ export function createChannel(channel?: string): string {
   return channel;
 }
 
-export function createURL(endpoint: string, version: SDKVersion, channel?: string, id?: string) {
-  const sdkVersion = parseInt(version.split('.')[0], 10);
+export function createURL(endpoint: string, sdkVersion: SDKVersion, channel?: string, id?: string) {
   return createRuntimeUrl({ endpoint, channel, sdkVersion, snack: id });
 }
 
