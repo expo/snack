@@ -1,6 +1,6 @@
 {
   "name": "snack-sdk",
-  "version": "4.3.0",
+  "version": "5.0.0-preview.1",
   "description": "The Expo Snack SDK",
   "main": "build/index.js",
   "types": "build/index.d.ts",
