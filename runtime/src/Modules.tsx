@@ -24,6 +24,7 @@ import * as context from 'snack-require-context';
 import { SourceMapConsumer, RawSourceMap } from 'source-map';
 
 import System from '../vendor/system.src';
+import { SNACKAGER_API_URLS } from './Constants';
 import * as Files from './Files';
 import * as Logger from './Logger';
 import AssetRegistry from './NativeModules/AssetRegistry';
@@ -312,12 +313,9 @@ const fetchPipeline = async (load: Load) => {
             `from cache ${bundle ? bundle.length : undefined} bytes`
           );
         } else {
-          // In development, try fetching from staging cloudfront first
-          const cloudFrontUrls =
-            Constants.manifest?.extra?.cloudEnv !== 'production'
-              ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
-              : [SNACKAGER_CDN_PROD];
-          for (const url of cloudFrontUrls) {
+          for (const [i, url] of SNACKAGER_API_URLS.entries()) {
+            // Determine if there is another URL to try on fetch failures
+            const hasNextUrl = i < SNACKAGER_API_URLS.length - 1;
             const fetchFrom = `${url}/${handle}-${Platform.OS}/bundle.js`;
 
             try {
@@ -331,7 +329,7 @@ const fetchPipeline = async (load: Load) => {
                 throw new Error(`Request failed with status ${res.status}: ${res.statusText}`);
               }
             } catch (e) {
-              if (url !== SNACKAGER_CDN_STAGING) {
+              if (!hasNextUrl) {
                 Logger.error('Error fetching bundle', fetchFrom, e);
                 throw e;
               } else {
