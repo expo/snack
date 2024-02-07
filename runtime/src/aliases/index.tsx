@@ -23,6 +23,10 @@ const aliases: { [key: string]: any } = {
 
   // Does not work in Snackager, likely due to Webpack / Codegen
   'react-native-pager-view': require('react-native-pager-view'),
+
+  // Does not work in Snackager, not sure why yet.
+  // Results in issues like: https://github.com/software-mansion/react-native-screens/issues/1901
+  'react-native-screens': require('react-native-screens'),
 };
 
 export default aliases;
