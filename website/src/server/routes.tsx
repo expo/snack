@@ -29,7 +29,7 @@ import { redirectToDevDomain } from '../expo-dev-migration';
 
 // + and - are used as delimiters in the uri, ensure they do not appear in the channel itself
 const createChannel = customAlphabet(
-  '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!_',
+  '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
   10
 );
 
