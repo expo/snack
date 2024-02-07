@@ -1,6 +1,6 @@
 export type RuntimeUrlInfo = {
-  /** The (major) Expo SDK version that should be loaded */
-  sdkVersion: number;
+  /** The full Expo SDK version that should be loaded */
+  sdkVersion: string;
   /**
    * The unique Snack hash, referring to a saved Snack.
    * This value may conain `[a-zA-Z0-9-_]`, but may not start with `[-_]`.
@@ -35,7 +35,7 @@ export function createRuntimeUrl(options: RuntimeUrlInfo & RuntimeUrlOptions): s
   const parameters = new URLSearchParams();
 
   // Add the EAS Update references, `platform` is added by Expo Go
-  parameters.set('runtime-version', `exposdk:${options.sdkVersion}.0.0`);
+  parameters.set('runtime-version', `exposdk:${options.sdkVersion}`);
   parameters.set('channel-name', 'production');
 
   // Add the Snack reference
@@ -59,14 +59,14 @@ export function parseRuntimeUrl(uri: string | URL): RuntimeUrlInfo | null {
   const snack = url.searchParams.get('snack') ?? undefined;
   const channel = url.searchParams.get('snack-channel') ?? undefined;
   const runtimeVersion = url.searchParams.get('runtime-version');
-  const [, sdkVersion] = runtimeVersion?.match(/exposdk:([0-9]+)\.0\.0/) ?? [];
+  const [, sdkVersion] = runtimeVersion?.match(/exposdk:([0-9]+\.[0-9]+\.[0-9]+)/) ?? [];
 
   if (!sdkVersion) {
     return null;
   }
 
   return {
-    sdkVersion: parseInt(sdkVersion, 10),
+    sdkVersion,
     snack,
     channel,
   };
