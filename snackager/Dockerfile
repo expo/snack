@@ -64,6 +64,9 @@ RUN yarn turbo build --filter "{./snackager}..." && \
 FROM base
 WORKDIR /app
 
+# Install system dependencies
+RUN apk --no-cache add git openssh-client
+
 # Copy deployment-ready repository
 COPY --from=deploy /app .
 
