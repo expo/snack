@@ -146,6 +146,12 @@ async function generateFilesObj(dirname: string): Promise<GitSnackFiles> {
 
         const filePath = path.join(dirname, fileName);
 
+        // Skip files larger than 10MB
+        const stat = fs.statSync(filePath);
+        if (stat.size > 10 * 1024 * 1024) {
+          return;
+        }
+
         if (isAsset(filePath)) {
           const formData = new FormData();
           formData.append('asset', fs.createReadStream(filePath), fileName);
