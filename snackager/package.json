@@ -47,7 +47,7 @@
     "sander": "^0.6.0",
     "semver": "^5.3.0",
     "semver-utils": "^1.1.4",
-    "snack-content": "*",
+    "snack-content": "~2.0.0-preview.2",
     "snack-require-context": "*",
     "snack-sdk": "5.0.0-preview.1",
     "source-map-support": "^0.4.15",
