@@ -38,6 +38,7 @@
     "memory-fs": "^0.4.1",
     "metro-react-native-babel-preset": "^0.76.8",
     "node-fetch": "^2.6.0",
+    "picomatch": "^4.0.1",
     "querystring": "^0.2.0",
     "raven": "^2.6.4",
     "react-native-reanimated": "2.0.0-rc.3",

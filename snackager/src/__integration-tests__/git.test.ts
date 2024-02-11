@@ -188,6 +188,38 @@ describe('git', () => {
       }),
     ).rejects.toEqual(new Error(`Error cloning repo: git exited with non-zero code: 128`));
   });
+
+  it('ignores files under `node_modules`', async () => {
+    const repoPath = await createRepo({
+      name: 'test-node-modules',
+      sdkVersion,
+      branch: 'node-modules-filter',
+      extraFiles: {
+        'node_modules/some-module/index.js': {
+          type: 'CODE',
+          contents: 'console.log("Hello World");',
+        },
+        'project/node_modules/other-module/index.js': {
+          type: 'CODE',
+          contents: 'console.log("Hello World");',
+        },
+      },
+    });
+    const id = await importAsync({
+      repo: repoPath,
+      branch: 'node-modules-filter',
+      noCache: true,
+    });
+
+    expect(id).toBe(SAVE_ID);
+    expect(mockedFetch).toHaveBeenCalledTimes(1);
+
+    const requestOptions = mockedFetch.mock.calls[0][1];
+    const requestCode = requestOptions.body.code;
+
+    expect(requestCode['node_modules/some-module/index.js']).toBeUndefined();
+    expect(requestCode['project/node_modules/other-module/index.js']).toBeUndefined();
+  });
 });
 
 async function createRepo(config: {
@@ -239,9 +271,9 @@ async function createRepo(config: {
   Object.keys(files).map((filename) => {
     const fullpath = path.join(workdir, filename);
     if (!fs.existsSync(path.dirname(fullpath))) {
-      fs.mkdirSync(path.dirname(fullpath));
+      fs.mkdirSync(path.dirname(fullpath), { recursive: true });
     }
-    fs.writeFileSync(fullpath, String(files[filename]));
+    fs.writeFileSync(fullpath, String(files[filename].contents ?? files[filename]));
   });
 
   // Convert it into a git repository
