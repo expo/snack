@@ -13337,6 +13337,11 @@ picomatch@^2.2.3:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
+picomatch@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-4.0.1.tgz#68c26c8837399e5819edce48590412ea07f17a07"
+  integrity sha512-xUXwsxNjwTQ8K3GnT4pCJm+xq3RUPQbmkYJTP5aFIfNIvbcc/4MUxgBaaRSZJ6yGJZiGSyYlM6MzwTsRk8SYCg==
+
 pify@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
@@ -15261,6 +15266,13 @@ snack-babel-standalone@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-3.0.1.tgz#c619711c4e2e59b44846b28dbbdfdaaed76495c4"
   integrity sha512-sqmBEX7kuW1ZwgviIYi06ILnVhDHCxiZk/DDrISejxUUyFnu3zXQxrYAwtWksj3v7VlGyC2TsALXQN3GhDi0Hg==
+
+snack-content@*:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/snack-content/-/snack-content-1.6.0.tgz#a37af0b83e62510729c4e0e8365c588436933f84"
+  integrity sha512-Eq8j5/MTg98O6xYV77d1O9NLB3EVWSIuQwJd5S5QhK5MkBvINk41VRSwLsRfkEdZPVsbLflVHBqHhXuMHCaUCA==
+  dependencies:
+    semver "^7.3.4"
 
 snack-eslint-standalone@^2.0.0:
   version "2.0.0"

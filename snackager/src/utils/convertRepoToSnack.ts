@@ -5,6 +5,7 @@ import fs from 'fs';
 import GitUrlParse from 'git-url-parse';
 import json5 from 'json5';
 import path from 'path';
+import picomatch from 'picomatch';
 import { Snack } from 'snack-sdk';
 import util from 'util';
 
@@ -136,6 +137,8 @@ async function generateFilesObj(dirname: string): Promise<GitSnackFiles> {
     snackagerURL: config.url,
   });
 
+  const isNodeModulesFile = picomatch('**/node_modules/**');
+
   try {
     await Promise.all(
       localFiles.map(async (fileName) => {
@@ -149,6 +152,11 @@ async function generateFilesObj(dirname: string): Promise<GitSnackFiles> {
         // Skip files larger than 10MB
         const stat = fs.statSync(filePath);
         if (stat.size > 10 * 1024 * 1024) {
+          return;
+        }
+
+        // Skip node_modules files
+        if (isNodeModulesFile(fileName)) {
           return;
         }
 
