@@ -116,7 +116,7 @@ describe('bundler', () => {
   });
 
   it('creates bundle for react-native-webview', async () => {
-    const bundle = await bundleAsync('react-native-webview@13.2.2');
+    const bundle = await bundleAsync('react-native-webview@13.7.0');
     expect(normalizeBundleSize(bundle)).toMatchSnapshot();
     // react-native-webview contains a direct reference to
     // 'react-native/Libraries/BatchedBridge/BatchedBridge` and
@@ -145,8 +145,8 @@ describe('bundler', () => {
     const bundle = await bundleAsync('react-native-reanimated@2.0.0-rc.3', undefined, true);
     // verify that the number of expected worklet instances appear in the
     // generated bundle.
-    expect(bundle.files['ios']['bundle.js'].code!.match(/worklet/g)!.length).toBe(150);
-    expect(bundle.files['android']['bundle.js'].code!.match(/worklet/g)!.length).toBe(150);
+    expect(bundle.files['ios']['bundle.js'].code!.match(/worklet/g)!.length).toBe(151);
+    expect(bundle.files['android']['bundle.js'].code!.match(/worklet/g)!.length).toBe(151);
   });
 
   it('compiles packages that use reanimated2', async () => {
