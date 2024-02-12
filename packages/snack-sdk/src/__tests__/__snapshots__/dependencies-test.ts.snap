@@ -198,7 +198,7 @@ Object {
       "react-native-gesture-handler": "1.6.0",
     },
     "version": "1.6.0",
-    "wantedVersion": "~2.12.0",
+    "wantedVersion": "~2.14.0",
   },
 }
 `;
@@ -220,13 +220,13 @@ Object {
 exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
 Object {
   "expo-av": Object {
-    "handle": "snackager-1/expo-av@13.10.3",
+    "handle": "snackager-1/expo-av@13.10.5",
     "peerDependencies": Object {
       "react": "*",
       "react-native": "*",
     },
-    "version": "~13.10.3",
-    "wantedVersion": "~13.10.3",
+    "version": "~13.10.5",
+    "wantedVersion": "~13.10.5",
   },
 }
 `;
