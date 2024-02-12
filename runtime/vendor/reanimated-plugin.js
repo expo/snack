@@ -108,7 +108,8 @@ var require_buildWorkletString = __commonJS({
       const workletFunction = (0, types_1.functionExpression)((0, types_1.identifier)(name), expression.params, expression.body);
       const code = (0, generator_1.default)(workletFunction).code;
       (0, assert_1.strict)(inputMap, "[Reanimated] `inputMap` is undefined.");
-      const includeSourceMap = !(0, utils_1.isRelease)();
+      // const includeSourceMap = !(0, utils_1.isRelease)();
+      const includeSourceMap = false; // Disabled due to no `fs` available in React Native
       if (includeSourceMap) {
         inputMap.sourcesContent = [];
         for (const sourceFile of inputMap.sources) {
