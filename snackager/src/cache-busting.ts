@@ -11,11 +11,12 @@ const cacheBusting: { version: number; packages: { [name: string]: number } } = 
    * requested.
    * */
   packages: {
-    'react-native-reanimated': 1,
-    moti: 1,
-    '@motify/interactions': 1,
-    '@motify/skeleton': 1,
-    '@draftbit/ui': 1,
+    'react-native-reanimated': 2,
+    moti: 2,
+    '@motify/interactions': 2,
+    '@motify/skeleton': 2,
+    '@draftbit/ui': 2,
+    '@shopify/react-native-skia': 1,
     '@expo-google-fonts/.*': 2,
   },
 };
