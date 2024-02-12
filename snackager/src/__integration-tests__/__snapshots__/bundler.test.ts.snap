@@ -360,7 +360,7 @@ exports[`bundler creates bundle for react-native-reanimated@2.9.1 1`] = `
           "react-native",
           "react-native/Libraries/Renderer/shims/ReactNative",
         ],
-        "size": 573000,
+        "size": 618000,
       },
     },
     "ios": {
@@ -370,7 +370,7 @@ exports[`bundler creates bundle for react-native-reanimated@2.9.1 1`] = `
           "react-native",
           "react-native/Libraries/Renderer/shims/ReactNative",
         ],
-        "size": 573000,
+        "size": 618000,
       },
     },
     "web": {
@@ -379,7 +379,7 @@ exports[`bundler creates bundle for react-native-reanimated@2.9.1 1`] = `
           "react",
           "react-native",
         ],
-        "size": 567000,
+        "size": 612000,
       },
     },
   },
