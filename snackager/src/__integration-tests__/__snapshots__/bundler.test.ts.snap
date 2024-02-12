@@ -1,40 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`bundler bundles packages with json imports 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
           "react-native/Libraries/Image/resolveAssetSource",
         ],
-        "size": 540000,
+        "size": 534000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
           "react-native/Libraries/Image/resolveAssetSource",
         ],
-        "size": 540000,
+        "size": 534000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
-        "size": 15000,
+        "size": 18000,
       },
     },
   },
   "name": "react-native-svg",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "*",
     "react-native": "^0.50.0",
   },
@@ -43,66 +43,66 @@ Object {
 `;
 
 exports[`bundler created bundle for react-native-gesture-handler 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
-          "react",
-          "react-native",
-        ],
-        "size": 54000,
-      },
-    },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
         "size": 51000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
-        "size": 111000,
+        "size": 51000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 108000,
       },
     },
   },
   "name": "react-native-gesture-handler",
-  "peerDependencies": Object {},
+  "peerDependencies": {},
   "version": "1.6.0",
 }
 `;
 
 exports[`bundler creates bundle for @react-navigation/native 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
         "size": 102430,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
         "size": 102426,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
@@ -111,7 +111,7 @@ Object {
     },
   },
   "name": "@react-navigation/native",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "*",
     "react-native": "*",
   },
@@ -120,29 +120,29 @@ Object {
 `;
 
 exports[`bundler creates bundle for @react-navigation/stack 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "assets/src_views_assets_backicon.png": Object {
+{
+  "files": {
+    "android": {
+      "assets/src_views_assets_backicon.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backicon@1.5x.png": Object {
+      "assets/src_views_assets_backicon@1.5x.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backicon@2x.png": Object {
+      "assets/src_views_assets_backicon@2x.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backicon@3x.png": Object {
+      "assets/src_views_assets_backicon@3x.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backicon@4x.png": Object {
+      "assets/src_views_assets_backicon@4x.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backiconmask.png": Object {
+      "assets/src_views_assets_backiconmask.png": {
         "size": 0,
       },
-      "bundle.js": Object {
-        "externals": Array [
+      "bundle.js": {
+        "externals": [
           "@react-native-community/masked-view",
           "@react-navigation/native",
           "AssetRegistry",
@@ -152,30 +152,30 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 105000,
+        "size": 93000,
       },
     },
-    "ios": Object {
-      "assets/src_views_assets_backicon.png": Object {
+    "ios": {
+      "assets/src_views_assets_backicon.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backicon@1.5x.png": Object {
+      "assets/src_views_assets_backicon@1.5x.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backicon@2x.png": Object {
+      "assets/src_views_assets_backicon@2x.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backicon@3x.png": Object {
+      "assets/src_views_assets_backicon@3x.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backicon@4x.png": Object {
+      "assets/src_views_assets_backicon@4x.png": {
         "size": 0,
       },
-      "assets/src_views_assets_backiconmask.png": Object {
+      "assets/src_views_assets_backiconmask.png": {
         "size": 0,
       },
-      "bundle.js": Object {
-        "externals": Array [
+      "bundle.js": {
+        "externals": [
           "@react-native-community/masked-view",
           "@react-navigation/native",
           "AssetRegistry",
@@ -185,18 +185,18 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 105000,
+        "size": 93000,
       },
     },
-    "web": Object {
-      "assets/lib_module_views_assets_backicon.png": Object {
+    "web": {
+      "assets/lib_module_views_assets_backicon.png": {
         "size": 0,
       },
-      "assets/lib_module_views_assets_backiconmask.png": Object {
+      "assets/lib_module_views_assets_backiconmask.png": {
         "size": 0,
       },
-      "bundle.js": Object {
-        "externals": Array [
+      "bundle.js": {
+        "externals": [
           "@react-navigation/native",
           "AssetRegistry",
           "react",
@@ -204,12 +204,12 @@ Object {
           "react-native-safe-area-context",
           "react-native-screens",
         ],
-        "size": 114000,
+        "size": 102000,
       },
     },
   },
   "name": "@react-navigation/stack",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "@react-native-community/masked-view": "^0.1.0",
     "@react-navigation/native": "5.0.5",
     "react": "*",
@@ -223,11 +223,11 @@ Object {
 `;
 
 exports[`bundler creates bundle for @sentry/react-native@3.4.2 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
           "react-native/Libraries/Core/Devtools/getDevServer",
@@ -238,9 +238,9 @@ Object {
         "size": 303000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
           "react-native/Libraries/Core/Devtools/getDevServer",
@@ -251,9 +251,9 @@ Object {
         "size": 303000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
           "react-native/Libraries/Core/Devtools/getDevServer",
@@ -266,7 +266,7 @@ Object {
     },
   },
   "name": "@sentry/react-native",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "^16.4.1",
     "react-native": "^0.56.0",
   },
@@ -275,11 +275,11 @@ Object {
 `;
 
 exports[`bundler creates bundle for a single platform 1`] = `
-Object {
-  "files": Object {
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "mobx",
         ],
         "size": 42000,
@@ -287,7 +287,7 @@ Object {
     },
   },
   "name": "firestorter",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "mobx": "^4.0.0",
   },
   "version": "2.0.1",
@@ -295,96 +295,96 @@ Object {
 `;
 
 exports[`bundler creates bundle for graphql@14.0.0 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [],
         "size": 219000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+    "ios": {
+      "bundle.js": {
+        "externals": [],
         "size": 219000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+    "web": {
+      "bundle.js": {
+        "externals": [],
         "size": 219000,
       },
     },
   },
   "name": "graphql",
-  "peerDependencies": Object {},
+  "peerDependencies": {},
   "version": "14.0.0",
 }
 `;
 
 exports[`bundler creates bundle for graphql@15.5.1 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [],
         "size": 183000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+    "ios": {
+      "bundle.js": {
+        "externals": [],
         "size": 183000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+    "web": {
+      "bundle.js": {
+        "externals": [],
         "size": 183000,
       },
     },
   },
   "name": "graphql",
-  "peerDependencies": Object {},
+  "peerDependencies": {},
   "version": "15.5.1",
 }
 `;
 
 exports[`bundler creates bundle for react-native-reanimated@2.9.1 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
           "react-native/Libraries/Renderer/shims/ReactNative",
         ],
-        "size": 423000,
+        "size": 618000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
           "react-native/Libraries/Renderer/shims/ReactNative",
         ],
-        "size": 423000,
+        "size": 618000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
-        "size": 414000,
+        "size": 612000,
       },
     },
   },
   "name": "react-native-reanimated",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "*",
     "react-native": "*",
   },
@@ -393,11 +393,11 @@ Object {
 `;
 
 exports[`bundler creates bundle for react-native-screens/native-stack 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "@react-navigation/native",
           "react",
           "react-native",
@@ -407,9 +407,9 @@ Object {
         "size": 6000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "@react-navigation/native",
           "react",
           "react-native",
@@ -419,9 +419,9 @@ Object {
         "size": 6000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "@react-navigation/native",
           "react",
           "react-native",
@@ -433,7 +433,7 @@ Object {
     },
   },
   "name": "react-native-screens",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "*",
     "react-native": "*",
   },
@@ -442,32 +442,34 @@ Object {
 `;
 
 exports[`bundler creates bundle for react-native-webview 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
           "react-native/Libraries/BatchedBridge/BatchedBridge",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
           "react-native/Libraries/Utilities/codegenNativeCommands",
         ],
-        "size": 453000,
+        "size": 435000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
           "react-native/Libraries/Utilities/codegenNativeCommands",
         ],
-        "size": 459000,
+        "size": 435000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
@@ -476,38 +478,38 @@ Object {
     },
   },
   "name": "react-native-webview",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "*",
     "react-native": "*",
   },
-  "version": "13.2.2",
+  "version": "13.7.0",
 }
 `;
 
 exports[`bundler creates bundle for subpath 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
-        "size": 33000,
+        "size": 36000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
-        "size": 33000,
+        "size": 36000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
@@ -516,35 +518,35 @@ Object {
     },
   },
   "name": "react-native-gesture-handler",
-  "peerDependencies": Object {},
+  "peerDependencies": {},
   "version": "1.6.0",
 }
 `;
 
 exports[`bundler creates bundle for subpath of core package 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [],
         "size": 3000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+    "ios": {
+      "bundle.js": {
+        "externals": [],
         "size": 3000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [],
+    "web": {
+      "bundle.js": {
+        "externals": [],
         "size": 3000,
       },
     },
   },
   "name": "react-native-web",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
   },
@@ -553,11 +555,11 @@ Object {
 `;
 
 exports[`bundler externalizes dependencies that are marked as external 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "@unimodules/core",
           "expo-app-auth",
           "expo-constants",
@@ -566,9 +568,9 @@ Object {
         "size": 6000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "@unimodules/core",
           "expo-app-auth",
           "expo-constants",
@@ -577,9 +579,9 @@ Object {
         "size": 6000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "@unimodules/core",
           "expo-app-auth",
           "expo-constants",
@@ -590,7 +592,7 @@ Object {
     },
   },
   "name": "expo-google-app-auth",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "@unimodules/core": "*",
     "expo-app-auth": "~9.2.0",
     "expo-constants": "*",
@@ -602,11 +604,11 @@ Object {
 `;
 
 exports[`bundler externalizes package-externals of dependencies 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "@expo/vector-icons",
           "expo-av",
           "react",
@@ -618,9 +620,9 @@ Object {
         "size": 285622,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "@expo/vector-icons",
           "expo-av",
           "react",
@@ -631,9 +633,9 @@ Object {
         "size": 292736,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "@expo/vector-icons",
           "expo-av",
           "react",
@@ -647,7 +649,7 @@ Object {
     },
   },
   "name": "@draftbit/ui",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "*",
     "react-native": "*",
   },
@@ -656,29 +658,29 @@ Object {
 `;
 
 exports[`bundler externalizes references to react-native-gesture-handler/DrawerLayout 1`] = `
-Object {
-  "files": Object {
-    "ios": Object {
-      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon.png": Object {
+{
+  "files": {
+    "ios": {
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon.png": {
         "size": 0,
       },
-      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@1.5x.png": Object {
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@1.5x.png": {
         "size": 0,
       },
-      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@2x.png": Object {
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@2x.png": {
         "size": 0,
       },
-      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@3x.png": Object {
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@3x.png": {
         "size": 0,
       },
-      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@4x.png": Object {
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@4x.png": {
         "size": 0,
       },
-      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backiconmask.png": Object {
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backiconmask.png": {
         "size": 0,
       },
-      "bundle.js": Object {
-        "externals": Array [
+      "bundle.js": {
+        "externals": [
           "@react-navigation/native",
           "AssetRegistry",
           "react",
@@ -687,12 +689,12 @@ Object {
           "react-native-gesture-handler/DrawerLayout",
           "react-native-screens",
         ],
-        "size": 219000,
+        "size": 204000,
       },
     },
   },
   "name": "react-navigation",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "@react-navigation/native": "~3.6.2",
     "react": "*",
     "react-native": "*",
@@ -702,28 +704,28 @@ Object {
 `;
 
 exports[`bundler filter aliased react-native dependencies 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
-          "react-native",
-        ],
-        "size": 3000,
-      },
-    },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
-          "react",
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react-native",
         ],
         "size": 6000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 9000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
@@ -732,7 +734,7 @@ Object {
     },
   },
   "name": "@react-native-community/datetimepicker",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "^16.8.3",
     "react-native": "^0.59.0",
   },
@@ -741,29 +743,29 @@ Object {
 `;
 
 exports[`bundler filter internal react-native dependency TextInputState 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
         "size": 6000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
         "size": 6000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
@@ -772,7 +774,7 @@ Object {
     },
   },
   "name": "@react-native-community/viewpager",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "*",
     "react-native": "*",
   },
@@ -781,68 +783,68 @@ Object {
 `;
 
 exports[`bundler resolves commonly missing peer-deps (prop-types) 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
-        "size": 15000,
+        "size": 18000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
-        "size": 15000,
+        "size": 18000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
-        "size": 15000,
+        "size": 18000,
       },
     },
   },
   "name": "react-native-responsive-grid",
-  "peerDependencies": Object {},
+  "peerDependencies": {},
   "version": "0.32.4",
 }
 `;
 
 exports[`bundler resolves external source-code references 1`] = `
-Object {
-  "files": Object {
-    "android": Object {
-      "bundle.js": Object {
-        "externals": Array [
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
           "@unimodules/core",
           "react",
           "react-native",
         ],
-        "size": 3000,
+        "size": 6000,
       },
     },
-    "ios": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "ios": {
+      "bundle.js": {
+        "externals": [
           "@unimodules/core",
           "react",
           "react-native",
         ],
-        "size": 3000,
+        "size": 6000,
       },
     },
-    "web": Object {
-      "bundle.js": Object {
-        "externals": Array [
+    "web": {
+      "bundle.js": {
+        "externals": [
           "react",
           "react-native",
         ],
@@ -851,7 +853,7 @@ Object {
     },
   },
   "name": "expo-linear-gradient",
-  "peerDependencies": Object {
+  "peerDependencies": {
     "react": "*",
     "react-native": "*",
   },

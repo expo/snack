@@ -186,7 +186,7 @@ describe('git', () => {
         branch: 'feature-b',
         noCache: true,
       }),
-    ).rejects.toEqual(new Error(`Error cloning repo: git exited with non-zero code: 128`));
+    ).rejects.toThrowError(`exited with non-zero code: 128`);
   });
 
   it('ignores files under `node_modules`', async () => {
