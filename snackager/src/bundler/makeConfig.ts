@@ -74,7 +74,7 @@ export default ({
               presets: [
                 require.resolve('@babel/preset-typescript'),
                 [
-                  require.resolve('metro-react-native-babel-preset'),
+                  require.resolve('@react-native/babel-preset'),
                   {
                     // Disable the implicit plugin-transform-runtime and add ourselves in the plugins list
                     enableBabelRuntime: false,
