@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`gets all fields from request 1`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": "bounce/index",
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
   ],
   "qualified": "@scoped/lodash",
@@ -18,11 +18,11 @@ Object {
 `;
 
 exports[`gets deep path and tag from request 1`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": "bounce/index",
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
     "android",
     "web",
@@ -37,11 +37,11 @@ Object {
 `;
 
 exports[`gets deep path from request 1`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": "bounce/index",
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
     "android",
     "web",
@@ -56,11 +56,11 @@ Object {
 `;
 
 exports[`gets id from request 1`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": undefined,
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
     "android",
     "web",
@@ -75,11 +75,11 @@ Object {
 `;
 
 exports[`gets platforms from request 1`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": "bounce/index",
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
     "android",
   ],
@@ -93,11 +93,11 @@ Object {
 `;
 
 exports[`gets sdkVersion from request 1`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": "bounce/index",
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
   ],
   "qualified": "lodash",
@@ -110,11 +110,11 @@ Object {
 `;
 
 exports[`gets tag from request 1`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": undefined,
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
     "android",
     "web",
@@ -129,11 +129,11 @@ Object {
 `;
 
 exports[`gets tag from request 2`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": "bounce/index",
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
   ],
   "qualified": "lodash",
@@ -146,11 +146,11 @@ Object {
 `;
 
 exports[`gets user from request 1`] = `
-Object {
+{
   "bypassMetadataCache": false,
   "deep": undefined,
   "id": "lodash",
-  "platforms": Array [
+  "platforms": [
     "ios",
     "android",
     "web",
