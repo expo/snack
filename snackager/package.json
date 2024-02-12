@@ -18,6 +18,7 @@
     "@babel/plugin-transform-export-namespace-from": "7.23.4",
     "@babel/plugin-transform-runtime": "^7.23.6",
     "@babel/preset-typescript": "^7.23.3",
+    "@babel/runtime": "^7.23.6",
     "@expo/config": "^8.5.4",
     "@expo/spawn-async": "^1.7.2",
     "aws-sdk": "^2.487.0",
