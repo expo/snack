@@ -17,6 +17,7 @@
     "@babel/generator": "^7.23.6",
     "@babel/plugin-transform-export-namespace-from": "7.23.4",
     "@babel/plugin-transform-runtime": "^7.23.6",
+    "@babel/plugin-transform-template-literals": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@babel/runtime": "^7.23.6",
     "@expo/config": "^8.5.4",
