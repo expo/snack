@@ -220,7 +220,7 @@ Object {
 exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
 Object {
   "expo-av": Object {
-    "error": [Error: Failed to resolve dependency 'expo-av@~13.10.5' (Package 'expo-av@~13.10.5' not found in the registry)],
+    "handle": "snackager-1/expo-av@13.10.5",
     "peerDependencies": Object {
       "react": "*",
       "react-native": "*",
