@@ -6,6 +6,7 @@
 //   Other changes:
 //     `shouldGenerateSourceMap` → always return false, this would invoke `fs` otherwise
 //     `var fs = __importStar(require("fs"));` → `var fs = { readFileSync: () => { throw new Error(`Can't invoke "fs" in React Native`) } };`
+//     `const includeSourceMap = !(0, utils_1.isRelease)();` → `const includeSourceMap = false; // Disabled due to no `fs` available in React Native`
 //     `var version = require("../../package.json").version;` → `var version = "3.3.0";`
 
 "use strict";
