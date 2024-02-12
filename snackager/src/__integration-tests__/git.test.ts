@@ -17,7 +17,7 @@ const ASSET_URL = 'https://myuploadedasset.com/777';
 
 // The main SDK version to use in testing,
 // this should type-fail when needs upgrade.
-const sdkVersion: SDKVersion = '49.0.0';
+const sdkVersion: SDKVersion = '50.0.0';
 
 jest.setTimeout(50000);
 jest.mock('node-fetch', () => {
