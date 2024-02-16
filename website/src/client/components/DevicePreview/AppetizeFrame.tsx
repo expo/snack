@@ -8,7 +8,7 @@ import Analytics from '../../utils/Analytics';
 import constructAppetizeURL, { getAppetizeConfig } from '../../utils/constructAppetizeURL';
 import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
-import { c, s } from '../ThemeProvider';
+import { c } from '../ThemeProvider';
 import Button from '../shared/Button';
 import ButtonLink from '../shared/ButtonLink';
 
@@ -153,6 +153,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
     if (origin === getAppetizeConfig(this.props.sdkVersion).url) {
       let status: AppetizeStatus | undefined;
 
+      console.log(data);
+
       switch (data) {
         case 'sessionRequested':
           status = { type: 'requested' };
@@ -180,6 +182,13 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
         case 'accountQueued':
           status = { type: 'queued', position: undefined };
           break;
+        // Disabled, needs to be redesigned
+        // case 'concurrentQueued':
+        //   status = { type: 'queued', position: data.position };
+        //   break;
+        // case 'concurrentQueuedPosition':
+        //   status = { type: 'queued', position: data.position };
+        //   break;
         default:
           if (data && data.type === 'accountQueuedPosition') {
             status = { type: 'queued', position: data.position };
@@ -375,7 +384,7 @@ const styles = StyleSheet.create({
   },
   queueModal: {
     color: 'white',
-    backgroundColor: 'rgba(36, 43, 56, 0.8)',
+    backgroundColor: 'rgba(21, 23, 24, 0.8)',
     position: 'absolute',
     zIndex: 2,
     top: 0,
