@@ -263,10 +263,6 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
     this.iframe.current?.contentWindow?.postMessage('endSession', '*');
   };
 
-  private onClickRunOnPhone = () => {
-    this.props.onShowModal('device-instructions');
-  };
-
   render() {
     const { appetizeStatus, payerCodeFormStatus, viewer, appetizeURL } = this.state;
     const { width, isEmbedded } = this.props;
@@ -447,30 +443,6 @@ const styles = StyleSheet.create({
     padding: 14,
     textAlign: 'center',
     color: c('success'),
-  },
-  largeButton: {
-    marginTop: 20,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-  },
-  buttonFrame: {
-    height: 70,
-    width: 225,
-    backgroundColor: c('content', 'light'),
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-    paddingLeft: 20,
-    paddingRight: 20,
-    boxShadow: s('popover'),
-  },
-  buttonText: {
-    color: c('text', 'light'),
-    fontSize: 20,
-    fontWeight: 400,
   },
   dismissButton: {
     position: 'absolute',
