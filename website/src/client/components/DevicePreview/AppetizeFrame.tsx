@@ -153,11 +153,6 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
     if (origin === getAppetizeConfig(this.props.sdkVersion).url) {
       let status: AppetizeStatus | undefined;
 
-      if (this.waitingForMessage) {
-        clearInterval(this.waitingForMessage);
-        this.waitingForMessage = null;
-      }
-
       switch (data) {
         case 'sessionRequested':
           status = { type: 'requested' };
@@ -240,24 +235,6 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
   };
 
   private iframe = React.createRef<HTMLIFrameElement>();
-  private waitingForMessage: any;
-
-  private handleTapToPlay = () => {
-    if (this.waitingForMessage) {
-      return;
-    }
-
-    // Attempt to start the session immediately
-    this.requestSession();
-    // Keep asking for a session every second until something is posted from the
-    // iframe This handles the edge case where the iframe hasn't loaded and
-    // isn't ready to receive events.
-    this.waitingForMessage = setInterval(this.requestSession, 1000);
-  };
-
-  private requestSession = () => {
-    this.iframe.current?.contentWindow?.postMessage('requestSession', '*');
-  };
 
   private endSession = () => {
     this.iframe.current?.contentWindow?.postMessage('endSession', '*');
