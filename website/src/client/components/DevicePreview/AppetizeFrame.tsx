@@ -153,6 +153,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
     if (origin === getAppetizeConfig(this.props.sdkVersion).url) {
       let status: AppetizeStatus | undefined;
 
+      console.log(data);
+
       switch (data) {
         case 'sessionRequested':
           status = { type: 'requested' };
