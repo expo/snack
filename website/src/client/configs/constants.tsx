@@ -1,46 +1,77 @@
 import type { SDKVersion } from 'snack-sdk';
 
-type AppetizeConfig = {
-  /** Appetize endpoint to use */
-  url: string;
-  /** Appetize main queue instances */
-  main: Record<'android' | 'ios', string>;
-  /** Appetize embed queue instances */
-  embed: Record<'android' | 'ios', string>;
-};
+type AppetizeQueue = 'main' | 'embed';
+type AppetizePlatform = 'android' | 'ios';
+type AppetizeConstants = Record<
+  AppetizeQueue,
+  Record<AppetizePlatform, Pick<AppetizeSdkConfig, 'publicKey' | 'device'>>
+>;
 
-const appetize: Record<SDKVersion, AppetizeConfig> = {
+const appetize: Record<SDKVersion, AppetizeConstants> = {
   '50.0.0': {
-    url: 'https://appetize.io',
     main: {
-      android: 'vesv2fdfihxqdf2mf4t4gm2ogu',
-      ios: 'pervthlacse7rmjfnafyrnhdoy',
+      android: {
+        publicKey: 'vesv2fdfihxqdf2mf4t4gm2ogu',
+        device: 'pixel7',
+      },
+      ios: {
+        publicKey: 'pervthlacse7rmjfnafyrnhdoy',
+        device: 'iphone15pro',
+      },
     },
     embed: {
-      android: 'hgzdls2srwti2a6s4saomqojwa',
-      ios: '6bdvj26c3efkcdaoghibydqq6i',
+      android: {
+        publicKey: 'hgzdls2srwti2a6s4saomqojwa',
+        device: 'pixel4',
+      },
+      ios: {
+        publicKey: '6bdvj26c3efkcdaoghibydqq6i',
+        device: 'iphone12',
+      },
     },
   },
   '49.0.0': {
-    url: 'https://appetize.io',
     main: {
-      android: 'akgy6sx2wxqpi7tylwniocatnu',
-      ios: '7zohmhvo3upsnznntigdxjt5pa',
+      android: {
+        publicKey: 'akgy6sx2wxqpi7tylwniocatnu',
+        device: 'pixel4',
+      },
+      ios: {
+        publicKey: '7zohmhvo3upsnznntigdxjt5pa',
+        device: 'iphone12',
+      },
     },
     embed: {
-      android: 'b2ch4fyexf6migif2avgiq7zqe',
-      ios: 'j64d66porsz3yaltg7foslosr4',
+      android: {
+        publicKey: 'b2ch4fyexf6migif2avgiq7zqe',
+        device: 'pixel4',
+      },
+      ios: {
+        publicKey: 'j64d66porsz3yaltg7foslosr4',
+        device: 'iphone12',
+      },
     },
   },
   '48.0.0': {
-    url: 'https://appetize.io',
     main: {
-      android: 'dprul2v3lnp2p2okkylszo6tc4',
-      ios: '4piegq2iwqmc2alvrlqvenp3dy',
+      android: {
+        publicKey: 'dprul2v3lnp2p2okkylszo6tc4',
+        device: 'pixel4',
+      },
+      ios: {
+        publicKey: '4piegq2iwqmc2alvrlqvenp3dy',
+        device: 'iphone12',
+      },
     },
     embed: {
-      android: '5aemtcdrvz6kq7togroc2fvtdu',
-      ios: 'gq7nkndjvprkhmcuktyp6bgc7y',
+      android: {
+        publicKey: '5aemtcdrvz6kq7togroc2fvtdu',
+        device: 'pixel4',
+      },
+      ios: {
+        publicKey: 'gq7nkndjvprkhmcuktyp6bgc7y',
+        device: 'iphone12',
+      },
     },
   },
 };

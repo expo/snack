@@ -1,372 +1,194 @@
 import { StyleSheet, css } from 'aphrodite';
-import * as React from 'react';
+import React, { Component, createRef } from 'react';
 
-import { getLoginHref } from '../../auth/login';
-import withAuth, { AuthProps } from '../../auth/withAuth';
-import { SDKVersion, Viewer } from '../../types';
+import { AppetizeDeviceControl } from './AppetizeDeviceControl';
+import { SDKVersion } from '../../types';
 import Analytics from '../../utils/Analytics';
-import constructAppetizeURL, { getAppetizeConfig } from '../../utils/constructAppetizeURL';
-import type { EditorModal } from '../EditorViewProps';
+import { getAppetizeConstants } from '../../utils/Appetize';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
-import { c } from '../ThemeProvider';
-import Button from '../shared/Button';
-import ButtonLink from '../shared/ButtonLink';
 
-/** @see https://docs.appetize.io/core-features/playback-options */
-export type AppetizeDeviceAndroid = 'none' | string;
-/** @see https://docs.appetize.io/core-features/playback-options */
-export type AppetizeDeviceIos = 'none' | string;
-
-export type AppetizeDevices = {
-  _showFrame: boolean;
-  android?: { device?: AppetizeDeviceAndroid; scale?: number };
-  ios?: { device?: AppetizeDeviceIos; scale?: number };
-};
-
-type Props = AuthProps & {
-  width: number;
+type AppetizeFrameProps = {
+  /** The Apptize SDK version to use */
   sdkVersion: SDKVersion;
-  experienceURL: string;
+  /** The Appetize platform to use */
   platform: 'android' | 'ios';
-  isEmbedded?: boolean;
-  payerCode?: string;
-  isPopupOpen: boolean;
-  onPopupUrl: (url: string) => void;
-  onShowModal: (modal: EditorModal) => void;
+  /** The Snack theme settings */
+  theme: ThemeName;
+  /** If snack is running in embed mode */
+  isEmbedded: boolean;
+  /** The Snack experience URL to load */
+  experienceURL: string;
+  /** Legacy callback to force the Snack to be online */
   onAppLaunch?: () => void;
-  theme: ThemeName;
-  devices?: AppetizeDevices;
+  /** Legacy callback to reopen Appetize in a popup */
+  onPopupUrl?: (url: string) => void;
 };
 
-type AppetizeStatus =
-  | { type: 'unknown' }
-  | { type: 'requested' }
-  | { type: 'queued'; position: number | undefined }
-  | { type: 'connecting' }
-  | { type: 'launch' }
-  | { type: 'timeout' };
-
-type PayerCodeFormStatus =
-  | { type: 'open'; value: string }
-  | { type: 'submitted' }
-  | { type: 'closed' };
-
-type State = {
-  appetizeStatus: AppetizeStatus;
-  appetizeURL: string;
-  autoplay: boolean;
-  payerCodeFormStatus: PayerCodeFormStatus;
-  platform: 'ios' | 'android';
-  sdkVersion: SDKVersion;
-  theme: ThemeName;
-  viewer: Viewer | undefined;
+type AppetizeFrameState = {
+  session?: AppetizeSdkSession;
+  deviceId?: string;
+  queuePosition?: number;
+  sentQueueInfo?: boolean;
+  isReloadingSnack?: boolean;
 };
 
-class AppetizeFrame extends React.PureComponent<Props, State> {
-  private static getAppetizeURL(props: Props, autoplay: boolean) {
-    const { experienceURL, platform, isEmbedded, payerCode, theme, devices, sdkVersion } = props;
+export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameState> {
+  /** The Appetize SDK client singleton instance*/
+  private client?: AppetizeSdkClient;
+  /** The iframe ref, to reopen as a popup */
+  private iframe = createRef<HTMLIFrameElement>();
 
-    return constructAppetizeURL({
-      type: isEmbedded ? 'embedded' : 'website',
-      experienceURL,
-      autoplay,
-      platform,
-      previewQueue: isEmbedded ? 'secondary' : 'main',
-      deviceColor: theme === 'dark' ? 'white' : 'black',
-      payerCode,
-      devices,
-      sdkVersion,
-    });
+  constructor(props: AppetizeFrameProps) {
+    super(props);
+    this.state = {}; // Note(cedric): this is somehow required...
   }
-
-  static getDerivedStateFromProps(props: Props, state: State) {
-    // Reset appetize status when we change platform or sdk version or user logs in
-    if (
-      props.platform !== state.platform ||
-      props.sdkVersion !== state.sdkVersion ||
-      props.theme !== state.theme
-    ) {
-      const autoplay = state.payerCodeFormStatus.type === 'submitted';
-      return {
-        appetizeStatus: { type: 'unknown' },
-        appetizeURL: AppetizeFrame.getAppetizeURL(props, autoplay),
-        autoplay,
-        payerCodeFormStatus: { type: 'closed' },
-        platform: props.platform,
-        sdkVersion: props.sdkVersion,
-        theme: props.theme,
-        viewer: props.viewer,
-      };
-    }
-
-    return null;
-  }
-
-  state: State = {
-    appetizeStatus: { type: 'unknown' },
-    appetizeURL: AppetizeFrame.getAppetizeURL(this.props, false),
-    autoplay: false,
-    payerCodeFormStatus: { type: 'closed' },
-    platform: this.props.platform,
-    sdkVersion: this.props.sdkVersion,
-    theme: this.props.theme,
-    viewer: this.props.viewer,
-  };
 
   componentDidMount() {
-    window.addEventListener('message', this.handlePostMessage);
-    window.addEventListener('unload', this.endSession);
+    // Load the Appetize client and setup initial bindings
+    this.initAppetizeClient(resolveAppetizeConfig(this.props, this.state));
 
-    this.props.onPopupUrl(this.state.appetizeURL);
-  }
-
-  componentDidUpdate(_prevProps: Props, prevState: State) {
-    if (
-      prevState.appetizeStatus !== this.state.appetizeStatus &&
-      this.state.appetizeStatus.type === 'requested'
-    ) {
-      this.handleLaunchRequest();
-    } else if (this.state.appetizeURL !== prevState.appetizeURL) {
-      this.props.onPopupUrl(this.state.appetizeURL);
-    }
+    window.addEventListener('beforeunload', this.endAppetizeSession);
   }
 
   componentWillUnmount() {
-    this.endSession();
-
-    window.removeEventListener('message', this.handlePostMessage);
-    window.removeEventListener('unload', this.endSession);
+    window.removeEventListener('beforeunload', this.endAppetizeSession);
   }
 
-  private handleLaunchRequest = () => {
-    Analytics.getInstance().logEvent('RAN_EMULATOR');
+  /**
+   * Update the Appetize client when platform, sdkVersion, or theme change.
+   */
+  componentDidUpdate(prevProps: AppetizeFrameProps, prevState: AppetizeFrameState) {
+    if (
+      prevProps.sdkVersion !== this.props.sdkVersion ||
+      prevProps.platform !== this.props.platform ||
+      prevProps.theme !== this.props.theme ||
+      prevProps.isEmbedded !== this.props.isEmbedded ||
+      prevProps.experienceURL !== this.props.experienceURL ||
+      prevState.deviceId !== this.state.deviceId
+    ) {
+      this.resetAppetizeClient(resolveAppetizeConfig(this.props, this.state));
+    }
+  }
+
+  /** Initialize the Appetize SDK client */
+  private initAppetizeClient = async (config: AppetizeSdkConfig) => {
+    if (!this.client) {
+      this.setState({ deviceId: config.device });
+
+      this.client = await window.appetize.getClient('#snack-appetize', config);
+      this.client.on('error', (error) => console.error('Appetize error:', error));
+      this.client.on('queue', (queue) => this.onAppetizeQueue(queue));
+      this.client.on('session', (session) => this.onAppetizeSession(session));
+      this.client.on('sessionRequested', () => this.props.onAppLaunch?.());
+    }
+
+    return this.client;
   };
 
-  private handlePayerCodeLink = () => {
-    this.setState({
-      payerCodeFormStatus: { type: 'open', value: '' },
-    });
-    Analytics.getInstance().logEvent('REQUESTED_APPETIZE_CODE', {}, 'previewQueue');
+  /** Re-intialize the Appetize SDK client and clear any pending session */
+  private resetAppetizeClient = async (config: AppetizeSdkConfig) => {
+    await this.endAppetizeSession();
+    await this.client?.setConfig(config);
+    this.props.onPopupUrl?.(this.iframe.current!.src);
   };
 
-  private handlePostMessage = ({ origin, data }: MessageEvent) => {
-    if (origin === getAppetizeConfig(this.props.sdkVersion).url) {
-      let status: AppetizeStatus | undefined;
+  /** Clear any active Appetize sessions */
+  private endAppetizeSession = async () => {
+    if (this.state.session) {
+      await this.state.session.end();
+      this.setState({ session: undefined });
+    }
 
-      console.log(data);
+    Analytics.getInstance().clearTimer('previewQueue');
+  };
 
-      switch (data) {
-        case 'sessionRequested':
-          status = { type: 'requested' };
-          break;
-        case 'sessionConnecting':
-          status = { type: 'connecting' };
-          break;
-        case 'appLaunch':
-          status = { type: 'launch' };
+  /** Store the session reference and clear possible queue timer */
+  private onAppetizeSession = (session: AppetizeSdkSession) => {
+    this.setState({ session });
+    this.props.onPopupUrl?.(this.iframe.current!.src);
 
-          this.props.onAppLaunch?.();
+    Analytics.getInstance().clearTimer('previewQueue');
+  };
 
-          if (this.state.appetizeStatus.type === 'queued') {
-            Analytics.getInstance().logEvent('APP_LAUNCHED', {}, 'previewQueue');
-          }
-          Analytics.getInstance().clearTimer('previewQueue');
-          break;
-        case 'timeoutWarning':
-          status = { type: 'timeout' };
-          break;
-        case 'sessionEnded':
-          status = { type: 'unknown' };
-          Analytics.getInstance().clearTimer('previewQueue');
-          break;
-        case 'accountQueued':
-          status = { type: 'queued', position: undefined };
-          break;
-        // Disabled, needs to be redesigned
-        // case 'concurrentQueued':
-        //   status = { type: 'queued', position: data.position };
-        //   break;
-        // case 'concurrentQueuedPosition':
-        //   status = { type: 'queued', position: data.position };
-        //   break;
-        default:
-          if (data && data.type === 'accountQueuedPosition') {
-            status = { type: 'queued', position: data.position };
-            if (
-              this.state.appetizeStatus.type !== 'queued' ||
-              !this.state.appetizeStatus.position
-            ) {
-              Analytics.getInstance().logEvent('QUEUED_FOR_PREVIEW', {
-                queuePosition: status.position,
-              });
-              Analytics.getInstance().startTimer('previewQueue');
-            }
-          }
-      }
+  /** Provide telemetry about queue build up */
+  private onAppetizeQueue = (queue: AppetizeQueueEventData) => {
+    if (!this.state.sentQueueInfo) {
+      this.setState({ sentQueueInfo: true });
 
-      if (status) {
-        this.setState({
-          appetizeStatus: status,
-        });
-      }
+      Analytics.getInstance().startTimer('previewQueue');
+      Analytics.getInstance().logEvent('QUEUED_FOR_PREVIEW', {
+        queuePosition: queue.position,
+      });
     }
   };
 
-  private handlePayerCodeChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({
-      payerCodeFormStatus: { type: 'open', value: e.target.value },
-    });
-
-  private handlePayerCodeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (this.props.viewer) {
-      this.savePayerCode();
+  private onReloadSnack = () => {
+    if (this.state.session) {
+      this.setState({ isReloadingSnack: true });
+      this.state.session
+        .openUrl(resolveAppetizeConfig(this.props, this.state).launchUrl!)
+        .finally(() => this.setState({ isReloadingSnack: false }));
     }
-
-    Analytics.getInstance().logEvent('ENTERED_APPETIZE_CODE', {}, 'previewQueue');
   };
 
-  private savePayerCode = () => {
-    const { payerCodeFormStatus } = this.state;
-
-    if (payerCodeFormStatus.type !== 'open' || !payerCodeFormStatus.value) {
-      return;
-    }
-
-    this.props.setMetadata({
-      appetizeCode: payerCodeFormStatus.value,
-    });
-
-    this.setState({
-      payerCodeFormStatus: { type: 'submitted' },
-    });
-  };
-
-  private iframe = React.createRef<HTMLIFrameElement>();
-
-  private endSession = () => {
-    this.iframe.current?.contentWindow?.postMessage('endSession', '*');
-  };
+  private onDeviceChange = (deviceId: string) => this.setState({ deviceId });
 
   render() {
-    const { appetizeStatus, payerCodeFormStatus, viewer, appetizeURL } = this.state;
-    const { width, isEmbedded } = this.props;
-
     return (
       <>
-        <div
-          className={css(isEmbedded ? styles.containerEmbedded : styles.container)}
-          style={{ width: isEmbedded ? width : width - 10 }}
-        >
-          <iframe
-            ref={this.iframe}
-            key={appetizeURL}
-            src={appetizeURL}
-            className={css(styles.frame)}
-          />
+        <div className={css(this.props.isEmbedded ? styles.containerEmbedded : styles.container)}>
+          <iframe id="snack-appetize" ref={this.iframe} className={css(styles.frame)} />
         </div>
-        {appetizeStatus.type === 'queued' ? (
-          <div className={css(styles.queueModal, styles.centered)}>
-            <div className={css(styles.queueModalContent)}>
-              {isEmbedded ? (
-                <button
-                  className={css(styles.dismissButton)}
-                  onClick={() => {
-                    this.setState({ appetizeStatus: { type: 'unknown' } });
-                  }}
-                >
-                  X
-                </button>
-              ) : null}
-              <h4>Device preview is at capacity</h4>
-              <p>Queue position: {appetizeStatus.position ?? 1}</p>
-              <h3>Don't want to wait?</h3>
-              {!isEmbedded ? (
-                <div>
-                  <p>Use your own Appetize.io account</p>
-                  <div className={css(styles.payerCodeForm)}>
-                    {payerCodeFormStatus.type === 'open' ? (
-                      <form onSubmit={this.handlePayerCodeSubmit}>
-                        <input
-                          type="text"
-                          placeholder="Payer Code"
-                          value={payerCodeFormStatus.value}
-                          onChange={this.handlePayerCodeChange}
-                          className={css(styles.payerCodeInput)}
-                        />
-                        <Button
-                          type="submit"
-                          variant="primary"
-                          className={css(styles.activateButton)}
-                        >
-                          Activate
-                        </Button>
-                      </form>
-                    ) : payerCodeFormStatus.type === 'submitted' ? (
-                      <p className={css(styles.payerCodeSubmitted)}>Payer code saved to profile!</p>
-                    ) : viewer ? (
-                      <ButtonLink
-                        variant="primary"
-                        href={`${getAppetizeConfig(this.props.sdkVersion).url}/payer-code`}
-                        onClick={this.handlePayerCodeLink}
-                        target="_blank"
-                        className={css(styles.blockButton)}
-                      >
-                        Use Appetize.io
-                      </ButtonLink>
-                    ) : (
-                      <ButtonLink
-                        variant="primary"
-                        href={getLoginHref()}
-                        className={css(styles.blockButton)}
-                      >
-                        Log in to Expo
-                      </ButtonLink>
-                    )}
-                  </div>
-                  <p>or</p>
-                </div>
-              ) : null}
 
-              <ButtonLink
-                variant="primary"
-                onClick={this.onClickRunOnPhone}
-                className={css(styles.blockButton)}
-              >
-                Run it on your phone
-              </ButtonLink>
-            </div>
-          </div>
-        ) : null}
+        {!this.props.isEmbedded && (
+          <AppetizeDeviceControl>
+            <AppetizeDeviceControl.ReloadSnack
+              onReloadSnack={this.onReloadSnack}
+              canReloadSnack={!!this.state.session && !this.state.isReloadingSnack}
+            />
+            <AppetizeDeviceControl.SelectDevice
+              platform={this.props.platform}
+              selectedDevice={this.state.deviceId}
+              onSelectDevice={this.onDeviceChange}
+            />
+          </AppetizeDeviceControl>
+        )}
       </>
     );
   }
 }
 
-export default withThemeName(withAuth(AppetizeFrame));
+export default withThemeName(AppetizeFrame);
+
+function resolveAppetizeConfig(
+  props: AppetizeFrameProps,
+  state: AppetizeFrameState
+): AppetizeSdkConfig {
+  const constants = getAppetizeConstants(props);
+  const parameters = {
+    EXDevMenuDisableAutoLaunch: true,
+    EXKernelDisableNuxDefaultsKey: true,
+  };
+
+  return {
+    ...constants,
+    device: state.deviceId ?? constants.device,
+    launchUrl: props.experienceURL,
+    params: JSON.stringify(parameters) as any,
+    appearance: props.theme,
+    deviceColor: props.theme === 'light' ? 'black' : 'white',
+    scale: 'auto',
+    orientation: 'portrait',
+    centered: 'both',
+  };
+}
 
 const styles = StyleSheet.create({
-  loading: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    zIndex: 1,
-  },
-  centered: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'auto',
-  },
   container: {
     position: 'relative',
     height: 672,
     overflow: 'hidden',
     margin: 'auto',
-    marginLeft: 10,
     zIndex: 2,
   },
   containerEmbedded: {
@@ -377,73 +199,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   frame: {
-    width: 9999,
-    height: 9999,
     border: 0,
-    overflow: 'hidden',
-  },
-  queueModal: {
-    color: 'white',
-    backgroundColor: 'rgba(21, 23, 24, 0.8)',
-    position: 'absolute',
-    zIndex: 2,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    padding: 28,
-  },
-  queueModalContent: {
-    textAlign: 'center',
-  },
-  blockButton: {
-    display: 'block',
-    flex: 1,
-    cursor: 'pointer',
-  },
-  activateButton: {
-    ':only-of-type': {
-      marginLeft: 0,
-      marginRight: 0,
-      borderBottomLeftRadius: 0,
-      borderTopLeftRadius: 0,
-    },
-  },
-  payerCodeForm: {
-    height: 50,
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  payerCodeInput: {
-    fontFamily: 'var(--font-monospace)',
-    padding: 7,
-    marginRight: -1,
-    borderTopLeftRadius: 3,
-    borderBottomLeftRadius: 3,
-    width: 133,
-    border: `1px solid ${c('selected')}`,
-    color: c('text'),
-  },
-  payerCodeSubmitted: {
-    margin: '0 auto',
-    padding: 14,
-    textAlign: 'center',
-    color: c('success'),
-  },
-  dismissButton: {
-    position: 'absolute',
-    fontSize: 20,
-    fontWeight: 400,
-    right: 0,
-    top: 0,
-    zIndex: 2,
-    height: 48,
-    width: 48,
-    padding: 16,
-    border: 0,
-    backgroundSize: 16,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: 'transparent',
+    height: '100%',
   },
 });
