@@ -45,16 +45,17 @@ function SelectDevice({ platform, onSelectDevice, selectedDevice }: SelectDevice
   return (
     <select
       className={css(styles.button)}
+      defaultValue={selectedDevice}
       onChange={(event) => event.target.value && onSelectDevice?.(event.target.value)}
       disabled={!onSelectDevice}
     >
       {!devices.length ? (
-        <option key={selectedDevice} value={selectedDevice} selected>
+        <option key={selectedDevice} value={selectedDevice}>
           {getAppetizeDeviceName(selectedDevice) || selectedDevice}
         </option>
       ) : (
         devices.map(({ deviceName, deviceId }) => (
-          <option key={deviceId} value={deviceId} selected={deviceId === selectedDevice}>
+          <option key={deviceId} value={deviceId}>
             {deviceName}
           </option>
         ))

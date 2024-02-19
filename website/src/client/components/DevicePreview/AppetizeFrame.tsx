@@ -74,6 +74,7 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
   private initAppetizeClient = async (config: AppetizeSdkConfig) => {
     if (!this.client) {
       this.setState({ deviceId: config.device });
+      this.props.onPopupUrl?.(this.iframe.current!.src);
 
       this.client = await window.appetize.getClient('#snack-appetize', config);
       this.client.on('error', (error) => console.error('Appetize error:', error));
