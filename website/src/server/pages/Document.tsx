@@ -6,6 +6,7 @@ import { getPageMetadata } from '../../client/components/PageMetadata';
 import { DEFAULT_DESCRIPTION } from '../../client/configs/defaults';
 import type { RouterData, QueryParams } from '../../client/types';
 import Amplitude from '../components/AmplitudeDocumentComponent';
+import { AppetizeScript } from '../components/AppetizeScript';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import RudderStack from '../components/RudderStackDocumentComponent';
 
@@ -192,6 +193,7 @@ export default function Document(props: Props) {
           <RudderStack splitTestSettings={splitTestSettings} />
         )}
         <GoogleAnalytics propertyId="UA-53647600-5" />
+        <AppetizeScript />
         <script src={resources['babel-polyfill']} />
         <script src="/dist/app.bundle.js" />
       </body>
