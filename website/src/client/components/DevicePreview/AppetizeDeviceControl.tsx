@@ -45,7 +45,7 @@ function SelectDevice({ platform, onSelectDevice, selectedDevice }: SelectDevice
   return (
     <select
       className={css(styles.button)}
-      defaultValue={selectedDevice}
+      value={selectedDevice}
       onChange={(event) => event.target.value && onSelectDevice?.(event.target.value)}
       disabled={!onSelectDevice}
     >

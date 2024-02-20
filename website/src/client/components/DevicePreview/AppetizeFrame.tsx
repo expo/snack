@@ -67,6 +67,7 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
       prevState.deviceId !== this.state.deviceId
     ) {
       const config = resolveAppetizeConfig(this.props, this.state);
+
       this.resetAppetizeClient(config);
       this.props.onPopupUrl?.(resolveAppetizePopupUrl(config));
     }
