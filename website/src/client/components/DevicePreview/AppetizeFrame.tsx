@@ -66,7 +66,9 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
       prevProps.experienceURL !== this.props.experienceURL ||
       prevState.deviceId !== this.state.deviceId
     ) {
-      this.resetAppetizeClient(resolveAppetizeConfig(this.props, this.state));
+      const config = resolveAppetizeConfig(this.props, this.state);
+      this.resetAppetizeClient(config);
+      this.props.onPopupUrl?.(resolveAppetizePopupUrl(config));
     }
   }
 
@@ -90,7 +92,6 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
   private resetAppetizeClient = async (config: AppetizeSdkConfig) => {
     await this.endAppetizeSession();
     await this.client?.setConfig(config);
-    this.props.onPopupUrl?.(this.iframe.current!.src);
   };
 
   /** Clear any active Appetize sessions */
@@ -106,7 +107,6 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
   /** Store the session reference and clear possible queue timer */
   private onAppetizeSession = (session: AppetizeSdkSession) => {
     this.setState({ session });
-    this.props.onPopupUrl?.(this.iframe.current!.src);
 
     Analytics.getInstance().clearTimer('previewQueue');
   };
@@ -126,9 +126,7 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
   private onReloadSnack = () => {
     if (this.state.session) {
       this.setState({ isReloadingSnack: true });
-      this.state.session
-        .openUrl(resolveAppetizeConfig(this.props, this.state).launchUrl!)
-        .finally(() => this.setState({ isReloadingSnack: false }));
+      this.state.session.restartApp().finally(() => this.setState({ isReloadingSnack: false }));
     }
   };
 
@@ -182,6 +180,21 @@ function resolveAppetizeConfig(
     orientation: 'portrait',
     centered: 'both',
   };
+}
+
+function resolveAppetizePopupUrl(config: AppetizeSdkConfig) {
+  const url = new URL(`https://appetize.io/embed/${config.publicKey}`);
+
+  url.searchParams.set('device', config.device);
+  url.searchParams.set('launchUrl', config.launchUrl!);
+  url.searchParams.set('params', config.params!);
+  url.searchParams.set('appearance', config.appearance!);
+  url.searchParams.set('deviceColor', config.deviceColor!);
+  url.searchParams.set('scale', 'auto'); // Note(cedric): somehow this doesnt work with `config.scale`
+  url.searchParams.set('orientation', config.orientation!);
+  url.searchParams.set('centered', config.centered!);
+
+  return url.toString();
 }
 
 const styles = StyleSheet.create({

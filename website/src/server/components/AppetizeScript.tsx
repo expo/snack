@@ -90,6 +90,9 @@ declare global {
     /** @see https://docs.appetize.io/javascript-sdk/api-reference#openurl-url */
     openUrl(url: string): Promise<void>;
 
+    /** @see https://docs.appetize.io/javascript-sdk/api-reference#restartapp */
+    restartApp(): Promise<void>;
+
     /** @see https://docs.appetize.io/javascript-sdk/api-reference#end */
     end(): Promise<void>;
   }
