@@ -19,6 +19,7 @@ const cacheBusting: { version: number; packages: { [name: string]: number } } = 
     '@shopify/react-native-skia': 3,
     '@expo-google-fonts/.*': 2,
     '@react-navigation/drawer': 3,
+    'react-native-svg': 1,
   },
 };
 
