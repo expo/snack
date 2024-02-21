@@ -34,6 +34,7 @@ const CORE_EXTERNALS = [
   'react-native-web/dist/modules/UnimplementedView', // Used by react-native-maps
   'react-native/Libraries/Utilities/codegenNativeCommands', // Used by react-native-webview@11.23.0
   'react-native/Libraries/NativeComponent/NativeComponentRegistry', // Used by `@shopify/react-native-skia@0.1.238`
+  'react-native/Libraries/Utilities/codegenNativeComponent', // Used by react-native-svg
   'metro', // Used by expo-router
   // TODO: decide whether to treat prop-types as an external or not
   // previously it was always installed as a dependency and not treated as an external.
