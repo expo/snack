@@ -21,6 +21,7 @@ const aliases: { [key: string]: any } = {
   'react-native/Libraries/Utilities/PolyfillFunctions': require('react-native/Libraries/Utilities/PolyfillFunctions'), // Used by @sentry/react-native@3.4.2
   'react-native/Libraries/Utilities/codegenNativeCommands': require('react-native/Libraries/Utilities/codegenNativeCommands'), // Used by react-native-webview@11.23.0
   'react-native/Libraries/NativeComponent/NativeComponentRegistry': require('react-native/Libraries/NativeComponent/NativeComponentRegistry'), // Used by @shopify/react-native-skia@0.1.221
+  'react-native/Libraries/Utilities/codegenNativeComponent': require('react-native/Libraries/Utilities/codegenNativeComponent'), // Used by react-native-svg
 
   // Does not work in Snackager, likely due to Webpack / Codegen
   'react-native-pager-view': require('react-native-pager-view'),
