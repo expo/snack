@@ -7,6 +7,18 @@ import Analytics from '../../utils/Analytics';
 import { getAppetizeConstants } from '../../utils/Appetize';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 
+/** @see https://docs.appetize.io/core-features/playback-options */
+export type AppetizeDeviceAndroid = 'none' | string;
+/** @see https://docs.appetize.io/core-features/playback-options */
+export type AppetizeDeviceIos = 'none' | string;
+
+/** Custom Appetize device settings for embedded devices */
+export type AppetizeDevices = {
+  _showFrame: boolean;
+  android?: { device?: AppetizeDeviceAndroid; scale?: number };
+  ios?: { device?: AppetizeDeviceIos; scale?: number };
+};
+
 type AppetizeFrameProps = {
   /** The Apptize SDK version to use */
   sdkVersion: SDKVersion;
@@ -18,6 +30,8 @@ type AppetizeFrameProps = {
   isEmbedded: boolean;
   /** The Snack experience URL to load */
   experienceURL: string;
+  /** Custom Appetize settings for embedded instances */
+  devices?: AppetizeDevices;
   /** Legacy callback to force the Snack to be online */
   onAppLaunch?: () => void;
   /** Legacy callback to reopen Appetize in a popup */
@@ -174,14 +188,21 @@ function resolveAppetizeConfig(
     EXKernelDisableNuxDefaultsKey: true,
   };
 
+  // Use the following device settings, in order of priority:
+  //   1. Custom device settings for embedded instances
+  //   2. Device settings from the current state
+  //   3. Default device settings from constants
+  const device = props.devices?.[props.platform]?.device ?? state.deviceId ?? constants.device;
+  const scale = props.devices?.[props.platform]?.scale ?? constants.scale ?? 'auto';
+
   return {
     ...constants,
-    device: state.deviceId ?? constants.device,
+    device,
     launchUrl: props.experienceURL,
     params: JSON.stringify(parameters) as any,
     appearance: props.theme,
     deviceColor: props.theme === 'light' ? 'black' : 'white',
-    scale: 'auto',
+    scale,
     orientation: 'portrait',
     centered: 'both',
   };
@@ -195,7 +216,7 @@ function resolveAppetizePopupUrl(config: AppetizeSdkConfig) {
   url.searchParams.set('params', config.params!);
   url.searchParams.set('appearance', config.appearance!);
   url.searchParams.set('deviceColor', config.deviceColor!);
-  url.searchParams.set('scale', 'auto'); // Note(cedric): somehow this doesnt work with `config.scale`
+  url.searchParams.set('scale', String(config.scale));
   url.searchParams.set('orientation', config.orientation!);
   url.searchParams.set('centered', config.centered!);
 

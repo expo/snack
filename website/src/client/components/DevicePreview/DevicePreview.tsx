@@ -2,7 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import classnames from 'classnames';
 import * as React from 'react';
 
-import AppetizeFrame from './AppetizeFrame';
+import AppetizeFrame, { AppetizeDevices } from './AppetizeFrame';
 import MyDeviceFrame from './MyDeviceFrame';
 import WebFrame from './WebFrame';
 import constants from '../../configs/constants';
@@ -35,6 +35,7 @@ type Props = {
   sdkVersion: SDKVersion;
   sendCodeOnChangeEnabled: boolean;
   theme: ThemeName;
+  devices: AppetizeDevices[];
 };
 
 type State = {
@@ -145,7 +146,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
       sdkVersion,
       sendCodeOnChangeEnabled,
       theme,
-      // devices,
+      devices,
     } = this.props;
     return (
       <div
@@ -204,7 +205,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
             onPopupUrl={this.handlePopupUrl}
             // onShowModal={onShowModal}
             onAppLaunch={onAppLaunch}
-            // devices={devices}
+            devices={devices}
           />
         )}
       </div>
