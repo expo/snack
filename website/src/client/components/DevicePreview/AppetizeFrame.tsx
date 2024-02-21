@@ -137,7 +137,11 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
     return (
       <>
         <div className={css(this.props.isEmbedded ? styles.containerEmbedded : styles.container)}>
-          <iframe id="snack-appetize" ref={this.iframe} className={css(styles.frame)} />
+          <iframe
+            id="snack-appetize"
+            ref={this.iframe}
+            className={css(styles.frame, this.props.isEmbedded && { padding: '8px 0' })}
+          />
         </div>
 
         {!this.props.isEmbedded && (
