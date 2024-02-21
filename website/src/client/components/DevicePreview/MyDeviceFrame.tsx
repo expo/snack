@@ -60,9 +60,10 @@ class MyDeviceFrame extends React.PureComponent<Props, State> {
     const { experienceURL, isEmbedded, width } = this.props;
     const { connectedDevices, copiedToClipboard } = this.state;
     const isConnected = connectedDevices.length >= 1;
+    const fixedWidthStyle = isEmbedded ? { width } : undefined;
 
     return (
-      <div className={css(styles.container)} style={{ width }}>
+      <div className={css(styles.container)} style={fixedWidthStyle}>
         <Banner visible={copiedToClipboard}>Copied to clipboard!</Banner>
         <div className={css(styles.frame)}>
           <h3 className={css(styles.title)}>
@@ -265,6 +266,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     marginLeft: 10,
+    margin: '0 auto 16px auto',
   },
   experienceLink: {
     cursor: 'pointer',

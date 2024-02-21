@@ -226,10 +226,13 @@ function resolveAppetizePopupUrl(config: AppetizeSdkConfig) {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    height: 672,
+    height: '100%',
+    width: '100%',
     overflow: 'hidden',
     margin: 'auto',
     zIndex: 2,
+    padding: 32,
+    boxSizing: 'border-box',
   },
   containerEmbedded: {
     position: 'relative',
@@ -241,5 +244,6 @@ const styles = StyleSheet.create({
   frame: {
     border: 0,
     height: '100%',
+    width: '100%',
   },
 });
