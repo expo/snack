@@ -139,13 +139,17 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
     }
   };
 
-  /** Restart Expo Go and reload the Snack, useful in cases of crashes without giving up on queue position */
-  private onReloadSnack = createAppetizeAction(this, 'reload', (session) => session.restartApp());
   /** Shake the device, iOS only unfortunately */
   private onShakeDevice = createAppetizeAction(this, 'shake', (session) => session.shake());
   /** Rotate the device to portrait or landscape */
   private onRotateDevice = createAppetizeAction(this, 'rotate', (session) =>
     session.rotate('right')
+  );
+
+  /** Restart Expo Go and reload the Snack, useful in cases of crashes without giving up on queue position */
+  private onReloadSnack = createAppetizeAction(this, 'reload', (session) =>
+    // Note(cedric): restart app doesn't resolve at the moment, so add a race condition of 5 sec
+    Promise.race([session.restartApp(), new Promise((resolve) => setTimeout(resolve, 5000))])
   );
 
   /** Use another device instance to preview Snack */
@@ -249,7 +253,7 @@ function createAppetizeAction(
     if (component.state.session && !component.state.deviceControlState) {
       component.setState({ deviceControlState: name });
 
-      action(component.state.session).finally(() =>
+      Promise.resolve(action(component.state.session)).finally(() =>
         component.setState({ deviceControlState: undefined })
       );
     }
