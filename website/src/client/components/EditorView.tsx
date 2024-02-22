@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 import AssetViewer from './AssetViewer';
 import { withDependencyManager } from './DependencyManager';
@@ -35,14 +36,13 @@ import KeybindingsManager from './shared/KeybindingsManager';
 import LazyLoad from './shared/LazyLoad';
 import ModalDialog from './shared/ModalDialog';
 import ProgressIndicator from './shared/ProgressIndicator';
+import constants from '../configs/constants';
 import { Viewer, SnackFiles, Annotation, SDKVersion } from '../types';
 import Analytics from '../utils/Analytics';
 import { isMobile } from '../utils/detectPlatform';
 import { isScript, isJson, isTest } from '../utils/fileUtilities';
 import lintFile from '../utils/lintFile';
 import prettierCode from '../utils/prettierCode';
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import constants from '../configs/constants';
 
 const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000;
 
@@ -474,7 +474,9 @@ class EditorView extends React.Component<Props, State> {
                         />
                         {/* Don't load it conditionally since we need the _EditorComponent object to be available */}
                         <LazyLoad
-                          load={async (): Promise<{ default: React.ComponentType<EditorProps> }> => {
+                          load={async (): Promise<{
+                            default: React.ComponentType<EditorProps>;
+                          }> => {
                             if (isMobile(userAgent)) {
                               // Monaco doesn't work great on mobile`
                               // Use simple editor for better experience
@@ -615,10 +617,8 @@ class EditorView extends React.Component<Props, State> {
                   </Panel>
                   {previewShown ? (
                     <>
-                      <PanelResizeHandle className={css(styles.resizeTouchArea)}>
+                      <PanelResizeHandle className={css(styles.panelResizeTouchArea)}>
                         <div className={css(styles.resizeHandleContainer)}>
-                          <div className={css(styles.resizeHandle)} />
-                          <div className={css(styles.resizeHandle)} />
                           <div className={css(styles.resizeHandle)} />
                         </div>
                       </PanelResizeHandle>
@@ -800,10 +800,19 @@ const styles = StyleSheet.create({
     },
   },
 
-  resizeTouchArea: {
+  panelResizeTouchArea: {
     borderRight: `1px solid ${c('border-editor')}`,
     width: 12,
     height: '100%',
+
+    display: 'none',
+    [`@media (min-width: ${constants.preview.minWidth}px)`]: {
+      display: 'block',
+    },
+
+    ':hover': {
+      backgroundColor: c('hover'),
+    },
   },
 
   resizeHandleContainer: {
@@ -814,8 +823,8 @@ const styles = StyleSheet.create({
 
   resizeHandle: {
     backgroundColor: c('border-editor'),
-    width: 6,
-    height: 6,
+    width: 4,
+    height: 32,
     borderRadius: 2,
     margin: '6px auto',
   },
