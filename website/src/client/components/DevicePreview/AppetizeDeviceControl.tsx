@@ -1,5 +1,5 @@
 import { StyleSheet, css } from 'aphrodite';
-import React, { PropsWithChildren } from 'react';
+import React, { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 import { useAppetizeDevices } from '../../utils/Appetize';
 import { c } from '../ThemeProvider';
@@ -8,34 +8,42 @@ export function AppetizeDeviceControl({ children }: PropsWithChildren<object>) {
   return <div className={css(styles.container)}>{children}</div>;
 }
 
-AppetizeDeviceControl.ReloadSnack = ReloadSnack;
-AppetizeDeviceControl.SelectDevice = SelectDevice;
+type AppetizeActionProps = Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled'>;
 
-type ReloadSnackProps = {
-  canReloadSnack: boolean;
-  onReloadSnack: () => void;
-};
-
-function ReloadSnack({ onReloadSnack, canReloadSnack }: ReloadSnackProps) {
+AppetizeDeviceControl.ReloadSnack = function AppetizeReloadSnack(props: AppetizeActionProps) {
   return (
-    <button
-      type="button"
-      className={css(styles.button)}
-      onClick={onReloadSnack}
-      disabled={!canReloadSnack}
-    >
-      Reload Snack
+    <button type="button" className={css(styles.button)} title="Reload Snack" {...props}>
+      Reload
     </button>
   );
-}
+};
+AppetizeDeviceControl.ShakeDevice = function AppetizeShakeDevice(props: AppetizeActionProps) {
+  return (
+    <button type="button" className={css(styles.button)} title="Shake device (iOS only)" {...props}>
+      Shake
+    </button>
+  );
+};
 
-type SelectDeviceProps = {
+AppetizeDeviceControl.RotateDevice = function AppetizeRotateDevice(props: AppetizeActionProps) {
+  return (
+    <button type="button" className={css(styles.button)} title="Rotate device clockwise" {...props}>
+      Rotate
+    </button>
+  );
+};
+
+type AppetizeSelectDeviceProps = {
   platform: 'android' | 'ios';
   selectedDevice?: string;
   onSelectDevice?: (device: string) => void;
 };
 
-function SelectDevice({ platform, onSelectDevice, selectedDevice }: SelectDeviceProps) {
+AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
+  platform,
+  onSelectDevice,
+  selectedDevice,
+}: AppetizeSelectDeviceProps) {
   const devices = useAppetizeDevices(platform);
 
   if (!selectedDevice) {
@@ -62,7 +70,7 @@ function SelectDevice({ platform, onSelectDevice, selectedDevice }: SelectDevice
       )}
     </select>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
