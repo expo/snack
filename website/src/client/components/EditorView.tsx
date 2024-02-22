@@ -80,6 +80,7 @@ type State = {
   lintedFiles: LintedFiles;
   lintAnnotations: Annotation[];
   shouldPreventRedirectWarning: boolean;
+  isPanelResizing: boolean;
 };
 
 const BANNER_TIMEOUT_SHORT = 1500;
@@ -95,6 +96,7 @@ class EditorView extends React.Component<Props, State> {
     lintedFiles: {},
     lintAnnotations: [],
     shouldPreventRedirectWarning: false,
+    isPanelResizing: false,
   };
 
   static getDerivedStateFromProps(props: Props, state: State) {
@@ -346,6 +348,12 @@ class EditorView extends React.Component<Props, State> {
     this.setState({
       shouldPreventRedirectWarning: false,
     });
+
+  onPanelResizing = (isDragging: boolean) => {
+    this.setState({
+      isPanelResizing: isDragging,
+    });
+  };
 
   render() {
     const { currentModal, currentBanner, lintAnnotations } = this.state;
@@ -617,7 +625,13 @@ class EditorView extends React.Component<Props, State> {
                   </Panel>
                   {previewShown ? (
                     <>
-                      <PanelResizeHandle className={css(styles.panelResizeTouchArea)}>
+                      <PanelResizeHandle
+                        onDragging={this.onPanelResizing}
+                        className={css(
+                          styles.panelResizeTouchArea,
+                          this.state.isPanelResizing && styles.panelResizeTouchAreaActive
+                        )}
+                      >
                         <div className={css(styles.resizeHandleContainer)}>
                           <div className={css(styles.resizeHandle)} />
                         </div>
@@ -813,6 +827,11 @@ const styles = StyleSheet.create({
     ':hover': {
       backgroundColor: c('hover'),
     },
+  },
+
+  // Note(cedric): aphrodite does not support styling by attribute, so this is now handled by state
+  panelResizeTouchAreaActive: {
+    backgroundColor: c('hover'),
   },
 
   resizeHandleContainer: {
