@@ -86,6 +86,10 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
       this.resetAppetizeClient(config);
       this.props.onPopupUrl?.(resolveAppetizePopupUrl(config));
     }
+
+    if (this.state.deviceId && prevProps.platform !== this.props.platform) {
+      this.setState({ deviceId: undefined });
+    }
   }
 
   /** Initialize the Appetize SDK client */
