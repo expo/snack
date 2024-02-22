@@ -53,9 +53,7 @@ function createAppetizeDeviceList(devices?: typeof cachedAppetizeDevices) {
     return [];
   }
 
-  return devices
-    .map((device) => ({ deviceName: device.name, deviceId: device.id }))
-    .filter(({ deviceId }) => !deviceId.includes('ipad') && !deviceId.includes('galaxytab'));
+  return devices.map((device) => ({ deviceName: device.name, deviceId: device.id }));
 }
 
 async function fetchAppetizeDevices(): Promise<typeof cachedAppetizeDevices> {
