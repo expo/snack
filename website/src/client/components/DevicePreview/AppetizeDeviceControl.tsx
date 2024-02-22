@@ -1,7 +1,7 @@
 import { StyleSheet, css } from 'aphrodite';
 import React, { PropsWithChildren } from 'react';
 
-import { getAppetizeDeviceName, useAppetizeDevices } from '../../utils/Appetize';
+import { useAppetizeDevices } from '../../utils/Appetize';
 import { c } from '../ThemeProvider';
 
 export function AppetizeDeviceControl({ children }: PropsWithChildren<object>) {
@@ -51,7 +51,7 @@ function SelectDevice({ platform, onSelectDevice, selectedDevice }: SelectDevice
     >
       {!devices.length ? (
         <option key={selectedDevice} value={selectedDevice}>
-          {getAppetizeDeviceName(selectedDevice) || selectedDevice}
+          {selectedDevice}
         </option>
       ) : (
         devices.map(({ deviceName, deviceId }) => (
