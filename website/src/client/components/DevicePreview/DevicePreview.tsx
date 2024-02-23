@@ -35,7 +35,7 @@ type Props = {
   sdkVersion: SDKVersion;
   sendCodeOnChangeEnabled: boolean;
   theme: ThemeName;
-  devices: AppetizeDevices[];
+  devices: AppetizeDevices;
 };
 
 type State = {
