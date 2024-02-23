@@ -1,6 +1,7 @@
 import { StyleSheet, css } from 'aphrodite';
 import React, { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
+import type { AppetizeFontScale } from './AppetizeFrame';
 import { useAppetizeDevices } from '../../utils/Appetize';
 import { c } from '../ThemeProvider';
 
@@ -93,14 +94,56 @@ AppetizeDeviceControl.RotateDevice = function AppetizeRotateDevice(props: Appeti
   );
 };
 
+type AppetizeSelectFontScaleProps = {
+  disabled?: boolean;
+  selectedFontScale?: AppetizeFontScale;
+  onSelectFontScale?: (fontScale?: AppetizeFontScale) => void;
+};
+
+AppetizeDeviceControl.SelectFontScale = function AppetizeSelectFontScale({
+  disabled,
+  onSelectFontScale,
+  selectedFontScale,
+}: AppetizeSelectFontScaleProps) {
+  function onSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    if (event.target.value) {
+      onSelectFontScale?.(event.target.value as AppetizeFontScale);
+    } else {
+      onSelectFontScale?.(undefined);
+    }
+  }
+
+  return (
+    <select
+      className={css(styles.button)}
+      value={selectedFontScale}
+      onChange={onSelectChange}
+      disabled={disabled}
+      title="Change font scaling"
+      aria-label="Change font scaling"
+    >
+      <option value="">no scaling</option>
+      <option value="xs">xs - extra small</option>
+      <option value="s">s - small</option>
+      <option value="m">m - medium</option>
+      <option value="l">l - large</option>
+      <option value="xl">xl - extra large</option>
+      <option value="xxl">xxl - double extra large</option>
+      <option value="xxxl">xxxl - triple extra large</option>
+    </select>
+  );
+};
+
 type AppetizeSelectDeviceProps = {
   platform: 'android' | 'ios';
+  disabled?: boolean;
   selectedDevice?: string;
   onSelectDevice?: (device: string) => void;
 };
 
 AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
   platform,
+  disabled,
   onSelectDevice,
   selectedDevice,
 }: AppetizeSelectDeviceProps) {
@@ -111,7 +154,7 @@ AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
       className={css(styles.button)}
       value={selectedDevice}
       onChange={(event) => event.target.value && onSelectDevice?.(event.target.value)}
-      disabled={!onSelectDevice}
+      disabled={disabled}
       title="Select device"
       aria-label="Select device"
     >

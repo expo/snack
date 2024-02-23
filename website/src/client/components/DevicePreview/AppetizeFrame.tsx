@@ -19,6 +19,8 @@ export type AppetizeDevices = {
   ios?: { device?: AppetizeDeviceIos; scale?: number };
 };
 
+export type AppetizeFontScale = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
+
 type AppetizeFrameProps = {
   /** The Apptize SDK version to use */
   sdkVersion: SDKVersion;
@@ -41,6 +43,7 @@ type AppetizeFrameProps = {
 type AppetizeFrameState = {
   session?: AppetizeSdkSession;
   deviceId?: string;
+  deviceFontScale?: AppetizeFontScale;
   sentQueueInfo?: boolean;
   deviceControlState?: string;
 };
@@ -54,6 +57,7 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
   state: AppetizeFrameState = {
     session: undefined,
     deviceId: undefined,
+    deviceFontScale: undefined,
     sentQueueInfo: false,
     deviceControlState: undefined,
   };
@@ -87,9 +91,12 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
       this.props.onPopupUrl?.(resolveAppetizePopupUrl(config));
     }
 
-    // If the platform changes, update to the default device
+    // If the platform changes, reset the device control state
     if (this.state.deviceId && prevProps.platform !== this.props.platform) {
-      this.setState({ deviceId: getAppetizeConstants(this.props).device });
+      this.setState({
+        deviceId: getAppetizeConstants(this.props).device,
+        deviceFontScale: undefined,
+      });
     }
   }
 
@@ -132,6 +139,12 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
   private onAppetizeSession = (session: AppetizeSdkSession) => {
     this.setState({ session });
 
+    // Apply the font scaling through the session if it's set
+    // Note(cedric): we can't provide this when starting the session
+    if (this.props.platform === 'android' && this.state.deviceFontScale) {
+      this.onFontScaleChange(this.state.deviceFontScale);
+    }
+
     Analytics.getInstance().clearTimer('previewQueue');
   };
 
@@ -165,14 +178,42 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
     platform === 'ios' ? session.shake() : session.adbShellCommand('input keyevent 82')
   );
 
+  /**
+   * Change the device font scaling.
+   *   - On iOS, this is done through `launchArgs` with `-UIPreferredContentSizeCategoryName`
+   *   - On Android, this is done through `adb shell settings put system font_scale` and restarting the app
+   */
+  private onFontScaleChange = (deviceFontScale?: AppetizeFontScale) => {
+    this.setState({ deviceFontScale });
+
+    // We need to restart the session if it was active, to apply the new launch args
+    if (this.props.platform === 'ios') {
+      const hasSession = !!this.state.session;
+      const config = resolveAppetizeConfig(this.props, { ...this.state, deviceFontScale });
+
+      return this.resetAppetizeClient(config).then(() => hasSession && this.client?.startSession());
+    }
+
+    // For Android, we can just modify the session directly
+    const action = createAppetizeAction(this, 'font-scale', (session, platform) => {
+      const fontScale = deviceFontScale
+        ? resolveAppetizeFontScale({ platform }, { deviceFontScale })
+        : '1.0';
+
+      return session
+        .adbShellCommand(`settings put system font_scale ${fontScale}`)
+        .then(() => session.restartApp());
+    });
+
+    return action();
+  };
+
   /** Use another device instance to preview Snack */
   private onDeviceChange = (deviceId: string) => this.setState({ deviceId });
 
   render() {
     const { platform, isEmbedded } = this.props;
-    const { session, deviceId, deviceControlState } = this.state;
-
-    const deviceControlDisabled = !session || !!deviceControlState;
+    const { session, deviceId, deviceFontScale, deviceControlState } = this.state;
 
     return (
       <>
@@ -188,15 +229,20 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
           <AppetizeDeviceControl>
             <AppetizeDeviceControl.RestartSnack
               onClick={this.onReloadSnack}
-              disabled={deviceControlDisabled}
+              disabled={!session || !!deviceControlState}
             />
             <AppetizeDeviceControl.OpenDevMenu
               onClick={this.onOpenDevMenu}
-              disabled={deviceControlDisabled}
+              disabled={!session || !!deviceControlState}
             />
             <AppetizeDeviceControl.RotateDevice
               onClick={this.onRotateDevice}
-              disabled={deviceControlDisabled}
+              disabled={!session || !!deviceControlState}
+            />
+            <AppetizeDeviceControl.SelectFontScale
+              disabled={!!deviceControlState}
+              selectedFontScale={deviceFontScale}
+              onSelectFontScale={this.onFontScaleChange}
             />
             <AppetizeDeviceControl.SelectDevice
               platform={platform}
@@ -216,6 +262,7 @@ function resolveAppetizeConfig(
   props: AppetizeFrameProps,
   state: AppetizeFrameState
 ): AppetizeSdkConfig {
+  const platform = props.platform;
   const constants = getAppetizeConstants(props);
   const parameters = {
     EXDevMenuDisableAutoLaunch: true,
@@ -226,18 +273,27 @@ function resolveAppetizeConfig(
   //   1. Custom device settings for embedded instances
   //   2. Device settings from the current state
   //   3. Default device settings from constants
-  const device = props.devices?.[props.platform]?.device ?? state.deviceId ?? constants.device;
-  const scale = props.devices?.[props.platform]?.scale ?? constants.scale ?? 'auto';
+  const device = props.devices?.[platform]?.device ?? state.deviceId ?? constants.device;
+  const deviceScale = props.devices?.[platform]?.scale ?? constants.scale ?? 'auto';
+
+  // See device font scaling for iOS
+  // https://docs.appetize.io/sample-use-cases/test-accessibility-font-sizes#ios
+  const launchArgs =
+    platform !== 'ios'
+      ? undefined
+      : ['-UIPreferredContentSizeCategoryName', resolveAppetizeFontScale(props, state)];
 
   return {
     ...constants,
     device,
     // launchUrl: props.experienceURL,
-    launchUrl: 'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A50.0.0&channel-name=production&snack-channel=oTGReYapld',
+    launchArgs,
+    launchUrl:
+      'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A50.0.0&channel-name=production&snack-channel=oTGReYapld',
     params: JSON.stringify(parameters) as any,
     appearance: props.theme,
     deviceColor: props.theme === 'light' ? 'black' : 'white',
-    scale,
+    scale: deviceScale,
     orientation: 'portrait',
     centered: 'both',
   };
@@ -248,14 +304,33 @@ function resolveAppetizePopupUrl(config: AppetizeSdkConfig) {
 
   url.searchParams.set('device', config.device);
   url.searchParams.set('launchUrl', config.launchUrl!);
-  url.searchParams.set('params', config.params!);
-  url.searchParams.set('appearance', config.appearance!);
-  url.searchParams.set('deviceColor', config.deviceColor!);
-  url.searchParams.set('scale', String(config.scale));
-  url.searchParams.set('orientation', config.orientation!);
-  url.searchParams.set('centered', config.centered!);
+
+  if (config.launchArgs) url.searchParams.set('launchArgs', config.launchArgs.join(' '));
+  if (config.params) url.searchParams.set('params', config.params);
+  if (config.appearance) url.searchParams.set('appearance', config.appearance);
+  if (config.deviceColor) url.searchParams.set('deviceColor', config.deviceColor);
+  if (config.scale) url.searchParams.set('scale', String(config.scale));
+  if (config.orientation) url.searchParams.set('orientation', config.orientation);
+  if (config.centered) url.searchParams.set('centered', config.centered);
 
   return url.toString();
+}
+
+const APPETIZE_FONT_SCALES: Record<AppetizeFontScale, Record<'android' | 'ios', string>> = {
+  xs: { android: '0.70', ios: 'UICTContentSizeCategoryXS' },
+  s: { android: '0.85', ios: 'UICTContentSizeCategoryS' },
+  m: { android: '1.00', ios: 'UICTContentSizeCategoryM' },
+  l: { android: '1.15', ios: 'UICTContentSizeCategoryL' },
+  xl: { android: '1.30', ios: 'UICTContentSizeCategoryXL' },
+  xxl: { android: '1.45', ios: 'UICTContentSizeCategoryXXL' },
+  xxxl: { android: '1.60', ios: 'UICTContentSizeCategoryXXXL' },
+};
+
+function resolveAppetizeFontScale(
+  props: Pick<AppetizeFrameProps, 'platform'>,
+  state: Pick<AppetizeFrameState, 'deviceFontScale'>
+) {
+  return APPETIZE_FONT_SCALES[state.deviceFontScale ?? 'm'][props.platform];
 }
 
 function createAppetizeAction(

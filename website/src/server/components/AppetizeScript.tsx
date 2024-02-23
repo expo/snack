@@ -42,7 +42,7 @@ declare global {
     autoPlay?: boolean;
     hidePasswords?: boolean;
     launchUrl?: string;
-    launchArgs?: string;
+    launchArgs?: string[];
     debug?: boolean;
     proxy?: string;
     record?: boolean;
