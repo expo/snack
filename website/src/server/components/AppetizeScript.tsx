@@ -93,6 +93,12 @@ declare global {
     /** @see https://docs.appetize.io/javascript-sdk/api-reference#restartapp */
     restartApp(): Promise<void>;
 
+    /** @see https://docs.appetize.io/javascript-sdk/api-reference#shake */
+    shake(): Promise<void>;
+
+    /** @see https://docs.appetize.io/javascript-sdk/api-reference#rotate */
+    rotate(direction: 'left' | 'right'): Promise<void>;
+
     /** @see https://docs.appetize.io/javascript-sdk/api-reference#end */
     end(): Promise<void>;
   }

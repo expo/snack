@@ -41,9 +41,8 @@ type AppetizeFrameProps = {
 type AppetizeFrameState = {
   session?: AppetizeSdkSession;
   deviceId?: string;
-  queuePosition?: number;
   sentQueueInfo?: boolean;
-  isReloadingSnack?: boolean;
+  deviceControlState?: string;
 };
 
 export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameState> {
@@ -52,10 +51,12 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
   /** The iframe ref, to reopen as a popup */
   private iframe = createRef<HTMLIFrameElement>();
 
-  constructor(props: AppetizeFrameProps) {
-    super(props);
-    this.state = {}; // Note(cedric): this is somehow required...
-  }
+  state: AppetizeFrameState = {
+    session: undefined,
+    deviceId: undefined,
+    sentQueueInfo: false,
+    deviceControlState: undefined,
+  };
 
   componentDidMount() {
     // Load the Appetize client and setup initial bindings
@@ -84,6 +85,10 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
 
       this.resetAppetizeClient(config);
       this.props.onPopupUrl?.(resolveAppetizePopupUrl(config));
+    }
+
+    if (this.state.deviceId && prevProps.platform !== this.props.platform) {
+      this.setState({ deviceId: undefined });
     }
   }
 
@@ -138,35 +143,51 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
     }
   };
 
-  private onReloadSnack = () => {
-    if (this.state.session) {
-      this.setState({ isReloadingSnack: true });
-      this.state.session.restartApp().finally(() => this.setState({ isReloadingSnack: false }));
-    }
-  };
+  /** Restart Expo Go and reload the Snack, useful in cases of crashes without giving up on queue position */
+  private onReloadSnack = createAppetizeAction(this, 'reload', (session) => session.restartApp());
+  /** Shake the device, iOS only unfortunately */
+  private onShakeDevice = createAppetizeAction(this, 'shake', (session) => session.shake());
+  /** Rotate the device to portrait or landscape */
+  private onRotateDevice = createAppetizeAction(this, 'rotate', (session) =>
+    session.rotate('right')
+  );
 
+  /** Use another device instance to preview Snack */
   private onDeviceChange = (deviceId: string) => this.setState({ deviceId });
 
   render() {
+    const { platform, isEmbedded } = this.props;
+    const { session, deviceId, deviceControlState } = this.state;
+
+    const deviceControlDisabled = !session || !!deviceControlState;
+
     return (
       <>
-        <div className={css(this.props.isEmbedded ? styles.containerEmbedded : styles.container)}>
+        <div className={css(isEmbedded ? styles.containerEmbedded : styles.container)}>
           <iframe
             id="snack-appetize"
             ref={this.iframe}
-            className={css(styles.frame, this.props.isEmbedded && { padding: '8px 0' })}
+            className={css(styles.frame, isEmbedded && { padding: '8px 0' })}
           />
         </div>
 
-        {!this.props.isEmbedded && (
+        {!isEmbedded && (
           <AppetizeDeviceControl>
             <AppetizeDeviceControl.ReloadSnack
-              onReloadSnack={this.onReloadSnack}
-              canReloadSnack={!!this.state.session && !this.state.isReloadingSnack}
+              onClick={this.onReloadSnack}
+              disabled={deviceControlDisabled}
+            />
+            <AppetizeDeviceControl.ShakeDevice
+              onClick={this.onShakeDevice}
+              disabled={deviceControlDisabled || platform !== 'ios'}
+            />
+            <AppetizeDeviceControl.RotateDevice
+              onClick={this.onRotateDevice}
+              disabled={deviceControlDisabled}
             />
             <AppetizeDeviceControl.SelectDevice
-              platform={this.props.platform}
-              selectedDevice={this.state.deviceId}
+              platform={platform}
+              selectedDevice={deviceId}
               onSelectDevice={this.onDeviceChange}
             />
           </AppetizeDeviceControl>
@@ -221,6 +242,24 @@ function resolveAppetizePopupUrl(config: AppetizeSdkConfig) {
   url.searchParams.set('centered', config.centered!);
 
   return url.toString();
+}
+
+function createAppetizeAction(
+  component: InstanceType<typeof AppetizeFrame>,
+  name: string,
+  action: (session: AppetizeSdkSession) => Promise<any>
+) {
+  return () => {
+    if (component.state.session && !component.state.deviceControlState) {
+      component.setState({ deviceControlState: name });
+
+      // Note(cedric): restart app doesn't resolve at the moment, so add a race condition of 5 sec
+      Promise.race([
+        action(component.state.session),
+        new Promise((resolve) => setTimeout(resolve, 5000)),
+      ]).finally(() => component.setState({ deviceControlState: undefined }));
+    }
+  };
 }
 
 const styles = StyleSheet.create({
