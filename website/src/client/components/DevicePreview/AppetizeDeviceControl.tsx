@@ -9,6 +9,10 @@ export function AppetizeDeviceControl({ children }: PropsWithChildren<object>) {
   return <div className={css(styles.container)}>{children}</div>;
 }
 
+AppetizeDeviceControl.Group = function AppetizeDeviceControlGroup({ children }: PropsWithChildren<object>) {
+  return <div className={css(styles.group)}>{children}</div>;
+};
+
 type AppetizeActionProps = Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled'>;
 
 AppetizeDeviceControl.RestartSnack = function AppetizeRestartSnack(props: AppetizeActionProps) {
@@ -261,10 +265,15 @@ AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flex: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 16px',
+    padding: '0 8px',
+  },
+  group: {
+    display: 'flex',
+    flex: 0,
+    flexDirection: 'row',
+    margin: '0 8px',
   },
   button: {
     appearance: 'none',

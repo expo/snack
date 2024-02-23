@@ -256,33 +256,37 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
 
         {!isEmbedded && (
           <AppetizeDeviceControl>
-            <AppetizeDeviceControl.RestartSnack
-              onClick={this.onReloadSnack}
-              disabled={!session || !!deviceControlState}
-            />
-            <AppetizeDeviceControl.OpenDevMenu
-              onClick={this.onOpenDevMenu}
-              disabled={!session || !!deviceControlState}
-            />
-            <AppetizeDeviceControl.RotateDevice
-              onClick={this.onRotateDevice}
-              disabled={!session || !!deviceControlState}
-            />
-            <AppetizeDeviceControl.DeviceAppearance
-              onClick={this.onToggleDeviceAppearance}
-              disabled={!!deviceControlState}
-              appearance={deviceAppearance}
-            />
-            <AppetizeDeviceControl.SelectFontScale
-              disabled={!!deviceControlState}
-              selectedFontScale={deviceFontScale}
-              onSelectFontScale={this.onFontScaleChange}
-            />
-            <AppetizeDeviceControl.SelectDevice
-              platform={platform}
-              selectedDevice={deviceId}
-              onSelectDevice={this.onDeviceChange}
-            />
+            <AppetizeDeviceControl.Group>
+              <AppetizeDeviceControl.RestartSnack
+                onClick={this.onReloadSnack}
+                disabled={!session || !!deviceControlState}
+              />
+              <AppetizeDeviceControl.OpenDevMenu
+                onClick={this.onOpenDevMenu}
+                disabled={!session || !!deviceControlState}
+              />
+              <AppetizeDeviceControl.RotateDevice
+                onClick={this.onRotateDevice}
+                disabled={!session || !!deviceControlState}
+              />
+            </AppetizeDeviceControl.Group>
+            <AppetizeDeviceControl.Group>
+              <AppetizeDeviceControl.DeviceAppearance
+                onClick={this.onToggleDeviceAppearance}
+                disabled={!!deviceControlState}
+                appearance={deviceAppearance}
+              />
+              <AppetizeDeviceControl.SelectFontScale
+                disabled={!!deviceControlState}
+                selectedFontScale={deviceFontScale}
+                onSelectFontScale={this.onFontScaleChange}
+              />
+              <AppetizeDeviceControl.SelectDevice
+                platform={platform}
+                selectedDevice={deviceId}
+                onSelectDevice={this.onDeviceChange}
+              />
+            </AppetizeDeviceControl.Group>
           </AppetizeDeviceControl>
         )}
       </>
