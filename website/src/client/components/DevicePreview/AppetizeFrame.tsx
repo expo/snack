@@ -119,7 +119,10 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
   private endAppetizeSession = async () => {
     if (this.state.session) {
       await this.state.session.end();
-      this.setState({ session: undefined });
+      this.setState({
+        session: undefined, // Reset the session
+        sentQueueInfo: false, // Also reset the queue analytics
+      });
     }
 
     Analytics.getInstance().clearTimer('previewQueue');
