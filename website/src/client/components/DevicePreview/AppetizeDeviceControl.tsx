@@ -10,9 +10,15 @@ export function AppetizeDeviceControl({ children }: PropsWithChildren<object>) {
 
 type AppetizeActionProps = Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled'>;
 
-AppetizeDeviceControl.ReloadSnack = function AppetizeReloadSnack(props: AppetizeActionProps) {
+AppetizeDeviceControl.RestartSnack = function AppetizeRestartSnack(props: AppetizeActionProps) {
   return (
-    <button type="button" className={css(styles.button)} title="Reload Snack" {...props}>
+    <button
+      type="button"
+      className={css(styles.button)}
+      title="Restart Snack"
+      aria-label="Restart Snack"
+      {...props}
+    >
       <svg
         width={16}
         height={16}
@@ -33,7 +39,13 @@ AppetizeDeviceControl.ReloadSnack = function AppetizeReloadSnack(props: Appetize
 };
 AppetizeDeviceControl.ShakeDevice = function AppetizeShakeDevice(props: AppetizeActionProps) {
   return (
-    <button type="button" className={css(styles.button)} title="Shake device (iOS only)" {...props}>
+    <button
+      type="button"
+      className={css(styles.button)}
+      title="Shake device (iOS only)"
+      aria-label="Shake device (iOS only)"
+      {...props}
+    >
       <svg
         width={16}
         height={16}
@@ -59,7 +71,13 @@ AppetizeDeviceControl.ShakeDevice = function AppetizeShakeDevice(props: Appetize
 
 AppetizeDeviceControl.RotateDevice = function AppetizeRotateDevice(props: AppetizeActionProps) {
   return (
-    <button type="button" className={css(styles.button)} title="Rotate device clockwise" {...props}>
+    <button
+      type="button"
+      className={css(styles.button)}
+      title="Rotate device clockwise"
+      aria-label="Rotate device clockwise"
+      {...props}
+    >
       <svg
         width={16}
         height={16}
@@ -98,6 +116,8 @@ AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
       value={selectedDevice}
       onChange={(event) => event.target.value && onSelectDevice?.(event.target.value)}
       disabled={!onSelectDevice}
+      title="Select device"
+      aria-label="Select device"
     >
       {!devices.length ? (
         <option key={selectedDevice} value={selectedDevice}>

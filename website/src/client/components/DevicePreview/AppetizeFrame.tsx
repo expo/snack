@@ -177,7 +177,7 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
 
         {!isEmbedded && (
           <AppetizeDeviceControl>
-            <AppetizeDeviceControl.ReloadSnack
+            <AppetizeDeviceControl.RestartSnack
               onClick={this.onReloadSnack}
               disabled={deviceControlDisabled}
             />
