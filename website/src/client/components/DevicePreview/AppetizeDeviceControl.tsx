@@ -116,21 +116,21 @@ AppetizeDeviceControl.SelectFontScale = function AppetizeSelectFontScale({
 
   return (
     <select
-      className={css(styles.button)}
-      value={selectedFontScale}
+      className={css(styles.button, styles.selectButton)}
+      value={selectedFontScale ?? ''}
       onChange={onSelectChange}
       disabled={disabled}
       title="Change font scaling"
       aria-label="Change font scaling"
     >
-      <option value="">no scaling</option>
-      <option value="xs">xs - extra small</option>
-      <option value="s">s - small</option>
-      <option value="m">m - medium</option>
-      <option value="l">l - large</option>
-      <option value="xl">xl - extra large</option>
-      <option value="xxl">xxl - double extra large</option>
-      <option value="xxxl">xxxl - triple extra large</option>
+      <option value="">Font Scaling</option>
+      <option value="xs">XS</option>
+      <option value="s">S</option>
+      <option value="m">M</option>
+      <option value="l">L</option>
+      <option value="xl">XL</option>
+      <option value="xxl">XXL</option>
+      <option value="xxxl">XXXL</option>
     </select>
   );
 };
@@ -152,7 +152,7 @@ AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
 
   return (
     <select
-      className={css(styles.button)}
+      className={css(styles.button, styles.selectButton)}
       value={selectedDevice}
       onChange={(event) => event.target.value && onSelectDevice?.(event.target.value)}
       disabled={disabled}
@@ -180,12 +180,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: '0 8px',
+    flexWrap: 'wrap',
   },
   group: {
     display: 'flex',
     flex: 0,
     flexDirection: 'row',
-    margin: '0 8px',
+    margin: '0 8px 16px 8px',
   },
   button: {
     appearance: 'none',
@@ -195,7 +196,6 @@ const styles = StyleSheet.create({
     backgroundColor: c('content'),
     color: c('text'),
     padding: '8px 12px',
-    margin: '16px 0',
     textAlign: 'center',
     height: 34,
 
@@ -222,5 +222,8 @@ const styles = StyleSheet.create({
       opacity: 0.5,
       backgroundColor: c('content'),
     },
+  },
+  selectButton: {
+    padding: '4px 12px',
   },
 });
