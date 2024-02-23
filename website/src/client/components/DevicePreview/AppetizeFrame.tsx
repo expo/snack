@@ -8,7 +8,7 @@ import Analytics from '../../utils/Analytics';
 import constructAppetizeURL, { getAppetizeConfig } from '../../utils/constructAppetizeURL';
 import type { EditorModal } from '../EditorViewProps';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
-import { c, s } from '../ThemeProvider';
+import { c } from '../ThemeProvider';
 import Button from '../shared/Button';
 import ButtonLink from '../shared/ButtonLink';
 
@@ -153,10 +153,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
     if (origin === getAppetizeConfig(this.props.sdkVersion).url) {
       let status: AppetizeStatus | undefined;
 
-      if (this.waitingForMessage) {
-        clearInterval(this.waitingForMessage);
-        this.waitingForMessage = null;
-      }
+      console.log(data);
 
       switch (data) {
         case 'sessionRequested':
@@ -185,6 +182,13 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
         case 'accountQueued':
           status = { type: 'queued', position: undefined };
           break;
+        // Disabled, needs to be redesigned
+        // case 'concurrentQueued':
+        //   status = { type: 'queued', position: data.position };
+        //   break;
+        // case 'concurrentQueuedPosition':
+        //   status = { type: 'queued', position: data.position };
+        //   break;
         default:
           if (data && data.type === 'accountQueuedPosition') {
             status = { type: 'queued', position: data.position };
@@ -240,36 +244,14 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
   };
 
   private iframe = React.createRef<HTMLIFrameElement>();
-  private waitingForMessage: any;
-
-  private handleTapToPlay = () => {
-    if (this.waitingForMessage) {
-      return;
-    }
-
-    // Attempt to start the session immediately
-    this.requestSession();
-    // Keep asking for a session every second until something is posted from the
-    // iframe This handles the edge case where the iframe hasn't loaded and
-    // isn't ready to receive events.
-    this.waitingForMessage = setInterval(this.requestSession, 1000);
-  };
-
-  private requestSession = () => {
-    this.iframe.current?.contentWindow?.postMessage('requestSession', '*');
-  };
 
   private endSession = () => {
     this.iframe.current?.contentWindow?.postMessage('endSession', '*');
   };
 
-  private onClickRunOnPhone = () => {
-    this.props.onShowModal('device-instructions');
-  };
-
   render() {
-    const { appetizeStatus, payerCodeFormStatus, viewer, appetizeURL, platform } = this.state;
-    const { width, isEmbedded, isPopupOpen } = this.props;
+    const { appetizeStatus, payerCodeFormStatus, viewer, appetizeURL } = this.state;
+    const { width, isEmbedded } = this.props;
 
     return (
       <>
@@ -283,34 +265,6 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
             src={appetizeURL}
             className={css(styles.frame)}
           />
-          {appetizeStatus.type === 'unknown' ? (
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: isEmbedded ? 4 : 12,
-                bottom: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                paddingTop:
-                  platform === 'android' ? (isEmbedded ? 95 : 110) : isEmbedded ? 60 : 110,
-              }}
-            >
-              <a className={css(styles.largeButton)} onClick={this.handleTapToPlay}>
-                <div className={css(styles.buttonFrame)}>
-                  <span className={css(styles.buttonText)}>Tap to play</span>
-                </div>
-              </a>
-              {isPopupOpen ? null : (
-                <a className={css(styles.largeButton)} onClick={this.onClickRunOnPhone}>
-                  <div className={css(styles.buttonFrame)}>
-                    <span className={css(styles.buttonText)}>Run on your device</span>
-                  </div>
-                </a>
-              )}
-            </div>
-          ) : null}
         </div>
         {appetizeStatus.type === 'queued' ? (
           <div className={css(styles.queueModal, styles.centered)}>
@@ -409,7 +363,7 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
-    height: 670,
+    height: 672,
     overflow: 'hidden',
     margin: 'auto',
     marginLeft: 10,
@@ -430,7 +384,7 @@ const styles = StyleSheet.create({
   },
   queueModal: {
     color: 'white',
-    backgroundColor: 'rgba(36, 43, 56, 0.8)',
+    backgroundColor: 'rgba(21, 23, 24, 0.8)',
     position: 'absolute',
     zIndex: 2,
     top: 0,
@@ -475,30 +429,6 @@ const styles = StyleSheet.create({
     padding: 14,
     textAlign: 'center',
     color: c('success'),
-  },
-  largeButton: {
-    marginTop: 20,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-  },
-  buttonFrame: {
-    height: 70,
-    width: 225,
-    backgroundColor: c('content', 'light'),
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-    paddingLeft: 20,
-    paddingRight: 20,
-    boxShadow: s('popover'),
-  },
-  buttonText: {
-    color: c('text', 'light'),
-    fontSize: 20,
-    fontWeight: 400,
   },
   dismissButton: {
     position: 'absolute',
