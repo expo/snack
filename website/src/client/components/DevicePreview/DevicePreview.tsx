@@ -151,7 +151,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
     return (
       <div
         className={classnames(css(isEmbedded ? styles.embedded : styles.container), className)}
-        style={{ width }}
+        style={isEmbedded ? { width } : undefined}
       >
         {isEmbedded ? null : (
           <div className={css(styles.header)}>
@@ -218,9 +218,7 @@ export default withThemeName(DevicePreview);
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    maxWidth: '50%',
-    overflowX: 'hidden',
-    overflowY: 'auto',
+    width: '100%',
     display: 'none',
     flexDirection: 'column',
 

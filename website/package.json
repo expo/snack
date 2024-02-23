@@ -73,6 +73,7 @@
     "react-dom": "^16.8.1",
     "react-helmet-async": "^0.2.0",
     "react-redux": "^6.0.0",
+    "react-resizable-panels": "^2.0.9",
     "react-resize-detector": "^6.7.4",
     "react-router-dom": "^4.4.0-beta.6",
     "react-simple-code-editor": "^0.11.0",

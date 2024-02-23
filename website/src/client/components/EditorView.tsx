@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 import AssetViewer from './AssetViewer';
 import { withDependencyManager } from './DependencyManager';
@@ -35,6 +36,7 @@ import KeybindingsManager from './shared/KeybindingsManager';
 import LazyLoad from './shared/LazyLoad';
 import ModalDialog from './shared/ModalDialog';
 import ProgressIndicator from './shared/ProgressIndicator';
+import constants from '../configs/constants';
 import { Viewer, SnackFiles, Annotation, SDKVersion } from '../types';
 import Analytics from '../utils/Analytics';
 import { isMobile } from '../utils/detectPlatform';
@@ -78,6 +80,7 @@ type State = {
   lintedFiles: LintedFiles;
   lintAnnotations: Annotation[];
   shouldPreventRedirectWarning: boolean;
+  isPanelResizing: boolean;
 };
 
 const BANNER_TIMEOUT_SHORT = 1500;
@@ -93,6 +96,7 @@ class EditorView extends React.Component<Props, State> {
     lintedFiles: {},
     lintAnnotations: [],
     shouldPreventRedirectWarning: false,
+    isPanelResizing: false,
   };
 
   static getDerivedStateFromProps(props: Props, state: State) {
@@ -345,6 +349,12 @@ class EditorView extends React.Component<Props, State> {
       shouldPreventRedirectWarning: false,
     });
 
+  onPanelResizing = (isDragging: boolean) => {
+    this.setState({
+      isPanelResizing: isDragging,
+    });
+  };
+
   render() {
     const { currentModal, currentBanner, lintAnnotations } = this.state;
 
@@ -450,188 +460,214 @@ class EditorView extends React.Component<Props, State> {
                   onDownloadCode={this.props.onDownloadAsync}
                   onPublishAsync={onPublishAsync}
                 />
-                <div className={css(styles.editorAreaOuterWrapper)}>
-                  <div className={css(styles.editorAreaOuter)}>
-                    <LayoutShell>
-                      <FileList
-                        annotations={annotations}
-                        visible={preferences.fileTreeShown}
-                        files={files}
-                        selectedFile={selectedFile}
-                        updateFiles={this.props.updateFiles}
-                        onSelectFile={this.props.onSelectFile}
-                        onRemoveFile={this._handleRemoveFile}
-                        onRenameFile={this._handleRenameFile}
-                        uploadFileAsync={uploadFileAsync}
-                        onDownloadCode={this.props.onDownloadAsync}
-                        onShowModal={this._handleShowModal}
-                        hasSnackId={!!id}
-                        saveStatus={saveStatus}
-                        sdkVersion={sdkVersion}
-                      />
-                      {/* Don't load it conditionally since we need the _EditorComponent object to be available */}
-                      <LazyLoad
-                        load={async (): Promise<{ default: React.ComponentType<EditorProps> }> => {
-                          if (isMobile(userAgent)) {
-                            // Monaco doesn't work great on mobile`
-                            // Use simple editor for better experience
-                            const editor = await import('./Editor/SimpleEditor');
-                            this.setState({ loadedEditor: 'simple' });
-                            return editor;
-                          }
-
-                          let timeout: any;
-
-                          const MonacoEditorPromise = import(
-                            /* webpackPreload: true */ './Editor/MonacoEditor'
-                          ).then((editor) => ({ editor, type: 'monaco' }));
-
-                          // Fallback to simple editor if monaco editor takes too long to load
-                          const SimpleEditorPromise = new Promise((resolve, reject) => {
-                            timeout = setTimeout(() => {
-                              this._showBanner('slow-connection');
-
-                              import('./Editor/SimpleEditor').then(resolve, reject);
-                            }, EDITOR_LOAD_FALLBACK_TIMEOUT);
-                          }).then((editor) => ({ editor, type: 'simple' }));
-
-                          return Promise.race([
-                            MonacoEditorPromise.catch(() => SimpleEditorPromise),
-                            SimpleEditorPromise,
-                          ]).then(({ editor, type }: any) => {
-                            this.setState({ loadedEditor: type });
-
-                            clearTimeout(timeout);
-
-                            return editor;
-                          });
-                        }}
-                      >
-                        {({ loaded, data: Comp }) => {
-                          this._EditorComponent = Comp;
-                          const file = files[selectedFile];
-                          if (file) {
-                            if (file.type === 'ASSET') {
-                              return <AssetViewer selectedFile={selectedFile} files={files} />;
+                <PanelGroup direction="horizontal">
+                  <Panel id="editor" order={1}>
+                    <div className={css(styles.panelContainer)}>
+                      <LayoutShell>
+                        <FileList
+                          annotations={annotations}
+                          visible={preferences.fileTreeShown}
+                          files={files}
+                          selectedFile={selectedFile}
+                          updateFiles={this.props.updateFiles}
+                          onSelectFile={this.props.onSelectFile}
+                          onRemoveFile={this._handleRemoveFile}
+                          onRenameFile={this._handleRenameFile}
+                          uploadFileAsync={uploadFileAsync}
+                          onDownloadCode={this.props.onDownloadAsync}
+                          onShowModal={this._handleShowModal}
+                          hasSnackId={!!id}
+                          saveStatus={saveStatus}
+                          sdkVersion={sdkVersion}
+                        />
+                        {/* Don't load it conditionally since we need the _EditorComponent object to be available */}
+                        <LazyLoad
+                          load={async (): Promise<{
+                            default: React.ComponentType<EditorProps>;
+                          }> => {
+                            if (isMobile(userAgent)) {
+                              // Monaco doesn't work great on mobile`
+                              // Use simple editor for better experience
+                              const editor = await import('./Editor/SimpleEditor');
+                              this.setState({ loadedEditor: 'simple' });
+                              return editor;
                             }
 
-                            const { contents } = file;
-                            const isMarkdown = selectedFile.endsWith('.md');
+                            let timeout: any;
 
-                            if (isMarkdown && this.state.isMarkdownPreview) {
-                              return (
-                                <>
-                                  <LazyLoad load={() => import('./Markdown/MarkdownPreview')}>
-                                    {({ loaded: mdLoaded, data: MarkdownPreview }) => {
-                                      if (mdLoaded && MarkdownPreview) {
-                                        return <MarkdownPreview source={contents} />;
-                                      }
+                            const MonacoEditorPromise = import(
+                              /* webpackPreload: true */ './Editor/MonacoEditor'
+                            ).then((editor) => ({ editor, type: 'monaco' }));
 
-                                      return <EditorShell />;
-                                    }}
-                                  </LazyLoad>
-                                  <button
-                                    className={css(styles.previewToggle)}
-                                    onClick={this._toggleMarkdownPreview}
-                                  >
-                                    <svg
-                                      width="12px"
-                                      height="12px"
-                                      viewBox="0 0 18 18"
-                                      className={css(styles.previewToggleIcon)}
-                                    >
-                                      <g transform="translate(-147.000000, -99.000000)">
-                                        <g transform="translate(144.000000, 96.000000)">
-                                          <path d="M3,17.25 L3,21 L6.75,21 L17.81,9.94 L14.06,6.19 L3,17.25 L3,17.25 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 L20.71,7.04 L20.71,7.04 Z" />
-                                        </g>
-                                      </g>
-                                    </svg>
-                                  </button>
-                                </>
-                              );
-                            }
+                            // Fallback to simple editor if monaco editor takes too long to load
+                            const SimpleEditorPromise = new Promise((resolve, reject) => {
+                              timeout = setTimeout(() => {
+                                this._showBanner('slow-connection');
 
-                            if (loaded && Comp) {
-                              return (
-                                <>
-                                  <Comp
-                                    dependencies={dependencies}
-                                    sdkVersion={sdkVersion}
-                                    selectedFile={selectedFile}
-                                    files={files}
-                                    autoFocus={!/Untitled file.*\.(js|tsx?)$/.test(selectedFile)}
-                                    annotations={annotations}
-                                    updateFiles={this.props.updateFiles}
-                                    onSelectFile={this.props.onSelectFile}
-                                    mode={preferences.editorMode}
-                                    lineNumbers={isMobile(userAgent) ? 'off' : undefined}
-                                  />
-                                  {isMarkdown ? (
+                                import('./Editor/SimpleEditor').then(resolve, reject);
+                              }, EDITOR_LOAD_FALLBACK_TIMEOUT);
+                            }).then((editor) => ({ editor, type: 'simple' }));
+
+                            return Promise.race([
+                              MonacoEditorPromise.catch(() => SimpleEditorPromise),
+                              SimpleEditorPromise,
+                            ]).then(({ editor, type }: any) => {
+                              this.setState({ loadedEditor: type });
+
+                              clearTimeout(timeout);
+
+                              return editor;
+                            });
+                          }}
+                        >
+                          {({ loaded, data: Comp }) => {
+                            this._EditorComponent = Comp;
+                            const file = files[selectedFile];
+                            if (file) {
+                              if (file.type === 'ASSET') {
+                                return <AssetViewer selectedFile={selectedFile} files={files} />;
+                              }
+
+                              const { contents } = file;
+                              const isMarkdown = selectedFile.endsWith('.md');
+
+                              if (isMarkdown && this.state.isMarkdownPreview) {
+                                return (
+                                  <>
+                                    <LazyLoad load={() => import('./Markdown/MarkdownPreview')}>
+                                      {({ loaded: mdLoaded, data: MarkdownPreview }) => {
+                                        if (mdLoaded && MarkdownPreview) {
+                                          return <MarkdownPreview source={contents} />;
+                                        }
+
+                                        return <EditorShell />;
+                                      }}
+                                    </LazyLoad>
                                     <button
                                       className={css(styles.previewToggle)}
                                       onClick={this._toggleMarkdownPreview}
                                     >
                                       <svg
-                                        width="16px"
+                                        width="12px"
                                         height="12px"
-                                        viewBox="0 0 22 16"
+                                        viewBox="0 0 18 18"
                                         className={css(styles.previewToggleIcon)}
                                       >
-                                        <g transform="translate(-145.000000, -1156.000000)">
-                                          <g transform="translate(144.000000, 1152.000000)">
-                                            <path d="M12,4.5 C7,4.5 2.73,7.61 1,12 C2.73,16.39 7,19.5 12,19.5 C17,19.5 21.27,16.39 23,12 C21.27,7.61 17,4.5 12,4.5 L12,4.5 Z M12,17 C9.24,17 7,14.76 7,12 C7,9.24 9.24,7 12,7 C14.76,7 17,9.24 17,12 C17,14.76 14.76,17 12,17 L12,17 Z M12,9 C10.34,9 9,10.34 9,12 C9,13.66 10.34,15 12,15 C13.66,15 15,13.66 15,12 C15,10.34 13.66,9 12,9 L12,9 Z" />
+                                        <g transform="translate(-147.000000, -99.000000)">
+                                          <g transform="translate(144.000000, 96.000000)">
+                                            <path d="M3,17.25 L3,21 L6.75,21 L17.81,9.94 L14.06,6.19 L3,17.25 L3,17.25 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 L20.71,7.04 L20.71,7.04 Z" />
                                           </g>
                                         </g>
                                       </svg>
                                     </button>
-                                  ) : null}
-                                </>
-                              );
-                            }
-                          } else {
-                            return <NoFileSelected />;
-                          }
+                                  </>
+                                );
+                              }
 
-                          return <EditorShell />;
-                        }}
-                      </LazyLoad>
-                    </LayoutShell>
-                    {preferences.panelsShown ? (
-                      <EditorPanels
-                        annotations={annotations}
-                        deviceLogs={deviceLogs}
-                        onShowErrorPanel={this._showErrorPanel}
-                        onShowDeviceLogs={this._showDeviceLogs}
-                        onTogglePanels={this._togglePanels}
-                        onClearDeviceLogs={onClearDeviceLogs}
-                        onSelectFile={this.props.onSelectFile}
-                        panelType={preferences.panelType}
-                      />
-                    ) : null}
-                  </div>
+                              if (loaded && Comp) {
+                                return (
+                                  <>
+                                    <Comp
+                                      dependencies={dependencies}
+                                      sdkVersion={sdkVersion}
+                                      selectedFile={selectedFile}
+                                      files={files}
+                                      autoFocus={!/Untitled file.*\.(js|tsx?)$/.test(selectedFile)}
+                                      annotations={annotations}
+                                      updateFiles={this.props.updateFiles}
+                                      onSelectFile={this.props.onSelectFile}
+                                      mode={preferences.editorMode}
+                                      lineNumbers={isMobile(userAgent) ? 'off' : undefined}
+                                    />
+                                    {isMarkdown ? (
+                                      <button
+                                        className={css(styles.previewToggle)}
+                                        onClick={this._toggleMarkdownPreview}
+                                      >
+                                        <svg
+                                          width="16px"
+                                          height="12px"
+                                          viewBox="0 0 22 16"
+                                          className={css(styles.previewToggleIcon)}
+                                        >
+                                          <g transform="translate(-145.000000, -1156.000000)">
+                                            <g transform="translate(144.000000, 1152.000000)">
+                                              <path d="M12,4.5 C7,4.5 2.73,7.61 1,12 C2.73,16.39 7,19.5 12,19.5 C17,19.5 21.27,16.39 23,12 C21.27,7.61 17,4.5 12,4.5 L12,4.5 Z M12,17 C9.24,17 7,14.76 7,12 C7,9.24 9.24,7 12,7 C14.76,7 17,9.24 17,12 C17,14.76 14.76,17 12,17 L12,17 Z M12,9 C10.34,9 9,10.34 9,12 C9,13.66 10.34,15 12,15 C13.66,15 15,13.66 15,12 C15,10.34 13.66,9 12,9 L12,9 Z" />
+                                            </g>
+                                          </g>
+                                        </svg>
+                                      </button>
+                                    ) : null}
+                                  </>
+                                );
+                              }
+                            } else {
+                              return <NoFileSelected />;
+                            }
+
+                            return <EditorShell />;
+                          }}
+                        </LazyLoad>
+                      </LayoutShell>
+                      {preferences.panelsShown ? (
+                        <EditorPanels
+                          annotations={annotations}
+                          deviceLogs={deviceLogs}
+                          onShowErrorPanel={this._showErrorPanel}
+                          onShowDeviceLogs={this._showDeviceLogs}
+                          onTogglePanels={this._togglePanels}
+                          onClearDeviceLogs={onClearDeviceLogs}
+                          onSelectFile={this.props.onSelectFile}
+                          panelType={preferences.panelType}
+                        />
+                      ) : null}
+                    </div>
+                  </Panel>
                   {previewShown ? (
-                    <DevicePreview
-                      className={css(styles.preview)}
-                      width={334}
-                      connectedDevices={connectedDevices}
-                      experienceURL={experienceURL}
-                      experienceName={experienceName}
-                      name={name}
-                      onChangePlatform={onChangePlatform}
-                      onShowModal={this._handleShowModal}
-                      onReloadSnack={onReloadSnack}
-                      onSendCode={onSendCode}
-                      onToggleSendCode={onToggleSendCode}
-                      platform={platform}
-                      platformOptions={platformOptions}
-                      previewRef={previewRef}
-                      previewURL={previewURL}
-                      sdkVersion={sdkVersion}
-                      sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
-                      devices={devices}
-                    />
+                    <>
+                      <PanelResizeHandle
+                        onDragging={this.onPanelResizing}
+                        className={css(
+                          styles.panelResizeTouchArea,
+                          this.state.isPanelResizing && styles.panelResizeTouchAreaActive
+                        )}
+                      >
+                        <div className={css(styles.resizeHandleContainer)}>
+                          <div className={css(styles.resizeHandle)} />
+                        </div>
+                      </PanelResizeHandle>
+                      <Panel
+                        id="preview"
+                        order={2}
+                        defaultSize={20}
+                        collapsible
+                        collapsedSize={0}
+                        className={css(styles.previewPanel)}
+                      >
+                        <DevicePreview
+                          className={css(styles.preview, styles.panelContainer)}
+                          width={334}
+                          connectedDevices={connectedDevices}
+                          experienceURL={experienceURL}
+                          experienceName={experienceName}
+                          name={name}
+                          onChangePlatform={onChangePlatform}
+                          onShowModal={this._handleShowModal}
+                          onReloadSnack={onReloadSnack}
+                          onSendCode={onSendCode}
+                          onToggleSendCode={onToggleSendCode}
+                          platform={platform}
+                          platformOptions={platformOptions}
+                          previewRef={previewRef}
+                          previewURL={previewURL}
+                          sdkVersion={sdkVersion}
+                          sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
+                          devices={devices}
+                        />
+                      </Panel>
+                    </>
                   ) : null}
-                </div>
+                </PanelGroup>
                 <EditorFooter
                   annotations={annotations}
                   connectedDevices={connectedDevices}
@@ -753,20 +789,9 @@ export default withPreferences(
 );
 
 const styles = StyleSheet.create({
-  editorAreaOuter: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    minWidth: 0,
-    minHeight: 0,
-  },
-
-  editorAreaOuterWrapper: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    minHeight: 0,
-    minWidth: 0,
+  panelContainer: {
+    width: '100%',
+    height: '100%',
   },
 
   embedModal: {
@@ -778,7 +803,49 @@ const styles = StyleSheet.create({
 
   preview: {
     backgroundColor: c('content'),
-    borderLeft: `1px solid ${c('border-editor')}`,
+  },
+
+  previewPanel: {
+    display: 'none',
+    minWidth: 334,
+
+    [`@media (min-width: ${constants.preview.minWidth}px)`]: {
+      display: 'flex',
+    },
+  },
+
+  panelResizeTouchArea: {
+    borderRight: `1px solid ${c('border-editor')}`,
+    width: 12,
+    height: '100%',
+
+    display: 'none',
+    [`@media (min-width: ${constants.preview.minWidth}px)`]: {
+      display: 'block',
+    },
+
+    ':hover': {
+      backgroundColor: c('hover'),
+    },
+  },
+
+  // Note(cedric): aphrodite does not support styling by attribute, so this is now handled by state
+  panelResizeTouchAreaActive: {
+    backgroundColor: c('hover'),
+  },
+
+  resizeHandleContainer: {
+    position: 'relative',
+    top: '50%',
+    transform: 'translateY(-50%)',
+  },
+
+  resizeHandle: {
+    backgroundColor: c('border-editor'),
+    width: 4,
+    height: 32,
+    borderRadius: 2,
+    margin: '6px auto',
   },
 
   previewToggle: {

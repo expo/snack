@@ -37,7 +37,10 @@ let cachedAppetizeDevices:
 
 export function useAppetizeDevices(platform: 'android' | 'ios') {
   const [devices, setDevices] = useState(cachedAppetizeDevices);
-  const deviceList = useMemo(() => createAppetizeDeviceList(devices), [platform, devices]);
+  const deviceList = useMemo(
+    () => createAppetizeDeviceList(platform, devices),
+    [platform, devices]
+  );
 
   useEffect(() => {
     if (!cachedAppetizeDevices) {
@@ -48,14 +51,17 @@ export function useAppetizeDevices(platform: 'android' | 'ios') {
   return deviceList;
 }
 
-function createAppetizeDeviceList(devices?: typeof cachedAppetizeDevices) {
+function createAppetizeDeviceList(
+  platform: 'android' | 'ios',
+  devices?: typeof cachedAppetizeDevices
+) {
   if (!devices) {
     return [];
   }
 
   return devices
-    .map((device) => ({ deviceName: device.name, deviceId: device.id }))
-    .filter(({ deviceId }) => !deviceId.includes('ipad') && !deviceId.includes('galaxytab'));
+    .filter((device) => device.platform === platform)
+    .map((device) => ({ deviceName: device.name, deviceId: device.id }));
 }
 
 async function fetchAppetizeDevices(): Promise<typeof cachedAppetizeDevices> {
