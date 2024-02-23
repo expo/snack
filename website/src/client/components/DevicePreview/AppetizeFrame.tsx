@@ -87,8 +87,9 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
       this.props.onPopupUrl?.(resolveAppetizePopupUrl(config));
     }
 
+    // If the platform changes, update to the default device
     if (this.state.deviceId && prevProps.platform !== this.props.platform) {
-      this.setState({ deviceId: undefined });
+      this.setState({ deviceId: getAppetizeConstants(this.props).device });
     }
   }
 

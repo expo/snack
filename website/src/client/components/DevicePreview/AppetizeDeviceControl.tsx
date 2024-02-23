@@ -92,10 +92,6 @@ AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
 }: AppetizeSelectDeviceProps) {
   const devices = useAppetizeDevices(platform);
 
-  if (!selectedDevice) {
-    return null;
-  }
-
   return (
     <select
       className={css(styles.button)}
