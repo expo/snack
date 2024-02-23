@@ -219,9 +219,6 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     width: '100%',
-    // maxWidth: '50%',
-    // overflowX: 'hidden',
-    // overflowY: 'auto',
     display: 'none',
     flexDirection: 'column',
 
