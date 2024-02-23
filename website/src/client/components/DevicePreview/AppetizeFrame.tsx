@@ -333,7 +333,7 @@ function resolveAppetizeConfig(
     launchArgs: launchArgs.length ? launchArgs : undefined,
     params: JSON.stringify(parameters) as any,
     appearance: theme,
-    deviceColor: theme === 'light' ? 'black' : 'white',
+    deviceColor: props.theme === 'light' ? 'black' : 'white',
     scale: deviceScale,
     orientation: 'portrait',
     centered: 'both',
