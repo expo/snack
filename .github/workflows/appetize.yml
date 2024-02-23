@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.result }}
+      config: ${{ steps.config.outputs.result }}
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v4
@@ -43,6 +44,12 @@ jobs:
 
       - name: 🕵️ Read Appetize information
         run: bun --eval "console.log(JSON.stringify(require('./website/src/client/configs/constants.tsx').default.appetize))" > ci_appetize.json
+
+      - name: 📋 Store Appetize config
+        uses: actions/github-script@v7
+        id: config
+        with:
+          script: return JSON.stringify(require('./ci_appetize.json'))
 
       - name: 👷‍♀️ Prepare tasks
         uses: actions/github-script@v7
@@ -194,9 +201,40 @@ jobs:
           TOKEN: ${{ secrets[matrix.appetizeTokenName] }}
           APP: ${{ matrix.iosAppetizeId }}
 
+  config:
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - name: 📋 Download Appetize devices
+        run: curl -o appetize-devices.json https://api.appetize.io/v2/service/devices
+
+      - name: 🔍 Validate default devices
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Load the downloaded devices and resolved config
+            const devices = require('./appetize-devices.json');
+            const config = JSON.parse(${{ needs.prepare.outputs.config }});
+            
+            // Iterate over each configured Appetize instance
+            for (const [sdkVersion, sdkConfig] of Object.entries(config)) {
+              for (const [queueName, queueConfig] of Object.entries(sdkConfig)) {
+                for (const [platform, platformConfig] of Object.entries(queueConfig)) {
+                  // Ensure the default device is available on Appetize
+                  const defaultDevice = platformConfig.device;
+                  const foundDevice = devices.find(device => device.id === defaultDevice);
+            
+                  // Throw an error if the default device is not available
+                  if (!foundDevice) {
+                    throw new Error(`Default device "${defaultDevice}" for ${platform} on ${queueName} (${sdkVersion}) is not available on Appetize`);
+                  }
+                }
+              }
+            }
+
   notify:
     if: ${{ always() }}
-    needs: [prepare, android, ios]
+    needs: [prepare, android, ios, config]
     runs-on: ubuntu-latest
     steps:
       - name: 📢 Notify on Slack
