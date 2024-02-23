@@ -331,10 +331,8 @@ function resolveAppetizeConfig(
   return {
     ...constants,
     device,
-    // launchUrl: props.experienceURL,
+    launchUrl: props.experienceURL,
     launchArgs: launchArgs.length ? launchArgs : undefined,
-    launchUrl:
-      'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A50.0.0&channel-name=production&snack-channel=oTGReYapld',
     params: JSON.stringify(parameters) as any,
     appearance: theme,
     deviceColor: theme === 'light' ? 'black' : 'white',
