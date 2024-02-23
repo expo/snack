@@ -204,9 +204,7 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
     }
 
     return executeAppetizeAction(this, 'appearance', (session) =>
-      session
-        .adbShellCommand(`cmd uimode night ${nextAppearance === 'dark' ? 'yes' : 'no'}`)
-        .then(() => session.restartApp())
+      session.adbShellCommand(`cmd uimode night ${nextAppearance === 'dark' ? 'yes' : 'no'}`)
     );
   };
   /**
