@@ -149,11 +149,20 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
 
   /** Restart Expo Go and reload the Snack, useful in cases of crashes without giving up on queue position */
   private onReloadSnack = createAppetizeAction(this, 'reload', (session) => session.restartApp());
-  /** Shake the device, iOS only unfortunately */
-  private onShakeDevice = createAppetizeAction(this, 'shake', (session) => session.shake());
   /** Rotate the device to portrait or landscape */
   private onRotateDevice = createAppetizeAction(this, 'rotate', (session) =>
     session.rotate('right')
+  );
+
+  /**
+   * Open the dev menu in Expo Go.
+   *   - On iOS, this is done by invoking `session.shake` (shake the device)
+   *   - On Android, this is done by invoking `adb shell input keyevent 82`
+   *
+   * @see https://docs.expo.dev/debugging/tools/#developer-menu
+   */
+  private onOpenDevMenu = createAppetizeAction(this, 'dev-menu', (session, platform) =>
+    platform === 'ios' ? session.shake() : session.adbShellCommand('input keyevent 82')
   );
 
   /** Use another device instance to preview Snack */
@@ -181,9 +190,9 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
               onClick={this.onReloadSnack}
               disabled={deviceControlDisabled}
             />
-            <AppetizeDeviceControl.ShakeDevice
-              onClick={this.onShakeDevice}
-              disabled={deviceControlDisabled || platform !== 'ios'}
+            <AppetizeDeviceControl.OpenDevMenu
+              onClick={this.onOpenDevMenu}
+              disabled={deviceControlDisabled}
             />
             <AppetizeDeviceControl.RotateDevice
               onClick={this.onRotateDevice}
@@ -223,7 +232,8 @@ function resolveAppetizeConfig(
   return {
     ...constants,
     device,
-    launchUrl: props.experienceURL,
+    // launchUrl: props.experienceURL,
+    launchUrl: 'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A50.0.0&channel-name=production&snack-channel=oTGReYapld',
     params: JSON.stringify(parameters) as any,
     appearance: props.theme,
     deviceColor: props.theme === 'light' ? 'black' : 'white',
@@ -251,7 +261,7 @@ function resolveAppetizePopupUrl(config: AppetizeSdkConfig) {
 function createAppetizeAction(
   component: InstanceType<typeof AppetizeFrame>,
   name: string,
-  action: (session: AppetizeSdkSession) => Promise<any>
+  action: (session: AppetizeSdkSession, platform: AppetizeFrameProps['platform']) => Promise<any>
 ) {
   return () => {
     if (component.state.session && !component.state.deviceControlState) {
@@ -259,7 +269,7 @@ function createAppetizeAction(
 
       // Note(cedric): restart app doesn't resolve at the moment, so add a race condition of 5 sec
       Promise.race([
-        action(component.state.session),
+        action(component.state.session, component.props.platform),
         new Promise((resolve) => setTimeout(resolve, 5000)),
       ]).finally(() => component.setState({ deviceControlState: undefined }));
     }

@@ -99,6 +99,9 @@ declare global {
     /** @see https://docs.appetize.io/javascript-sdk/api-reference#rotate */
     rotate(direction: 'left' | 'right'): Promise<void>;
 
+    /** @see https://docs.appetize.io/sample-use-cases/test-accessibility-font-sizes#android */
+    adbShellCommand(command: string): Promise<void>;
+
     /** @see https://docs.appetize.io/javascript-sdk/api-reference#end */
     end(): Promise<void>;
   }

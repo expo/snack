@@ -37,13 +37,13 @@ AppetizeDeviceControl.RestartSnack = function AppetizeRestartSnack(props: Appeti
     </button>
   );
 };
-AppetizeDeviceControl.ShakeDevice = function AppetizeShakeDevice(props: AppetizeActionProps) {
+AppetizeDeviceControl.OpenDevMenu = function AppetizeOpenDevMenu(props: AppetizeActionProps) {
   return (
     <button
       type="button"
       className={css(styles.button)}
-      title="Shake device (iOS only)"
-      aria-label="Shake device (iOS only)"
+      title="Open Expo dev menu"
+      aria-label="Open Expo dev menu"
       {...props}
     >
       <svg
@@ -54,16 +54,12 @@ AppetizeDeviceControl.ShakeDevice = function AppetizeShakeDevice(props: Appetize
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M16.7243 19.5043L11.4274 20.9086C10.6467 21.1156 10.2564 21.2191 9.9098 21.1192C9.60492 21.0315 9.32367 20.8369 9.10642 20.5635C8.85942 20.2527 8.73495 19.7931 8.48603 18.8739L5.4637 7.713C5.21478 6.79379 5.09032 6.33417 5.14717 5.9428C5.19717 5.59853 5.34242 5.29091 5.56209 5.06402C5.81182 4.80607 6.20216 4.70258 6.98281 4.49561L12.2797 3.09125C13.0603 2.88427 13.4507 2.78077 13.7973 2.88062C14.1021 2.96843 14.3834 3.16298 14.6006 3.43639C14.8477 3.7472 14.9721 4.2068 15.221 5.12602L18.2434 16.2869C18.4923 17.2061 18.6168 17.6657 18.5599 18.0571C18.5099 18.4013 18.3646 18.709 18.145 18.9358C17.8953 19.1938 17.5049 19.2973 16.7243 19.5043Z"
+          d="M3 8L15 8M15 8C15 9.65686 16.3431 11 18 11C19.6569 11 21 9.65685 21 8C21 6.34315 19.6569 5 18 5C16.3431 5 15 6.34315 15 8ZM9 16L21 16M9 16C9 17.6569 7.65685 19 6 19C4.34315 19 3 17.6569 3 16C3 14.3431 4.34315 13 6 13C7.65685 13 9 14.3431 9 16Z"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <path d="M2.42859 8.3175L5.8274 20.8686" stroke="currentColor" strokeLinecap="round" />
-        <path d="M1 10.7657L3.35302 19.455" stroke="currentColor" strokeLinecap="round" />
-        <path d="M18.1726 3.31982L21.5714 15.871" stroke="currentColor" strokeLinecap="round" />
-        <path d="M20.647 4.73328L23 13.4225" stroke="currentColor" strokeLinecap="round" />
       </svg>
     </button>
   );
