@@ -239,7 +239,7 @@ jobs:
     steps:
       - name: 📢 Notify on Slack
         uses: 8398a7/action-slack@v3
-        if: ${{ needs.prepare.result == 'failure' || needs.android.result == 'failure' || needs.ios.result == 'failure' }}
+        if: ${{ needs.prepare.result == 'failure' || needs.android.result == 'failure' || needs.ios.result == 'failure' || needs.config.result == 'failure' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_SNACK }}
         with:
