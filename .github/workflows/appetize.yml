@@ -71,16 +71,18 @@ jobs:
                 const appetizeInfo = appetizePerSdk[sdkVersion][queue]
                 if (!appetizeInfo) throw new Error(`Configured Appetize is missing queue "${queue}"`);
                 if (!appetizeInfo.android) throw new Error(`Configured Appetize queue "${queue}" is missing Android`);
+                if (!appetizeInfo.android.publicKey) throw new Error(`Configured Appetize queue "${queue}" is missing Android's public key`);
                 if (!appetizeInfo.ios) throw new Error(`Configured Appetize queue "${queue}" is missing iOS`);
+                if (!appetizeInfo.ios.publicKey) throw new Error(`Configured Appetize queue "${queue}" is missing iOS's public key`);
 
                 return {
                   sdkVersion: sdkVersion,
                   appetizeName: queue,
                   appetizeTokenName: `SNACK_RUNTIME_APPETIZE_${queue.toUpperCase()}_TOKEN`,
-                  androidAppetizeId: appetizeInfo.android,
+                  androidAppetizeId: appetizeInfo.android.publicKey,
                   androidUrl: sdkInfo.androidClientUrl,
                   androidVersion: sdkInfo.androidClientVersion,
-                  iosAppetizeId: appetizeInfo.ios,
+                  iosAppetizeId: appetizeInfo.ios.publicKey,
                   iosUrl: sdkInfo.iosClientUrl,
                   iosVersion: sdkInfo.iosClientVersion,
                 }

@@ -31,11 +31,11 @@ type Props = {
   platformOptions: PlatformOptions.PlatformOption[];
   previewRef: React.MutableRefObject<Window | null>;
   previewURL: string;
-  devices?: AppetizeDevices;
   isEmbedded?: boolean;
   sdkVersion: SDKVersion;
   sendCodeOnChangeEnabled: boolean;
   theme: ThemeName;
+  devices: AppetizeDevices;
 };
 
 type State = {
@@ -109,7 +109,9 @@ class DevicePreview extends React.PureComponent<Props, State> {
     }, 500);
   };
 
-  private handlePopupUrl = (url: string) => this.setState({ popupUrl: url });
+  private handlePopupUrl = (url: string) => {
+    this.setState({ popupUrl: url });
+  };
 
   private popupInterval: any;
   private popup: Window | null = null;
@@ -131,11 +133,11 @@ class DevicePreview extends React.PureComponent<Props, State> {
       name,
       onAppLaunch,
       onChangePlatform,
-      onShowModal,
+      // onShowModal,
       onReloadSnack,
       onSendCode,
       onToggleSendCode,
-      payerCode,
+      // payerCode,
       platform,
       platformOptions,
       previewRef,
@@ -194,15 +196,14 @@ class DevicePreview extends React.PureComponent<Props, State> {
         )}
         {(platform === 'ios' || platform === 'android') && (
           <AppetizeFrame
-            width={width}
             sdkVersion={sdkVersion}
             experienceURL={experienceURL}
             platform={platform}
-            isEmbedded={isEmbedded}
-            payerCode={payerCode}
-            isPopupOpen={isPopupOpen}
+            isEmbedded={!!isEmbedded}
+            // payerCode={payerCode}
+            // isPopupOpen={isPopupOpen}
             onPopupUrl={this.handlePopupUrl}
-            onShowModal={onShowModal}
+            // onShowModal={onShowModal}
             onAppLaunch={onAppLaunch}
             devices={devices}
           />
