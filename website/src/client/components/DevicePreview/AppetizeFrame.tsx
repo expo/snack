@@ -248,7 +248,7 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
           <iframe
             id="snack-appetize"
             ref={this.iframe}
-            className={css(styles.frame, isEmbedded && { padding: '8px 0' })}
+            className={css(styles.frame, isEmbedded && styles.frameEmbedded)}
           />
         </div>
 
@@ -414,5 +414,8 @@ const styles = StyleSheet.create({
     border: 0,
     height: '100%',
     width: '100%',
+  },
+  frameEmbedded: {
+    padding: '8px 0',
   },
 });
