@@ -4,7 +4,7 @@ import React, { Component, createRef } from 'react';
 import { AppetizeDeviceControl } from './AppetizeDeviceControl';
 import { SDKVersion } from '../../types';
 import Analytics from '../../utils/Analytics';
-import { getAppetizeConstants } from '../../utils/Appetize';
+import { getAppetizeConstants, getAppetizeQueueName } from '../../utils/Appetize';
 import withThemeName, { ThemeName } from '../Preferences/withThemeName';
 
 /** @see https://docs.appetize.io/core-features/playback-options */
@@ -158,6 +158,8 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
       Analytics.getInstance().startTimer('previewQueue');
       Analytics.getInstance().logEvent('QUEUED_FOR_PREVIEW', {
         queuePosition: queue.position,
+        queueName: getAppetizeQueueName(this.props),
+        queuePlatform: this.props.platform,
       });
     }
   };
