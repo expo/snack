@@ -3,6 +3,10 @@ import type { SDKVersion } from 'snack-sdk';
 
 import constants from '../configs/constants';
 
+export function getAppetizeQueueName({ isEmbedded }: { isEmbedded: boolean }): 'embed' | 'main' {
+  return isEmbedded ? 'embed' : 'main';
+}
+
 /**
  * Get the default Appetize SDK config from the constants.
  */
@@ -15,9 +19,8 @@ export function getAppetizeConstants({
   isEmbedded: boolean;
   platform: 'android' | 'ios';
 }): AppetizeSdkConfig {
-  const values = isEmbedded
-    ? constants.appetize?.[sdkVersion]?.embed?.[platform]
-    : constants.appetize?.[sdkVersion]?.main?.[platform];
+  const name = getAppetizeQueueName({ isEmbedded });
+  const values = constants.appetize?.[sdkVersion]?.[name]?.[platform];
 
   if (!values) {
     throw new Error(

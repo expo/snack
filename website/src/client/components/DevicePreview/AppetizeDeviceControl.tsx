@@ -1,6 +1,14 @@
 import { StyleSheet, css } from 'aphrodite';
 import React, { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
+import type { AppetizeFontScale } from './AppetizeFrame';
+import {
+  DarkModeIcon,
+  DevMenuIcon,
+  LightModeIcon,
+  ReloadIcon,
+  RotateDeviceRightIcon,
+} from './DeviceControlIcons';
 import { useAppetizeDevices } from '../../utils/Appetize';
 import { c } from '../ThemeProvider';
 
@@ -8,85 +16,135 @@ export function AppetizeDeviceControl({ children }: PropsWithChildren<object>) {
   return <div className={css(styles.container)}>{children}</div>;
 }
 
+AppetizeDeviceControl.Group = function AppetizeDeviceControlGroup({
+  children,
+}: PropsWithChildren<object>) {
+  return <div className={css(styles.group)}>{children}</div>;
+};
+
 type AppetizeActionProps = Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled'>;
 
-AppetizeDeviceControl.ReloadSnack = function AppetizeReloadSnack(props: AppetizeActionProps) {
+AppetizeDeviceControl.RestartSnack = function AppetizeRestartSnack(props: AppetizeActionProps) {
+  const title = 'Restart Snack';
+
   return (
-    <button type="button" className={css(styles.button)} title="Reload Snack" {...props}>
-      <svg
-        width={16}
-        height={16}
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M2 10C2 10 4.00498 7.26822 5.63384 5.63824C7.26269 4.00827 9.5136 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.89691 21 4.43511 18.2543 3.35177 14.5M2 10V4M2 10H8"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+    <button
+      type="button"
+      className={css(styles.button)}
+      title={title}
+      aria-label={title}
+      {...props}
+    >
+      <ReloadIcon />
     </button>
   );
 };
-AppetizeDeviceControl.ShakeDevice = function AppetizeShakeDevice(props: AppetizeActionProps) {
+AppetizeDeviceControl.OpenDevMenu = function AppetizeOpenDevMenu(props: AppetizeActionProps) {
+  const title = 'Open Expo dev menu';
+
   return (
-    <button type="button" className={css(styles.button)} title="Shake device (iOS only)" {...props}>
-      <svg
-        width={16}
-        height={16}
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M16.7243 19.5043L11.4274 20.9086C10.6467 21.1156 10.2564 21.2191 9.9098 21.1192C9.60492 21.0315 9.32367 20.8369 9.10642 20.5635C8.85942 20.2527 8.73495 19.7931 8.48603 18.8739L5.4637 7.713C5.21478 6.79379 5.09032 6.33417 5.14717 5.9428C5.19717 5.59853 5.34242 5.29091 5.56209 5.06402C5.81182 4.80607 6.20216 4.70258 6.98281 4.49561L12.2797 3.09125C13.0603 2.88427 13.4507 2.78077 13.7973 2.88062C14.1021 2.96843 14.3834 3.16298 14.6006 3.43639C14.8477 3.7472 14.9721 4.2068 15.221 5.12602L18.2434 16.2869C18.4923 17.2061 18.6168 17.6657 18.5599 18.0571C18.5099 18.4013 18.3646 18.709 18.145 18.9358C17.8953 19.1938 17.5049 19.2973 16.7243 19.5043Z"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path d="M2.42859 8.3175L5.8274 20.8686" stroke="currentColor" strokeLinecap="round" />
-        <path d="M1 10.7657L3.35302 19.455" stroke="currentColor" strokeLinecap="round" />
-        <path d="M18.1726 3.31982L21.5714 15.871" stroke="currentColor" strokeLinecap="round" />
-        <path d="M20.647 4.73328L23 13.4225" stroke="currentColor" strokeLinecap="round" />
-      </svg>
+    <button
+      type="button"
+      className={css(styles.button)}
+      title={title}
+      aria-label={title}
+      {...props}
+    >
+      <DevMenuIcon />
     </button>
   );
 };
 
 AppetizeDeviceControl.RotateDevice = function AppetizeRotateDevice(props: AppetizeActionProps) {
+  const title = 'Rotate device clockwise';
+
   return (
-    <button type="button" className={css(styles.button)} title="Rotate device clockwise" {...props}>
-      <svg
-        width={16}
-        height={16}
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M4 20V18.6C4 15.2397 4 13.5595 4.65396 12.2761C5.2292 11.1471 6.14708 10.2292 7.27606 9.65396C8.55953 9 10.2397 9 13.6 9H20M20 9L15 14M20 9L15 4"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+    <button
+      type="button"
+      className={css(styles.button)}
+      title={title}
+      aria-label={title}
+      {...props}
+    >
+      <RotateDeviceRightIcon />
     </button>
+  );
+};
+
+type AppetizeDeviceAppearanceProps = AppetizeActionProps & {
+  appearance?: 'light' | 'dark';
+};
+
+AppetizeDeviceControl.DeviceAppearance = function AppetizeDeviceAppearance(
+  props: AppetizeDeviceAppearanceProps
+) {
+  const title =
+    props.appearance === 'light' ? 'Switch device to dark mode' : 'Switch to device light mode';
+
+  return (
+    <button
+      type="button"
+      className={css(styles.button)}
+      title={title}
+      aria-label={title}
+      {...props}
+    >
+      {props.appearance === 'light' && <DarkModeIcon />}
+      {props.appearance === 'dark' && <LightModeIcon />}
+    </button>
+  );
+};
+
+type AppetizeSelectFontScaleProps = {
+  disabled?: boolean;
+  selectedFontScale?: AppetizeFontScale;
+  onSelectFontScale?: (fontScale?: AppetizeFontScale) => void;
+};
+
+AppetizeDeviceControl.SelectFontScale = function AppetizeSelectFontScale({
+  disabled,
+  onSelectFontScale,
+  selectedFontScale,
+}: AppetizeSelectFontScaleProps) {
+  function onSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    if (event.target.value) {
+      onSelectFontScale?.(event.target.value as AppetizeFontScale);
+    } else {
+      onSelectFontScale?.(undefined);
+    }
+  }
+
+  return (
+    <select
+      className={css(styles.button, styles.selectButton)}
+      value={selectedFontScale ?? ''}
+      onChange={onSelectChange}
+      disabled={disabled}
+      title="Change font scaling"
+      aria-label="Change font scaling"
+    >
+      <option value="">Font Scaling</option>
+      <option value="xs">XS</option>
+      <option value="s">S</option>
+      <option value="m">M</option>
+      <option value="l">L</option>
+      <option value="xl">XL</option>
+      <option value="xxl">XXL</option>
+      <option value="xxxl">XXXL</option>
+    </select>
   );
 };
 
 type AppetizeSelectDeviceProps = {
   platform: 'android' | 'ios';
+  disabled?: boolean;
   selectedDevice?: string;
   onSelectDevice?: (device: string) => void;
 };
 
 AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
   platform,
+  disabled,
   onSelectDevice,
   selectedDevice,
 }: AppetizeSelectDeviceProps) {
@@ -94,10 +152,12 @@ AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
 
   return (
     <select
-      className={css(styles.button)}
+      className={css(styles.button, styles.selectButton)}
       value={selectedDevice}
       onChange={(event) => event.target.value && onSelectDevice?.(event.target.value)}
-      disabled={!onSelectDevice}
+      disabled={disabled}
+      title="Select device"
+      aria-label="Select device"
     >
       {!devices.length ? (
         <option key={selectedDevice} value={selectedDevice}>
@@ -117,10 +177,16 @@ AppetizeDeviceControl.SelectDevice = function AppetizeSelectDevice({
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flex: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 16px',
+    padding: '0 8px',
+    flexWrap: 'wrap',
+  },
+  group: {
+    display: 'flex',
+    flex: 0,
+    flexDirection: 'row',
+    margin: '0 8px 16px 8px',
   },
   button: {
     appearance: 'none',
@@ -130,7 +196,6 @@ const styles = StyleSheet.create({
     backgroundColor: c('content'),
     color: c('text'),
     padding: '8px 12px',
-    margin: '16px 0',
     textAlign: 'center',
     height: 34,
 
@@ -157,5 +222,8 @@ const styles = StyleSheet.create({
       opacity: 0.5,
       backgroundColor: c('content'),
     },
+  },
+  selectButton: {
+    padding: '4px 12px',
   },
 });
