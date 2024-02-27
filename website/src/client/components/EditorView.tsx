@@ -790,6 +790,8 @@ export default withPreferences(
 
 const styles = StyleSheet.create({
   panelContainer: {
+    display: 'flex',
+    flexDirection: 'column',
     width: '100%',
     height: '100%',
   },
