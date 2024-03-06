@@ -86,6 +86,9 @@ jobs:
   build:
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -93,10 +96,7 @@ jobs:
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
         with:
-          project-id: exponentjs
-          project-zone: us-central1
-          project-cluster: general-central
-          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
+          auth: true
 
       - name: 🛠 Build snackager
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
@@ -106,6 +106,9 @@ jobs:
     if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     environment:
       name: snackager-staging
       url: https://staging.snackager.expo.io/status
@@ -116,10 +119,7 @@ jobs:
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
         with:
-          project-id: exponentjs
-          project-zone: us-central1
-          project-cluster: general-central
-          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
+          auth: true
 
       - name: 🛠 Build snackager
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
@@ -152,6 +152,9 @@ jobs:
     if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
     needs: review
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     environment:
       name: snackager-production
       url: https://snackager.expo.io/status
@@ -162,10 +165,7 @@ jobs:
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
         with:
-          project-id: exponentjs
-          project-zone: us-central1
-          project-cluster: general-central
-          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
+          auth: true
 
       - name: 🛠 Build snackager
         run: skaffold build --filename snackager/skaffold.yaml --file-output snackager/build.json
