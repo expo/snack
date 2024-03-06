@@ -2,53 +2,33 @@ name: Setup Google Cloud SDK
 description: Prepare Google Cloud SDK in GitHub Actions
 
 inputs:
-  project-id:
-    description: Google Cloud SDK project id
-    default: exponentjs
-
-  project-zone:
-    description: Google Cloud SDK compute zone
-    default: us-central1
-
-  project-cluster:
-    description: Google Cloud SDK container cluster
-    default: general-central
-
-  service-key:
-    description: Google Cloud SDK service_account_key
+  auth:
+    description: If it should authenticate with Google Cloud and the Kubernetes cluster
     default: ''
-
-  export-default-credentials:
-    type: boolean
-    description: If it should export the default credentials
-    default: true
+    required: false
 
 runs:
   using: composite
   steps:
-    - name: 🏗 Setup Google Cloud SDK with auth
-      if: ${{ inputs.service-key != '' }}
-      uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+    - name: 🏗 Authenticate to Google Cloud
+      if: ${{ inputs.auth != '' }}
+      uses: google-github-actions/auth@55bd3a7c6e2ae7cf1877fd1ccb9d54c0503c457c
       with:
-        project_id: ${{ inputs.project-id }}
-        service_account_key: ${{ inputs.service-key }}
-        export_default_credentials: ${{ inputs.export-default-credentials }}
+        project_id: exponentjs
+        workload_identity_provider: projects/321830142373/locations/global/workloadIdentityPools/github/providers/expo
 
-    - name: 🏗 Setup Google Cloud SDK without auth
-      if: ${{ inputs.service-key == '' }}
-      uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
-
-    - name: 📦 Install Google Cloud SDK components
-      run: gcloud components install kubectl kustomize skaffold
-      shell: bash
+    - name: 📦 Setup Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@98ddc00a17442e89a24bbf282954a3b65ce6d200
+      with:
+        install_components: kubectl,kustomize,skaffold
 
     - name: ⚙️ Configure Google Cloud SDK
-      if: ${{ inputs.service-key != '' }}
+      if: ${{ inputs.auth != '' }}
       run: |
-        gcloud config set project ${{ inputs.project-id }}
-        gcloud config set compute/zone ${{ inputs.project-zone }}
-        gcloud config set run/region ${{ inputs.project-zone }}
-        gcloud config set container/cluster ${{ inputs.project-cluster }}
-        gcloud container clusters get-credentials ${{ inputs.project-cluster }}
+        gcloud config set project exponentjs
+        gcloud config set compute/zone us-central1
+        gcloud config set run/region us-central1
+        gcloud config set container/cluster general-central
+        gcloud container clusters get-credentials general-central
         gcloud auth configure-docker us-central1-docker.pkg.dev
       shell: bash

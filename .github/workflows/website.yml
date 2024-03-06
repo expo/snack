@@ -64,6 +64,9 @@ jobs:
   build:
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -71,10 +74,7 @@ jobs:
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
         with:
-          project-id: exponentjs
-          project-zone: us-central1
-          project-cluster: general-central
-          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
+          auth: true
 
       - name: 🛠 Build website
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
@@ -100,6 +100,9 @@ jobs:
     if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     environment:
       name: website-staging
       url: https://staging-snack.expo.dev
@@ -110,10 +113,7 @@ jobs:
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
         with:
-          project-id: exponentjs
-          project-zone: us-central1
-          project-cluster: general-central
-          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
+          auth: true
 
       - name: 🛠 Build website
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
@@ -146,6 +146,9 @@ jobs:
     if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
     needs: review
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     environment:
       name: website-production
       url: https://snack.expo.dev
@@ -156,10 +159,7 @@ jobs:
       - name: 🏗 Setup Google Cloud SDK
         uses: ./.github/actions/setup-google-cloud
         with:
-          project-id: exponentjs
-          project-zone: us-central1
-          project-cluster: general-central
-          service-key: ${{ secrets.SNACK_GCLOUD_KEY }}
+          auth: true
 
       - name: 🛠 Build website
         run: skaffold build --filename website/skaffold.yaml --file-output website/build.json
