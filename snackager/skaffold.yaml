@@ -4,7 +4,7 @@ metadata:
   name: snackager
 build:
   artifacts:
-    - image: gcr.io/exponentjs/snackager
+    - image: us-central1-docker.pkg.dev/exponentjs/snack/snackager
       sync:
         manual:
           - src: src/**/*.js

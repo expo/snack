@@ -21,7 +21,7 @@ spec:
           defaultMode: 0600
       containers:
         - name: snackager
-          image: "gcr.io/exponentjs/snackager:SetInKustomizeYaml"
+          image: "us-central1-docker.pkg.dev/exponentjs/snack/snackager:SetInKustomizeYaml"
           volumeMounts:
           - mountPath: /var/secrets/github
             name: instance-credentials

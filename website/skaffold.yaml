@@ -4,7 +4,7 @@ metadata:
   name: snack
 build:
   artifacts:
-    - image: gcr.io/exponentjs/snack
+    - image: us-central1-docker.pkg.dev/exponentjs/snack/snack
       sync:
         manual:
           - src: src/**/*
@@ -40,7 +40,7 @@ profiles:
   - name: prod
     build:
       artifacts:
-        - image: gcr.io/exponentjs/snack
+        - image: us-central1-docker.pkg.dev/exponentjs/snack/snack
           docker:
             dockerfile: website/Dockerfile
             buildArgs:
