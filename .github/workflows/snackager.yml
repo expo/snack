@@ -127,10 +127,6 @@ jobs:
         env:
           SKAFFOLD_PUSH_IMAGE: 'true'
 
-      - name: 🧹 Dry-run prune docker image
-        run: ./bin/prune-gcr snackager --dry-run
-        working-directory: ./
-
       - name: 📋 Add change cause
         run: kustomize edit add annotation kubernetes.io/change-cause:"Github Actions deploying $GITHUB_SHA at $(date)"
         working-directory: snackager/k8s/staging
@@ -188,11 +184,6 @@ jobs:
         env:
           ENVIRONMENT: production
           SKAFFOLD_PUSH_IMAGE: 'true'
-
-      - name: 🧹 Prune docker image
-        if: ${{ success() }}
-        run: ./bin/prune-gcr snackager
-        working-directory: ./
 
       - name: 💬 Notify Slack
         if: ${{ always() }}

@@ -14,7 +14,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: snackpub
-          image: gcr.io/exponentjs/snackpub:SetBySkaffold
+          image: us-central1-docker.pkg.dev/exponentjs/snack/snackpub:SetBySkaffold
           imagePullPolicy: Always
           envFrom:
             - secretRef:

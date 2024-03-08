@@ -5,7 +5,7 @@ metadata:
 build:
   platforms: ['linux/amd64']
   artifacts:
-    - image: gcr.io/exponentjs/snackpub
+    - image: us-central1-docker.pkg.dev/exponentjs/snack/snackpub
       sync:
         manual:
         - src: src/**/*

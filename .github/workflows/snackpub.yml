@@ -100,10 +100,6 @@ jobs:
         env:
           SKAFFOLD_PUSH_IMAGE: 'true'
 
-      - name: 🧹 Dry-run prune docker image
-        run: ./bin/prune-gcr snackpub --dry-run
-        working-directory: ./
-
       - name: 🚀 Deploy snackpub to k8s
         run: skaffold deploy --status-check --build-artifacts /tmp/build.json
         working-directory: snackpub
@@ -151,11 +147,6 @@ jobs:
         working-directory: snackpub
         env:
           ENVIRONMENT: production
-
-      - name: 🧹 Prune docker image
-        if: ${{ success() }}
-        run: ./bin/prune-gcr snackpub
-        working-directory: ./
 
       - name: 💬 Notify Slack
         if: ${{ always() }}

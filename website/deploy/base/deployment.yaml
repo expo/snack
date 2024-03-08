@@ -16,7 +16,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: snack
-          image: gcr.io/exponentjs/snack:SetBySkaffold
+          image: us-central1-docker.pkg.dev/exponentjs/snack/snack:SetBySkaffold
           envFrom:
           - configMapRef:
               name: snack
