@@ -80,17 +80,15 @@ export function useOrbit() {
   );
 
   useEffect(() => {
-    if (isRunningMacOS) {
-      fetchLocalOrbitServer('status')
-        .then((r) => {
-          setIsRunning(!!r?.version);
-        })
-        .catch(() => {});
-    }
-  }, [isRunningMacOS]);
+    fetchLocalOrbitServer('status')
+      .then((r) => {
+        setIsRunning(!!r?.version);
+      })
+      .catch(() => {});
+  }, []);
 
   return {
-    isEnabled: isRunningMacOS,
+    isEnabled: isRunningMacOS || isRunning,
     openWithExperienceURL,
   };
 }
