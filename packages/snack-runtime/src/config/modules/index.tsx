@@ -8,6 +8,7 @@ export const modules: SnackConfig['modules'] = {
 
   // Snack Runtime vendored modules
   'react-native-view-shot': require('react-native-view-shot'),
+  'react-native-screens': require('react-native-screens'),
 
   // React Native core modules
   'react-native': require('react-native'),
@@ -26,4 +27,6 @@ export const modules: SnackConfig['modules'] = {
   'react-native/Libraries/Core/Devtools/getDevServer': require('react-native/Libraries/Core/Devtools/getDevServer'), // Used by @sentry/react-native@3.4.2
   'react-native/Libraries/Utilities/PolyfillFunctions': require('react-native/Libraries/Utilities/PolyfillFunctions'), // Used by @sentry/react-native@3.4.2
   'react-native/Libraries/Utilities/codegenNativeCommands': require('react-native/Libraries/Utilities/codegenNativeCommands'), // Used by react-native-webview@11.23.0
+  'react-native/Libraries/NativeComponent/NativeComponentRegistry': require('react-native/Libraries/NativeComponent/NativeComponentRegistry'), // Used by @shopify/react-native-skia@0.1.221
+  'react-native/Libraries/Utilities/codegenNativeComponent': require('react-native/Libraries/Utilities/codegenNativeComponent'), // Used by react-native-svg
 };

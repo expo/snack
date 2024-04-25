@@ -34,9 +34,9 @@ import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 import { parseTestTransportFromUrl } from './UrlUtils';
 import { SnackRuntimeContext } from './config/SnackConfig';
-import { type SnackApiCode, fetchCodeBySnackIdentifier } from './utils/ExpoApi';
+import { type SnackApiCode, fetchCodeBySnackIdentifier, SnackApiError } from './utils/ExpoApi';
 
-export type SnackState = 'loading' | 'finished' | 'error';
+export type SnackState = 'loading' | 'finished' | 'not-found' | 'error';
 
 type Props = {
   /**
@@ -310,9 +310,11 @@ export default class App extends React.Component<Props, State> {
 
       // Load the code in the background, without blocking the UI
       fetchCodeBySnackIdentifier(snack).then((res) => {
-        if (res) this._handleCodeFetch(res);
-
-        // TODO: Handle proper error responses
+        if (res) {
+          this._handleCodeFetch(res);
+        } else {
+          notifyStateChange(this.props, 'error');
+        }
       });
 
       return true;
@@ -496,7 +498,15 @@ export default class App extends React.Component<Props, State> {
     });
   };
 
-  _handleCodeFetch = async (response: SnackApiCode) => {
+  _handleCodeFetch = async (response: SnackApiCode | SnackApiError) => {
+    if ('errors' in response) {
+      // Check if Snack was not found
+      if (response.errors.find((error) => error.code === 'SNACK_NOT_FOUND')) {
+        return notifyStateChange(this.props, 'not-found');
+      }
+      return notifyStateChange(this.props, 'error');
+    }
+
     await Profiling.section(`Fetched code from API`, async () => {
       this.setState(() => ({ isLoading: true }));
 
