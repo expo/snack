@@ -54,6 +54,7 @@ function onStateChange(state: SnackState) {
   if (state === 'loading') console.log('Snack is initializing the code...');
   if (state === 'finished') console.log('Snack is ready and rendered!');
   if (state === 'error') console.error('Snack failed to initialize, check the logs for more info.');
+  if (state === 'not-found') console.error('Snack failed to initialize by snack identifier, Snack not found');
 
   throw new Error(`Unexpected Snack state received "${state}"`);
 }
