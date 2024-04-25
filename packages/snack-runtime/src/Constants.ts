@@ -1,28 +1,27 @@
-import Constants from 'expo-constants';
-
-/**
- * The detected Snack environment based on the `manifest.extra.cloudEnv` setting.
- * This defaults to `production` if not set.
- */
-export const SNACK_ENVIRONMENT: 'staging' | 'production' =
-  Constants.manifest?.extra?.cloudEnv ?? 'production';
+const snackEnv = process.env.EXPO_PUBLIC_SNACK_ENV ?? 'production';
 
 // Ensure the environment is valid
-if (!['staging', 'production'].includes(SNACK_ENVIRONMENT)) {
+if (snackEnv === 'production' || snackEnv === 'staging') {
+  console.log('Snack is running in', snackEnv, 'mode');
+} else {
   throw new Error(
-    `Invalid Snack environment set through "manifest.extra.cloudEnv", must be "staging" or "production", received "${SNACK_ENVIRONMENT}".`,
+    `EXPO_PUBLIC_SNACK_ENV must be  must be "staging" or "production", received "${snackEnv}".`,
   );
 }
 
+/**
+ * The detected Snack environment based on the `EXPO_PUBLIC_SNACK_ENV` setting.
+ * This defaults to `production` if not set.
+ */
+export const SNACK_ENV = snackEnv;
+
 /** Get the value based on the detected Snack environment. */
-export function getSnackEnvironmentValue<T extends any>(
-  values: Record<typeof SNACK_ENVIRONMENT, T>,
-): T {
-  return values[SNACK_ENVIRONMENT];
+export function selectValueBySnackEnv<T extends any>(values: Record<typeof SNACK_ENV, T>): T {
+  return values[SNACK_ENV];
 }
 
 /** The Snack or Expo API endpoint. */
-export const SNACK_API_URL = getSnackEnvironmentValue({
+export const SNACK_API_URL = selectValueBySnackEnv({
   production: 'https://exp.host',
   staging: 'https://staging.exp.host',
 });
@@ -32,7 +31,7 @@ export const SNACK_API_URL = getSnackEnvironmentValue({
  * Note, staging may fail randomly due to reduced capacity or general development work.
  * Because of that, we try both staging and production before failing.
  */
-export const SNACKAGER_API_URLS = getSnackEnvironmentValue({
+export const SNACKAGER_API_URLS = selectValueBySnackEnv({
   production: ['https://d37p21p3n8r8ug.cloudfront.net'],
   staging: [
     'https://ductmb1crhe2d.cloudfront.net', // staging
@@ -41,7 +40,7 @@ export const SNACKAGER_API_URLS = getSnackEnvironmentValue({
 });
 
 /** The SnackPub endpoint, used to establish socket connections with the Snack Website. */
-export const SNACKPUB_URL = getSnackEnvironmentValue({
+export const SNACKPUB_URL = selectValueBySnackEnv({
   production: 'https://snackpub.expo.dev',
   staging: 'https://staging-snackpub.expo.dev',
 });

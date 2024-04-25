@@ -8638,6 +8638,13 @@ semver@^7.3.2, semver@^7.3.5, semver@^7.5.2, semver@^7.5.3, semver@^7.5.4:
   dependencies:
     lru-cache "^6.0.0"
 
+semver@^7.3.4:
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.0.tgz#1a46a4db4bffcccd97b743b5005c8325f23d4e2d"
+  integrity sha512-EnwXhrlwXMk9gKu5/flx5sv/an57AkRplG3hTK68W7FRDN+k+OWBj65M7719OkA82XLBxrcX0KSHj+X5COhOVg==
+  dependencies:
+    lru-cache "^6.0.0"
+
 send@0.18.0, send@^0.18.0:
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/send/-/send-0.18.0.tgz#670167cc654b05f5aa4a767f9113bb371bc706be"
@@ -8789,10 +8796,17 @@ smart-buffer@^4.2.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.2.0.tgz#6e1d71fa4f18c05f7d0ff216dd16a481d0e8d9ae"
   integrity sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==
 
-snack-babel-standalone@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-3.0.0.tgz#dfd99ffc306439054862303755a8d4700733af6e"
-  integrity sha512-RFUjiT6wMiC3hjiekvmt66pzY//tEbCVbc8J8uxQ6KXTnWOcn/b0FoeEKX8DlzglHCf0KcCFtFgCf1LTfh61Cg==
+snack-babel-standalone@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-4.0.0.tgz#17ee9134a515af3e2fc44d90598656c0903f665c"
+  integrity sha512-DB01CChul97KielzlP88miUx93E0o6ebnbNa2aah+KIl+vwcXbTuzc55KNNNrGELF5N8rpd74PYi23y/DqemKA==
+
+snack-content@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/snack-content/-/snack-content-2.0.0.tgz#74f0e39467655bce9cec9f513201780471c237c7"
+  integrity sha512-oDoIuGEd3uSs/8eEdNbj2Jmq9g9iRbagGFpWmb01isKhJmN2s5Maq42I6toOq6mOWCaX69uiNlioOUzlFkt09g==
+  dependencies:
+    semver "^7.3.4"
 
 snack-require-context@^0.1.0:
   version "0.1.0"
