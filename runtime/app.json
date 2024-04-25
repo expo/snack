@@ -33,7 +33,8 @@
     },
     "plugins": [
       "expo-font",
-      "expo-router"
+      "expo-router",
+      "expo-asset"
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"
