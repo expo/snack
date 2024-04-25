@@ -12,6 +12,8 @@ const platformModules: SnackConfig['modules'] = Platform.select({
   native: {
     // Does not work in Snackager, likely due to Webpack / Codegen
     'react-native-pager-view': require('react-native-pager-view'),
+    // Does not work in Snackager, likely due to Webpack / Codegen
+    'react-native-screens': require('react-native-screens'),
   },
 });
 

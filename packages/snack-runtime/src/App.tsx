@@ -12,6 +12,7 @@ import {
   EmitterSubscription,
   NativeEventSubscription,
 } from 'react-native';
+import { parseRuntimeUrl } from 'snack-content';
 import { createVirtualModulePath } from 'snack-require-context';
 
 import { AppLoading } from './AppLoading';
@@ -31,15 +32,11 @@ import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
+import { parseTestTransportFromUrl } from './UrlUtils';
 import { SnackRuntimeContext } from './config/SnackConfig';
-import { type SnackApiCode, fetchCodeBySnackIdentifier } from './utils/ExpoApi';
-import {
-  extractChannelFromSnackUrl,
-  extractSnackIdentifierFromSnackUrl,
-  parseExperienceURL,
-} from './utils/SnackUrls';
+import { type SnackApiCode, fetchCodeBySnackIdentifier, SnackApiError } from './utils/ExpoApi';
 
-export type SnackState = 'loading' | 'finished' | 'error';
+export type SnackState = 'loading' | 'finished' | 'not-found' | 'error';
 
 type Props = {
   /**
@@ -124,7 +121,7 @@ export default class App extends React.Component<Props, State> {
     const deviceId = await getDeviceIdAsync();
 
     // Initialize messaging transport
-    const testTransport = initialURL ? parseExperienceURL(initialURL)?.testTransport : null;
+    const testTransport = initialURL ? parseTestTransportFromUrl(initialURL) : null;
     Messaging.init(deviceId, testTransport);
 
     // Initialize various things
@@ -276,7 +273,7 @@ export default class App extends React.Component<Props, State> {
     notifyStateChange(this.props, 'loading');
 
     // Connect to the Snack website session, if the URL contains a channel or session ID
-    const channel = extractChannelFromSnackUrl(url);
+    const { channel, snack } = parseRuntimeUrl(url) ?? {};
     if (channel) {
       this._currentUrl = url;
 
@@ -297,15 +294,14 @@ export default class App extends React.Component<Props, State> {
     }
 
     // Load the Snack directly from the API when the URL does not contain a channel or session ID
-    const snackIdentifier = extractSnackIdentifierFromSnackUrl(url);
-    if (snackIdentifier) {
+    if (snack) {
       this._currentUrl = url;
 
       Logger.info('Opening URL', url);
 
       this.setState({
         channel: null,
-        snackIdentifier,
+        snackIdentifier: snack,
         initialURL: url,
       });
 
@@ -313,10 +309,12 @@ export default class App extends React.Component<Props, State> {
       Profiling.checkpoint('`_openUrl()` read');
 
       // Load the code in the background, without blocking the UI
-      fetchCodeBySnackIdentifier(snackIdentifier).then((res) => {
-        if (res) this._handleCodeFetch(res);
-
-        // TODO: Handle proper error responses
+      fetchCodeBySnackIdentifier(snack).then((res) => {
+        if (res) {
+          this._handleCodeFetch(res);
+        } else {
+          notifyStateChange(this.props, 'error');
+        }
       });
 
       return true;
@@ -500,7 +498,15 @@ export default class App extends React.Component<Props, State> {
     });
   };
 
-  _handleCodeFetch = async (response: SnackApiCode) => {
+  _handleCodeFetch = async (response: SnackApiCode | SnackApiError) => {
+    if ('errors' in response) {
+      // Check if Snack was not found
+      if (response.errors.find((error) => error.code === 'SNACK_NOT_FOUND')) {
+        return notifyStateChange(this.props, 'not-found');
+      }
+      return notifyStateChange(this.props, 'error');
+    }
+
     await Profiling.section(`Fetched code from API`, async () => {
       this.setState(() => ({ isLoading: true }));
 

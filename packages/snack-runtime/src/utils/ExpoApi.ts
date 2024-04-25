@@ -1,4 +1,13 @@
+import { SNACK_API_URL } from '../Constants';
 import * as Logger from '../Logger';
+
+export type SnackApiError = {
+  errors: {
+    code: string;
+    isTransient: false;
+    message: string;
+  }[];
+};
 
 export type SnackApiCode = {
   id: string;
@@ -23,12 +32,12 @@ export type SnackApiCode = {
  */
 export async function fetchCodeBySnackIdentifier(
   snackIdentifier: string,
-): Promise<SnackApiCode | null> {
+): Promise<SnackApiCode | SnackApiError | null> {
   const snackId = snackIdentifier.startsWith('@snack/')
     ? snackIdentifier.substring('@snack/'.length)
     : snackIdentifier;
   try {
-    const res = await fetch(`https://exp.host/--/api/v2/snack/${snackId}`, {
+    const res = await fetch(`${SNACK_API_URL}/--/api/v2/snack/${snackId}`, {
       method: 'GET',
       headers: {
         'Snack-Api-Version': '3.0.0',
