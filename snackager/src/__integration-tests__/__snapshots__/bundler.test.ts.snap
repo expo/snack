@@ -454,7 +454,7 @@ exports[`bundler creates bundle for react-native-webview 1`] = `
           "react-native/Libraries/Utilities/codegenNativeCommands",
           "react-native/Libraries/Utilities/codegenNativeComponent",
         ],
-        "size": 435000,
+        "size": 456000,
       },
     },
     "ios": {
@@ -466,7 +466,7 @@ exports[`bundler creates bundle for react-native-webview 1`] = `
           "react-native/Libraries/Utilities/codegenNativeCommands",
           "react-native/Libraries/Utilities/codegenNativeComponent",
         ],
-        "size": 435000,
+        "size": 456000,
       },
     },
     "web": {
