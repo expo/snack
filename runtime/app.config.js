@@ -9,12 +9,6 @@ const { major } = require('semver');
  * @returns {import('expo/config').ExpoConfig}
  */
 module.exports = ({ config }) => {
-  // Set app version to major Expo SDK version.
-  // This is used for EAS Updates to launch the correct bundle.
-  config.version = `${major(expoVersion)}.0.0`;
-  config.runtimeVersion ||= {};
-  config.runtimeVersion.policy = 'appVersion';
-
   // Set web export prefix major Expo SDK version.
   // This is used to properly host the web build on Snack's S3 hosting.
   config.experiments ||= {};

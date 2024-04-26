@@ -34,18 +34,8 @@ export function createRuntimeUrl(options: RuntimeUrlInfo & RuntimeUrlOptions): s
   const endpoint = options.endpoint || SNACK_RUNTIME_URL_ENDPOINT;
   const parameters = new URLSearchParams();
 
-  // Add the EAS Update runtime version, based on SDK version support.
-  // Up until SDK 50, it should use `exposdk:xx.0.0` format.
-  // Starting from SDK 51, it should use `xx.0.0` format.
-  // TODO(cedric): check if we can remove the `exposdk:` prefix for SDK 50 and below.
-  const majorVersion = options.sdkVersion.split('.')[0] || null;
-  if (majorVersion && parseInt(majorVersion, 10) >= 51) {
-    parameters.set('runtime-version', options.sdkVersion);
-  } else {
-    parameters.set('runtime-version', `exposdk:${options.sdkVersion}`);
-  }
-
-  // Add the other EAS Update references, `platform` is added by Expo Go
+  // Add the EAS Update references, `platform` is added by Expo Go
+  parameters.set('runtime-version', `exposdk:${options.sdkVersion}`);
   parameters.set('channel-name', 'production');
 
   // Add the Snack references
