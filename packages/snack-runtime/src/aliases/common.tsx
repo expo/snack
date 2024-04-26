@@ -17,6 +17,9 @@ const aliases: { [key: string]: any } = {
   'react-native-vector-icons': require('@expo/vector-icons'),
   '@expo/vector-icons': require('@expo/vector-icons'),
 
+  // Snackager can't bundle expo-modules-core, so we vendor it instead
+  'expo-modules-core': require('expo-modules-core'),
+
   // Packages that are used internally by the runtime
   'expo-constants': require('expo-constants'),
   'expo-file-system': require('expo-file-system'),

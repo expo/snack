@@ -99,6 +99,7 @@ const sdks: { [version: string]: SDKSpec } = {
       'expo-constants': '*',
       'expo-file-system': '*',
       'expo-updates': '*',
+      'expo-modules-core': '*',
       '@react-native-async-storage/async-storage': '*',
       'react-native-reanimated': '*',
       'expo-router': '*',

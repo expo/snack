@@ -23,6 +23,9 @@ const aliases: { [key: string]: any } = {
   'expo-updates': require('expo-updates'),
   '@react-native-async-storage/async-storage': require('@react-native-async-storage/async-storage'),
 
+  // Snackager can't bundle expo-modules-core, so we vendor it instead
+  'expo-modules-core': require('expo-modules-core'),
+
   // Renamed `@react-native-community` packages
   '@react-native-community/async-storage': require('@react-native-async-storage/async-storage'),
 
