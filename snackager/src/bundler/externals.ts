@@ -12,6 +12,7 @@ const CORE_EXTERNALS = [
   'react-native-windows',
   'react-dom',
   'expo',
+  'expo-modules-core',
   '@unimodules/core',
   '@unimodules/react-native-adapter',
   'unimodules-permissions-interface',
