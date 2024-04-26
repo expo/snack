@@ -34,11 +34,21 @@ export function createRuntimeUrl(options: RuntimeUrlInfo & RuntimeUrlOptions): s
   const endpoint = options.endpoint || SNACK_RUNTIME_URL_ENDPOINT;
   const parameters = new URLSearchParams();
 
-  // Add the EAS Update references, `platform` is added by Expo Go
-  parameters.set('runtime-version', `exposdk:${options.sdkVersion}`);
+  // Add the EAS Update runtime version, based on SDK version support.
+  // Up until SDK 50, it should use `exposdk:xx.0.0` format.
+  // Starting from SDK 51, it should use `xx.0.0` format.
+  // TODO(cedric): check if we can remove the `exposdk:` prefix for SDK 50 and below.
+  const majorVersion = options.sdkVersion.split('.')[0] || null;
+  if (majorVersion && parseInt(majorVersion, 10) >= 51) {
+    parameters.set('runtime-version', options.sdkVersion);
+  } else {
+    parameters.set('runtime-version', `exposdk:${options.sdkVersion}`);
+  }
+
+  // Add the other EAS Update references, `platform` is added by Expo Go
   parameters.set('channel-name', 'production');
 
-  // Add the Snack reference
+  // Add the Snack references
   if (options.snack) parameters.set('snack', options.snack);
   if (options.channel) parameters.set('snack-channel', options.channel);
 
@@ -59,7 +69,7 @@ export function parseRuntimeUrl(uri: string | URL): RuntimeUrlInfo | null {
   const snack = url.searchParams.get('snack') ?? undefined;
   const channel = url.searchParams.get('snack-channel') ?? undefined;
   const runtimeVersion = url.searchParams.get('runtime-version');
-  const [, sdkVersion] = runtimeVersion?.match(/exposdk:([0-9]+\.[0-9]+\.[0-9]+)/) ?? [];
+  const [, sdkVersion] = runtimeVersion?.match(/(?:exposdk:)?([0-9]+\.[0-9]+\.[0-9]+)/) ?? [];
 
   if (!sdkVersion) {
     return null;
