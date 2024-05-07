@@ -8,6 +8,28 @@ type AppetizeConstants = Record<
 >;
 
 const appetize: Record<SDKVersion, AppetizeConstants> = {
+  '51.0.0': {
+    main: {
+      android: {
+        publicKey: '6q5hgbmupyc6c5mhznjd37goga',
+        device: 'pixel7',
+      },
+      ios: {
+        publicKey: '7kfu7r2ugwm7c4risjyigiuhve',
+        device: 'iphone15pro',
+      },
+    },
+    embed: {
+      android: {
+        publicKey: 'kw54dyib72daha4mbwmpt6v76e',
+        device: 'pixel4',
+      },
+      ios: {
+        publicKey: '7g5tkw7ipmiyowgisnhlqqbtru',
+        device: 'iphone12',
+      },
+    },
+  },
   '50.0.0': {
     main: {
       android: {

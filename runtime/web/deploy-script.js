@@ -1,6 +1,5 @@
 const spawnAsync = require('@expo/spawn-async');
 const expoVersion = require('expo/package.json').version;
-const fs = require('fs/promises');
 const path = require('path');
 const semver = require('semver');
 
@@ -13,8 +12,6 @@ async function run() {
   const exportDir = './web-build';
 
   await exportWeb({ workingDir, exportDir });
-  await patchBundleImportPath({ workingDir, exportDir });
-  await patchFaviconImportPath({ workingDir, exportDir });
   await uploadWeb({ workingDir, exportDir });
 }
 
@@ -32,59 +29,11 @@ async function exportWeb(options) {
     {
       cwd: options.workingDir,
       stdio: process.env.CI ? 'inherit' : 'ignore',
-      env: {
-        ...process.env,
-        SNACK_EXPORT_WEB: 'true',
-      },
     },
   );
   console.log(
     `✅ Exported the Snack Runtime to: ${path.join(options.workingDir, options.exportDir)}`,
   );
-}
-
-/**
- * Fix the bundle path import in the `dist/index.html` export.
- * This is required because the Snack Runtime is hosted in S3 under subfolders.
- * We need to convert `<script src="/_expo/static...">` to `<script src="_expo/static...">`.
- *
- * @param {object} options
- * @param {string} options.workingDir
- * @param {string} options.exportDir
- */
-async function patchBundleImportPath(options) {
-  const indexPath = path.resolve(options.workingDir, options.exportDir, './index.html');
-  const indexFile = await fs.readFile(indexPath, 'utf8');
-  const patchedFile = indexFile.replace(`<script src="/_expo`, `<script src="_expo`);
-
-  if (patchedFile === indexFile) {
-    throw new Error('Could not patch the bundle import path in the index.html file');
-  }
-
-  await fs.writeFile(indexPath, patchedFile, 'utf8');
-  console.log(`✅ Patched bundle import path in: ${indexPath}`);
-}
-
-/**
- * Fix the favicon import in the `dist/index.html` export.
- * This is required because the Snack Runtime is hosted in S3 under subfolders.
- * We need to convert `<link rel="shortcut icon" href="/favicon.ico" />` to `<link rel="shortcut icon" href="favicon.ico" />`.
- *
- * @param {object} options
- * @param {string} options.workingDir
- * @param {string} options.exportDir
- */
-async function patchFaviconImportPath(options) {
-  const indexPath = path.resolve(options.workingDir, options.exportDir, './index.html');
-  const indexFile = await fs.readFile(indexPath, 'utf8');
-  const patchedFile = indexFile.replace(`href="/favicon.ico"`, `href="favicon.ico"`);
-
-  if (patchedFile === indexFile) {
-    throw new Error('Could not patch the favicon path in the index.html file');
-  }
-
-  await fs.writeFile(indexPath, patchedFile, 'utf8');
-  console.log(`✅ Patched favicon path in: ${indexPath}`);
 }
 
 /**
@@ -117,5 +66,5 @@ async function uploadWeb(options) {
     },
   );
 
-  console.log(`✅ Uploaded the Snack Runtime to S3: ${bucketName} (v2/${sdkVersion})`);
+  console.log(`✅ Uploaded the Snack Runtime to S3: ${bucketName} (/v2/${sdkVersion})`);
 }

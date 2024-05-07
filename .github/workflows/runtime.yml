@@ -70,7 +70,9 @@ jobs:
       name: runtime-staging
       url: https://staging.expo.dev/@exponent/snack
     env:
-      EXPO_PUBLIC_SNACK_ENV: staging
+      EXPO_PROJECT_ID: 2dce2748-c51f-4865-bae0-392af794d60a # Configure the EAS Update project
+      EXPO_PUBLIC_SNACK_ENV: staging # Configure Snack to use staging endpoints
+      EXPO_STAGING: 'true' # Configure Expo tooling to use staging endpoints
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -84,15 +86,6 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_SECRET }}
-
-      - name: 👷 Configure EAS Update for staging
-        if: ${{ contains('all native', github.event.inputs.platform) }}
-        run: |
-          eas init --id 2dce2748-c51f-4865-bae0-392af794d60a --force
-          eas update:configure
-        env:
-          EXPO_TOKEN: ${{ secrets.SNACK_RUNTIME_EXPO_STAGING }}
-          EXPO_STAGING: 'true'
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
@@ -121,7 +114,8 @@ jobs:
       name: runtime-production
       url: https://expo.dev/@exponent/snack
     env:
-      EXPO_PUBLIC_SNACK_ENV: production
+      EXPO_PROJECT_ID: 933fd9c0-1666-11e7-afca-d980795c5824 # Configure the EAS Update project
+      EXPO_PUBLIC_SNACK_ENV: production # Configure Snack to use production endpoints
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -135,14 +129,6 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_SECRET }}
-
-      - name: 👷 Configure EAS Update for production
-        if: ${{ contains('all native', github.event.inputs.platform) }}
-        run: |
-          eas init --id 933fd9c0-1666-11e7-afca-d980795c5824 --force
-          eas update:configure
-        env:
-          EXPO_TOKEN: ${{ secrets.SNACK_RUNTIME_EXPO_PRODUCTION }}
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}

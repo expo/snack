@@ -38,7 +38,7 @@ export function createRuntimeUrl(options: RuntimeUrlInfo & RuntimeUrlOptions): s
   parameters.set('runtime-version', `exposdk:${options.sdkVersion}`);
   parameters.set('channel-name', 'production');
 
-  // Add the Snack reference
+  // Add the Snack references
   if (options.snack) parameters.set('snack', options.snack);
   if (options.channel) parameters.set('snack-channel', options.channel);
 
@@ -59,7 +59,7 @@ export function parseRuntimeUrl(uri: string | URL): RuntimeUrlInfo | null {
   const snack = url.searchParams.get('snack') ?? undefined;
   const channel = url.searchParams.get('snack-channel') ?? undefined;
   const runtimeVersion = url.searchParams.get('runtime-version');
-  const [, sdkVersion] = runtimeVersion?.match(/exposdk:([0-9]+\.[0-9]+\.[0-9]+)/) ?? [];
+  const [, sdkVersion] = runtimeVersion?.match(/(?:exposdk:)?([0-9]+\.[0-9]+\.[0-9]+)/) ?? [];
 
   if (!sdkVersion) {
     return null;
