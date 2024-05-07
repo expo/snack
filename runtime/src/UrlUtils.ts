@@ -24,7 +24,7 @@ export function parseExperienceURL(url: string) {
  * @deprecated This format of URLs is being phased out
  */
 export function parseClassicExperienceURL(
-  experienceURL: string,
+  experienceURL: string
 ): { channel: string; testTransport: string | null } | null {
   const matches = experienceURL.match(/(\+|\/sdk\..*-)([^?]*)\??(.*$)/);
   if (!matches) {
