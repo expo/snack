@@ -9,7 +9,7 @@ const { string } = require('getenv');
 module.exports = ({ config }) => {
   // Set correct cloudenv for the app
   config.extra ||= {};
-  config.extra.cloudEnv = process.env.CLOUD_ENV;
+  config.extra.cloudEnv = process.env.CLOUD_ENV ?? process.env.EXPO_PUBLIC_SNACK_ENV;
 
   const projectId = string('EXPO_PROJECT_ID', null);
 
