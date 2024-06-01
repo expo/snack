@@ -1,4 +1,8 @@
-const snackEnv = process.env.EXPO_PUBLIC_SNACK_ENV ?? 'production';
+import Constants from 'expo-constants';
+
+// SDK 48 does not support env vars yet, instead of using `process.env.EXPO_PUBLIC_SNACK_ENV` use the cloud env property
+const snackEnv =
+  process.env.EXPO_PUBLIC_SNACK_ENV ?? Constants.manifest?.extra?.cloudEnv ?? 'production';
 
 // Ensure the environment is valid
 if (snackEnv === 'production' || snackEnv === 'staging') {
