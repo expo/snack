@@ -11,10 +11,10 @@ module.exports = ({ config }) => {
   config.extra ||= {};
   config.extra.cloudEnv = process.env.CLOUD_ENV ?? process.env.EXPO_PUBLIC_SNACK_ENV;
 
-  const projectId = string('EXPO_PROJECT_ID', null);
+  const projectId = string('EXPO_PROJECT_ID', '') ?? null;
 
   // Dynamically configure the EAS project ID, if not configured yet.
-  if (!config.extra?.eas?.projectId) {
+  if (projectId && !config.extra?.eas?.projectId) {
     assert(projectId, 'Environment variable "EXPO_PROJECT_ID" is required');
 
     config.extra ||= {};
@@ -23,7 +23,7 @@ module.exports = ({ config }) => {
   }
 
   // Dynamically configure the EAS endpoint, if not configured yet.
-  if (!config.updates?.url) {
+  if (projectId && !config.updates?.url) {
     assert(projectId, 'Environment variable "EXPO_PROJECT_ID" is required');
 
     config.updates ||= {};
