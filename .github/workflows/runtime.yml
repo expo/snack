@@ -69,6 +69,10 @@ jobs:
     environment:
       name: runtime-staging
       url: https://staging.expo.dev/@exponent/snack
+    env:
+      EXPO_PROJECT_ID: 2dce2748-c51f-4865-bae0-392af794d60a # Configure the EAS Update project
+      EXPO_PUBLIC_SNACK_ENV: staging # Configure Snack to use staging endpoints
+      EXPO_STAGING: 'true' # Configure Expo tooling to use staging endpoints
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -80,14 +84,14 @@ jobs:
         if: ${{ contains('all web', github.event.inputs.platform) }}
         run: yarn deploy:web:staging
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_STAGING }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_STAGING }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_SECRET }}
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
         run: yarn deploy:staging
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_STAGING }}
+          EXPO_TOKEN: ${{ secrets.SNACK_RUNTIME_EXPO_STAGING }}
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: 💬 Notify Slack
@@ -103,12 +107,15 @@ jobs:
           text: "platform: ${{ github.event.inputs.platform }}"
 
   deploy-production:
-    if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event.inputs.deploy == 'production' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/sdk-'))}}
     needs: review
     runs-on: ubuntu-latest
     environment:
       name: runtime-production
       url: https://expo.dev/@exponent/snack
+    env:
+      EXPO_PROJECT_ID: 933fd9c0-1666-11e7-afca-d980795c5824 # Configure the EAS Update project
+      EXPO_PUBLIC_SNACK_ENV: production # Configure Snack to use production endpoints
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -120,14 +127,14 @@ jobs:
         if: ${{ contains('all web', github.event.inputs.platform) }}
         run: yarn deploy:web:prod
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_RUNTIME_KEY_PRODUCTION }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_RUNTIME_SECRET_PRODUCTION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_SECRET }}
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
         run: yarn deploy:prod
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_PRODUCTION }}
+          EXPO_TOKEN: ${{ secrets.SNACK_RUNTIME_EXPO_PRODUCTION }}
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: 💬 Notify Slack

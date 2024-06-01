@@ -13,8 +13,8 @@
     "lint": "eslint ./src ./types",
     "typescript": "tsc",
     "test": "jest",
-    "deploy:staging": "EXPO_STAGING=1 expo-cli publish --clear",
-    "deploy:prod": "CLOUD_ENV=production NODE_ENV=production expo-cli publish --clear",
+    "deploy:staging": "EXPO_PUBLIC_SNACK_ENV=staging EXPO_STAGING=1 eas update --auto --branch production",
+    "deploy:prod": "EXPO_PUBLIC_SNACK_ENV=production eas update --auto --branch production",
     "deploy:web:staging": "node ./web/deploy-script.js",
     "deploy:web:prod": "CLOUD_ENV=production NODE_ENV=production node ./web/deploy-script.js"
   },
