@@ -17,7 +17,7 @@ export function parseExperienceURL(url: string) {
     // Pass through
   }
 
-  return null;
+  return parseClassicExperienceURL(url);
 }
 
 /**
