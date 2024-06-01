@@ -114,7 +114,7 @@ jobs:
           text: "platform: ${{ github.event.inputs.platform }}"
 
   deploy-production:
-    if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event.inputs.deploy == 'production' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/sdk-'))}}
     needs: review
     runs-on: ubuntu-latest
     environment:
