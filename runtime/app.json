@@ -37,6 +37,9 @@
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"
+    },
+    "experiments": {
+      "baseUrl": "/v2/50"
     }
   }
 }
