@@ -62,9 +62,6 @@ jobs:
 
       - name: 🧪 Test snackager
         run: yarn test --ci --maxWorkers 1
-        env:
-          # Enable Webpack 4 with newer Node versions
-          NODE_OPTIONS: --openssl-legacy-provider
 
   e2e:
     # Takes a long time, best to only run this on PRs
@@ -83,9 +80,6 @@ jobs:
 
       - name: 🧪 Test snackager
         run: yarn test:e2e --ci --shard=${{ matrix.shard }}/4
-        env:
-          # Enable Webpack 4 with newer Node versions
-          NODE_OPTIONS: --openssl-legacy-provider
 
   build:
     if: ${{ github.event_name == 'pull_request' }}
