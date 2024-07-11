@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates bundle for @react-navigation/stack 1`] = `
+{
+  "files": {
+    "android": {
+      "assets/src_views_assets_backicon.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backicon@1.5x.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backicon@2x.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backicon@3x.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backicon@4x.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backiconmask.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@react-native-community/masked-view",
+          "@react-navigation/native",
+          "AssetRegistry",
+          "react",
+          "react-native",
+          "react-native-gesture-handler",
+          "react-native-safe-area-context",
+          "react-native-screens",
+        ],
+        "size": 93000,
+      },
+    },
+    "ios": {
+      "assets/src_views_assets_backicon.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backicon@1.5x.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backicon@2x.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backicon@3x.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backicon@4x.png": {
+        "size": 0,
+      },
+      "assets/src_views_assets_backiconmask.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@react-native-community/masked-view",
+          "@react-navigation/native",
+          "AssetRegistry",
+          "react",
+          "react-native",
+          "react-native-gesture-handler",
+          "react-native-safe-area-context",
+          "react-native-screens",
+        ],
+        "size": 93000,
+      },
+    },
+    "web": {
+      "assets/lib_module_views_assets_backicon.png": {
+        "size": 0,
+      },
+      "assets/lib_module_views_assets_backiconmask.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@react-navigation/native",
+          "AssetRegistry",
+          "react",
+          "react-native",
+          "react-native-safe-area-context",
+          "react-native-screens",
+        ],
+        "size": 102000,
+      },
+    },
+  },
+  "name": "@react-navigation/stack",
+  "peerDependencies": {
+    "@react-native-community/masked-view": "^0.1.0",
+    "@react-navigation/native": "5.0.5",
+    "react": "*",
+    "react-native": "*",
+    "react-native-gesture-handler": "^1.0.0",
+    "react-native-safe-area-context": "^0.6.0",
+    "react-native-screens": "^2.0.0",
+  },
+  "version": "5.9.0",
+}
+`;
+
+exports[`externalizes references to react-native-gesture-handler/DrawerLayout 1`] = `
+{
+  "files": {
+    "ios": {
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@1.5x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@2x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@3x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backicon@4x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigationstack_lib_module_views_assets_backiconmask.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@react-navigation/native",
+          "AssetRegistry",
+          "react",
+          "react-native",
+          "react-native-gesture-handler",
+          "react-native-gesture-handler/DrawerLayout",
+          "react-native-screens",
+        ],
+        "size": 204000,
+      },
+    },
+  },
+  "name": "react-navigation",
+  "peerDependencies": {
+    "@react-navigation/native": "~3.6.2",
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "3.13.0",
+}
+`;
