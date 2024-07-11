@@ -42,9 +42,6 @@ RUN yarn turbo build --filter "{./snackager}^..."
 WORKDIR /app/snackager
 CMD ["yarn", "start"]
 
-# Install yarn globally
-RUN npm install --global yarn@^1.22.22
-
 
 # --- Deploy - Prepare Snackager for production
 FROM base as deploy
