@@ -56,8 +56,7 @@
     "source-map-support": "^0.4.15",
     "targz": "^1.0.1",
     "validate-npm-package-name": "^3.0.0",
-    "webpack": "^5.40.0",
-    "yarn": "^1.22.5"
+    "webpack": "^5.40.0"
   },
   "devDependencies": {
     "@google-cloud/secret-manager": "^5.0.1",
