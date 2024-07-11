@@ -1,5 +1,6 @@
 const path = require('path');
 
+/** @type {import('jest').Config} */
 module.exports = {
   preset: 'ts-jest/presets/js-with-ts',
   rootDir: path.resolve(__dirname, '..'),
