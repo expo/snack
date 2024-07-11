@@ -10,10 +10,12 @@ export default function getResolverConfig(platform: string): ResolveOptions {
     extensions: [
       `.${platform}.tsx`,
       `.${platform}.ts`,
+      `.${platform}.cjs`,
       `.${platform}.js`,
-      ...(platform !== 'web' ? ['.native.tsx', '.native.ts', '.native.js'] : []),
+      ...(platform !== 'web' ? ['.native.tsx', '.native.ts', '.native.js', '.native.cjs'] : []),
       '.tsx',
       '.ts',
+      '.cjs',
       '.js',
     ],
   };
