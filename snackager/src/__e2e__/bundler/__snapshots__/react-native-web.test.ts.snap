@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates bundle for subpath of core package 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [],
+        "size": 3000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [],
+        "size": 3000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [],
+        "size": 3000,
+      },
+    },
+  },
+  "name": "react-native-web",
+  "peerDependencies": {
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1",
+  },
+  "version": "0.14.4",
+}
+`;

@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates bundle for graphql@14.0.0 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [],
+        "size": 219000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [],
+        "size": 219000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [],
+        "size": 219000,
+      },
+    },
+  },
+  "name": "graphql",
+  "peerDependencies": {},
+  "version": "14.0.0",
+}
+`;
+
+exports[`creates bundle for graphql@15.5.1 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [],
+        "size": 183000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [],
+        "size": 183000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [],
+        "size": 183000,
+      },
+    },
+  },
+  "name": "graphql",
+  "peerDependencies": {},
+  "version": "15.5.1",
+}
+`;

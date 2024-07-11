@@ -31,7 +31,7 @@ type BundledPackage = {
 // Keep track of all tested packages, to clean the lockfiles if they aren't tested anymore
 const testedPackages: string[] = [];
 
-export default async function bundleAsync(
+export async function bundleAsync(
   packageSpec: string,
   bundlePlatforms: string[] = DEFAULT_PLATFORMS,
   includeCode?: boolean,
@@ -39,12 +39,7 @@ export default async function bundleAsync(
   const { qualified, id, tag, scope, deep, platforms } = parseRequest(
     `/${packageSpec}?platforms=${bundlePlatforms.join(',')}`,
   );
-  const workdir = path.join(
-    fs.realpathSync(os.tmpdir()),
-    'snackager',
-    '__integration-tests__',
-    qualified,
-  );
+  const workdir = path.join(fs.realpathSync(os.tmpdir()), 'snackager', '__e2e__', qualified);
   try {
     await rimraf(workdir);
   } catch {}
@@ -65,7 +60,7 @@ export default async function bundleAsync(
       // CI is running Linux, while we develop on MacOS/Windows.
       // Don't quit when there is a platform mismatch
       '--ignore-platform',
-      '--frozen-lockfile',
+      process.env.CI ? '--frozen-lockfile' : '',
     ]);
   } else {
     await installPackage(packagedir);
@@ -149,4 +144,17 @@ export async function cleanUnusedLockfiles(): Promise<void> {
     await fs.promises.unlink(path.join(lockfileStorage, `${packageSpec}.lock`));
     console.warn(`Removed obsolete lockfile for ${packageSpec}, commit this to the repository.`);
   }
+}
+
+export function normalizeBundleSize(bundle: Awaited<ReturnType<typeof bundleAsync>>) {
+  // The bundle size is not stable from platforms, so we have to normalize it for around 3kb bias
+  const BIAS = 3000;
+
+  for (const platform of Object.keys(bundle.files)) {
+    for (const file of Object.keys(bundle.files[platform])) {
+      bundle.files[platform][file].size =
+        Math.floor(bundle.files[platform][file].size / BIAS) * BIAS;
+    }
+  }
+  return bundle;
 }
