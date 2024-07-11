@@ -64,8 +64,6 @@ jobs:
         run: yarn test --ci --maxWorkers 1
 
   e2e:
-    # Takes a long time, best to only run this on PRs
-    if: ${{ github.event_name == 'pull_request' }}
     strategy:
       fail-fast: false
       matrix:
