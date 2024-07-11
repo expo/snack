@@ -11,7 +11,7 @@ export default function getResolverConfig(platform: string): ResolveOptions {
   };
 }
 
-// See @expo/metro-config extensions (EXPO_DEBUG=true npx expo start)
+// See @expo/metro-config extensions - through EXPO_DEBUG=true npx expo start
 const EXTENSIONS_LANGUAGE = ['ts', 'tsx', 'mjs', 'js', 'jsx', 'json', 'cjs'];
 const EXTENSIONS_PLATFORM = {
   web: ['web', ''],
