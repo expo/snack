@@ -1,5 +1,4 @@
 import spawnAsync, { SpawnPromise, SpawnResult } from '@expo/spawn-async';
-import path from 'path';
 
 import logger from '../logger';
 import { Package } from '../types';
@@ -39,9 +38,8 @@ export function spawnSafeAsync(
 }
 
 export async function getYarnPackagerAsync(): Promise<string> {
-  const npmBinOutput = await spawnSafeAsync('npm', ['bin']);
-  const yarn = path.resolve(npmBinOutput.stdout.trim(), 'yarn');
-  return yarn;
+  const yarnBinaryPath = await spawnSafeAsync('which', ['yarnpkg']);
+  return yarnBinaryPath.stdout.trim();
 }
 
 async function installDependencyAsync(
