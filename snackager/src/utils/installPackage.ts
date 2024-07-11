@@ -62,6 +62,8 @@ export default async function installPackage(
     await spawnSafeAsync(yarn, [...flags], cwd);
   } catch (e) {
     logger.warn({ pkg, error: e }, `error running yarn: ${e.message}. trying npm instead.`);
+    if (e.stdour) logger.warn({ pkg, error: e }, `  - stdout: ${e.stdout}`);
+    if (e.stderr) logger.warn({ pkg, error: e }, `  - stderr: ${e.stderr}`);
     await spawnSafeAsync('npm', ['install', ...flags], cwd);
   }
 }

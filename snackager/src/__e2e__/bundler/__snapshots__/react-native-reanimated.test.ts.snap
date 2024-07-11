@@ -44,3 +44,47 @@ exports[`creates bundle for react-native-reanimated@2.9.1 1`] = `
   "version": "2.9.1",
 }
 `;
+
+exports[`creates bundle for react-native-reanimated@3.14.0 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/Renderer/shims/ReactNative",
+          "react/jsx-runtime",
+        ],
+        "size": 894000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/Renderer/shims/ReactNative",
+          "react/jsx-runtime",
+        ],
+        "size": 894000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 873000,
+      },
+    },
+  },
+  "name": "react-native-reanimated",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "3.14.0",
+}
+`;

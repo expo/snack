@@ -1,6 +1,6 @@
 import { bundleAsync, normalizeBundleSize } from '../bundleAsync';
 
-it.skip('creates bundle for @react-navigation/native', async () => {
+it('creates bundle for @react-navigation/native', async () => {
   const bundle = await bundleAsync('@react-navigation/native@5.7.3');
   expect(normalizeBundleSize(bundle)).toMatchSnapshot();
   // @react-navigation/core should be included in the bundle and not an external

@@ -33,6 +33,10 @@ export function spawnSafeAsync(
       // in /lib64, which do not exist in Nixos.  Instead, the libraries are in
       // paths listed in $LD_LIBRARY_PATH
       LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH,
+
+      // Disable any corepack validation checks in yarn
+      // See: https://github.com/yarnpkg/yarn/issues/9015
+      SKIP_YARN_COREPACK_CHECK: '0',
     },
   });
 }
