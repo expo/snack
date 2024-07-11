@@ -22,9 +22,6 @@ ENV NODE_OPTIONS --openssl-legacy-provider
 ARG APP_VERSION
 ENV APP_VERSION ${APP_VERSION}
 
-# Install system dependencies
-RUN npm install --global npm@^6
-
 
 # --- Development - Prepare Snackager for development
 FROM base as development

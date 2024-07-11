@@ -15,12 +15,6 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: yarn
 
-    # npm v7+ doesn't work well with our monorepo
-    - name: 🐛 Downgrade npm to v6
-      run: npm install --global npm@^6
-      working-directory: ../
-      shell: bash
-
     - name: 📦 Install dependencies
       run: yarn install --frozen-lockfile --ignore-scripts
       shell: bash
