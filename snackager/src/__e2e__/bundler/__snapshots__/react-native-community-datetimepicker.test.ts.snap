@@ -16,8 +16,9 @@ exports[`filter aliased react-native dependencies 1`] = `
         "externals": [
           "react",
           "react-native",
+          "react/jsx-runtime",
         ],
-        "size": 9000,
+        "size": 6000,
       },
     },
     "web": {

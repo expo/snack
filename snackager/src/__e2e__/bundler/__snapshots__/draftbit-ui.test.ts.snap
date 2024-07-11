@@ -1,51 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`creates bundle for react-native-webview 1`] = `
+exports[`externalizes package-externals of dependencies 1`] = `
 {
   "files": {
     "android": {
       "bundle.js": {
         "externals": [
+          "@expo/vector-icons",
+          "expo-av",
           "react",
           "react-native",
+          "react-native-safe-area-context",
+          "react-native-svg",
           "react-native/Libraries/BatchedBridge/BatchedBridge",
+          "react-native/Libraries/Image/resolveAssetSource",
           "react-native/Libraries/NativeComponent/NativeComponentRegistry",
           "react-native/Libraries/Utilities/codegenNativeCommands",
           "react-native/Libraries/Utilities/codegenNativeComponent",
           "react/jsx-runtime",
         ],
-        "size": 462000,
+        "size": 306000,
       },
     },
     "ios": {
       "bundle.js": {
         "externals": [
+          "@expo/vector-icons",
+          "expo-av",
           "react",
           "react-native",
+          "react-native-safe-area-context",
+          "react-native-svg",
+          "react-native/Libraries/Image/resolveAssetSource",
           "react-native/Libraries/NativeComponent/NativeComponentRegistry",
           "react-native/Libraries/Utilities/codegenNativeCommands",
           "react-native/Libraries/Utilities/codegenNativeComponent",
           "react/jsx-runtime",
         ],
-        "size": 462000,
+        "size": 312000,
       },
     },
     "web": {
       "bundle.js": {
         "externals": [
+          "@expo/vector-icons",
+          "expo-av",
           "react",
+          "react-dom",
           "react-native",
+          "react-native-safe-area-context",
+          "react-native-svg",
           "react/jsx-runtime",
         ],
-        "size": 0,
+        "size": 696000,
       },
     },
   },
-  "name": "react-native-webview",
+  "name": "@draftbit/ui",
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
   },
-  "version": "13.7.0",
+  "version": "40.34.4",
 }
 `;

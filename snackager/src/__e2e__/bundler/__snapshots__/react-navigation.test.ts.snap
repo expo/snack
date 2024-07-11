@@ -1,5 +1,90 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`creates bundle for @react-navigation/native 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react/jsx-runtime",
+        ],
+        "size": 84000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react/jsx-runtime",
+        ],
+        "size": 84000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 93000,
+      },
+    },
+  },
+  "name": "@react-navigation/native",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "5.7.3",
+}
+`;
+
+exports[`creates bundle for @react-navigation/native@7.0.0-rc.11 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react/jsx-runtime",
+        ],
+        "size": 144000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react/jsx-runtime",
+        ],
+        "size": 144000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react/jsx-runtime",
+        ],
+        "size": 147000,
+      },
+    },
+  },
+  "name": "@react-navigation/native",
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-native": "^0.72.0",
+  },
+  "version": "7.0.0-rc.11",
+}
+`;
+
 exports[`creates bundle for @react-navigation/stack 1`] = `
 {
   "files": {
@@ -32,6 +117,7 @@ exports[`creates bundle for @react-navigation/stack 1`] = `
           "react-native-gesture-handler",
           "react-native-safe-area-context",
           "react-native-screens",
+          "react/jsx-runtime",
         ],
         "size": 93000,
       },
@@ -65,6 +151,7 @@ exports[`creates bundle for @react-navigation/stack 1`] = `
           "react-native-gesture-handler",
           "react-native-safe-area-context",
           "react-native-screens",
+          "react/jsx-runtime",
         ],
         "size": 93000,
       },
@@ -103,6 +190,103 @@ exports[`creates bundle for @react-navigation/stack 1`] = `
 }
 `;
 
+exports[`creates bundle for @react-navigation/stack@7.0.0-rc.13 1`] = `
+{
+  "files": {
+    "android": {
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon@2x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon@3x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon@4x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backiconmask.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@react-navigation/native",
+          "AssetRegistry",
+          "react",
+          "react-native",
+          "react-native-gesture-handler",
+          "react-native-safe-area-context",
+          "react-native-screens",
+          "react/jsx-runtime",
+        ],
+        "size": 195000,
+      },
+    },
+    "ios": {
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon@2x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon@3x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon@4x.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backiconmask.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@react-navigation/native",
+          "AssetRegistry",
+          "react",
+          "react-native",
+          "react-native-gesture-handler",
+          "react-native-safe-area-context",
+          "react-native-screens",
+          "react/jsx-runtime",
+        ],
+        "size": 195000,
+      },
+    },
+    "web": {
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnavigation_elements_lib_commonjs_assets_backiconmask.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@react-navigation/native",
+          "AssetRegistry",
+          "react",
+          "react-native",
+          "react-native-safe-area-context",
+          "react-native-screens",
+          "react/jsx-runtime",
+        ],
+        "size": 195000,
+      },
+    },
+  },
+  "name": "@react-navigation/stack",
+  "peerDependencies": {
+    "@react-navigation/native": "7.0.0-rc.11",
+    "react": "^18.2.0",
+    "react-native": "^0.72.0",
+    "react-native-gesture-handler": "^2.0.0",
+    "react-native-safe-area-context": "^4.0.0",
+    "react-native-screens": "^3.21.0",
+  },
+  "version": "7.0.0-rc.13",
+}
+`;
+
 exports[`externalizes references to react-native-gesture-handler/DrawerLayout 1`] = `
 {
   "files": {
@@ -134,6 +318,7 @@ exports[`externalizes references to react-native-gesture-handler/DrawerLayout 1`
           "react-native-gesture-handler",
           "react-native-gesture-handler/DrawerLayout",
           "react-native-screens",
+          "react/jsx-runtime",
         ],
         "size": 204000,
       },

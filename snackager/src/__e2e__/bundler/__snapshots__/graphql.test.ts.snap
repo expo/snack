@@ -6,19 +6,19 @@ exports[`creates bundle for graphql@14.0.0 1`] = `
     "android": {
       "bundle.js": {
         "externals": [],
-        "size": 219000,
+        "size": 234000,
       },
     },
     "ios": {
       "bundle.js": {
         "externals": [],
-        "size": 219000,
+        "size": 234000,
       },
     },
     "web": {
       "bundle.js": {
         "externals": [],
-        "size": 219000,
+        "size": 234000,
       },
     },
   },
@@ -34,19 +34,19 @@ exports[`creates bundle for graphql@15.5.1 1`] = `
     "android": {
       "bundle.js": {
         "externals": [],
-        "size": 183000,
+        "size": 255000,
       },
     },
     "ios": {
       "bundle.js": {
         "externals": [],
-        "size": 183000,
+        "size": 255000,
       },
     },
     "web": {
       "bundle.js": {
         "externals": [],
-        "size": 183000,
+        "size": 255000,
       },
     },
   },

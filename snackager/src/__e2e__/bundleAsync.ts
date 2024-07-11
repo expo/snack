@@ -60,7 +60,7 @@ export async function bundleAsync(
       // CI is running Linux, while we develop on MacOS/Windows.
       // Don't quit when there is a platform mismatch
       '--ignore-platform',
-      process.env.CI ? '--frozen-lockfile' : '',
+      '--frozen-lockfile',
     ]);
   } else {
     await installPackage(packagedir);

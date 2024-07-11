@@ -7,6 +7,7 @@
 // that we don't want to bother users with installing them.
 const CORE_EXTERNALS = [
   'react',
+  'react/jsx-runtime',
   'react-native',
   'react-native-web',
   'react-native-windows',
