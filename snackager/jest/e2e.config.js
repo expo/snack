@@ -5,5 +5,5 @@ module.exports = {
   rootDir: path.resolve(__dirname, '..'),
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/jest/unit.setup.js'],
-  testMatch: ['**/__tests__/**/*.(spec|test).[tj]s?(x)'],
+  testMatch: ['**/__e2e__/**/*.(spec|test).[tj]s?(x)'],
 };

@@ -9,6 +9,7 @@
     "build": "tsc --project tsconfig.build.json",
     "debug": "kubectl.1.15 --context=minikube port-forward deploy/snackager 9229",
     "test": "env-cmd -e test node --async-stack-traces node_modules/.bin/jest --config jest/unit.config.js",
+    "test:e2e": "env-cmd -e test node --async-stack-traces node_modules/.bin/jest --config jest/e2e.config.js",
     "bundle": "env-cmd -e test tsnd --quiet --async-stack-traces -- src/cli.ts",
     "lint": "tsc --noEmit && eslint ."
   },
