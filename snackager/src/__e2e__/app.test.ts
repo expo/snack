@@ -32,7 +32,7 @@ describe('/serve', () => {
 
   afterEach(() => {
     process.env.DEBUG_LOCAL_FILES = originalEnv;
-    fs.rmdirSync(directory, { recursive: true });
+    fs.rmSync(directory, { recursive: true });
   });
 
   it('doesnt serve local files by default', async () => {

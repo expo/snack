@@ -94,9 +94,13 @@ async function patchAssetPath(options) {
   }
 
   // Clean up folders without force-deleting it, if anything is left, it should fail on this part.
-  await fs.rmdir(path.resolve(exportPath, 'v2', String(semver.major(expoVersion)), 'assets'));
-  await fs.rmdir(path.resolve(exportPath, 'v2', String(semver.major(expoVersion))));
-  await fs.rmdir(path.resolve(exportPath, 'v2'));
+  await fs.rm(path.resolve(exportPath, 'v2', String(semver.major(expoVersion)), 'assets'), {
+    recursive: true,
+  });
+  await fs.rm(path.resolve(exportPath, 'v2', String(semver.major(expoVersion))), {
+    recursive: true,
+  });
+  await fs.rm(path.resolve(exportPath, 'v2'), { recursive: true });
 
   console.log(`✅ Moved ${filesOrFolders.length} public assets`);
 }
