@@ -61,11 +61,12 @@ export default ({
           parser: { requireEnsure: false },
         },
         {
-          test: /\.mjs/,
+          test: /\.mjs$/,
+          type: 'javascript/auto',
           resolve: { fullySpecified: false },
         },
         {
-          test: /\.(js|tsx?)$/,
+          test: /\.[cm]?(js|tsx?)$/,
           use: {
             loader: require.resolve('babel-loader'),
             options: {

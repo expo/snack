@@ -71,6 +71,16 @@ describe('bundler', () => {
     );
   });
 
+  it('creates bundle for @react-navigation/native 7', async () => {
+    const bundle = await bundleAsync('@react-navigation/native@7.0.0-rc.11');
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
+  });
+
+  it('creates bundle for @react-navigation/stack 7', async () => {
+    const bundle = await bundleAsync('@react-navigation/stack@7.0.0-rc.13');
+    expect(normalizeBundleSize(bundle)).toMatchSnapshot();
+  });
+
   it('externalizes references to react-native-gesture-handler/DrawerLayout', async () => {
     const bundle = await bundleAsync('react-navigation@3.13.0', ['ios']);
     expect(normalizeBundleSize(bundle)).toMatchSnapshot();
