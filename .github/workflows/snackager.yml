@@ -61,7 +61,7 @@ jobs:
         run: yarn lint --max-warnings 0
 
       - name: 🧪 Test snackager
-        run: yarn test --ci --maxWorkers 1 --testPathIgnorePatterns=__integration-tests__
+        run: yarn test --ci --maxWorkers 1
         env:
           # Enable Webpack 4 with newer Node versions
           NODE_OPTIONS: --openssl-legacy-provider
@@ -69,6 +69,10 @@ jobs:
   e2e:
     # Takes a long time, best to only run this on PRs
     if: ${{ github.event_name == 'pull_request' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repository
@@ -78,7 +82,7 @@ jobs:
         uses: ./.github/actions/setup-snackager
 
       - name: 🧪 Test snackager
-        run: yarn test --ci --maxWorkers 1 --testPathPattern=__integration-tests__
+        run: yarn test:e2e --ci --shard=${{ matrix.shard }}/4
         env:
           # Enable Webpack 4 with newer Node versions
           NODE_OPTIONS: --openssl-legacy-provider
