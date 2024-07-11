@@ -103,7 +103,7 @@ exports[`git imports repository with app.config.js 1`] = `
         },
         "description": "some-example @ Jan 1, 2020",
         "name": "some-example",
-        "sdkVersion": "51.0.0",
+        "sdkVersion": "50.0.0",
       },
     },
     "headers": {
