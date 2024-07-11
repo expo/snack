@@ -8,6 +8,7 @@ exports[`filter internal react-native dependency TextInputState 1`] = `
         "externals": [
           "react",
           "react-native",
+          "react/jsx-runtime",
         ],
         "size": 6000,
       },
@@ -17,6 +18,7 @@ exports[`filter internal react-native dependency TextInputState 1`] = `
         "externals": [
           "react",
           "react-native",
+          "react/jsx-runtime",
         ],
         "size": 6000,
       },

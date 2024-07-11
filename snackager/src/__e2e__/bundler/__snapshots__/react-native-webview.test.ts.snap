@@ -12,6 +12,7 @@ exports[`creates bundle for react-native-webview 1`] = `
           "react-native/Libraries/NativeComponent/NativeComponentRegistry",
           "react-native/Libraries/Utilities/codegenNativeCommands",
           "react-native/Libraries/Utilities/codegenNativeComponent",
+          "react/jsx-runtime",
         ],
         "size": 462000,
       },
@@ -24,8 +25,9 @@ exports[`creates bundle for react-native-webview 1`] = `
           "react-native/Libraries/NativeComponent/NativeComponentRegistry",
           "react-native/Libraries/Utilities/codegenNativeCommands",
           "react-native/Libraries/Utilities/codegenNativeComponent",
+          "react/jsx-runtime",
         ],
-        "size": 465000,
+        "size": 462000,
       },
     },
     "web": {
@@ -33,6 +35,7 @@ exports[`creates bundle for react-native-webview 1`] = `
         "externals": [
           "react",
           "react-native",
+          "react/jsx-runtime",
         ],
         "size": 0,
       },

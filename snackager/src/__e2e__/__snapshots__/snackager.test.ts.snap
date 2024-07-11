@@ -77,6 +77,7 @@ exports[`resolves commonly missing peer-deps (prop-types) 1`] = `
         "externals": [
           "react",
           "react-native",
+          "react/jsx-runtime",
         ],
         "size": 18000,
       },
@@ -86,6 +87,7 @@ exports[`resolves commonly missing peer-deps (prop-types) 1`] = `
         "externals": [
           "react",
           "react-native",
+          "react/jsx-runtime",
         ],
         "size": 18000,
       },
@@ -95,6 +97,7 @@ exports[`resolves commonly missing peer-deps (prop-types) 1`] = `
         "externals": [
           "react",
           "react-native",
+          "react/jsx-runtime",
         ],
         "size": 18000,
       },
