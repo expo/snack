@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bundles packages with json imports 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/Image/resolveAssetSource",
+        ],
+        "size": 534000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/Image/resolveAssetSource",
+        ],
+        "size": 534000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 18000,
+      },
+    },
+  },
+  "name": "react-native-svg",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "^0.50.0",
+  },
+  "version": "12.1.1",
+}
+`;

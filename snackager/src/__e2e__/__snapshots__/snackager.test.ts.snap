@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates bundle for a single platform 1`] = `
+{
+  "files": {
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "mobx",
+        ],
+        "size": 42000,
+      },
+    },
+  },
+  "name": "firestorter",
+  "peerDependencies": {
+    "mobx": "^4.0.0",
+  },
+  "version": "2.0.1",
+}
+`;
+
+exports[`externalizes dependencies that are marked as external 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "@unimodules/core",
+          "expo-app-auth",
+          "expo-constants",
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "@unimodules/core",
+          "expo-app-auth",
+          "expo-constants",
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "@unimodules/core",
+          "expo-app-auth",
+          "expo-constants",
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+  },
+  "name": "expo-google-app-auth",
+  "peerDependencies": {
+    "@unimodules/core": "*",
+    "expo-app-auth": "~9.2.0",
+    "expo-constants": "*",
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "8.1.3",
+}
+`;
+
+exports[`resolves commonly missing peer-deps (prop-types) 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 18000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 18000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 18000,
+      },
+    },
+  },
+  "name": "react-native-responsive-grid",
+  "peerDependencies": {},
+  "version": "0.32.4",
+}
+`;
+
+exports[`resolves external source-code references 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "@unimodules/core",
+          "react",
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "@unimodules/core",
+          "react",
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 15000,
+      },
+    },
+  },
+  "name": "expo-linear-gradient",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "8.2.1",
+}
+`;

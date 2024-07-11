@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates bundle for @sentry/react-native@3.4.2 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/Core/Devtools/getDevServer",
+          "react-native/Libraries/Core/Devtools/parseErrorStack",
+          "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
+          "react-native/Libraries/Utilities/PolyfillFunctions",
+        ],
+        "size": 303000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/Core/Devtools/getDevServer",
+          "react-native/Libraries/Core/Devtools/parseErrorStack",
+          "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
+          "react-native/Libraries/Utilities/PolyfillFunctions",
+        ],
+        "size": 303000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/Core/Devtools/getDevServer",
+          "react-native/Libraries/Core/Devtools/parseErrorStack",
+          "react-native/Libraries/Core/Devtools/symbolicateStackTrace",
+          "react-native/Libraries/Utilities/PolyfillFunctions",
+        ],
+        "size": 303000,
+      },
+    },
+  },
+  "name": "@sentry/react-native",
+  "peerDependencies": {
+    "react": "^16.4.1",
+    "react-native": "^0.56.0",
+  },
+  "version": "3.4.2",
+}
+`;

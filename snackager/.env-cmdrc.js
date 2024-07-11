@@ -48,6 +48,7 @@ module.exports = (async function () {
     },
     test: {
       NODE_ENV: 'test',
+      NODE_OPTIONS: '--openssl-legacy-provider',
     },
     production: {
       NODE_ENV: 'production',

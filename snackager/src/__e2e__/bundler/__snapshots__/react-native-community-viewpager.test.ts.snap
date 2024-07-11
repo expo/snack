@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filter internal react-native dependency TextInputState 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+  },
+  "name": "@react-native-community/viewpager",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "5.0.11",
+}
+`;

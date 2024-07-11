@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates bundle for react-native-webview 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/BatchedBridge/BatchedBridge",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
+          "react-native/Libraries/Utilities/codegenNativeComponent",
+        ],
+        "size": 462000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
+          "react-native/Libraries/Utilities/codegenNativeComponent",
+        ],
+        "size": 465000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 0,
+      },
+    },
+  },
+  "name": "react-native-webview",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "13.7.0",
+}
+`;

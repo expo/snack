@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filter aliased react-native dependencies 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react-native",
+        ],
+        "size": 6000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 9000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+        ],
+        "size": 0,
+      },
+    },
+  },
+  "name": "@react-native-community/datetimepicker",
+  "peerDependencies": {
+    "react": "^16.8.3",
+    "react-native": "^0.59.0",
+  },
+  "version": "3.0.3",
+}
+`;

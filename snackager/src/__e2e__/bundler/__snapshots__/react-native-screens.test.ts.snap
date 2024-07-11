@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates bundle for react-native-screens/native-stack 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "@react-navigation/native",
+          "react",
+          "react-native",
+          "react-native-screens",
+          "react-native/Libraries/ReactNative/AppContainer",
+        ],
+        "size": 6000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "@react-navigation/native",
+          "react",
+          "react-native",
+          "react-native-screens",
+          "react-native/Libraries/ReactNative/AppContainer",
+        ],
+        "size": 6000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "@react-navigation/native",
+          "react",
+          "react-native",
+          "react-native-screens",
+          "react-native/Libraries/ReactNative/AppContainer",
+        ],
+        "size": 6000,
+      },
+    },
+  },
+  "name": "react-native-screens",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "2.11.0",
+}
+`;
