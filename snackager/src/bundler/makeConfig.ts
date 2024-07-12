@@ -58,12 +58,11 @@ export default ({
       rules: [
         {
           test: /\.[cm]?(js|tsx?)$/,
-          parser: { requireEnsure: false },
-        },
-        {
-          test: /\.mjs/,
           type: 'javascript/auto',
-          resolve: { fullySpecified: false },
+          parser: {
+            requireEnsure: false,
+            fullySpecified: false,
+          },
         },
         {
           test: /\.[cm]?(js|tsx?)$/,
