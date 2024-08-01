@@ -9,10 +9,10 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@react-navigation/elements@^2.0.0-rc.12":
-  version "2.0.0-rc.12"
-  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.0.0-rc.12.tgz#4bc359efb9c569d53650c76b316b03321101898f"
-  integrity sha512-7t5tuSk/TNAhVj9NxssFPkAk2/DRqgHby9RMvJggX9RPpwWI1ULkP+uPPvRhjCjqNlhlG6BkEujSrHKGirFWaQ==
+"@react-navigation/elements@^2.0.0-rc.14":
+  version "2.0.0-rc.14"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.0.0-rc.14.tgz#881a19ec0f96859f28da7c15ca350c0115fde826"
+  integrity sha512-OOdJFX4kUarfe5BKGxGuyO/bax/chbgrbe0I13e8PeCDvufz4/R8rlXTOoD9trjP4i87BCT39fa/xCLlIr4fRA==
   dependencies:
     color "^4.2.3"
 

@@ -27,12 +27,12 @@ it('externalizes references to react-native-gesture-handler/DrawerLayout', async
   );
 });
 
-it('creates bundle for @react-navigation/native@7.0.0-rc.11', async () => {
-  const bundle = await bundleAsync('@react-navigation/native@7.0.0-rc.11');
+it('creates bundle for @react-navigation/native@7.0.0-rc.13', async () => {
+  const bundle = await bundleAsync('@react-navigation/native@7.0.0-rc.13');
   expect(normalizeBundleSize(bundle)).toMatchSnapshot();
 });
 
-it('creates bundle for @react-navigation/stack@7.0.0-rc.13', async () => {
-  const bundle = await bundleAsync('@react-navigation/stack@7.0.0-rc.13');
+it('creates bundle for @react-navigation/stack@7.0.0-rc.15', async () => {
+  const bundle = await bundleAsync('@react-navigation/stack@7.0.0-rc.15');
   expect(normalizeBundleSize(bundle)).toMatchSnapshot();
 });
