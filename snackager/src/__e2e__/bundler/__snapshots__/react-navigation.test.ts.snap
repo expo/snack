@@ -270,7 +270,7 @@ exports[`creates bundle for @react-navigation/stack@7.0.0-rc.13 1`] = `
           "react-native-screens",
           "react/jsx-runtime",
         ],
-        "size": 195000,
+        "size": 192000,
       },
     },
   },
