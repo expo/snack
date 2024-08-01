@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`creates bundle for react-native-webview 1`] = `
+exports[`creates bundle for lottie-react-native@6.7.0 1`] = `
 {
   "files": {
     "android": {
@@ -8,7 +8,6 @@ exports[`creates bundle for react-native-webview 1`] = `
         "externals": [
           "react",
           "react-native",
-          "react-native/Libraries/BatchedBridge/BatchedBridge",
           "react-native/Libraries/NativeComponent/NativeComponentRegistry",
           "react-native/Libraries/NativeComponent/ViewConfigIgnore",
           "react-native/Libraries/ReactNative/RendererProxy",
@@ -16,7 +15,7 @@ exports[`creates bundle for react-native-webview 1`] = `
           "react-native/Libraries/Utilities/codegenNativeComponent",
           "react/jsx-runtime",
         ],
-        "size": 18000,
+        "size": 9000,
       },
     },
     "ios": {
@@ -31,25 +30,28 @@ exports[`creates bundle for react-native-webview 1`] = `
           "react-native/Libraries/Utilities/codegenNativeComponent",
           "react/jsx-runtime",
         ],
-        "size": 18000,
+        "size": 9000,
       },
     },
     "web": {
       "bundle.js": {
         "externals": [
+          "@dotlottie/react-player",
+          "@lottiefiles/react-lottie-player",
           "react",
           "react-native",
-          "react/jsx-runtime",
         ],
-        "size": 0,
+        "size": 3000,
       },
     },
   },
-  "name": "react-native-webview",
+  "name": "lottie-react-native",
   "peerDependencies": {
+    "@dotlottie/react-player": "1.6.1",
+    "@lottiefiles/react-lottie-player": "3.5.3",
     "react": "*",
-    "react-native": "*",
+    "react-native": "^0.46.0",
   },
-  "version": "13.7.0",
+  "version": "6.7.0",
 }
 `;
