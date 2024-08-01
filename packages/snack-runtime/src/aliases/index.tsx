@@ -22,6 +22,8 @@ const aliases: { [key: string]: any } = {
   'react-native/Libraries/Utilities/codegenNativeCommands': require('react-native/Libraries/Utilities/codegenNativeCommands'), // Used by react-native-webview@11.23.0
   'react-native/Libraries/NativeComponent/NativeComponentRegistry': require('react-native/Libraries/NativeComponent/NativeComponentRegistry'), // Used by @shopify/react-native-skia@0.1.221
   'react-native/Libraries/Utilities/codegenNativeComponent': require('react-native/Libraries/Utilities/codegenNativeComponent'), // Used by react-native-svg
+  'react-native/Libraries/NativeComponent/ViewConfigIgnore': require('react-native/Libraries/NativeComponent/ViewConfigIgnore'), // Used by lottie-react-native@6.7.0
+  'react-native/Libraries/ReactNative/RendererProxy': require('react-native/Libraries/ReactNative/RendererProxy'), // Used by lottie-react-native@6.7.0
 };
 
 export default aliases;
