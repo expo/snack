@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates bundle for lottie-react-native@6.7.0 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
+          "react-native/Libraries/NativeComponent/ViewConfigIgnore",
+          "react-native/Libraries/ReactNative/RendererProxy",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
+          "react-native/Libraries/Utilities/codegenNativeComponent",
+          "react/jsx-runtime",
+        ],
+        "size": 9000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
+          "react-native/Libraries/NativeComponent/ViewConfigIgnore",
+          "react-native/Libraries/ReactNative/RendererProxy",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
+          "react-native/Libraries/Utilities/codegenNativeComponent",
+          "react/jsx-runtime",
+        ],
+        "size": 9000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "@dotlottie/react-player",
+          "@lottiefiles/react-lottie-player",
+          "react",
+          "react-native",
+        ],
+        "size": 3000,
+      },
+    },
+  },
+  "name": "lottie-react-native",
+  "peerDependencies": {
+    "@dotlottie/react-player": "1.6.1",
+    "@lottiefiles/react-lottie-player": "3.5.3",
+    "react": "*",
+    "react-native": "^0.46.0",
+  },
+  "version": "6.7.0",
+}
+`;
