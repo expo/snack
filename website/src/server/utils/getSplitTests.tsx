@@ -47,6 +47,13 @@ export default async (ctx: Context) => {
     ...existingSettings,
   };
 
-  ctx.res.setHeader('Set-Cookie', cookie.serialize(SNACK_COOKIE_NAME, JSON.stringify(newValues)));
+  ctx.res.setHeader(
+    'Set-Cookie',
+    cookie.serialize(SNACK_COOKIE_NAME, JSON.stringify(newValues), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    })
+  );
   return newValues;
 };
