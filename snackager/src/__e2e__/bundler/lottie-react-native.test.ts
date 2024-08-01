@@ -9,6 +9,6 @@ it('creates bundle for lottie-react-native@6.7.0', async () => {
   );
   // react-native/Libraries/ReactNative/RendererProxy should be included as an external
   expect(bundle.files.ios['bundle.js'].externals).toEqual(
-    expect.arrayContaining(['eact-native/Libraries/ReactNative/RendererProxy']),
+    expect.arrayContaining(['react-native/Libraries/ReactNative/RendererProxy']),
   );
 });
