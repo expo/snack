@@ -239,7 +239,14 @@ class Main extends React.Component<Props, State> {
       },
     };
 
-    const selectedFile = files['App.js']
+    const hasInitiallySelectedFile =
+      props.query.initiallySelectedFile &&
+      (files[props.query.initiallySelectedFile] ||
+        props.query.initiallySelectedFile === 'package.json');
+
+    const selectedFile = hasInitiallySelectedFile
+      ? props.query.initiallySelectedFile
+      : files['App.js']
       ? 'App.js'
       : files['App.tsx']
       ? 'App.tsx'
@@ -926,6 +933,7 @@ class Main extends React.Component<Props, State> {
               upgradedFromSDKVersion={
                 this.state.wasUpgraded ? this.state.initialSdkVersion : undefined
               }
+              initiallySelectedFile={this.props.query.initiallySelectedFile}
             />
           ) : isEmbedded ? (
             <EmbeddedShell />
