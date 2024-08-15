@@ -44,6 +44,7 @@ The `embed.js` script scans the DOM and populates any elements containing a `dat
 | `data-snack-preview`| Shows or hides the preview pane. Defaults to `true` using `embed.js` Snacks. Valid values: `true`, `false`. |
 | `data-snack-sdkversion` |  The Expo SDK version to use (eg. `38.0.0`). Defaults to the latest released Expo SDK version. |
 | `data-snack-supportedplatforms` |  The platforms available for previewing the Snack. Defaults to `mydevice,ios,android,web` when not specified. |
+| `data-snack-initially-selected-file` | The filename of the file to show in the embedded snack. |
 | `data-snack-theme` | The theme to use, `light` or `dark`. When omitted uses the theme that was configured by the user (defaults to `light`). |
 | `data-snack-device-frame` | If the outline of the device should be rendered or not. Valid values: `true` or `false`. |
 | `data-snack-device-android` | The emulator used when running the Android device. Valid values: any of the [Appetize `device` Playback options](https://docs.appetize.io/core-features/playback-options). Note, this also has effect on the used Android version. |
