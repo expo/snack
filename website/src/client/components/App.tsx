@@ -239,10 +239,11 @@ class Main extends React.Component<Props, State> {
       },
     };
 
-    const hasInitiallySelectedFile =
+    const hasInitiallySelectedFile = Boolean(
       props.query.initiallySelectedFile &&
-      (files[props.query.initiallySelectedFile] ||
-        props.query.initiallySelectedFile === 'package.json');
+        (files[props.query.initiallySelectedFile] ||
+          props.query.initiallySelectedFile === 'package.json')
+    );
 
     const selectedFile = hasInitiallySelectedFile
       ? props.query.initiallySelectedFile
