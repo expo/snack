@@ -245,17 +245,18 @@ class Main extends React.Component<Props, State> {
           props.query.initiallySelectedFile === 'package.json')
     );
 
-    const selectedFile = hasInitiallySelectedFile
-      ? props.query.initiallySelectedFile
-      : files['App.js']
-      ? 'App.js'
-      : files['App.tsx']
-      ? 'App.tsx'
-      : files['app.js']
-      ? 'app.js'
-      : Object.keys(files).length
-      ? Object.keys(files)[0]
-      : '';
+    const selectedFile =
+      hasInitiallySelectedFile && props.query.initiallySelectedFile
+        ? props.query.initiallySelectedFile
+        : files['App.js']
+        ? 'App.js'
+        : files['App.tsx']
+        ? 'App.tsx'
+        : files['app.js']
+        ? 'app.js'
+        : Object.keys(files).length
+        ? Object.keys(files)[0]
+        : '';
 
     this.state = {
       session: this._snack.getState(),
