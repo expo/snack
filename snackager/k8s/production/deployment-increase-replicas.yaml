@@ -3,4 +3,4 @@ kind: Deployment
 metadata:
   name: snackager
 spec:
-  replicas: 5
+  replicas: 2
