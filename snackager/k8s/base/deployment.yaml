@@ -10,7 +10,7 @@ spec:
     type: 'RollingUpdate'
     rollingUpdate:
       maxUnavailable: 1
-      maxSurge: 5
+      maxSurge: 1
   template:
     spec:
       restartPolicy: Always
