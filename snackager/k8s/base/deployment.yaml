@@ -40,10 +40,10 @@ spec:
             name: http
           resources:
             limits:
-              memory: 5Gi
+              memory: 2Gi
             requests:
               cpu: 105m
-              memory: 5Gi
+              memory: 2Gi
           livenessProbe:
             failureThreshold: 1
             httpGet:
