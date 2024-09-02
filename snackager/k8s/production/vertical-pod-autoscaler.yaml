@@ -14,4 +14,4 @@ spec:
     - containerName: snackager
       maxAllowed:
         cpu: 400m
-        memory: 15Gi
+        memory: 5Gi
