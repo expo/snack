@@ -80,7 +80,7 @@ const config: SnackagerConfig = {
     '@react-navigation/native@5.1.1': {
       peerDependencies,
     },
-    'react-native-paper@3.10.1': {
+    'react-native-paper@5.12.5': {
       peerDependencies: {
         ...peerDependencies,
         '@expo/vector-icons': null,
