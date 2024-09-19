@@ -4,6 +4,37 @@ import semver from 'semver';
 
 import resources from '../../../resources.json';
 
+/**
+ * This is a workaround to mutate type defintions in order to work around legacy typescript bugs.
+ * Currently, we have a workaround for:
+ *   `react-native-safe-area-context` - `<SafeAreaView>` is resolved as `ReactNode`, causing a type error.
+ *     > SafeAreaView' cannot be used as a JSX component.
+ *     >  Its return type 'ReactNode' is not a valid JSX element.
+ *     >    Type 'undefined' is not assignable to type 'Element | null'.
+ */
+function mutateTypeDefinitions(
+  name: string,
+  _version: string,
+  typings: Record<string, string>
+): Record<string, string> {
+  if (name === 'react-native-safe-area-context') {
+    const fileName = `node_modules/${name}/lib/typescript/src/SafeAreaView.d.ts`;
+
+    // This type is incorrectly resolved due to Snack using legacy typescript versions
+    if (typings[fileName]) {
+      // This replacement does a few things:
+      //   - change `export declare const SafeAreaView: ...` to `declare const SafeAreaViewNode`
+      //   - Add a new exported type as `SafeAreaView`, that force-overwrites the type
+      typings[fileName] = typings[fileName].replace(
+        /export declare const SafeAreaView: ([\s\S]*?);/,
+        `declare const SafeAreaViewNode: $1;\nexport declare const SafeAreaView: (props: Parameters<typeof SafeAreaViewNode>[0]) => JSX.Element;`
+      );
+    }
+  }
+
+  return typings;
+}
+
 declare const self: DedicatedWorkerGlobalScope;
 declare const ts: any;
 
@@ -292,9 +323,9 @@ async function fetchDefinitions(name: string, version: string) {
   // Query cache for the defintions
   const key = `${name}@${version}`;
   try {
-    const result = await getItem(key, store);
+    const result: any = await getItem(key, store);
     if (result) {
-      return result;
+      return mutateTypeDefinitions(name, version, result);
     }
   } catch (e) {
     console.error('An error occurred when getting definitions from cache', e);
@@ -320,7 +351,7 @@ async function fetchDefinitions(name: string, version: string) {
 
   // Store in cache
   setItem(key, output.paths, store);
-  return output.paths;
+  return mutateTypeDefinitions(name, version, output.paths);
 }
 
 self.addEventListener('message', (event) => {
