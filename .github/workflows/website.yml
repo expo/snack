@@ -97,7 +97,7 @@ jobs:
         run: kustomize build deploy/production
 
   deploy-staging:
-    if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
+    if: ${{ (github.event.inputs.deploy == 'staging') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     needs: review
     runs-on: ubuntu-latest
     permissions:
