@@ -1,4 +1,4 @@
-// Forked plugin for `react-native-reanimated@3.3.0`.
+// Forked plugin for `react-native-reanimated@3.6.2`.
 //   Changed imports:
 //     `require('@babel/core')` → `require('snack-babel-standalone')`
 //     `require('@babel/generator')` → `require('snack-babel-standalone').generator`
@@ -310,7 +310,7 @@ var require_makeWorklet = __commonJS({
     var buildWorkletString_1 = require_buildWorkletString();
     var globals_12 = require_globals();
     var utils_1 = require_utils();
-    var REAL_VERSION = "3.6.1";
+    var REAL_VERSION = "3.6.2";
     var MOCK_VERSION = "x.y.z";
     function makeWorklet(fun, state) {
       removeWorkletDirective(fun);
