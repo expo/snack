@@ -8801,10 +8801,10 @@ snack-babel-standalone@^4.0.0:
   resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-4.0.0.tgz#17ee9134a515af3e2fc44d90598656c0903f665c"
   integrity sha512-DB01CChul97KielzlP88miUx93E0o6ebnbNa2aah+KIl+vwcXbTuzc55KNNNrGELF5N8rpd74PYi23y/DqemKA==
 
-snack-content@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/snack-content/-/snack-content-2.0.0.tgz#74f0e39467655bce9cec9f513201780471c237c7"
-  integrity sha512-oDoIuGEd3uSs/8eEdNbj2Jmq9g9iRbagGFpWmb01isKhJmN2s5Maq42I6toOq6mOWCaX69uiNlioOUzlFkt09g==
+snack-content@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/snack-content/-/snack-content-3.1.0.tgz#f7e5bb23cafc81d8f7ca42786d26d147eee1b5fc"
+  integrity sha512-ZpoUl+Ps/wTr5geopmm77XVgguCSW1f7wllygsx7T0ZNTQ6CVBFImcctv3QI2foCoicbI5qzdghwdxQMDLDOAA==
   dependencies:
     semver "^7.3.4"
 
@@ -9117,6 +9117,14 @@ sucrase@3.34.0:
   version "3.34.0"
   resolved "https://registry.yarnpkg.com/sucrase/-/sucrase-3.34.0.tgz#1e0e2d8fcf07f8b9c3569067d92fbd8690fb576f"
   integrity sha512-70/LQEZ07TEcxiU2dz51FKaE6hCTWC6vr7FOk3Gr0U60C3shtAN+H+BFr9XlYe5xqf3RA8nrc+VIwzCfnxuXJw==
+  dependencies:
+    "@jridgewell/gen-mapping" "^0.3.2"
+    commander "^4.0.0"
+    glob "7.1.6"
+    lines-and-columns "^1.1.6"
+    mz "^2.7.0"
+    pirates "^4.0.1"
+    ts-interface-checker "^0.1.9"
 
 sudo-prompt@9.1.1:
   version "9.1.1"
