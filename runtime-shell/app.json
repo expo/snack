@@ -19,14 +19,22 @@
     "developmentClient": {
       "silentLaunch": true
     },
-    "platforms": ["android", "ios", "web"],
-    "assetBundlePatterns": ["**/*"],
+    "platforms": [
+      "android",
+      "ios",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-asset",
+      "expo-router"
     ]
   }
 }
