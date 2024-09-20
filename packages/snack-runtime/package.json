@@ -1,6 +1,6 @@
 {
   "name": "snack-runtime",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Load and run Expo Snacks in any React Native app",
   "main": "index.ts",
   "files": [
