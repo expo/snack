@@ -1,4 +1,4 @@
-// Forked plugin for `react-native-reanimated@3.3.0`.
+// Forked plugin for `react-native-reanimated@3.10.1`.
 //   Changed imports:
 //     `require('@babel/core')` → `require('snack-babel-standalone')`
 //     `require('@babel/generator')` → `require('snack-babel-standalone').generator`
