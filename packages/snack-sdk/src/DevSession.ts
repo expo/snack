@@ -6,9 +6,11 @@ export default class DevSession {
   private apiURL: string;
   private logger?: Logger;
   private onSendBeaconCloseRequest: (request: SnackSendBeaconRequest) => any;
-  private notifyInterval: number = 40000;
-  private notifyTimer?: any;
   private focusedAt?: number;
+
+  // NOTE(cedric): recurrent development session alive notifications are disabled
+  // private notifyInterval: number = 40000;
+  // private notifyTimer?: any;
 
   constructor(options: {
     apiURL: string;
@@ -75,10 +77,11 @@ export default class DevSession {
   private async notify(state: SnackState, setFocus?: boolean) {
     const { user, online, url: onlineURL, deviceId, onlineName } = state;
 
-    if (this.notifyTimer) {
-      clearTimeout(this.notifyTimer);
-      this.notifyTimer = undefined;
-    }
+    // NOTE(cedric): recurrent development session alive notifications are disabled
+    // if (this.notifyTimer) {
+    //   clearTimeout(this.notifyTimer);
+    //   this.notifyTimer = undefined;
+    // }
 
     if (!online || (!user && !deviceId)) {
       this.focusedAt = undefined;
@@ -89,9 +92,10 @@ export default class DevSession {
       this.focusedAt = Date.now();
     }
 
-    if (!this.notifyTimer) {
-      this.notifyTimer = setTimeout(() => this.notify(state), this.notifyInterval);
-    }
+    // NOTE(cedric): recurrent development session alive notifications are disabled
+    // if (!this.notifyTimer) {
+    //   this.notifyTimer = setTimeout(() => this.notify(state), this.notifyInterval);
+    // }
 
     try {
       const { url, ...data } = this.getRequest(false, user, deviceId);
