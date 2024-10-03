@@ -39,7 +39,7 @@ case "$environment" in
     snackager_cache_memorystore_ip="10.81.199.227"
     ;;
   production)
-    snackager_cache_memorystore_ip="10.144.221.51"
+    snackager_cache_memorystore_ip="10.241.107.196"
     ;;
   *)
     echo "Error: unknown environment: $environment" >&2
