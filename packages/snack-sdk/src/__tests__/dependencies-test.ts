@@ -30,7 +30,7 @@ describe('dependencies', () => {
       dependencies: {
         'expo-font': { version: '~10.0.4' },
         '@react-navigation/native': { version: '5.1.1' },
-        'react-native-paper': { version: '3.10.1' },
+        'react-native-paper': { version: '5.12.5' },
       },
     });
     const state = await snack.getStateAsync();
@@ -73,7 +73,7 @@ describe('dependencies', () => {
     snack.updateDependencies({
       'expo-font': { version: '8.1.0' },
       '@react-navigation/native': { version: '5.1.1' },
-      'react-native-paper': { version: '3.10.1' },
+      'react-native-paper': { version: '5.12.5' },
     });
     const state = await snack.getStateAsync();
     expect(Object.keys(state.dependencies).length).toBe(3);
@@ -85,7 +85,7 @@ describe('dependencies', () => {
     snack.updateDependencies({
       'expo-font': { version: '8.1.0' },
       '@react-navigation/native': { version: '5.1.1' },
-      'react-native-paper': { version: '3.10.1' },
+      'react-native-paper': { version: '5.12.5' },
     });
     snack.updateDependencies({
       'expo-font': null,
