@@ -29,7 +29,7 @@
     "canvaskit-wasm": "0.38.0",
     "diff": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
-    "expo": "~51.0.31",
+    "expo": "52.0.0-preview.7",
     "expo-asset": "~10.0.10",
     "expo-barcode-scanner": "~13.0.1",
     "expo-constants": "~16.0.2",
@@ -81,7 +81,8 @@
     "prettier": "^3.2.4",
     "s3-deploy": "^1.4.0",
     "semver": "^7.5.1",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "update-browserslist-db": "^1.1.1"
   },
   "eslintConfig": {
     "extends": "universe/native",
