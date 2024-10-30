@@ -23,7 +23,7 @@ import { SourceMapConsumer, RawSourceMap } from 'source-map';
 import { SNACKAGER_API_URLS } from './Constants';
 import * as Files from './Files';
 import * as Logger from './Logger';
-import AssetRegistry from './NativeModules/AssetRegistry';
+import * as AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
