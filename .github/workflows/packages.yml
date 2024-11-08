@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - .github/actions/setup-cache/**
       - .github/workflows/packages.yml
       - packages/**
       - .eslint*
@@ -17,6 +18,7 @@ on:
   push:
     branches: [main]
     paths:
+      - .github/actions/setup-cache/**
       - .github/workflows/packages.yml
       - packages/**
       - .eslint*
@@ -54,10 +56,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
-          cache: yarn
 
-      - name: 📦 Install monorepo dependencies
-        run: yarn install --frozen-lockfile
+      - name: 🏗 Setup cache
+        uses: ./.github/actions/setup-cache
 
       # When coupled within the monorepo, make sure to build all packages related to the tested one
       - name: 🛠 Build dependencies
