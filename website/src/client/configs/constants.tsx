@@ -8,6 +8,28 @@ type AppetizeConstants = Record<
 >;
 
 const appetize: Record<SDKVersion, AppetizeConstants> = {
+  '52.0.0': {
+    main: {
+      android: {
+        publicKey: 'b_vfyableb3rimkjc4gfht7aqrn4',
+        device: 'pixel8',
+      },
+      ios: {
+        publicKey: 'b_7qxvlrj6u755p2rtbrmmkguvvq',
+        device: 'iphone16pro',
+      },
+    },
+    embed: {
+      android: {
+        publicKey: 'b_nx73hicerliek7kengc5hcw64m',
+        device: 'pixel4',
+      },
+      ios: {
+        publicKey: 'b_wydrpvnmdtlnfiflokxhfxu6bu',
+        device: 'iphone12',
+      },
+    },
+  },
   '51.0.0': {
     main: {
       android: {
@@ -74,6 +96,7 @@ const appetize: Record<SDKVersion, AppetizeConstants> = {
       },
     },
   },
+  // TODO(cedric): drop SDK 48
   '48.0.0': {
     main: {
       android: {

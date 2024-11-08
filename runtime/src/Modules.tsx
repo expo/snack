@@ -23,7 +23,7 @@ import { SourceMapConsumer, RawSourceMap } from 'source-map';
 import { SNACKAGER_API_URLS } from './Constants';
 import * as Files from './Files';
 import * as Logger from './Logger';
-import AssetRegistry from './NativeModules/AssetRegistry';
+import * as AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
@@ -69,7 +69,10 @@ GestureHandler; // eslint-disable-line no-unused-expressions,@typescript-eslint/
 // That's not available inside the Snack Runtime itself.
 // see: https://twitter.com/jamonholmgren/status/1561798978269618177
 // @ts-expect-error
-global['__DEV__'] = false;
+if (typeof global['__DEV__'] !== 'boolean') {
+  // @ts-expect-error
+  global['__DEV__'] = false;
+}
 
 // Maintain project-level dependency state in the `ExpoDependencyV2` format.
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.

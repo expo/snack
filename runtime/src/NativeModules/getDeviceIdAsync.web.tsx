@@ -1,4 +1,4 @@
-import * as Random from 'expo-random';
+import { getRandomBytesAsync } from 'expo-crypto';
 
 let fallbackStore: string | null = null;
 
@@ -26,7 +26,7 @@ export default async function getDeviceIdAsync() {
     return value;
   }
 
-  const byteArray = await Random.getRandomBytesAsync(16);
+  const byteArray = await getRandomBytesAsync(16);
   const hexString = [...new Uint8Array(byteArray.buffer)]
     .map((x) => x.toString(16).padStart(2, '0'))
     .join('');
