@@ -2840,21 +2840,6 @@ babel-preset-expo@~12.0.0:
     babel-plugin-react-native-web "~0.19.13"
     react-refresh "^0.14.2"
 
-babel-preset-expo@~12.0.0-preview:
-  version "12.0.0-preview.3"
-  resolved "https://registry.yarnpkg.com/babel-preset-expo/-/babel-preset-expo-12.0.0-preview.3.tgz#93064188dfe9ad34933dc6470de6c715ff3a900b"
-  integrity sha512-eV77J706PjGxm92UohR1e560q1mDoen2fL5P1LqT92f2eysLOe6oT5Diwy2eE1sOkz2KFasIEKQwZQsuR7IX3w==
-  dependencies:
-    "@babel/plugin-proposal-decorators" "^7.12.9"
-    "@babel/plugin-transform-export-namespace-from" "^7.22.11"
-    "@babel/plugin-transform-object-rest-spread" "^7.12.13"
-    "@babel/plugin-transform-parameters" "^7.22.15"
-    "@babel/preset-react" "^7.22.15"
-    "@babel/preset-typescript" "^7.23.0"
-    "@react-native/babel-preset" "0.76.1"
-    babel-plugin-react-native-web "~0.19.13"
-    react-refresh "^0.14.2"
-
 babel-preset-jest@^29.6.3:
   version "29.6.3"
   resolved "https://registry.yarnpkg.com/babel-preset-jest/-/babel-preset-jest-29.6.3.tgz#fa05fa510e7d493896d7b0dd2033601c840f171c"
@@ -5946,10 +5931,10 @@ jest-environment-node@^29.6.3, jest-environment-node@^29.7.0:
     jest-mock "^29.7.0"
     jest-util "^29.7.0"
 
-jest-expo@~52.0.0-preview.2:
-  version "52.0.0-preview.2"
-  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-52.0.0-preview.2.tgz#7ef3ae6d213133c213349c5c4b6b0db9018a843c"
-  integrity sha512-0CyNYtkqWEWfm3o/raD5UmWTJ5OLKNQhoB3S7oOqs68oJ9tBTjhEwHAACmCmMqZmBK068dnFd8sFrT7sYsYm0Q==
+jest-expo@~52.0.0:
+  version "52.0.0"
+  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-52.0.0.tgz#6badddcebe458674f78c596d6992251237fdf80d"
+  integrity sha512-HnMCdVh08me4VPucxlq3t28q7yxwrnDf55JFFwJ3hdfXUG55Zy6aDHT0Oeefd4uOCHAUJaBvl3kWpNgUmMRBtA==
   dependencies:
     "@expo/config" "~10.0.0"
     "@expo/json-file" "^9.0.0"
