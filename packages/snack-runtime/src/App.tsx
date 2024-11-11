@@ -12,7 +12,7 @@ import {
   EmitterSubscription,
   NativeEventSubscription,
 } from 'react-native';
-import { parseRuntimeUrl } from 'snack-content';
+import { parseRuntimeUrl } from 'snack-content/build/urls'; // NOTE(cedric): this is a workaround as 'snack-content/build/sdk' causes Hermes syntax crashes
 import { createVirtualModulePath } from 'snack-require-context';
 
 import { AppLoading } from './AppLoading';
