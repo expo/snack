@@ -1,4 +1,6 @@
-declare module 'react-native/Libraries/Image/AssetRegistry' {
+declare module '@react-native/assets-registry/registry' {
+  export type AssetDestPathResolver = 'android' | 'generic';
+
   export type PackagerAsset = {
     __packager_asset: boolean;
     fileSystemLocation: string;
@@ -6,14 +8,13 @@ declare module 'react-native/Libraries/Image/AssetRegistry' {
     width?: number;
     height?: number;
     scales: number[];
-    fileHashes?: string[];
-    uri?: string;
     hash: string;
     name: string;
     type: string;
+    resolver: AssetDestPathResolver;
+    fileHashes?: string[];
+    uri?: string;
   };
 
   export function registerAsset(asset: Partial<PackagerAsset>): number;
-
-  export function getAssetByID(assetId: number): PackagerAsset;
 }

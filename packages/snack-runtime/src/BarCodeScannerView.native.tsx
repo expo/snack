@@ -1,4 +1,4 @@
-import { BarCodeScanner, BarCodeScannedCallback } from 'expo-barcode-scanner';
+import { Camera, CameraView, type CameraViewProps } from 'expo-camera';
 import Constants from 'expo-constants';
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
@@ -6,7 +6,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import LoadingView from './LoadingView';
 
 type Props = {
-  onBarCodeScanned: BarCodeScannedCallback;
+  onBarCodeScanned: CameraViewProps['onBarcodeScanned'];
   initialURL: string;
 };
 
@@ -26,7 +26,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
   }
 
   _openCameraAsync = async () => {
-    const { status } = await BarCodeScanner.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
 
     this.setState({
       waitingForPermission: false,
@@ -53,7 +53,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
             Make sure to leave the web page open while you are running the project.
           </Text>
           {/* @ts-ignore Property 'style' does not exist on type */}
-          <BarCodeScanner style={styles.camera} onBarCodeScanned={onBarCodeScanned} />
+          <CameraView style={styles.camera} onBarCodeScanned={onBarCodeScanned} />
         </View>
       );
     }

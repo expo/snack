@@ -1,4 +1,4 @@
-import AssetRegistry from '../NativeModules/AssetRegistry';
+import * as AssetRegistry from '../NativeModules/AssetRegistry';
 import * as SkiaWeb from '../NativeModules/ReactNativeSkia';
 
 const aliases: { [key: string]: any } = {
@@ -8,6 +8,7 @@ const aliases: { [key: string]: any } = {
 
   // Needed for loading assets from packages bundled by snackager
   AssetRegistry,
+  '@react-native/assets-registry/registry': AssetRegistry,
 
   // Packages that require special initialisation (see Modules.tsx)
   'expo-asset': require('expo-asset'),

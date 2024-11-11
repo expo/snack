@@ -24,7 +24,7 @@ import { SourceMapConsumer, RawSourceMap } from 'source-map';
 import { SNACKAGER_API_URLS } from './Constants';
 import * as Files from './Files';
 import * as Logger from './Logger';
-import AssetRegistry from './NativeModules/AssetRegistry';
+import * as AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import { SnackConfig } from './config/SnackConfig';
@@ -59,18 +59,21 @@ const cacheBuster = '2';
 
 // We access this for its side effects because it is lazily loaded.
 // See https://github.com/expo/expo-asset/blob/6698f2a6dc657a0b12bf29a22e62c83c9fd8ed3a/src/Asset.js#L186-L190
-Asset; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars
+Asset; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars, @typescript-eslint/no-unused-expressions
 
 // Load react-native-gesture-handler, so RCTView's directEventTypes are set before bridge is fully initialized.
 // See https://github.com/kmagiera/react-native-gesture-handler/blob/master/GestureHandler.js#L46
-GestureHandler; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars
+GestureHandler; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars, @typescript-eslint/no-unused-expressions
 
 // Set the `__DEV__` variable to `false` because we are running a context without Metro.
 // Unfortunately, this is handled by the bundler such as Metro or Webpack.
 // That's not available inside the Snack Runtime itself.
 // see: https://twitter.com/jamonholmgren/status/1561798978269618177
 // @ts-expect-error
-global['__DEV__'] = false;
+if (typeof global['__DEV__'] !== 'boolean') {
+  // @ts-expect-error
+  global['__DEV__'] = false;
+}
 
 // Maintain project-level dependency state in the `ExpoDependencyV2` format.
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
