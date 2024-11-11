@@ -65,7 +65,7 @@
     "@babel/core": "^7.25.2",
     "@expo/spawn-async": "^1.7.2",
     "@types/diff": "^5.0.0",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^29.5.14",
     "@types/pubnub": "^7.2.0",
     "@types/react": "~18.3.12",
     "@types/react-dom": "~18.3.1",
