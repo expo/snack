@@ -58,11 +58,11 @@ const cacheBuster = '2';
 
 // We access this for its side effects because it is lazily loaded.
 // See https://github.com/expo/expo-asset/blob/6698f2a6dc657a0b12bf29a22e62c83c9fd8ed3a/src/Asset.js#L186-L190
-Asset; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars
+Asset; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars, @typescript-eslint/no-unused-expressions
 
 // Load react-native-gesture-handler, so RCTView's directEventTypes are set before bridge is fully initialized.
 // See https://github.com/kmagiera/react-native-gesture-handler/blob/master/GestureHandler.js#L46
-GestureHandler; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars
+GestureHandler; // eslint-disable-line no-unused-expressions,@typescript-eslint/no-unused-vars, @typescript-eslint/no-unused-expressions
 
 // Set the `__DEV__` variable to `false` because we are running a context without Metro.
 // Unfortunately, this is handled by the bundler such as Metro or Webpack.
