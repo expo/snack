@@ -15,6 +15,12 @@ registerPlugins({
   '@babel/plugin-proposal-optional-chaining': require('@babel/plugin-proposal-optional-chaining').default,
   '@babel/plugin-proposal-nullish-coalescing-operator': require('@babel/plugin-proposal-nullish-coalescing-operator').default,
   '@babel/plugin-transform-template-literals': require('@babel/plugin-transform-template-literals').default,
+  // Required for the Reanimated +3.16.x plugin
+  '@babel/plugin-transform-optional-chaining': require('@babel/plugin-transform-optional-chaining').default,
+  '@babel/plugin-transform-nullish-coalescing-operator': require('@babel/plugin-transform-nullish-coalescing-operator').default,
+  '@babel/plugin-transform-class-properties': require('@babel/plugin-transform-class-properties'),
+  '@babel/plugin-transform-classes': require('@babel/plugin-transform-classes'),
+  '@babel/plugin-transform-unicode-regex': require('@babel/plugin-transform-unicode-regex'),
 });
 
 registerPresets({
