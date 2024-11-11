@@ -153,7 +153,7 @@ const sdks: { [version: string]: SDKSpec } = {
     version: '^52.0.0',
     coreModules: {
       ...assets,
-      expo: '~52.0.0',
+      expo: '~52.0.2',
       react: '18.3.1',
       'react-dom': '18.3.1',
       'react-native': '0.76.1',
