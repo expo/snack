@@ -5,7 +5,7 @@ import * as React from 'react';
 import { c, s } from '../ThemeProvider';
 
 export type ButtonCommonProps = {
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'tetriary';
   large?: boolean;
   icon?: string;
   disabled?: boolean;
@@ -24,9 +24,16 @@ const rotate = {
   to: { transform: 'rotate(360deg)' },
 };
 
-export const getClassNames = ({ variant, icon, large, disabled, loading }: ButtonCommonProps) => {
+export const getClassNames = ({
+  type,
+  variant,
+  icon,
+  large,
+  disabled,
+  loading,
+}: ButtonCommonProps & { type: 'button' | 'link' }) => {
   return css(
-    styles.button,
+    type === 'link' ? styles.link : styles.button,
     styles[variant ?? 'normal'],
     icon ? styles.iconButton : large ? styles.largeButton : styles.normalButton,
     loading && styles.loading,
@@ -46,8 +53,33 @@ export default function Button({
   return (
     <button
       type="button"
-      className={classnames(getClassNames({ variant, icon, large, disabled, loading }), className)}
+      className={classnames(
+        getClassNames({ type: 'button', variant, icon, large, disabled, loading }),
+        className
+      )}
       disabled={disabled}
+      style={icon ? { backgroundImage: `url(${icon})` } : {}}
+      {...rest}
+    />
+  );
+}
+
+export function LinkButton({
+  variant = 'secondary',
+  icon,
+  large,
+  loading,
+  className,
+  ...rest
+}: Omit<Props, 'disabled'> & React.ComponentProps<'a'>) {
+  return (
+    <a
+      rel="noopener noreferrer"
+      className={classnames(
+        getClassNames({ type: 'link', variant, icon, large, loading }),
+        styles.link,
+        className
+      )}
       style={icon ? { backgroundImage: `url(${icon})` } : {}}
       {...rest}
     />
@@ -64,13 +96,30 @@ const styles = StyleSheet.create({
     whiteSpace: 'nowrap',
     textAlign: 'center',
     textDecoration: 'none',
-    transitionDuration: '170ms',
+    transitionDuration: '150ms',
     transitionProperty: 'box-shadow',
-    transitionTimingFunction: 'linear',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
 
     ':hover': {
       boxShadow: s('small'),
     },
+  },
+
+  link: {
+    appearance: 'none',
+    backgroundColor: 'transparent',
+    outline: 0,
+    borderRadius: 3,
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    textDecoration: 'none',
+    color: 'inherit',
+    fontWeight: 600,
+    fontFamily: 'inherit',
+    fontSize: 16,
+    transitionDuration: '150ms',
+    transitionProperty: 'color, background-color',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
   },
 
   primary: {
@@ -83,6 +132,17 @@ const styles = StyleSheet.create({
     color: c('secondary-text'),
     backgroundColor: c('secondary'),
     border: `1px solid transparent`,
+  },
+
+  tetriary: {
+    color: c('soft'),
+    backgroundColor: 'transparent',
+    border: `1px solid transparent`,
+
+    ':hover': {
+      color: c('text'),
+      backgroundColor: c('selected'),
+    },
   },
 
   normal: {
