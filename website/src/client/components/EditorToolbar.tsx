@@ -4,11 +4,10 @@ import * as React from 'react';
 import EditorTitle from './EditorTitle';
 import type { EditorModal } from './EditorViewProps';
 import usePreferences from './Preferences/usePreferences';
-import SearchBar from './Search/SearchBar';
 import ToolbarShell from './Shell/ToolbarShell';
 import ToolbarTitleShell from './Shell/ToolbarTitleShell';
 import UserMenu from './UserMenu';
-import Button from './shared/Button';
+import Button, { LinkButton } from './shared/Button';
 import IconButton from './shared/IconButton';
 import { SaveStatus, SaveHistory, Viewer, SaveOptions, SDKVersion } from '../types';
 import { useOrbit } from '../utils/orbit';
@@ -86,7 +85,15 @@ export default function EditorToolbar(props: Props) {
         />
       </ToolbarTitleShell>
       <div className={css(styles.buttons)}>
-        <SearchBar sdkVersion={sdkVersion} />
+        <LinkButton
+          variant="tetriary"
+          target="_blank"
+          href={
+            sdkVersion ? `https://docs.expo.dev/versions/v${sdkVersion}/` : 'https://docs.expo.dev/'
+          }
+        >
+          Expo Docs
+        </LinkButton>
         <Button
           variant="primary"
           onClick={() => onPublishAsync()}
