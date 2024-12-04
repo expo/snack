@@ -34,6 +34,7 @@ import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 import { parseTestTransportFromUrl } from './UrlUtils';
+import { fetchCodeBySnackIdentifier, SnackApiCode, SnackApiError } from './utils/SnackApi';
 
 type State = {
   initialLoad: boolean;
@@ -46,6 +47,10 @@ type State = {
   foreground: boolean;
   isConnected: boolean;
   loadingElement: React.ReactNode;
+  /** The saved Snack identifier, used when opening Snacks in read-only mode (without an active Snack session created by the Snack Website) */
+  snackIdentifier: string | null;
+  /** Encountered errors when loading the Snack by identifier in read only mode, if any */
+  snackApiError: string | null;
 };
 
 const RELOAD_URL_KEY = 'snack-reload-url';
@@ -65,6 +70,8 @@ export default class App extends React.Component<object, State> {
     foreground: true,
     isConnected: false,
     loadingElement: <LoadingView />,
+    snackIdentifier: null,
+    snackApiError: null,
   };
 
   private subscriptions: (EmitterSubscription | NativeEventSubscription)[] = [];
@@ -72,7 +79,10 @@ export default class App extends React.Component<object, State> {
   async componentDidMount() {
     Profiling.checkpoint('`App.componentDidMount()` start');
 
-    let initialURL: string | null = EXDevLauncher.manifestURL ?? (await Linking.getInitialURL());
+    let initialURL: string | null =
+      process.env.EXPO_PUBLIC_SNACK_URL ??
+      EXDevLauncher.manifestURL ??
+      (await Linking.getInitialURL());
 
     // Generate unique device-id
     const deviceId = await getDeviceIdAsync();
@@ -226,30 +236,70 @@ export default class App extends React.Component<object, State> {
   // Open Snack session at given `url`, throw if bad URL or couldn't connect. All we need to do is
   // subscribe to the associated messaging channel, everything else is triggered by messages.
   _openUrl = (url: string): boolean => {
-    const { channel } = parseRuntimeUrl(url) ?? {};
+    const { channel, snack } = parseRuntimeUrl(url) ?? {};
 
-    if (!channel) {
-      Logger.warn(
-        `Snack URL didn't have either the format 'https://exp.host/@snack/SAVE_UUID+CHANNEL_UUID' or 'https://exp.host/@snack/sdk.14.0.0-UUID'`,
-      );
-      return false;
+    // Open the Snack by connecting to the Snack session, created by the Snack Website.
+    // This is the prefered way to open Snacks, as they become interactive and users can change code.
+    if (channel) {
+      this._currentUrl = url;
+
+      Logger.info('Opening URL with snack session', url);
+
+      this.setState({
+        channel,
+        initialURL: url,
+      });
+
+      Profiling.checkpoint('`_openUrl()` read');
+
+      Messaging.subscribe({ channel });
+      this._askForCode();
+
+      return true;
     }
 
-    this._currentUrl = url;
+    // Open the Snack by loading a saved Snack by either hash or full name (Snack identifier).
+    // This opens Snack in read-only mode, where the user can run the app but not modify any code.
+    if (snack) {
+      this._currentUrl = url;
 
-    Logger.info('Opening URL', url);
+      Logger.info('Opening URL with snack identifer (read-only)', url);
 
+      this.setState({
+        channel: null,
+        snackIdentifier: snack,
+        initialURL: url,
+      });
+
+      // Disable the event subscriptions
+      Messaging.unsubscribe();
+      Profiling.checkpoint('`_openUrl()` read');
+
+      // Mark the Snack as being loaded
+      this.setState({ isLoading: true });
+
+      // Fetch the code directly from the Snack API
+      fetchCodeBySnackIdentifier(snack)
+        .then((res) => this._handleSnackFromApi(snack, res))
+        .finally(() => this.setState({ isLoading: false }));
+
+      return true;
+    }
+
+    Logger.warn(
+      `Snack URL did not contain a valid Snack session (channel) or identifier (snack). Could not open Snack from "${url}"`,
+    );
+
+    // Fully reset the state of the Snack
+    this._currentUrl = undefined;
     this.setState({
-      channel,
-      initialURL: url,
+      channel: null,
+      snackIdentifier: null,
+      snackApiError: null,
+      isLoading: false,
     });
 
-    Profiling.checkpoint('`_openUrl()` read');
-
-    Messaging.subscribe({ channel });
-    this._askForCode();
-
-    return true;
+    return false;
   };
 
   _handleReloadSnack = async () => {
@@ -413,6 +463,52 @@ export default class App extends React.Component<object, State> {
     });
   };
 
+  _handleSnackFromApi = async (
+    identifier: string,
+    response: SnackApiCode | SnackApiError | null,
+  ) => {
+    // Handle possible errors before the fetch could run
+    if (!response) {
+      return this.setState({
+        snackApiError: 'An unknown error occurred when connecting to the Snack servers',
+      });
+    }
+
+    // Handle possible server-returned errors
+    if ('errors' in response) {
+      // Explicitly handle not-found errors
+      if (response.errors.find((error) => error.code === 'SNACK_NOT_FOUND')) {
+        return this.setState({ snackApiError: `Could not find Snack "${identifier}"` });
+      }
+      // Fallback for other server errors
+      const errorCodes = response.errors.map((error) => error.code);
+      return this.setState({
+        snackApiError: `Could not load Snack "${identifier}", server responded with: ${errorCodes.join(', ')}`,
+      });
+    }
+
+    // Handle successful API responses
+    await Profiling.section(`Fetched code from API`, async () => {
+      // Update project-level dependency info if given
+      let changedDependencies: string[] = [];
+      if (response.dependencies) {
+        changedDependencies = await Modules.updateProjectDependencies(response.dependencies);
+      }
+
+      // Update local files and reload
+      await Files.updateProjectFiles(response.code);
+      const changedPaths = Object.keys(response.code);
+
+      // Reload modules when anything has changed
+      if (changedDependencies.length || changedPaths.length) {
+        Profiling.checkpoint('Fetched code from API `_reloadModules()` begin');
+        await this._reloadModules({ changedPaths, changedDependencies });
+      } else {
+        Logger.warn('Code message received but no changes detected, ignoring');
+      }
+    });
+  };
+
   // Flush stale modules given local file paths that have changed. If needed, load the root module
   // and construct a React element out of its default export and save it for us to render.
   async _reloadModules({
@@ -474,24 +570,29 @@ export default class App extends React.Component<object, State> {
       initialURL,
       isConnected,
       isLoading,
+      snackApiError,
     } = this.state;
 
     if (showSplash) {
       return <AppLoading />;
     }
 
-    if (showBarCodeScanner) {
+    if (showBarCodeScanner || snackApiError) {
       return (
         <>
           <StatusBar style="dark" />
-          <BarCodeScannerView onBarCodeScanned={this._handleBarCodeRead} initialURL={initialURL} />
+          <BarCodeScannerView
+            onBarCodeScanned={this._handleBarCodeRead}
+            initialURL={initialURL}
+            snackApiError={snackApiError ?? undefined}
+          />
         </>
       );
     }
 
     // Render root element of the user's application if present, else a loading view. In
     // either case, surround by an `ErrorBoundary` to display errors and allow recovery.
-    const isConnecting = !!this._currentUrl && !isConnected;
+    const isConnecting = !!this._currentUrl && !isConnected && !!this.state.channel;
     return (
       <>
         <StatusBar style="dark" />

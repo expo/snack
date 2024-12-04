@@ -20,5 +20,4 @@ snackpub/build
 .turbo/
 
 # dotenv
-.env*
-!.env.example
+.env*local
