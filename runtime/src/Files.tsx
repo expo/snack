@@ -165,3 +165,27 @@ export const get = (path: string) => {
 };
 
 export const list = () => Object.keys(files);
+
+/**
+ * Reset the current project files to only include the files from object.
+ * This is useful to manually load the files from our API instead of using the Snack session events.
+ */
+export function updateProjectFiles(
+  newFiles: Record<string, { type: 'CODE' | 'ASSET'; contents: string }>,
+) {
+  for (const filePath in files) {
+    delete files[filePath];
+  }
+
+  for (const filePath in newFiles) {
+    const newFile = newFiles[filePath];
+    const isAsset = newFile.type === 'ASSET';
+    files[filePath] = {
+      isAsset,
+      s3Url: isAsset ? newFile.contents : undefined,
+      s3Contents: undefined,
+      diff: undefined,
+      contents: !isAsset ? newFile.contents : undefined,
+    };
+  }
+}

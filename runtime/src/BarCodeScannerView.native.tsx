@@ -8,6 +8,7 @@ import LoadingView from './LoadingView';
 type Props = {
   onBarCodeScanned: CameraViewProps['onBarcodeScanned'];
   initialURL: string;
+  snackApiError?: string;
 };
 
 type State = {
@@ -35,7 +36,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
   };
 
   render() {
-    const { initialURL, onBarCodeScanned } = this.props;
+    const { initialURL, onBarCodeScanned, snackApiError } = this.props;
     const { waitingForPermission, hasCameraPermission } = this.state;
 
     if (waitingForPermission) {
@@ -51,6 +52,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
             {'\n'}
             {'\n'}
             Make sure to leave the web page open while you are running the project.
+            {!!snackApiError && <Text style={styles.paragraph}>{snackApiError}</Text>}
           </Text>
           {/* @ts-ignore Property 'style' does not exist on type */}
           <CameraView style={styles.camera} onBarCodeScanned={onBarCodeScanned} />
@@ -63,6 +65,7 @@ export default class BarCodeScannerView extends React.Component<Props, State> {
         <Text style={styles.paragraph}>
           Please accept the camera permission so that you can scan a QR code!
         </Text>
+        {!!snackApiError && <Text style={styles.paragraph}>{snackApiError}</Text>}
       </View>
     );
   }
