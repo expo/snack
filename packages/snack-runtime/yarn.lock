@@ -8851,10 +8851,10 @@ snack-babel-standalone@^4.0.0:
   resolved "https://registry.yarnpkg.com/snack-babel-standalone/-/snack-babel-standalone-4.0.0.tgz#17ee9134a515af3e2fc44d90598656c0903f665c"
   integrity sha512-DB01CChul97KielzlP88miUx93E0o6ebnbNa2aah+KIl+vwcXbTuzc55KNNNrGELF5N8rpd74PYi23y/DqemKA==
 
-snack-content@~3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/snack-content/-/snack-content-3.3.0.tgz#744d85bf9dec3e031823a31e98984fdd5772718b"
-  integrity sha512-WSu9lMAE5ZgOleKnXng3oWaP4MNncv3rrPyhqv91zlYcycsQAQVXCj0kexX26xz+VDk77jUWVp9nRLPuDanUwg==
+snack-content@~3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/snack-content/-/snack-content-3.4.0.tgz#d1139d187adfce6b6da2f86849dc97a95ee2e794"
+  integrity sha512-ArFzg4WyDUVzGT/1NnqeniUaxAHiaanp+cqUncksOJFUAPIltJrnTiTfKonACpRg0PiX72QwfRHS2OQwqqJ44Q==
   dependencies:
     semver "^7.3.4"
 
