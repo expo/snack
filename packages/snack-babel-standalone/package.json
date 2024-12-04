@@ -42,7 +42,8 @@
     "dev": "webpack",
     "build": "WEBPACK_PRODUCTION=true webpack",
     "analyze": "WEBPACK_ANALYZE=true webpack",
-    "prepublishOnly": "yarn clean && yarn build"
+    "prepublishOnly": "yarn clean && yarn build",
+    "bootstrap": "yarn install && yarn build"
   },
   "files": [
     "build",

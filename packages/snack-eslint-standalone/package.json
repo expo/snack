@@ -25,7 +25,8 @@
     "dev": "patch-package && webpack",
     "build": "WEBPACK_PRODUCTION=true yarn dev",
     "analyze": "WEBPACK_ANALYZE=true yarn dev",
-    "prepublishOnly": "yarn clean && yarn build"
+    "prepublishOnly": "yarn clean && yarn build",
+    "bootstrap": "yarn install && yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",

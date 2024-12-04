@@ -10,7 +10,8 @@
     "start": "turbo build --filter '{./packages/snack-term}...' && yarn --cwd ./packages/snack-term start",
     "lint": "turbo lint --filter './packages/*' --",
     "test": "turbo test --filter './packages/*' --",
-    "build": "turbo build --filter './packages/*' --"
+    "build": "turbo build --filter './packages/*' --",
+    "bootstrap": "yarn install && yarn build && yarn --cwd ./packages/snack-babel-standalone bootstrap && yarn --cwd ./packages/snack-eslint-standalone bootstrap"
   },
   "workspaces": {
     "packages": [
