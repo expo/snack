@@ -54,7 +54,7 @@ RUN apk --no-cache add git openssh-client
 COPY --from=development /app .
 # Ensure Snackager is build, has dependencies, and remove unnecessary dependencies from workspaces
 RUN yarn turbo build --filter "{./snackager}..." && \
-  yarn install --frozen-lockfile --production
+  yarn install --frozen-lockfile --production --ignore-scripts
 
 
 # --- Production - Run Snackager in production

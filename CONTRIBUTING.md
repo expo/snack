@@ -12,7 +12,7 @@
    - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
    - [Configure your system or browser to use the `.test` domain](https://github.com/jeansaad/chalet/blob/master/docs/README.md#system-configuration-recommended)
    - Restart or refresh your network settings to apply the chalet changes
-5. Run `yarn build` in the root directory to prepare the installation.
+5. Run `yarn bootstrap` in the root directory to prepare the installation.
 
 ## 🏎️ Start the Development environment
 
@@ -69,4 +69,3 @@ Hungry for more, check out these great guides:
 - [Expo JavaScript/TypeScript Style Guide](https://github.com/expo/expo/blob/master/guides/Expo%20JavaScript%20Style%20Guide.md)
 - [Git and Code Reviews at Expo](https://github.com/expo/expo/blob/master/guides/Git%20and%20Code%20Reviews.md)
 - [Our Open Source Standards](https://github.com/expo/expo/blob/master/guides/Our%20Open%20Source%20Standards.md)
-

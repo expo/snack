@@ -81,7 +81,7 @@ ENV NODE_ENV "production"
 COPY --from=development /app .
 # Ensure website is build, has dependencies, and remove unnecessary dependencies from workspaces
 RUN yarn turbo build --filter "{./website}..." && \
-  yarn install --frozen-lockfile --production
+  yarn install --frozen-lockfile --production --ignore-scripts
 
 
 # --- Production - Run website in production
