@@ -31,7 +31,7 @@ WORKDIR /app
 COPY --from=scoper /app/out/json .
 COPY --from=scoper /app/out/yarn.lock .
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 # Copy "scoped" repository
 COPY --from=scoper /app/out/full .
@@ -54,7 +54,7 @@ RUN apk --no-cache add git openssh-client
 COPY --from=development /app .
 # Ensure Snackager is build, has dependencies, and remove unnecessary dependencies from workspaces
 RUN yarn turbo build --filter "{./snackager}..." && \
-  yarn install --frozen-lockfile --production
+  yarn install --frozen-lockfile --production --ignore-scripts
 
 
 # --- Production - Run Snackager in production
