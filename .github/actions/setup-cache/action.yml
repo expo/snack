@@ -1,0 +1,32 @@
+name: Setup Cache
+description: Prepare Snack's build cache in GitHub Actions
+
+runs:
+  using: composite
+  steps:
+    - name: 🔍 Find modules cache
+      id: modules-cache
+      run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: ♻️ Restore modules cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.modules-cache.outputs.dir }}
+        key: yarn-TEST_1-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          yarn-TEST_1-${{ runner.os }}-
+
+    - name: 📦 Install monorepo dependencies
+      run: yarn install --frozen-lockfile
+      shell: bash
+
+    - name: ♻️ Restore build cache
+      uses: actions/cache@v3
+      with:
+        key: turbo-TEST_4-${{ runner.os }}-${{ github.sha }}
+        restore-keys: |
+          turbo-TEST_4-${{ runner.os }}-
+        path: |
+          node_modules/.cache/turbo
+          packages/*/.turbo
