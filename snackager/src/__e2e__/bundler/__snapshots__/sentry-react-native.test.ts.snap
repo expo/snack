@@ -14,7 +14,7 @@ exports[`creates bundle for @sentry/react-native@3.4.2 1`] = `
           "react-native/Libraries/Utilities/PolyfillFunctions",
           "react/jsx-runtime",
         ],
-        "size": 303000,
+        "size": 300000,
       },
     },
     "ios": {
@@ -28,7 +28,7 @@ exports[`creates bundle for @sentry/react-native@3.4.2 1`] = `
           "react-native/Libraries/Utilities/PolyfillFunctions",
           "react/jsx-runtime",
         ],
-        "size": 303000,
+        "size": 300000,
       },
     },
     "web": {
@@ -42,7 +42,7 @@ exports[`creates bundle for @sentry/react-native@3.4.2 1`] = `
           "react-native/Libraries/Utilities/PolyfillFunctions",
           "react/jsx-runtime",
         ],
-        "size": 303000,
+        "size": 300000,
       },
     },
   },

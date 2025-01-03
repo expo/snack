@@ -54,7 +54,7 @@ exports[`externalizes package-externals of dependencies 1`] = `
           "react-native-svg",
           "react/jsx-runtime",
         ],
-        "size": 699000,
+        "size": 696000,
       },
     },
   },
