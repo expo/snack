@@ -13,3 +13,8 @@ it('externalizes package-externals of dependencies', async () => {
     );
   });
 });
+
+it('creates bundle for @draftbit/ui@52.0.5', async () => {
+  const bundle = await bundleAsync('@draftbit/ui@52.0.5');
+  expect(normalizeBundleSize(bundle)).toMatchSnapshot();
+});
