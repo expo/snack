@@ -83,6 +83,8 @@ export default ({
               ],
               plugins: [
                 RewriteImportsPlugin,
+                // Allows parsing newer Flow syntax, which is not understood by the built-in Babel flow parser
+                require.resolve('babel-plugin-syntax-hermes-parser'),
                 require.resolve('@babel/plugin-transform-export-namespace-from'),
                 [
                   require.resolve('@babel/plugin-transform-runtime'),
