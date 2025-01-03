@@ -21,7 +21,7 @@ COPY --from=scoper /app/out/json .
 COPY --from=scoper /app/out/yarn.lock .
 # Install (system) dependencies
 RUN apk --no-cache --upgrade add bash busybox g++ make python3 && \
-  yarn install --frozen-lockfile
+  yarn install --frozen-lockfile --ignore-scripts
 
 # Copy "scoped" repository
 COPY --from=scoper /app/out/full .
@@ -55,7 +55,7 @@ ENV DEPLOY_ENVIRONMENT ${DEPLOY_ENVIRONMENT}
 COPY --from=development /app .
 # Ensure SnackPub is build, has dependencies, and remove unnecessary dependencies from workspaces
 RUN yarn turbo build --filter "{./snackpub}..." && \
-  yarn install --frozen-lockfile --production
+  yarn install --frozen-lockfile --production  --ignore-scripts
 
 
 # --- Production - Run SnackPub in production
