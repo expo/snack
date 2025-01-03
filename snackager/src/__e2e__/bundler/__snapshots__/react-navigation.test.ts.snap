@@ -72,7 +72,7 @@ exports[`creates bundle for @react-navigation/native@7.0.0-rc.13 1`] = `
           "react-native",
           "react/jsx-runtime",
         ],
-        "size": 150000,
+        "size": 147000,
       },
     },
   },

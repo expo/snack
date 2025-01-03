@@ -50,7 +50,7 @@ exports[`creates bundle for subpath 1`] = `
           "react-native",
           "react/jsx-runtime",
         ],
-        "size": 36000,
+        "size": 33000,
       },
     },
     "ios": {

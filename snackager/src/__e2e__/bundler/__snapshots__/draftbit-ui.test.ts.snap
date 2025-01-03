@@ -1,5 +1,178 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`creates bundle for @draftbit/ui@52.0.5 1`] = `
+{
+  "files": {
+    "android": {
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_arrowdown.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_arrowup.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_close.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_tick.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_arrowdown.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_arrowup.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_close.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_tick.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@expo/vector-icons",
+          "AssetRegistry",
+          "expo",
+          "expo-av",
+          "expo-camera",
+          "expo-constants",
+          "expo-file-system",
+          "expo-linear-gradient",
+          "expo-modules-core",
+          "lottie-react-native",
+          "react",
+          "react-native",
+          "react-native-gesture-handler",
+          "react-native-reanimated",
+          "react-native-safe-area-context",
+          "react-native-svg",
+          "react-native/Libraries/BatchedBridge/BatchedBridge",
+          "react-native/Libraries/Image/resolveAssetSource",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
+          "react-native/Libraries/NativeComponent/ViewConfigIgnore",
+          "react-native/Libraries/ReactNative/RendererProxy",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
+          "react-native/Libraries/Utilities/codegenNativeComponent",
+          "react/jsx-runtime",
+          "util",
+        ],
+        "size": 1275000,
+      },
+    },
+    "ios": {
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_arrowdown.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_arrowup.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_close.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_tick.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_arrowdown.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_arrowup.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_close.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_tick.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@expo/vector-icons",
+          "AssetRegistry",
+          "expo",
+          "expo-av",
+          "expo-camera",
+          "expo-constants",
+          "expo-file-system",
+          "expo-linear-gradient",
+          "expo-modules-core",
+          "lottie-react-native",
+          "react",
+          "react-native",
+          "react-native-gesture-handler",
+          "react-native-reanimated",
+          "react-native-safe-area-context",
+          "react-native-svg",
+          "react-native/Libraries/Image/resolveAssetSource",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
+          "react-native/Libraries/NativeComponent/ViewConfigIgnore",
+          "react-native/Libraries/ReactNative/RendererProxy",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
+          "react-native/Libraries/Utilities/codegenNativeComponent",
+          "react/jsx-runtime",
+          "util",
+        ],
+        "size": 1275000,
+      },
+    },
+    "web": {
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_arrowdown.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_arrowup.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_close.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_dark_icons_tick.png": {
+        "size": 15000,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_arrowdown.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_arrowup.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_close.png": {
+        "size": 0,
+      },
+      "assets/node_modules_reactnativedropdownpicker_src_themes_light_icons_tick.png": {
+        "size": 0,
+      },
+      "bundle.js": {
+        "externals": [
+          "@expo/vector-icons",
+          "AssetRegistry",
+          "expo",
+          "expo-av",
+          "expo-camera",
+          "expo-file-system",
+          "expo-linear-gradient",
+          "expo-modules-core",
+          "lottie-react-native",
+          "react",
+          "react-dom",
+          "react-native",
+          "react-native-gesture-handler",
+          "react-native-reanimated",
+          "react-native-safe-area-context",
+          "react-native-svg",
+          "react-native-web",
+          "react/jsx-runtime",
+          "util",
+        ],
+        "size": 2601000,
+      },
+    },
+  },
+  "name": "@draftbit/ui",
+  "peerDependencies": {
+    "react-native-reanimated": "~3.16.1",
+  },
+  "version": "52.0.5",
+}
+`;
+
 exports[`externalizes package-externals of dependencies 1`] = `
 {
   "files": {
@@ -54,7 +227,7 @@ exports[`externalizes package-externals of dependencies 1`] = `
           "react-native-svg",
           "react/jsx-runtime",
         ],
-        "size": 699000,
+        "size": 696000,
       },
     },
   },

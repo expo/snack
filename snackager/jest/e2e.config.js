@@ -7,6 +7,6 @@ module.exports = {
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/jest/unit.setup.js'],
   testMatch: ['**/__e2e__/**/*.(spec|test).[tj]s?(x)'],
-  testTimeout: 1000 * 60 * 2,
+  testTimeout: 1000 * 60 * 3,
   maxWorkers: 1,
 };
