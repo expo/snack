@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`creates bundle for react-native-webview 1`] = `
+exports[`creates bundle for react-native-webview@13.7.0 1`] = `
 {
   "files": {
     "android": {
@@ -51,5 +51,59 @@ exports[`creates bundle for react-native-webview 1`] = `
     "react-native": "*",
   },
   "version": "13.7.0",
+}
+`;
+
+exports[`creates bundle for react-native-webview@13.12.5 1`] = `
+{
+  "files": {
+    "android": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/BatchedBridge/BatchedBridge",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
+          "react-native/Libraries/NativeComponent/ViewConfigIgnore",
+          "react-native/Libraries/ReactNative/RendererProxy",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
+          "react-native/Libraries/Utilities/codegenNativeComponent",
+          "react/jsx-runtime",
+        ],
+        "size": 21000,
+      },
+    },
+    "ios": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react-native/Libraries/NativeComponent/NativeComponentRegistry",
+          "react-native/Libraries/NativeComponent/ViewConfigIgnore",
+          "react-native/Libraries/ReactNative/RendererProxy",
+          "react-native/Libraries/Utilities/codegenNativeCommands",
+          "react-native/Libraries/Utilities/codegenNativeComponent",
+          "react/jsx-runtime",
+        ],
+        "size": 18000,
+      },
+    },
+    "web": {
+      "bundle.js": {
+        "externals": [
+          "react",
+          "react-native",
+          "react/jsx-runtime",
+        ],
+        "size": 0,
+      },
+    },
+  },
+  "name": "react-native-webview",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+  },
+  "version": "13.12.5",
 }
 `;
