@@ -21,6 +21,7 @@ import FileList from './FileList/FileList';
 import ImportProductionModal from './Import/ImportProductionModal';
 import ImportRepoModal from './Import/ImportRepoModal';
 import KeyboardShortcuts, { Shortcuts } from './KeyboardShortcuts';
+import LoginToSaveDialog from './LoginToSaveDialog';
 import NoFileSelected from './NoFileSelected';
 import PageMetadata from './PageMetadata';
 import type { PanelType } from './Preferences/PreferencesProvider';
@@ -43,7 +44,6 @@ import { isMobile } from '../utils/detectPlatform';
 import { isScript, isJson, isTest } from '../utils/fileUtilities';
 import lintFile from '../utils/lintFile';
 import prettierCode from '../utils/prettierCode';
-import LoginToSaveDialog from './LoginToSaveDialog';
 
 const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000;
 
@@ -704,20 +704,20 @@ class EditorView extends React.Component<Props, State> {
                   experienceURL={experienceURL}
                   isEmbedded={false}
                 />
-                  <ModalDialog
-                    title="Expo Orbit"
-                    visible={currentModal === 'install-orbit'}
-                    onDismiss={this._handleHideModal}
-                  >
-                    <DownloadOrbitDialog />
-                  </ModalDialog>
-                  <ModalDialog
-                    title="Log in to save"
-                    visible={currentModal === 'login-to-save'}
-                    onDismiss={this._handleHideModal}
-                  >
-                    <LoginToSaveDialog />
-                  </ModalDialog>
+                <ModalDialog
+                  title="Expo Orbit"
+                  visible={currentModal === 'install-orbit'}
+                  onDismiss={this._handleHideModal}
+                >
+                  <DownloadOrbitDialog />
+                </ModalDialog>
+                <ModalDialog
+                  title="Log in to save"
+                  visible={currentModal === 'login-to-save'}
+                  onDismiss={this._handleHideModal}
+                >
+                  <LoginToSaveDialog />
+                </ModalDialog>
                 <ModalDialog
                   className={css(styles.embedModal)}
                   autoSize={false}

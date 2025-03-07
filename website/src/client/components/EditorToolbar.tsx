@@ -106,7 +106,7 @@ export default function EditorToolbar(props: Props) {
           disabled={isPublishing || isResolving || isPublished}
           loading={isPublishing}
           className={css(styles.saveButton)}
-      >
+        >
           {isPublishing ? 'Saving…' : isPublished ? 'Saved' : 'Save'}
         </Button>
         <IconButton
