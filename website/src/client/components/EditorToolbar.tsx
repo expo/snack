@@ -96,11 +96,17 @@ export default function EditorToolbar(props: Props) {
         </LinkButton>
         <Button
           variant="primary"
-          onClick={() => onPublishAsync()}
+          onClick={() => {
+            if (!viewer) {
+              onShowModal('login-to-save');
+            } else {
+              onPublishAsync();
+            }
+          }}
           disabled={isPublishing || isResolving || isPublished}
           loading={isPublishing}
           className={css(styles.saveButton)}
-        >
+      >
           {isPublishing ? 'Saving…' : isPublished ? 'Saved' : 'Save'}
         </Button>
         <IconButton
@@ -140,7 +146,13 @@ export default function EditorToolbar(props: Props) {
         <IconButton
           responsive
           title="Download as zip"
-          onClick={onDownloadCode}
+          onClick={() => {
+            if (!viewer) {
+              onShowModal('login-to-save');
+            } else {
+              onDownloadCode();
+            }
+          }}
           disabled={isDownloading || isPublishing}
         >
           <svg width="20" height="20">

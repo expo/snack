@@ -43,6 +43,7 @@ import { isMobile } from '../utils/detectPlatform';
 import { isScript, isJson, isTest } from '../utils/fileUtilities';
 import lintFile from '../utils/lintFile';
 import prettierCode from '../utils/prettierCode';
+import LoginToSaveDialog from './LoginToSaveDialog';
 
 const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000;
 
@@ -427,6 +428,8 @@ class EditorView extends React.Component<Props, State> {
                           ? null
                           : this.props.isResolving
                           ? null
+                          : !viewer
+                          ? () => this._handleShowModal('login-to-save')
                           : onPublishAsync,
                       tree: this._toggleFileTree,
                       panels: this._togglePanels,
@@ -701,13 +704,20 @@ class EditorView extends React.Component<Props, State> {
                   experienceURL={experienceURL}
                   isEmbedded={false}
                 />
-                <ModalDialog
-                  title="Expo Orbit"
-                  visible={currentModal === 'install-orbit'}
-                  onDismiss={this._handleHideModal}
-                >
-                  <DownloadOrbitDialog />
-                </ModalDialog>
+                  <ModalDialog
+                    title="Expo Orbit"
+                    visible={currentModal === 'install-orbit'}
+                    onDismiss={this._handleHideModal}
+                  >
+                    <DownloadOrbitDialog />
+                  </ModalDialog>
+                  <ModalDialog
+                    title="Log in to save"
+                    visible={currentModal === 'login-to-save'}
+                    onDismiss={this._handleHideModal}
+                  >
+                    <LoginToSaveDialog />
+                  </ModalDialog>
                 <ModalDialog
                   className={css(styles.embedModal)}
                   autoSize={false}
