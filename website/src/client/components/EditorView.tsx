@@ -21,6 +21,7 @@ import FileList from './FileList/FileList';
 import ImportProductionModal from './Import/ImportProductionModal';
 import ImportRepoModal from './Import/ImportRepoModal';
 import KeyboardShortcuts, { Shortcuts } from './KeyboardShortcuts';
+import LoginToSaveDialog from './LoginToSaveDialog';
 import NoFileSelected from './NoFileSelected';
 import PageMetadata from './PageMetadata';
 import type { PanelType } from './Preferences/PreferencesProvider';
@@ -427,6 +428,8 @@ class EditorView extends React.Component<Props, State> {
                           ? null
                           : this.props.isResolving
                           ? null
+                          : !viewer
+                          ? () => this._handleShowModal('login-to-save')
                           : onPublishAsync,
                       tree: this._toggleFileTree,
                       panels: this._togglePanels,
@@ -707,6 +710,13 @@ class EditorView extends React.Component<Props, State> {
                   onDismiss={this._handleHideModal}
                 >
                   <DownloadOrbitDialog />
+                </ModalDialog>
+                <ModalDialog
+                  title="Log in to save"
+                  visible={currentModal === 'login-to-save'}
+                  onDismiss={this._handleHideModal}
+                >
+                  <LoginToSaveDialog />
                 </ModalDialog>
                 <ModalDialog
                   className={css(styles.embedModal)}

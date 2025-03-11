@@ -24,7 +24,8 @@ export type EditorModal =
   | 'previous-saves'
   | 'import-repo'
   | 'import-production'
-  | 'install-orbit';
+  | 'install-orbit'
+  | 'login-to-save';
 
 export type EditorViewProps = {
   createdAt: string | undefined;
