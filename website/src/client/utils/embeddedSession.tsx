@@ -8,6 +8,7 @@ type SnackEmbeddedSession = {
   dependencies: SnackDependencies;
   sdkVersion: SDKVersion;
   platform: Platform;
+  initiallySelectedFile?: string;
 };
 
 declare global {
@@ -22,6 +23,7 @@ export function openEmbeddedSessionFullScreen(session: SnackEmbeddedSession) {
       name: session.name,
       description: session.description,
       platform: session.platform,
+      initiallySelectedFile: session.initiallySelectedFile,
       hideQueryParams: 'true',
       preview: undefined, // Use default preview setting
       theme: undefined, // Use default theme setting
@@ -41,6 +43,7 @@ export function openEmbeddedSessionFullScreen(session: SnackEmbeddedSession) {
         dependencies: session.dependencies,
         sdkVersion: session.sdkVersion,
         platform: session.platform,
+        initiallySelectedFile: session.initiallySelectedFile,
       };
     } else {
       throw new Error('No window');
