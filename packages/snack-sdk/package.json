@@ -72,7 +72,7 @@
     "pubnub": "^7.2.0",
     "semver": "^7.3.4",
     "snack-content": "~3.4.0",
-    "socket.io-client": "~4.5.4",
+    "socket.io-client": "~4.8.1",
     "ua-parser-js": "^0.7.22",
     "validate-npm-package-name": "^3.0.0"
   },
