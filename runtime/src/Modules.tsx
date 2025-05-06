@@ -232,8 +232,8 @@ const fetchPipeline = async (load: Load) => {
                 );
               }
             }
-          } catch (e) {
-            Logger.error('Error fetching metadata', e.message);
+          } catch (error: any) {
+            Logger.error(`Error fetching metadata: ${error.message}`);
           }
 
           if (metaData) {
@@ -370,10 +370,10 @@ const fetchPipeline = async (load: Load) => {
 
       // Nothing worked...
       throw new Error(`Unable to resolve module '${uri}'`);
-    } catch (e) {
+    } catch (error: any) {
       // SystemJS still wants us to return something, so return an empty module that just throws the
       // error...
-      return `throw new Error(${JSON.stringify(e.message)});`;
+      return `throw new Error(${JSON.stringify(error.message)});`;
     }
   });
 };
@@ -453,10 +453,10 @@ const translatePipeline = async (load: Load) => {
           ),
       );
       return transformed!.code;
-    } catch (e) {
+    } catch (error: any) {
       // SystemJS still wants us to return something, so return an empty module that just throws
       // the error...
-      return `throw new Error(${JSON.stringify(e.message)});`;
+      return `throw new Error(${JSON.stringify(error.message)});`;
     }
   });
 };
