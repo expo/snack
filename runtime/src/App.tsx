@@ -596,7 +596,10 @@ export default class App extends React.Component<object, State> {
     return (
       <>
         <StatusBar style="dark" />
-        <Errors.ErrorBoundary ref={(view) => (this._view = view)}>
+        <Errors.ErrorBoundary
+          ref={(view) => {
+            this._view = view;
+          }}>
           {rootElement ?? loadingElement}
         </Errors.ErrorBoundary>
         <UpdateIndicator
