@@ -1,4 +1,3 @@
-import { devices } from 'puppeteer';
 import type { SDKVersion } from 'snack-sdk';
 
 type AppetizeQueue = 'main' | 'embed';
