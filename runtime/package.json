@@ -58,7 +58,7 @@
     "snack-babel-standalone": "file:../packages/snack-babel-standalone",
     "snack-content": "file:../packages/snack-content",
     "snack-require-context": "file:../packages/snack-require-context",
-    "socket.io-client": "~4.5.4",
+    "socket.io-client": "~4.8.1",
     "source-map": "0.6.1"
   },
   "devDependencies": {

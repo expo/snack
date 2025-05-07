@@ -42,7 +42,7 @@ export default class TransportImplSocketIO extends TransportImplBase {
     this.socket = io(this.snackpubURL, { transports: ['websocket'] });
 
     this.socket.on('connect', () => {
-      this.socket?.emit('subscribeChannel', { channel: this.channel, sender: this.socket?.id });
+      this.socket?.emit('subscribeChannel', { channel: this.channel, sender: this.socket?.id! });
       if (this.startTime) {
         ConnectionMetricsEmitter.emitSuccessed({
           timeMs: Date.now() - this.startTime,
@@ -88,7 +88,7 @@ export default class TransportImplSocketIO extends TransportImplBase {
     this.socket?.emit('message', {
       channel,
       message,
-      sender: this.socket.id,
+      sender: this.socket.id!,
     });
     return Promise.resolve();
   }

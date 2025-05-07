@@ -39,7 +39,7 @@
     "snack-babel-standalone": "^4.0.0",
     "snack-content": "~3.4.0",
     "snack-require-context": "^0.1.0",
-    "socket.io-client": "~4.5.4",
+    "socket.io-client": "~4.8.1",
     "source-map": "0.6.1"
   },
   "devDependencies": {
