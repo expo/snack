@@ -193,7 +193,7 @@ exports[`externalizes package-externals of dependencies 1`] = `
           "react-native/Libraries/Utilities/codegenNativeComponent",
           "react/jsx-runtime",
         ],
-        "size": 306000,
+        "size": 309000,
       },
     },
     "ios": {

@@ -1,7 +1,7 @@
 /**
  * Version of the Expo SDK to use (e.g. "48.0.0").
  */
-export type SDKVersion = '48.0.0' | '49.0.0' | '50.0.0' | '51.0.0' | '52.0.0'; // TODO(cedric): drop SDK 48
+export type SDKVersion = '48.0.0' | '49.0.0' | '50.0.0' | '51.0.0' | '52.0.0' | '53.0.0'; // TODO(cedric): drop SDK 48
 
 /** @internal */
 export type SDKSpec = {

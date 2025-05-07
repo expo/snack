@@ -373,8 +373,8 @@ export default class App extends React.Component<object, State> {
       });
       const data = await response.json();
       return data.url;
-    } catch (e) {
-      throw new Error('Unable to upload asset to S3: ' + e.message);
+    } catch (error: any) {
+      throw new Error(`Unable to upload asset to S3: ${error.message}`);
     }
   };
 
@@ -548,8 +548,8 @@ export default class App extends React.Component<object, State> {
           rootElement = React.createElement(rootDefaultExport);
         }
       }
-    } catch (e) {
-      Errors.report(e);
+    } catch (error: any) {
+      Errors.report(error);
     } finally {
       this.setState((state) => ({
         rootElement: rootElement ?? state.rootElement,
@@ -596,7 +596,10 @@ export default class App extends React.Component<object, State> {
     return (
       <>
         <StatusBar style="dark" />
-        <Errors.ErrorBoundary ref={(view) => (this._view = view)}>
+        <Errors.ErrorBoundary
+          ref={(view) => {
+            this._view = view;
+          }}>
           {rootElement ?? loadingElement}
         </Errors.ErrorBoundary>
         <UpdateIndicator
