@@ -35,7 +35,7 @@ To get a bundle, do a `GET` request with the following format:
 Example:
 
 ```sh
-curl "http://localhost:3012/bundle/react-native-paper@4.1.0?platforms=ios,android,web"
+curl "http://localhost:3012/bundle/react-native-paper@5.12.5?platforms=ios,android,web"
 ```
 
 You can specify a semver range in `[version]`, e.g. - `^12.4.5`, or omit it to get the `latest` version.
