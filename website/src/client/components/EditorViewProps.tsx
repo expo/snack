@@ -77,4 +77,5 @@ export type EditorViewProps = {
   devices: AppetizeDevices;
   verbose: boolean;
   snackagerURL: string;
+  initiallySelectedFile?: string;
 };
