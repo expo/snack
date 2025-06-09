@@ -26,7 +26,7 @@ const appetize: Record<SDKVersion, AppetizeConstants> = {
       },
       ios: {
         publicKey: 'b_t66brg7kisifosf4fneiyfof44',
-        device: 'iphone16',
+        device: 'iphone16pro',
       },
     },
   },
