@@ -58,7 +58,7 @@ export class WantedDependencyVersions {
       // TODO(cedric): check why this is still necessary
       const sdkVersionString = sdks[sdkVersion]?.version || sdkVersion;
       const [remoteVersions, bundledVersions] = await Promise.all([
-        this.fetchRemoteVersionedModules(sdkVersionString),
+        this.fetchRemoteVersionedModules(sdkVersionString).catch(() => {}),
         this.fetchBundledNativeModules(sdkVersionString),
       ]);
 
@@ -72,7 +72,7 @@ export class WantedDependencyVersions {
         this.logger?.module('fetched versioned modules for SDK', sdkVersion, versions);
         this.callback(sdkVersion, versions);
       }
-    } catch (error) {
+    } catch (error: any) {
       // Note(cedric): SDK could have changed during fetching
       if (this.sdkVersion === sdkVersion) {
         this.logger?.error(error);
@@ -93,6 +93,7 @@ export class WantedDependencyVersions {
 
   /**
    * Fetch all remote versioned modules from the `/versions/latest` API endpoint.
+   * This doesn't work when running from a browser, as `/--/api/v2/versions/latest` is CORS blocked.
    */
   private fetchRemoteVersionedModules(sdkVersion: string): Promise<Record<string, string>> {
     return fetch(`${this.apiUrl}/--/api/v2/versions/latest`)
