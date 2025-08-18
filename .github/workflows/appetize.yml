@@ -139,7 +139,7 @@ jobs:
             } else {
               core.info(`Appetize (${{ matrix.appetizeName }}) is running Android ${appVersionName} (-> ${latestAppVersionName}) for ${{ matrix.sdkVersion }}`)
             }
-            if ('${{ github.event.inputs.sdkPlatform }}' === 'yes') {
+            if ('${{ github.event.inputs.forceUpdate }}' === 'yes') {
               core.warning(`Appetize is being force updated`)
               core.setOutput('oldVersion', 'FORCED')
             } else {
@@ -202,7 +202,7 @@ jobs:
             } else {
               core.info(`Appetize (${{ matrix.appetizeName }}) is running iOS ${appVersionName} (-> ${latestAppVersionName}) for ${{ matrix.sdkVersion }}`)
             }
-            if ('${{ github.event.inputs.sdkPlatform }}' === 'yes') {
+            if ('${{ github.event.inputs.forceUpdate }}' === 'yes') {
               core.warning(`Appetize is being force updated`)
               core.setOutput('oldVersion', 'FORCED')
             } else {
