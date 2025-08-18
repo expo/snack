@@ -159,9 +159,11 @@ jobs:
             -F "platform=android" \
             -F "note=Expo Go for SDK ${{ matrix.sdkVersion }}" \
             -F "buttonText=Launch Snack" \
+            -F "preLaunchButtonTextColor=#ffffff" \
             -F "preLaunchButtonBackgroundColor=#000000" \
             -F "preLaunchButtonBackgroundOpacity=1" \
             -F "postSessionButtonText=Launch Snack" \
+            -F "postSessionButtonTextColor=#000000" \
             -F "postSessionButtonBackgroundColor=#000000" \
             -F "postSessionButtonBackgroundOpacity=1" > /dev/null
           rm -rf exponent-android.apk appetize.json
@@ -230,9 +232,11 @@ jobs:
             -F "platform=ios" \
             -F "note=Expo Go for SDK ${{ matrix.sdkVersion }}" \
             -F "buttonText=Launch Snack" \
+            -F "preLaunchButtonTextColor=#ffffff" \
             -F "preLaunchButtonBackgroundColor=#000000" \
             -F "preLaunchButtonBackgroundOpacity=1" \
             -F "postSessionButtonText=Launch Snack" \
+            -F "postSessionButtonTextColor=#000000" \
             -F "postSessionButtonBackgroundColor=#000000" \
             -F "postSessionButtonBackgroundOpacity=1" > /dev/null
           rm -rf exponent-ios.zip appetize.json
