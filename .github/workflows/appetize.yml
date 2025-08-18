@@ -134,7 +134,7 @@ jobs:
 
       - name: 📱 Download Android client (${{ matrix.androidVersion }})
         if: ${{ steps.appetize.outputs.oldVersion != matrix.androidVersion }}
-        run: curl -o exponent-android.apk ${{ matrix.androidUrl }}
+        run: curl -L -o exponent-android.apk ${{ matrix.androidUrl }}
 
       - name: 🚀 Upload to Appetize
         if: ${{ steps.appetize.outputs.oldVersion != matrix.androidVersion }}
@@ -181,7 +181,7 @@ jobs:
 
       - name: 📱 Download iOS client (${{ matrix.iosVersion }})
         if: ${{ steps.appetize.outputs.oldVersion != matrix.iosVersion }}
-        run: curl -o exponent-ios.tar.gz ${{ matrix.iosUrl }}
+        run: curl -L -o exponent-ios.tar.gz ${{ matrix.iosUrl }}
 
       - name: 📦 Prepare iOS package
         if: ${{ steps.appetize.outputs.oldVersion != matrix.iosVersion }}
