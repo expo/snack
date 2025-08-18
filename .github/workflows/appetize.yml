@@ -21,6 +21,13 @@ on:
           - all
           - android
           - ios
+      forceUpdate:
+        type: choice
+        description: Force update all app binaries
+        default: 'no'
+        options:
+          - 'no'
+          - 'yes'
 
 jobs:
   prepare:
@@ -132,7 +139,12 @@ jobs:
             } else {
               core.info(`Appetize (${{ matrix.appetizeName }}) is running Android ${appVersionName} (-> ${latestAppVersionName}) for ${{ matrix.sdkVersion }}`)
             }
-            core.setOutput('oldVersion', appVersionName || 'INVALID')
+            if ('${{ github.event.inputs.sdkPlatform }}' === 'yes') {
+              core.warning(`Appetize is being force updated`)
+              core.setOutput('oldVersion', 'FORCED')
+            } else {
+              core.setOutput('oldVersion', appVersionName || 'INVALID')
+            }
 
       - name: 📱 Download Android client (${{ matrix.androidVersion }})
         if: ${{ steps.appetize.outputs.oldVersion != matrix.androidVersion }}
@@ -190,7 +202,12 @@ jobs:
             } else {
               core.info(`Appetize (${{ matrix.appetizeName }}) is running iOS ${appVersionName} (-> ${latestAppVersionName}) for ${{ matrix.sdkVersion }}`)
             }
-            core.setOutput('oldVersion', appVersionName)
+            if ('${{ github.event.inputs.sdkPlatform }}' === 'yes') {
+              core.warning(`Appetize is being force updated`)
+              core.setOutput('oldVersion', 'FORCED')
+            } else {
+              core.setOutput('oldVersion', appVersionName || 'INVALID')
+            }
 
       - name: 📱 Download iOS client (${{ matrix.iosVersion }})
         if: ${{ steps.appetize.outputs.oldVersion != matrix.iosVersion }}
