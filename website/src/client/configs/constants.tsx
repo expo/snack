@@ -15,7 +15,7 @@ const appetize: Record<SDKVersion, AppetizeConstants> = {
         device: 'pixel8',
       },
       ios: {
-        publicKey: 'b_wquwfvmavsf7yydnygzetbxyey',
+        publicKey: 'b_2nnx3oodhzs5x2sluivpazhmn4',
         device: 'iphone16pro',
       },
     },
@@ -25,7 +25,7 @@ const appetize: Record<SDKVersion, AppetizeConstants> = {
         device: 'pixel7',
       },
       ios: {
-        publicKey: 'b_t66brg7kisifosf4fneiyfof44',
+        publicKey: 'b_ypet6quf7ns7lnnz7d56uhmima',
         device: 'iphone16pro',
       },
     },
