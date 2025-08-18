@@ -112,7 +112,8 @@ jobs:
     steps:
       - name: 📋 Download Appetize information
         # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
-        run: curl --silent --fail -o appetize.json https://api.appetize.io/v1/apps/$APP -H "X-API-KEY: $TOKEN" > /dev/null
+        run: |
+          curl --silent --fail https://api.appetize.io/v1/apps/$APP -H "X-API-KEY: $TOKEN" -o appetize.json > /dev/null
         env:
           TOKEN: ${{ secrets[matrix.appetizeTokenName] }}
           APP: ${{ matrix.androidAppetizeId }}
@@ -169,7 +170,8 @@ jobs:
     steps:
       - name: 📋 Download Appetize information
         # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
-        run: curl --silent --fail -o appetize.json https://api.appetize.io/v1/apps/$APP -H "X-API-KEY: $TOKEN" > /dev/null
+        run: |
+          curl --silent --fail https://api.appetize.io/v1/apps/$APP -H "X-API-KEY: $TOKEN" -o appetize.json > /dev/null
         env:
           TOKEN: ${{ secrets[matrix.appetizeTokenName] }}
           APP: ${{ matrix.iosAppetizeId }}
