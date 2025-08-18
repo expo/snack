@@ -112,7 +112,7 @@ jobs:
     steps:
       - name: 📋 Download Appetize information
         # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
-        run: curl --silent --fail -o appetize.json https://$TOKEN@api.appetize.io/v1/apps/$APP > /dev/null
+        run: curl --silent --fail -o appetize.json https://api.appetize.io/v1/apps/$APP -H "X-API-KEY: $TOKEN" > /dev/null
         env:
           TOKEN: ${{ secrets[matrix.appetizeTokenName] }}
           APP: ${{ matrix.androidAppetizeId }}
@@ -124,13 +124,14 @@ jobs:
           script: |
             const latestAppVersionName = '${{ matrix.androidVersion }}';
             const { appVersionName } = require('./appetize.json') || {};
-            if (!appVersionName) throw new Error('Invalid Appetize response')
-            if (appVersionName === latestAppVersionName) {
+            if (!appVersionName) {
+              core.warning(`Appetize (${{ matrix.appetizeName }}) has an invalid empty version version name for Android, force overwriting...`)
+            } else if (appVersionName === latestAppVersionName) {
               core.info(`Appetize (${{ matrix.appetizeName }}) is running Android ${appVersionName} (latest) for ${{ matrix.sdkVersion }}`)
             } else {
               core.info(`Appetize (${{ matrix.appetizeName }}) is running Android ${appVersionName} (-> ${latestAppVersionName}) for ${{ matrix.sdkVersion }}`)
             }
-            core.setOutput('oldVersion', appVersionName)
+            core.setOutput('oldVersion', appVersionName || 'INVALID')
 
       - name: 📱 Download Android client (${{ matrix.androidVersion }})
         if: ${{ steps.appetize.outputs.oldVersion != matrix.androidVersion }}
@@ -140,7 +141,16 @@ jobs:
         if: ${{ steps.appetize.outputs.oldVersion != matrix.androidVersion }}
         # This step MUST NOT output anything, the endpoint returns the public and private app keys
         run: |
-          curl --silent --fail --http1.1 https://$TOKEN@api.appetize.io/v1/apps/$APP -F "file=@exponent-android.apk" -F "platform=android" > /dev/null
+          curl --silent --fail -X POST https://api.appetize.io/v1/apps/$APP -H "X-API-KEY: $TOKEN" \
+            -F "file=@exponent-android.apk" \
+            -F "platform=android" \
+            -F "note=Expo Go for SDK ${{ matrix.sdkVersion }}" \
+            -F "buttonText=Launch Snack" \
+            -F "preLaunchButtonBackgroundColor=#000000" \
+            -F "preLaunchButtonBackgroundOpacity=1" \
+            -F "postSessionButtonText=Launch Snack" \
+            -F "postSessionButtonBackgroundColor=#000000" \
+            -F "postSessionButtonBackgroundOpacity=1" > /dev/null
           rm -rf exponent-android.apk appetize.json
         env:
           TOKEN: ${{ secrets[matrix.appetizeTokenName] }}
@@ -159,7 +169,7 @@ jobs:
     steps:
       - name: 📋 Download Appetize information
         # This step MUST only output `appVersionName`, the endpoint returns the public and private app keys
-        run: curl --silent --fail -o appetize.json https://$TOKEN@api.appetize.io/v1/apps/$APP > /dev/null
+        run: curl --silent --fail -o appetize.json https://api.appetize.io/v1/apps/$APP -H "X-API-KEY: $TOKEN" > /dev/null
         env:
           TOKEN: ${{ secrets[matrix.appetizeTokenName] }}
           APP: ${{ matrix.iosAppetizeId }}
@@ -171,8 +181,9 @@ jobs:
           script: |
             const latestAppVersionName = '${{ matrix.androidVersion }}';
             const { appVersionName } = require('./appetize.json') || {};
-            if (!appVersionName) throw new Error('Invalid Appetize response')
-            if (appVersionName === latestAppVersionName) {
+            if (!appVersionName) {
+              core.warning(`Appetize (${{ matrix.appetizeName }}) has an invalid empty version version name for iOS, force overwriting...`)
+            } else if (appVersionName === latestAppVersionName) {
               core.info(`Appetize (${{ matrix.appetizeName }}) is running iOS ${appVersionName} (latest) for ${{ matrix.sdkVersion }}`)
             } else {
               core.info(`Appetize (${{ matrix.appetizeName }}) is running iOS ${appVersionName} (-> ${latestAppVersionName}) for ${{ matrix.sdkVersion }}`)
@@ -195,7 +206,16 @@ jobs:
         if: ${{ steps.appetize.outputs.oldVersion != matrix.iosVersion }}
         # This step MUST NOT output anything, the endpoint returns the public and private app keys
         run: |
-          curl --silent --fail --http1.1 https://$TOKEN@api.appetize.io/v1/apps/$APP -F "file=@exponent-ios.zip" -F "platform=ios" > /dev/null
+          curl --silent --fail -X POST https://api.appetize.io/v1/apps/$APP -H "X-API-KEY: $TOKEN" \
+            -F "file=@exponent-ios.zip" \
+            -F "platform=ios" \
+            -F "note=Expo Go for SDK ${{ matrix.sdkVersion }}" \
+            -F "buttonText=Launch Snack" \
+            -F "preLaunchButtonBackgroundColor=#000000" \
+            -F "preLaunchButtonBackgroundOpacity=1" \
+            -F "postSessionButtonText=Launch Snack" \
+            -F "postSessionButtonBackgroundColor=#000000" \
+            -F "postSessionButtonBackgroundOpacity=1" > /dev/null
           rm -rf exponent-ios.zip appetize.json
         env:
           TOKEN: ${{ secrets[matrix.appetizeTokenName] }}
