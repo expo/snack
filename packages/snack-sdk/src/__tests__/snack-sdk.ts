@@ -8,7 +8,7 @@ switch (process.env.SNACK_ENV) {
     break;
   case 'staging':
     defaultConfig.apiURL = 'https://staging.exp.host';
-    defaultConfig.snackagerURL = 'https://staging.snackager.expo.io';
+    defaultConfig.snackagerURL = 'https://staging.snackager.eascdn.net';
     defaultConfig.snackpubURL = 'https://staging-snackpub.expo.dev';
     break;
 }
