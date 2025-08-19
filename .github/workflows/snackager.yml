@@ -111,7 +111,7 @@ jobs:
       id-token: write
     environment:
       name: snackager-staging
-      url: https://staging.snackager.expo.io/status
+      url: https://staging.snackager.eascdn.net/status
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
@@ -157,7 +157,7 @@ jobs:
       id-token: write
     environment:
       name: snackager-production
-      url: https://snackager.expo.io/status
+      url: https://snackager.eascdn.net/status
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
