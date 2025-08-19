@@ -133,7 +133,7 @@ export default class SnackSession {
     this.channel = options.sessionId || shortid.generate();
     this.host = options.host || 'exp.host';
     this.expoApiUrl = 'https://exp.host';
-    this.snackagerUrl = 'https://snackager.expo.io';
+    this.snackagerUrl = 'https://snackager.eascdn.net';
     this.snackagerCloudfrontUrl = 'https://d37p21p3n8r8ug.cloudfront.net';
     if (options.authorizationToken) {
       console.warn('authorizationToken has been deprecrated. see options.user');

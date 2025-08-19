@@ -19,7 +19,7 @@ Promise.all([
     name: 'snackager',
     port: 3022,
     localURL: 'http://localhost:3012',
-    stagingURL: 'https://staging.snackager.expo.io',
+    stagingURL: 'https://staging.snackager.eascdn.net',
   }),
 ]).then(
   () => console.log(chalk.green('All proxies started')),
