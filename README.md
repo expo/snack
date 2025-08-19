@@ -43,7 +43,7 @@ Internal documentation
   - [`snack-sdk-legacy`](/packages/snack-sdk-legacy) *Legacy snack-sdk provided for completeness.*
   - [`snack-proxies`](/packages/snack-proxies) *Proxies for doing local development*
 - [`website`](/website) *The web-app for **https://snack.expo.dev** and for **[embedded Snacks](https://snack.expo.dev/embedded).***
-- [`snackager`](/snackager) *The Snack package bundler at **https://snackager.expo.io**.*
+- [`snackager`](/snackager) *The Snack package bundler at **https://snackager.expo.dev**.*
 - [`runtime`](/runtime) *The Snack runtime app and web-player.*
 
 ## ❓ Getting in touch

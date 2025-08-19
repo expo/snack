@@ -19,7 +19,7 @@ build:
           SNACKPUB_URL: https://staging-snackpub.expo.dev
           APP_VERSION: staging-{{.GITHUB_SHA}}
           DEPLOY_ENVIRONMENT: staging
-          IMPORT_SERVER_URL: https://staging.snackager.expo.io
+          IMPORT_SERVER_URL: https://staging-snackager.expo.dev
           LEGACY_SNACK_SERVER_URL: https://staging.snack.expo.io
           RUDDERSTACK_DATA_PLANE_URL: https://cdp.expo.dev
           RUDDERSTACK_WRITE_KEY: 1weTbQObpRMmIsWrdwEITRabLA2
@@ -51,8 +51,8 @@ profiles:
               SNACKPUB_URL: https://snackpub.expo.dev
               APP_VERSION: production-{{.GITHUB_SHA}}
               DEPLOY_ENVIRONMENT: production
-              IMPORT_SERVER_URL: https://snackager.expo.io
-              LEGACY_SNACK_SERVER_URL: https://snack.expo.io
+              IMPORT_SERVER_URL: https://snackager.expo.dev
+              LEGACY_SNACK_SERVER_URL: https://snack.expo.dev
               RUDDERSTACK_DATA_PLANE_URL: https://cdp.expo.dev
               RUDDERSTACK_WRITE_KEY: 1weTlMb720s5AkBTYwgCGORCHHg
               SNACK_SERVER_URL: https://snack.expo.dev
