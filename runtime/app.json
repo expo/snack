@@ -5,7 +5,7 @@
   "owner": "exponent",
   "slug": "snack",
   "version": "1.0.0",
-  "primaryColor": "#000",
+  "primaryColor": "#000000",
   "icon": "./assets/icon.png",
   "notification": {
     "icon": "./assets/notification-icon.png",

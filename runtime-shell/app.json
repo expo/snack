@@ -7,7 +7,7 @@
     "owner": "exponent",
     "slug": "snack",
     "version": "1.0.0",
-    "primaryColor": "#000",
+    "primaryColor": "#000000",
     "icon": "https://s3.amazonaws.com/exp-brand-assets/SnackIcon_200.png",
     "notification": {
       "icon": "https://s3.amazonaws.com/exp-us-standard/placeholder-push-icon-blue-circle.png",
