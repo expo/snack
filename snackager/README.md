@@ -1,6 +1,6 @@
 # snackager
 
-Service to generate Expo Snack bundles from NPM packages. This is the API server for snackager.expo.dev.
+Service to generate Expo Snack bundles from NPM packages. This is the API server for snackager.eascdn.net.
 
 > Before running any Snackager scripts, make sure you have followed **all the steps** in the [Contributing Guide](../CONTRIBUTING.md).
 
