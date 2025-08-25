@@ -30,6 +30,7 @@ The main Snack website is hosted at [https://snack.expo.dev](https://snack.expo.
 | `sdkVersion` | `&sdkVersion=38.0.0` |  The Expo SDK version to use. Defaults to the latest released Expo SDK version. |
 | `sourceUrl` | `&sourceUrl=http://mysite.com/file.js` | Using `sourceUrl` you can host your own code for a Snack anywhere you like. Just provide a url for a publicly accessible resource to the sourceUrl attribute. When specified, causes the `code` and `files` attributes to be ignored. |
 | `supportedPlatforms` | `&supportedPlatforms=ios,web` | The platforms available for previewing the Snack. Defaults to `mydevice,ios,android,web` when not specified. |
+| `initiallySelectedFile` | `&initiallySelectedFile=package.json` | The name of the file to have initially selected. Defaults to `App.js` or `App.tsx` or `app.js` or the first file when not specified. |
 | `theme` | `&theme=dark` |  The theme to use, `light` or `dark`. When omitted uses the theme that was configured by the user (defaults to `light`). |
 | `verbose` | `&verbose=true` |  Enables verbose logging in the console (defaults to `false`). This can be useful to diagnose problems with Snacks or packages. |
 

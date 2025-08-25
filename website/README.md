@@ -137,6 +137,7 @@ Here is a summary of all the parameter options that you can use:
 | **sdkVersion** | _[default SDK](../packages/snack-content/src/defaults.ts#L3)_ | The Expo SDK version that your Snack should use. | [SDKVersion](../packages/snack-content/src/sdks/types.ts#L4) |
 | **sourceUrl** |  | One of two ways to send a file, via publicly-accessible URL of a JS file. | `string` |
 | **supportedPlatforms** | All platforms | Specify which platforms your Snack supports | `android \| ios \| mydevice \| web` |
+| **initiallySelectedFile** | | The name of the file to have initially selected. | `string` |
 | **theme** | `light` | The visual theme of your Snack. | `light \| dark` |
 
 ### Examples of Snack URLs
@@ -151,6 +152,7 @@ All of these examples should be prefixed with `https://snack.expo.dev/`.
 | **preview** | _[`?preview=false`](https://snack.expo.dev/?preview=false)_ |
 | **sdkVerion** | _[`?sdkVersion=45.0.0`](https://snack.expo.dev/?sdkVersion=45.0.0)_ |
 | **supportedPlatforms** | _[`?supportedPlatforms=android,ios`](https://snack.expo.dev/?supportedPlatforms=android,ios)_ |
+| **initiallySelectedFile** | _[`?initiallySelectedFile=package.json`](https://snack.expo.dev/?initiallySelectedFile=package.json)_ |
 | **theme** | _[`?theme=dark`](https://snack.expo.dev/?theme=dark)_ |
 | **dependencies** | _[`?dependencies=%40expo%2Fvector-icons%40*%2C%40react-native-community%2Fmasked-view`](https://snack.expo.dev/?dependencies=%40expo%2Fvector-icons%40*%2C%40react-native-community%2Fmasked-view)_ |
 | **files** | _[`?files=%7B%22type%22%3A%20%22CODE%22%2C%20%22contents%22%3A%20%22alert%28%27hello%27%29%3B%22%20%7D`](https://snack.expo.dev/?files=%7B%22type%22%3A%20%22CODE%22%2C%20%22contents%22%3A%20%22alert%28%27hello%27%29%3B%22%20%7D)_ |
