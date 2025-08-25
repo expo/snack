@@ -1,6 +1,6 @@
 {
   "name": "snack-runtime",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Load and run Expo Snacks in any React Native app",
   "main": "index.ts",
   "files": [
@@ -37,7 +37,7 @@
     "path": "^0.12.7",
     "pubnub": "^7.2.0",
     "snack-babel-standalone": "^4.0.0",
-    "snack-content": "~3.5.0",
+    "snack-content": "~3.6.0",
     "snack-require-context": "^0.1.0",
     "socket.io-client": "~4.5.4",
     "source-map": "0.6.1"
