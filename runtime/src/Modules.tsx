@@ -27,8 +27,8 @@ import * as AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
-import ReanimatedPlugin from '../vendor/reanimated-plugin';
 import System from '../vendor/system.src';
+import WorkletsPlugin from '../vendor/worklets-plugin';
 
 type Dependencies = {
   [key: string]: { resolved?: string; version: string; handle?: string };
@@ -420,8 +420,10 @@ const translatePipeline = async (load: Load) => {
                 // We need to resolve the requested context directory in the user-provided code
                 { directoryResolution: 'relative' },
               ],
-              ...(load.source.includes('react-native-reanimated') || load.source.includes('worklet')
-                ? [ReanimatedPlugin]
+              ...(load.source.includes('react-native-reanimated') ||
+              load.source.includes('react-native-worklets') ||
+              load.source.includes('worklet')
+                ? [WorkletsPlugin]
                 : []),
             ],
             moduleIds: false,
