@@ -56,6 +56,7 @@ const PACKAGE_EXTERNALS = [
   'react-native-gesture-handler',
   'react-native-maps',
   'react-native-reanimated',
+  'react-native-worklets',
   'react-native-safe-area-context',
   'react-native-screens',
   'react-native-svg',

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import MemoryFS from 'memory-fs';
 import fetch from 'node-fetch';
 import path from 'path';
+import semver from 'semver';
 import validate from 'validate-npm-package-name';
 import webpack from 'webpack';
 
@@ -123,7 +124,7 @@ async function packageBundleUnsafe({
       // in the future third-party packages may also contain worklets that would
       // need to be converted.
       reanimatedPlugin:
-        (pkg.name === 'react-native-reanimated' && pkg.version >= '2') ||
+        (pkg.name === 'react-native-reanimated' && semver.major(pkg.version) >= 2) ||
         pkg.name === 'moti' ||
         pkg.name.startsWith('@motify/') ||
         externals.includes('react-native-reanimated'),
