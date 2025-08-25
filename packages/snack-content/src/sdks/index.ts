@@ -7,77 +7,6 @@ const assets = {
 };
 
 const sdks: { [version: string]: SDKSpec } = {
-  // TODO(cedric): drop SDK 48
-  '48.0.0': {
-    version: '^48.0.0',
-    coreModules: {
-      ...assets,
-      expo: '~48.0.17',
-      react: '18.2.0',
-      'react-dom': '*',
-      'react-native': '0.71.8',
-      'react-native-web': '*',
-      // Used by @shopify/react-native-skia, on web only
-      // See runtime/src/NativeModules/ReactNativeSkia.tsx for more info
-      '@shopify/react-native-skia/lib/module/web': '*',
-    },
-    bundledModules: {
-      'expo-asset': '*',
-      'expo-font': '*',
-      'react-native-gesture-handler': '*',
-      'react-native-safe-area-context': '*',
-      '@expo/vector-icons': '*',
-      'expo-constants': '*',
-      'expo-file-system': '*',
-      'expo-updates': '*',
-      '@react-native-async-storage/async-storage': '*',
-      'react-native-reanimated': '*',
-      'expo-router': '*',
-      'expo-router/stack': '*',
-      'expo-router/tabs': '*',
-      'expo-router/drawer': '*',
-      'expo-router/html': '*',
-      'expo-router/head': '*',
-      'expo-router/entry': '*',
-      'react-native-pager-view': '*',
-    },
-    deprecatedModules: {},
-  },
-  '49.0.0': {
-    version: '^49.0.0',
-    coreModules: {
-      ...assets,
-      expo: '~49.0.10',
-      react: '18.2.0',
-      'react-dom': '*',
-      'react-native': '0.72.4',
-      'react-native-web': '*',
-      // Used by @shopify/react-native-skia, on web only
-      // See runtime/src/NativeModules/ReactNativeSkia.tsx for more info
-      '@shopify/react-native-skia/lib/module/web': '*',
-    },
-    bundledModules: {
-      'expo-asset': '*',
-      'expo-font': '*',
-      'react-native-gesture-handler': '*',
-      'react-native-safe-area-context': '*',
-      '@expo/vector-icons': '*',
-      'expo-constants': '*',
-      'expo-file-system': '*',
-      'expo-updates': '*',
-      '@react-native-async-storage/async-storage': '*',
-      'react-native-reanimated': '*',
-      'expo-router': '*',
-      'expo-router/stack': '*',
-      'expo-router/tabs': '*',
-      'expo-router/drawer': '*',
-      'expo-router/html': '*',
-      'expo-router/head': '*',
-      'expo-router/entry': '*',
-      'react-native-pager-view': '*',
-    },
-    deprecatedModules: {},
-  },
   '50.0.0': {
     version: '^50.0.0',
     coreModules: {
@@ -192,6 +121,41 @@ const sdks: { [version: string]: SDKSpec } = {
       react: '19.0.0',
       'react-dom': '19.0.0',
       'react-native': '0.79.5',
+      'react-native-web': '*',
+      // Used by @shopify/react-native-skia, on web only
+      // See runtime/src/NativeModules/ReactNativeSkia.tsx for more info
+      '@shopify/react-native-skia/lib/module/web': '*',
+    },
+    bundledModules: {
+      'expo-asset': '*',
+      'expo-font': '*',
+      'react-native-gesture-handler': '*',
+      'react-native-safe-area-context': '*',
+      '@expo/vector-icons': '*',
+      'expo-constants': '*',
+      'expo-file-system': '*',
+      'expo-updates': '*',
+      '@react-native-async-storage/async-storage': '*',
+      'react-native-reanimated': '*',
+      'expo-router': '*',
+      'expo-router/stack': '*',
+      'expo-router/tabs': '*',
+      'expo-router/drawer': '*',
+      'expo-router/html': '*',
+      'expo-router/head': '*',
+      'expo-router/entry': '*',
+      'react-native-pager-view': '*',
+    },
+    deprecatedModules: {},
+  },
+  '54.0.0': {
+    version: '^54.0.0',
+    coreModules: {
+      ...assets,
+      expo: '54.0.0-preview.6',
+      react: '19.1.0',
+      'react-dom': '19.1.0',
+      'react-native': '0.81.0',
       'react-native-web': '*',
       // Used by @shopify/react-native-skia, on web only
       // See runtime/src/NativeModules/ReactNativeSkia.tsx for more info
