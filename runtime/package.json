@@ -29,7 +29,7 @@
     "canvaskit-wasm": "0.38.0",
     "diff": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
-    "expo": "^54.0.0-preview.6",
+    "expo": "54.0.0-preview.6",
     "expo-asset": "~12.0.3",
     "expo-camera": "~17.0.2",
     "expo-constants": "~18.0.3",

@@ -4641,7 +4641,7 @@ expo-updates@~29.0.4:
     ignore "^5.3.1"
     resolve-from "^5.0.0"
 
-expo@^54.0.0-preview.6:
+expo@54.0.0-preview.6:
   version "54.0.0-preview.6"
   resolved "https://registry.yarnpkg.com/expo/-/expo-54.0.0-preview.6.tgz#0becc3ba14a953dd840b45c02dec268cc5f8e8be"
   integrity sha512-7bfG0KOmGGwnVzoNaHaJ+qe/fxaLFspVEVJ2146Arj7jzv+FVKh36daZxgqsutrXwezq/hk3kKTMo7e1nlQlcg==
