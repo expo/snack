@@ -8,7 +8,7 @@ export const DEFAULT_DESCRIPTION = 'No description';
 
 export const DEFAULT_CODE: SnackFiles = {
   'App.js': {
-    contents: `import { Text, StyleSheet } from 'react-native';
+    contents: `import { StyleSheet, Text, View } from 'react-native';
 
 // You can import supported modules from npm
 import { Card } from 'react-native-paper';
