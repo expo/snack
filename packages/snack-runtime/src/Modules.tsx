@@ -24,8 +24,8 @@ import { SourceMapConsumer, RawSourceMap } from 'source-map';
 import { SNACKAGER_API_URLS } from './Constants';
 import * as Files from './Files';
 import * as Logger from './Logger';
+import { getCacheFile, setCacheFile } from './ModulesCache';
 import * as AssetRegistry from './NativeModules/AssetRegistry';
-import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import { SnackConfig } from './config/SnackConfig';
 import System from '../vendor/system.src';
@@ -191,17 +191,15 @@ const fetchPipeline = async (load: Load) => {
 
           // Fetch meta-data like type, width and height
           try {
-            const cacheFile = new FileSystem.File(
-              FileSystem.Paths.cache,
+            const cacheFile = await getCacheFile(
               `snack-asset-metadata-${cacheBuster}-${hash}.json`,
             );
-            if (cacheFile.exists) {
-              const contents = await cacheFile.text();
-              metaData = JSON.parse(contents);
+            if (cacheFile) {
+              metaData = JSON.parse(cacheFile);
               Logger.module(
                 'Loaded asset metadata',
                 s3Url,
-                `from cache ${contents ? contents.length : undefined} bytes`,
+                `from cache ${cacheFile ? cacheFile.length : undefined} bytes`,
               );
             } else {
               Logger.module('Fetching asset metadata', s3Url, '...');
@@ -228,7 +226,10 @@ const fetchPipeline = async (load: Load) => {
               }
               if (metaData) {
                 try {
-                  cacheFile.write(JSON.stringify(metaData));
+                  await setCacheFile(
+                    `snack-asset-metadata-${cacheBuster}-${hash}.json`,
+                    JSON.stringify(metaData),
+                  );
                 } catch (error) {
                   Logger.error('Failed to store asset metadata in cache', error);
                 }
@@ -301,12 +302,11 @@ const fetchPipeline = async (load: Load) => {
         // Download bundle, keeping a local cache
         let bundle: string | undefined;
         const cacheHandle = handle.replace(/\//g, '~');
-        const cacheFile = new FileSystem.File(
-          FileSystem.Paths.cache,
+        const cacheFile = await getCacheFile(
           `snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`,
         );
-        if (cacheFile.exists) {
-          bundle = await cacheFile.text();
+        if (cacheFile) {
+          bundle = cacheFile;
           Logger.module(
             'Loaded dependency',
             cacheHandle,
@@ -355,7 +355,10 @@ const fetchPipeline = async (load: Load) => {
           }
 
           try {
-            cacheFile.write(bundle);
+            await setCacheFile(
+              `snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`,
+              bundle,
+            );
           } catch (error) {
             Logger.error('Failed to store dependency in cache', error);
           }
