@@ -13,7 +13,7 @@ build:
       docker:
         dockerfile: snackpub/Dockerfile
         buildArgs:
-          node_version: 18.17.1
+          node_version: 20.19.4
           DEPLOY_ENVIRONMENT: staging
   tagPolicy:
     sha256: {}
