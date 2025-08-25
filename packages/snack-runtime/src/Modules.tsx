@@ -28,8 +28,8 @@ import * as AssetRegistry from './NativeModules/AssetRegistry';
 import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import { SnackConfig } from './config/SnackConfig';
-import Reanimated2Plugin from '../vendor/reanimated-plugin';
 import System from '../vendor/system.src';
+import WorkletsPlugin from '../vendor/worklets-plugin';
 
 type Dependencies = {
   [key: string]: { resolved?: string; version: string; handle?: string };
@@ -55,7 +55,7 @@ React.__esModule = true;
 React.default = React;
 
 // client caches dependency resolutions locally, increment the cachebuster to invalidate existing caches
-const cacheBuster = '2';
+const cacheBuster = '3';
 
 // We access this for its side effects because it is lazily loaded.
 // See https://github.com/expo/expo-asset/blob/6698f2a6dc657a0b12bf29a22e62c83c9fd8ed3a/src/Asset.js#L186-L190
@@ -77,7 +77,6 @@ if (typeof global['__DEV__'] !== 'boolean') {
 
 // Maintain project-level dependency state in the `ExpoDependencyV2` format.
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
-
 const manifest = Constants.manifest;
 let projectDependencies: Dependencies = manifest?.extra?.dependencies ?? {};
 
@@ -192,10 +191,12 @@ const fetchPipeline = async (load: Load) => {
 
           // Fetch meta-data like type, width and height
           try {
-            const cacheUri = `${FileSystem.cacheDirectory}snack-asset-metadata-${cacheBuster}-${hash}.json`;
-            const { exists } = await FileSystem.getInfoAsync(cacheUri);
-            if (exists) {
-              const contents = await FileSystem.readAsStringAsync(cacheUri);
+            const cacheFile = new FileSystem.File(
+              FileSystem.Paths.cache,
+              `snack-asset-metadata-${cacheBuster}-${hash}.json`,
+            );
+            if (cacheFile.exists) {
+              const contents = await cacheFile.text();
               metaData = JSON.parse(contents);
               Logger.module(
                 'Loaded asset metadata',
@@ -226,16 +227,15 @@ const fetchPipeline = async (load: Load) => {
                 };
               }
               if (metaData) {
-                FileSystem.writeAsStringAsync(cacheUri, JSON.stringify(metaData)).then(
-                  undefined,
-                  (error) => {
-                    Logger.error('Failed to store asset metadata in cache', error);
-                  },
-                );
+                try {
+                  cacheFile.write(JSON.stringify(metaData));
+                } catch (error) {
+                  Logger.error('Failed to store asset metadata in cache', error);
+                }
               }
             }
-          } catch (e) {
-            Logger.error('Error fetching metadata', e.message);
+          } catch (error: any) {
+            Logger.error(`Error fetching metadata: ${error.message}`);
           }
 
           if (metaData) {
@@ -301,17 +301,21 @@ const fetchPipeline = async (load: Load) => {
         // Download bundle, keeping a local cache
         let bundle: string | undefined;
         const cacheHandle = handle.replace(/\//g, '~');
-        const cacheUri = `${FileSystem.cacheDirectory}snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`;
-        const { exists } = await FileSystem.getInfoAsync(cacheUri);
-        if (exists) {
-          bundle = await FileSystem.readAsStringAsync(cacheUri);
+        const cacheFile = new FileSystem.File(
+          FileSystem.Paths.cache,
+          `snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`,
+        );
+        if (cacheFile.exists) {
+          bundle = await cacheFile.text();
           Logger.module(
             'Loaded dependency',
             cacheHandle,
             `from cache ${bundle ? bundle.length : undefined} bytes`,
           );
         } else {
-          for (const [urlIndex, url] of SNACKAGER_API_URLS.entries()) {
+          for (const [i, url] of SNACKAGER_API_URLS.entries()) {
+            // Determine if there is another URL to try on fetch failures
+            const hasNextUrl = i < SNACKAGER_API_URLS.length - 1;
             const fetchFrom = `${url}/${handle}-${Platform.OS}/bundle.js`;
 
             try {
@@ -325,15 +329,14 @@ const fetchPipeline = async (load: Load) => {
                 throw new Error(`Request failed with status ${res.status}: ${res.statusText}`);
               }
             } catch (e) {
-              // Retry if there are more URLs to try
-              if (urlIndex < SNACKAGER_API_URLS.length - 1) {
-                Logger.warn(
-                  'Dependency could not be loaded, trying next Snackager URL (production) ...',
-                  handle,
-                );
-              } else {
+              if (hasNextUrl) {
                 Logger.error('Error fetching bundle', fetchFrom, e);
                 throw e;
+              } else {
+                Logger.warn(
+                  'Dependency could not be loaded from staging, trying production ...',
+                  handle,
+                );
               }
             }
 
@@ -351,9 +354,11 @@ const fetchPipeline = async (load: Load) => {
             throw new Error(`Unable to fetch module ${handle} for ${Platform.OS}.`);
           }
 
-          FileSystem.writeAsStringAsync(cacheUri, bundle).then(undefined, (error) => {
+          try {
+            cacheFile.write(bundle);
+          } catch (error) {
             Logger.error('Failed to store dependency in cache', error);
-          });
+          }
         }
 
         // The package server uses webpack's 'commonjs' format which puts root module exports in
@@ -371,10 +376,10 @@ const fetchPipeline = async (load: Load) => {
 
       // Nothing worked...
       throw new Error(`Unable to resolve module '${uri}'`);
-    } catch (e) {
+    } catch (error: any) {
       // SystemJS still wants us to return something, so return an empty module that just throws the
       // error...
-      return `throw new Error(${JSON.stringify(e.message)});`;
+      return `throw new Error(${JSON.stringify(error.message)});`;
     }
   });
 };
@@ -421,8 +426,10 @@ const translatePipeline = async (load: Load) => {
                 // We need to resolve the requested context directory in the user-provided code
                 { directoryResolution: 'relative' },
               ],
-              ...(load.source.includes('react-native-reanimated') || load.source.includes('worklet')
-                ? [Reanimated2Plugin]
+              ...(load.source.includes('react-native-reanimated') ||
+              load.source.includes('react-native-worklets') ||
+              load.source.includes('worklet')
+                ? [WorkletsPlugin]
                 : []),
             ],
             moduleIds: false,
@@ -454,10 +461,10 @@ const translatePipeline = async (load: Load) => {
           ),
       );
       return transformed!.code;
-    } catch (e) {
+    } catch (error: any) {
       // SystemJS still wants us to return something, so return an empty module that just throws
       // the error...
-      return `throw new Error(${JSON.stringify(e.message)});`;
+      return `throw new Error(${JSON.stringify(error.message)});`;
     }
   });
 };

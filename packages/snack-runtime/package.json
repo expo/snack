@@ -70,7 +70,7 @@
   "peerDependencies": {
     "assert": "^2.1.0",
     "expo": "54.0.0-preview.6",
-     "expo-asset": "~12.0.0",
+    "expo-asset": "~12.0.0",
     "expo-camera": "~17.0.0",
     "expo-constants": "~18.0.0",
     "expo-crypto": "~15.0.0",
