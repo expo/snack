@@ -1,14 +1,14 @@
 import '../__mocks__/node-fetch';
-import { SDKVersion } from 'snack-content';
+import { defaultSdkVersion, newestSdkVersion, oldestSdkVersion, SDKVersion } from 'snack-content';
 
 import Snack from './snack-sdk';
 
 // A set of SDK versions to test against.
 // When upgrading SDK version, make sure to update this list.
 const sdkVersions: { [key: string]: SDKVersion } = {
-  prev: '49.0.0',
-  current: '50.0.0',
-  next: '51.0.0',
+  prev: oldestSdkVersion,
+  current: defaultSdkVersion,
+  next: newestSdkVersion,
 };
 
 describe('dependencies', () => {
