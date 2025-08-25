@@ -54,7 +54,7 @@ React.__esModule = true;
 React.default = React;
 
 // client caches dependency resolutions locally, increment the cachebuster to invalidate existing caches
-const cacheBuster = '2';
+const cacheBuster = '3';
 
 // We access this for its side effects because it is lazily loaded.
 // See https://github.com/expo/expo-asset/blob/6698f2a6dc657a0b12bf29a22e62c83c9fd8ed3a/src/Asset.js#L186-L190
@@ -189,10 +189,12 @@ const fetchPipeline = async (load: Load) => {
 
           // Fetch meta-data like type, width and height
           try {
-            const cacheUri = `${FileSystem.cacheDirectory}snack-asset-metadata-${cacheBuster}-${hash}.json`;
-            const { exists } = await FileSystem.getInfoAsync(cacheUri);
-            if (exists) {
-              const contents = await FileSystem.readAsStringAsync(cacheUri);
+            const cacheFile = new FileSystem.File(
+              FileSystem.Paths.cache,
+              `snack-asset-metadata-${cacheBuster}-${hash}.json`,
+            );
+            if (cacheFile.exists) {
+              const contents = await cacheFile.text();
               metaData = JSON.parse(contents);
               Logger.module(
                 'Loaded asset metadata',
@@ -224,12 +226,11 @@ const fetchPipeline = async (load: Load) => {
                 };
               }
               if (metaData) {
-                FileSystem.writeAsStringAsync(cacheUri, JSON.stringify(metaData)).then(
-                  undefined,
-                  (error) => {
-                    Logger.error('Failed to store asset metadata in cache', error);
-                  },
-                );
+                try {
+                  cacheFile.write(JSON.stringify(metaData));
+                } catch (error) {
+                  Logger.error('Failed to store asset metadata in cache', error);
+                }
               }
             }
           } catch (error: any) {
@@ -299,10 +300,12 @@ const fetchPipeline = async (load: Load) => {
         // Download bundle, keeping a local cache
         let bundle: string | undefined;
         const cacheHandle = handle.replace(/\//g, '~');
-        const cacheUri = `${FileSystem.cacheDirectory}snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`;
-        const { exists } = await FileSystem.getInfoAsync(cacheUri);
-        if (exists) {
-          bundle = await FileSystem.readAsStringAsync(cacheUri);
+        const cacheFile = new FileSystem.File(
+          FileSystem.Paths.cache,
+          `snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`,
+        );
+        if (cacheFile.exists) {
+          bundle = await cacheFile.text();
           Logger.module(
             'Loaded dependency',
             cacheHandle,
@@ -350,9 +353,11 @@ const fetchPipeline = async (load: Load) => {
             throw new Error(`Unable to fetch module ${handle} for ${Platform.OS}.`);
           }
 
-          FileSystem.writeAsStringAsync(cacheUri, bundle).then(undefined, (error) => {
+          try {
+            cacheFile.write(bundle);
+          } catch (error) {
             Logger.error('Failed to store dependency in cache', error);
-          });
+          }
         }
 
         // The package server uses webpack's 'commonjs' format which puts root module exports in
