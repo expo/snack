@@ -1,7 +1,5 @@
-const cacheDirectory = '';
-
 const DB_NAME = 'snack-packages';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const STORE_NAME = 'cache';
 
@@ -34,66 +32,52 @@ const db = new Promise<IDBDatabase>((resolve, reject) => {
   };
 });
 
-const getItemAsync = (store: IDBObjectStore, key: string) =>
-  new Promise<Item | null | undefined>((resolve, reject) => {
+function getStoreItem(store: IDBObjectStore, key: string) {
+  return new Promise<Item | null | undefined>((resolve, reject) => {
     const request = store.get(key);
 
     request.onerror = () => reject(request.error);
     request.onsuccess = () => resolve(request.result);
   });
+}
 
-const addItemAsync = (store: IDBObjectStore, value: Item) =>
-  new Promise((resolve, reject) => {
+function addStoreItem(store: IDBObjectStore, value: Item) {
+  return new Promise((resolve, reject) => {
     const request = store.add(value);
 
     request.onerror = () => reject(request.error);
     request.onsuccess = () => resolve(request.result);
   });
+}
 
-const putItemAsync = (store: IDBObjectStore, value: Item) =>
-  new Promise((resolve, reject) => {
+function putStoreItem(store: IDBObjectStore, value: Item) {
+  return new Promise((resolve, reject) => {
     const request = store.put(value);
 
     request.onerror = () => reject(request.error);
     request.onsuccess = () => resolve(request.result);
   });
+}
 
-const setItemAsync = async (store: IDBObjectStore, value: Item) => {
-  const existing = await getItemAsync(store, value.key);
+async function setStoreItem(store: IDBObjectStore, value: Item) {
+  const existing = await getStoreItem(store, value.key);
 
   if (existing != null) {
-    await putItemAsync(store, value);
+    await putStoreItem(store, value);
   } else {
-    await addItemAsync(store, value);
+    await addStoreItem(store, value);
   }
-};
+}
 
-const getInfoAsync = async (key: string) => {
+export async function getCacheFile(name: string) {
   try {
     const tx = (await db).transaction(STORE_NAME, 'readonly');
     const store = tx.objectStore(STORE_NAME);
 
-    const value = await getItemAsync(store, key);
-
-    return { exists: value != null };
-  } catch (e) {
-    console.warn(e);
-
-    const exists = memoryStore.has(key);
-
-    return { exists };
-  }
-};
-
-const readAsStringAsync = async (key: string) => {
-  try {
-    const tx = (await db).transaction(STORE_NAME, 'readwrite');
-    const store = tx.objectStore(STORE_NAME);
-
-    const result = await getItemAsync(store, key);
+    const result = await getStoreItem(store, name);
 
     if (result != null) {
-      await putItemAsync(store, {
+      await putStoreItem(store, {
         ...result,
         readAt: new Date().toISOString(),
       });
@@ -105,16 +89,16 @@ const readAsStringAsync = async (key: string) => {
   } catch (e) {
     console.warn(e);
 
-    const item = memoryStore.get(key);
+    const item = memoryStore.get(name);
     return item ? item.value : undefined;
   }
-};
+}
 
-const writeAsStringAsync = async (key: string, value: string) => {
+export async function setCacheFile(name: string, content: string) {
   const createdAt = new Date().toISOString();
-  const item = {
-    key,
-    value,
+  const item: Item = {
+    key: name,
+    value: content,
     createdAt,
     readAt: createdAt,
   };
@@ -123,17 +107,10 @@ const writeAsStringAsync = async (key: string, value: string) => {
     const tx = (await db).transaction(STORE_NAME, 'readwrite');
     const store = tx.objectStore(STORE_NAME);
 
-    await setItemAsync(store, item);
+    await setStoreItem(store, item);
   } catch (e) {
     console.warn(e);
 
-    memoryStore.set(key, item);
+    memoryStore.set(name, item);
   }
-};
-
-export default {
-  cacheDirectory,
-  getInfoAsync,
-  readAsStringAsync,
-  writeAsStringAsync,
-};
+}

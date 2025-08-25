@@ -163,7 +163,7 @@ jobs:
             -F "preLaunchButtonBackgroundColor=#000000" \
             -F "preLaunchButtonBackgroundOpacity=1" \
             -F "postSessionButtonText=Launch Snack" \
-            -F "postSessionButtonTextColor=#000000" \
+            -F "postSessionButtonTextColor=#ffffff" \
             -F "postSessionButtonBackgroundColor=#000000" \
             -F "postSessionButtonBackgroundOpacity=1" > /dev/null
           rm -rf exponent-android.apk appetize.json
@@ -236,7 +236,7 @@ jobs:
             -F "preLaunchButtonBackgroundColor=#000000" \
             -F "preLaunchButtonBackgroundOpacity=1" \
             -F "postSessionButtonText=Launch Snack" \
-            -F "postSessionButtonTextColor=#000000" \
+            -F "postSessionButtonTextColor=#ffffff" \
             -F "postSessionButtonBackgroundColor=#000000" \
             -F "postSessionButtonBackgroundOpacity=1" > /dev/null
           rm -rf exponent-ios.zip appetize.json
@@ -290,5 +290,3 @@ jobs:
           status: failure
           author_name: Appetize deployment failed
           fields: author,job
-
-
