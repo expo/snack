@@ -395,6 +395,7 @@ class EditorView extends React.Component<Props, State> {
       previewShown,
       isDownloading,
       devices,
+      deviceAppearance,
     } = this.props;
 
     const annotations = lintAnnotations.length
@@ -666,6 +667,7 @@ class EditorView extends React.Component<Props, State> {
                           sdkVersion={sdkVersion}
                           sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
                           devices={devices}
+                          deviceAppearance={deviceAppearance}
                         />
                       </Panel>
                     </>

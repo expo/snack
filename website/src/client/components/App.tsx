@@ -926,6 +926,7 @@ class Main extends React.Component<Props, State> {
               upgradedFromSDKVersion={
                 this.state.wasUpgraded ? this.state.initialSdkVersion : undefined
               }
+              deviceAppearance={this.props.query.deviceAppearance}
             />
           ) : isEmbedded ? (
             <EmbeddedShell />

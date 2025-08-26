@@ -36,6 +36,7 @@ type Props = {
   sendCodeOnChangeEnabled: boolean;
   theme: ThemeName;
   devices: AppetizeDevices;
+  deviceAppearance?: 'light' | 'dark';
 };
 
 type State = {
@@ -147,6 +148,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
       sendCodeOnChangeEnabled,
       theme,
       devices,
+      deviceAppearance,
     } = this.props;
     return (
       <div
@@ -199,6 +201,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
             sdkVersion={sdkVersion}
             experienceURL={experienceURL}
             platform={platform}
+            deviceAppearance={deviceAppearance}
             isEmbedded={!!isEmbedded}
             // payerCode={payerCode}
             // isPopupOpen={isPopupOpen}

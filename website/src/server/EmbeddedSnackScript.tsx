@@ -25,6 +25,7 @@ export const script = `
       options.name = options.name || container.dataset.snackName;
       options.description = options.description || container.dataset.snackDescription;
       options.theme = options.theme || container.dataset.snackTheme;
+      options.deviceAppearance = options.deviceAppearance || container.dataset.snackDeviceAppearance;
       options.appetizePayerCode = options.appetizePayerCode || container.dataset.snackAppetizePayerCode;
       options.loading = options.loading || container.dataset.snackLoading;
       options.deviceFrame = options.deviceFrame || container.dataset.deviceFrame || container.dataset.snackDeviceFrame;
@@ -78,6 +79,9 @@ export const script = `
       }
       if (options.theme) {
         iframeQueryParams += '&theme=' + options.theme;
+      }
+      if (options.deviceAppearance) {
+        iframeQueryParams += '&deviceAppearance=' + options.deviceAppearance;
       }
       if (options.appetizePayerCode) {
         iframeQueryParams += '&appetizePayerCode=' + options.appetizePayerCode;
