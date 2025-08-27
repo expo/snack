@@ -39,6 +39,7 @@ const aliases: { [key: string]: any } = {
   // Use the fixed react native reanimated shipped in the snack runtime
   // It's a workaround for issues we encountered with the newer babel plugin for SDK 44
   'react-native-reanimated': require('react-native-reanimated'),
+  'react-native-worklets': require('react-native-worklets'),
 
   // Used by @shopify/react-native-skia, on web only
   '@shopify/react-native-skia/lib/module/web': SkiaWeb,

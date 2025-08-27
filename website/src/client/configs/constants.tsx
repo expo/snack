@@ -8,6 +8,28 @@ type AppetizeConstants = Record<
 >;
 
 const appetize: Record<SDKVersion, AppetizeConstants> = {
+  '54.0.0': {
+    main: {
+      android: {
+        publicKey: 'b_clf3yzcnyyg5af25nlkyh7d7ty',
+        device: 'pixel9pro',
+      },
+      ios: {
+        publicKey: 'b_gyvl6mdc7q6bjerdqpo7zm5hii',
+        device: 'iphone16pro',
+      },
+    },
+    embed: {
+      android: {
+        publicKey: 'b_f2dwltn2itrgkytn774d6xytsi',
+        device: 'pixel8',
+      },
+      ios: {
+        publicKey: 'b_z7jpltbm47xjfqycvoo2gs43ay',
+        device: 'iphone16pro',
+      },
+    },
+  },
   '53.0.0': {
     main: {
       android: {
@@ -92,51 +114,6 @@ const appetize: Record<SDKVersion, AppetizeConstants> = {
       },
       ios: {
         publicKey: '6bdvj26c3efkcdaoghibydqq6i',
-        device: 'iphone12',
-      },
-    },
-  },
-  '49.0.0': {
-    main: {
-      android: {
-        publicKey: 'akgy6sx2wxqpi7tylwniocatnu',
-        device: 'pixel4',
-      },
-      ios: {
-        publicKey: '7zohmhvo3upsnznntigdxjt5pa',
-        device: 'iphone12',
-      },
-    },
-    embed: {
-      android: {
-        publicKey: 'b2ch4fyexf6migif2avgiq7zqe',
-        device: 'pixel4',
-      },
-      ios: {
-        publicKey: 'j64d66porsz3yaltg7foslosr4',
-        device: 'iphone12',
-      },
-    },
-  },
-  // TODO(cedric): drop SDK 48
-  '48.0.0': {
-    main: {
-      android: {
-        publicKey: 'dprul2v3lnp2p2okkylszo6tc4',
-        device: 'pixel4',
-      },
-      ios: {
-        publicKey: '4piegq2iwqmc2alvrlqvenp3dy',
-        device: 'iphone12',
-      },
-    },
-    embed: {
-      android: {
-        publicKey: '5aemtcdrvz6kq7togroc2fvtdu',
-        device: 'pixel4',
-      },
-      ios: {
-        publicKey: 'gq7nkndjvprkhmcuktyp6bgc7y',
         device: 'iphone12',
       },
     },

@@ -20,7 +20,6 @@ const aliases: { [key: string]: any } = {
 
   // Packages that are used internally by the runtime
   'expo-constants': require('expo-constants'),
-  'expo-file-system': require('expo-file-system'),
   'expo-updates': require('expo-updates'),
   '@react-native-async-storage/async-storage': require('@react-native-async-storage/async-storage'),
 
@@ -39,6 +38,7 @@ const aliases: { [key: string]: any } = {
   // Use the fixed react native reanimated shipped in the snack runtime
   // It's a workaround for issues we encountered with the newer babel plugin for SDK 44
   'react-native-reanimated': require('react-native-reanimated'),
+  'react-native-worklets': require('react-native-worklets'),
 
   // Used by @shopify/react-native-skia, on web only
   '@shopify/react-native-skia/lib/module/web': SkiaWeb,
