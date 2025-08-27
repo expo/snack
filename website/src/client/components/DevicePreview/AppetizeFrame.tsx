@@ -28,6 +28,8 @@ type AppetizeFrameProps = {
   platform: 'android' | 'ios';
   /** The Snack theme settings */
   theme: ThemeName;
+  /** Device appearance/theme, falls back to theme */
+  deviceAppearance?: 'light' | 'dark';
   /** If snack is running in embed mode */
   isEmbedded: boolean;
   /** The Snack experience URL to load */
@@ -59,7 +61,7 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
     session: undefined,
     deviceId: undefined,
     deviceFontScale: undefined,
-    deviceAppearance: this.props.theme,
+    deviceAppearance: this.props.deviceAppearance ?? this.props.theme,
     sentQueueInfo: false,
     deviceControlState: undefined,
   };
@@ -242,7 +244,13 @@ export class AppetizeFrame extends Component<AppetizeFrameProps, AppetizeFrameSt
 
   render() {
     const { platform, isEmbedded } = this.props;
-    const { session, deviceId, deviceAppearance, deviceFontScale, deviceControlState } = this.state;
+    const {
+      session,
+      deviceId,
+      deviceFontScale,
+      deviceControlState,
+      deviceAppearance = this.props.deviceAppearance,
+    } = this.state;
 
     return (
       <>

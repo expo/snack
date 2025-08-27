@@ -32,24 +32,25 @@ Snacks are a great way to show off what your library can do and let users explor
 
 The `embed.js` script scans the DOM and populates any elements containing a `data-snack-id` or `data-snack-code` attribute with an `<iframe>` displaying an embedded Snack. Attributes that start with `data-snack-` are converted to [Parameters](./url-query-parameters.md#parameters) and can be used to provide the contents of the Snack or override defaults.
 
-| Attribute   | Description  |
-|---|---|
-| `data-snack-code` | JavaScript code to use for the Snack.  |
-| `data-snack-description`  | Description of the Snack. |
-| `data-snack-dependencies` | Comma separated list of dependencies to include in the Snack. The dependency version is optional. When omitted the version that is compatible with the selected SDK version is used (similar to `expo install`). |
-| `data-snack-id` | Id of the saved Snack. When specified, `data-snack-code` and `data-snack-dependencies` are ignored. |
-| `data-snack-loading` | [iFrame loading attribute](https://web.dev/iframe-lazy-loading/). Valid values: `auto`, `lazy`, `eager`. |
-| `data-snack-name` | Name of the Snack. |
-| `data-snack-platform`| The default platform to preview the Snack on. Defaults to `web` which will run as soon as your users see the Snack. Valid values: `ios`, `android`, `web`, `mydevice`. |
-| `data-snack-preview`| Shows or hides the preview pane. Defaults to `true` using `embed.js` Snacks. Valid values: `true`, `false`. |
-| `data-snack-sdkversion` |  The Expo SDK version to use (eg. `38.0.0`). Defaults to the latest released Expo SDK version. |
-| `data-snack-supportedplatforms` |  The platforms available for previewing the Snack. Defaults to `mydevice,ios,android,web` when not specified. |
-| `data-snack-theme` | The theme to use, `light` or `dark`. When omitted uses the theme that was configured by the user (defaults to `light`). |
-| `data-snack-device-frame` | If the outline of the device should be rendered or not. Valid values: `true` or `false`. |
-| `data-snack-device-android` | The emulator used when running the Android device. Valid values: any of the [Appetize `device` Playback options](https://docs.appetize.io/core-features/playback-options). Note, this also has effect on the used Android version. |
-| `data-snack-device-android-scale` | The scale of the emulator. Valid values: `1..100`. |
-| `data-snack-device-ios` | The simulator used when running the iOS device. Valid values: any of the [Appetize `device` Playback options](https://docs.appetize.io/core-features/playback-options). Note, this also has effect on the used iOS version. |
-| `data-snack-device-ios-scale` | The scale of the simulator. Valid values: `1..100`. |
+| Attribute                         | Description                                                                                                                                                                                                                        |
+|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `data-snack-code`                 | JavaScript code to use for the Snack.                                                                                                                                                                                              |
+| `data-snack-description`          | Description of the Snack.                                                                                                                                                                                                          |
+| `data-snack-dependencies`         | Comma separated list of dependencies to include in the Snack. The dependency version is optional. When omitted the version that is compatible with the selected SDK version is used (similar to `expo install`).                   |
+| `data-snack-id`                   | Id of the saved Snack. When specified, `data-snack-code` and `data-snack-dependencies` are ignored.                                                                                                                                |
+| `data-snack-loading`              | [iFrame loading attribute](https://web.dev/iframe-lazy-loading/). Valid values: `auto`, `lazy`, `eager`.                                                                                                                           |
+| `data-snack-name`                 | Name of the Snack.                                                                                                                                                                                                                 |
+| `data-snack-platform`             | The default platform to preview the Snack on. Defaults to `web` which will run as soon as your users see the Snack. Valid values: `ios`, `android`, `web`, `mydevice`.                                                             |
+| `data-snack-preview`              | Shows or hides the preview pane. Defaults to `true` using `embed.js` Snacks. Valid values: `true`, `false`.                                                                                                                        |
+| `data-snack-sdkversion`           | The Expo SDK version to use (eg. `38.0.0`). Defaults to the latest released Expo SDK version.                                                                                                                                      |
+| `data-snack-supportedplatforms`   | The platforms available for previewing the Snack. Defaults to `mydevice,ios,android,web` when not specified.                                                                                                                       |
+| `data-snack-theme`                | The theme to use, `light` or `dark`. When omitted uses the theme that was configured by the user (defaults to `light`).                                                                                                            |
+| `data-snack-deviceappearance`     | The device appearance to use, `light` or `dark`. When omitted, uses fallback to Snack theme (defaults to `undefined`).                                                                                                             |
+| `data-snack-device-frame`         | If the outline of the device should be rendered or not. Valid values: `true` or `false`.                                                                                                                                           |
+| `data-snack-device-android`       | The emulator used when running the Android device. Valid values: any of the [Appetize `device` Playback options](https://docs.appetize.io/core-features/playback-options). Note, this also has effect on the used Android version. |
+| `data-snack-device-android-scale` | The scale of the emulator. Valid values: `1..100`.                                                                                                                                                                                 |
+| `data-snack-device-ios`           | The simulator used when running the iOS device. Valid values: any of the [Appetize `device` Playback options](https://docs.appetize.io/core-features/playback-options). Note, this also has effect on the used iOS version.        |
+| `data-snack-device-ios-scale`     | The scale of the simulator. Valid values: `1..100`.                                                                                                                                                                                |
 
 > All attribute values should be URL encoded, e.g. by using [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent).
 

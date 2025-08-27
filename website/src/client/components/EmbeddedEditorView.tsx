@@ -103,6 +103,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
       sendCodeOnChangeEnabled,
       theme,
       userAgent,
+      deviceAppearance,
     } = this.props;
 
     return (
@@ -171,6 +172,7 @@ class EmbeddedEditorView extends React.PureComponent<Props, State> {
                     sdkVersion={sdkVersion}
                     isEmbedded
                     sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
+                    deviceAppearance={deviceAppearance}
                   />
                 );
               }}
