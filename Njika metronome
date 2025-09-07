@@ -1,0 +1,79 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, Slider, StyleSheet, Picker, Platform } from 'react-native';
+import { Audio } from 'expo-av';
+import LottieView from 'lottie-react-native';
+
+export default function App() {
+  const [bpm, setBpm] = useState(120);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [sound, setSound] = useState();
+  const [subdivision, setSubdivision] = useState('1/4');
+
+  const subdivisions = ['1/4','1/8','1/16','Triplets','Dotted','Swing','3:2 Polyrhythm'];
+
+  useEffect(() => {
+    return sound ? () => { sound.unloadAsync(); } : undefined;
+  }, [sound]);
+
+  const playTick = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require('./assets/tick.wav')
+    );
+    setSound(sound);
+    await sound.playAsync();
+  };
+
+  useEffect(() => {
+    let interval;
+    if(isPlaying) {
+      let intervalTime = (60 / bpm) * 1000;
+      switch(subdivision){
+        case '1/8': intervalTime /= 2; break;
+        case '1/16': intervalTime /= 4; break;
+        case 'Triplets': intervalTime /= 3; break;
+        case 'Dotted': intervalTime *= 1.5; break;
+        case 'Swing': intervalTime = intervalTime * 0.666; break;
+        case '3:2 Polyrhythm': intervalTime = intervalTime * (2/3); break;
+        default: break;
+      }
+      interval = setInterval(() => { playTick(); }, intervalTime);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying, bpm, subdivision]);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Metronome - Nijika</Text>
+      <View style={styles.animationContainer}>
+        <LottieView source={require('./assets/nijika_animation.json')} autoPlay loop style={styles.character} />
+        <View style={styles.supportingCharacters}>
+          <LottieView source={require('./assets/bucci_guitar.json')} autoPlay loop style={styles.supportCharacter} />
+          <LottieView source={require('./assets/kita_electric.json')} autoPlay loop style={styles.supportCharacter} />
+          <LottieView source={require('./assets/ryo_bass.json')} autoPlay loop style={styles.supportCharacter} />
+        </View>
+      </View>
+      <Text style={styles.bpmText}>{bpm} BPM</Text>
+      <Slider style={{width: 300, height: 40}} minimumValue={40} maximumValue={300} value={bpm} onValueChange={value => setBpm(Math.round(value))} />
+      <Text style={{color:'#fff', marginTop:10}}>Subdivision:</Text>
+      <Picker selectedValue={subdivision} style={{height: 50, width: Platform.OS==='ios'?150:200, color:'#fff'}} onValueChange={(itemValue) => setSubdivision(itemValue)}>
+        {subdivisions.map(sub => (<Picker.Item key={sub} label={sub} value={sub} />))}
+      </Picker>
+      <View style={styles.buttons}>
+        <Button title={isPlaying ? "Stop" : "Start"} onPress={() => setIsPlaying(!isPlaying)} color='#ffcc00' />
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0d0d1a', padding: 10 },
+  title: { fontSize: 28, fontWeight: 'bold', color: '#fff', marginBottom: 20 },
+  bpmText: { fontSize: 22, color: '#fff', marginVertical: 10 },
+  buttons: { flexDirection: 'row', marginTop: 20 },
+  animationContainer: { alignItems: 'center' },
+  character: { width: 220, height: 220, shadowColor:'#000', shadowOpacity:0.8, shadowRadius:10, shadowOffset:{width:0,height:5} },
+  supportingCharacters: { flexDirection: 'row', justifyContent: 'space-between', width: 320, marginTop: 20 },
+  supportCharacter: { width: 80, height: 80, shadowColor:'#000', shadowOpacity:0.5, shadowRadius:5, shadowOffset:{width:0,height:3} }
+});
