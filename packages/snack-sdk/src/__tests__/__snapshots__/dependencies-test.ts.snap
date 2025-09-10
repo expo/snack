@@ -12,7 +12,7 @@ Object {
   },
   "expo-font": Object {
     "version": "8.1.0",
-    "wantedVersion": "~11.10.3",
+    "wantedVersion": "~13.3.1",
   },
   "react-native-paper": Object {
     "handle": "snackager-1/react-native-paper@3.10.1",
@@ -108,27 +108,27 @@ Object {
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
-    "wantedVersion": "~2.14.0",
+    "wantedVersion": "~2.24.0",
   },
   "react-native-reanimated": Object {
     "dependents": Array [
       "@react-navigation/drawer",
     ],
-    "wantedVersion": "~3.6.2",
+    "wantedVersion": "~3.17.4",
   },
   "react-native-safe-area-context": Object {
     "dependents": Array [
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
-    "wantedVersion": "4.8.2",
+    "wantedVersion": "5.4.0",
   },
   "react-native-screens": Object {
     "dependents": Array [
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
-    "wantedVersion": "~3.29.0",
+    "wantedVersion": "~4.10.0",
   },
 }
 `;
@@ -136,8 +136,8 @@ Object {
 exports[`dependencies resolves * after enabling 1`] = `
 Object {
   "expo-constants": Object {
-    "version": "~15.4.6",
-    "wantedVersion": "~15.4.6",
+    "version": "~17.1.5",
+    "wantedVersion": "~17.1.5",
   },
 }
 `;
@@ -145,8 +145,8 @@ Object {
 exports[`dependencies resolves * to wanted version 1`] = `
 Object {
   "expo-constants": Object {
-    "version": "~15.4.6",
-    "wantedVersion": "~15.4.6",
+    "version": "~17.1.5",
+    "wantedVersion": "~17.1.5",
   },
 }
 `;
@@ -176,7 +176,7 @@ Object {
   },
   "expo-font": Object {
     "version": "~10.0.4",
-    "wantedVersion": "~11.10.3",
+    "wantedVersion": "~13.3.1",
   },
   "react-native-paper": Object {
     "handle": "snackager-1/react-native-paper@3.10.1",
@@ -206,13 +206,9 @@ Object {
 exports[`dependencies updates preloaded module version when changing SDK version 1`] = `
 Object {
   "expo-av": Object {
-    "handle": "snackager-1/expo-av@13.10.5",
-    "peerDependencies": Object {
-      "react": "*",
-      "react-native": "*",
-    },
-    "version": "~13.10.5",
-    "wantedVersion": "~13.10.5",
+    "error": [Error: Failed to resolve dependency 'expo-av@~15.1.4' (Package 'expo-av@~15.1.4' not found in the registry)],
+    "version": "~15.1.4",
+    "wantedVersion": "~15.1.4",
   },
 }
 `;
@@ -220,13 +216,9 @@ Object {
 exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
 Object {
   "expo-av": Object {
-    "handle": "snackager-1/expo-av@14.0.7",
-    "peerDependencies": Object {
-      "react": "*",
-      "react-native": "*",
-    },
-    "version": "~14.0.7",
-    "wantedVersion": "~14.0.7",
+    "error": [Error: Failed to resolve dependency 'expo-av@~15.1.4' (Package 'expo-av@~15.1.4' not found in the registry)],
+    "version": "~16.0.6",
+    "wantedVersion": "~16.0.6",
   },
 }
 `;

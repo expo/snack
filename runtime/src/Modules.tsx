@@ -23,12 +23,12 @@ import { SourceMapConsumer, RawSourceMap } from 'source-map';
 import { SNACKAGER_API_URLS } from './Constants';
 import * as Files from './Files';
 import * as Logger from './Logger';
+import { getCacheFile, setCacheFile } from './ModulesCache';
 import * as AssetRegistry from './NativeModules/AssetRegistry';
-import FileSystem from './NativeModules/FileSystem';
 import * as Profiling from './Profiling';
 import aliases from './aliases';
-import ReanimatedPlugin from '../vendor/reanimated-plugin';
 import System from '../vendor/system.src';
+import WorkletsPlugin from '../vendor/worklets-plugin';
 
 type Dependencies = {
   [key: string]: { resolved?: string; version: string; handle?: string };
@@ -54,7 +54,7 @@ React.__esModule = true;
 React.default = React;
 
 // client caches dependency resolutions locally, increment the cachebuster to invalidate existing caches
-const cacheBuster = '2';
+const cacheBuster = '3';
 
 // We access this for its side effects because it is lazily loaded.
 // See https://github.com/expo/expo-asset/blob/6698f2a6dc657a0b12bf29a22e62c83c9fd8ed3a/src/Asset.js#L186-L190
@@ -189,15 +189,15 @@ const fetchPipeline = async (load: Load) => {
 
           // Fetch meta-data like type, width and height
           try {
-            const cacheUri = `${FileSystem.cacheDirectory}snack-asset-metadata-${cacheBuster}-${hash}.json`;
-            const { exists } = await FileSystem.getInfoAsync(cacheUri);
-            if (exists) {
-              const contents = await FileSystem.readAsStringAsync(cacheUri);
-              metaData = JSON.parse(contents);
+            const cacheFile = await getCacheFile(
+              `snack-asset-metadata-${cacheBuster}-${hash}.json`,
+            );
+            if (cacheFile) {
+              metaData = JSON.parse(cacheFile);
               Logger.module(
                 'Loaded asset metadata',
                 s3Url,
-                `from cache ${contents ? contents.length : undefined} bytes`,
+                `from cache ${cacheFile ? cacheFile.length : undefined} bytes`,
               );
             } else {
               Logger.module('Fetching asset metadata', s3Url, '...');
@@ -224,12 +224,14 @@ const fetchPipeline = async (load: Load) => {
                 };
               }
               if (metaData) {
-                FileSystem.writeAsStringAsync(cacheUri, JSON.stringify(metaData)).then(
-                  undefined,
-                  (error) => {
-                    Logger.error('Failed to store asset metadata in cache', error);
-                  },
-                );
+                try {
+                  await setCacheFile(
+                    `snack-asset-metadata-${cacheBuster}-${hash}.json`,
+                    JSON.stringify(metaData),
+                  );
+                } catch (error) {
+                  Logger.error('Failed to store asset metadata in cache', error);
+                }
               }
             }
           } catch (error: any) {
@@ -299,10 +301,11 @@ const fetchPipeline = async (load: Load) => {
         // Download bundle, keeping a local cache
         let bundle: string | undefined;
         const cacheHandle = handle.replace(/\//g, '~');
-        const cacheUri = `${FileSystem.cacheDirectory}snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`;
-        const { exists } = await FileSystem.getInfoAsync(cacheUri);
-        if (exists) {
-          bundle = await FileSystem.readAsStringAsync(cacheUri);
+        const cacheFile = await getCacheFile(
+          `snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`,
+        );
+        if (cacheFile) {
+          bundle = cacheFile;
           Logger.module(
             'Loaded dependency',
             cacheHandle,
@@ -350,9 +353,14 @@ const fetchPipeline = async (load: Load) => {
             throw new Error(`Unable to fetch module ${handle} for ${Platform.OS}.`);
           }
 
-          FileSystem.writeAsStringAsync(cacheUri, bundle).then(undefined, (error) => {
+          try {
+            await setCacheFile(
+              `snack-bundle-${cacheBuster}-${cacheHandle}-${Platform.OS}.js`,
+              bundle,
+            );
+          } catch (error) {
             Logger.error('Failed to store dependency in cache', error);
-          });
+          }
         }
 
         // The package server uses webpack's 'commonjs' format which puts root module exports in
@@ -420,8 +428,10 @@ const translatePipeline = async (load: Load) => {
                 // We need to resolve the requested context directory in the user-provided code
                 { directoryResolution: 'relative' },
               ],
-              ...(load.source.includes('react-native-reanimated') || load.source.includes('worklet')
-                ? [ReanimatedPlugin]
+              ...(load.source.includes('react-native-reanimated') ||
+              load.source.includes('react-native-worklets') ||
+              load.source.includes('worklet')
+                ? [WorkletsPlugin]
                 : []),
             ],
             moduleIds: false,

@@ -94,7 +94,7 @@ export default ({
                     version: require('@babel/runtime/package.json').version,
                   },
                 ],
-                ...(reanimatedPlugin ? [require.resolve('react-native-reanimated/plugin')] : []),
+                ...(reanimatedPlugin ? [resolveReanimatedPlugin()] : []),
                 ...(expoRouterPlugin ? [snackRequireContextVirtualModuleBabelPlugin] : []),
               ],
             },
@@ -139,3 +139,11 @@ export default ({
     resolve: getResolverConfig(platform),
   };
 };
+
+function resolveReanimatedPlugin() {
+  try {
+    return require.resolve('react-native-worklets/plugin');
+  } catch {
+    return require.resolve('react-native-reanimated/plugin');
+  }
+}
