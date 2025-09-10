@@ -203,7 +203,7 @@ describe('code', () => {
       dependencies: {
         'expo-font': { version: '8.1.0' },
         '@react-navigation/native': { version: '5.1.1' },
-        'react-native-paper': { version: '3.10.1' },
+        'react-native-paper': { version: '5.12.5' },
       },
     });
     const transport = Transport.instances[0];
