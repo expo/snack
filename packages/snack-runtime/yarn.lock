@@ -6598,17 +6598,16 @@ jest-environment-node@^29.7.0:
     jest-mock "^29.7.0"
     jest-util "^29.7.0"
 
-jest-expo@~54.0.2:
-  version "54.0.2"
-  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-54.0.2.tgz#12089536f75a0d27564d851deb4bb12bbe414b41"
-  integrity sha512-go/oZQNKz54lsT0ng0+psakr7qn/+K2QZji7PqEZEZSRdo9jv2WahyMSEhdCaYnR/4yBG/DgninUihOa/UCa8Q==
+jest-expo@~54.0.12:
+  version "54.0.12"
+  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-54.0.12.tgz#297e57d4744d6fb8fbc8a81cad2aa4acb23e899a"
+  integrity sha512-76dZ0Mk4/lBMwmGRWoSFQ08rfmMTVhnAp3Hxua5cND2TVISZcsya3LUZVKfPYxb5lB7H4OR6B7KStQJFkrnJjg==
   dependencies:
-    "@expo/config" "~12.0.3"
-    "@expo/json-file" "^10.0.2"
+    "@expo/config" "~12.0.9"
+    "@expo/json-file" "^10.0.7"
     "@jest/create-cache-key-function" "^29.2.1"
     "@jest/globals" "^29.2.1"
     babel-jest "^29.2.1"
-    find-up "^5.0.0"
     jest-environment-jsdom "^29.2.1"
     jest-snapshot "^29.2.1"
     jest-watch-select-projects "^2.0.0"
