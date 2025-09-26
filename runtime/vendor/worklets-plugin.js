@@ -1,4 +1,4 @@
-// Forked plugin for `react-native-worklets@0.4.1`.
+// Forked plugin for `react-native-worklets@0.5.1`.
 //   Changed imports:
 //     `require("@babel/core")` → `require("snack-babel-standalone")`
 //     `require("@babel/generator")` → `require("snack-babel-standalone").generator`
@@ -11,6 +11,7 @@
 //     `lib/workletFactory.js` → `var REAL_VERSION = require("../package.json").version;` is hardcoded to the current version
 //     `lib/workletFactory.js` → `require.resolve("@babel/...")` are simplified to refer to names only, letting `snack-babel-standalone` resolve the vendored plugins
 //     `lib/transform.js` → `require.resolve("@babel/")` are simplified to refer to names only, letting `snack-babel-standalone` resolve the vendored presets
+//     EOF → Drop `sourceMappingUrl`
 
 "use strict";
 var __create = Object.create;
@@ -44,9 +45,11 @@ var require_gestureHandlerAutoworkletization = __commonJS({
   "lib/gestureHandlerAutoworkletization.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.isGestureObjectEventCallbackMethod = exports2.isGestureHandlerEventCallback = exports2.gestureHandlerBuilderMethods = void 0;
+    exports2.gestureHandlerBuilderMethods = void 0;
+    exports2.isGestureHandlerEventCallback = isGestureHandlerEventCallback;
+    exports2.isGestureObjectEventCallbackMethod = isGestureObjectEventCallbackMethod;
     // var types_12 = require("@babel/types");
-    var types_12 = require("snack-babel-standalone").types;
+    var types_12 = require("snack-babel-standalone").types
     var gestureHandlerGestureObjects = /* @__PURE__ */ new Set([
       "Tap",
       "Pan",
@@ -77,11 +80,9 @@ var require_gestureHandlerAutoworkletization = __commonJS({
     function isGestureHandlerEventCallback(path) {
       return (0, types_12.isCallExpression)(path.parent) && (0, types_12.isExpression)(path.parent.callee) && isGestureObjectEventCallbackMethod(path.parent.callee);
     }
-    exports2.isGestureHandlerEventCallback = isGestureHandlerEventCallback;
     function isGestureObjectEventCallbackMethod(exp) {
       return (0, types_12.isMemberExpression)(exp) && (0, types_12.isIdentifier)(exp.property) && exports2.gestureHandlerBuilderMethods.has(exp.property.name) && containsGestureObject(exp.object);
     }
-    exports2.isGestureObjectEventCallbackMethod = isGestureObjectEventCallbackMethod;
     function containsGestureObject(exp) {
       if (isGestureObject(exp)) {
         return true;
@@ -102,7 +103,7 @@ var require_layoutAnimationAutoworkletization = __commonJS({
   "lib/layoutAnimationAutoworkletization.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.isLayoutAnimationCallback = void 0;
+    exports2.isLayoutAnimationCallback = isLayoutAnimationCallback;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var EntryExitAnimations = /* @__PURE__ */ new Set([
@@ -215,6 +216,7 @@ var require_layoutAnimationAutoworkletization = __commonJS({
       "mass",
       "stiffness",
       "overshootClamping",
+      "energyThreshold",
       "restDisplacementThreshold",
       "restSpeedThreshold",
       "withInitialValues",
@@ -238,7 +240,6 @@ var require_layoutAnimationAutoworkletization = __commonJS({
     function isLayoutAnimationCallback(path) {
       return (0, types_12.isCallExpression)(path.parent) && (0, types_12.isExpression)(path.parent.callee) && isLayoutAnimationCallbackMethod(path.parent.callee);
     }
-    exports2.isLayoutAnimationCallback = isLayoutAnimationCallback;
     function isLayoutAnimationCallbackMethod(exp) {
       return (0, types_12.isMemberExpression)(exp) && (0, types_12.isIdentifier)(exp.property) && LayoutAnimationsCallbacks.has(exp.property.name) && isLayoutAnimationsChainableOrNewOperator(exp.object);
     }
@@ -261,7 +262,11 @@ var require_types = __commonJS({
   "lib/types.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.generatedWorkletsDir = exports2.workletClassFactorySuffix = exports2.isWorkletizableObjectNode = exports2.isWorkletizableObjectPath = exports2.isWorkletizableFunctionNode = exports2.isWorkletizableFunctionPath = exports2.WorkletizableObject = exports2.WorkletizableFunction = void 0;
+    exports2.generatedWorkletsDir = exports2.workletClassFactorySuffix = exports2.WorkletizableObject = exports2.WorkletizableFunction = void 0;
+    exports2.isWorkletizableFunctionPath = isWorkletizableFunctionPath;
+    exports2.isWorkletizableFunctionNode = isWorkletizableFunctionNode;
+    exports2.isWorkletizableObjectPath = isWorkletizableObjectPath;
+    exports2.isWorkletizableObjectNode = isWorkletizableObjectNode;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     exports2.WorkletizableFunction = "FunctionDeclaration|FunctionExpression|ArrowFunctionExpression|ObjectMethod";
@@ -269,19 +274,15 @@ var require_types = __commonJS({
     function isWorkletizableFunctionPath(path) {
       return path.isFunctionDeclaration() || path.isFunctionExpression() || path.isArrowFunctionExpression() || path.isObjectMethod();
     }
-    exports2.isWorkletizableFunctionPath = isWorkletizableFunctionPath;
     function isWorkletizableFunctionNode(node) {
       return (0, types_12.isFunctionDeclaration)(node) || (0, types_12.isFunctionExpression)(node) || (0, types_12.isArrowFunctionExpression)(node) || (0, types_12.isObjectMethod)(node);
     }
-    exports2.isWorkletizableFunctionNode = isWorkletizableFunctionNode;
     function isWorkletizableObjectPath(path) {
       return path.isObjectExpression();
     }
-    exports2.isWorkletizableObjectPath = isWorkletizableObjectPath;
     function isWorkletizableObjectNode(node) {
       return (0, types_12.isObjectExpression)(node);
     }
-    exports2.isWorkletizableObjectNode = isWorkletizableObjectNode;
     exports2.workletClassFactorySuffix = "__classFactory";
     exports2.generatedWorkletsDir = "__generatedWorklets";
   }
@@ -292,7 +293,8 @@ var require_utils = __commonJS({
   "lib/utils.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.replaceWithFactoryCall = exports2.isRelease = void 0;
+    exports2.isRelease = isRelease;
+    exports2.replaceWithFactoryCall = replaceWithFactoryCall;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     function isRelease() {
@@ -300,7 +302,6 @@ var require_utils = __commonJS({
       const pattern = /(prod|release|stag[ei])/i;
       return !!(((_a = process.env.BABEL_ENV) === null || _a === void 0 ? void 0 : _a.match(pattern)) || ((_b = process.env.NODE_ENV) === null || _b === void 0 ? void 0 : _b.match(pattern)));
     }
-    exports2.isRelease = isRelease;
     function replaceWithFactoryCall(toReplace, name, factoryCall) {
       if (!name || !needsDeclaration(toReplace)) {
         toReplace.replaceWith(factoryCall);
@@ -311,7 +312,6 @@ var require_utils = __commonJS({
         toReplace.replaceWith(replacement);
       }
     }
-    exports2.replaceWithFactoryCall = replaceWithFactoryCall;
     function needsDeclaration(nodePath) {
       return (0, types_12.isScopable)(nodePath.parent) || (0, types_12.isExportNamedDeclaration)(nodePath.parent);
     }
@@ -323,7 +323,10 @@ var require_globals = __commonJS({
   "lib/globals.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.addCustomGlobals = exports2.initializeGlobals = exports2.globals = exports2.defaultGlobals = exports2.initializeState = exports2.internalBindingsToCaptureFromGlobalScope = exports2.outsideBindingsToCaptureFromGlobalScope = void 0;
+    exports2.globals = exports2.defaultGlobals = exports2.internalBindingsToCaptureFromGlobalScope = exports2.outsideBindingsToCaptureFromGlobalScope = void 0;
+    exports2.initializeState = initializeState;
+    exports2.initializeGlobals = initializeGlobals;
+    exports2.addCustomGlobals = addCustomGlobals;
     var notCapturedIdentifiers = [
       "globalThis",
       "Infinity",
@@ -428,12 +431,10 @@ var require_globals = __commonJS({
       initializeGlobals();
       addCustomGlobals(state);
     }
-    exports2.initializeState = initializeState;
     exports2.defaultGlobals = new Set(notCapturedIdentifiers.concat(notCapturedIdentifiers_DEPRECATED));
     function initializeGlobals() {
       exports2.globals = new Set(exports2.defaultGlobals);
     }
-    exports2.initializeGlobals = initializeGlobals;
     function addCustomGlobals(state) {
       if (state.opts && Array.isArray(state.opts.globals)) {
         state.opts.globals.forEach((name) => {
@@ -441,7 +442,6 @@ var require_globals = __commonJS({
         });
       }
     }
-    exports2.addCustomGlobals = addCustomGlobals;
   }
 });
 
@@ -450,7 +450,7 @@ var require_closure = __commonJS({
   "lib/closure.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.getClosure = void 0;
+    exports2.getClosure = getClosure;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var globals_12 = require_globals();
@@ -459,6 +459,7 @@ var require_closure = __commonJS({
       const closureVariables = new Array();
       const libraryBindingsToImport = /* @__PURE__ */ new Set();
       const relativeBindingsToImport = /* @__PURE__ */ new Set();
+      let recrawled = false;
       funPath.traverse({
         "TSType|TSTypeAliasDeclaration|TSInterfaceDeclaration"(typePath) {
           typePath.skip();
@@ -471,7 +472,12 @@ var require_closure = __commonJS({
           if (capturedNames.has(name)) {
             return;
           }
-          const binding = idPath.scope.getBinding(name);
+          let binding = idPath.scope.getBinding(name);
+          if (!binding && !recrawled) {
+            recrawled = true;
+            idPath.scope.crawl();
+            binding = idPath.scope.getBinding(name);
+          }
           if (!binding) {
             if (globals_12.globals.has(name)) {
               return;
@@ -519,7 +525,6 @@ var require_closure = __commonJS({
         relativeBindingsToImport
       };
     }
-    exports2.getClosure = getClosure;
     function isImport(binding) {
       return binding.kind === "module" && binding.constant && (binding.path.isImportSpecifier() || binding.path.isImportDefaultSpecifier()) && binding.path.parentPath.isImportDeclaration();
     }
@@ -543,10 +548,7 @@ var require_generate = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.generateWorkletFile = void 0;
-    function generateWorkletFile(libraryBindingsToImport, relativeBindingsToImport, factory, workletHash, state) {
-      // Disabled due to file operations not supported in React Native
-    }
+    exports2.generateWorkletFile = generateWorkletFile;
     // // var core_1 = require("@babel/core");
     // var core_1 = require("snack-babel-standalone");
     // // var types_12 = require("@babel/types");
@@ -555,34 +557,34 @@ var require_generate = __commonJS({
     // var fs_1 = require("fs");
     // var path_1 = require("path");
     // var types_2 = require_types();
-    // function generateWorkletFile(libraryBindingsToImport, relativeBindingsToImport, factory, workletHash, state) {
-    //   var _a;
-    //   const libraryImports = Array.from(libraryBindingsToImport).filter((binding) => (binding.path.isImportSpecifier() || binding.path.isImportDefaultSpecifier()) && binding.path.parentPath.isImportDeclaration()).map((binding) => (0, types_12.importDeclaration)([(0, types_12.cloneNode)(binding.path.node, true)], (0, types_12.stringLiteral)(binding.path.parentPath.node.source.value)));
-    //   const filesDirPath = (0, path_1.resolve)((0, path_1.dirname)(require.resolve("react-native-worklets/package.json")), types_2.generatedWorkletsDir);
-    //   const relativeImports = Array.from(relativeBindingsToImport).filter((binding) => binding.path.isImportSpecifier() && binding.path.parentPath.isImportDeclaration()).map((binding) => {
-    //     const resolved = (0, path_1.resolve)((0, path_1.dirname)(state.file.opts.filename), binding.path.parentPath.node.source.value);
-    //     const importPath = (0, path_1.relative)(filesDirPath, resolved);
-    //     return (0, types_12.importDeclaration)([(0, types_12.cloneNode)(binding.path.node, true)], (0, types_12.stringLiteral)(importPath));
-    //   });
-    //   const imports = [...libraryImports, ...relativeImports];
-    //   const newProg = (0, types_12.program)([...imports, (0, types_12.exportDefaultDeclaration)(factory)]);
-    //   const transformedProg = (_a = (0, core_1.transformFromAstSync)(newProg, void 0, {
-    //     filename: state.file.opts.filename,
-    //     presets: ["@babel/preset-typescript"],
-    //     plugins: [],
-    //     ast: false,
-    //     babelrc: false,
-    //     configFile: false,
-    //     comments: false
-    //   })) === null || _a === void 0 ? void 0 : _a.code;
-    //   (0, assert_1.default)(transformedProg, "[Worklets] `transformedProg` is undefined.");
-    //   if (!(0, fs_1.existsSync)(filesDirPath)) {
-    //     (0, fs_1.mkdirSync)(filesDirPath, {});
-    //   }
-    //   const dedicatedFilePath = (0, path_1.resolve)(filesDirPath, `${workletHash}.js`);
-    //   (0, fs_1.writeFileSync)(dedicatedFilePath, transformedProg);
-    // }
-    exports2.generateWorkletFile = generateWorkletFile;
+    // Disabled due to file operations not supported in React Native
+    function generateWorkletFile(libraryBindingsToImport, relativeBindingsToImport, factory, workletHash, state) {
+      // var _a;
+      // const libraryImports = Array.from(libraryBindingsToImport).filter((binding) => (binding.path.isImportSpecifier() || binding.path.isImportDefaultSpecifier()) && binding.path.parentPath.isImportDeclaration()).map((binding) => (0, types_12.importDeclaration)([(0, types_12.cloneNode)(binding.path.node, true)], (0, types_12.stringLiteral)(binding.path.parentPath.node.source.value)));
+      // const filesDirPath = (0, path_1.resolve)((0, path_1.dirname)(require.resolve("react-native-worklets/package.json")), types_2.generatedWorkletsDir);
+      // const relativeImports = Array.from(relativeBindingsToImport).filter((binding) => binding.path.isImportSpecifier() && binding.path.parentPath.isImportDeclaration()).map((binding) => {
+      //   const resolved = (0, path_1.resolve)((0, path_1.dirname)(state.file.opts.filename), binding.path.parentPath.node.source.value);
+      //   const importPath = (0, path_1.relative)(filesDirPath, resolved);
+      //   return (0, types_12.importDeclaration)([(0, types_12.cloneNode)(binding.path.node, true)], (0, types_12.stringLiteral)(importPath));
+      // });
+      // const imports = [...libraryImports, ...relativeImports];
+      // const newProg = (0, types_12.program)([...imports, (0, types_12.exportDefaultDeclaration)(factory)]);
+      // const transformedProg = (_a = (0, core_1.transformFromAstSync)(newProg, void 0, {
+      //   filename: state.file.opts.filename,
+      //   presets: ["@babel/preset-typescript"],
+      //   plugins: [],
+      //   ast: false,
+      //   babelrc: false,
+      //   configFile: false,
+      //   comments: false
+      // })) === null || _a === void 0 ? void 0 : _a.code;
+      // (0, assert_1.default)(transformedProg, "[Worklets] `transformedProg` is undefined.");
+      // if (!(0, fs_1.existsSync)(filesDirPath)) {
+      //   (0, fs_1.mkdirSync)(filesDirPath, {});
+      // }
+      // const dedicatedFilePath = (0, path_1.resolve)(filesDirPath, `${workletHash}.js`);
+      // (0, fs_1.writeFileSync)(dedicatedFilePath, transformedProg);
+    }
   }
 });
 
@@ -603,17 +605,16 @@ var require_transform = __commonJS({
       return t;
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.workletTransformSync = void 0;
+    exports2.workletTransformSync = workletTransformSync;
     // var core_1 = require("@babel/core");
     var core_1 = require("snack-babel-standalone");
     function workletTransformSync(code, opts) {
       const { extraPlugins = [], extraPresets = [] } = opts, rest = __rest(opts, ["extraPlugins", "extraPresets"]);
       return (0, core_1.transformSync)(code, Object.assign(Object.assign({}, rest), { plugins: [...defaultPlugins, ...extraPlugins], presets: [...defaultPresets, ...extraPresets] }));
     }
-    exports2.workletTransformSync = workletTransformSync;
     var defaultPresets = [
       // require.resolve("@babel/preset-typescript")
-      "@babel/preset-typescript",
+      "@babel/preset-typescript"
     ];
     var defaultPlugins = [];
   }
@@ -643,23 +644,35 @@ var require_workletStringCode = __commonJS({
     } : function(o, v) {
       o["default"] = v;
     });
-    var __importStar = exports2 && exports2.__importStar || function(mod) {
-      if (mod && mod.__esModule)
-        return mod;
-      var result = {};
-      if (mod != null) {
-        for (var k in mod)
-          if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
-            __createBinding(result, mod, k);
-      }
-      __setModuleDefault(result, mod);
-      return result;
-    };
+    var __importStar = exports2 && exports2.__importStar || function() {
+      var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function(o2) {
+          var ar = [];
+          for (var k in o2)
+            if (Object.prototype.hasOwnProperty.call(o2, k))
+              ar[ar.length] = k;
+          return ar;
+        };
+        return ownKeys(o);
+      };
+      return function(mod) {
+        if (mod && mod.__esModule)
+          return mod;
+        var result = {};
+        if (mod != null) {
+          for (var k = ownKeys(mod), i = 0; i < k.length; i++)
+            if (k[i] !== "default")
+              __createBinding(result, mod, k[i]);
+        }
+        __setModuleDefault(result, mod);
+        return result;
+      };
+    }();
     var __importDefault = exports2 && exports2.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.buildWorkletString = void 0;
+    exports2.buildWorkletString = buildWorkletString;
     // var core_1 = require("@babel/core");
     var core_1 = require("snack-babel-standalone");
     // var generator_1 = __importDefault(require("@babel/generator"));
@@ -677,7 +690,7 @@ var require_workletStringCode = __commonJS({
     function buildWorkletString(fun, state, closureVariables, workletName, inputMap) {
       var _a;
       restoreRecursiveCalls(fun, workletName);
-      const draftExpression = fun.program.body.find((obj) => (0, types_12.isFunctionDeclaration)(obj)) || fun.program.body.find((obj) => (0, types_12.isExpressionStatement)(obj)) || void 0;
+      const draftExpression = fun.program.body.find((obj) => (0, types_12.isFunctionDeclaration)(obj)) || fun.program.body.find((obj) => (0, types_12.isExpressionStatement)(obj));
       (0, assert_1.strict)(draftExpression, "[Reanimated] `draftExpression` is undefined.");
       const expression = (0, types_12.isFunctionDeclaration)(draftExpression) ? draftExpression : draftExpression.expression;
       (0, assert_1.strict)("params" in expression, "'params' property is undefined in 'expression'");
@@ -741,7 +754,6 @@ var require_workletStringCode = __commonJS({
       }
       return [transformed.code, JSON.stringify(sourceMap)];
     }
-    exports2.buildWorkletString = buildWorkletString;
     function restoreRecursiveCalls(file, newName) {
       (0, core_1.traverse)(file, {
         FunctionExpression(path) {
@@ -801,7 +813,7 @@ var require_workletFactory = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.makeWorkletFactory = void 0;
+    exports2.makeWorkletFactory = makeWorkletFactory;
     // var generator_1 = __importDefault(require("@babel/generator"));
     var generator_1 = __importDefault(require("snack-babel-standalone").generator);
     // var types_12 = require("@babel/types");
@@ -929,7 +941,6 @@ var require_workletFactory = __commonJS({
       factory.workletized = true;
       return { factory, factoryCallParamPack, workletHash };
     }
-    exports2.makeWorkletFactory = makeWorkletFactory;
     function removeWorkletDirective(fun) {
       fun.traverse({
         DirectiveLiteral(nodePath) {
@@ -999,7 +1010,7 @@ var require_workletFactoryCall = __commonJS({
   "lib/workletFactoryCall.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.makeWorkletFactoryCall = void 0;
+    exports2.makeWorkletFactoryCall = makeWorkletFactoryCall;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var types_2 = require_types();
@@ -1018,7 +1029,6 @@ var require_workletFactoryCall = __commonJS({
       const replacement = factoryCall;
       return replacement;
     }
-    exports2.makeWorkletFactoryCall = makeWorkletFactoryCall;
     function addStackTraceDataToWorkletFactory(path, workletFactoryCall) {
       const originalWorkletLocation = path.node.loc;
       if (originalWorkletLocation) {
@@ -1038,7 +1048,9 @@ var require_workletSubstitution = __commonJS({
   "lib/workletSubstitution.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.substituteObjectMethodWithObjectProperty = exports2.processWorklet = exports2.processIfWithWorkletDirective = void 0;
+    exports2.processIfWithWorkletDirective = processIfWithWorkletDirective;
+    exports2.processWorklet = processWorklet;
+    exports2.substituteObjectMethodWithObjectProperty = substituteObjectMethodWithObjectProperty;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var types_2 = require_types();
@@ -1054,7 +1066,6 @@ var require_workletSubstitution = __commonJS({
       processWorklet(path, state);
       return true;
     }
-    exports2.processIfWithWorkletDirective = processIfWithWorkletDirective;
     function processWorklet(path, state) {
       path.traverse({
         [types_2.WorkletizableFunction](subPath, passedState) {
@@ -1065,7 +1076,6 @@ var require_workletSubstitution = __commonJS({
       substituteWorkletWithWorkletFactoryCall(path, workletFactoryCall);
       path.scope.getProgramParent().crawl();
     }
-    exports2.processWorklet = processWorklet;
     function hasWorkletDirective(directives) {
       return directives.some((directive) => (0, types_12.isDirectiveLiteral)(directive.value) && directive.value.value === "worklet");
     }
@@ -1082,7 +1092,6 @@ var require_workletSubstitution = __commonJS({
       const replacement = (0, types_12.objectProperty)(path.node.key, workletFactoryCall);
       path.replaceWith(replacement);
     }
-    exports2.substituteObjectMethodWithObjectProperty = substituteObjectMethodWithObjectProperty;
   }
 });
 
@@ -1091,7 +1100,7 @@ var require_objectWorklets = __commonJS({
   "lib/objectWorklets.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.processWorkletizableObject = void 0;
+    exports2.processWorkletizableObject = processWorkletizableObject;
     var types_12 = require_types();
     var workletSubstitution_12 = require_workletSubstitution();
     function processWorkletizableObject(path, state) {
@@ -1109,7 +1118,6 @@ var require_objectWorklets = __commonJS({
         }
       }
     }
-    exports2.processWorkletizableObject = processWorkletizableObject;
   }
 });
 
@@ -1118,7 +1126,7 @@ var require_referencedWorklets = __commonJS({
   "lib/referencedWorklets.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.findReferencedWorklet = void 0;
+    exports2.findReferencedWorklet = findReferencedWorklet;
     var types_12 = require_types();
     function findReferencedWorklet(workletIdentifier, acceptWorkletizableFunction, acceptObject) {
       const workletName = workletIdentifier.node.name;
@@ -1136,7 +1144,6 @@ var require_referencedWorklets = __commonJS({
       }
       return findReferencedWorkletFromAssignmentExpression(workletBinding, acceptWorkletizableFunction, acceptObject);
     }
-    exports2.findReferencedWorklet = findReferencedWorklet;
     function findReferencedWorkletFromVariableDeclarator(workletBinding, acceptWorkletizableFunction, acceptObject) {
       const workletDeclaration = workletBinding.path;
       if (!workletDeclaration.isVariableDeclarator()) {
@@ -1179,7 +1186,8 @@ var require_autoworkletization = __commonJS({
   "lib/autoworkletization.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.processCalleesAutoworkletizableCallbacks = exports2.processIfAutoworkletizableCallback = void 0;
+    exports2.processIfAutoworkletizableCallback = processIfAutoworkletizableCallback;
+    exports2.processCalleesAutoworkletizableCallbacks = processCalleesAutoworkletizableCallbacks;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var gestureHandlerAutoworkletization_1 = require_gestureHandlerAutoworkletization();
@@ -1202,7 +1210,12 @@ var require_autoworkletization = __commonJS({
       "withDecay",
       "withRepeat",
       "runOnUI",
-      "executeOnUIRuntimeSync"
+      "executeOnUIRuntimeSync",
+      "scheduleOnUI",
+      "runOnUISync",
+      "runOnUIAsync",
+      "runOnRuntime",
+      "scheduleOnRuntime"
     ]);
     var reanimatedFunctionArgsToWorkletize = new Map([
       ["useFrameCallback", [0]],
@@ -1218,6 +1231,11 @@ var require_autoworkletization = __commonJS({
       ["withRepeat", [3]],
       ["runOnUI", [0]],
       ["executeOnUIRuntimeSync", [0]],
+      ["scheduleOnUI", [0]],
+      ["runOnUISync", [0]],
+      ["runOnUIAsync", [0]],
+      ["runOnRuntime", [1]],
+      ["scheduleOnRuntime", [1]],
       ...Array.from(gestureHandlerAutoworkletization_1.gestureHandlerBuilderMethods).map((name) => [name, [0]])
     ]);
     function processIfAutoworkletizableCallback(path, state) {
@@ -1227,7 +1245,6 @@ var require_autoworkletization = __commonJS({
       }
       return false;
     }
-    exports2.processIfAutoworkletizableCallback = processIfAutoworkletizableCallback;
     function processCalleesAutoworkletizableCallbacks(path, state) {
       const callee = (0, types_12.isSequenceExpression)(path.node.callee) ? path.node.callee.expressions[path.node.callee.expressions.length - 1] : path.node.callee;
       const name = "name" in callee ? callee.name : "property" in callee && "name" in callee.property ? callee.property.name : void 0;
@@ -1245,7 +1262,6 @@ var require_autoworkletization = __commonJS({
         processArgs(args, state, true, true);
       }
     }
-    exports2.processCalleesAutoworkletizableCallbacks = processCalleesAutoworkletizableCallbacks;
     function processArgs(args, state, acceptWorkletizableFunction, acceptObject) {
       args.forEach((arg) => {
         var _a;
@@ -1283,11 +1299,11 @@ var require_class = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.processIfWorkletClass = void 0;
+    exports2.processIfWorkletClass = processIfWorkletClass;
     // var generator_1 = __importDefault(require("@babel/generator"));
     var generator_1 = __importDefault(require("snack-babel-standalone").generator);
     // var traverse_1 = __importDefault(require("@babel/traverse"));
-    var traverse_1 = __importDefault(require("snack-babel-standalone").traverse);
+    require("snack-babel-standalone").traverse
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var assert_1 = require("assert");
@@ -1303,7 +1319,6 @@ var require_class = __commonJS({
       processClass(classPath, state);
       return true;
     }
-    exports2.processIfWorkletClass = processIfWorkletClass;
     function processClass(classPath, state) {
       (0, assert_1.strict)(classPath.node.id);
       const className = classPath.node.id.name;
@@ -1467,7 +1482,9 @@ var require_contextObject = __commonJS({
   "lib/contextObject.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.isContextObject = exports2.processIfWorkletContextObject = exports2.contextObjectMarker = void 0;
+    exports2.contextObjectMarker = void 0;
+    exports2.processIfWorkletContextObject = processIfWorkletContextObject;
+    exports2.isContextObject = isContextObject;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     exports2.contextObjectMarker = "__workletContextObject";
@@ -1479,11 +1496,9 @@ var require_contextObject = __commonJS({
       processWorkletContextObject(path.node);
       return true;
     }
-    exports2.processIfWorkletContextObject = processIfWorkletContextObject;
     function isContextObject(objectExpression) {
       return objectExpression.properties.some((property) => (0, types_12.isObjectProperty)(property) && (0, types_12.isIdentifier)(property.key) && property.key.name === exports2.contextObjectMarker);
     }
-    exports2.isContextObject = isContextObject;
     function processWorkletContextObject(objectExpression) {
       const workletObjectFactory = (0, types_12.functionExpression)(null, [], (0, types_12.blockStatement)([(0, types_12.returnStatement)((0, types_12.cloneNode)(objectExpression))], [(0, types_12.directive)((0, types_12.directiveLiteral)("worklet"))]));
       objectExpression.properties.push((0, types_12.objectProperty)((0, types_12.identifier)(`${exports2.contextObjectMarker}Factory`), workletObjectFactory));
@@ -1499,7 +1514,8 @@ var require_file = __commonJS({
   "lib/file.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.isImplicitContextObject = exports2.processIfWorkletFile = void 0;
+    exports2.processIfWorkletFile = processIfWorkletFile;
+    exports2.isImplicitContextObject = isImplicitContextObject;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var contextObject_12 = require_contextObject();
@@ -1512,7 +1528,6 @@ var require_file = __commonJS({
       processWorkletFile(path, state);
       return true;
     }
-    exports2.processIfWorkletFile = processIfWorkletFile;
     function processWorkletFile(programPath, state) {
       const statements = programPath.get("body");
       dehoistCommonJSExports(programPath.node);
@@ -1598,7 +1613,6 @@ var require_file = __commonJS({
         return hasThisExpression(propertyPath);
       });
     }
-    exports2.isImplicitContextObject = isImplicitContextObject;
     function hasThisExpression(path) {
       let result = false;
       path.traverse({
@@ -1638,7 +1652,7 @@ var require_inlineStylesWarning = __commonJS({
   "lib/inlineStylesWarning.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.processInlineStylesWarning = void 0;
+    exports2.processInlineStylesWarning = processInlineStylesWarning;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var assert_1 = require("assert");
@@ -1711,7 +1725,6 @@ var require_inlineStylesWarning = __commonJS({
         processStyleObjectForInlineStylesWarning(expression);
       }
     }
-    exports2.processInlineStylesWarning = processInlineStylesWarning;
   }
 });
 
@@ -1720,7 +1733,7 @@ var require_webOptimization = __commonJS({
   "lib/webOptimization.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.substituteWebCallExpression = void 0;
+    exports2.substituteWebCallExpression = substituteWebCallExpression;
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     function substituteWebCallExpression(path) {
@@ -1732,7 +1745,6 @@ var require_webOptimization = __commonJS({
         }
       }
     }
-    exports2.substituteWebCallExpression = substituteWebCallExpression;
   }
 });
 
@@ -1810,4 +1822,3 @@ module.exports = function WorkletsBabelPlugin() {
     }
   };
 };
-//# sourceMappingURL=index.js.map
