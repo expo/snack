@@ -5,7 +5,7 @@ import Snack from './snack-sdk';
 
 // A set of SDK versions to test against.
 // When upgrading SDK version, make sure to update this list.
-const sdkVersions: { [key: string]: SDKVersion } = {
+const sdkVersions: Record<'prev' | 'current' | 'next', SDKVersion> = {
   prev: oldestSdkVersion,
   current: defaultSdkVersion,
   next: newestSdkVersion,
@@ -248,7 +248,7 @@ describe('dependencies', () => {
     });
     const state1 = await snack.getStateAsync();
     expect(state1.dependencies).toMatchSnapshot();
-    snack.setSDKVersion(sdkVersions.next);
+    snack.setSDKVersion(sdkVersions.prev);
     const state2 = await snack.getStateAsync();
     expect(state2.dependencies).toMatchSnapshot();
     expect(state1).not.toMatchObject(state2);
