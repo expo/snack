@@ -223,7 +223,7 @@ exports[`git imports repository with no sdkVersion 1`] = `
         },
         "description": "test2 @ Jan 1, 2020",
         "name": "test2",
-        "sdkVersion": "53.0.0",
+        "sdkVersion": "54.0.0",
       },
     },
     "headers": {
@@ -261,7 +261,7 @@ exports[`git imports repository with too old sdkVersion 1`] = `
         },
         "description": "test3 @ Jan 1, 2020",
         "name": "test3",
-        "sdkVersion": "53.0.0",
+        "sdkVersion": "54.0.0",
       },
     },
     "headers": {
@@ -295,7 +295,7 @@ exports[`git imports repository without app.json 1`] = `
         },
         "description": "some-example @ Jan 1, 2020",
         "name": "some-example",
-        "sdkVersion": "53.0.0",
+        "sdkVersion": "54.0.0",
       },
     },
     "headers": {
