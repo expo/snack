@@ -107,7 +107,7 @@ jobs:
           text: "platform: ${{ github.event.inputs.platform }}"
 
   deploy-production:
-    if: ${{ github.event.inputs.deploy == 'production' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event.inputs.deploy == 'production' }}
     needs: review
     runs-on: ubuntu-latest
     environment:
