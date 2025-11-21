@@ -22,8 +22,8 @@
     "@babel/polyfill": "^7.8.3",
     "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "2.1.2",
-    "@react-navigation/drawer": "^7.0.0",
-    "@react-navigation/native": "^7.0.0",
+    "@react-navigation/drawer": "^7.3.9",
+    "@react-navigation/native": "^7.1.6",
     "assert": "^2.1.0",
     "await-lock": "^2.2.2",
     "canvaskit-wasm": "0.38.0",
@@ -83,6 +83,10 @@
     "semver": "^7.5.1",
     "typescript": "~5.8.3",
     "update-browserslist-db": "^1.1.1"
+  },
+  "resolutions": {
+    "@react-navigation/drawer": "^7.3.9",
+    "@react-navigation/native": "^7.1.6"
   },
   "eslintConfig": {
     "extends": "universe/native",
