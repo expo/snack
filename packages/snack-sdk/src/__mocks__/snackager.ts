@@ -21,7 +21,7 @@ export default function createSnackager(config: SnackagerConfig = defaultConfig)
         handle: `snackager-1/${name.replace('/', '~')}@${version}`,
         dependencies: bundle.peerDependencies,
       };
-    } catch (e) {
+    } catch (e: any) {
       ctx.status = 500;
       ctx.body = e.message;
     }

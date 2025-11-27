@@ -18,7 +18,7 @@ export default function createApp(
       const versions = config[sdkVersion];
       if (!versions) throw new Error(`SDK version '${sdkVersion}' not supported`);
       ctx.body = versions;
-    } catch (e) {
+    } catch (e: any) {
       ctx.status = 500;
       ctx.body = e.message;
     }

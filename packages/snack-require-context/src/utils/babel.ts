@@ -48,7 +48,7 @@ export function snackRequireContextVirtualModuleBabelPlugin({
           // Resolve the context directory, either from user code or library code
           const contextDirectory =
             // @ts-expect-error The plugin options aren't typed
-            state.opts.directoryResolution === 'relative'
+            state.opts.directoryResolution === 'relative' && state.filename
               ? resolveContextDirectory(sanitizeFilePath(state.filename), directory)
               : directory;
 

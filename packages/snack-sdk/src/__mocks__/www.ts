@@ -21,7 +21,7 @@ export default function createWww() {
         key,
         hashId: '00000000',
       };
-    } catch (e) {
+    } catch (e: any) {
       ctx.status = 500;
       ctx.body = e.message;
     }

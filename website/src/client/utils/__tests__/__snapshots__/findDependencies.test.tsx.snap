@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`finds all required modules with version comments 1`] = `
-Object {
-  "base64": Object {
+{
+  "base64": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 37,
       "endLineNumber": 2,
       "fileName": "index.js",
@@ -13,9 +13,9 @@ Object {
     },
     "version": "2.4.1",
   },
-  "react-redux": Object {
+  "react-redux": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 47,
       "endLineNumber": 3,
       "fileName": "index.js",
@@ -28,10 +28,10 @@ Object {
 `;
 
 exports[`finds dependencies in JSX files 1`] = `
-Object {
-  "mod1": Object {
+{
+  "mod1": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 25,
       "endLineNumber": 4,
       "fileName": "index.js",
@@ -40,9 +40,9 @@ Object {
     },
     "version": "2.4.1",
   },
-  "mod2": Object {
+  "mod2": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 31,
       "endLineNumber": 5,
       "fileName": "index.js",
@@ -51,9 +51,9 @@ Object {
     },
     "version": "3.5.2",
   },
-  "mod3": Object {
+  "mod3": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 27,
       "endLineNumber": 6,
       "fileName": "index.js",
@@ -62,9 +62,9 @@ Object {
     },
     "version": "4.6.3",
   },
-  "mod4": Object {
+  "mod4": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 33,
       "endLineNumber": 7,
       "fileName": "index.js",
@@ -73,9 +73,9 @@ Object {
     },
     "version": "5.7.4",
   },
-  "mod5": Object {
+  "mod5": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 18,
       "endLineNumber": 8,
       "fileName": "index.js",
@@ -84,9 +84,9 @@ Object {
     },
     "version": "6.8.5",
   },
-  "react": Object {
+  "react": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 35,
       "endLineNumber": 2,
       "fileName": "index.js",
@@ -95,9 +95,9 @@ Object {
     },
     "version": undefined,
   },
-  "react-native": Object {
+  "react-native": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 46,
       "endLineNumber": 3,
       "fileName": "index.js",
@@ -110,10 +110,10 @@ Object {
 `;
 
 exports[`finds dependencies with version comments 1`] = `
-Object {
-  "mod1": Object {
+{
+  "mod1": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 25,
       "endLineNumber": 2,
       "fileName": "index.js",
@@ -122,9 +122,9 @@ Object {
     },
     "version": "2.4.1",
   },
-  "mod2": Object {
+  "mod2": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 31,
       "endLineNumber": 3,
       "fileName": "index.js",
@@ -133,9 +133,9 @@ Object {
     },
     "version": "3.5.2",
   },
-  "mod3": Object {
+  "mod3": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 27,
       "endLineNumber": 4,
       "fileName": "index.js",
@@ -144,9 +144,9 @@ Object {
     },
     "version": "4.6.3",
   },
-  "mod4": Object {
+  "mod4": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 33,
       "endLineNumber": 5,
       "fileName": "index.js",
@@ -155,9 +155,9 @@ Object {
     },
     "version": "5.7.4",
   },
-  "mod5": Object {
+  "mod5": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 18,
       "endLineNumber": 6,
       "fileName": "index.js",
@@ -166,9 +166,9 @@ Object {
     },
     "version": "6.8.5",
   },
-  "mod6": Object {
+  "mod6": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 27,
       "endLineNumber": 8,
       "fileName": "index.js",
@@ -177,9 +177,9 @@ Object {
     },
     "version": "7.9.6",
   },
-  "mod7": Object {
+  "mod7": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 32,
       "endLineNumber": 9,
       "fileName": "index.js",
@@ -188,9 +188,9 @@ Object {
     },
     "version": "8.0.7",
   },
-  "mod8": Object {
+  "mod8": {
     "isPackage": true,
-    "location": Object {
+    "location": {
       "endColumn": 25,
       "endLineNumber": 10,
       "fileName": "index.js",

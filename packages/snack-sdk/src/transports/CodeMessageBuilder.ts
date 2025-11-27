@@ -191,7 +191,7 @@ export default class CodeMessageBuilder {
     };
     if (typeof navigator !== 'undefined' && navigator.userAgent) {
       const ua = new UAParser(navigator.userAgent).getResult();
-      metadata.webHostName = window.location.hostname;
+      metadata.webHostName = typeof window !== 'undefined' ? window.location.hostname : undefined;
       metadata.webOSArchitecture = ua.cpu.architecture;
       metadata.webOSFamily = ua.os.name;
       metadata.webOSVersion = ua.os.version;

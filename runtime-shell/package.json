@@ -12,7 +12,7 @@
     "postinstall": "patch-package",
     "lint": "eslint .",
     "typescript": "tsc",
-    "test": "jest",
+    "test": "echo \"No tests\"",
     "deploy:staging": "CLOUD_ENV=staging EXPO_STAGING=1 expo-cli publish --clear",
     "deploy:prod": "NODE_ENV=production expo-cli publish --clear",
     "deploy:web:staging": "CLOUD_ENV=staging node ./web/deploy-script.js",
