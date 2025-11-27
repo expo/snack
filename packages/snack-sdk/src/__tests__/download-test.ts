@@ -1,23 +1,15 @@
-import fetch from 'node-fetch';
-
+import { mockFetch } from '../__mocks__/fetch';
 import Snack, { defaultConfig } from './snack-sdk';
 
-jest.mock('node-fetch');
-
 const SAVE_ID = '7777771777';
-// @ts-ignore
-fetch.mockReturnValue(
+
+mockFetch.mockReturnValue(
   Promise.resolve({
     ok: true,
     status: 200,
     json: async () => ({ id: SAVE_ID }),
   }),
 );
-
-beforeEach(() => {
-  // @ts-ignore
-  fetch.mockClear();
-});
 
 describe('download', () => {
   it('saves and returns download url', async () => {
@@ -30,7 +22,7 @@ describe('download', () => {
       },
     });
     const url = await snack.getDownloadURLAsync();
-    expect(fetch).toBeCalled();
+    expect(mockFetch).toBeCalled();
     expect(url).toBe(`${defaultConfig.apiURL}/--/api/v2/snack/download/${SAVE_ID}`);
   });
 
@@ -39,7 +31,7 @@ describe('download', () => {
       id: '761293482',
     });
     const url = await snack.getDownloadURLAsync();
-    expect(fetch).not.toBeCalled();
+    expect(mockFetch).not.toBeCalled();
     expect(url).toBe(`${defaultConfig.apiURL}/--/api/v2/snack/download/761293482`);
   });
 });

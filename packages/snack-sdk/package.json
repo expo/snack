@@ -45,7 +45,6 @@
     "@types/koa__router": "^8.0.3",
     "@types/lodash.isequal": "^4.5.5",
     "@types/lodash.mapvalues": "^4.6.6",
-    "@types/node-fetch": "^2.5.7",
     "@types/pubnub": "^7.2.0",
     "@types/semver": "^7.3.4",
     "@types/ua-parser-js": "^0.7.33",

@@ -1,14 +1,9 @@
-import fetch from 'node-fetch';
 
+import { mockFetch } from './__mocks__/fetch';
 import { getBundledVersionAsync } from '../packageBundle';
-
-const { Response } = jest.requireActual('node-fetch');
-
-jest.mock('node-fetch');
 
 describe(getBundledVersionAsync, () => {
   it('should resolve the version from bundledNativeModules', async () => {
-    const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
     mockFetch.mockResolvedValueOnce(
       new Response(
         JSON.stringify({
@@ -30,7 +25,6 @@ describe(getBundledVersionAsync, () => {
   });
 
   it('should return null when no sdkVersion matched', async () => {
-    const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
     mockFetch.mockResolvedValueOnce(
       new Response(
         JSON.stringify({
@@ -43,7 +37,6 @@ describe(getBundledVersionAsync, () => {
   });
 
   it('should return null when no bundledNativeModules matched', async () => {
-    const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
     mockFetch.mockResolvedValueOnce(
       new Response(
         JSON.stringify({
