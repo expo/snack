@@ -249,10 +249,6 @@ export default function routes() {
             // Piping the stream automatically sets `transfer-encoding`
             // Setting it twice breaks the stream.
             break;
-          case 'content-encoding':
-            // TODO: Unclear what to do now?
-            // node-fetch decodes the stream
-            break;
           default:
             ctx.set(name, value);
             break;
