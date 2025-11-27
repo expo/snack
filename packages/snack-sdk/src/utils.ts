@@ -4,7 +4,7 @@ import { SDKVersion, createRuntimeUrl } from 'snack-content';
 import { SnackError, SnackUser } from './types';
 
 let fetchFn: typeof fetch;
- 
+
 /**
  * Stable reference to the fetch function that is used internally.
  */

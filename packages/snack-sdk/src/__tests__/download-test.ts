@@ -1,5 +1,5 @@
-import { mockFetch } from '../__mocks__/fetch';
 import Snack, { defaultConfig } from './snack-sdk';
+import { mockFetch } from '../__mocks__/fetch';
 
 const SAVE_ID = '7777771777';
 

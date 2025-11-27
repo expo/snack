@@ -1,7 +1,6 @@
 import '../__mocks__/blob';
-import { mockFetch } from '../__mocks__/fetch';
-
 import Snack from './snack-sdk';
+import { mockFetch } from '../__mocks__/fetch';
 
 mockFetch.mockReturnValue(
   Promise.resolve({
