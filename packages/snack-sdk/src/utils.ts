@@ -3,12 +3,17 @@ import { SDKVersion, createRuntimeUrl } from 'snack-content';
 
 import { SnackError, SnackUser } from './types';
 
-let fetchFn: typeof fetch = fetch;
-
+let fetchFn: typeof fetch;
+ 
 /**
  * Stable reference to the fetch function that is used internally.
  */
 const internalFetch: typeof fetch = (...args) => {
+  if (!fetchFn) {
+    // intialize on first use to avoid breaking global polyfill from user's code (or test mocks)
+    fetchFn = globalThis.fetch;
+  }
+
   return fetchFn(...args);
 };
 

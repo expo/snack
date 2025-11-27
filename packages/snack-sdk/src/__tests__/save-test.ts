@@ -1,7 +1,7 @@
 import { newestSdkVersion, oldestSdkVersion } from 'snack-content';
 
 import Snack from './snack-sdk';
-import fetch from '../__mocks__/node-fetch';
+import fetch from '../__mocks__/fetch-mock-server';
 
 jest.mock('node-fetch');
 

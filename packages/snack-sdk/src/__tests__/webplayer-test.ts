@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
-import '../__mocks__/node-fetch';
+import '../__mocks__/fetch-mock-server';
 import Snack from './snack-sdk';
 import Window, { postMessage } from '../__mocks__/window';
 

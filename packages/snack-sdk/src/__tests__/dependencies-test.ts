@@ -1,4 +1,4 @@
-import '../__mocks__/node-fetch';
+import '../__mocks__/fetch-mock-server';
 import { defaultSdkVersion, newestSdkVersion, oldestSdkVersion, SDKVersion } from 'snack-content';
 
 import Snack from './snack-sdk';

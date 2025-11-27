@@ -4,7 +4,6 @@ import compose from 'koa-compose';
 import Router from 'koa-router';
 import send from 'koa-send';
 import { customAlphabet } from 'nanoid';
-import fetch from 'node-fetch';
 import nullthrows from 'nullthrows';
 import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -58,7 +57,7 @@ const render = async (ctx: Context) => {
 
   if (id) {
     try {
-      const response = await fetch(
+      const response = await globalThis.fetch(
         `${nullthrows(process.env.API_SERVER_URL)}/--/api/v2/snack/${id}`,
         {
           headers: {
@@ -239,7 +238,7 @@ export default function routes() {
     delete headers.host;
 
     try {
-      const response = await fetch(url.toString(), {
+      const response = await globalThis.fetch(url.toString(), {
         headers,
         method: ctx.request.method,
       });
@@ -251,6 +250,7 @@ export default function routes() {
             // Setting it twice breaks the stream.
             break;
           case 'content-encoding':
+            // TODO: Unclear what to do now?
             // node-fetch decodes the stream
             break;
           default:
@@ -260,11 +260,6 @@ export default function routes() {
       });
 
       const stream = response.body;
-      stream.on('error', () => {
-        // Unhandled stream errors cause the app to crash.
-        // Intercept it, but there is no need to log it
-        // as this is already done in `app.on('error')`
-      });
       ctx.body = stream;
       ctx.status = response.status;
     } catch (e) {
