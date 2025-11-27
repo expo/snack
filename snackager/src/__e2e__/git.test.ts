@@ -1,10 +1,9 @@
 import spawnAsync from '@expo/spawn-async';
 import FormData from 'form-data';
 import fs from 'fs';
-import fetch from 'node-fetch';
 import os from 'os';
 import path from 'path';
-import { SDKVersion, SnackFiles } from 'snack-sdk';
+import { SDKVersion, setSnackSDKFetch, SnackFiles } from 'snack-sdk';
 import util from 'util';
 
 import { importAsync } from '../git';
@@ -20,30 +19,26 @@ const ASSET_URL = 'https://myuploadedasset.com/777';
 const sdkVersion: SDKVersion = '50.0.0';
 
 jest.setTimeout(50000);
-jest.mock('node-fetch', () => {
-  return jest.fn(async (url: string, options: Request) => {
-    let json = {};
-    if (url.endsWith('bundledNativeModules.json')) {
-      json = {};
-    } else if (url.endsWith('/save')) {
-      // @ts-ignore Body is rewritten as json so the call scan be compared to a snapshot
-      options.body = JSON.parse(options.body);
-      json = { id: SAVE_ID };
-    } else if (url.endsWith('/uploadAsset')) {
-      json = { url: ASSET_URL };
-    }
-    return {
-      ok: true,
-      status: 200,
-      json: async () => json,
-    };
-  });
-});
-// Workaround for snack-sdk's ponyfill using their own node-fetch version
-jest.mock('fetch-ponyfill', () => () => ({ fetch }));
 
-// @ts-ignore Conversion of type 'typeof fetch' to type 'Mock<any, any>' may be a mistake because neither type sufficiently overlaps with the other
-const mockedFetch = fetch as jest.Mock;
+const mockedFetch = jest.fn(async (url: string, options: Request) => {
+  let json = {};
+  if (url.endsWith('bundledNativeModules.json')) {
+    json = {};
+  } else if (url.endsWith('/save')) {
+    // @ts-ignore Body is rewritten as json so the call scan be compared to a snapshot
+    options.body = JSON.parse(options.body);
+    json = { id: SAVE_ID };
+  } else if (url.endsWith('/uploadAsset')) {
+    json = { url: ASSET_URL };
+  }
+  return {
+    ok: true,
+    status: 200,
+    json: async () => json,
+  };
+});
+
+setSnackSDKFetch(mockedFetch as unknown as typeof globalThis.fetch);
 
 beforeEach(() => {
   mockedFetch.mockClear();
@@ -215,7 +210,7 @@ describe('git', () => {
     expect(mockedFetch).toHaveBeenCalledTimes(1);
 
     const requestOptions = mockedFetch.mock.calls[0][1];
-    const requestCode = requestOptions.body.code;
+    const requestCode = (requestOptions.body as unknown as { code: SnackFiles })?.code;
 
     expect(requestCode['node_modules/some-module/index.js']).toBeUndefined();
     expect(requestCode['project/node_modules/other-module/index.js']).toBeUndefined();
