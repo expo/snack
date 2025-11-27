@@ -1,12 +1,11 @@
-import fetch from 'node-fetch';
 import path from 'path';
+import { Stream } from 'stream';
 import targz from 'targz';
+import { createWriteStream } from 'fs';
 
 import logger from '../logger';
 import { Package } from '../types';
-
-// TODO: find the typescript definitions for this package, `@types/sander` doesn't exists
-const { createWriteStream } = require('sander');
+import fetchWithTimeout from './fetch-timeout';
 
 // TODO: `version` parameter isn't doing anything here, not sure if we should keep it?
 export default async function fetchAndExtract(
@@ -18,13 +17,17 @@ export default async function fetchAndExtract(
 
   logger.info({ pkg, url }, `fetching tarball`);
 
-  const request = await fetch(url, {
+  const request = await fetchWithTimeout(url, {
     timeout: 10000,
   });
 
   const write = createWriteStream(path.join(dir, 'package.tgz'));
 
-  request.body.pipe(write);
+  if (!request.body) {
+    throw new Error(`No body in response of tarball request ${JSON.stringify({ pkg, url })}`);
+  }
+
+  Stream.Readable.fromWeb(request.body).pipe(write);
 
   return new Promise((resolve, reject) => {
     write.on('error', reject);
