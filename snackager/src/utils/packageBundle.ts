@@ -1,6 +1,7 @@
 import enhancedResolve from 'enhanced-resolve';
 import _ from 'lodash';
 import MemoryFS from 'memory-fs';
+import fetch from 'node-fetch';
 import path from 'path';
 import semver from 'semver';
 import validate from 'validate-npm-package-name';
@@ -379,7 +380,7 @@ export async function getBundledVersionAsync(
   sdkVersion: string,
 ): Promise<string | null> {
   const url = `${config.api.url}/--/api/v2/sdks/${sdkVersion}/native-modules`;
-  const resp = await globalThis.fetch(url);
+  const resp = await fetch(url);
   const bundledNativeModules = await resp.json();
   return (
     bundledNativeModules?.data.find((item) => item.npmPackage === packageName)?.versionRange ?? null
