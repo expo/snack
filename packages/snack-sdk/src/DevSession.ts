@@ -118,7 +118,7 @@ export default class DevSession {
         throw Error(response.statusText);
       }
 
-      const json = await response.json();
+      const json: any = await response.json();
       this.onSendBeaconCloseRequest({
         url: this.getRequest(true, undefined, deviceId).url,
         data: new Blob(

@@ -1,11 +1,10 @@
-import fetchPonyfill from 'fetch-ponyfill';
+import nodeFetch from 'node-fetch';
 import { customAlphabet } from 'nanoid';
 import { SDKVersion, createRuntimeUrl } from 'snack-content';
 
 import { SnackError, SnackUser } from './types';
 
-const { fetch } = fetchPonyfill();
-export { fetch };
+export { nodeFetch as fetch };
 
 /**
  * All valid characters to generate a new channel ID.
