@@ -1,10 +1,22 @@
-import nodeFetch from 'node-fetch';
 import { customAlphabet } from 'nanoid';
 import { SDKVersion, createRuntimeUrl } from 'snack-content';
 
 import { SnackError, SnackUser } from './types';
 
-export { nodeFetch as fetch };
+let fetchFn: typeof fetch = fetch;
+
+/**
+ * Stable reference to the fetch function that is used internally.
+ */
+const internalFetch: typeof fetch = (...args) => {
+  return fetchFn(...args);
+};
+
+export { internalFetch as fetch };
+
+export function setSnackSDKFetch(fn: typeof fetch) {
+  fetchFn = fn;
+}
 
 /**
  * All valid characters to generate a new channel ID.
