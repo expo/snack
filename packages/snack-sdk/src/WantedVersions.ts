@@ -88,7 +88,7 @@ export class WantedDependencyVersions {
     const urlVersion = encodeURIComponent(sdkVersion);
     return fetch(`https://cdn.jsdelivr.net/npm/expo@${urlVersion}/bundledNativeModules.json`)
       .then((response) => response.json())
-      .then((data) => data || {});
+      .then((data) => data || {}) as Promise<Record<string, string>>;
   }
 
   /**

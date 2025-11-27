@@ -108,7 +108,7 @@ export default class FileUploader {
         const text = await response.text();
         throw new Error(text);
       }
-      const result = await response.json();
+      const result: any = await response.json();
       const resultURL = result.url;
 
       if (this.status[path]?.file === file) {

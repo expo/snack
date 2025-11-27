@@ -407,7 +407,7 @@ export default class Snack {
           ...(options?.ignoreUser ? {} : createUserHeader(user)),
         },
       });
-      const data = await response.json();
+      const data: any = await response.json();
       if (!data?.id) {
         throw new Error(data.errors?.[0]?.message || 'Failed to save');
       }
@@ -483,7 +483,7 @@ export default class Snack {
           'Content-Type': 'application/json',
         },
       });
-      const data = await response.json();
+      const data: any = await response.json();
       if (data.id) {
         this.logger?.info('Uploaded preview', data);
       } else {
