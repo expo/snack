@@ -1,4 +1,3 @@
-
 import { mockFetch } from './__mocks__/fetch';
 import { getBundledVersionAsync } from '../packageBundle';
 

@@ -1,6 +1,6 @@
 const actualFetch = globalThis.fetch;
 
-export const mockFetch = jest.fn()
+export const mockFetch = jest.fn();
 
 beforeEach(() => {
   globalThis.fetch = mockFetch;
