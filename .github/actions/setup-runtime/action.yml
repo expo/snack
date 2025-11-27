@@ -4,7 +4,7 @@ description: Prepare Runtime in GitHub Actions
 inputs:
   node-version:
     description: Version of Node to use
-    default: 20.x
+    default: 22.x
 
   eas-version:
     description: Version of EAS CLI to use
