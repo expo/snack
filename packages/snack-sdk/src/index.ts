@@ -28,6 +28,7 @@ import Snack, {
   SnackLogListener,
 } from './Session';
 import defaultConfig from './defaultConfig';
+import { setSnackSDKFetch } from './utils';
 
 export * from './transports';
 export * from './types';
@@ -60,4 +61,5 @@ export {
   Snack,
   createRuntimeUrl,
   parseRuntimeUrl,
+  setSnackSDKFetch,
 };
