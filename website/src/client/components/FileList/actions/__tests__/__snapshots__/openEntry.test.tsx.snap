@@ -1,62 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`toggles entry state 1`] = `
-Array [
-  Object {
-    "item": Object {
+[
+  {
+    "item": {
       "path": "test",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "test/App.js",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isFocused": true,
       "isOpen": true,
       "isSelected": true,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "components",
       "type": "folder",
     },
-    "state": Object {
+    "state": {
       "isExpanded": true,
       "isSelected": false,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "components/App.js",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isFocused": false,
       "isOpen": true,
       "isSelected": false,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "static",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "static/file.png",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isFocused": false,
       "isOpen": true,
     },
@@ -65,58 +65,58 @@ Array [
 `;
 
 exports[`toggles entry state 2`] = `
-Array [
-  Object {
-    "item": Object {
+[
+  {
+    "item": {
       "path": "test",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "test/App.js",
       "type": "file",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "components",
       "type": "folder",
     },
-    "state": Object {
+    "state": {
       "isExpanded": false,
       "isSelected": true,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "components/App.js",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isFocused": true,
       "isOpen": true,
       "isSelected": false,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "static",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "static/file.png",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isFocused": false,
       "isOpen": true,
     },
@@ -125,58 +125,58 @@ Array [
 `;
 
 exports[`toggles entry state 3`] = `
-Array [
-  Object {
-    "item": Object {
+[
+  {
+    "item": {
       "path": "test",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "test/App.js",
       "type": "file",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "components",
       "type": "folder",
     },
-    "state": Object {
+    "state": {
       "isExpanded": true,
       "isSelected": false,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "components/App.js",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isFocused": false,
       "isOpen": true,
       "isSelected": false,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "static",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "static/file.png",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isFocused": true,
       "isOpen": true,
       "isSelected": true,

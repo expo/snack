@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`devsession receives sendBeaconCloseRequest 1`] = `
-Object {
+{
   "data": Blob {
-    "config": Array [
-      "{\\"session\\":{\\"url\\":\\"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A54.0.0&channel-name=production&snack-channel=10spnBnPxi\\"}}",
+    "config": [
+      "{"session":{"url":"exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A54.0.0&channel-name=production&snack-channel=10spnBnPxi"}}",
     ],
   },
   "url": "https://exp.host/--/api/v2/development-sessions/notify-close?deviceId=1234",

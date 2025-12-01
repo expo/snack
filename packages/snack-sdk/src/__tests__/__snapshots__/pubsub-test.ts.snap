@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`pubsub accepts connections 1`] = `
-Object {
-  "{\\"platform\\":\\"ios\\",\\"id\\":\\"7682-1234\\",\\"name\\":\\"iPhone 8\\"}": Object {
+{
+  "{"platform":"ios","id":"7682-1234","name":"iPhone 8"}": {
     "id": "7682-1234",
     "name": "iPhone 8",
     "platform": "ios",

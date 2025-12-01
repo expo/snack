@@ -3,32 +3,32 @@
 exports[`renders children 1`] = `
 <FileListEntry
   actions={
-    Array [
-      Object {
+    [
+      {
         "handler": [Function],
         "label": "New file",
       },
-      Object {
+      {
         "handler": [Function],
         "label": "New folder",
       },
-      Object {
-        "combo": Array [
+      {
+        "combo": [
           13,
         ],
         "handler": [Function],
         "label": "Expand",
       },
-      Object {
-        "combo": Array [
+      {
+        "combo": [
           17,
           67,
         ],
         "handler": [Function],
         "label": "Copy",
       },
-      Object {
-        "combo": Array [
+      {
+        "combo": [
           17,
           68,
         ],
@@ -36,15 +36,15 @@ exports[`renders children 1`] = `
         "label": "Duplicate",
       },
       undefined,
-      Object {
-        "combo": Array [
+      {
+        "combo": [
           113,
         ],
         "handler": [Function],
         "label": "Rename",
       },
-      Object {
-        "combo": Array [
+      {
+        "combo": [
           8,
         ],
         "handler": [Function],
@@ -54,12 +54,12 @@ exports[`renders children 1`] = `
   }
   draggable={true}
   entry={
-    Object {
-      "item": Object {
+    {
+      "item": {
         "path": "app",
         "type": "folder",
       },
-      "state": Object {},
+      "state": {},
     }
   }
   onExpand={[Function]}
@@ -69,7 +69,7 @@ exports[`renders children 1`] = `
   renderItem={[Function]}
   renderMenuIcon={[Function]}
   renderTree={[Function]}
-  rest={Array []}
+  rest={[]}
   theme="light"
 />
 `;

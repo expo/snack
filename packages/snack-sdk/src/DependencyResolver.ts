@@ -97,7 +97,7 @@ export default class DependencyResolver {
                 data,
               );
               return;
-            } catch (e) {
+            } catch (e: any) {
               return Promise.reject(e);
             }
           }
@@ -106,7 +106,7 @@ export default class DependencyResolver {
           throw new Error(error);
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       const error = createError({
         message: `Failed to resolve dependency '${key}' (${e.message})`,
         fileName: key,

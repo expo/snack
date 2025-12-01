@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`files add code files 1`] = `
-Object {
-  "App.js": Object {
+{
+  "App.js": {
     "contents": "// whoop",
     "type": "CODE",
   },
@@ -10,8 +10,8 @@ Object {
 `;
 
 exports[`files adds initial file 1`] = `
-Object {
-  "App.js": Object {
+{
+  "App.js": {
     "contents": "// whoop",
     "type": "CODE",
   },

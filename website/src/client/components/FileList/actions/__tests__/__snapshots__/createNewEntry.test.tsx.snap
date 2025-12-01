@@ -1,36 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`creates new file 1`] = `
-Array [
-  Object {
-    "item": Object {
+[
+  {
+    "item": {
       "path": "test",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "test/App.js",
       "type": "file",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "components",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "Untitled file.js",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isCreating": true,
     },
   },
@@ -38,38 +38,38 @@ Array [
 `;
 
 exports[`creates new file 2`] = `
-Array [
-  Object {
-    "item": Object {
+[
+  {
+    "item": {
       "path": "test",
       "type": "folder",
     },
-    "state": Object {
+    "state": {
       "isExpanded": true,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "test/App.js",
       "type": "file",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "components",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "test/Untitled file.js",
       "type": "file",
     },
-    "state": Object {
+    "state": {
       "isCreating": true,
     },
   },
@@ -77,35 +77,35 @@ Array [
 `;
 
 exports[`creates new folder 1`] = `
-Array [
-  Object {
-    "item": Object {
+[
+  {
+    "item": {
       "path": "test",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "test/App.js",
       "type": "file",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "components",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "Untitled folder",
       "type": "folder",
     },
-    "state": Object {
+    "state": {
       "isCreating": true,
     },
   },
@@ -113,37 +113,37 @@ Array [
 `;
 
 exports[`creates new folder 2`] = `
-Array [
-  Object {
-    "item": Object {
+[
+  {
+    "item": {
       "path": "test",
       "type": "folder",
     },
-    "state": Object {
+    "state": {
       "isExpanded": true,
     },
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "content": "",
       "path": "test/App.js",
       "type": "file",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "components",
       "type": "folder",
     },
-    "state": Object {},
+    "state": {},
   },
-  Object {
-    "item": Object {
+  {
+    "item": {
       "path": "test/Untitled folder",
       "type": "folder",
     },
-    "state": Object {
+    "state": {
       "isCreating": true,
     },
   },

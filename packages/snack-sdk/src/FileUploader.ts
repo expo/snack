@@ -116,11 +116,11 @@ export default class FileUploader {
         delete this.status[path];
         try {
           this.callback({ path, file }, resultURL);
-        } catch (e) {
+        } catch (e: any) {
           return Promise.reject(e);
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       const error = createError({
         message: `Failed to upload file ${path} (${e.message})`,
         fileName: path,

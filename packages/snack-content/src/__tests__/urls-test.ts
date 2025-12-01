@@ -41,7 +41,7 @@ describe(parseRuntimeUrl, () => {
   it('returns info with only "sdkVersion"', () => {
     expect(parseRuntimeUrl('exp://u.expo.dev/xxx?runtime-version=exposdk:69.0.0'))
       .toMatchInlineSnapshot(`
-      Object {
+      {
         "channel": undefined,
         "sdkVersion": "69.0.0",
         "snack": undefined,
@@ -52,7 +52,7 @@ describe(parseRuntimeUrl, () => {
   it('returns info with "sdkVersion" and "snack"', () => {
     expect(parseRuntimeUrl('exp://u.expo.dev/xxx?runtime-version=exposdk:69.0.0&snack=snackid'))
       .toMatchInlineSnapshot(`
-      Object {
+      {
         "channel": undefined,
         "sdkVersion": "69.0.0",
         "snack": "snackid",
@@ -66,7 +66,7 @@ describe(parseRuntimeUrl, () => {
         'exp://u.expo.dev/xxx?runtime-version=exposdk:69.0.0&snack-channel=channelid',
       ),
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "channel": "channelid",
         "sdkVersion": "69.0.0",
         "snack": undefined,
@@ -80,7 +80,7 @@ describe(parseRuntimeUrl, () => {
         'exp://u.expo.dev/xxx?runtime-version=exposdk:69.0.0&snack=snackid&snack-channel=channelid',
       ),
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "channel": "channelid",
         "sdkVersion": "69.0.0",
         "snack": "snackid",

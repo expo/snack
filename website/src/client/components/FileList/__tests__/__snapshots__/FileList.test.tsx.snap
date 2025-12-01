@@ -4,15 +4,15 @@ exports[`renders children 1`] = `
 <ImportFilesManager
   className="container_wgmchy"
   entries={
-    Array [
-      Object {
-        "item": Object {
+    [
+      {
+        "item": {
           "content": "",
           "path": "App.js",
           "type": "file",
           "virtual": false,
         },
-        "state": Object {
+        "state": {
           "isError": false,
           "isFocused": true,
           "isLoading": false,
@@ -20,21 +20,21 @@ exports[`renders children 1`] = `
           "isSelected": true,
         },
       },
-      Object {
-        "item": Object {
+      {
+        "item": {
           "path": "components",
           "type": "folder",
         },
-        "state": Object {},
+        "state": {},
       },
-      Object {
-        "item": Object {
+      {
+        "item": {
           "content": "",
           "path": "components/Icon.js",
           "type": "file",
           "virtual": false,
         },
-        "state": Object {
+        "state": {
           "isError": false,
           "isFocused": false,
           "isLoading": false,

@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`dependencies adds dependencies 1`] = `
-Object {
-  "@react-navigation/native": Object {
+{
+  "@react-navigation/native": {
     "handle": "snackager-1/@react-navigation~native@5.1.1",
-    "peerDependencies": Object {
+    "peerDependencies": {
       "react": "*",
       "react-native": "*",
     },
     "version": "5.1.1",
   },
-  "expo-font": Object {
+  "expo-font": {
     "version": "8.1.0",
     "wantedVersion": "~14.0.7",
   },
-  "react-native-paper": Object {
+  "react-native-paper": {
     "handle": "snackager-1/react-native-paper@3.10.1",
-    "peerDependencies": Object {
+    "peerDependencies": {
       "@expo/vector-icons": null,
       "react": "*",
       "react-native": "*",
@@ -27,8 +27,8 @@ Object {
 `;
 
 exports[`dependencies does not resolve * when disabled 1`] = `
-Object {
-  "expo-constants": Object {
+{
+  "expo-constants": {
     "version": "*",
   },
 }
@@ -41,8 +41,8 @@ exports[`dependencies fails on invalid dependency name 1`] = `[Error: Invalid de
 exports[`dependencies fails on invalid dependency version 1`] = `[Error: Invalid dependency 'expo' (version '-- 2 4' is not a valid semver)]`;
 
 exports[`dependencies ignores resolved dependencies 1`] = `
-Object {
-  "expo-firebase-analytics": Object {
+{
+  "expo-firebase-analytics": {
     "handle": "snackager-1/expo-firebase-analytics@8.1.0",
     "version": "8.1.0",
   },
@@ -50,15 +50,15 @@ Object {
 `;
 
 exports[`dependencies loads peer dependencies 1`] = `
-Object {
+{
   "mobx": "^4.0.0",
 }
 `;
 
 exports[`dependencies loads peer dependencies 2`] = `
-Object {
-  "mobx": Object {
-    "dependents": Array [
+{
+  "mobx": {
+    "dependents": [
       "firestorter",
     ],
     "wantedVersion": "^4.0.0",
@@ -67,18 +67,18 @@ Object {
 `;
 
 exports[`dependencies removes dependencies 1`] = `
-Object {
-  "@react-navigation/native": Object {
+{
+  "@react-navigation/native": {
     "handle": "snackager-1/@react-navigation~native@5.1.1",
-    "peerDependencies": Object {
+    "peerDependencies": {
       "react": "*",
       "react-native": "*",
     },
     "version": "5.1.1",
   },
-  "react-native-paper": Object {
+  "react-native-paper": {
     "handle": "snackager-1/react-native-paper@3.10.1",
-    "peerDependencies": Object {
+    "peerDependencies": {
       "@expo/vector-icons": null,
       "react": "*",
       "react-native": "*",
@@ -89,42 +89,42 @@ Object {
 `;
 
 exports[`dependencies reports missing peer dependencies 1`] = `
-Object {
-  "@react-native-community/masked-view": Object {
-    "dependents": Array [
+{
+  "@react-native-community/masked-view": {
+    "dependents": [
       "@react-navigation/stack",
     ],
     "wantedVersion": "^0.1.0",
   },
-  "@react-navigation/native": Object {
-    "dependents": Array [
+  "@react-navigation/native": {
+    "dependents": [
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
     "wantedVersion": "5.0.6",
   },
-  "react-native-gesture-handler": Object {
-    "dependents": Array [
+  "react-native-gesture-handler": {
+    "dependents": [
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
     "wantedVersion": "~2.28.0",
   },
-  "react-native-reanimated": Object {
-    "dependents": Array [
+  "react-native-reanimated": {
+    "dependents": [
       "@react-navigation/drawer",
     ],
     "wantedVersion": "~4.1.0",
   },
-  "react-native-safe-area-context": Object {
-    "dependents": Array [
+  "react-native-safe-area-context": {
+    "dependents": [
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
     "wantedVersion": "~5.6.0",
   },
-  "react-native-screens": Object {
-    "dependents": Array [
+  "react-native-screens": {
+    "dependents": [
       "@react-navigation/stack",
       "@react-navigation/drawer",
     ],
@@ -134,8 +134,8 @@ Object {
 `;
 
 exports[`dependencies resolves * after enabling 1`] = `
-Object {
-  "expo-constants": Object {
+{
+  "expo-constants": {
     "version": "~18.0.7",
     "wantedVersion": "~18.0.7",
   },
@@ -143,8 +143,8 @@ Object {
 `;
 
 exports[`dependencies resolves * to wanted version 1`] = `
-Object {
-  "expo-constants": Object {
+{
+  "expo-constants": {
     "version": "~18.0.7",
     "wantedVersion": "~18.0.7",
   },
@@ -152,10 +152,10 @@ Object {
 `;
 
 exports[`dependencies resolves dependency 1`] = `
-Object {
-  "expo-firebase-analytics": Object {
+{
+  "expo-firebase-analytics": {
     "handle": "snackager-1/expo-firebase-analytics@~7.1.1",
-    "peerDependencies": Object {
+    "peerDependencies": {
       "react": "*",
       "react-native": "*",
     },
@@ -165,22 +165,22 @@ Object {
 `;
 
 exports[`dependencies resolves multiple dependencies 1`] = `
-Object {
-  "@react-navigation/native": Object {
+{
+  "@react-navigation/native": {
     "handle": "snackager-1/@react-navigation~native@5.1.1",
-    "peerDependencies": Object {
+    "peerDependencies": {
       "react": "*",
       "react-native": "*",
     },
     "version": "5.1.1",
   },
-  "expo-font": Object {
+  "expo-font": {
     "version": "~10.0.4",
     "wantedVersion": "~14.0.7",
   },
-  "react-native-paper": Object {
+  "react-native-paper": {
     "handle": "snackager-1/react-native-paper@3.10.1",
-    "peerDependencies": Object {
+    "peerDependencies": {
       "@expo/vector-icons": null,
       "react": "*",
       "react-native": "*",
@@ -191,10 +191,10 @@ Object {
 `;
 
 exports[`dependencies succeeds on dependency name with subpath 1`] = `
-Object {
-  "react-native-gesture-handler/DrawerLayout": Object {
+{
+  "react-native-gesture-handler/DrawerLayout": {
     "handle": "snackager-1/react-native-gesture-handler~DrawerLayout@1.6.0",
-    "peerDependencies": Object {
+    "peerDependencies": {
       "react-native-gesture-handler": "1.6.0",
     },
     "version": "1.6.0",
@@ -204,8 +204,8 @@ Object {
 `;
 
 exports[`dependencies updates preloaded module version when changing SDK version 1`] = `
-Object {
-  "expo-av": Object {
+{
+  "expo-av": {
     "error": [Error: Failed to resolve dependency 'expo-av@~16.0.6' (Package 'expo-av@~16.0.6' not found in the registry)],
     "version": "~16.0.6",
     "wantedVersion": "~16.0.6",
@@ -214,8 +214,8 @@ Object {
 `;
 
 exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
-Object {
-  "expo-av": Object {
+{
+  "expo-av": {
     "error": [Error: Failed to resolve dependency 'expo-av@~16.0.6' (Package 'expo-av@~16.0.6' not found in the registry)],
     "version": "~13.10.5",
     "wantedVersion": "~13.10.5",
