@@ -77,7 +77,7 @@ export default class DependencyResolver {
           return;
         }
         if (res.status === 200) {
-          const data = await res.json();
+          const data: any = await res.json();
           if (data.pending) {
             this.logger?.module('Dependency is still being bundled', key, 'trying again shortly');
             await new Promise((resolve) => setTimeout(resolve, 5000));

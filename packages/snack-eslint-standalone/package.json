@@ -54,6 +54,6 @@
     "snack-babel-standalone": "^3.0.1"
   },
   "volta": {
-    "node": "20.19.4"
+    "node": "22.21.1"
   }
 }

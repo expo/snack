@@ -1,11 +1,27 @@
-import fetchPonyfill from 'fetch-ponyfill';
 import { customAlphabet } from 'nanoid';
 import { SDKVersion, createRuntimeUrl } from 'snack-content';
 
 import { SnackError, SnackUser } from './types';
 
-const { fetch } = fetchPonyfill();
-export { fetch };
+let fetchFn: typeof fetch;
+
+/**
+ * Stable reference to the fetch function that is used internally.
+ */
+const internalFetch: typeof fetch = (...args) => {
+  if (!fetchFn) {
+    // intialize on first use to avoid breaking global polyfill from user's code (or test mocks)
+    fetchFn = globalThis.fetch;
+  }
+
+  return fetchFn(...args);
+};
+
+export { internalFetch as fetch };
+
+export function setSnackSDKFetch(fn: typeof fetch) {
+  fetchFn = fn;
+}
 
 /**
  * All valid characters to generate a new channel ID.

@@ -1,6 +1,6 @@
 import formData from 'form-data';
 
-import '../__mocks__/node-fetch';
+import '../__mocks__/fetch-mock-server';
 import Snack from './snack-sdk';
 
 function createAsset(name: string, contents: string, corrupt?: boolean): FormData {

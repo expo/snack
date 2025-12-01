@@ -1,5 +1,5 @@
 import Snack from './snack-sdk';
-import fetch from '../__mocks__/node-fetch';
+import fetch from '../__mocks__/fetch-mock-server';
 import type { ProtocolCodeMessage } from '../transports/Protocol';
 import Transport from '../transports/__mocks__/TestTransport';
 
@@ -13,7 +13,7 @@ describe('upload', () => {
         ok: true,
         status: 200,
         json: async () => ({ url: uploadURL }),
-      }),
+      } as Response),
     );
 
     Transport.mockVerifyCodeMessageSize.mockImplementation((codeMessage: ProtocolCodeMessage) => {
