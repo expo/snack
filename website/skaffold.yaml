@@ -12,7 +12,7 @@ build:
       docker:
         dockerfile: website/Dockerfile
         buildArgs:
-          node_version: 20.19.4
+          node_version: 22.21.1
           LEGACY_SERVER_URL: https://staging.expo.io
           SERVER_URL: https://staging.expo.dev
           API_SERVER_URL: https://staging.exp.host
@@ -44,7 +44,7 @@ profiles:
           docker:
             dockerfile: website/Dockerfile
             buildArgs:
-              node_version: 20.19.4
+              node_version: 22.21.1
               LEGACY_SERVER_URL: https://expo.io
               SERVER_URL: https://expo.dev
               API_SERVER_URL: https://exp.host
