@@ -11,17 +11,6 @@
       ]
     }
   },
-  "exports": {
-    ".": {
-      "require": "./build/runtime.js",
-      "types": "./types/runtime.d.ts"
-    },
-    "./eslint": {
-      "require": "./build/eslint.js",
-      "types": "./types/eslint.d.ts"
-    },
-    "./package.json": "./package.json"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/expo/snack.git",
