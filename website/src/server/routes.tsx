@@ -214,7 +214,7 @@ export default function routes() {
     const isLocalhost =
       ctx.params.version === 'localhost' && process.env.NODE_ENV === 'development';
     const url = new URL(
-      isLocalhost ? 'http://localhost:19006' : `${baseURL}/${ctx.params.version}`
+      isLocalhost ? 'http://localhost:3000' : `${baseURL}/${ctx.params.version}`
     );
     url.pathname =
       url.pathname +
