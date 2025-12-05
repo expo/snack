@@ -12,7 +12,7 @@ async function run() {
   const exportDir = './web-build';
 
   await exportWeb({ workingDir, exportDir });
-  await uploadWeb({ workingDir, exportDir });
+  // await uploadWeb({ workingDir, exportDir });
 }
 
 /**
