@@ -1314,6 +1314,14 @@ export default class Snack {
           status: 'error',
         }),
       }));
+
+      const event: SnackLogEvent = {
+        type: 'error',
+        connectedClient: this.state.connectedClients[connectedClientId],
+        message: error.message,
+        error,
+      };
+      this.logListeners.forEach((listener) => listener(event));
     } catch {
       this.logger?.error('Failed to parse received error message', message);
     }
