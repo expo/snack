@@ -21,6 +21,7 @@
       "packages/snack-require-context",
       "packages/snack-sdk",
       "packages/snack-term",
+      "packages/snack-cli",
       "website",
       "snackager",
       "snackpub"

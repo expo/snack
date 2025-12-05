@@ -1,0 +1,28 @@
+{
+  "name": "snack-cli",
+  "version": "1.0.0",
+  "description": "CLI for Expo Snack",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "bin": {
+    "snack-cli": "build/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js start",
+    "watch": "tsc -w"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "debug": "^4.4.3",
+    "dotenv": "^16.3.1",
+    "glob": "^10.3.10",
+    "snack-sdk": "*"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.12",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
+  }
+}
