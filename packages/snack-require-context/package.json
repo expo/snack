@@ -11,17 +11,6 @@
       ]
     }
   },
-  "exports": {
-    ".": {
-      "require": "./build/runtime.js",
-      "types": "./build/runtime.d.ts"
-    },
-    "./snackager": {
-      "require": "./build/snackager.js",
-      "types": "./build/snackager.d.ts"
-    },
-    "./package.json": "./package.json"
-  },
   "files": [
     "build",
     "snackager.js"

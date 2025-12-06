@@ -10,13 +10,13 @@ function SnackTerminal() {
       {(size) => (
         <Box flexDirection="row">
           <Box flexDirection="column">
-            <Terminal
+            {/* <Terminal
               cwd="website"
               command="yarn"
               args={['start']}
               width={Math.round(size.width / 2)}
               height={Math.round((size.height - 1) / 3)}
-            />
+            /> */}
             <Terminal
               cwd="snackager"
               command="yarn"
