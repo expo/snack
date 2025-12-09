@@ -18,12 +18,22 @@
     "debug": "^4.4.3",
     "dotenv": "^16.3.1",
     "glob": "^10.3.10",
-    "snack-sdk": "*"
+    "snack-sdk": "6.6.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
     "@types/glob": "^8.1.0",
     "@types/node": "^20.10.5",
     "typescript": "^5.3.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expo/snack.git",
+    "directory": "packages/snack-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/snack/issues"
+  },
+  "author": "Expo <support@expo.dev>",
+  "license": "MIT"
 }
