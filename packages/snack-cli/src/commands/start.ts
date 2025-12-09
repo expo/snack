@@ -6,11 +6,11 @@ import { IGNORE_DIRS, loadFiles } from '../lib/load-files';
 import { parseJson } from '../lib/parse-json';
 import { loadDependencies } from '../lib/load-dependencies';
 import { readJsonAsync } from '../lib/read-json';
+import { getRuntimeEndpoint } from '../lib/snack-runtime';
 
 const debug = Debug('snack-cli');
 
-
-export async function start() {
+export async function start(options: { experimentalRuntime?: boolean }) {
   const cwd = process.cwd();
   const snackJsonPath = path.join(cwd, '.snack', 'snack.json');
 
@@ -21,7 +21,7 @@ export async function start() {
   if (!sessionSecret) {
     console.warn('No sessionSecret found in env (SNACK_SESSION_SECRET). Snack will be anonymous/read-only if required.');
   }
-  
+
   const dependencies = await loadDependencies(cwd);
 
   const snack = new Snack({
@@ -29,6 +29,7 @@ export async function start() {
     dependencies,
     user: sessionSecret ? { sessionSecret } : undefined,
     verbose: false, // We handle logging manually
+    runtimeEndpoint: getRuntimeEndpoint(options)
   });
   snack.setOnline(true);
   const url = snack.getState().url;

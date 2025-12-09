@@ -6,10 +6,11 @@ import { writeJsonAsync } from '../lib/write-json';
 import { randomName } from '../lib/random-name';
 import { loadFiles } from '../lib/load-files';
 import { loadDependencies } from '../lib/load-dependencies';
+import { getRuntimeEndpoint } from '../lib/snack-runtime';
 
 const debug = Debug('snack-cli');
 
-export async function save() {
+export async function save(options: { experimentalRuntime?: boolean }) {
   const cwd = process.cwd();
   const snackJsonPath = path.join(cwd, '.snack', 'snack.json');
 
@@ -28,6 +29,7 @@ export async function save() {
     dependencies,
     user: sessionSecret ? { sessionSecret } : undefined,
     verbose: false,
+    runtimeEndpoint: getRuntimeEndpoint(options)
   });
   
   let newName: string | null = null;

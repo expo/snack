@@ -16,11 +16,13 @@ program
 program
   .command('start')
   .description('Start a Snack from the current directory')
+  .option('--experimental-runtime', 'Use the experimental runtime endpoint')
   .action(start);
 
 program
   .command('save')
   .description('Save the current Snack')
+  .option('--experimental-runtime', 'Use the experimental runtime endpoint')
   .action(save);
 
 program.parse();
