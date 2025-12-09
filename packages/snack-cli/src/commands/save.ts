@@ -7,6 +7,7 @@ import { randomName } from '../lib/random-name';
 import { loadFiles } from '../lib/load-files';
 import { loadDependencies } from '../lib/load-dependencies';
 import { getRuntimeEndpoint } from '../lib/snack-runtime';
+import { withExtraParams } from '../lib/url-params';
 
 const debug = Debug('snack-cli');
 
@@ -64,6 +65,8 @@ export async function save(options: { experimentalRuntime?: boolean }) {
     debug(`Saved snackId to ${snackJsonPath}`);
   }
   
+  const finalUrl = withExtraParams(result.url);
+
   console.log(`Snack saved successfully!`);
-  console.log(`Available at: ${result.url}`);
+  console.log(`Available at: ${finalUrl}`);
 }

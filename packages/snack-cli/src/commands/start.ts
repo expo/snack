@@ -7,6 +7,7 @@ import { parseJson } from '../lib/parse-json';
 import { loadDependencies } from '../lib/load-dependencies';
 import { readJsonAsync } from '../lib/read-json';
 import { getRuntimeEndpoint } from '../lib/snack-runtime';
+import { withExtraParams } from '../lib/url-params';
 
 const debug = Debug('snack-cli');
 
@@ -32,8 +33,9 @@ export async function start(options: { experimentalRuntime?: boolean }) {
     runtimeEndpoint: getRuntimeEndpoint(options)
   });
   snack.setOnline(true);
-  const url = snack.getState().url;
-  console.log(`Available at: ${url}`);
+
+  const finalUrl = withExtraParams(snack.getState().url);
+  console.log(`Available at: ${finalUrl}`);
 
   snack.updateFiles(await loadFiles(cwd));
 
