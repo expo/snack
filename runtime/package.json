@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
+    "@expo-google-fonts/material-symbols": "0.4.15",
     "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/drawer": "7.7.2",
@@ -41,6 +42,7 @@
     "expo-router": "7.0.0-canary-20251205-a1dedc6",
     "expo-splash-screen": "31.0.13-canary-20251205-a1dedc6",
     "expo-status-bar": "3.0.10-canary-20251205-a1dedc6",
+    "expo-symbols": "1.1.0-canary-20251205-a1dedc6",
     "expo-updates": "29.1.0-canary-20251205-a1dedc6",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",

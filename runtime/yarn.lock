@@ -1131,6 +1131,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
+"@expo-google-fonts/material-symbols@0.4.15":
+  version "0.4.15"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/material-symbols/-/material-symbols-0.4.15.tgz#19d1776186d36584d26cdd911328f45c5a95991a"
+  integrity sha512-EA+HoleZdmUtefeY8a/M8LFK7VapTUyXRIIzP9IkI8Z7DM9r4mVA1omWgoEZp+Tft1jo8dbdnZu38lGOjLohsg==
+
 "@expo/cli@55.0.0-canary-20251205-a1dedc6":
   version "55.0.0-canary-20251205-a1dedc6"
   resolved "https://registry.yarnpkg.com/@expo/cli/-/cli-55.0.0-canary-20251205-a1dedc6.tgz#a83680cf4db47c23994554dbe9c78084974da513"
@@ -4796,6 +4801,13 @@ expo-structured-headers@5.0.1-canary-20251205-a1dedc6:
   version "5.0.1-canary-20251205-a1dedc6"
   resolved "https://registry.yarnpkg.com/expo-structured-headers/-/expo-structured-headers-5.0.1-canary-20251205-a1dedc6.tgz#b63b6ac550b5a5e7dc5e5ce73ba7f3148bd468f8"
   integrity sha512-WcP+WWZTxFkPLV5RunLHkP7EigTC7h0T8eP56u+7OBCBSh5kwg4f2O/Nguc5wniyIM4tb4MFnrrIwVlwVu3FgQ==
+
+expo-symbols@1.1.0-canary-20251205-a1dedc6:
+  version "1.1.0-canary-20251205-a1dedc6"
+  resolved "https://registry.yarnpkg.com/expo-symbols/-/expo-symbols-1.1.0-canary-20251205-a1dedc6.tgz#b460fbf279151d813ab3a2a7eb9fbd8debe870cb"
+  integrity sha512-F4SjMlK1p42Bq4UvEj++fEX5kaqcgP4MEIgQVsPrHEI8YsJw6czmgSQfQl8/VarBMaQykOu1TGzDI+Kw+wjUGA==
+  dependencies:
+    sf-symbols-typescript "^2.0.0"
 
 expo-updates-interface@2.0.1-canary-20251205-a1dedc6:
   version "2.0.1-canary-20251205-a1dedc6"
@@ -8865,6 +8877,11 @@ setprototypeof@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.2.0.tgz#66c9a24a73f9fc28cbe66b09fed3d33dcaf1b424"
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
+
+sf-symbols-typescript@^2.0.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/sf-symbols-typescript/-/sf-symbols-typescript-2.2.0.tgz#926d6e0715e3d8784cadf7658431e36581254208"
+  integrity sha512-TPbeg0b7ylrswdGCji8FRGFAKuqbpQlLbL8SOle3j1iHSs5Ob5mhvMAxWN2UItOjgALAB5Zp3fmMfj8mbWvXKw==
 
 sf-symbols-typescript@^2.1.0:
   version "2.1.0"
