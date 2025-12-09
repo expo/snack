@@ -1,6 +1,6 @@
 {
   "name": "snack-cli",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "CLI for Expo Snack",
   "main": "build/index.js",
   "types": "build/index.d.ts",
