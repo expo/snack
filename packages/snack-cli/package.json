@@ -8,7 +8,8 @@
     "snack-cli": "build/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && yarn mark-executable",
+    "mark-executable": "chmod +x build/index.js",
     "start": "node build/index.js start",
     "watch": "tsc -w"
   },

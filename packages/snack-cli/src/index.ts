@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
 import { start } from './commands/start';
+import { save } from './commands/save';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -16,5 +17,10 @@ program
   .command('start')
   .description('Start a Snack from the current directory')
   .action(start);
+
+program
+  .command('save')
+  .description('Save the current Snack')
+  .action(save);
 
 program.parse();
