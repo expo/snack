@@ -11,7 +11,7 @@ const program = new Command();
 program
   .name('snack-cli')
   .description('CLI for Expo Snack')
-  .version('0.0.2');
+  .version('0.0.3');
 
 program
   .command('start')
