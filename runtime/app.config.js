@@ -9,6 +9,12 @@ const { major } = require('semver');
  * @returns {import('expo/config').ExpoConfig}
  */
 module.exports = ({ config }) => {
+  // This is needed for cannary runtimes to work in development versions of future Expo Go releases.
+  // E.g. 55.0.0-canary -> sdkVersion: 55.0.0 won't work in Expo Go until 55.0.0 is released.
+  config.sdkVersion = '54.0.0';
+  // UNVERSIONED doesn't work with EAS Update, so I force 54 to avoid issue with loading the runtime
+  // due to version mismatch.
+
   // Set web export prefix major Expo SDK version.
   // This is used to properly host the web build on Snack's S3 hosting.
   config.experiments ||= {};
