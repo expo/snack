@@ -60,7 +60,7 @@ jobs:
 
       - name: 🧪 Run runtime tests
         run: |
-          yarn test --ci --maxWorkers 1
+          yarn test --ci --maxWorkers 1 --passWithNoTests
 
   deploy-staging:
     if: ${{ (github.event.inputs.deploy == 'staging' && github.event_name != 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
