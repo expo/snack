@@ -30,12 +30,10 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
     "@react-native-async-storage/async-storage": "2.1.2",
-    "await-lock": "^2.2.2",
     "canvaskit-wasm": "0.38.0",
     "diff": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
     "path": "^0.12.7",
-    "pubnub": "^7.2.0",
     "snack-babel-standalone": "^4.0.0",
     "snack-content": "file:../snack-content",
     "snack-require-context": "^0.1.0",
