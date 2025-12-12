@@ -23,7 +23,7 @@ export const init = (deviceId: string) => {
   let transportClass;
   if (Platform.OS === 'web') {
     transportClass = require('./transports/RuntimeTransportImplWebPlayer').default;
- } else {
+  } else {
     transportClass = require('./transports/RuntimeTransportImplSocketIO').default;
   }
   transport = new transportClass(device);

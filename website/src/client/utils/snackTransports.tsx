@@ -5,9 +5,7 @@ import {
   SnackTransportListener,
 } from 'snack-sdk';
 
-export function createSnackWorkerTransport(
-  options: SnackTransportOptions
-) {
+export function createSnackWorkerTransport(options: SnackTransportOptions) {
   let transport: SnackTransport | null = null;
   function getTransport(): SnackTransport {
     if (!transport) {

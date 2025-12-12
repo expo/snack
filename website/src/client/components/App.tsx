@@ -193,9 +193,7 @@ class Main extends React.Component<Props, State> {
       sdkVersion,
       verbose,
       codeChangesDelay: sendCodeOnChangeEnabled ? 1000 : -1,
-      createTransport: isWorker
-        ? createSnackWorkerTransport.bind(null)
-        : undefined,
+      createTransport: isWorker ? createSnackWorkerTransport.bind(null) : undefined,
       reloadTimeout: 10000,
       id: !wasUpgraded ? id : undefined,
       user: sessionSecret ? { sessionSecret } : undefined,

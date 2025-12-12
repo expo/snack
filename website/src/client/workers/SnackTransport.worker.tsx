@@ -1,7 +1,5 @@
 import type { SnackTransport, SnackTransportMessage, SnackTransportEvent } from 'snack-sdk';
 
-declare const self: WorkerGlobalScope;
-
 const { createTransport } = require('snack-sdk');
 
 let transport: SnackTransport | undefined = undefined;
