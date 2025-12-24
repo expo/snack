@@ -323,7 +323,7 @@ ___
 Name | Type | Description |
 ------ | ------ | ------ |
 `accountSnackId` | undefined \| string | Id of the saved Snack if it belongs to an account.
-`channel` | string | Communication channel ("pubnub") through which live updates are transferred. The communication channel is only used when the Snack is "online". |
+`channel` | string | Communication channel ("snackpub") through which live updates are transferred. The communication channel is only used when the Snack is "online". |
 `connectedClients` | [SnackConnectedClients](README.md#snackconnectedclients) | Clients that are currently connected. |
 `dependencies` | [SnackDependencies](README.md#snackdependencies) | Packages that can be used in the code files. Packages that are pre-loaded by the sdk may be ommited, but it is recommended to add them anyway. |
 `description` | string | Additional description of the Snack. The description is used when saving the Snack and may also be used for searching purposes. |

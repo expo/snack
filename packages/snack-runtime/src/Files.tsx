@@ -157,7 +157,7 @@ export const list = () => Object.keys(files);
 
 /**
  * Reset the current project files to only include the files from object.
- * This is useful to manually load the files from our API instead of PubNub.
+ * This is useful to manually load the files from our API instead of snackpub.
  */
 export function updateProjectFiles(
   newFiles: Record<string, { type: 'CODE' | 'ASSET'; contents: string }>,

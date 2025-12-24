@@ -424,7 +424,7 @@ console.log('Download URL: ' + url); // https://exp.host/--/api/v2/snack/downloa
 
 # Transports
 
-The snack-sdk communicates with the Expo Runtime using Transports. When setting `online` to true, the default PubNub based transport is enabled and it is possible to connect to the Snack using the Expo Client. Additionally, a "web-preview" transport may be created, which communicates with the Snack web-player. The web-player is the Expo Runtime running on the web using [react-native-web](https://github.com/necolas/react-native-web).
+The snack-sdk communicates with the Expo Runtime using Transports. When setting `online` to true, the default Socket.IO based transport is enabled and it is possible to connect to the Snack using the Expo Client. Additionally, a "web-preview" transport may be created, which communicates with the Snack web-player. The web-player is the Expo Runtime running on the web using [react-native-web](https://github.com/necolas/react-native-web).
 
 ## Previewing the Snack on Web
 
