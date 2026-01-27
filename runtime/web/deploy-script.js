@@ -37,28 +37,28 @@ async function exportWeb(options) {
 }
 
 /**
- * Upload the exported web bundle to S3.
+ * Upload the exported web bundle to R2.
  *
  * @param {object} options
  * @param {string} options.workingDir
  * @param {string} options.exportDir
  */
 async function uploadWeb(options) {
-  const sdkVersion = semver.major(expoVersion);
+  const bucketPrefix = `v2/${semver.major(expoVersion)}`;
   const bucketName =
     process.env.EXPO_PUBLIC_SNACK_ENV === 'production'
-      ? 'snack-web-player'
-      : 'snack-web-player-staging';
+      ? 'snack-runtime-production'
+      : 'snack-runtime-staging';
 
   await spawnAsync(
-    'yarn',
+    'rclone',
     [
-      's3-deploy',
-      './web-build/**',
-      `--cwd=${options.exportDir}`,
-      '--region=us-west-1',
-      `--bucket=${bucketName}`,
-      `--filePrefix=v2/${sdkVersion}`,
+      'sync',
+      '--verbose',
+      '--files-only',
+      `--config=${path.join(options.workingDir, 'web', 'rclone.conf')}`,
+      `${options.exportDir}/`,
+      `${bucketName}:${bucketPrefix}/`,
     ],
     {
       cwd: options.workingDir,
@@ -66,5 +66,5 @@ async function uploadWeb(options) {
     },
   );
 
-  console.log(`✅ Uploaded the Snack Runtime to S3: ${bucketName} (/v2/${sdkVersion})`);
+  console.log(`✅ Uploaded the Snack Runtime to S3: ${bucketName} (/${bucketPrefix})`);
 }

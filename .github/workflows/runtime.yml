@@ -77,15 +77,21 @@ jobs:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
 
+      - name: 🏗 Setup rclone
+        if: ${{ contains('all web', github.event.inputs.platform) }}
+        uses: ./.github/actions/setup-rclone
+        with:
+          version: 1.72.1
+
       - name: 🏗 Setup runtime
         uses: ./.github/actions/setup-runtime
 
-      - name: 🌐 Deploy web-player
+      - name: 🌐 Deploy web runtime
         if: ${{ contains('all web', github.event.inputs.platform) }}
         run: yarn deploy:web:staging
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_STAGING_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_WEB_AWS_STAGING_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_WEB_AWS_STAGING_SECRET }}
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}
@@ -120,15 +126,21 @@ jobs:
       - name: 🏗 Setup repository
         uses: actions/checkout@v3
 
+      - name: 🏗 Setup rclone
+        if: ${{ contains('all web', github.event.inputs.platform) }}
+        uses: ./.github/actions/setup-rclone
+        with:
+          version: 1.72.1
+
       - name: 🏗 Setup runtime
         uses: ./.github/actions/setup-runtime
 
-      - name: 🌐 Deploy web-player
+      - name: 🌐 Deploy web runtime
         if: ${{ contains('all web', github.event.inputs.platform) }}
         run: yarn deploy:web:prod
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_AWS_PRODUCTION_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.SNACK_RUNTIME_WEB_AWS_PRODUCTION_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SNACK_RUNTIME_WEB_AWS_PRODUCTION_SECRET }}
 
       - name: 📱 Deploy native runtime
         if: ${{ contains('all native', github.event.inputs.platform) }}

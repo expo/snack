@@ -1,0 +1,34 @@
+name: Setup rclone
+description: Download and install rclone
+
+inputs:
+  version:
+    description: The version of rclone to install (without v prefix)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # See: https://github.com/AnimMouse/setup-rclone/blob/main/scripts/download/Unix-like.sh
+    - name: 🏗 Download rclone
+      working-directory: ${{ runner.temp }}
+      shell: bash
+      run: |
+        if [ $RUNNER_OS = macOS ]; then os=osx; else os=linux; fi
+        if [ $RUNNER_ARCH = ARM64 ]; then arch=arm64; else arch=amd64; fi
+        mkdir -p $RUNNER_TEMP/rclone-${{ inputs.version }}
+        curl -L $GITHUB_SERVER_URL/rclone/rclone/releases/download/v${{ inputs.version }}/rclone-v${{ inputs.version }}-$os-$arch.zip -o rclone.zip
+        unzip -jq rclone.zip -d rclone-${{ inputs.version }}
+        rm rclone.zip
+
+    - name: 📦 Prepare rclone in tool cache
+      working-directory: ${{ runner.temp }}
+      shell: bash
+      run: |
+        mkdir -p $RUNNER_TOOL_CACHE/rclone-${{ inputs.version }}
+        mv $RUNNER_TEMP/rclone-${{ inputs.version }}/* $RUNNER_TOOL_CACHE/rclone-${{ inputs.version }}
+        echo $RUNNER_TOOL_CACHE/rclone-${{ inputs.version }} >> $GITHUB_PATH
+
+    - name: ⚙️ Output rclone version
+      shell: bash
+      run: rclone --version
