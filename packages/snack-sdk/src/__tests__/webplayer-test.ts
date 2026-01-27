@@ -9,7 +9,7 @@ const device = {
   platform: 'ios',
 };
 
-const origin = 'https://snack-runtime-staging.eascdn.net';
+const origin = 'https://snack-runtime.eascdn.net';
 
 describe('webpreview', () => {
   it('does not create a webplayer transport by default', async () => {

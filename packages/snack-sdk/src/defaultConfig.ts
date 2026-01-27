@@ -5,8 +5,7 @@ import { SnackState } from './types';
 export const apiURL: string = 'https://exp.host';
 export const snackagerURL: string = 'https://snackager.eascdn.net';
 export const snackpubURL: string = 'https://snackpub.expo.dev';
-// TODO: switch this to production, but keep staging for testing
-export const webPlayerURL: string = 'https://snack-runtime-staging.eascdn.net/v2/%%SDK_VERSION%%';
+export const webPlayerURL: string = 'https://snack-runtime.eascdn.net/v2/%%SDK_VERSION%%';
 
 export const SnackIdentityState: SnackState = {
   sdkVersion: defaultSdkVersion,
