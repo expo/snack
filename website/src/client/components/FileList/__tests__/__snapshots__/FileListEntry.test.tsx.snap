@@ -21,7 +21,7 @@ exports[`renders children 1`] = `
       },
       {
         "combo": [
-          91,
+          17,
           67,
         ],
         "handler": [Function],
@@ -29,7 +29,7 @@ exports[`renders children 1`] = `
       },
       {
         "combo": [
-          91,
+          17,
           68,
         ],
         "handler": [Function],
