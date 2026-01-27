@@ -60,7 +60,7 @@
     "jest-expo": "~54.0.12",
     "prettier": "^3.2.4",
     "react": "19.1.0",
-    "react-native": "0.81.4",
+    "react-native": "0.81.5",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-view-shot": "~4.0.3",
     "typescript": "^5.9.2"
