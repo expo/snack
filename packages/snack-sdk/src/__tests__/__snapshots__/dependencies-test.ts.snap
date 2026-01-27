@@ -12,7 +12,7 @@ exports[`dependencies adds dependencies 1`] = `
   },
   "expo-font": {
     "version": "8.1.0",
-    "wantedVersion": "~14.0.7",
+    "wantedVersion": "~14.0.11",
   },
   "react-native-paper": {
     "handle": "snackager-1/react-native-paper@3.10.1",
@@ -114,7 +114,7 @@ exports[`dependencies reports missing peer dependencies 1`] = `
     "dependents": [
       "@react-navigation/drawer",
     ],
-    "wantedVersion": "~4.1.0",
+    "wantedVersion": "~4.1.1",
   },
   "react-native-safe-area-context": {
     "dependents": [
@@ -136,8 +136,8 @@ exports[`dependencies reports missing peer dependencies 1`] = `
 exports[`dependencies resolves * after enabling 1`] = `
 {
   "expo-constants": {
-    "version": "~18.0.7",
-    "wantedVersion": "~18.0.7",
+    "version": "~18.0.13",
+    "wantedVersion": "~18.0.13",
   },
 }
 `;
@@ -145,8 +145,8 @@ exports[`dependencies resolves * after enabling 1`] = `
 exports[`dependencies resolves * to wanted version 1`] = `
 {
   "expo-constants": {
-    "version": "~18.0.7",
-    "wantedVersion": "~18.0.7",
+    "version": "~18.0.13",
+    "wantedVersion": "~18.0.13",
   },
 }
 `;
@@ -176,7 +176,7 @@ exports[`dependencies resolves multiple dependencies 1`] = `
   },
   "expo-font": {
     "version": "~10.0.4",
-    "wantedVersion": "~14.0.7",
+    "wantedVersion": "~14.0.11",
   },
   "react-native-paper": {
     "handle": "snackager-1/react-native-paper@3.10.1",
@@ -206,9 +206,9 @@ exports[`dependencies succeeds on dependency name with subpath 1`] = `
 exports[`dependencies updates preloaded module version when changing SDK version 1`] = `
 {
   "expo-av": {
-    "error": [Error: Failed to resolve dependency 'expo-av@~16.0.6' (Package 'expo-av@~16.0.6' not found in the registry)],
-    "version": "~16.0.6",
-    "wantedVersion": "~16.0.6",
+    "error": [Error: Failed to resolve dependency 'expo-av@~16.0.8' (Package 'expo-av@~16.0.8' not found in the registry)],
+    "version": "~16.0.8",
+    "wantedVersion": "~16.0.8",
   },
 }
 `;
@@ -216,7 +216,7 @@ exports[`dependencies updates preloaded module version when changing SDK version
 exports[`dependencies updates preloaded module version when changing SDK version 2`] = `
 {
   "expo-av": {
-    "error": [Error: Failed to resolve dependency 'expo-av@~16.0.6' (Package 'expo-av@~16.0.6' not found in the registry)],
+    "error": [Error: Failed to resolve dependency 'expo-av@~16.0.8' (Package 'expo-av@~16.0.8' not found in the registry)],
     "version": "~13.10.5",
     "wantedVersion": "~13.10.5",
   },
