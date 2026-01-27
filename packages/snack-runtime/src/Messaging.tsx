@@ -1,4 +1,4 @@
-// Currently maintains one PubNub subscription for communication with a remote machine
+// Currently maintains one snackpub subscription for communication with a remote machine
 
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
@@ -18,13 +18,11 @@ const device: Device = {
   platform: Platform.OS,
 };
 
-export const init = (deviceId: string, testTransport: string | null | undefined) => {
+export const init = (deviceId: string) => {
   device.id = deviceId;
   let transportClass;
   if (Platform.OS === 'web') {
     transportClass = require('./transports/RuntimeTransportImplWebPlayer').default;
-  } else if (testTransport === 'trafficMirroring') {
-    transportClass = require('./transports/RuntimeTrafficMirroringTransport').default;
   } else {
     transportClass = require('./transports/RuntimeTransportImplSocketIO').default;
   }

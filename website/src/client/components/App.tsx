@@ -193,9 +193,7 @@ class Main extends React.Component<Props, State> {
       sdkVersion,
       verbose,
       codeChangesDelay: sendCodeOnChangeEnabled ? 1000 : -1,
-      createTransport: isWorker
-        ? createSnackWorkerTransport.bind(null, props.query.testTransport ?? 'snackpub')
-        : undefined,
+      createTransport: isWorker ? createSnackWorkerTransport.bind(null) : undefined,
       reloadTimeout: 10000,
       id: !wasUpgraded ? id : undefined,
       user: sessionSecret ? { sessionSecret } : undefined,
@@ -280,11 +278,7 @@ class Main extends React.Component<Props, State> {
   static getDerivedStateFromProps(_props: Props, state: State) {
     if (typeof window !== 'undefined') {
       let webPreviewURL = state.session.webPreviewURL;
-
-      let experienceURL = state.session.url;
-      if (_props.query.testTransport) {
-        experienceURL += `?testTransport=${_props.query.testTransport}`;
-      }
+      const experienceURL = state.session.url;
 
       if (state.isLocalWebPreview) {
         webPreviewURL = `${
@@ -363,7 +357,7 @@ class Main extends React.Component<Props, State> {
     // Listen to messages from other tabs
     this._broadcastChannel.addEventListener('message', this._handleBroadcastChannelMessage);
 
-    this._enablePubNubIfNeeded();
+    this._enableSnackPubIfNeeded();
 
     window.addEventListener('unload', this._handleUnload);
 
@@ -766,7 +760,7 @@ class Main extends React.Component<Props, State> {
       (state) => ({
         devicePreviewShown: !state.devicePreviewShown,
       }),
-      this._enablePubNubIfNeeded
+      this._enableSnackPubIfNeeded
     );
   };
 
@@ -780,7 +774,7 @@ class Main extends React.Component<Props, State> {
       () => ({
         devicePreviewPlatform: platform,
       }),
-      this._enablePubNubIfNeeded
+      this._enableSnackPubIfNeeded
     );
     // On device toggle, update URL to include platform
     if (platform === 'mydevice') {
@@ -794,12 +788,12 @@ class Main extends React.Component<Props, State> {
     this.setState((state) => (state.selectedFile !== path ? { selectedFile: path } : null));
   };
 
-  _enablePubNubIfNeeded = () => {
+  _enableSnackPubIfNeeded = () => {
     if (
       !this.props.isEmbedded ||
       (this.state.devicePreviewShown && this.state.devicePreviewPlatform === 'mydevice')
     ) {
-      // Make sure pubnub is enabled when mydevice tab is visible
+      // Make sure snackpub is enabled when mydevice tab is visible
       this._snack.setOnline(true);
     }
   };
@@ -833,15 +827,7 @@ class Main extends React.Component<Props, State> {
 
   render() {
     const { isEmbedded } = this.props;
-
-    let experienceURL = this.state.session.url;
-    if (this.props.query.testTransport) {
-      if (experienceURL.includes('?')) {
-        experienceURL += `&testTransport=${this.props.query.testTransport}`;
-      } else {
-        experienceURL += `?testTransport=${this.props.query.testTransport}`;
-      }
-    }
+    const experienceURL = this.state.session.url;
 
     if (this.state.isPreview) {
       return (

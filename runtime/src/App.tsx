@@ -33,7 +33,6 @@ import { captureRef as takeSnapshotAsync } from './NativeModules/ViewShot';
 import getDeviceIdAsync from './NativeModules/getDeviceIdAsync';
 import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
-import { parseTestTransportFromUrl } from './UrlUtils';
 import { fetchCodeBySnackIdentifier, SnackApiCode, SnackApiError } from './utils/SnackApi';
 
 type State = {
@@ -88,8 +87,7 @@ export default class App extends React.Component<object, State> {
     const deviceId = await getDeviceIdAsync();
 
     // Initialize messaging transport
-    const testTransport = initialURL ? parseTestTransportFromUrl(initialURL) : null;
-    Messaging.init(deviceId, testTransport);
+    Messaging.init(deviceId);
 
     // Initialize various things
     this._awaitingModulesInitialization = Modules.initialize();

@@ -205,7 +205,7 @@ ___
 
 Sets the delay that is used before sending code updates to the connected clients.
 Use this method to set the "debounce" timeout to use for sending code changes
-over pubnub.
+over the transport.
 
 ```
   -1 = Disable automatic sending of code changes (use `sendCodeChanges` to trigger the send)
@@ -310,7 +310,7 @@ ___
 
 Makes the Snack available online.
 
-When online, a pubnub channel is created to which clients can
+When online, a snackpub channel is created to which clients can
 connect.
 
 #### Parameters:
