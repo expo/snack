@@ -25,7 +25,7 @@ build:
           RUDDERSTACK_WRITE_KEY: 1weTbQObpRMmIsWrdwEITRabLA2
           SNACK_SERVER_URL: https://staging-snack.expo.dev
           SNACK_AMPLITUDE_KEY: 512bcbce69eae77fee77be53ec230088
-          SNACK_WEBPLAYER_URL: https://snack-web-player-staging.s3.us-west-1.amazonaws.com
+          SNACK_WEBPLAYER_URL: https://snack-runtime-staging.eascdn.net
           SNACK_WEBPLAYER_CDN: https://d1qt8af2b3kxj0.cloudfront.net
           SNACK_RUNTIME_ENDPOINT: staging-u.expo.dev/2dce2748-c51f-4865-bae0-392af794d60a
   tagPolicy:
@@ -57,7 +57,7 @@ profiles:
               RUDDERSTACK_WRITE_KEY: 1weTlMb720s5AkBTYwgCGORCHHg
               SNACK_SERVER_URL: https://snack.expo.dev
               SNACK_AMPLITUDE_KEY: e91121c19a5bdcccd852cd032dc911fe
-              SNACK_WEBPLAYER_URL: https://snack-web-player.s3.us-west-1.amazonaws.com
+              SNACK_WEBPLAYER_URL: https://snack-runtime.eascdn.net
               SNACK_WEBPLAYER_CDN: https://dwmszb351h4q.cloudfront.net
               SNACK_RUNTIME_ENDPOINT: u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824
     deploy:
