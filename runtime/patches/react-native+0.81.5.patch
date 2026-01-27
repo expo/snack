@@ -5,7 +5,7 @@ index e9be731..b834f63 100644
 @@ -29,4 +29,17 @@ const requireNativeComponent = <T>(uiViewClassName: string): HostComponent<T> =>
      getNativeComponentAttributes(uiViewClassName),
    ): any): HostComponent<T>);
- 
+
 -export default requireNativeComponent;
 +/* export default requireNativeComponent; */
 +

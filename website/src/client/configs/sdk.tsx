@@ -15,4 +15,4 @@ export const versions: Record<SDKVersion, boolean> = {
 };
 
 export const DEFAULT_SDK_VERSION: SDKVersion = defaultSdkVersion;
-export const TEST_SDK_VERSION: SDKVersion = '53.0.0';
+export const TEST_SDK_VERSION: SDKVersion = '54.0.0';
