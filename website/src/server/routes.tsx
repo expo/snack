@@ -204,13 +204,8 @@ export default function routes() {
     // As of SDK 40, this end-point is no longer used in production environments and content
     // is served from S3 directly. This end-point is used for legacy (pre SDK 40) web-players
     // and when testing the web-player locally (serving from https://localhost:19006)
-    // TODO: Remove SNACK_WEBPLAYER_CDN after SDK 39 is no longer supported.
     const isRedirect = !ctx.request.path.endsWith('/index.html');
-    const baseURL = nullthrows(
-      isRedirect && (process.env.NODE_ENV === 'production' || process.env.SNACK_WEBPLAYER_CDN)
-        ? process.env.SNACK_WEBPLAYER_CDN
-        : process.env.SNACK_WEBPLAYER_URL
-    );
+    const baseURL = nullthrows(isRedirect && process.env.SNACK_WEBPLAYER_URL);
     const isLocalhost =
       ctx.params.version === 'localhost' && process.env.NODE_ENV === 'development';
     const url = new URL(
