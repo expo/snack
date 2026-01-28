@@ -1,7 +1,7 @@
 import './polyfill';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { activateKeepAwake } from 'expo-keep-awake';
+import { activateKeepAwakeAsync } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import {
@@ -147,7 +147,7 @@ export default class App extends React.Component<Props, State> {
     this._listenForUpdates(deviceId);
 
     // Keep the device awake so the user doesn't have to keep waking it while coding
-    activateKeepAwake();
+    activateKeepAwakeAsync();
 
     // If we have an entry point file already, we can load now
     if (Files.get(Files.entry())) {
