@@ -166,6 +166,25 @@ export const get = (path: string) => {
 
 export const list = () => Object.keys(files);
 
+// Get all non-asset files for native consumption (used by Expo Go's source code editor)
+export const getAllFiles = (): Record<string, { contents: string; isAsset: boolean }> => {
+  const result: Record<string, { contents: string; isAsset: boolean }> = {};
+  for (const path in files) {
+    const file = files[path];
+    if (!file.isAsset && file.contents) {
+      result[path] = { contents: file.contents, isAsset: false };
+    }
+  }
+  return result;
+};
+
+// Update a file from native editor (used by Expo Go's source code editor)
+export const updateFromNative = (path: string, contents: string): void => {
+  if (files[path]) {
+    files[path] = { ...files[path], contents, diff: undefined };
+  }
+};
+
 /**
  * Reset the current project files to only include the files from object.
  * This is useful to manually load the files from our API instead of using the Snack session events.

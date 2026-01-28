@@ -26,6 +26,7 @@ import LoadingView from './LoadingView';
 import * as Logger from './Logger';
 import * as Messaging from './Messaging';
 import * as Modules from './Modules';
+import * as NativeEditor from './NativeEditor';
 import EXDevLauncher from './NativeModules/EXDevLauncher';
 import { ExpoRouterApp, isExpoRouterEntry } from './NativeModules/ExpoRouterEntry';
 import Linking from './NativeModules/Linking';
@@ -174,6 +175,14 @@ export default class App extends React.Component<object, State> {
       Linking.addEventListener('url', this._handleOpenUrl),
       AppState.addEventListener('change', this._handleAppStateChange),
     ];
+
+    // Setup native editor listener for Expo Go's source code editor
+    const nativeEditorSubscription = NativeEditor.setupNativeEditorListener(
+      this._handleNativeEditorUpdate,
+    );
+    if (nativeEditorSubscription) {
+      this.subscriptions.push(nativeEditorSubscription);
+    }
   }
 
   componentWillUnmount() {
@@ -359,6 +368,26 @@ export default class App extends React.Component<object, State> {
     }
   };
 
+  // Handle file updates from Expo Go's native source code editor
+  _handleNativeEditorUpdate = async (path: string, contents: string) => {
+    Logger.info('Received file update from native editor', path);
+
+    // Update the file locally
+    Files.updateFromNative(path, contents);
+
+    // Reload the modules to apply the change
+    await this._reloadModules({ changedPaths: [path] });
+
+    // Broadcast the change to the web editor if connected
+    if (this.state.channel) {
+      Messaging.publish({
+        type: 'CODE_CHANGED',
+        path,
+        contents,
+      });
+    }
+  };
+
   _uploadPreviewToS3 = async (asset: string, height: number, width: number) => {
     const url = `${SNACK_API_URL}/--/api/v2/snack/uploadPreview`;
     const body = JSON.stringify({ asset, height, width });
@@ -450,6 +479,9 @@ export default class App extends React.Component<object, State> {
       // Update local files and reload
       const changedPaths = await Files.update({ message });
 
+      // Provide files to native editor (Expo Go's source code editor)
+      NativeEditor.provideFilesToNative();
+
       // Reload modules when anything has changed
       if (changedDependencies.length || changedPaths.length) {
         Profiling.checkpoint('`CODE` message `_reloadModules()` begin');
@@ -496,6 +528,9 @@ export default class App extends React.Component<object, State> {
       // Update local files and reload
       await Files.updateProjectFiles(response.code);
       const changedPaths = Object.keys(response.code);
+
+      // Provide files to native editor (Expo Go's source code editor)
+      NativeEditor.provideFilesToNative();
 
       // Reload modules when anything has changed
       if (changedDependencies.length || changedPaths.length) {
