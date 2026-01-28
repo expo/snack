@@ -1303,7 +1303,7 @@ var require_class = __commonJS({
     // var generator_1 = __importDefault(require("@babel/generator"));
     var generator_1 = __importDefault(require("snack-babel-standalone").generator);
     // var traverse_1 = __importDefault(require("@babel/traverse"));
-    require("snack-babel-standalone").traverse
+    var traverse_1 = require("snack-babel-standalone").traverse
     // var types_12 = require("@babel/types");
     var types_12 = require("snack-babel-standalone").types;
     var assert_1 = require("assert");
