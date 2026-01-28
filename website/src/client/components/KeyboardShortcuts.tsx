@@ -16,7 +16,7 @@ export const Shortcuts = {
   },
   tree: {
     description: 'Toggle sidebar',
-    combo: [KeyMap.Meta, KeyMap.Backslash],
+    combo: [KeyMap.Meta, KeyMap.B],
   },
   panels: {
     description: 'Toggle error and log panels',
