@@ -21,3 +21,5 @@ snackpub/build
 
 # dotenv
 .env*local
+
+runtime/dist-*

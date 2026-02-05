@@ -29,6 +29,13 @@ const aliases: { [key: string]: any } = {
   // Renamed `@react-native-community` packages
   '@react-native-community/async-storage': require('@react-native-async-storage/async-storage'),
 
+  // Common Expo packages preloaded for immediate use (no snackager fetch needed)
+  'expo-image': require('expo-image'),
+  'expo-linear-gradient': require('expo-linear-gradient'),
+  'expo-status-bar': require('expo-status-bar'),
+  'expo-video': require('expo-video'),
+  '@shopify/react-native-skia': require('@shopify/react-native-skia'),
+
   // Common packages that are included for easy of use
   'prop-types': require('prop-types'),
 
