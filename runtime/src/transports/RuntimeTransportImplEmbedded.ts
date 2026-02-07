@@ -9,16 +9,12 @@ type Listener = (payload: RuntimeMessagePayload) => void;
 const nativeModule = requireOptionalNativeModule('SnackDirectTransport');
 const emitter = nativeModule ? new EventEmitter(nativeModule) : null;
 
-console.log('[SnackDirectTransport] Module load: nativeModule=' + (nativeModule ? 'found' : 'null') + ', isAvailable constant=' + (nativeModule?.isAvailable));
-
 /**
  * Returns true when the SnackDirectTransport native module is present
  * and an embedded session (lesson, playground, demo) is active.
  */
 export function isAvailable(): boolean {
-  const result = nativeModule?.isAvailable === true;
-  console.log('[SnackDirectTransport] isAvailable() called: nativeModule=' + (nativeModule ? 'exists' : 'null') + ', nativeModule.isAvailable=' + nativeModule?.isAvailable + ', result=' + result);
-  return result;
+  return nativeModule?.isAvailable === true;
 }
 
 /**
