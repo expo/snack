@@ -1,13 +1,25 @@
-import { EventEmitter, requireOptionalNativeModule } from 'expo-modules-core';
+import { requireOptionalNativeModule } from 'expo-modules-core';
+import type { EventSubscription } from 'expo-modules-core';
 
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
 import * as Logger from '../Logger';
 
 type Listener = (payload: RuntimeMessagePayload) => void;
 
+type SnackDirectTransportModule = {
+  isAvailable: boolean;
+  subscribe(channel: string): void;
+  unsubscribe(): void;
+  publish(message: object): void;
+  addListener(
+    eventName: 'onMessage',
+    listener: (event: { message: any }) => void
+  ): EventSubscription;
+};
+
 // Load the native module — returns null if not available (e.g., web, standalone builds)
-const nativeModule = requireOptionalNativeModule('SnackDirectTransport');
-const emitter = nativeModule ? new EventEmitter(nativeModule) : null;
+const nativeModule =
+  requireOptionalNativeModule<SnackDirectTransportModule>('SnackDirectTransport');
 
 /**
  * Returns true when the SnackDirectTransport native module is present
@@ -36,7 +48,7 @@ export default class RuntimeTransportImplEmbedded implements RuntimeTransport {
   subscribe(channel: string) {
     this.unsubscribe();
 
-    if (!emitter || !nativeModule) {
+    if (!nativeModule) {
       Logger.comm_error('SnackDirectTransport native module not available');
       return;
     }
@@ -45,7 +57,7 @@ export default class RuntimeTransportImplEmbedded implements RuntimeTransport {
 
     // Register event listener BEFORE calling native subscribe,
     // so the immediately-delivered CODE message is received.
-    this.subscription = emitter.addListener('onMessage', (event: { message: any }) => {
+    this.subscription = nativeModule.addListener('onMessage', (event) => {
       this.listeners.forEach((listener) => listener({ message: event.message }));
     });
 
