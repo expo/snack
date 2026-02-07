@@ -27,13 +27,9 @@ export const init = (deviceId: string) => {
     // Use direct native transport for embedded snacks (lessons, playground, demo)
     // when available — avoids Snackpub WebSocket roundtrip entirely.
     const Embedded = require('./transports/RuntimeTransportImplEmbedded');
-    const embeddedAvailable = Embedded.isAvailable();
-    console.log('[SnackDirectTransport] Messaging.init: embeddedAvailable=' + embeddedAvailable);
-    if (embeddedAvailable) {
-      console.log('[SnackDirectTransport] Using embedded transport');
+    if (Embedded.isAvailable()) {
       transportClass = Embedded.default;
     } else {
-      console.log('[SnackDirectTransport] Falling back to SocketIO transport');
       transportClass = require('./transports/RuntimeTransportImplSocketIO').default;
     }
   }
