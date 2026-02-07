@@ -13,7 +13,7 @@ type SnackDirectTransportModule = {
   publish(message: object): void;
   addListener(
     eventName: 'onMessage',
-    listener: (event: { message: any }) => void
+    listener: (event: { message: any }) => void,
   ): EventSubscription;
 };
 
