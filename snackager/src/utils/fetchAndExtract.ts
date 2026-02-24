@@ -24,7 +24,7 @@ export default async function fetchAndExtract(
 
   if (!response.ok) {
     throw new Error(
-      `Failed to fetch tarball from ${url}: ${response.status} ${response.statusText}`
+      `Failed to fetch tarball from ${url}: ${response.status} ${response.statusText}`,
     );
   }
 
