@@ -69,4 +69,4 @@ COPY --from=deploy /app .
 
 # Setup Snackager for production
 WORKDIR /app/snackager
-CMD ["node", "--max-old-space-size=8192", "--async-stack-traces", "."]
+CMD ["node", "--max-old-space-size-percentage=80", "--async-stack-traces", "."]
