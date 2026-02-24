@@ -151,10 +151,10 @@ async function packageBundleUnsafe({
   const memoryFs = new MemoryFS();
   compiler.outputFileSystem = memoryFs;
 
-  let status: webpack.MultiStats;
+  let stats: webpack.MultiStats;
 
   try {
-    status = await new Promise((resolve, reject) =>
+    stats = await new Promise((resolve, reject) =>
       compiler.run((err, stats) => {
         if (err) {
           reject(err);
@@ -166,9 +166,11 @@ async function packageBundleUnsafe({
   } catch (error) {
     logger.error({ error }, 'error running compiler');
     throw error;
+  } finally {
+    await new Promise<void>((resolve) => compiler.close(() => resolve()));
   }
 
-  const result = status.toJson();
+  const result = stats.toJson();
 
   if (result.errors?.length) {
     throw new Error(result.errors.map((error) => error.message).join('\n'));
