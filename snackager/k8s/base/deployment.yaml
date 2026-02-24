@@ -13,6 +13,10 @@ spec:
       maxSurge: 5
   template:
     spec:
+      # SIGKILL deadline. Must be >= preStop (90s) + app shutdown time.
+      # There is no graceful shutdown handler yet so the extra 30s is just margin;
+      # increase this if one is added that takes more than 30s.
+      terminationGracePeriodSeconds: 120
       restartPolicy: Always
       volumes:
       - name: instance-credentials
@@ -44,14 +48,21 @@ spec:
             requests:
               cpu: 105m
               memory: 5Gi
+          lifecycle:
+            preStop:
+              exec:
+                # Keep the pod alive while the NEG endpoint is drained.
+                # preStop >= drain timeout (60s) + NEG drain latency (~30s observed).
+                # See: https://cloud.google.com/kubernetes-engine/docs/troubleshooting/load-balancing#500-series-errors
+                command: ["sleep", "90"]
           livenessProbe:
-            failureThreshold: 1
+            failureThreshold: 3
             httpGet:
               path: /status
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 5
-            timeoutSeconds: 90
+            timeoutSeconds: 10
           readinessProbe:
             failureThreshold: 1
             httpGet:
