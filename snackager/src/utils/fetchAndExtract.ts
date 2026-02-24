@@ -18,16 +18,22 @@ export default async function fetchAndExtract(
 
   logger.info({ pkg, url }, `fetching tarball`);
 
-  const request = await fetch(url, {
+  const response = await fetch(url, {
     timeout: 10000,
   });
 
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch tarball from ${url}: ${response.status} ${response.statusText}`,
+    );
+  }
+
   const write = createWriteStream(path.join(dir, 'package.tgz'));
 
-  request.body.pipe(write);
-
   return new Promise((resolve, reject) => {
+    response.body.on('error', reject);
     write.on('error', reject);
+    response.body.pipe(write);
     write.on('finish', async () => {
       logger.info({ pkg, dir }, `extracting`);
       targz.decompress(
