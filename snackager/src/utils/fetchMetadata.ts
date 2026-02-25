@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 
 import config from '../config';
+import { PackageNotFoundError } from '../errors';
 import { RedisClient } from '../external/redis';
 import logger from '../logger';
 import { Metadata } from '../types';
@@ -83,14 +84,13 @@ export default async function fetchMetadata(
       return json;
     } catch (e) {
       logger.error({ ...logMetadata, qualified, e }, `error in parsing: ${e.toString()}`);
-      throw new Error(`Failed to parse the response for '${qualified}'`);
+      throw new Error(`Failed to parse the response for "${qualified}"`);
     }
   } catch (e) {
     logger.error({ ...logMetadata, qualified, e }, `error in fetching: ${e.toString()}`);
-    throw new Error(
-      e.name === 'NotFoundError'
-        ? `Package '${qualified}' not found in the registry`
-        : `Failed to fetch '${qualified}' from the registry`,
-    );
+    if (e.name === 'NotFoundError') {
+      throw new PackageNotFoundError(`Package "${qualified}" not found in the registry`);
+    }
+    throw new Error(`Failed to fetch "${qualified}" from the registry`);
   }
 }
