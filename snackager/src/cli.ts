@@ -77,7 +77,7 @@ async function main(): Promise<void> {
       if (!fs.existsSync(path.dirname(filePath))) {
         fs.mkdirSync(path.dirname(filePath));
       }
-      fs.writeFileSync(filePath, buffer);
+      fs.writeFileSync(filePath, new Uint8Array(buffer));
       const info = getBundleInfo(filePath, buffer);
       logger.info({ file: filePath, ...info }, `wrote file to ${path.basename(filePath)}`);
     });
