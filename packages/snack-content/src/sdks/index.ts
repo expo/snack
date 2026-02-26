@@ -187,10 +187,10 @@ const sdks: { [version: string]: SDKSpec } = {
     version: '^55.0.0',
     coreModules: {
       ...assets,
-      expo: '55.0.0-preview.7', // TODO: replace with `~55.0.x` when stable is out
+      expo: '55.0.0',
       react: '19.2.0',
       'react-dom': '19.2.0',
-      'react-native': '0.83.1',
+      'react-native': '0.83.2',
       'react-native-web': '*',
       // Used by @shopify/react-native-skia, on web only
       // See runtime/src/NativeModules/ReactNativeSkia.tsx for more info
