@@ -1,6 +1,6 @@
 {
   "name": "snack-runtime",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Load and run Expo Snacks in any React Native app",
   "main": "index.ts",
   "files": [
@@ -47,7 +47,7 @@
     "babel-preset-expo": "~55.0.0",
     "eslint": "^8.56.0",
     "eslint-config-universe": "^15.0.3",
-    "expo": "55.0.0-preview.7",
+    "expo": "^55.0.2",
     "expo-asset": "~55.0.0",
     "expo-camera": "~55.0.0",
     "expo-constants": "~55.0.0",
@@ -60,14 +60,14 @@
     "jest-expo": "~55.0.0",
     "prettier": "^3.2.4",
     "react": "19.2.0",
-    "react-native": "0.83.1",
+    "react-native": "0.83.2",
     "react-native-gesture-handler": "~2.30.0",
     "react-native-view-shot": "~4.0.3",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "assert": "^2.1.0",
-    "expo": "55.0.0-preview.7",
+    "expo": "~55.0.0",
     "expo-asset": "~55.0.0",
     "expo-camera": "~55.0.0",
     "expo-constants": "~55.0.0",
