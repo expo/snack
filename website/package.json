@@ -81,9 +81,9 @@
     "redux": "^4.0.1",
     "sanitize-html": "^1.20.0",
     "snack-babel-standalone": "^3.0.1",
-    "snack-content": "~3.6.0",
+    "snack-content": "~3.6.1",
     "snack-eslint-standalone": "^2.0.0",
-    "snack-sdk": "~6.6.0",
+    "snack-sdk": "~6.6.1",
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
