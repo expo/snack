@@ -46,7 +46,7 @@ spec:
             limits:
               memory: 5Gi
             requests:
-              cpu: 105m
+              cpu: 180m
               memory: 5Gi
           lifecycle:
             preStop:
