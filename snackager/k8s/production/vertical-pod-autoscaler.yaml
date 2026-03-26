@@ -12,6 +12,8 @@ spec:
   resourcePolicy:
     containerPolicies:
     - containerName: snackager
+      minAllowed:
+        cpu: 150m
       maxAllowed:
         cpu: 400m
         memory: 15Gi
