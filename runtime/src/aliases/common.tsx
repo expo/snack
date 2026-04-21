@@ -30,6 +30,8 @@ const aliases: { [key: string]: any } = {
   '@react-native-community/async-storage': require('@react-native-async-storage/async-storage'),
 
   // Common Expo packages preloaded for immediate use (no snackager fetch needed)
+  'expo-device': require('expo-device'),
+  'expo-haptics': require('expo-haptics'),
   'expo-image': require('expo-image'),
   'expo-linear-gradient': require('expo-linear-gradient'),
   'expo-status-bar': require('expo-status-bar'),
