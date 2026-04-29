@@ -3,7 +3,8 @@
   "compilerOptions": {
     "noEmit": false,
     "sourceMap": true,
-    "outDir": "build"
+    "outDir": "build",
+    "rootDir": "./src"
   },
   "exclude": [
     "**/__fixtures__",
