@@ -1,6 +1,8 @@
 {
-  "extends": "@tsconfig/node16/tsconfig.json",
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "allowJs": true,
     "noEmit": true,
     "noImplicitAny": false,
@@ -9,7 +11,7 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "useUnknownInCatchVariables": false,
-    "baseUrl": "./"
+    "types": ["node", "jest"]
   },
   "include": ["./src"]
 }
