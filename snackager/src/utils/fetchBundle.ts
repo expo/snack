@@ -10,6 +10,7 @@ import packageBundle from './packageBundle';
 import uploadFile from './uploadFile';
 import getCachePrefix from '../cache-busting';
 import config from '../config';
+import { UnbundleablePackageError } from '../errors';
 import { createRedisClient } from '../external/redis';
 import logger from '../logger';
 import { Package } from '../types';
@@ -114,6 +115,9 @@ export default async function fetchBundle({
       case 'error':
         logger.warn({ ...logMetadata, error: inProgress.message }, `an error occurred earlier`);
         if (!process.env.DEBUG_LOCAL_FILES) {
+          if (inProgress.errorName === 'UnbundleablePackageError') {
+            throw new UnbundleablePackageError(inProgress.message);
+          }
           throw new Error(inProgress.message);
         }
     }
@@ -290,17 +294,23 @@ export default async function fetchBundle({
     logger.info(logMetadata, `marking id as finished`);
     client.del(buildStatusRedisId);
   } catch (error) {
-    logger.error(
+    const isClientError = error instanceof UnbundleablePackageError;
+    const log = isClientError ? logger.warn.bind(logger) : logger.error.bind(logger);
+    log(
       { ...logMetadata, error },
       `unable to bundle, removing key from redis. error: ${error.message}`,
     );
     // Remove at a delay so we don't keep retrying
     client
       .multi()
-      .hmset(buildStatusRedisId, { type: 'error', message: error.message })
+      .hmset(buildStatusRedisId, {
+        type: 'error',
+        message: error.message,
+        ...(isClientError && { errorName: error.name }),
+      })
       .expire(buildStatusRedisId, 60 * 5)
       .exec();
-    if (config.sentry) {
+    if (config.sentry && !isClientError) {
       raven.captureException(error);
     }
   } finally {

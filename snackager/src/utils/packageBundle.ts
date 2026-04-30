@@ -12,6 +12,7 @@ import { isExternal } from '../bundler/externals';
 import getResolverConfig from '../bundler/getResolverConfig';
 import makeConfig from '../bundler/makeConfig';
 import config from '../config';
+import { UnbundleablePackageError } from '../errors';
 import logger from '../logger';
 import { Package } from '../types';
 
@@ -271,11 +272,13 @@ export default (async function packageBundle({
                 module.startsWith('@') && comps.length >= 2 ? `${comps[0]}/${comps[1]}` : comps[0];
               const result = validate(packageName);
               if (!result.validForNewPackages && !result.validForOldPackages) {
-                throw new Error(`Invalid module ${module} - ${e.message.split('\n')[0]}`);
+                throw new UnbundleablePackageError(
+                  `Invalid module ${module} - ${e.message.split('\n')[0]}`,
+                );
               }
 
               if (installedDependencies.includes(packageName)) {
-                throw new Error(
+                throw new UnbundleablePackageError(
                   `Cannot resolve module ${module} after installing it as a dependency`,
                 );
               }
@@ -338,7 +341,7 @@ export default (async function packageBundle({
             }
           } else {
             // Bundling failed and no "Missing modules" were found
-            throw e;
+            throw new UnbundleablePackageError(e.message, { cause: e });
           }
         } else {
           // No error.message
@@ -362,7 +365,9 @@ export default (async function packageBundle({
             )}".`,
           );
         } else {
-          throw err;
+          throw err instanceof UnbundleablePackageError
+            ? err
+            : new UnbundleablePackageError(err.message, { cause: err });
         }
       }
     }
@@ -371,7 +376,7 @@ export default (async function packageBundle({
   // Abort when the bundler takes many cycles to complete.
   // This is a fail-safe situation in case the installation of dependencies
   // does not resolve the "Missing modules" reported by the bundler.
-  throw new Error('Bundling failed, too many cycles');
+  throw new UnbundleablePackageError('Bundling failed, too many cycles');
 });
 
 /**
