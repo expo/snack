@@ -8,11 +8,7 @@
    - [yarn](https://yarnpkg.com/)
    - [gcloud](https://sdk.cloud.google.com)
 3. Install the Node packages (`yarn install`)
-4. [chalet](https://github.com/jeansaad/chalet) is used to run local services on the `expo.test` domain.
-   - Update `~/.chalet/conf.json` to use `{ "tld": "test" }`
-   - [Configure your system or browser to use the `.test` domain](https://github.com/jeansaad/chalet/blob/master/docs/README.md#system-configuration-recommended)
-   - Restart or refresh your network settings to apply the chalet changes
-5. Run `yarn bootstrap` in the root directory to prepare the installation.
+4. Run `yarn bootstrap` in the root directory to prepare the installation.
 
 ## 🏎️ Start the Development environment
 
@@ -20,7 +16,7 @@ Run `yarn start` from the root to start the Snack development services.
 
 > Some services like the Expo API server and the Expo website are hosted elsewhere and are proxied. The proxies log all incoming requests and auto-redirect to locally running instances when possible.
 
-To view the website, open http://snack.expo.test or http://localhost:3011.
+To view the website, open https://snack.expo.test (Expo employees) or http://localhost:3011 (external contributors).
 
 ### Snackager bundler
 
