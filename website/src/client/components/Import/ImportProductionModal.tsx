@@ -66,7 +66,7 @@ export default class ImportProductionModal extends React.PureComponent<Props, St
         throw new Error('Invalid url');
       }
       const id = match[2];
-      const response = await fetch(`https://exp.host/--/api/v2/snack/${id}`, {
+      const response = await fetch(`https://api.expo.dev/v2/snack/${id}`, {
         headers: { 'Snack-Api-Version': '3.0.0' },
       });
 

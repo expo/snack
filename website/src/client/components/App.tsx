@@ -628,7 +628,7 @@ class Main extends React.Component<Props, State> {
         once = false;
         Analytics.getInstance().logEvent('DOWNLOADED_CODE');
 
-        const url = `${process.env.API_SERVER_URL}/--/api/v2/snack/download/${id}`;
+        const url = `${process.env.API_SERVER_URL}/v2/snack/download/${id}`;
 
         // Simulate link click to download file
         const element = document.createElement('a');

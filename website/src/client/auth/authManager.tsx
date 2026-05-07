@@ -236,7 +236,7 @@ async function _performGraphQLApiRequest<T>(
   if (options) {
     delete options.headers;
   }
-  const response = await fetch(`${process.env.API_SERVER_URL}/--/graphql`, {
+  const response = await fetch(`${process.env.API_SERVER_URL}/graphql`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

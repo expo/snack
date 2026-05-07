@@ -48,7 +48,7 @@ const enhanceWithAuthMethods = (Comp: React.ComponentType<AuthProps>) => {
       if (!accessToken && !sessionSecret) {
         return;
       }
-      const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/--/graphql`;
+      const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/graphql`;
       try {
         const response = await fetch(`${endpoint}`, {
           method: 'POST',
