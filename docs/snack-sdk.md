@@ -419,7 +419,7 @@ Once a Snack has been saved, it can be downloaded as a Zip file. The `getDownloa
 
 ```ts
 const url = snack.getDownloadURLAsync();
-console.log('Download URL: ' + url); // https://exp.host/--/api/v2/snack/download/12345678
+console.log('Download URL: ' + url); // https://api.expo.dev/v2/snack/download/12345678
 ```
 
 # Transports

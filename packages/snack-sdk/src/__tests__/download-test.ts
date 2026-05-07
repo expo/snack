@@ -23,7 +23,7 @@ describe('download', () => {
     });
     const url = await snack.getDownloadURLAsync();
     expect(mockFetch).toBeCalled();
-    expect(url).toBe(`${defaultConfig.apiURL}/--/api/v2/snack/download/${SAVE_ID}`);
+    expect(url).toBe(`${defaultConfig.apiURL}/v2/snack/download/${SAVE_ID}`);
   });
 
   it('does not save when initial id is provided', async () => {
@@ -32,6 +32,6 @@ describe('download', () => {
     });
     const url = await snack.getDownloadURLAsync();
     expect(mockFetch).not.toBeCalled();
-    expect(url).toBe(`${defaultConfig.apiURL}/--/api/v2/snack/download/761293482`);
+    expect(url).toBe(`${defaultConfig.apiURL}/v2/snack/download/761293482`);
   });
 });

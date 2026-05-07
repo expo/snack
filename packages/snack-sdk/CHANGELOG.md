@@ -2,6 +2,12 @@
 
 ## Unpublished
 
+## 7.0.0
+
+### 🛠 Breaking changes
+
+- The SDK now uses the modern Expo API paths (`/v2/...`, `/graphql`) instead of the legacy paths (`/--/api/v2/...`, `/--/graphql`), and the default `apiURL` has been updated to `https://api.expo.dev`. Consumers using the default `apiURL` are unaffected.
+
 ## 4.0.1 - 2023-05-09
 
 ### 🐛 Bug fixes
