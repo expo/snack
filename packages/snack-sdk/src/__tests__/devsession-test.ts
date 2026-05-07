@@ -39,7 +39,7 @@ describe('devsession', () => {
 
   it('receives sendBeaconCloseRequest', async () => {
     const snack = new Snack({
-      apiURL: 'https://exp.host',
+      apiURL: 'https://api.expo.dev',
       channel: '10spnBnPxi',
     });
     expect(snack.getState().sendBeaconCloseRequest).toBeUndefined();
@@ -57,7 +57,7 @@ describe('devsession', () => {
 
   it('sends notify when calling setFocus', async () => {
     const snack = new Snack({
-      apiURL: 'https://exp.host',
+      apiURL: 'https://api.expo.dev',
       online: true,
       deviceId: '1234',
     });
@@ -70,7 +70,7 @@ describe('devsession', () => {
 
   it('sends notify with user session secret', async () => {
     const snack = new Snack({
-      apiURL: 'https://exp.host',
+      apiURL: 'https://api.expo.dev',
       online: true,
       deviceId: '1234',
       user: { sessionSecret: '{"some":"json"}' },
@@ -88,7 +88,7 @@ describe('devsession', () => {
 
   it('sends notify with user access token', async () => {
     const snack = new Snack({
-      apiURL: 'https://exp.host',
+      apiURL: 'https://api.expo.dev',
       online: true,
       deviceId: '1234',
       user: { accessToken: 'sometoken' },

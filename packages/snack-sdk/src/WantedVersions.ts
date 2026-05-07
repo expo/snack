@@ -93,7 +93,6 @@ export class WantedDependencyVersions {
 
   /**
    * Fetch all remote versioned modules from the `/versions/latest` API endpoint.
-   * This doesn't work when running from a browser, as `/v2/versions/latest` is CORS blocked.
    */
   private fetchRemoteVersionedModules(sdkVersion: string): Promise<Record<string, string>> {
     return fetch(`${this.apiUrl}/v2/versions/latest`)

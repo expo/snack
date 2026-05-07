@@ -3,7 +3,7 @@ import { newestSdkVersion, oldestSdkVersion } from 'snack-content';
 
 import Snack, { SnackOptions } from './snack-sdk';
 
-const host = 'test.exp.host';
+const host = 'api.expo.test';
 const apiURL = `https://${host}`;
 const channel = '10spnBnPxi';
 const sdkVersion = newestSdkVersion;
