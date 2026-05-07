@@ -1,3 +1,11 @@
 export function getAuthStorageKey() {
-  return process.env.DEPLOY_ENVIRONMENT === 'staging' ? 'staging.expo.auth' : 'io.expo.auth';
+  switch (process.env.DEPLOY_ENVIRONMENT) {
+    case 'development':
+      return 'local.expo.auth';
+    case 'staging':
+      return 'staging.expo.auth';
+    case 'production':
+    default:
+      return 'io.expo.auth';
+  }
 }
