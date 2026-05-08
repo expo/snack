@@ -32,22 +32,30 @@ export default class DevSession {
     // 3. device-id has hanged
 
     // Close
-    // Under cookie auth the SDK does not hold a user object — the server
-    // identifies the user from the cookie — so use online-state as the
-    // "had a user-keyed session" signal in that mode.
-    const isCloseUser = this.useCookieAuth
-      ? prevState.online && (!state.online || state.url !== prevState.url)
-      : prevState.user &&
-        (!state.online || state.url !== prevState.url || state.user !== prevState.user);
-    const isCloseDevice =
-      prevState.deviceId &&
-      (!state.online || state.url !== prevState.url || state.deviceId !== prevState.deviceId);
-    if (prevState.online && (isCloseUser || isCloseDevice)) {
-      this.close(
-        prevState.url,
-        isCloseUser && !this.useCookieAuth ? prevState.user : undefined,
-        isCloseDevice ? prevState.deviceId : undefined,
-      );
+    const urlChanged = prevState.url !== state.url;
+    const deviceChanged = prevState.deviceId && prevState.deviceId !== state.deviceId;
+
+    if (this.useCookieAuth) {
+      // The SDK can't see the user identity under cookie auth — the server
+      // resolves it from the cookie — so we notify unconditionally whenever
+      // the session goes offline, the url changes, or the device changes.
+      // Anonymous requests are a server-side no-op.
+      if (prevState.online && (!state.online || urlChanged || deviceChanged)) {
+        this.close(prevState.url, undefined, prevState.deviceId);
+      }
+    } else {
+      const userChanged = prevState.user && prevState.user !== state.user;
+
+      const closeUser = prevState.user && (!state.online || urlChanged || userChanged);
+      const closeDevice = prevState.deviceId && (!state.online || urlChanged || deviceChanged);
+
+      if (prevState.online && (closeUser || closeDevice)) {
+        this.close(
+          prevState.url,
+          closeUser ? prevState.user : undefined,
+          closeDevice ? prevState.deviceId : undefined,
+        );
+      }
     }
 
     // Notify

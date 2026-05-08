@@ -58,7 +58,7 @@ class UserMenu extends React.Component<Props, State> {
   _avatar = React.createRef<HTMLButtonElement>();
 
   render() {
-    const { viewer, legacyLogout } = this.props;
+    const { viewer } = this.props;
 
     const websiteURL = getWebsiteURL();
 
@@ -81,7 +81,6 @@ class UserMenu extends React.Component<Props, State> {
                     label: 'User Settings',
                     handler: () => window.open(`${websiteURL}/settings`),
                   },
-                  ...(legacyLogout ? [{ label: 'Log out', handler: legacyLogout }] : []),
                 ]
               : [
                   {

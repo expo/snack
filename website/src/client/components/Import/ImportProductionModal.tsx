@@ -67,6 +67,7 @@ export default class ImportProductionModal extends React.PureComponent<Props, St
       }
       const id = match[2];
       const response = await fetch(`https://api.expo.dev/v2/snack/${id}`, {
+        credentials: 'include',
         headers: { 'Snack-Api-Version': '3.0.0' },
       });
 
