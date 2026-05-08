@@ -7,6 +7,7 @@ export default class DevSession {
   private logger?: Logger;
   private onSendBeaconCloseRequest: (request: SnackSendBeaconRequest) => any;
   private focusedAt?: number;
+  private useCookieAuth: boolean;
 
   // NOTE(cedric): recurrent development session alive notifications are disabled
   // private notifyInterval: number = 40000;
@@ -16,10 +17,12 @@ export default class DevSession {
     apiURL: string;
     logger?: Logger;
     onSendBeaconCloseRequest: (request: SnackSendBeaconRequest) => any;
+    useCookieAuth?: boolean;
   }) {
     this.apiURL = options.apiURL;
     this.logger = options.logger;
     this.onSendBeaconCloseRequest = options.onSendBeaconCloseRequest;
+    this.useCookieAuth = options.useCookieAuth ?? false;
   }
 
   setState(state: SnackState, prevState: SnackState) {
@@ -29,16 +32,20 @@ export default class DevSession {
     // 3. device-id has hanged
 
     // Close
-    const isCloseUser =
-      prevState.user &&
-      (!state.online || state.url !== prevState.url || state.user !== prevState.user);
+    // Under cookie auth the SDK does not hold a user object — the server
+    // identifies the user from the cookie — so use online-state as the
+    // "had a user-keyed session" signal in that mode.
+    const isCloseUser = this.useCookieAuth
+      ? prevState.online && (!state.online || state.url !== prevState.url)
+      : prevState.user &&
+        (!state.online || state.url !== prevState.url || state.user !== prevState.user);
     const isCloseDevice =
       prevState.deviceId &&
       (!state.online || state.url !== prevState.url || state.deviceId !== prevState.deviceId);
     if (prevState.online && (isCloseUser || isCloseDevice)) {
       this.close(
         prevState.url,
-        isCloseUser ? prevState.user : undefined,
+        isCloseUser && !this.useCookieAuth ? prevState.user : undefined,
         isCloseDevice ? prevState.deviceId : undefined,
       );
     }
@@ -69,8 +76,9 @@ export default class DevSession {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        ...createUserHeader(user),
+        ...(this.useCookieAuth ? {} : createUserHeader(user)),
       },
+      ...(this.useCookieAuth ? { credentials: 'include' as const } : {}),
     };
   }
 
@@ -83,7 +91,7 @@ export default class DevSession {
     //   this.notifyTimer = undefined;
     // }
 
-    if (!online || (!user && !deviceId)) {
+    if (!online || (!this.useCookieAuth && !user && !deviceId)) {
       this.focusedAt = undefined;
       return;
     }

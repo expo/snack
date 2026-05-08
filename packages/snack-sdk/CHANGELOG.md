@@ -2,6 +2,12 @@
 
 ## Unpublished
 
+## 7.1.0
+
+### 🎉 New features
+
+- Added a `useCookieAuth` option to `Snack`. When `true`, authenticated requests use `credentials: 'include'` instead of attaching the session secret as an `Expo-Session` header. Defaults to `false` so existing consumers are unaffected.
+
 ## 7.0.0
 
 ### 🛠 Breaking changes

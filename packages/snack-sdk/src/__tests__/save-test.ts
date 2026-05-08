@@ -171,4 +171,27 @@ describe('save', () => {
       }),
     );
   });
+
+  it('saves with credentials and no Expo-Session header when useCookieAuth is enabled', async () => {
+    fetch.mockClear();
+    const snack = new Snack({
+      useCookieAuth: true,
+      user: { sessionSecret: '{"some":"json"}' },
+      files: {
+        'App.js': {
+          type: 'CODE',
+          contents: `console.log('hello world');`,
+        },
+      },
+    });
+    await snack.saveAsync();
+    const saveCall = fetch.mock.calls.find(([url]) =>
+      typeof url === 'string' ? url.endsWith('/v2/snack/save') : false,
+    );
+    expect(saveCall).toBeDefined();
+    const init = saveCall![1] as any;
+    expect(init.credentials).toBe('include');
+    expect(init.headers).not.toHaveProperty('Expo-Session');
+    expect(init.headers).not.toHaveProperty('Authorization');
+  });
 });
