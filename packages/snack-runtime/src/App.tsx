@@ -93,6 +93,7 @@ function notifyStateChange(props: Pick<Props, 'onSnackState'>, state: SnackState
 // updates and displays the Snack.
 export default class App extends React.Component<Props, State> {
   static contextType = SnackRuntimeContext;
+  declare context: React.ContextType<typeof SnackRuntimeContext>;
 
   state: State = {
     initialLoad: true,
@@ -623,7 +624,10 @@ export default class App extends React.Component<Props, State> {
     return (
       <>
         <StatusBar style="dark" />
-        <Errors.ErrorBoundary ref={(view) => (this._view = view)}>
+        <Errors.ErrorBoundary
+          ref={(view) => {
+            this._view = view;
+          }}>
           {rootElement ?? loadingElement}
         </Errors.ErrorBoundary>
         <UpdateIndicator

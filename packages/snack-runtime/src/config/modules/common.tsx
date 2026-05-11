@@ -1,4 +1,4 @@
-import AssetRegistry from '../../NativeModules/AssetRegistry';
+import * as AssetRegistry from '../../NativeModules/AssetRegistry';
 import * as SkiaWeb from '../../NativeModules/ReactNativeSkia';
 import { SnackConfig } from '../SnackConfig';
 
