@@ -8,6 +8,8 @@ Before running the web app, make sure you have followed **all the steps** in the
 
 Start the website by running `yarn start` from the root of the repository.
 
+To view the website, open https://snack.expo.test (Expo employees, requires Universe set up via `install-tools`) or http://localhost:3011 (external contributors).
+
 ## Running development services locally
 
 When you have access to the Expo Universe repository, you can choose to run certain Expo services locally.
@@ -25,8 +27,7 @@ yarn start
 
 ### Expo Website
 
-Start the Expo website. `snack-proxies` automatically detects the local server and routes all trafic to localhost:3001 when possible.
-When testing authentication, it is important that the chalet `expo.test` domain is used, otherwise authentication credentials cannot be accessed by `snack.expo.test`.
+Start the Expo website at `https://expo.test`. Required for testing authenticated flows on `https://snack.expo.test` so that credentials can be shared.
 
 ```sh
 # expo/universe
@@ -70,45 +71,6 @@ Note that a some Expo client APIs are hardcoded to prod so they won't hit the ng
 ### Disabling cache with Service Worker
 
 In chrome devtools, check "Bypass for network" under `Application` > `Service workers` to skip the service worker cache when working on the page. Remember to keep the devtools open so this takes effect.
-
-### Setting up HTTPS with self-signed certifcate
-
-The service worker needs HTTPS to work on the `snack.expo.test` domain. To set it up with Chalet, we need to add the `cert.pem` and `key.pem` files under the `~/.chalet` directory. To create these files, first create a configuration file for the certificate with the following content (let's call it `req.conf`):
-
-```ini
-[req]
-distinguished_name = req_distinguished_name
-x509_extensions = v3_req
-prompt = no
-[req_distinguished_name]
-C = US
-ST = Oregon
-L = Portland
-O = Expo
-OU = Org
-CN = expo.test
-[v3_req]
-keyUsage = critical, digitalSignature, keyAgreement
-extendedKeyUsage = serverAuth
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = expo.test
-DNS.2 = snack.expo.test
-```
-
-Then run the following command in the same directory where you created the file to generate the certificate:
-
-```sh
-openssl req -x509 -newkey rsa:4096 -sha256 -keyout key.pem -out cert.pem -days 365 -nodes -config req.conf
-```
-
-Place the generated `cert.pem` and `key.pem` files under the `~/.chalet` directory and `chalet` should be setup to work with SSL.
-
-You'll also need to add the certificate to the system. Under `Keychain Access` > `Certificates`, drag and drop the `cert.pem` file to do that. Double click the certificate and mark it as trusted under the "Trust" section.
-
-Now, log out and log back in to your computer (or restart) to make Chalet to reload the certificates to serve.
-
-Now you should be able to access the snack server at [https://snack.expo.test](https://snack/expo.test).
 
 ## File organization
 

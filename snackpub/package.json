@@ -5,8 +5,7 @@
   "description": "The Snack PubSub system",
   "main": "build/index.js",
   "scripts": {
-    "start": "yarn domain && yarn watch",
-    "domain": "chalet start && chalet add http://localhost:3013 -n snackpub.expo -f",
+    "start": "yarn watch",
     "watch": "env-cmd -e development tsnd --inspect=9213 --quiet src/index.ts",
     "lint": "eslint .",
     "test": "jest",

@@ -34,9 +34,13 @@ function SnackTerminal() {
             <Text color="cyan">
               Open{' '}
               <Text bold underline>
-                http://snack.expo.test
+                https://snack.expo.test
               </Text>{' '}
-              or press Ctrl+C to exit
+              or{' '}
+              <Text bold underline>
+                http://localhost:3011
+              </Text>
+              . Press Ctrl+C to exit.
             </Text>
           </Box>
           <Terminal
