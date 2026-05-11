@@ -219,10 +219,10 @@ const sdks: { [version: string]: SDKSpec } = {
     deprecatedModules: {},
   },
   '56.0.0': {
-    version: '^56.0.0-preview.7',
+    version: '^56.0.0',
     coreModules: {
       ...assets,
-      expo: '56.0.0-preview.7',
+      expo: '56.0.0-preview.7', // TODO: replace with `~56.0.x` when stable is out
       react: '19.2.3',
       'react-dom': '19.2.3',
       'react-native': '0.85.3',
