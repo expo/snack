@@ -70,6 +70,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@expo/spawn-async": "^1.7.2",
+    "@react-native/jest-preset": "^0.85.3",
     "@types/diff": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/react": "~19.2.14",
