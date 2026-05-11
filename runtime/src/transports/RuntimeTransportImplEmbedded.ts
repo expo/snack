@@ -17,7 +17,17 @@ type SnackDirectTransportModule = {
   ): EventSubscription;
 };
 
-// Load the native module — returns null if not available (e.g., web, standalone builds)
+/**
+ * Native module lives in Expo Go.
+ *
+ * Contract this transport relies on:
+ * - `isAvailable` is a Property (not a Function), so `nativeModule.isAvailable === true` works.
+ * - `subscribe(channel)` synchronously emits the CODE message via `onMessage` —
+ *   our listener must be registered first.
+ * - `publish(message)` is safe to call before `subscribe()` and after `unsubscribe()`
+ *   (no-op or drop, must not throw).
+ * - `unsubscribe()` is idempotent and safe with no active subscription.
+ */
 const nativeModule =
   requireOptionalNativeModule<SnackDirectTransportModule>('SnackDirectTransport');
 
