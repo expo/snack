@@ -24,7 +24,14 @@ export const init = (deviceId: string) => {
   if (Platform.OS === 'web') {
     transportClass = require('./transports/RuntimeTransportImplWebPlayer').default;
   } else {
-    transportClass = require('./transports/RuntimeTransportImplSocketIO').default;
+    // Use direct native transport for embedded snacks (lessons, playground, demo)
+    // when available — avoids Snackpub WebSocket roundtrip entirely.
+    const Embedded = require('./transports/RuntimeTransportImplEmbedded');
+    if (Embedded.isAvailable()) {
+      transportClass = Embedded.default;
+    } else {
+      transportClass = require('./transports/RuntimeTransportImplSocketIO').default;
+    }
   }
   transport = new transportClass(device);
 };
