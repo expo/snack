@@ -4929,6 +4929,13 @@ expo-crypto@~55.0.0:
   resolved "https://registry.yarnpkg.com/expo-crypto/-/expo-crypto-55.0.3.tgz#1a6a57c612497d8c6afe6a917cbead7caf87e77f"
   integrity sha512-05gfOjhhCgAX3WX+uCNfdlx9IQawOftXIPfOwhG01s9LcjJzks8WK86rWH3E8DsMLKpWBbJ/RaG0X38xbDfxkg==
 
+expo-device@~55.0.0:
+  version "55.0.16"
+  resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-55.0.16.tgz#56ecc44152036f1ce3c95a65e723fbc941f12d63"
+  integrity sha512-o6eQjO2reoniXpos0FnPcrAVMYUfFPcIUdMRUUpKwQys7cmTJBjJLbOo+SuctVXUrsHUm6zyoKI7nX3C3lpqJw==
+  dependencies:
+    ua-parser-js "^0.7.33"
+
 expo-file-system@~55.0.0:
   version "55.0.3"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-55.0.3.tgz#6c63c0160fd1a2541320e2c88ce3d085511fcd2b"
@@ -4945,6 +4952,11 @@ expo-font@~55.0.4:
   integrity sha512-ZKeGTFffPygvY5dM/9ATM2p7QDkhsaHopH7wFAWgP2lKzqUMS9B/RxCvw5CaObr9Ro7x9YptyeRKX2HmgmMfrg==
   dependencies:
     fontfaceobserver "^2.1.0"
+
+expo-haptics@~55.0.0:
+  version "55.0.14"
+  resolved "https://registry.yarnpkg.com/expo-haptics/-/expo-haptics-55.0.14.tgz#9532ba088ee7eae561ad0ef5552c78f33161998a"
+  integrity sha512-KjDItBsA9mi1f5nRwf8g1wOdfEcLHwvEdt5Jl1sMCDETR/homcGOl+F3QIiPOl/PRlbGVieQsjTtF4DGtHOj6g==
 
 expo-keep-awake@~55.0.0:
   version "55.0.2"
@@ -9268,6 +9280,11 @@ typescript@^5.9.2:
   version "5.9.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.2.tgz#d93450cddec5154a2d5cabe3b8102b83316fb2a6"
   integrity sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==
+
+ua-parser-js@^0.7.33:
+  version "0.7.41"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.41.tgz#9f6dee58c389e8afababa62a4a2dc22edb69a452"
+  integrity sha512-O3oYyCMPYgNNHuO7Jjk3uacJWZF8loBgwrfd/5LE/HyZ3lUIOdniQ7DNXJcIgZbwioZxk0fLfI4EVnetdiX5jg==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
