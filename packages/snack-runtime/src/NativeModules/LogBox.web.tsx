@@ -1,7 +1,7 @@
-import { YellowBox } from 'react-native';
+import { LogBox } from 'react-native';
 
 export default {
   ignoreLogs(logs: string[]) {
-    YellowBox.ignoreWarnings(logs);
+    LogBox.ignoreLogs(logs);
   },
 };

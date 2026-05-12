@@ -34,7 +34,7 @@ export default function UpdateIndicator(props: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     overflow: 'hidden',
   },
   notification: {

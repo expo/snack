@@ -2,6 +2,10 @@
 
 ## Unpublished
 
+### 🎉 New features
+
+- Add preliminary support for Expo SDK 56 (preview.7)
+
 ## 4.0.1 - 2023-05-09
 
 ### 🐛 Bug fixes
