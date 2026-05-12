@@ -91,7 +91,8 @@
   },
   "resolutions": {
     "@react-navigation/drawer": "^7.5.0",
-    "@react-navigation/native": "^7.1.8"
+    "@react-navigation/native": "^7.1.8",
+    "react-native-screens": "4.25.0-beta.3"
   },
   "eslintConfig": {
     "extends": "universe/native",
