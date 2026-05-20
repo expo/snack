@@ -65,7 +65,7 @@ export default class FileUploader {
       let input;
       switch (file.type) {
         case 'CODE':
-          url = `${this.apiURL}/--/api/v2/snack/uploadCode`;
+          url = `${this.apiURL}/v2/snack/uploadCode`;
           input = {
             method: 'POST',
             body: JSON.stringify({ code: file.contents }),
@@ -73,7 +73,7 @@ export default class FileUploader {
           };
           break;
         case 'ASSET':
-          url = `${this.apiURL}/--/api/v2/snack/uploadAsset`;
+          url = `${this.apiURL}/v2/snack/uploadAsset`;
           if (
             (typeof FormData !== 'undefined' && file.contents instanceof FormData) ||
             (typeof file.contents === 'object' && file.contents.constructor?.name === 'FormData')

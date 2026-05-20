@@ -398,7 +398,7 @@ export default class Snack {
 
       const previewPromise = this.getPreviewAsync();
 
-      const url = `${this.apiURL}/--/api/v2/snack/save`;
+      const url = `${this.apiURL}/v2/snack/save`;
       const response = await fetch(url, {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -463,11 +463,11 @@ export default class Snack {
       await this.saveAsync(saveOptions);
       state = this.getState();
     }
-    return `${this.apiURL}/--/api/v2/snack/download/${state.id}`;
+    return `${this.apiURL}/v2/snack/download/${state.id}`;
   }
 
   private async uploadPreview(id: string, previewURL: string, status: boolean) {
-    const url = `${this.apiURL}/--/api/v2/snack/updateMetadata`;
+    const url = `${this.apiURL}/v2/snack/updateMetadata`;
     const payload = {
       id,
       previewLocation: previewURL,

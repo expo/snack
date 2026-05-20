@@ -15,7 +15,7 @@ build:
           node_version: 22.21.1
           LEGACY_SERVER_URL: https://staging.expo.io
           SERVER_URL: https://staging.expo.dev
-          API_SERVER_URL: https://staging.exp.host
+          API_SERVER_URL: https://staging-api.expo.dev
           SNACKPUB_URL: https://staging-snackpub.expo.dev
           APP_VERSION: staging-{{.GITHUB_SHA}}
           DEPLOY_ENVIRONMENT: staging
@@ -46,7 +46,7 @@ profiles:
               node_version: 22.21.1
               LEGACY_SERVER_URL: https://expo.io
               SERVER_URL: https://expo.dev
-              API_SERVER_URL: https://exp.host
+              API_SERVER_URL: https://api.expo.dev
               SNACKPUB_URL: https://snackpub.expo.dev
               APP_VERSION: production-{{.GITHUB_SHA}}
               DEPLOY_ENVIRONMENT: production

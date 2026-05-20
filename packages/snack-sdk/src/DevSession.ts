@@ -62,7 +62,7 @@ export default class DevSession {
   private getRequest(close: boolean, user?: SnackUser, deviceId?: string) {
     const suffix = deviceId ? `?deviceId=${deviceId}` : '';
     const endpoint = close ? 'notify-close' : 'notify-alive';
-    const url = `${this.apiURL}/--/api/v2/development-sessions/${endpoint}${suffix}`;
+    const url = `${this.apiURL}/v2/development-sessions/${endpoint}${suffix}`;
 
     return {
       url,

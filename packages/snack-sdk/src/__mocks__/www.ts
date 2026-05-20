@@ -8,7 +8,7 @@ export default function createWww() {
   const app = new Koa();
   app.use(bodyParser());
   const router = new Router();
-  router.post('/--/api/v2/snack/save', (ctx) => {
+  router.post('/v2/snack/save', (ctx) => {
     try {
       // @ts-ignore
       const code: SnackFiles = ctx.request.body.code;
@@ -26,14 +26,14 @@ export default function createWww() {
       ctx.body = e.message;
     }
   });
-  router.post('/--/api/v2/snack/uploadAsset', (ctx) => {
+  router.post('/v2/snack/uploadAsset', (ctx) => {
     const hash = 'FDFDFDFDFDFDFD';
     ctx.body = {
       url: `https://snack-code-uploads.s3.us-west-1.amazonaws.com/~asset/${hash}`,
       hash,
     };
   });
-  router.get('/--/api/v2/versions/latest', (ctx) => {
+  router.get('/v2/versions/latest', (ctx) => {
     ctx.body = {
       data: {
         sdkVersions: {

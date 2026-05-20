@@ -54,7 +54,7 @@
     "semver-utils": "^1.1.4",
     "snack-content": "~3.7.0",
     "snack-require-context": "*",
-    "snack-sdk": "~6.7.0",
+    "snack-sdk": "~7.0.0",
     "source-map-support": "^0.4.15",
     "targz": "^1.0.1",
     "validate-npm-package-name": "^3.0.0",

@@ -7,7 +7,7 @@ switch (process.env.SNACK_ENV) {
     defaultConfig.snackpubURL = 'http://localhost:3013';
     break;
   case 'staging':
-    defaultConfig.apiURL = 'https://staging.exp.host';
+    defaultConfig.apiURL = 'https://staging-api.expo.dev';
     defaultConfig.snackagerURL = 'https://staging-snackager.eascdn.net';
     defaultConfig.snackpubURL = 'https://staging-snackpub.expo.dev';
     break;

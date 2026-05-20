@@ -58,15 +58,12 @@ const render = async (ctx: Context) => {
 
   if (id) {
     try {
-      const response = await fetch(
-        `${nullthrows(process.env.API_SERVER_URL)}/--/api/v2/snack/${id}`,
-        {
-          headers: {
-            'Snack-Api-Version': '3.0.0',
-            ...(expoSession ? { 'expo-session': decodeURIComponent(expoSession) } : {}),
-          },
-        }
-      );
+      const response = await fetch(`${nullthrows(process.env.API_SERVER_URL)}/v2/snack/${id}`, {
+        headers: {
+          'Snack-Api-Version': '3.0.0',
+          ...(expoSession ? { 'expo-session': decodeURIComponent(expoSession) } : {}),
+        },
+      });
 
       const text = await response.text();
       const json = JSON.parse(text);

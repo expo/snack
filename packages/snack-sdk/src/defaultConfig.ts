@@ -2,7 +2,7 @@ import { defaultSdkVersion } from 'snack-content';
 
 import { SnackState } from './types';
 
-export const apiURL: string = 'https://exp.host';
+export const apiURL: string = 'https://api.expo.dev';
 export const snackagerURL: string = 'https://snackager.eascdn.net';
 export const snackpubURL: string = 'https://snackpub.expo.dev';
 export const webPlayerURL: string = 'https://snack-runtime.eascdn.net/v2/%%SDK_VERSION%%';

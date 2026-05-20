@@ -54,7 +54,7 @@ const config: Config = {
     url: env('CLOUDFRONT_URL'),
   },
   api: {
-    url: env('API_SERVER_URL', 'https://test.exp.host'),
+    url: env('API_SERVER_URL', 'https://api.expo.test'),
   },
 };
 

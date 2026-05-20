@@ -8,5 +8,4 @@ The following hosts and ports are used by Snack.
 | localhost:3012 (snackager.expo.test) | staging-snackager.eascdn.net | snackager.eascdn.net | Snackager bundler service. |
 | localhost:3000 | staging.exp.host | exp.host | The Expo API server. |
 | localhost:3001 | staging.expo.dev | expo.dev | The Expo website. |
-| localhost:3020 | - | - | Proxy server that forwards and logs all requests to the local or staging Expo API server. Located in `./packages/snack-proxies`. |
 | localhost:3022 | - | - | Proxy server that forwards and logs all requests to the local or staging Snackager service. Located in `./packages/snack-proxies`. |

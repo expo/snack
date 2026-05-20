@@ -10,13 +10,20 @@ Start the website by running `yarn start` from the root of the repository.
 
 To view the website, open https://snack.expo.test (Expo employees, requires Universe set up via `install-tools`) or http://localhost:3011 (external contributors).
 
+The API server defaults to `https://proxy-staging-api.expo.test`. API requests only work for Expo employees. Override with `API_SERVER_URL` when starting:
+
+```sh
+API_SERVER_URL=https://api.expo.test yarn start
+API_SERVER_URL=https://proxy-production-api.expo.test yarn start
+```
+
 ## Running development services locally
 
 When you have access to the Expo Universe repository, you can choose to run certain Expo services locally.
 
 ### Expo API server (www)
 
-Start the `www` server. `snack-proxies` automatically detects the local server and routes all trafic to localhost:3000 when possible.
+Start the `www` server. To point Snack at it, set `API_SERVER_URL=https://api.expo.test` when starting (see "Getting started" above).
 
 ```sh
 # expo/universe
@@ -61,7 +68,7 @@ expo start:web
 
 Use ngrok to set up a tunnel to your locally-running www instance.
 
-1. Replace 'staging.exp.host' with your ngrok url, in the host of the Snack constructor (client/components/App.tsx).
+1. Replace 'staging-api.expo.dev' with your ngrok url, in the host of the Snack constructor (client/components/App.tsx).
 2. Restart local snack server.
 3. Send to device.
 

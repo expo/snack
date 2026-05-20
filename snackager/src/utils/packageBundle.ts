@@ -386,7 +386,7 @@ export async function getBundledVersionAsync(
   packageName: string,
   sdkVersion: string,
 ): Promise<string | null> {
-  const url = `${config.api.url}/--/api/v2/sdks/${sdkVersion}/native-modules`;
+  const url = `${config.api.url}/v2/sdks/${sdkVersion}/native-modules`;
   const resp = await fetch(url);
   const bundledNativeModules = await resp.json();
   return (
