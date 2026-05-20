@@ -179,7 +179,6 @@ class Main extends React.Component<Props, State> {
     const verbose = props.query.verbose === 'true';
     const isWorker = true;
     const sendCodeOnChangeEnabled = true;
-    const sessionSecret = props.getSessionSecret();
     const snackagerURL = nullthrows(process.env.IMPORT_SERVER_URL);
     const isLocalWebPreview = false;
 
@@ -196,7 +195,7 @@ class Main extends React.Component<Props, State> {
       createTransport: isWorker ? createSnackWorkerTransport.bind(null) : undefined,
       reloadTimeout: 10000,
       id: !wasUpgraded ? id : undefined,
-      user: sessionSecret ? { sessionSecret } : undefined,
+      useCookieAuth: true,
       apiURL: nullthrows(process.env.API_SERVER_URL),
       snackpubURL: process.env.SNACKPUB_URL,
       snackagerURL,
@@ -361,10 +360,8 @@ class Main extends React.Component<Props, State> {
 
     window.addEventListener('unload', this._handleUnload);
 
-    if (this.props.query.saveToAccount === 'true') {
-      if (this._snack.getState().user) {
-        this._saveAsync();
-      }
+    if (this.props.query.saveToAccount === 'true' && this.props.viewer) {
+      this._saveAsync();
     }
   }
 
@@ -391,12 +388,6 @@ class Main extends React.Component<Props, State> {
       Analytics.getInstance().updateCommonData({
         previewPane: this.state.devicePreviewShown ? this.state.devicePreviewPlatform : 'hidden',
       });
-    }
-    if (this.props.viewer !== prevProps.viewer) {
-      const sessionSecret = this.props.getSessionSecret();
-      if (this.state.session.user?.sessionSecret !== sessionSecret) {
-        this._snack.setUser(sessionSecret ? { sessionSecret } : undefined);
-      }
     }
   }
 
@@ -652,7 +643,7 @@ class Main extends React.Component<Props, State> {
 
   _saveDraftIfNeeded = (debounced?: boolean) => {
     if (
-      this.state.session.user &&
+      this.props.viewer &&
       this.state.session.unsaved &&
       this.state.autosaveEnabled &&
       this.state.saveStatus === 'edited'

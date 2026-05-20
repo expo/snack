@@ -7,6 +7,7 @@ export default class DevSession {
   private logger?: Logger;
   private onSendBeaconCloseRequest: (request: SnackSendBeaconRequest) => any;
   private focusedAt?: number;
+  private useCookieAuth: boolean;
 
   // NOTE(cedric): recurrent development session alive notifications are disabled
   // private notifyInterval: number = 40000;
@@ -16,10 +17,12 @@ export default class DevSession {
     apiURL: string;
     logger?: Logger;
     onSendBeaconCloseRequest: (request: SnackSendBeaconRequest) => any;
+    useCookieAuth?: boolean;
   }) {
     this.apiURL = options.apiURL;
     this.logger = options.logger;
     this.onSendBeaconCloseRequest = options.onSendBeaconCloseRequest;
+    this.useCookieAuth = options.useCookieAuth ?? false;
   }
 
   setState(state: SnackState, prevState: SnackState) {
@@ -29,18 +32,30 @@ export default class DevSession {
     // 3. device-id has hanged
 
     // Close
-    const isCloseUser =
-      prevState.user &&
-      (!state.online || state.url !== prevState.url || state.user !== prevState.user);
-    const isCloseDevice =
-      prevState.deviceId &&
-      (!state.online || state.url !== prevState.url || state.deviceId !== prevState.deviceId);
-    if (prevState.online && (isCloseUser || isCloseDevice)) {
-      this.close(
-        prevState.url,
-        isCloseUser ? prevState.user : undefined,
-        isCloseDevice ? prevState.deviceId : undefined,
-      );
+    const urlChanged = prevState.url !== state.url;
+    const deviceChanged = prevState.deviceId && prevState.deviceId !== state.deviceId;
+
+    if (this.useCookieAuth) {
+      // The SDK can't see the user identity under cookie auth — the server
+      // resolves it from the cookie — so we notify unconditionally whenever
+      // the session goes offline, the url changes, or the device changes.
+      // Anonymous requests are a server-side no-op.
+      if (prevState.online && (!state.online || urlChanged || deviceChanged)) {
+        this.close(prevState.url, undefined, prevState.deviceId);
+      }
+    } else {
+      const userChanged = prevState.user && prevState.user !== state.user;
+
+      const closeUser = prevState.user && (!state.online || urlChanged || userChanged);
+      const closeDevice = prevState.deviceId && (!state.online || urlChanged || deviceChanged);
+
+      if (prevState.online && (closeUser || closeDevice)) {
+        this.close(
+          prevState.url,
+          closeUser ? prevState.user : undefined,
+          closeDevice ? prevState.deviceId : undefined,
+        );
+      }
     }
 
     // Notify
@@ -69,8 +84,9 @@ export default class DevSession {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        ...createUserHeader(user),
+        ...(this.useCookieAuth ? {} : createUserHeader(user)),
       },
+      ...(this.useCookieAuth ? { credentials: 'include' as const } : {}),
     };
   }
 
@@ -83,7 +99,7 @@ export default class DevSession {
     //   this.notifyTimer = undefined;
     // }
 
-    if (!online || (!user && !deviceId)) {
+    if (!online || (!this.useCookieAuth && !user && !deviceId)) {
       this.focusedAt = undefined;
       return;
     }

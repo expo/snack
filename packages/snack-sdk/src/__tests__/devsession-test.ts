@@ -103,4 +103,54 @@ describe('devsession', () => {
     );
     snack.setOnline(false);
   });
+
+  describe('useCookieAuth', () => {
+    it('sends notify with credentials and no Expo-Session header when enabled', async () => {
+      const snack = new Snack({
+        apiURL: 'https://exp.host',
+        online: true,
+        deviceId: '1234',
+        user: { sessionSecret: '{"some":"json"}' },
+        useCookieAuth: true,
+      });
+      expect(mockFetch).toBeCalledTimes(1);
+      const [, init] = mockFetch.mock.calls[0];
+      expect(init.credentials).toBe('include');
+      expect(init.headers).not.toHaveProperty('Expo-Session');
+      expect(init.headers).not.toHaveProperty('Authorization');
+      snack.setOnline(false);
+    });
+
+    it('fires notify when online without user or deviceId', async () => {
+      const snack = new Snack({
+        apiURL: 'https://exp.host',
+        useCookieAuth: true,
+      });
+      expect(mockFetch).not.toBeCalled();
+      snack.setOnline(true);
+      expect(mockFetch).toBeCalledTimes(1);
+      snack.setOnline(false);
+      expect(mockFetch).toBeCalledTimes(2);
+    });
+
+    it('still attaches Expo-Session header when disabled', async () => {
+      const snack = new Snack({
+        apiURL: 'https://exp.host',
+        online: true,
+        deviceId: '1234',
+        user: { sessionSecret: '{"some":"json"}' },
+      });
+      expect(mockFetch).toBeCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            'Expo-Session': '{"some":"json"}',
+          }),
+        }),
+      );
+      const [, init] = mockFetch.mock.calls[0];
+      expect(init.credentials).toBeUndefined();
+      snack.setOnline(false);
+    });
+  });
 });

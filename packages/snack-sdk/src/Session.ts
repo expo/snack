@@ -76,6 +76,15 @@ export type SnackOptions = {
   accountSnackId?: string;
   webPlayerURL?: string;
   webPreviewRef?: SnackWindowRef;
+  /**
+   * When true, authenticated SDK fetches use `credentials: 'include'` instead
+   * of attaching the session secret as an `Expo-Session` header (and skip
+   * setting `Authorization` from `user.accessToken`). The browser handles
+   * cookie attachment, so the API server must set the auth cookie with a
+   * parent-domain scope shared with the page origin (e.g. `Domain=.expo.dev`
+   * for snack.expo.dev). Defaults to `false` for backwards compatibility.
+   */
+  useCookieAuth?: boolean;
 };
 
 export type SnackSaveOptions = {
@@ -99,6 +108,7 @@ export default class Snack {
   private readonly dependencyResolver: DependencyResolver;
   private readonly fileUploader: FileUploader;
   private readonly DevSession: DevSession;
+  private readonly useCookieAuth: boolean;
   private wantedDependencyVersions: WantedDependencyVersions;
   private codeChangesDelay: number;
   private codeChangesTimer: any;
@@ -122,6 +132,7 @@ export default class Snack {
     this.reloadTimeout = options.reloadTimeout ?? 0;
     this.previewTimeout = options.previewTimeout ?? 10000;
     this.createTransport = options.createTransport ?? createTransport;
+    this.useCookieAuth = options.useCookieAuth ?? false;
     const webPlayerURL = options.webPlayerURL ?? defaultConfig.webPlayerURL;
 
     let transports = options.transports ?? {};
@@ -200,6 +211,7 @@ export default class Snack {
       apiURL: this.apiURL,
       logger: this.logger,
       onSendBeaconCloseRequest: this.onDevSessionSendBeaconCloseRequest,
+      useCookieAuth: this.useCookieAuth,
     });
     this.logger?.info('Snack created', this.getState());
     this.onStateChanged(this.state, SnackIdentityState);
@@ -404,8 +416,9 @@ export default class Snack {
         body: JSON.stringify(payload),
         headers: {
           'Content-Type': 'application/json',
-          ...(options?.ignoreUser ? {} : createUserHeader(user)),
+          ...(options?.ignoreUser || this.useCookieAuth ? {} : createUserHeader(user)),
         },
+        ...(this.useCookieAuth && !options?.ignoreUser ? { credentials: 'include' as const } : {}),
       });
       const data: any = await response.json();
       if (!data?.id) {

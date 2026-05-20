@@ -82,7 +82,7 @@
     "snack-babel-standalone": "^3.0.1",
     "snack-content": "~3.7.0",
     "snack-eslint-standalone": "^2.0.0",
-    "snack-sdk": "~7.0.0",
+    "snack-sdk": "~7.1.0",
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
