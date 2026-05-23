@@ -8,6 +8,7 @@ type Props<T extends { combo: number[] }> = {
 const isMac = 'navigator' in global && /Mac/i.test(navigator.platform);
 
 export const KeyMap = {
+  B: 66,
   C: 67,
   D: 68,
   F: 70,
@@ -23,7 +24,6 @@ export const KeyMap = {
   Alt: 18,
   Cmd: 91,
   Tilde: 192,
-  Backslash: 220,
   Meta: isMac ? 91 : 17,
 };
 
