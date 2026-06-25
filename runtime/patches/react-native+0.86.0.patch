@@ -1,10 +1,10 @@
 diff --git a/node_modules/react-native/Libraries/ReactNative/requireNativeComponent.js b/node_modules/react-native/Libraries/ReactNative/requireNativeComponent.js
-index b9c8d57..90ee128 100644
+index 9601615..a459ed1 100644
 --- a/node_modules/react-native/Libraries/ReactNative/requireNativeComponent.js
 +++ b/node_modules/react-native/Libraries/ReactNative/requireNativeComponent.js
-@@ -33,4 +33,17 @@ const requireNativeComponent = <T: {...}>(
+@@ -33,4 +33,17 @@ const requireNativeComponent = <T extends {...}>(
      getNativeComponentAttributes(uiViewClassName),
-   ): any): HostComponent<T>);
+   ) as any as HostComponent<T>;
  
 -export default requireNativeComponent;
 +/* export default requireNativeComponent; */
