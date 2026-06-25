@@ -44,7 +44,7 @@ export default class LoadingView extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <Animated.Image
           style={{
-            ...StyleSheet.absoluteFillObject,
+            ...StyleSheet.absoluteFill,
             width: '100%',
             height: '100%',
             opacity: opacity.interpolate({

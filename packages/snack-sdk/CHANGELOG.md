@@ -2,6 +2,10 @@
 
 ## Unpublished
 
+### 🎉 New features
+
+- Add preliminary support for Expo SDK 56 (preview.7)
+
 ## 7.1.0
 
 ### 🎉 New features

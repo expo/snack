@@ -1,5 +1,5 @@
 import { allPlatformModules } from './common';
-import AssetRegistry from '../../NativeModules/AssetRegistry';
+import * as AssetRegistry from '../../NativeModules/AssetRegistry';
 import { SnackConfig } from '../SnackConfig';
 
 export const modules: SnackConfig['modules'] = {

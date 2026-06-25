@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // CSS animation properties below are react-native-web-only; not in RN's ViewStyle types.
   image: {
     width: 100,
     height: 100,
@@ -36,5 +37,5 @@ const styles = StyleSheet.create({
         '100%': { opacity: 0.1 },
       },
     ],
-  },
+  } as any,
 });
