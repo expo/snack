@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snack
+spec:
+  template:
+    spec:
+      nodeSelector:
+        pool: dev
+      tolerations:
+      - key: dedicated
+        value: dev
+        effect: NoSchedule

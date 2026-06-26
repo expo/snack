@@ -5,6 +5,7 @@ bases:
 - ../base
 patchesStrategicMerge:
 - service-backend.yaml
+- deployment-dev-pool.yaml
 configMapGenerator:
 - name: snack
   behavior: merge

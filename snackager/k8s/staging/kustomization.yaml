@@ -7,6 +7,7 @@ bases:
 - external-secret-private-key.yaml
 patchesStrategicMerge:
 - service-backend.yaml
+- deployment-dev-pool.yaml
 configMapGenerator:
 - name: snackager-config
   behavior: merge

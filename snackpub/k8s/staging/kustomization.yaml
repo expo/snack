@@ -6,6 +6,7 @@ resources:
   - external-secret-env.yaml
 patchesStrategicMerge:
   - service-backend.yaml
+  - deployment-dev-pool.yaml
 secretGenerator:
   - name: snackpub-env
     behavior: merge
