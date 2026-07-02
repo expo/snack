@@ -6,6 +6,7 @@ resources:
 - vertical-pod-autoscaler.yaml
 patchesStrategicMerge:
 - deployment-replicas.yaml
+- deployment-prod-pool.yaml
 - service-backend.yaml
 configMapGenerator:
 - name: snack

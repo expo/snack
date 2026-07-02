@@ -8,6 +8,7 @@ resources:
 patchesStrategicMerge:
   - service-backend.yaml
   - deployment-replicas.yaml
+  - deployment-prod-pool.yaml
 secretGenerator:
   - name: snackpub-env
     behavior: merge

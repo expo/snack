@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snackpub
+spec:
+  template:
+    spec:
+      nodeSelector:
+        pool: prod
+      tolerations:
+      - key: dedicated
+        value: prod
+        effect: NoSchedule

@@ -8,6 +8,7 @@ resources:
 - external-secret-private-key.yaml
 patchesStrategicMerge:
 - deployment-increase-replicas.yaml
+- deployment-prod-pool.yaml
 - service-backend.yaml
 configMapGenerator:
 - name: snackager-config
