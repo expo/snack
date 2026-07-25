@@ -6,8 +6,13 @@ spec:
   template:
     spec:
       nodeSelector:
-        pool: dev
+        $patch: replace
+        # dev consolidation (ENG-21836): pin staging to the on-demand dev-ondemand CAST AI template.
+        scheduling.cast.ai/node-template: dev-ondemand
       tolerations:
       - key: dedicated
         value: dev
+        effect: NoSchedule
+      - key: scheduling.cast.ai/scoped-autoscaler
+        operator: Exists
         effect: NoSchedule
