@@ -7,8 +7,8 @@ spec:
     spec:
       nodeSelector:
         $patch: replace
-        # dev consolidation (ENG-21836): pin staging to the on-demand dev-ondemand CAST AI template.
-        scheduling.cast.ai/node-template: dev-ondemand
+        # spot wave 1 (ENG-21836): stateless staging tolerates preemption, move to the spot template.
+        scheduling.cast.ai/node-template: dev-spot
       tolerations:
       - key: dedicated
         value: dev
