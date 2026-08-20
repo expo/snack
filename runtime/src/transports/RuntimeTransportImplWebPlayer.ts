@@ -38,6 +38,8 @@ const allowedOrigins = [
   'https://production.codecademy.com',
   'https://enterprise.codecademy.com',
   'https://codecademy-enterprise.percipio.com',
+  'https://codecademy-eu.percipio.com',
+  'https://le-enterprise.stage.percipio.com',
   // Sizze
   'https://dashboard.sizze.io',
   'https://app.sizze.io',
