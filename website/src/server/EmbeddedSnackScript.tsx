@@ -14,6 +14,37 @@ export const script = `
     return;
   }
 
+  var messageListeners = new Map();
+  var messageListenerObserver = new MutationObserver(function() {
+    messageListeners.forEach(function(listener, iframe) {
+      if (!iframe.isConnected) {
+        removeMessageListener(iframe);
+      }
+    });
+  });
+
+  function removeMessageListener(iframe) {
+    var listener = messageListeners.get(iframe);
+    if (listener) {
+      window.removeEventListener('message', listener);
+      messageListeners.delete(iframe);
+      if (messageListeners.size === 0) {
+        messageListenerObserver.disconnect();
+      }
+    }
+  }
+
+  function addMessageListener(iframe, listener) {
+    if (messageListeners.size === 0) {
+      messageListenerObserver.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
+    messageListeners.set(iframe, listener);
+    window.addEventListener('message', listener);
+  }
+
   var ExpoSnack = {
     append: function(container, options) {
       options = options || {};
@@ -120,21 +151,31 @@ export const script = `
       iframe.allowTransparency = true;
       iframe.dataset.snackIframe = true;
 
-      container.appendChild(iframe);
-
       if (options.code || options.files || options.dependencies) {
-        window.addEventListener('message', function(event) {
+        var listener = function(event) {
           var eventName = event.data[0];
           var data = event.data[1];
           if (eventName === 'expoFrameLoaded' && data.iframeId === iframeId) {
-            iframe.contentWindow.postMessage(['expoDataEvent', {
-              iframeId: iframeId,
-              dependencies: options.dependencies,
-              code: options.code,
-              files: options.files,
-            }], '*')
+            try {
+              iframe.contentWindow.postMessage(['expoDataEvent', {
+                iframeId: iframeId,
+                dependencies: options.dependencies,
+                code: options.code,
+                files: options.files,
+              }], '*')
+            } finally {
+              removeMessageListener(iframe);
+            }
           }
-        });
+        };
+        addMessageListener(iframe, listener);
+      }
+
+      try {
+        container.appendChild(iframe);
+      } catch (error) {
+        removeMessageListener(iframe);
+        throw error;
       }
     },
 
@@ -142,6 +183,7 @@ export const script = `
       var iframe = container.querySelector('iframe[data-snack-iframe]');
 
       if (iframe) {
+        removeMessageListener(iframe);
         iframe.parentNode.removeChild(iframe);
       }
     },
