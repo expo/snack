@@ -52,7 +52,7 @@ class ContextMenu extends React.PureComponent<Props> {
         style={
           position
             ? {
-                position: 'fixed',
+                position: 'sticky',
                 top: Math.min(
                   position.pageY,
                   window.innerHeight - BOTTOM_OFFSET - shownActions.length * MENU_ITEM_HEIGHT
