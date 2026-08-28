@@ -105,7 +105,6 @@ export default function Document(props: Props) {
                 font-family: var(--font-normal);
                 font-size: 14px;
                 line-height: 1.42857143;
-                overscroll-behavior: none;
               }
 
               div {
