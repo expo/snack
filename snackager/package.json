@@ -26,7 +26,7 @@
     "@react-native/babel-preset": "^0.73.19",
     "aws-sdk": "^2.487.0",
     "babel-loader": "^8.2.5",
-    "babel-plugin-syntax-hermes-parser": "^0.26.0",
+    "babel-plugin-syntax-hermes-parser": "^0.37.0",
     "bunyan": "^1.8.12",
     "bunyan-middleware": "^1.0.0",
     "cors": "^2.8.5",

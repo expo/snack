@@ -56,7 +56,7 @@ exports[`creates bundle for @draftbit/ui@52.0.5 1`] = `
           "react/jsx-runtime",
           "util",
         ],
-        "size": 1275000,
+        "size": 1278000,
       },
     },
     "ios": {
