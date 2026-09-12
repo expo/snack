@@ -27,45 +27,53 @@ export async function clone(
       },
     );
   } catch (e) {
-    throw e;
+    throw new Error(
+      'Unable to clone the repository. Check the repository URL, access permissions, and branch name.',
+      { cause: e },
+    );
   }
 
   if (hash) {
     try {
-      await spawnAsync('git', ['checkout', hash], {
-        cwd: path.join(process.cwd(), dirname),
-      });
+      const cwd = path.join(process.cwd(), dirname);
+      // End option parsing and require a commit reference rather than a file path.
+      await spawnAsync('git', ['checkout', '--detach', '--end-of-options', hash, '--'], { cwd });
     } catch (e) {
-      // This could happen because the user provided a commit hash that is not
-      // in the specified branch
-
-      // Cleanup after ourselves
-      await spawnAsync('rm', ['-rf', dirname]);
-      throw new Error('Git checkout failure: ' + e.message);
+      // Cleanup must not hide the checkout error.
+      await spawnAsync('rm', ['-rf', '--', dirname]).catch(() => {});
+      throw new Error(
+        'Unable to check out the requested revision. Use a commit, branch, or tag that exists in the repository.',
+        { cause: e },
+      );
     }
   }
 }
 
 export async function getLatestHash(repo: string, branch: string): Promise<string> {
   let result;
-  let hash;
   try {
     // End option parsing before the untrusted repository argument.
     result = await spawnAsync('git', ['ls-remote', '--', repo, branch || 'HEAD'], {
       env: { ...process.env, ...gitEnv },
     });
-    // Get the line
-    result = result.stdout;
-    // Get the hash
-    hash = result.split('\t')[0];
-    return hash;
   } catch (e) {
     throw new Error(
-      `Failed to get latest commit hash for ${repo} ${
-        branch ? `on branch ${branch} ` : ''
-      }with error: ${e.message}`,
+      'Unable to read the repository. Check the repository URL and access permissions.',
+      { cause: e },
     );
   }
+
+  if (!result.stdout.trim()) {
+    throw new Error(
+      'No matching commit was found. Check the branch or tag name and that the repository is not empty.',
+    );
+  }
+
+  const hash = result.stdout.split('\n')[0].split('\t')[0];
+  if (!/^(?:[0-9a-f]{40}|[0-9a-f]{64})$/.test(hash)) {
+    throw new Error('The repository returned an invalid commit ID.');
+  }
+  return hash;
 }
 
 export async function getLatestCommitDate(clonePath: string): Promise<string> {

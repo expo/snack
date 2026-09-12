@@ -175,13 +175,13 @@ describe('git', () => {
       sdkVersion,
       branch: 'feature-a',
     });
-    expect(
+    await expect(
       importAsync({
         repo: repoPath,
         branch: 'feature-b',
         noCache: true,
       }),
-    ).rejects.toThrowError(`exited with non-zero code: 128`);
+    ).rejects.toThrowError('No matching commit was found.');
   });
 
   it('ignores files under `node_modules`', async () => {

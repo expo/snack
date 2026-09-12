@@ -1,9 +1,5 @@
 import spawnAsync, { SpawnPromise, SpawnResult } from '@expo/spawn-async';
-import { execFileSync } from 'child_process';
-import fs from 'fs';
-import os from 'os';
 import path from 'path';
-import { pathToFileURL } from 'url';
 
 import { clone, getLatestHash, getLatestCommitDate } from '../clone';
 
@@ -17,8 +13,8 @@ const directory = '/tmp/repository';
 // TODO: check what happens for absolute paths, that might conflict with `process.cwd`
 const cwd = path.join(process.cwd(), directory);
 
-afterEach(() => {
-  mockedSpawnAsync.mockClear();
+beforeEach(() => {
+  mockedSpawnAsync.mockReset().mockResolvedValue({ stdout: '' } as any);
 });
 
 describe('clone', () => {
@@ -41,28 +37,51 @@ describe('clone', () => {
     );
   });
 
-  it('clones repository with custom custom commit hash', async () => {
-    await clone(repository, 'main', hash, directory);
-    expect(spawnAsync).toBeCalledWith(
+  it.each([
+    hash,
+    'main',
+    'refs/tags/v1.0.0',
+    'HEAD~1',
+    'HEAD:path^{commit}',
+    '--orphan=unexpected',
+    '--',
+    '$(unexpected-command)',
+  ])('passes %s unchanged as the checkout reference', async (ref) => {
+    await clone(repository, 'main', ref, directory);
+    expect(mockedSpawnAsync.mock.calls[1]).toEqual([
       'git',
-      expect.arrayContaining(['checkout', hash]),
-      expect.objectContaining({ cwd }), // important for pointing to proper repo
-    );
+      ['checkout', '--detach', '--end-of-options', ref, '--'],
+      { cwd },
+    ]);
+    expect(mockedSpawnAsync).toHaveBeenCalledTimes(2);
   });
 
-  it('throws when cloning failed', async () => {
-    mockedSpawnAsync.mockRejectedValueOnce(new Error('test'));
-    await expect(clone(repository, undefined, '', '')).rejects.toThrow('test');
+  it('reports a repository or branch error when cloning fails', async () => {
+    const cause = new Error('git clone failed');
+    mockedSpawnAsync.mockRejectedValueOnce(cause);
+    await expect(clone(repository, undefined, '', directory)).rejects.toMatchObject({
+      message:
+        'Unable to clone the repository. Check the repository URL, access permissions, and branch name.',
+      cause,
+    });
   });
 
-  it('throws and cleans up when cloning commit hash failed', async () => {
-    mockedSpawnAsync
-      .mockResolvedValueOnce({} as any) // git clone <repo>
-      .mockRejectedValueOnce(new Error('test')) // git checkout <hash>
-      .mockResolvedValueOnce({} as any); // clean up
-    await expect(clone(repository, 'main', hash, directory)).rejects.toThrow('test');
-    expect(spawnAsync).toBeCalledWith('rm', expect.arrayContaining(['-rf', directory]));
-  });
+  it.each([false, true])(
+    'reports a checkout error and attempts cleanup (cleanup fails: %s)',
+    async (cleanupFails) => {
+      const cause = new Error('git checkout failed');
+      mockedSpawnAsync.mockResolvedValueOnce({} as any).mockRejectedValueOnce(cause);
+      if (cleanupFails) {
+        mockedSpawnAsync.mockRejectedValueOnce(new Error('cleanup failed'));
+      }
+      await expect(clone(repository, 'main', 'missing-ref', directory)).rejects.toMatchObject({
+        message:
+          'Unable to check out the requested revision. Use a commit, branch, or tag that exists in the repository.',
+        cause,
+      });
+      expect(mockedSpawnAsync.mock.calls[2]).toEqual(['rm', ['-rf', '--', directory]]);
+    },
+  );
 });
 
 describe('getLatestHash', () => {
@@ -87,6 +106,52 @@ describe('getLatestHash', () => {
   });
 });
 
+describe('remote hash validation', () => {
+  it.each([hash, 'a'.repeat(64)])('accepts a full object ID: %s', async (objectId) => {
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout: `${objectId}\tHEAD\n` } as any);
+    expect(await getLatestHash(repository, '')).toBe(objectId);
+  });
+
+  it('uses the first matching remote ref', async () => {
+    mockedSpawnAsync.mockResolvedValueOnce({
+      stdout: `${hash}\trefs/heads/main\n${'b'.repeat(40)}\trefs/tags/main\n`,
+    } as any);
+    expect(await getLatestHash(repository, 'main')).toBe(hash);
+  });
+
+  it.each(['', '\n'])('reports a missing ref for empty output %p', async (stdout) => {
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout } as any);
+    await expect(getLatestHash(repository, 'missing')).rejects.toThrow(
+      'No matching commit was found. Check the branch or tag name and that the repository is not empty.',
+    );
+  });
+
+  it.each([
+    '--orphan=unexpected',
+    'HEAD',
+    'abc123',
+    'z'.repeat(40),
+    'a'.repeat(41),
+    'a'.repeat(63),
+    'a'.repeat(65),
+    `${hash} extra`,
+  ])('rejects an invalid remote object ID: %s', async (value) => {
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout: `${value}\tHEAD\n` } as any);
+    await expect(getLatestHash(repository, '')).rejects.toThrow(
+      'The repository returned an invalid commit ID.',
+    );
+  });
+
+  it('preserves the cause of a repository lookup failure', async () => {
+    const cause = new Error('git ls-remote failed');
+    mockedSpawnAsync.mockRejectedValueOnce(cause);
+    await expect(getLatestHash(repository, '')).rejects.toMatchObject({
+      message: 'Unable to read the repository. Check the repository URL and access permissions.',
+      cause,
+    });
+  });
+});
+
 describe('getLatestCommitDate', () => {
   const timestamp = 'Thu Nov 5 06:27:50 2020 -0500';
 
@@ -101,80 +166,33 @@ describe('getLatestCommitDate', () => {
   });
 });
 
-// Exercise Git's actual argument parsing without network access or service credentials.
-describe('repository arguments with real Git', () => {
-  const realSpawnAsync: typeof spawnAsync = jest.requireActual('@expo/spawn-async');
-  let tempDir: string;
-  let localRepository: string;
-  let marker: string;
+describe('untrusted Git arguments', () => {
+  const optionLikeRepository = '--upload-pack=unexpected-command';
 
-  beforeEach(async () => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'snackager-git-'));
-    localRepository = path.join(tempDir, 'remote.git');
-    marker = path.join(tempDir, 'marker');
-    mockedSpawnAsync.mockImplementation((command, args, options) =>
-      realSpawnAsync(command, args, {
-        ...options,
-        cwd: options?.cwd ?? tempDir,
-        env: { PATH: process.env.PATH, HOME: tempDir, GIT_CONFIG_NOSYSTEM: '1' },
-      }),
-    );
-    await spawnAsync('git', ['init', '--initial-branch=main', localRepository]);
-    const options = {
-      cwd: localRepository,
-      env: {
-        PATH: process.env.PATH,
-        HOME: tempDir,
-        GIT_CONFIG_NOSYSTEM: '1',
-        GIT_AUTHOR_NAME: 'Test',
-        GIT_AUTHOR_EMAIL: 'test@example.invalid',
-        GIT_COMMITTER_NAME: 'Test',
-        GIT_COMMITTER_EMAIL: 'test@example.invalid',
-      },
-      input: '',
-      encoding: 'utf8' as const,
-    };
-    const tree = execFileSync('git', ['mktree'], options).trim();
-    const commit = execFileSync(
-      'git',
-      ['commit-tree', tree, '-m', 'Initial commit'],
-      options,
-    ).trim();
-    await spawnAsync('git', ['update-ref', 'refs/heads/main', commit], { cwd: localRepository });
-  });
-
-  afterEach(() => {
-    mockedSpawnAsync.mockReset();
-    fs.rmSync(tempDir, { recursive: true, force: true });
-  });
-
-  it('resolves the default and named branch of a valid repository', async () => {
-    const latest = await getLatestHash(localRepository, '');
-    expect(latest).toMatch(/^[a-f0-9]{40}$/);
-    expect(await getLatestHash(localRepository, 'main')).toBe(latest);
-  });
-
-  it.each([undefined, 'main'])('clones a valid repository with branch %s', async (branch) => {
-    const destination = path.join(tempDir, 'clone');
-    await clone(localRepository, branch, '', destination);
-    expect(fs.existsSync(path.join(destination, '.git'))).toBe(true);
-  });
-
-  it('does not execute an option supplied as the ls-remote repository', async () => {
-    await expect(
-      getLatestHash(`--upload-pack=touch "${marker}"`, localRepository),
-    ).rejects.toThrow();
-    expect(fs.existsSync(marker)).toBe(false);
-  });
-
-  it.each([undefined, 'main'])(
-    'does not execute an option supplied as the clone repository with branch %s',
+  it.each([undefined, 'main', '--upload-pack=unexpected-command'])(
+    'keeps the repository after the option boundary when cloning branch %p',
     async (branch) => {
-      // Before the fix, Git treats the destination as the repository and runs upload-pack.
-      await expect(
-        clone(`--upload-pack=touch "${marker}"`, branch, '', pathToFileURL(localRepository).href),
-      ).rejects.toThrow();
-      expect(fs.existsSync(marker)).toBe(false);
+      await clone(optionLikeRepository, branch, '', directory);
+      expect(spawnAsync).toHaveBeenCalledWith(
+        'git',
+        branch
+          ? ['clone', '--branch', branch, '--', optionLikeRepository, directory]
+          : ['clone', '--single-branch', '--', optionLikeRepository, directory],
+        expect.any(Object),
+      );
+    },
+  );
+
+  it.each(['', '--upload-pack=unexpected-command', '--', '-u', '$(unexpected-command)'])(
+    'keeps the repository and branch %p after the ls-remote option boundary',
+    async (branch) => {
+      mockedSpawnAsync.mockResolvedValueOnce({ stdout: `${hash}\tHEAD` } as any);
+      expect(await getLatestHash(optionLikeRepository, branch)).toBe(hash);
+      expect(spawnAsync).toHaveBeenCalledWith(
+        'git',
+        ['ls-remote', '--', optionLikeRepository, branch || 'HEAD'],
+        expect.any(Object),
+      );
     },
   );
 });
