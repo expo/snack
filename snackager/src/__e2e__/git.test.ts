@@ -8,6 +8,22 @@ import util from 'util';
 
 import { importAsync } from '../git';
 
+// These fixtures use local repositories; only this test file permits the file transport.
+jest.mock('@expo/spawn-async', () => {
+  const actual = jest.requireActual('@expo/spawn-async');
+  return {
+    __esModule: true,
+    default: (command: string, args: string[], options: any) =>
+      actual(
+        command,
+        args,
+        command === 'git' && options?.env?.GIT_ALLOW_PROTOCOL
+          ? { ...options, env: { ...options.env, GIT_ALLOW_PROTOCOL: 'file' } }
+          : options,
+      ),
+  };
+});
+
 // TODO: replace rimraf with fs.rm once node 14.40 lands
 const rimraf = util.promisify(require('rimraf'));
 
@@ -45,6 +61,40 @@ beforeEach(() => {
 });
 
 describe('git', () => {
+  it('uses the resolved commit ID for a revision containing slashes', async () => {
+    const repoPath = await createRepo({ name: 'resolved-ref', sdkVersion });
+    await spawnAsync('git', ['tag', 'release/example'], { cwd: repoPath });
+    const { stdout } = await spawnAsync('git', ['rev-parse', 'HEAD'], { cwd: repoPath });
+    const rename = jest.spyOn(fs.promises, 'rename');
+    try {
+      expect(
+        await importAsync({
+          repo: repoPath,
+          hash: 'refs/tags/release/example',
+          noCache: true,
+        }),
+      ).toBe(SAVE_ID);
+      expect(rename).toHaveBeenCalledWith(
+        expect.stringMatching(/^clones\/import-[^/]+\/repository$/),
+        expect.stringMatching(new RegExp(`/${stdout.trim()}$`)),
+      );
+      const destination = rename.mock.calls[0][1];
+      expect(fs.existsSync(destination)).toBe(false);
+    } finally {
+      rename.mockRestore();
+    }
+  });
+
+  it('isolates simultaneous imports of the same commit', async () => {
+    const repo = await createRepo({ name: 'concurrent-import', sdkVersion });
+    expect(
+      await Promise.all([
+        importAsync({ repo, noCache: true }),
+        importAsync({ repo, noCache: true }),
+      ]),
+    ).toEqual([SAVE_ID, SAVE_ID]);
+  });
+
   it('imports basic repository', async () => {
     const repoPath = await createRepo({
       name: 'test1',

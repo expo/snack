@@ -1,5 +1,4 @@
 import { getConfig } from '@expo/config';
-import spawnAsync from '@expo/spawn-async';
 import FormData from 'form-data';
 import fs from 'fs';
 import GitUrlParse from 'git-url-parse';
@@ -10,7 +9,7 @@ import { Snack } from 'snack-sdk';
 import util from 'util';
 
 import { getCachedObj, cacheObj } from './cacheSnackObj';
-import { clone, getLatestHash, getLatestCommitDate } from './clone';
+import { clone, getLatestHash, getLatestCommitDate, getCurrentHash } from './clone';
 import config from '../config';
 import logger from '../logger';
 import { GitSnackObj, GitSnackFiles, GitSnackDependencies } from '../types';
@@ -26,68 +25,94 @@ export async function getGitSnackObj(
   hash: string = 'latest',
   noCache: boolean = false,
 ): Promise<GitSnackObj> {
+  if (typeof subpath !== 'string' || subpath.split(/[\\/]/).includes('..')) {
+    throw new Error('Repository subpath components must not be "..".');
+  }
+
+  let temporaryPath: string | undefined;
+  let resolvedClonePath: string | undefined;
   try {
     if (hash === 'latest') {
-      hash = await getLatestHash(repo, branch);
+      try {
+        hash = await getLatestHash(repo, branch);
+      } catch (cause) {
+        throw new Error('Error getting latest hash: ' + cause.message, { cause });
+      }
+    } else {
+      await fs.promises.mkdir(CLONE_DIR, { recursive: true });
+      temporaryPath = await fs.promises.mkdtemp(path.join(CLONE_DIR, 'import-'));
+      resolvedClonePath = path.join(temporaryPath, 'repository');
+      try {
+        await clone(repo, branch, hash, resolvedClonePath);
+      } catch (cause) {
+        throw new Error('Error cloning repo: ' + cause.message, { cause });
+      }
+      try {
+        hash = await getCurrentHash(resolvedClonePath);
+      } catch (cause) {
+        throw new Error('Error resolving repo revision: ' + cause.message, { cause });
+      }
     }
-  } catch (e) {
-    throw new Error('Error getting latest hash: ' + e.message);
-  }
 
-  const parsed = GitUrlParse(repo);
-  const name = `${parsed.resource}/${parsed.owner}/${parsed.name}`;
-  const id = `${encodeURIComponent(name)}:${encodeURIComponent(subpath)}@${encodeURIComponent(
-    // Fallback to the `master` branch-name, to prevent the cache from resetting
-    branch || 'master',
-  )}!${hash}`;
-  const clonePath = path.join(CLONE_DIR, id);
+    const parsed = GitUrlParse(repo);
+    const name = `${parsed.resource}/${parsed.owner}/${parsed.name}`;
+    const id = `${encodeURIComponent(name)}:${encodeURIComponent(subpath)}@${encodeURIComponent(
+      branch || 'master',
+    )}!${hash}`;
 
-  let snackObj: GitSnackObj | undefined;
-  if (!noCache) {
-    snackObj = await getCachedObj(id);
-    if (snackObj) {
-      logger.info(parsed, `repository found in cache ${id}`);
-      return snackObj;
-    }
-  }
-
-  logger.info(parsed, `cloning ${repo}/${branch || 'HEAD'}#${hash}`);
-  try {
-    await clone(repo, branch, hash, clonePath);
-  } catch (e) {
-    throw new Error('Error cloning repo: ' + e.message);
-  }
-
-  let commitDate;
-  try {
-    commitDate = await getLatestCommitDate(clonePath);
-  } catch (e) {
-    throw new Error('Error getting repo date: ' + e.message);
-  }
-
-  try {
-    // Only care about files in the subpath
-    const dirname = path.join(clonePath, subpath);
-    snackObj = {
-      files: await generateFilesObj(dirname),
-      dependencies: await generateDepsObj(dirname),
-      sdkVersion: getGitSdkVersion(dirname),
-      date: commitDate,
-    };
-
-    // Speed up future clones
     if (!noCache) {
-      await cacheObj(snackObj, id);
+      const cached = await getCachedObj(id);
+      if (cached) {
+        logger.info(parsed, `repository found in cache ${id}`);
+        return cached;
+      }
     }
-  } catch (e) {
-    // Cleanup after ourselves
-    await spawnAsync('rm', ['-rf', clonePath]);
-    throw new Error('Error generating snackObj: ' + e.message);
-  }
 
-  // Cleanup after ourselves
-  await spawnAsync('rm', ['-rf', clonePath]);
-  return snackObj;
+    if (!temporaryPath) {
+      await fs.promises.mkdir(CLONE_DIR, { recursive: true });
+      temporaryPath = await fs.promises.mkdtemp(path.join(CLONE_DIR, 'import-'));
+    }
+    const clonePath = path.join(temporaryPath, hash);
+    if (resolvedClonePath) {
+      await fs.promises.rename(resolvedClonePath, clonePath);
+    } else {
+      logger.info(parsed, `cloning ${repo}/${branch || 'HEAD'}#${hash}`);
+      try {
+        await clone(repo, branch, hash, clonePath);
+      } catch (cause) {
+        throw new Error('Error cloning repo: ' + cause.message, { cause });
+      }
+    }
+
+    let commitDate: string;
+    try {
+      commitDate = await getLatestCommitDate(clonePath);
+    } catch (cause) {
+      throw new Error('Error getting repo date: ' + cause.message, { cause });
+    }
+
+    try {
+      const dirname = path.join(clonePath, subpath);
+      const snackObj: GitSnackObj = {
+        files: await generateFilesObj(dirname),
+        dependencies: await generateDepsObj(dirname),
+        sdkVersion: getGitSdkVersion(dirname),
+        date: commitDate,
+      };
+      if (!noCache) {
+        await cacheObj(snackObj, id);
+      }
+      return snackObj;
+    } catch (cause) {
+      throw new Error('Error generating snackObj: ' + cause.message, { cause });
+    }
+  } finally {
+    if (temporaryPath) {
+      await fs.promises.rm(temporaryPath, { recursive: true, force: true }).catch((error) => {
+        logger.warn({ error, temporaryPath }, 'Unable to remove imported repository');
+      });
+    }
+  }
 }
 
 function getGitSdkVersion(dirname: string): string {
@@ -178,7 +203,7 @@ async function generateFilesObj(dirname: string): Promise<GitSnackFiles> {
       }),
     );
   } catch (error) {
-    throw new Error('Error parsing files: ' + error.message);
+    throw new Error('Error parsing files: ' + error.message, { cause: error });
   }
 
   return snackFiles;
@@ -190,6 +215,6 @@ async function generateDepsObj(dirname: string): Promise<GitSnackDependencies> {
     const deps = json5.parse(json).dependencies || {};
     return deps;
   } catch (e) {
-    throw new Error('Error parsing dependencies: ' + e.message);
+    throw new Error('Error parsing dependencies: ' + e.message, { cause: e });
   }
 }

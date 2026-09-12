@@ -1,13 +1,7 @@
 import spawnAsync from '@expo/spawn-async';
 import path from 'path';
 
-// Use the identity file provided by k8s in deployed environments
-const isDeployed = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging';
-const gitEnv = isDeployed
-  ? {
-      GIT_SSH_COMMAND: 'ssh -i /var/secrets/github/id_rsa -o "StrictHostKeyChecking no"', // eslint-disable-line
-    }
-  : {};
+const gitEnv = { GIT_ALLOW_PROTOCOL: 'https', GIT_TERMINAL_PROMPT: '0' };
 
 export async function clone(
   repo: string,
@@ -37,7 +31,10 @@ export async function clone(
     try {
       const cwd = path.join(process.cwd(), dirname);
       // End option parsing and require a commit reference rather than a file path.
-      await spawnAsync('git', ['checkout', '--detach', '--end-of-options', hash, '--'], { cwd });
+      await spawnAsync('git', ['checkout', '--detach', '--end-of-options', hash, '--'], {
+        cwd,
+        env: { ...process.env, ...gitEnv },
+      });
     } catch (e) {
       // Cleanup must not hide the checkout error.
       await spawnAsync('rm', ['-rf', '--', dirname]).catch(() => {});
@@ -79,6 +76,19 @@ export async function getLatestHash(repo: string, branch: string): Promise<strin
 export async function getLatestCommitDate(clonePath: string): Promise<string> {
   const { stdout } = await spawnAsync('git', ['log', '-1', '--format=%cd'], {
     cwd: path.join(process.cwd(), clonePath),
+    env: { ...process.env, ...gitEnv },
   });
   return stdout;
+}
+
+export async function getCurrentHash(clonePath: string): Promise<string> {
+  const { stdout } = await spawnAsync('git', ['rev-parse', '--verify', 'HEAD^{commit}'], {
+    cwd: path.join(process.cwd(), clonePath),
+    env: { ...process.env, ...gitEnv },
+  });
+  const hash = stdout.trim();
+  if (!/^(?:[0-9a-f]{40}|[0-9a-f]{64})$/.test(hash)) {
+    throw new Error('The repository returned an invalid commit ID.');
+  }
+  return hash;
 }
