@@ -1,5 +1,9 @@
 import spawnAsync, { SpawnPromise, SpawnResult } from '@expo/spawn-async';
+import { execFileSync } from 'child_process';
+import fs from 'fs';
+import os from 'os';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 import { clone, getLatestHash, getLatestCommitDate } from '../clone';
 
@@ -23,7 +27,7 @@ describe('clone', () => {
     await clone(repository, undefined, '', directory);
     expect(spawnAsync).toBeCalledWith(
       'git',
-      expect.arrayContaining(['clone', repository, directory, '--single-branch']),
+      ['clone', '--single-branch', '--', repository, directory],
       expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
     );
   });
@@ -32,7 +36,7 @@ describe('clone', () => {
     await clone(repository, 'main', '', directory);
     expect(spawnAsync).toBeCalledWith(
       'git',
-      expect.arrayContaining(['clone', repository, directory, '--branch', 'main']),
+      ['clone', '--branch', 'main', '--', repository, directory],
       expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
     );
   });
@@ -67,7 +71,7 @@ describe('getLatestHash', () => {
     expect(await getLatestHash(repository, '')).toBe(hash);
     expect(spawnAsync).toBeCalledWith(
       'git',
-      expect.arrayContaining(['ls-remote', repository, 'HEAD']),
+      ['ls-remote', '--', repository, 'HEAD'],
       expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
     );
   });
@@ -77,7 +81,7 @@ describe('getLatestHash', () => {
     expect(await getLatestHash(repository, 'feature-a')).toBe(hash);
     expect(spawnAsync).toBeCalledWith(
       'git',
-      expect.arrayContaining(['ls-remote', repository, 'feature-a']),
+      ['ls-remote', '--', repository, 'feature-a'],
       expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
     );
   });
@@ -95,4 +99,82 @@ describe('getLatestCommitDate', () => {
       expect.objectContaining({ cwd }),
     );
   });
+});
+
+// Exercise Git's actual argument parsing without network access or service credentials.
+describe('repository arguments with real Git', () => {
+  const realSpawnAsync: typeof spawnAsync = jest.requireActual('@expo/spawn-async');
+  let tempDir: string;
+  let localRepository: string;
+  let marker: string;
+
+  beforeEach(async () => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'snackager-git-'));
+    localRepository = path.join(tempDir, 'remote.git');
+    marker = path.join(tempDir, 'marker');
+    mockedSpawnAsync.mockImplementation((command, args, options) =>
+      realSpawnAsync(command, args, {
+        ...options,
+        cwd: options?.cwd ?? tempDir,
+        env: { PATH: process.env.PATH, HOME: tempDir, GIT_CONFIG_NOSYSTEM: '1' },
+      }),
+    );
+    await spawnAsync('git', ['init', '--initial-branch=main', localRepository]);
+    const options = {
+      cwd: localRepository,
+      env: {
+        PATH: process.env.PATH,
+        HOME: tempDir,
+        GIT_CONFIG_NOSYSTEM: '1',
+        GIT_AUTHOR_NAME: 'Test',
+        GIT_AUTHOR_EMAIL: 'test@example.invalid',
+        GIT_COMMITTER_NAME: 'Test',
+        GIT_COMMITTER_EMAIL: 'test@example.invalid',
+      },
+      input: '',
+      encoding: 'utf8' as const,
+    };
+    const tree = execFileSync('git', ['mktree'], options).trim();
+    const commit = execFileSync(
+      'git',
+      ['commit-tree', tree, '-m', 'Initial commit'],
+      options,
+    ).trim();
+    await spawnAsync('git', ['update-ref', 'refs/heads/main', commit], { cwd: localRepository });
+  });
+
+  afterEach(() => {
+    mockedSpawnAsync.mockReset();
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  });
+
+  it('resolves the default and named branch of a valid repository', async () => {
+    const latest = await getLatestHash(localRepository, '');
+    expect(latest).toMatch(/^[a-f0-9]{40}$/);
+    expect(await getLatestHash(localRepository, 'main')).toBe(latest);
+  });
+
+  it.each([undefined, 'main'])('clones a valid repository with branch %s', async (branch) => {
+    const destination = path.join(tempDir, 'clone');
+    await clone(localRepository, branch, '', destination);
+    expect(fs.existsSync(path.join(destination, '.git'))).toBe(true);
+  });
+
+  it('does not execute an option supplied as the ls-remote repository', async () => {
+    await expect(
+      getLatestHash(`--upload-pack=touch "${marker}"`, localRepository),
+    ).rejects.toThrow();
+    expect(fs.existsSync(marker)).toBe(false);
+  });
+
+  it.each([undefined, 'main'])(
+    'does not execute an option supplied as the clone repository with branch %s',
+    async (branch) => {
+      // Before the fix, Git treats the destination as the repository and runs upload-pack.
+      await expect(
+        clone(`--upload-pack=touch "${marker}"`, branch, '', pathToFileURL(localRepository).href),
+      ).rejects.toThrow();
+      expect(fs.existsSync(marker)).toBe(false);
+    },
+  );
 });

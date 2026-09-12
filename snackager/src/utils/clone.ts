@@ -15,12 +15,13 @@ export async function clone(
   hash: string,
   dirname: string,
 ): Promise<void> {
+  // End option parsing before the untrusted repository argument.
   try {
     await spawnAsync(
       'git',
       branch
-        ? ['clone', '--branch', branch, repo, dirname]
-        : ['clone', '--single-branch', repo, dirname],
+        ? ['clone', '--branch', branch, '--', repo, dirname]
+        : ['clone', '--single-branch', '--', repo, dirname],
       {
         env: { ...process.env, ...gitEnv },
       },
@@ -49,7 +50,8 @@ export async function getLatestHash(repo: string, branch: string): Promise<strin
   let result;
   let hash;
   try {
-    result = await spawnAsync('git', ['ls-remote', repo, branch || 'HEAD'], {
+    // End option parsing before the untrusted repository argument.
+    result = await spawnAsync('git', ['ls-remote', '--', repo, branch || 'HEAD'], {
       env: { ...process.env, ...gitEnv },
     });
     // Get the line
