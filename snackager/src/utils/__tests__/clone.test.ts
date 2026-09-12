@@ -1,30 +1,27 @@
 import spawnAsync, { SpawnPromise, SpawnResult } from '@expo/spawn-async';
 import path from 'path';
 
-import { clone, getLatestHash, getLatestCommitDate } from '../clone';
+import { clone, getLatestHash, getLatestCommitDate, getCurrentHash } from '../clone';
 
 jest.mock('@expo/spawn-async');
-// Typed mock helpers for TS to understand it has jest methods
 const mockedSpawnAsync = spawnAsync as jest.Mock<SpawnPromise<SpawnResult>>;
 
-const repository = 'git@github.com:expo/expo.git';
+const repository = 'https://github.com/expo/expo.git';
 const hash = '16a0b90a55d887c84ca793bdc52b6a526ff1420b';
 const directory = '/tmp/repository';
-// TODO: check what happens for absolute paths, that might conflict with `process.cwd`
 const cwd = path.join(process.cwd(), directory);
 
-afterEach(() => {
-  mockedSpawnAsync.mockClear();
+beforeEach(() => {
+  mockedSpawnAsync.mockReset().mockResolvedValue({ stdout: '' } as any);
 });
 
 describe('clone', () => {
   it('clones repository with default branch', async () => {
-    // TODO: it's weird that branch and hash are optional, but dir is required (last argument)
     await clone(repository, undefined, '', directory);
     expect(spawnAsync).toBeCalledWith(
       'git',
-      expect.arrayContaining(['clone', repository, directory, '--single-branch']),
-      expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
+      ['clone', '--single-branch', '--', repository, directory],
+      expect.objectContaining({ env: expect.objectContaining({ GIT_ALLOW_PROTOCOL: 'https' }) }),
     );
   });
 
@@ -32,33 +29,50 @@ describe('clone', () => {
     await clone(repository, 'main', '', directory);
     expect(spawnAsync).toBeCalledWith(
       'git',
-      expect.arrayContaining(['clone', repository, directory, '--branch', 'main']),
-      expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
+      ['clone', '--branch', 'main', '--', repository, directory],
+      expect.objectContaining({ env: expect.objectContaining({ GIT_ALLOW_PROTOCOL: 'https' }) }),
     );
   });
 
-  it('clones repository with custom custom commit hash', async () => {
-    await clone(repository, 'main', hash, directory);
-    expect(spawnAsync).toBeCalledWith(
-      'git',
-      expect.arrayContaining(['checkout', hash]),
-      expect.objectContaining({ cwd }), // important for pointing to proper repo
-    );
+  it.each([hash, 'refs/tags/v1.0.0', '--orphan=unexpected'])(
+    'passes %s unchanged as the checkout reference',
+    async (ref) => {
+      await clone(repository, 'main', ref, directory);
+      expect(mockedSpawnAsync.mock.calls[1]).toEqual([
+        'git',
+        ['checkout', '--detach', '--end-of-options', ref, '--'],
+        { cwd, env: expect.objectContaining({ GIT_ALLOW_PROTOCOL: 'https' }) },
+      ]);
+      expect(mockedSpawnAsync).toHaveBeenCalledTimes(2);
+    },
+  );
+
+  it('reports a repository or branch error when cloning fails', async () => {
+    const cause = new Error('git clone failed');
+    mockedSpawnAsync.mockRejectedValueOnce(cause);
+    await expect(clone(repository, undefined, '', directory)).rejects.toMatchObject({
+      message:
+        'Unable to clone the repository. Check the repository URL, access permissions, and branch name.',
+      cause,
+    });
   });
 
-  it('throws when cloning failed', async () => {
-    mockedSpawnAsync.mockRejectedValueOnce(new Error('test'));
-    await expect(clone(repository, undefined, '', '')).rejects.toThrow('test');
-  });
-
-  it('throws and cleans up when cloning commit hash failed', async () => {
-    mockedSpawnAsync
-      .mockResolvedValueOnce({} as any) // git clone <repo>
-      .mockRejectedValueOnce(new Error('test')) // git checkout <hash>
-      .mockResolvedValueOnce({} as any); // clean up
-    await expect(clone(repository, 'main', hash, directory)).rejects.toThrow('test');
-    expect(spawnAsync).toBeCalledWith('rm', expect.arrayContaining(['-rf', directory]));
-  });
+  it.each([false, true])(
+    'reports a checkout error and attempts cleanup (cleanup fails: %s)',
+    async (cleanupFails) => {
+      const cause = new Error('git checkout failed');
+      mockedSpawnAsync.mockResolvedValueOnce({} as any).mockRejectedValueOnce(cause);
+      if (cleanupFails) {
+        mockedSpawnAsync.mockRejectedValueOnce(new Error('cleanup failed'));
+      }
+      await expect(clone(repository, 'main', 'missing-ref', directory)).rejects.toMatchObject({
+        message:
+          'Unable to check out the requested revision. Use a commit, branch, or tag that exists in the repository.',
+        cause,
+      });
+      expect(mockedSpawnAsync.mock.calls[2]).toEqual(['rm', ['-rf', '--', directory]]);
+    },
+  );
 });
 
 describe('getLatestHash', () => {
@@ -67,8 +81,8 @@ describe('getLatestHash', () => {
     expect(await getLatestHash(repository, '')).toBe(hash);
     expect(spawnAsync).toBeCalledWith(
       'git',
-      expect.arrayContaining(['ls-remote', repository, 'HEAD']),
-      expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
+      ['ls-remote', '--', repository, 'HEAD'],
+      expect.objectContaining({ env: expect.objectContaining({ GIT_ALLOW_PROTOCOL: 'https' }) }),
     );
   });
 
@@ -77,9 +91,56 @@ describe('getLatestHash', () => {
     expect(await getLatestHash(repository, 'feature-a')).toBe(hash);
     expect(spawnAsync).toBeCalledWith(
       'git',
-      expect.arrayContaining(['ls-remote', repository, 'feature-a']),
-      expect.objectContaining({ env: expect.any(Object) }), // important for git authentication
+      ['ls-remote', '--', repository, 'feature-a'],
+      expect.objectContaining({ env: expect.objectContaining({ GIT_ALLOW_PROTOCOL: 'https' }) }),
     );
+  });
+});
+
+describe('remote hash validation', () => {
+  it('accepts a SHA-256 object ID', async () => {
+    const objectId = 'a'.repeat(64);
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout: `${objectId}\tHEAD\n` } as any);
+    expect(await getLatestHash(repository, '')).toBe(objectId);
+  });
+
+  it('uses the first matching remote ref', async () => {
+    mockedSpawnAsync.mockResolvedValueOnce({
+      stdout: `${hash}\trefs/heads/main\n${'b'.repeat(40)}\trefs/tags/main\n`,
+    } as any);
+    expect(await getLatestHash(repository, 'main')).toBe(hash);
+  });
+
+  it.each(['', '\n'])('reports a missing ref for empty output %p', async (stdout) => {
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout } as any);
+    await expect(getLatestHash(repository, 'missing')).rejects.toThrow(
+      'No matching commit was found. Check the branch or tag name and that the repository is not empty.',
+    );
+  });
+
+  it.each([
+    '--orphan=unexpected',
+    'HEAD',
+    'abc123',
+    'z'.repeat(40),
+    'a'.repeat(41),
+    'a'.repeat(63),
+    'a'.repeat(65),
+    `${hash} extra`,
+  ])('rejects an invalid remote object ID: %s', async (value) => {
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout: `${value}\tHEAD\n` } as any);
+    await expect(getLatestHash(repository, '')).rejects.toThrow(
+      'The repository returned an invalid commit ID.',
+    );
+  });
+
+  it('preserves the cause of a repository lookup failure', async () => {
+    const cause = new Error('git ls-remote failed');
+    mockedSpawnAsync.mockRejectedValueOnce(cause);
+    await expect(getLatestHash(repository, '')).rejects.toMatchObject({
+      message: 'Unable to read the repository. Check the repository URL and access permissions.',
+      cause,
+    });
   });
 });
 
@@ -94,5 +155,49 @@ describe('getLatestCommitDate', () => {
       expect.arrayContaining(['log', '-1']),
       expect.objectContaining({ cwd }),
     );
+  });
+});
+
+describe('untrusted Git arguments', () => {
+  const optionLikeRepository = '--upload-pack=unexpected-command';
+
+  it.each([undefined, '--upload-pack=unexpected-command'])(
+    'keeps the repository after the option boundary when cloning branch %p',
+    async (branch) => {
+      await clone(optionLikeRepository, branch, '', directory);
+      expect(spawnAsync).toHaveBeenCalledWith(
+        'git',
+        branch
+          ? ['clone', '--branch', branch, '--', optionLikeRepository, directory]
+          : ['clone', '--single-branch', '--', optionLikeRepository, directory],
+        expect.any(Object),
+      );
+    },
+  );
+
+  it('keeps option-like repository and branch values after the ls-remote option boundary', async () => {
+    const branch = '--upload-pack=unexpected-command';
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout: `${hash}\tHEAD` } as any);
+    expect(await getLatestHash(optionLikeRepository, branch)).toBe(hash);
+    expect(spawnAsync).toHaveBeenCalledWith(
+      'git',
+      ['ls-remote', '--', optionLikeRepository, branch || 'HEAD'],
+      expect.any(Object),
+    );
+  });
+});
+
+describe('getCurrentHash', () => {
+  it('reads the checked out commit ID', async () => {
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout: `${hash}\n` } as any);
+    expect(await getCurrentHash(directory)).toBe(hash);
+    expect(spawnAsync).toHaveBeenCalledWith('git', ['rev-parse', '--verify', 'HEAD^{commit}'], {
+      cwd,
+      env: expect.objectContaining({ GIT_ALLOW_PROTOCOL: 'https' }),
+    });
+  });
+  it('rejects output that cannot be used as a commit ID', async () => {
+    mockedSpawnAsync.mockResolvedValueOnce({ stdout: '../outside' } as any);
+    await expect(getCurrentHash(directory)).rejects.toThrow('invalid commit ID');
   });
 });

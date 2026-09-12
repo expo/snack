@@ -22,29 +22,40 @@ type Config = {
 };
 
 export default async function git(req: Request, res: Response): Promise<void> {
-  // @ts-ignore
-  const parsed = querystring.parse(req._parsedUrl['query']);
-
-  if (!parsed) {
+  const parsed = querystring.parse(req.url.split('?')[1] ?? '');
+  let options: Config;
+  try {
+    const { repo, branch, hash, subpath, noCache } = parsed;
+    if (typeof repo !== 'string' || !repo.startsWith('https://') || !new URL(repo).hostname) {
+      throw new Error('Repository must be an HTTPS URL.');
+    }
+    for (const [name, value] of Object.entries({ branch, hash, subpath, noCache })) {
+      if (value !== undefined && typeof value !== 'string') {
+        throw new Error(`Query parameter "${name}" must be specified once.`);
+      }
+    }
+    if (typeof subpath === 'string' && subpath.split(/[\\/]/).includes('..')) {
+      throw new Error('Repository subpath components must not be "..".');
+    }
+    options = {
+      repo,
+      branch: branch as string | undefined,
+      hash: hash as string | undefined,
+      subpath: subpath as string | undefined,
+      noCache: Boolean(noCache && noCache !== '0'),
+    };
+  } catch (error) {
     res.status(400);
-    res.end('Failed to parse request');
+    res.end(error instanceof TypeError ? 'Repository must be an HTTPS URL.' : error.message);
     return;
   }
 
   try {
-    logger.info(parsed, `importing repository ${parsed.repo}/${parsed.branch}/${parsed.subpath}`);
-    const snackId = await importAsync({
-      // @ts-ignore TODO: check if `parsed.repo` can contain `string[]` instead of `string`
-      repo: parsed.repo,
-      // @ts-ignore TODO: check if `parsed.subpath` can contain `string[]` instead of `string`
-      subpath: parsed.subpath,
-      // @ts-ignore TODO: check if `parsed.branch` can contain `string[]` instead of `string`
-      branch: parsed.branch,
-      // @ts-ignore TODO: check if `parsed.hash` can contain `string[]` instead of `string`
-      hash: parsed.hash,
-      // @ts-ignore TODO: check if `parsed.noCache` can contain `string[]` instead of `string`
-      noCache: parsed.noCache && parsed.noCache !== '0',
-    });
+    logger.info(
+      parsed,
+      `importing repository ${options.repo}/${options.branch}/${options.subpath}`,
+    );
+    const snackId = await importAsync(options);
     logger.info(parsed, `import complete, available at Snack id ${snackId}`);
     res.status(200);
     res.end(snackId);
