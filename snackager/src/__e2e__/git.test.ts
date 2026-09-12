@@ -127,6 +127,7 @@ describe('git', () => {
     const repoPath = await createRepo({
       name: 'test3',
       sdkVersion: '22.0.0',
+      dependencies: { expo: '~22.0.0', 'expo-asset': 'latest' },
     });
     const id = await importAsync({
       repo: repoPath,
@@ -295,7 +296,7 @@ async function createRepo(config: {
       name,
       dependencies: dependencies ?? {
         'react-native': '0.68.2',
-        expo: '45.0.0',
+        expo: '~50.0.0',
         'expo-asset': 'latest',
       },
     }),
