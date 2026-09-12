@@ -34,6 +34,6 @@ export type GitSnackDependencies = {
 export type GitSnackObj = {
   files: GitSnackFiles;
   dependencies: GitSnackDependencies;
-  sdkVersion: string;
+  sdkVersion: string | null;
   date: string;
 };

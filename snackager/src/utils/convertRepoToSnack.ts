@@ -1,4 +1,3 @@
-import { getConfig } from '@expo/config';
 import FormData from 'form-data';
 import fs from 'fs';
 import GitUrlParse from 'git-url-parse';
@@ -10,6 +9,7 @@ import util from 'util';
 
 import { getCachedObj, cacheObj } from './cacheSnackObj';
 import { clone, getLatestHash, getLatestCommitDate, getCurrentHash } from './clone';
+import { getSdkVersionFromExpoPackageVersion } from './getSdkVersionFromExpoPackageVersion';
 import config from '../config';
 import logger from '../logger';
 import { GitSnackObj, GitSnackFiles, GitSnackDependencies } from '../types';
@@ -93,10 +93,11 @@ export async function getGitSnackObj(
 
     try {
       const dirname = path.join(clonePath, subpath);
+      const dependencies = await generateDepsObj(dirname);
       const snackObj: GitSnackObj = {
         files: await generateFilesObj(dirname),
-        dependencies: await generateDepsObj(dirname),
-        sdkVersion: getGitSdkVersion(dirname),
+        dependencies,
+        sdkVersion: getSdkVersionFromExpoPackageVersion(dependencies.expo),
         date: commitDate,
       };
       if (!noCache) {
@@ -112,15 +113,6 @@ export async function getGitSnackObj(
         logger.warn({ error, temporaryPath }, 'Unable to remove imported repository');
       });
     }
-  }
-}
-
-function getGitSdkVersion(dirname: string): string {
-  try {
-    const config = getConfig(path.join(process.cwd(), dirname));
-    return config.exp.sdkVersion ?? '';
-  } catch {
-    return '';
   }
 }
 

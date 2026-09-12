@@ -22,7 +22,6 @@
     "@babel/plugin-transform-template-literals": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@babel/runtime": "^7.23.6",
-    "@expo/config": "^8.5.4",
     "@expo/spawn-async": "^1.7.2",
     "@react-native/babel-preset": "^0.73.19",
     "aws-sdk": "^2.487.0",
