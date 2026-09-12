@@ -3,6 +3,7 @@ import { snackRequireContextVirtualModuleBabelPlugin } from 'snack-require-conte
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
+import RestrictLoadersPlugin from './RestrictLoadersPlugin';
 import RewriteImportsPlugin from './RewriteImportsPlugin';
 import { getCoreExternals, getPackageExternals } from './externals';
 import getResolverConfig from './getResolverConfig';
@@ -32,6 +33,9 @@ export default ({
   reanimatedPlugin,
   expoRouterPlugin,
 }: Options): webpack.Configuration => {
+  const babelLoader = require.resolve('babel-loader');
+  const assetLoader = require.resolve('./assetLoader');
+
   return {
     context: root,
     mode: 'production',
@@ -49,6 +53,7 @@ export default ({
       minimizer: [new TerserPlugin({ extractComments: false })],
     },
     plugins: [
+      new RestrictLoadersPlugin([babelLoader, assetLoader]),
       new webpack.DefinePlugin({
         'process.env': { NODE_ENV: JSON.stringify('production') },
         __DEV__: JSON.stringify(false),
@@ -67,7 +72,7 @@ export default ({
         {
           test: /\.[cm]?(js|tsx?)$/,
           use: {
-            loader: require.resolve('babel-loader'),
+            loader: babelLoader,
             options: {
               babelrc: false,
               configFile: false,
@@ -103,7 +108,7 @@ export default ({
         {
           test: /\.(bmp|gif|jpg|jpeg|png|svg|mp4|ttf|otf)$/,
           use: {
-            loader: require.resolve('./assetLoader'),
+            loader: assetLoader,
             options: { platform, root },
           },
         },
