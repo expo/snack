@@ -27,7 +27,7 @@
   "author": "Expo <support@expo.dev>",
   "license": "MIT",
   "volta": {
-    "node": "22.21.1"
+    "node": "22.23.4"
   },
   "dependencies": {
     "semver": "^7.3.4"

@@ -11,7 +11,7 @@
     "build": "tsc"
   },
   "volta": {
-    "node": "22.21.1"
+    "node": "22.23.4"
   },
   "dependencies": {
     "chalk": "^4.1.0",
