@@ -4,7 +4,7 @@
   "author": "Expo",
   "license": "MIT",
   "volta": {
-    "node": "22.21.1"
+    "node": "22.23.4"
   },
   "scripts": {
     "start": "turbo build --filter '{./packages/snack-term}...' && yarn --cwd ./packages/snack-term start",
