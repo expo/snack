@@ -44,17 +44,19 @@ export default function parseRequest(url: string): BundleRequest {
     throw new Error('Failed to determine the module name');
   }
 
-  const validPackageResult = validate(id);
-  const validPackage =
-    validPackageResult.validForNewPackages ||
-    !validPackageResult.warnings ||
-    validPackageResult.warnings.every((warning) => warning.includes('is a core module name'));
-
-  if (!validPackage) {
-    throw new Error(`Module '${id}' is not a valid package name`);
+  if (deep && (deep.split(/[\\/]/).includes('..') || deep.includes('\\'))) {
+    throw new Error('Package subpaths must remain inside the package directory.');
   }
 
   const qualified = scope ? `@${scope}/${id}` : id;
+  const validPackageResult = validate(qualified);
+  const validPackage =
+    validPackageResult.validForNewPackages || validPackageResult.validForOldPackages;
+
+  if (!validPackage || [scope, id].some((part) => part === '.' || part === '..')) {
+    throw new Error(`Module '${qualified}' is not a valid package name`);
+  }
+
   const query = qs ? querystring.parse(qs) : null;
   const deepQualified = `${qualified}${deep ? `/${deep}` : ''}`;
 
@@ -62,10 +64,19 @@ export default function parseRequest(url: string): BundleRequest {
     throw new Error(`Bundling core module '${deepQualified}' is prohibited`);
   }
 
-  // TODO: check if query.platforms can be a `string[]`
+  if (query?.platforms !== undefined && typeof query.platforms !== 'string') {
+    throw new Error('Specify platforms once as a comma-separated list.');
+  }
   const platforms = query?.platforms
     ? (query.platforms as string).split(',').filter((p) => p)
     : ['ios', 'android', 'web'];
+
+  if (
+    !platforms.length ||
+    platforms.some((platform) => !['ios', 'android', 'web'].includes(platform))
+  ) {
+    throw new Error('Supported platforms are ios, android, and web.');
+  }
 
   const sdkVersion = Array.isArray(query?.sdkVersion) ? query?.sdkVersion[0] : query?.sdkVersion;
   return {

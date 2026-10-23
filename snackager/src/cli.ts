@@ -57,7 +57,7 @@ async function main(): Promise<void> {
   const { version, isLatest } = findVersion(qualified, meta, tag);
   const { pkg, dependencies } = resolveDependencies(meta, version, isLatest, deep);
 
-  await fetchAndExtract(pkg, version, workdir);
+  await fetchAndExtract(pkg, workdir);
   await installPackage(cwd);
 
   const files = await packageBundle({

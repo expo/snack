@@ -55,7 +55,7 @@
     "snack-require-context": "*",
     "snack-sdk": "~7.1.0",
     "source-map-support": "^0.4.15",
-    "targz": "^1.0.1",
+    "tar-fs": "^1.16.3",
     "validate-npm-package-name": "^3.0.0",
     "webpack": "^5.40.0"
   },
@@ -79,7 +79,7 @@
     "@types/redis": "^2.8.28",
     "@types/semver": "^7.3.4",
     "@types/supertest": "^2.0.10",
-    "@types/targz": "^1.0.0",
+    "@types/tar-fs": "^2.0.0",
     "@types/validate-npm-package-name": "^3.0.0",
     "@types/webpack": "^5.28.0",
     "eslint": "^8.49.0",

@@ -1,8 +1,10 @@
+import fs from 'fs';
 import uniq from 'lodash/uniq';
 import { snackRequireContextVirtualModuleBabelPlugin } from 'snack-require-context/snackager';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
+import RestrictFilesPlugin from './RestrictFilesPlugin';
 import RestrictLoadersPlugin from './RestrictLoadersPlugin';
 import RewriteImportsPlugin from './RewriteImportsPlugin';
 import { getCoreExternals, getPackageExternals } from './externals';
@@ -33,6 +35,7 @@ export default ({
   reanimatedPlugin,
   expoRouterPlugin,
 }: Options): webpack.Configuration => {
+  root = fs.realpathSync(root);
   const babelLoader = require.resolve('babel-loader');
   const assetLoader = require.resolve('./assetLoader');
 
@@ -54,6 +57,7 @@ export default ({
     },
     plugins: [
       new RestrictLoadersPlugin([babelLoader, assetLoader]),
+      new RestrictFilesPlugin(root),
       new webpack.DefinePlugin({
         'process.env': { NODE_ENV: JSON.stringify('production') },
         __DEV__: JSON.stringify(false),
