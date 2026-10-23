@@ -56,9 +56,9 @@ export async function getGitSnackObj(
 
     const parsed = GitUrlParse(repo);
     const name = `${parsed.resource}/${parsed.owner}/${parsed.name}`;
-    const id = `${encodeURIComponent(name)}:${encodeURIComponent(subpath)}@${encodeURIComponent(
-      branch || 'master',
-    )}!${hash}`;
+    const id = `git-v2:${encodeURIComponent(name)}:${encodeURIComponent(
+      subpath,
+    )}@${encodeURIComponent(branch || 'master')}!${hash}`;
 
     if (!noCache) {
       const cached = await getCachedObj(id);
@@ -92,8 +92,9 @@ export async function getGitSnackObj(
     }
 
     try {
-      const dirname = path.join(clonePath, subpath);
-      const dependencies = await generateDepsObj(dirname);
+      const cloneRoot = await fs.promises.realpath(clonePath);
+      const dirname = await resolveRepositoryPath(cloneRoot, path.join(cloneRoot, subpath));
+      const dependencies = await generateDepsObj(dirname, cloneRoot);
       const snackObj: GitSnackObj = {
         files: await generateFilesObj(dirname),
         dependencies,
@@ -114,6 +115,17 @@ export async function getGitSnackObj(
       });
     }
   }
+}
+
+async function resolveRepositoryPath(cloneRoot: string, filename: string): Promise<string> {
+  const resolved = await fs.promises.realpath(filename);
+  const relative = path.relative(cloneRoot, resolved);
+  if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+    throw new Error(
+      'Repository symlink points outside the cloned repository. Use files within the repository for the import.',
+    );
+  }
+  return resolved;
 }
 
 function isAsset(filePath: string): boolean {
@@ -201,9 +213,10 @@ async function generateFilesObj(dirname: string): Promise<GitSnackFiles> {
   return snackFiles;
 }
 
-async function generateDepsObj(dirname: string): Promise<GitSnackDependencies> {
+async function generateDepsObj(dirname: string, cloneRoot: string): Promise<GitSnackDependencies> {
   try {
-    const json = await readFile(path.join(process.cwd(), dirname, 'package.json'), 'utf-8');
+    const manifest = await resolveRepositoryPath(cloneRoot, path.join(dirname, 'package.json'));
+    const json = await readFile(manifest, 'utf-8');
     const deps = json5.parse(json).dependencies || {};
     return deps;
   } catch (e) {

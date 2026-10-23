@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 
 import { getCachedObj } from '../cacheSnackObj';
 import { clone, getCurrentHash, getLatestHash, getLatestCommitDate } from '../clone';
@@ -14,6 +15,9 @@ beforeEach(() => {
   jest.spyOn(fs.promises, 'mkdir').mockResolvedValue(undefined);
   jest.spyOn(fs.promises, 'mkdtemp').mockResolvedValue('clones/import-random');
   jest.spyOn(fs.promises, 'rm').mockResolvedValue(undefined);
+  jest
+    .spyOn(fs.promises, 'realpath')
+    .mockImplementation(async (filename) => path.resolve(String(filename)));
   jest.mocked(getCurrentHash).mockResolvedValue(commit);
   jest.mocked(getCachedObj).mockResolvedValue(cached);
 });
@@ -29,7 +33,9 @@ it('uses the resolved commit for cache keys and keeps the raw revision out of pa
     'clones/import-random/repository',
   );
   expect(getCurrentHash).toHaveBeenCalledWith('clones/import-random/repository');
-  expect(getCachedObj).toHaveBeenCalledWith(`github.com%2Fexpo%2Fexample:%2F@master!${commit}`);
+  expect(getCachedObj).toHaveBeenCalledWith(
+    `git-v2:github.com%2Fexpo%2Fexample:%2F@master!${commit}`,
+  );
   expect(fs.promises.rm).toHaveBeenCalledWith('clones/import-random', {
     recursive: true,
     force: true,
