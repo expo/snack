@@ -13,6 +13,7 @@ spec:
       maxSurge: 5
   template:
     spec:
+      terminationGracePeriodSeconds: 120
       restartPolicy: Always
       containers:
         - name: snack
@@ -23,6 +24,10 @@ spec:
           ports:
           - containerPort: 3011
             name: http
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "90"]
           readinessProbe:
             httpGet:
               path: "/ready"
