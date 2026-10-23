@@ -16,7 +16,7 @@ describe('cacheObj', () => {
     s3.upload.mockClear();
   });
 
-  it('stores file to cache on s3', async () => {
+  it('stores imports privately without browser caching', async () => {
     s3.upload.mockReturnValue({
       promise: async () => ({
         Body: JSON.stringify(testSnackObject),
@@ -25,12 +25,13 @@ describe('cacheObj', () => {
     expect(await cacheObj(testSnackObject, 'my-file')).toBeUndefined();
     expect(s3.upload).toBeCalledWith(
       expect.objectContaining({
-        ACL: 'public-read',
+        CacheControl: 'private, no-store',
         Body: expect.any(String),
         Bucket: 'imports',
         Key: 'my-file',
       }),
     );
+    expect(s3.upload.mock.calls[0][0]).not.toHaveProperty('ACL');
   });
 
   it('throws on error', async () => {

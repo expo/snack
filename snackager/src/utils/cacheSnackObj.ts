@@ -30,8 +30,7 @@ export async function cacheObj(snackObj: GitSnackObj, filename: string): Promise
         Bucket: config.s3.imports_bucket,
         Key: filename,
         Body: json5.stringify(snackObj),
-        ACL: 'public-read',
-        CacheControl: 'public, max-age=31536000',
+        CacheControl: 'private, no-store',
       })
       .promise();
   } catch (e) {
