@@ -20,6 +20,16 @@ To run all the tests, simply use `yarn test`. Use a suffix to run specific tests
 yarn test bundler
 ```
 
+## Git import cache privacy
+
+New Git import cache objects use [S3's private default](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
+and disable HTTP caching. From `snackager`, run `node scripts/privatizeGitImportCache.js BUCKET`
+to preview resetting every object's ACL to private, including historical versions. Replace `BUCKET`
+with the value of `IMPORTS_S3_BUCKET`. Add `--apply` to make the changes.
+Use AWS credentials with `s3:ListBucketVersions` and `s3:PutObjectVersionAcl` permissions. Bucket policies
+and CDN access must also deny anonymous reads. Previously downloaded copies and saved Snacks remain
+available.
+
 ## Development server
 
 > Running the development server is not yet possible for external contributors as it requires protected secrets.
