@@ -3,6 +3,7 @@ import path from 'path';
 import { RawLoaderDefinitionFunction } from 'webpack';
 
 import AssetResolver from './AssetResolver';
+import resolvePackageFile from './resolvePackageFile';
 
 // TODO upgrade dependencies to include typescript definitions
 const hasha = require('hasha');
@@ -29,18 +30,17 @@ type AssetPair = {
 const assetLoader: RawLoaderDefinitionFunction = async function (this) {
   this.cacheable();
 
-  const callback = this.async();
   const config: Config = this.getOptions() as any;
+  const filepath = resolvePackageFile(config.root, this.resourcePath);
 
   let info: ImageSize | null = null;
 
   try {
-    info = size(this.resourcePath);
+    info = size(filepath);
   } catch {
     // Asset is not an image
   }
 
-  const filepath = this.resourcePath;
   const dirname = path.dirname(filepath);
   const url = path.relative(config.root, dirname);
   const type = path.extname(filepath).replace(/^\./, '');
@@ -72,10 +72,11 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
 
   const pairs = await Promise.all(
     Object.keys(map).map<Promise<AssetPair>>((scale) => {
-      this.addDependency(path.join(dirname, map[scale].name));
+      const filename = resolvePackageFile(config.root, path.join(dirname, map[scale].name));
+      this.addDependency(filename);
 
       return new Promise((resolve, reject) =>
-        (this.fs as typeof fs).readFile(path.join(dirname, map[scale].name), (err, res) => {
+        (this.fs as typeof fs).readFile(filename, (err, res) => {
           if (err) {
             reject(err);
           } else {
@@ -124,18 +125,12 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
   // as an asset, but need to be a direct URL to the resource.
   const isFont = /(ttf|otf)$/i.test(type);
   if (isFont && config.platform === 'web') {
-    callback(
-      null,
-      `
+    return `
       module.exports = ${publicPath} + ${JSON.stringify(`/${longname}.${type}`)};
-      `,
-    );
-    return '';
+    `;
   }
 
-  callback(
-    null,
-    `
+  return `
     var AssetRegistry = require('AssetRegistry');
     module.exports = AssetRegistry.registerAsset({
       httpServerLocation: ${publicPath},
@@ -147,9 +142,7 @@ const assetLoader: RawLoaderDefinitionFunction = async function (this) {
       fileHashes: ${JSON.stringify(hashes)},
       scales: ${JSON.stringify(scales)},
     });
-  `,
-  );
-  return '';
+  `;
 };
 
 module.exports = assetLoader;

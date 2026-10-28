@@ -49,7 +49,7 @@ export async function bundleAsync(
   const { version, isLatest } = findVersion(qualified, meta, tag);
   const { pkg, dependencies } = resolveDependencies(meta, version, isLatest, deep);
 
-  await fetchAndExtract(pkg, version, workdir);
+  await fetchAndExtract(pkg, workdir);
 
   // keep track of the used lockfiles, and try to restore the lockfile
   // this represents the package + nested dependency "state" that was used in the bundle snapshot

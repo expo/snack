@@ -2,6 +2,7 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 import process from 'process';
+import { pathToFileURL } from 'url';
 import webpack from 'webpack';
 
 import installDependencies from '../../utils/installDependencies';
@@ -156,6 +157,50 @@ it('bundles ordinary context imports and ignores package Babel configuration', a
   expect(files.web['bundle.js'].toString()).toContain('hello!');
   expect(recordExecution).not.toHaveBeenCalled();
 });
+
+it.each(['query', 'fragment', 'file URL'])('bundles valid resource syntax: %s', async (kind) => {
+  const suffix = kind === 'query' ? '?variant' : kind === 'fragment' ? '#section' : '';
+  const request =
+    kind === 'file URL' ? pathToFileURL(path.join(root, 'input.js')).href : './input.js' + suffix;
+  writeFixtureFile('context/value.js', 'module.exports = 43;');
+  writeFixtureFile(
+    'index.js',
+    `module.exports = [require(${JSON.stringify(request)}), require.context(${JSON.stringify(
+      './context' + suffix,
+    )}, false, /\\.js$/)('./value.js')];`,
+  );
+  const files = await bundleFixturePackage();
+  expect(files.web['bundle.js'].toString()).toContain('42');
+  expect(files.web['bundle.js'].toString()).toContain('43');
+});
+
+it.each(['absolute import', 'symlink import', 'context import', 'asset variant'])(
+  'rejects reads outside the package through %s',
+  async (kind) => {
+    const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'snackager-private-'));
+    try {
+      const filename = path.join(outside, 'private.json');
+      writeFixtureFile('image.png', 'fixture image');
+      fs.writeFileSync(filename, '{"private":"local fixture"}');
+      let source = `require(${JSON.stringify(filename)})`;
+      if (kind === 'symlink import') {
+        fs.symlinkSync(filename, path.join(root, 'linked.json'));
+        source = 'require("./linked.json")';
+      } else if (kind === 'context import') {
+        source = `require.context(${JSON.stringify(outside)}, false, /\\.json$/)`;
+      } else if (kind === 'asset variant') {
+        fs.symlinkSync(filename, path.join(root, 'image@2x.png'));
+        source = 'require("./image.png")';
+      }
+      writeFixtureFile('index.js', `module.exports = ${source};`);
+      await expect(bundleFixturePackage()).rejects.toThrow(
+        'Package files must remain inside the package directory',
+      );
+    } finally {
+      fs.rmSync(outside, { recursive: true, force: true });
+    }
+  },
+);
 
 it('observes loader evaluation, pitching, and execution when the guard is disabled', async () => {
   const errors = await compileFixtureEntry('!!./loader.js!./input.js', (config) => {

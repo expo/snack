@@ -1,3 +1,4 @@
+import fs from 'fs';
 import fetch from 'node-fetch';
 import path from 'path';
 import raven from 'raven';
@@ -16,7 +17,7 @@ import logger from '../logger';
 import { Package } from '../types';
 
 // TODO: find the typescript definitions for this package, `@types/sander` doesn't exists
-const { mkdir, rimraf, writeFile, exists } = require('sander');
+const { mkdir, writeFile, exists } = require('sander');
 
 type Options = {
   pkg: Package;
@@ -180,9 +181,6 @@ export default async function fetchBundle({
     `package is not cached for ${unavailable.join(', ')}`,
   );
 
-  const dir = `${config.tmpdir}/${buildStatusRedisId}`;
-  await mkdir(dir);
-
   logger.info(logMetadata, `setting key to pending in redis`);
   const isAlreadySet = await new Promise((resolve, reject) => {
     client
@@ -204,9 +202,12 @@ export default async function fetchBundle({
     return { name: fullName, version, pending: true };
   }
 
+  let dir: string | undefined;
   try {
+    await fs.promises.mkdir(config.tmpdir, { recursive: true });
+    dir = await fs.promises.mkdtemp(path.join(config.tmpdir, 'build-'));
     logger.info(logMetadata, `fetching package`);
-    await fetchAndExtract(pkg, version, dir);
+    await fetchAndExtract(pkg, dir);
 
     const cwd = `${dir}/${findPath(pkg.name, dir)}`;
     logger.info(logMetadata, `installing package at ${cwd}`);
@@ -314,9 +315,8 @@ export default async function fetchBundle({
       raven.captureException(error);
     }
   } finally {
-    if (!process.env.DEBUG_LOCAL_FILES) {
-      // TODO: replace rimraf with fs.rm once node 14.40 lands
-      rimraf(dir);
+    if (dir && !process.env.DEBUG_LOCAL_FILES) {
+      await fs.promises.rm(dir, { recursive: true, force: true });
     }
   }
 

@@ -1,5 +1,18 @@
 import parseRequest from '../parseRequest';
 
+it.each([
+  '/..',
+  '/@../lodash',
+  '/@scope/.',
+  '/@scope/..',
+  '/lodash/../private',
+  '/lodash/src/..\\private',
+  '/lodash?platforms=../private',
+  '/lodash?platforms=ios&platforms=web',
+])('rejects unsafe package paths or platforms: %s', (url) => {
+  expect(() => parseRequest(url)).toThrow();
+});
+
 it('gets id from request', () => {
   const parsed = parseRequest('/lodash');
   expect(parsed).toMatchSnapshot();
