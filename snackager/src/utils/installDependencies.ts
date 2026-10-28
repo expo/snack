@@ -37,6 +37,7 @@ export function spawnSafeAsync(
       // Disable any corepack validation checks in yarn
       // See: https://github.com/yarnpkg/yarn/issues/9015
       SKIP_YARN_COREPACK_CHECK: '0',
+      YARN_IGNORE_PATH: '1',
     },
   });
 }
@@ -74,13 +75,13 @@ async function installDependencyAsync(
   ];
 
   try {
-    await spawnSafeAsync(yarn, ['add', ...flags, ...packages], cwd);
+    await spawnSafeAsync(yarn, ['--no-default-rc', 'add', ...flags, '--', ...packages], cwd);
   } catch (e) {
     logger.warn(
       { pkg: { name, version }, error: e },
       `error running yarn: ${e.message}. trying npm instead.`,
     );
-    await spawnSafeAsync('npm', ['install', ...flags, ...packages], cwd);
+    await spawnSafeAsync('npm', ['install', ...flags, '--', ...packages], cwd);
   }
 }
 

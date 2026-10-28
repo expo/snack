@@ -59,7 +59,7 @@ export default async function installPackage(
     '--non-interactive', // In some cases yarn/npm will show an interactive prompt. Throw an error instead.
   ];
   try {
-    await spawnSafeAsync(yarn, [...flags], cwd);
+    await spawnSafeAsync(yarn, ['--no-default-rc', ...flags], cwd);
   } catch (e) {
     logger.warn({ pkg, error: e }, `error running yarn: ${e.message}. trying npm instead.`);
     if (e.stdour) logger.warn({ pkg, error: e }, `  - stdout: ${e.stdout}`);

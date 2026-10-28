@@ -59,7 +59,7 @@ it('adds `@babel/runtime` by default', async () => {
   });
 });
 
-it('executes yarn install with everything ignored', async () => {
+it('installs production dependencies without project configuration or lifecycle scripts', async () => {
   (getYarnPackagerAsync as jest.Mock).mockReturnValue('yarn');
 
   writePackage({ name: 'test', dependencies: { expo: 'latest' } });
@@ -68,6 +68,7 @@ it('executes yarn install with everything ignored', async () => {
   expect(spawnSafeAsync).toBeCalledWith(
     'yarn',
     expect.arrayContaining([
+      '--no-default-rc',
       '--production', // Don't need to install dev dependencies.
       '--ignore-scripts', // Don't want to run malicious post-install scripts.
       '--ignore-engines', // Sometimes sub-dependencies will want a specific version of Node. Don't care, try anyway.
