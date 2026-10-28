@@ -20,6 +20,9 @@ beforeEach(() => {
   jest.spyOn(fs.promises, 'mkdir').mockResolvedValue(undefined);
   jest.spyOn(fs.promises, 'mkdtemp').mockResolvedValue('clones/import-test');
   jest.spyOn(fs.promises, 'rm').mockResolvedValue(undefined);
+  jest
+    .spyOn(fs.promises, 'realpath')
+    .mockImplementation(async (filename) => path.resolve(String(filename)));
   jest.mocked(getLatestHash).mockResolvedValue('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
   (getCachedObj as jest.Mock).mockResolvedValue(undefined);
   (getLatestCommitDate as jest.Mock).mockResolvedValue('Wed Jan 1 12:00:00 2020 +0000');
