@@ -19,6 +19,7 @@ type Config = {
   };
   cloudfront: { url: string };
   api: { url: string };
+  git: { access_token: string };
   sentry?: { dsn: string };
 };
 
@@ -55,6 +56,10 @@ const config: Config = {
   },
   api: {
     url: env('API_SERVER_URL', 'https://api.expo.test'),
+  },
+  git: {
+    // Access token for the "git" Expo account, which owns imported Snacks
+    access_token: env('EXPO_GIT_TOKEN', 'test-git-token'),
   },
 };
 
