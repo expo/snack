@@ -109,6 +109,22 @@ describe('git', () => {
     expect(mockedFetch.mock.calls[0]).toMatchSnapshot();
   });
 
+  it('saves imports with the git account access token', async () => {
+    const repoPath = await createRepo({
+      name: 'test1',
+      sdkVersion,
+    });
+    await importAsync({
+      repo: repoPath,
+      noCache: true,
+    });
+    expect(mockedFetch).toHaveBeenCalledTimes(1);
+    expect(mockedFetch.mock.calls[0][1].headers).toEqual({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer test-git-token',
+    });
+  });
+
   it('imports repository with no sdkVersion', async () => {
     const repoPath = await createRepo({
       name: 'test2',

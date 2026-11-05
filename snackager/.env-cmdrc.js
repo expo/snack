@@ -31,7 +31,7 @@ module.exports = (async function () {
   const stagingSecrets = await getSecretEnv(secretResourceName);
   delete stagingSecrets['REDIS_URL']; // this is set above for the proxy
 
-  if (!stagingSecrets.GIT_SESSION_SECRET && !processArgs.includes('env-cmd -e test')) {
+  if (!stagingSecrets.EXPO_GIT_TOKEN && !processArgs.includes('env-cmd -e test')) {
     console.error(
       'Cannot access secrets, unable to start Snackager. External contributors cannot start Snackager and can ignore this error. snack-proxies will redirect traffic to the Snackager service running on the staging environment.\n'
     );

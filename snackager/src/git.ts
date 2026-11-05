@@ -124,7 +124,7 @@ export async function importAsync(options: Config): Promise<string> {
     sdkVersion,
     name,
     description,
-    user: { sessionSecret: process.env.GIT_SESSION_SECRET },
+    user: { accessToken: config.git.access_token },
   });
 
   logger.info(options, 'saving repository');

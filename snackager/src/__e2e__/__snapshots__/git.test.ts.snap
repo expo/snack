@@ -31,6 +31,7 @@ exports[`git imports basic repository 1`] = `
       },
     },
     "headers": {
+      "Authorization": "Bearer test-git-token",
       "Content-Type": "application/json",
     },
     "method": "POST",
@@ -69,6 +70,7 @@ exports[`git imports repository created with main branch 1`] = `
       },
     },
     "headers": {
+      "Authorization": "Bearer test-git-token",
       "Content-Type": "application/json",
     },
     "method": "POST",
@@ -107,6 +109,7 @@ exports[`git imports repository with app.config.js 1`] = `
       },
     },
     "headers": {
+      "Authorization": "Bearer test-git-token",
       "Content-Type": "application/json",
     },
     "method": "POST",
@@ -151,6 +154,7 @@ exports[`git imports repository with assets 2`] = `
       },
     },
     "headers": {
+      "Authorization": "Bearer test-git-token",
       "Content-Type": "application/json",
     },
     "method": "POST",
@@ -189,6 +193,7 @@ exports[`git imports repository with custom branch 1`] = `
       },
     },
     "headers": {
+      "Authorization": "Bearer test-git-token",
       "Content-Type": "application/json",
     },
     "method": "POST",
@@ -227,6 +232,7 @@ exports[`git imports repository with no sdkVersion 1`] = `
       },
     },
     "headers": {
+      "Authorization": "Bearer test-git-token",
       "Content-Type": "application/json",
     },
     "method": "POST",
@@ -265,6 +271,7 @@ exports[`git imports repository with too old sdkVersion 1`] = `
       },
     },
     "headers": {
+      "Authorization": "Bearer test-git-token",
       "Content-Type": "application/json",
     },
     "method": "POST",
@@ -299,6 +306,7 @@ exports[`git imports repository without app.json 1`] = `
       },
     },
     "headers": {
+      "Authorization": "Bearer test-git-token",
       "Content-Type": "application/json",
     },
     "method": "POST",
