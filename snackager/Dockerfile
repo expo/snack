@@ -47,9 +47,6 @@ CMD ["yarn", "start"]
 FROM base as deploy
 WORKDIR /app
 
-# Install system dependencies
-RUN apk --no-cache add git openssh-client
-
 # Copy built repository
 COPY --from=development /app .
 # Ensure Snackager is build, has dependencies, and remove unnecessary dependencies from workspaces
@@ -61,8 +58,8 @@ RUN yarn turbo build --filter "{./snackager}..." && \
 FROM base
 WORKDIR /app
 
-# Install system dependencies
-RUN apk --no-cache add git openssh-client
+# Git is not used in production
+RUN ! command -v git
 
 # Copy deployment-ready repository
 COPY --from=deploy /app .

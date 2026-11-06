@@ -9,3 +9,9 @@ export class UnbundleablePackageError extends Error {
     this.prototype.name = 'UnbundleablePackageError';
   }
 }
+
+export class UnsupportedVersionPackageError extends Error {
+  static {
+    this.prototype.name = 'UnsupportedVersionPackageError';
+  }
+}

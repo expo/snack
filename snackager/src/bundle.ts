@@ -3,7 +3,11 @@ import querystring from 'querystring';
 import raven from 'raven';
 
 import config from './config';
-import { PackageNotFoundError, UnbundleablePackageError } from './errors';
+import {
+  PackageNotFoundError,
+  UnbundleablePackageError,
+  UnsupportedVersionPackageError,
+} from './errors';
 import parseRequest, { BundleRequest } from './utils/parseRequest';
 import servePackage from './utils/servePackage';
 
@@ -34,6 +38,9 @@ export default async function bundle(req: Request, res: Response): Promise<void>
       res.end(
         `${e.message}. This package cannot be bundled for the Snack runtime because it depends on modules that are unavailable in the browser or on native platforms. Try using a different package that supports the target platforms.`,
       );
+    } else if (e instanceof UnsupportedVersionPackageError) {
+      res.status(422);
+      res.end(e.message);
     } else {
       if (config.sentry) {
         raven.captureException(e);

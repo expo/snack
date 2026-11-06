@@ -1,3 +1,4 @@
+import { UnsupportedVersionPackageError } from '../../errors';
 import { Metadata } from '../../types';
 import resolveDependencies from '../resolveDependencies';
 
@@ -76,4 +77,64 @@ it('hides `@babel/core` as peer dependency', () => {
   const result = resolveDependencies(fixture, fixture['dist-tags']['babel-peer'], false);
   expect(result.dependencies).not.toHaveProperty('@babel/core');
   expect(result.pkg.peerDependencies).not.toHaveProperty('@babel/core');
+});
+
+describe('version specifiers', () => {
+  function resolveWithDependency(version: string) {
+    const meta: Metadata = {
+      name: '<package>',
+      'dist-tags': { latest: '1.0.0' },
+      versions: {
+        '1.0.0': {
+          name: '<package>',
+          version: '1.0.0',
+          dist: {} as any,
+          dependencies: { dependency: version },
+        },
+      },
+    };
+    return () => resolveDependencies(meta, '1.0.0', true);
+  }
+
+  it.each([
+    '1.2.3',
+    '^1.2.3',
+    '~1.2',
+    '1.x',
+    '>=1 <2',
+    '*',
+    '',
+    'latest',
+    'next',
+    'canary-2024.1',
+    'workspace:*',
+    'workspace:^',
+    'workspace:~',
+    'workspace:^1.2.3',
+  ])('allows %p', (version) => {
+    expect(resolveWithDependency(version)).not.toThrow();
+  });
+
+  it.each([
+    '.',
+    '..',
+    '...',
+    '(x)',
+    '1foo',
+    'foo.tgz',
+    'foo.tar.gz',
+    'user/repo',
+    'github:user/repo',
+    'git+https://github.com/user/repo.git',
+    'file:..',
+    'link:../foo',
+    'npm:foo@1.0.0',
+    'https://example.com/foo.tgz',
+    'workspace:',
+    'workspace:../foo',
+    'workspace:packages/foo',
+    'workspace:github:user/repo',
+  ])('blocks %p', (version) => {
+    expect(resolveWithDependency(version)).toThrow(UnsupportedVersionPackageError);
+  });
 });

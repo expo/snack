@@ -81,7 +81,8 @@ async function installDependencyAsync(
       { pkg: { name, version }, error: e },
       `error running yarn: ${e.message}. trying npm instead.`,
     );
-    await spawnSafeAsync('npm', ['install', ...flags, '--', ...packages], cwd);
+    // Disallow git dependencies (requires npm 12+)
+    await spawnSafeAsync('npm', ['install', ...flags, '--allow-git=none', '--', ...packages], cwd);
   }
 }
 
