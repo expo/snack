@@ -96,12 +96,24 @@ describe('version specifiers', () => {
     return () => resolveDependencies(meta, '1.0.0', true);
   }
 
-  it.each(['1.2.3', '^1.2.3', '~1.2', '1.x', '>=1 <2', '*', '', 'latest', 'next', 'canary-2024.1'])(
-    'allows %p',
-    (version) => {
-      expect(resolveWithDependency(version)).not.toThrow();
-    },
-  );
+  it.each([
+    '1.2.3',
+    '^1.2.3',
+    '~1.2',
+    '1.x',
+    '>=1 <2',
+    '*',
+    '',
+    'latest',
+    'next',
+    'canary-2024.1',
+    'workspace:*',
+    'workspace:^',
+    'workspace:~',
+    'workspace:^1.2.3',
+  ])('allows %p', (version) => {
+    expect(resolveWithDependency(version)).not.toThrow();
+  });
 
   it.each([
     '.',
@@ -118,6 +130,10 @@ describe('version specifiers', () => {
     'link:../foo',
     'npm:foo@1.0.0',
     'https://example.com/foo.tgz',
+    'workspace:',
+    'workspace:../foo',
+    'workspace:packages/foo',
+    'workspace:github:user/repo',
   ])('blocks %p', (version) => {
     expect(resolveWithDependency(version)).toThrow(UnsupportedVersionPackageError);
   });

@@ -106,10 +106,17 @@ function isValidVersionSpecifier(version: unknown) {
   if (typeof version !== 'string') return false;
   // Allow valid semver versions or ranges, e.g. 1.2.3, ^1.2.3, >1, *
   if (validRange(version) !== null) return true;
+  // Allow workspace versions used by monorepos, e.g. workspace:*, workspace:^, workspace:^1.2.3, but not workspace paths
+  if (version.startsWith(WORKSPACE_PREFIX)) {
+    const range = version.slice(WORKSPACE_PREFIX.length);
+    return range === '^' || range === '~' || (range !== '' && validRange(range) !== null);
+  }
   // Allow dist-tags, e.g. latest, next, canary-2024.1, but not local paths like `.` or `..`
   return DIST_TAG_PATTERN.test(version) && !TARBALL_PATTERN.test(version);
 }
 
+/** Workspace protocol prefix, used by pnpm and Yarn 2+ monorepos */
+const WORKSPACE_PREFIX = 'workspace:';
 /** A dist-tag must start with a letter, and only contain letters, digits, `.`, `_`, or `-` */
 const DIST_TAG_PATTERN = /^[a-z][a-z0-9._-]*$/i;
 /** Specifiers ending with a tarball extension are treated as tarball paths by npm and yarn */
