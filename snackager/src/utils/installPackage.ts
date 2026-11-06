@@ -64,6 +64,7 @@ export default async function installPackage(
     logger.warn({ pkg, error: e }, `error running yarn: ${e.message}. trying npm instead.`);
     if (e.stdour) logger.warn({ pkg, error: e }, `  - stdout: ${e.stdout}`);
     if (e.stderr) logger.warn({ pkg, error: e }, `  - stderr: ${e.stderr}`);
-    await spawnSafeAsync('npm', ['install', ...flags], cwd);
+    // Disallow git dependencies (requires npm 12+)
+    await spawnSafeAsync('npm', ['install', ...flags, '--allow-git=none'], cwd);
   }
 }
