@@ -1,0 +1,50 @@
+name: Browser compiler (opt-in)
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - experimental/browser-backend/**
+      - packages/snack-sdk/**
+      - packages/snack-content/**
+      - runtime/**
+      - website/**
+      - .github/workflows/browser-compiler.yml
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.5
+          cache: yarn
+      - run: yarn install --frozen-lockfile --ignore-scripts
+      - run: yarn turbo build --filter '{./website}^...'
+      - run: yarn --cwd runtime install --frozen-lockfile
+      - run: yarn --cwd runtime build:worker
+      - run: yarn --cwd runtime tsc -p tsconfig.native.json
+      - run: yarn --cwd runtime test:worker
+      - run: npm ci --prefix experimental/browser-backend
+      - run: npm --prefix experimental/browser-backend test
+      - run: npm --prefix experimental/browser-backend run typecheck
+      - run: yarn --cwd website build:worker
+      - run: yarn workspace snack-sdk lint --max-warnings 0
+      - run: yarn workspace snack-sdk test --runInBand
+      - run: yarn --cwd website lint --max-warnings 0
+      - run: yarn --cwd website test --runInBand
+      - run: yarn --cwd website tsc --noEmit
+      - run: npx playwright install --with-deps chromium webkit
+        working-directory: experimental/browser-backend
+      - run: npm run test:browser
+        working-directory: experimental/browser-backend
+      - run: npm run test:browser
+        working-directory: experimental/browser-backend
+        env:
+          RSC_BACKEND: metro
+      - run: npm run test:browser
+        working-directory: experimental/browser-backend
+        env:
+          RSC_BROWSER: webkit
