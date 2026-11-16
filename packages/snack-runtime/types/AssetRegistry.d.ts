@@ -17,4 +17,6 @@ declare module '@react-native/assets-registry/registry' {
   };
 
   export function registerAsset(asset: Partial<PackagerAsset>): number;
+
+  export function getAssetByID(assetId: number): PackagerAsset;
 }

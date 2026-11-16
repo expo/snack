@@ -1,5 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
-import { render } from '@testing-library/react-native';
+import { render, renderHook } from '@testing-library/react-native';
 import { useContext, type ReactNode } from 'react';
 import { Text } from 'react-native';
 
@@ -12,8 +11,7 @@ describe(SnackRuntimeProvider, () => {
   };
 
   it('provides the config context', () => {
-    const { result } = renderHook(useContext, {
-      initialProps: SnackRuntimeContext,
+    const { result } = renderHook(() => useContext(SnackRuntimeContext), {
       wrapper: (({ children }: { children?: ReactNode }) => (
         <SnackRuntimeProvider config={config}>{children}</SnackRuntimeProvider>
       )) as any,

@@ -77,7 +77,7 @@ if (typeof global['__DEV__'] !== 'boolean') {
 
 // Maintain project-level dependency state in the `ExpoDependencyV2` format.
 // See https://github.com/expo/universe/blob/64a2eab474d11614c5b403f09747fdb112769a39/libraries/snack-sdk/src/types.js#L114-L126.
-const manifest = Constants.manifest;
+const manifest = Constants.expoConfig;
 let projectDependencies: Dependencies = manifest?.extra?.dependencies ?? {};
 
 // This keeps track of all generated virutal modules, and the files it includes.
@@ -209,7 +209,8 @@ const fetchPipeline = async (load: Load) => {
               });
 
               if (response.headers?.hasOwnProperty('map')) {
-                const mapHeaders = response.headers['map'];
+                const mapHeaders = (response.headers as Headers & { map?: Record<string, string> })
+                  .map;
                 if (mapHeaders) {
                   metaData = {
                     type: _get(mapHeaders, 'x-amz-meta-type'),

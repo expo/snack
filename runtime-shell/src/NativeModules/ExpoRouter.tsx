@@ -14,7 +14,6 @@ type ExpoRouterAppProps = ComponentProps<
  */
 export function ExpoRouterApp({ ctx }: ExpoRouterAppProps) {
   return (
-    // @ts-expect-error Property 'context' is missing in type '{ children: Element; }' but required in type '{ children?: ReactNode; context: any; }'.ts(2741)
     <Head.Provider>
       <ExpoRoot context={ctx} />
     </Head.Provider>
