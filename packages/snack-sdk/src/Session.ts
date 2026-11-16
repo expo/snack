@@ -11,6 +11,7 @@ import {
   SNACK_RUNTIME_URL_ENDPOINT,
 } from 'snack-content';
 
+import { SnackArtifactReference, SnackArtifactStore, validateArtifactReference } from './Artifact';
 import { SnackCompilerOptions, selectSnackCompiler, validateCompiledArtifact } from './Compiler';
 import DependencyResolver, {
   DependencyResolverCallback,
@@ -52,6 +53,7 @@ import {
 import { createChannel, fetch, createURL, createError, createUserHeader } from './utils';
 
 export type SnackOptions = SnackCompilerOptions & {
+  artifactStore?: SnackArtifactStore;
   sdkVersion?: SDKVersion;
   name?: string;
   description?: string;
@@ -100,6 +102,9 @@ export default class Snack {
   private state: SnackState;
   private compilerController?: AbortController;
   private compilerTask?: Promise<void>;
+  private readonly compilerSessionId = createChannel();
+  private compilerRevision = 0;
+  private compiledReference?: SnackArtifactReference;
   private stateListeners: Set<SnackStateListener> = new Set();
   private logListeners: Set<SnackLogListener> = new Set();
   private readonly options: SnackOptions;
@@ -183,11 +188,11 @@ export default class Snack {
         user: options.user,
         id: options.id,
         saveURL: options.id
-          ? createURL(this.runtimeEndpoint, sdkVersion, undefined, options.id)
+          ? this.createLaunchURL(this.runtimeEndpoint, sdkVersion, undefined, options.id)
           : undefined,
         savedSDKVersion: options.id ? sdkVersion : undefined,
         online: false,
-        url: createURL(this.runtimeEndpoint, sdkVersion, channel, options.id),
+        url: this.createLaunchURL(this.runtimeEndpoint, sdkVersion, channel, options.id),
         channel,
         deviceId: options.deviceId,
         snackId: options.snackId,
@@ -352,7 +357,10 @@ export default class Snack {
     }
 
     // Compiled artifacts require a compatible transport (integrated separately).
-    if (this.state.compilation || state.compilation) return;
+    if (this.state.compilation || state.compilation) {
+      this.deliverCompiledArtifact();
+      return;
+    }
 
     // Schedule debounced update
     if (!immediate && this.codeChangesDelay > 0) {
@@ -392,6 +400,19 @@ export default class Snack {
     // Wait for any pending asset uploads the complete before saving
     await this.fileUploader.waitForCompletion();
 
+    if (this.state.compilation && this.options.artifactStore) {
+      const source = this.state;
+      await this.getStateAsync();
+      if (
+        this.state.compilation?.status !== 'ready' ||
+        !this.compiledReference ||
+        State.isCodeChanged(this.state, source)
+      ) {
+        throw new Error(
+          'The project changed or compilation failed while preparing the save. Wait for compilation and save again.',
+        );
+      }
+    }
     const { name, description, sdkVersion, files, dependencies, user } = this.state;
 
     try {
@@ -401,6 +422,9 @@ export default class Snack {
           name,
           description,
           dependencies: mapValues(dependencies, (dep) => dep.version),
+          ...(this.state.compilation && this.options.artifactStore
+            ? { workerArtifact: this.compiledReference }
+            : {}),
         },
         code: mapValues(files, (file: any) => {
           file = { ...file };
@@ -437,7 +461,7 @@ export default class Snack {
       this.logger?.info('Saved', data);
 
       const id: string = data.id;
-      const saveURL = createURL(this.runtimeEndpoint, sdkVersion, undefined, id);
+      const saveURL = this.createLaunchURL(this.runtimeEndpoint, sdkVersion, undefined, id);
       const hashId: string | undefined = data.hashId;
       const accountSnackId: string | undefined = data.accountSnackId;
       const snackId: string | undefined = data.snackId;
@@ -619,6 +643,30 @@ export default class Snack {
     this.updateCompiler(state, prevState);
   }
 
+  private deliverCompiledArtifact() {
+    const { compilation, transports, disabled } = this.state;
+    if (disabled || compilation?.status !== 'ready') return;
+    for (const [name, transport] of Object.entries(transports)) {
+      transport.postMessage({
+        type: 'protocol_message',
+        data:
+          this.compiledReference && name === 'pubsub'
+            ? {
+                type: 'COMPILED_CODE_REFERENCE',
+                sessionId: this.compilerSessionId,
+                revision: this.compilerRevision,
+                reference: this.compiledReference,
+              }
+            : {
+                type: 'COMPILED_CODE',
+                sessionId: this.compilerSessionId,
+                revision: this.compilerRevision,
+                artifact: compilation.artifact,
+              },
+      });
+    }
+  }
+
   private updateCompiler(state: SnackState, prevState: SnackState) {
     if (
       !State.isCodeChanged(state, prevState) &&
@@ -627,6 +675,7 @@ export default class Snack {
     )
       return;
 
+    this.compiledReference = undefined;
     this.compilerController?.abort();
     this.compilerController = undefined;
     this.compilerTask = undefined;
@@ -634,6 +683,7 @@ export default class Snack {
     const compiler = this.options.compiler!;
     const controller = new AbortController();
     this.compilerController = controller;
+    const revision = ++this.compilerRevision;
     // Copy file and dependency records; asset objects retain their existing identity.
     const input = {
       sdkVersion: state.sdkVersion,
@@ -656,9 +706,15 @@ export default class Snack {
         const artifact = await compiler.compile(input, controller.signal);
         if (controller.signal.aborted) return;
         validateCompiledArtifact(artifact, input.sdkVersion);
+        const reference = await this.options.artifactStore?.upload(artifact, controller.signal);
+        if (reference) validateArtifactReference(reference);
+        if (controller.signal.aborted) return;
+        this.compiledReference = reference;
         this.setState(() => ({
           compilation: { backend: compiler.name, status: 'ready', artifact },
         }));
+        if (!controller.signal.aborted && revision === this.compilerRevision)
+          this.deliverCompiledArtifact();
       } catch (error) {
         if (controller.signal.aborted) return;
         this.setState(() => ({
@@ -1065,6 +1121,11 @@ export default class Snack {
     });
   }
 
+  private createLaunchURL(endpoint: string, sdkVersion: SDKVersion, channel?: string, id?: string) {
+    const url = createURL(endpoint, sdkVersion, channel, id);
+    return this.options.compiler?.supports(sdkVersion) ? url + '&compiler=worker' : url;
+  }
+
   private updateDerivedOnlineState(state: SnackState, prevState: SnackState) {
     const { transports, sdkVersion, channel, id, name, disabled, savedSDKVersion } = state;
     if (
@@ -1076,7 +1137,7 @@ export default class Snack {
       savedSDKVersion !== prevState.savedSDKVersion
     ) {
       state.online = !!transports['pubsub'] && !disabled;
-      state.url = createURL(
+      state.url = this.createLaunchURL(
         this.runtimeEndpoint,
         sdkVersion,
         channel,

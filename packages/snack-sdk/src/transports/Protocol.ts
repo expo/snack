@@ -1,5 +1,8 @@
 import { SDKVersion } from 'snack-content';
 
+import type { SnackArtifactReference } from '../Artifact';
+import type { SnackCompiledArtifact } from '../Compiler';
+
 export type Device = {
   name: string;
   id: string;
@@ -66,7 +69,23 @@ export type ProtocolStatusMessage = {
   status: 'FAILURE' | 'SUCCESS';
 };
 
+export type ProtocolCompiledCodeMessage = {
+  type: 'COMPILED_CODE';
+  sessionId: string;
+  revision: number;
+  artifact: SnackCompiledArtifact;
+};
+
+export type ProtocolCompiledReferenceMessage = {
+  type: 'COMPILED_CODE_REFERENCE';
+  sessionId: string;
+  revision: number;
+  reference: SnackArtifactReference;
+};
+
 export type ProtocolOutgoingMessage =
+  | ProtocolCompiledReferenceMessage
+  | ProtocolCompiledCodeMessage
   | ProtocolCodeMessage
   | ProtocolReloadMessage
   | ProtocolRequestStatusMessage;

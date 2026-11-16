@@ -70,9 +70,11 @@ export function updateObjects<T>(
 
 export function isBusy(state: SnackState): boolean {
   return (
-    !!Object.keys(state.dependencies).find(
-      (name) => !state.dependencies[name].handle && !isModulePreloaded(name, state.sdkVersion),
-    ) ||
+    (state.compilation
+      ? ['idle', 'compiling'].includes(state.compilation.status)
+      : !!Object.keys(state.dependencies).find(
+          (name) => !state.dependencies[name].handle && !isModulePreloaded(name, state.sdkVersion),
+        )) ||
     !!Object.values(state.files).find(
       (file) => file.type === 'ASSET' && typeof file.contents !== 'string',
     )

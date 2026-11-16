@@ -62,7 +62,10 @@ protocol version, contain at least one nonempty platform payload, and fit within
 platform cannot have both a payload and an error. This validates the envelope,
 not the contents of the serialized graphs. Compilation state is never saved.
 
-**Runtime delivery is not wired yet.** Compiler sessions suppress legacy code
-updates and expose artifacts locally; they do not update connected previews.
-Worker creation and delivery to compatible runtimes will follow separately.
-Normal Snackager sessions retain their existing delivery behavior.
+Compiled artifacts are delivered only when a transport has a runtime advertising
+`snack-worker-graph@1`. Legacy code updates remain suppressed for compiler sessions.
+Supply `artifactStore: createSnackArtifactStore(apiURL)` to upload chunked artifacts
+through the existing Snack S3 API; Snackpub then carries integrity-checked references,
+while the web player can receive inline artifacts. Saves include the published
+reference in `manifest.workerArtifact`, leaving editable source files unchanged.
+Worker runtime implementation and editor wiring are separate stacked changes.
