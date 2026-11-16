@@ -28,3 +28,18 @@ yarn build
 yarn test
 yarn doc
 ```
+
+## Experimental compiler contract
+
+`SnackCompiler` describes a compiler supplied by a caller: SDK support detection,
+project compilation with an abort signal, and versioned platform graph output.
+`selectSnackCompiler(sdkVersion, { compiler })` selects that instance only when it
+supports the requested SDK. Without a compiler, or for an unsupported SDK, the
+selection is `snackager`. Capability-check failures propagate rather than silently
+changing backends.
+
+This is a preparatory API for browser compilation. `SnackCompilerOptions` is not
+yet part of `SnackOptions`: the `Snack` constructor and existing sessions continue
+to use Snackager. Worker creation, Session execution/cancellation, artifact
+validation, and runtime delivery will be integrated separately. Selection alone
+does not start compilation or make network requests.
