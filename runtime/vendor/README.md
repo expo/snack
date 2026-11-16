@@ -19,6 +19,8 @@ We vendor Babel Standalone for 2 reasons:
 
 The script for building exists at: [expo/babel-standalone](https://github.com/expo/babel-standalone)
 
-## Reanimated Babel plugin
+## Worklets Babel plugin
 
-We need to transpile user provided code to evaluatable using Babel. If this code contains Reanimated, we need to use the Babel plugin. This fork of the Reanimated plugin "rewires" the Babel imports to use our "Babel Standalone" version, which is capable of executing inside React Native.
+We need to transpile user provided code to evaluatable using Babel. If this code contains Reanimated, we need to use the Babel plugin. This fork of the Worklets plugin "rewires" the Babel imports to use our "Babel Standalone" version, which is capable of executing inside React Native.
+
+The vendored plugin matches `react-native-worklets@0.13.0`. Source maps are disabled, bundle mode is rejected because it writes files, and Hermes bytecode compilation falls back to source strings. The adaptations are listed in `worklets-plugin.js`; its tests exercise serialized closures and automatic Reanimated callback transformation using Snack Babel Standalone.

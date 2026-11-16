@@ -7,13 +7,6 @@
   "version": "1.0.0",
   "primaryColor": "#000000",
   "icon": "./assets/icon.png",
-  "notification": {
-    "icon": "./assets/notification-icon.png",
-    "color": "#000000"
-  },
-  "splash": {
-    "image": "./assets/splash.png"
-  },
   "developmentClient": {
     "silentLaunch": true
   },
@@ -23,7 +16,15 @@
     "favicon": "./assets/favicon.png",
     "bundler": "metro"
   },
-  "plugins": ["expo-font", "expo-router", "expo-asset", "expo-image", "expo-splash-screen", "expo-video"],
+  "plugins": [
+    "expo-font",
+    "expo-router",
+    "expo-asset",
+    "expo-image",
+    ["expo-splash-screen", { "image": "./assets/splash.png" }],
+    "expo-video",
+    "expo-status-bar"
+  ],
   "runtimeVersion": {
     "policy": "sdkVersion"
   }
