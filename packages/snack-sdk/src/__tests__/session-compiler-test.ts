@@ -197,3 +197,10 @@ it('ignores a stale rejection without overwriting the replacement result', async
   await tick();
   expect(snack.getState().compilation).toEqual(ready);
 });
+
+it('accepts SDK 58 only when an opted-in compiler supports it', async () => {
+  expect(() => new Snack({ sdkVersion: '58.0.0' })).toThrow();
+  const snack = new Snack({ compiler: makeCompiler(), sdkVersion: '58.0.0' });
+  await snack.getStateAsync();
+  expect(snack.getState().compilation?.status).toBe('ready');
+});
