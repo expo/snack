@@ -11,6 +11,7 @@ import {
   SNACK_RUNTIME_URL_ENDPOINT,
 } from 'snack-content';
 
+import { SnackCompilerOptions, selectSnackCompiler, validateCompiledArtifact } from './Compiler';
 import DependencyResolver, {
   DependencyResolverCallback,
   verifyDependency,
@@ -50,7 +51,7 @@ import {
 } from './types';
 import { createChannel, fetch, createURL, createError, createUserHeader } from './utils';
 
-export type SnackOptions = {
+export type SnackOptions = SnackCompilerOptions & {
   sdkVersion?: SDKVersion;
   name?: string;
   description?: string;
@@ -97,6 +98,8 @@ export type SnackLogListener = (log: SnackLogEvent) => any;
 
 export default class Snack {
   private state: SnackState;
+  private compilerController?: AbortController;
+  private compilerTask?: Promise<void>;
   private stateListeners: Set<SnackStateListener> = new Set();
   private logListeners: Set<SnackLogListener> = new Set();
   private readonly options: SnackOptions;
@@ -345,6 +348,9 @@ export default class Snack {
       this.codeChangesTimer = undefined;
     }
 
+    // Compiled artifacts require a compatible transport (integrated separately).
+    if (this.state.compilation || state.compilation) return;
+
     // Schedule debounced update
     if (!immediate && this.codeChangesDelay > 0) {
       this.codeChangesTimer = setTimeout(
@@ -524,10 +530,21 @@ export default class Snack {
    * before returning the state.
    */
   async getStateAsync() {
-    await this.wantedDependencyVersions.waitForCompletion();
-    await this.dependencyResolver.waitForCompletion();
-    await this.fileUploader.waitForCompletion();
-    return this.getState();
+    // Recheck after callbacks or edits schedule a replacement operation.
+    while (true) {
+      const state = this.state;
+      await this.wantedDependencyVersions.waitForCompletion();
+      await this.dependencyResolver.waitForCompletion();
+      await this.fileUploader.waitForCompletion();
+      const task = this.compilerTask;
+      await task;
+      if (
+        !State.isCodeChanged(this.state, state) &&
+        state.disabled === this.state.disabled &&
+        task === this.compilerTask
+      )
+        return this.getState();
+    }
   }
 
   /**
@@ -566,6 +583,19 @@ export default class Snack {
   }
 
   private updateDerivedState(state: SnackState, prevState: SnackState): SnackState {
+    const selection = selectSnackCompiler(state.sdkVersion, this.options);
+    if (selection.backend === 'compiler') {
+      if (
+        !prevState.compilation ||
+        State.isCodeChanged(state, prevState) ||
+        state.disabled !== prevState.disabled
+      ) {
+        state.compilation = { backend: selection.compiler.name, status: 'idle' };
+      }
+    } else if (prevState.compilation) {
+      delete state.compilation;
+    }
+
     // Set unsaved to true whenever files or dependencies change
     state.unsaved = state.unsaved || State.isUnsaved(state, prevState);
 
@@ -583,6 +613,62 @@ export default class Snack {
     this.updateFileUploader(state, prevState);
     this.updateTransports(state, prevState);
     this.DevSession.setState(state, prevState);
+    this.updateCompiler(state, prevState);
+  }
+
+  private updateCompiler(state: SnackState, prevState: SnackState) {
+    if (
+      !State.isCodeChanged(state, prevState) &&
+      state.disabled === prevState.disabled &&
+      !!state.compilation === !!prevState.compilation
+    )
+      return;
+
+    this.compilerController?.abort();
+    this.compilerController = undefined;
+    this.compilerTask = undefined;
+    if (!state.compilation || state.disabled) return;
+    const compiler = this.options.compiler!;
+    const controller = new AbortController();
+    this.compilerController = controller;
+    // Copy file and dependency records; asset objects retain their existing identity.
+    const input = {
+      sdkVersion: state.sdkVersion,
+      files: mapValues(state.files, (file) => ({ ...file })),
+      dependencies: mapValues(state.dependencies, (dependency) => ({
+        ...dependency,
+        ...(dependency.peerDependencies
+          ? { peerDependencies: { ...dependency.peerDependencies } }
+          : {}),
+      })),
+    };
+    const cancelled = new Promise<void>((resolve) => {
+      controller.signal.addEventListener('abort', () => resolve(), { once: true });
+    });
+    const work = Promise.resolve().then(async () => {
+      if (controller.signal.aborted) return;
+      this.setState(() => ({ compilation: { backend: compiler.name, status: 'compiling' } }));
+      try {
+        if (controller.signal.aborted) return;
+        const artifact = await compiler.compile(input, controller.signal);
+        if (controller.signal.aborted) return;
+        validateCompiledArtifact(artifact, input.sdkVersion);
+        this.setState(() => ({
+          compilation: { backend: compiler.name, status: 'ready', artifact },
+        }));
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        this.setState(() => ({
+          compilation: {
+            backend: compiler.name,
+            status: 'error',
+            error: error instanceof Error ? error : new Error(String(error)),
+          },
+        }));
+      }
+    });
+    // A compiler that ignores cancellation must not block getStateAsync indefinitely.
+    this.compilerTask = Promise.race([work, cancelled]);
   }
 
   //
@@ -754,8 +840,10 @@ export default class Snack {
 
   private updateDerivedDependenciesState(state: SnackState, prevState: SnackState) {
     if (
-      state.wantedDependencyVersions !== prevState.wantedDependencyVersions ||
-      state.dependencies !== prevState.dependencies
+      !state.compilation &&
+      (state.wantedDependencyVersions !== prevState.wantedDependencyVersions ||
+        state.dependencies !== prevState.dependencies ||
+        !!prevState.compilation)
     ) {
       for (const name in state.dependencies) {
         const dep = state.dependencies[name];
@@ -802,7 +890,7 @@ export default class Snack {
   }
 
   private updateWantedDependencyVersions(state: SnackState, _prevState: SnackState) {
-    if (!state.disabled && Object.keys(state.dependencies).length) {
+    if (!state.compilation && !state.disabled && Object.keys(state.dependencies).length) {
       this.wantedDependencyVersions.setSDKVersion(state.sdkVersion);
     }
   }
@@ -826,6 +914,18 @@ export default class Snack {
   private updateDependencyResolver(state: SnackState, prevState: SnackState) {
     const dependencies = state.dependencies;
     const prevDependencies = prevState.dependencies;
+    if (state.compilation) {
+      if (!prevState.compilation) {
+        for (const name in prevDependencies) {
+          this.dependencyResolver.remove(
+            name,
+            prevDependencies[name].version,
+            prevState.sdkVersion,
+          );
+        }
+      }
+      return;
+    }
 
     // Stop resolving any removed or changed dependencies
     if (
@@ -856,6 +956,7 @@ export default class Snack {
       !state.disabled &&
       (dependencies !== prevDependencies ||
         prevState.disabled ||
+        !!prevState.compilation ||
         state.sdkVersion !== prevState.sdkVersion ||
         state.wantedDependencyVersions !== prevState.wantedDependencyVersions)
     ) {
@@ -870,7 +971,8 @@ export default class Snack {
             (dependency.version === '*' && !prevState.wantedDependencyVersions) ||
             prevDependencies[name]?.handle ||
             prevDependencies[name]?.error ||
-            prevState.disabled)
+            prevState.disabled ||
+            !!prevState.compilation)
         ) {
           this.dependencyResolver.add(name, dependency.version, state.sdkVersion);
         }
@@ -914,8 +1016,8 @@ export default class Snack {
   /**
    * Enables or disables the Snack.
    *
-   * When disabled, no uploads or dependency resolve operations
-   * are performed.
+   * When disabled, no uploads, dependency resolution, or compilation runs.
+   * Pending compilation is cancelled and its results are ignored.
    */
   setDisabled(disabled: boolean) {
     return this.setState((state) => (disabled !== state.disabled ? { disabled } : null));

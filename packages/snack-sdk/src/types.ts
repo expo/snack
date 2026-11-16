@@ -6,6 +6,7 @@ import {
   SnackMissingDependencies,
 } from 'snack-content';
 
+import type { SnackCompiledArtifact } from './Compiler';
 import { SnackTransport } from './transports';
 
 /**
@@ -77,6 +78,11 @@ export type SnackWindowRef = {
 };
 
 export type SnackState = {
+  /** Transient compiler state; excluded from saved project payloads. */
+  compilation?:
+    | { backend: string; status: 'idle' | 'compiling' }
+    | { backend: string; status: 'ready'; artifact: SnackCompiledArtifact }
+    | { backend: string; status: 'error'; error: Error };
   /**
    * Expo SDK version.
    */
