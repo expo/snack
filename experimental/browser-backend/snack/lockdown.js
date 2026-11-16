@@ -1,0 +1,4 @@
+// CSP and opaque origins are the security boundaries. Removing unused browser
+// capabilities also closes channels (notably WebRTC) that CSP does not cover.
+export function removeCapabilities(target,names){for(const name of names){try{Object.defineProperty(target,name,{value:undefined,writable:false,configurable:false})}catch{throw Error('Cannot disable capability: '+name)}}}
+export function lockDocument(){const policy=document.createElement('meta');policy.httpEquiv='Content-Security-Policy';policy.content="default-src 'none'; script-src 'unsafe-eval'; script-src-elem 'none'; script-src-attr 'none'; connect-src data:; worker-src blob:; child-src 'none'; frame-src 'none'; img-src data: blob:; media-src data: blob:; font-src data:; style-src 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'";document.head.append(policy);removeCapabilities(globalThis,['RTCPeerConnection','webkitRTCPeerConnection','mozRTCPeerConnection','SharedWorker']);}

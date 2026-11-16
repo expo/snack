@@ -1,0 +1,27 @@
+import postcss from 'postcss';
+import selectors from 'postcss-selector-parser';
+import values from 'postcss-value-parser';
+import {assetURL} from './diagnostics';
+export function compileCSS(compiler,file,side,transforms,seen=new Set()){
+ if(seen.has(file))throw Error('Cyclic CSS dependency: '+file);seen.add(file);
+ const info=compiler.compile(file,side,transforms),root=postcss.parse(info.css,{from:file}),classes=Object.create(null),compositions=[],dependencyCSS=[];
+ const resolve=spec=>compiler.resolve(file,spec.startsWith('.')?spec:'./'+spec,'import',side);
+ const dependency=spec=>compileCSS(compiler,resolve(spec),side,transforms,new Set(seen));
+ if(file.endsWith('.module.css')){
+  const prefix='rsc_'+[...new TextEncoder().encode(file)].map(n=>n.toString(16).padStart(2,'0')).join('')+'_';
+  root.walkRules(rule=>{
+   if(rule.selector===':export'){rule.walkDecls(d=>classes[d.prop]=d.value);rule.remove();return}
+   if(rule.selector.startsWith(':import'))throw Error('Raw ICSS imports are not supported; use composes from');
+   rule.walkDecls('composes',decl=>{const match=/^\.([\w-]+)$/.exec(rule.selector.trim());if(!match)throw Error('composes requires a single local class');const parsed=values(decl.value).nodes.filter(n=>n.type!=='space'),from=parsed.findIndex(n=>n.value==='from');const names=(from<0?parsed:parsed.slice(0,from)).map(n=>n.value);const origin=from<0?null:parsed[from+1]?.value;if(!names.length||from>=0&&!origin)throw Error('Invalid composes declaration');compositions.push({target:match[1],names,origin});decl.remove()});
+   rule.selector=selectors(ast=>{
+    function scope(container,local=true){for(const node of [...(container.nodes||[])]){if(node.type==='pseudo'&&[':global',':local'].includes(node.value)){const next=node.value===':local';if(node.nodes?.length){if(node.nodes.length!==1)throw Error('Scoped selector groups need separate selectors');scope(node.nodes[0],next);node.replaceWith(...node.nodes[0].nodes)}else{local=next;node.remove()}continue}if(node.type==='class'&&local){classes[node.value]??=prefix+node.value;node.value=classes[node.value]}else if(node.nodes)scope(node,local)}}
+    for(const selector of ast.nodes)scope(selector);
+   }).processSync(rule.selector);
+  });
+  const resolving=new Set(),resolved=new Set();function compose(name){if(resolved.has(name))return classes[name];if(resolving.has(name))throw Error('Cyclic CSS composition');if(!classes[name])throw Error('Unknown composed class '+name);resolving.add(name);for(const item of compositions.filter(c=>c.target===name)){if(item.origin==='global')classes[name]+=' '+item.names.join(' ');else if(item.origin){const imported=dependency(item.origin);dependencyCSS.push(imported.css);for(const other of item.names){if(!imported.classes[other])throw Error('Unknown external composed class '+other);classes[name]+=' '+imported.classes[other]}}else for(const other of item.names)classes[name]+=' '+compose(other)}resolving.delete(name);resolved.add(name);return classes[name]}for(const item of compositions)compose(item.target);
+  const animations={};root.walkAtRules(rule=>{if(/keyframes$/.test(rule.name)){animations[rule.params]=prefix+rule.params;rule.params=animations[rule.params]}});root.walkDecls(decl=>{if(!/^(?:-webkit-)?animation(?:-name)?$/.test(decl.prop))return;const parsed=values(decl.value);parsed.walk(node=>{if(node.type==='word'&&animations[node.value])node.value=animations[node.value]});decl.value=parsed.toString()});
+ }
+ root.walkAtRules('import',rule=>{const parsed=values(rule.params),nodes=parsed.nodes.filter(n=>n.type!=='space'),first=nodes.shift();let spec;if(first?.type==='string')spec=first.value;else if(first?.type==='function'&&first.value==='url')spec=values.stringify(first.nodes).replace(/^['"]|['"]$/g,'');if(!spec||/^(?:[a-z]+:|\/)/i.test(spec))throw Error('CSS imports must reference local files');let layer,supports;if(nodes[0]?.value==='layer'){const node=nodes.shift();layer=node.type==='function'?values.stringify(node.nodes):''}if(nodes[0]?.type==='function'&&nodes[0].value==='supports'){supports=values.stringify(nodes.shift().nodes);if(!supports.startsWith('(')&&!supports.startsWith('selector('))supports='('+supports+')'}const media=nodes.map(n=>values.stringify(n)).join(' ').trim();let imported=postcss.parse(dependency(spec).css).nodes;for(const [name,params]of [['media',media],['supports',supports],['layer',layer]])if(params!==undefined&&!(name==='media'&&!params)){const wrapper=postcss.atRule({name,params});wrapper.append(imported);imported=[wrapper]}rule.replaceWith(...imported)});
+ root.walkDecls(decl=>{if(decl.prop==='composes')throw Error('composes requires a CSS module');const parsed=values(decl.value);parsed.walk(node=>{if(node.type!=='function'||node.value.toLowerCase()!=='url')return;const spec=values.stringify(node.nodes).replace(/^['"]|['"]$/g,'').trim();if(/^(data:|#)/i.test(spec))return;if(/^(?:[a-z]+:|\/)/i.test(spec))throw Error('CSS asset URLs must be local or data URLs');const [pathname,fragment]=spec.split('#');const asset=compiler.compile(resolve(pathname),side,transforms).asset;if(!asset)throw Error('CSS URL must reference a binary or ?url asset');node.nodes=[{type:'string',quote:'"',value:assetURL(asset)+(fragment?'#'+fragment:'')}];});decl.value=parsed.toString()});
+ const css=[...new Set(dependencyCSS),root.toString()].join('\n');if(css.length>2*1024*1024)throw Error('CSS output size limit');return {css,classes};
+}
