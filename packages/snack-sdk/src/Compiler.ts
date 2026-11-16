@@ -29,7 +29,7 @@ export interface SnackCompiler {
   compile(input: SnackCompilationInput, signal: AbortSignal): Promise<SnackCompiledArtifact>;
 }
 
-/** Experimental selection configuration; not yet accepted by the Snack constructor. */
+/** Experimental compiler configuration for Snack sessions. */
 export type SnackCompilerOptions = {
   /** Supplying a compiler opts in for the SDK versions it supports. */
   compiler?: SnackCompiler;
@@ -53,4 +53,36 @@ export function selectSnackCompiler(
   return compiler?.supports(sdkVersion)
     ? { backend: 'compiler', compiler }
     : { backend: 'snackager' };
+}
+
+/** Validate the versioned runtime payload before exposing it as ready. */
+export function validateCompiledArtifact(
+  artifact: unknown,
+  sdkVersion: SDKVersion,
+): asserts artifact is SnackCompiledArtifact {
+  const record = (value: unknown): value is Record<string, unknown> =>
+    typeof value === 'object' && value !== null && !Array.isArray(value);
+  const platforms = (value: unknown): value is Record<string, string> =>
+    record(value) &&
+    Object.entries(value).every(
+      ([key, payload]) =>
+        ['web', 'ios', 'android'].includes(key) &&
+        typeof payload === 'string' &&
+        payload.length > 0,
+    );
+  if (
+    !record(artifact) ||
+    artifact.format !== 'snack-worker-graph' ||
+    artifact.version !== 1 ||
+    artifact.sdkVersion !== sdkVersion ||
+    !platforms(artifact.platforms) ||
+    !Object.keys(artifact.platforms).length ||
+    (artifact.errors !== undefined &&
+      (!platforms(artifact.errors) ||
+        Object.keys(artifact.errors).some((key) =>
+          Object.keys(artifact.platforms as Record<string, string>).includes(key),
+        ))) ||
+    new TextEncoder().encode(JSON.stringify(artifact)).length > 15 * 1024 * 1024
+  )
+    throw new Error('Invalid compiled Snack artifact');
 }
