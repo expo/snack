@@ -6,7 +6,8 @@
     "build": "node snack/build.cjs",
     "build:compiler": "node snack/build.cjs --compiler-only",
     "typecheck": "tsc --project tsconfig.json",
-    "test": "node metro-worker/vfs-test.cjs && node snack/package-helpers-test.cjs"
+    "test": "node metro-worker/vfs-test.cjs && node snack/package-helpers-test.cjs",
+    "test:browser": "node snack/sdk-integration-test.cjs"
   },
   "keywords": [],
   "author": "",

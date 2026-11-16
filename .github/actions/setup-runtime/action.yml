@@ -43,3 +43,8 @@ runs:
       run: yarn install --frozen-lockfile
       working-directory: runtime
       shell: bash
+
+    - name: 🛠 Build worker Flight client
+      run: yarn build:worker
+      working-directory: runtime
+      shell: bash

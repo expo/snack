@@ -5,3 +5,5 @@
 /src/client/utils/lintCode.tsx
 /src/client/vendor/eslint.js
 /typings/prettier.d.ts
+
+/worker-compiler/
