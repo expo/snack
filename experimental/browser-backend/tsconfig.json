@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM"],
+    "types": [],
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true
+  },
+  "include": ["snack/*.ts", "metro-worker/*.ts"]
+}

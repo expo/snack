@@ -1,0 +1,13 @@
+{
+  "repository": "https://github.com/expo/expo",
+  "checkoutCommit": "7087cbb733598392de8ef09eb334028c4482465c",
+  "note": "Snapshot of built files from the studied checkout; hashes identify the exact included artifacts. Built files may differ from a clean upstream build.",
+  "sha256": {
+    "LICENSE": "fb3ca4a837f5779e83cef89b78253a8949cfb9429c340309f62d0465ec6610b4",
+    "packages/expo-router/build/cache/server.js": "44875087f3aabfcaacf34ed34cbd1cd35191c5fde17e5150544b130433a7391d",
+    "packages/expo-router/build/cache/profiles.js": "85957a07706174b07a3e3ef48c72800642390ee29b67466ede2e919e8974850e",
+    "packages/babel-preset-expo/build/common.js": "384c90e40970ab27e0f4ab306e409d0e360431f16ea61056816771f67db1b418",
+    "packages/babel-preset-expo/build/plugins/use-cache-plugin.js": "a5d3cc0cd12d15ca922902fd322cd0b0eff7d3519afda0a57151bdec446a7d8e",
+    "packages/babel-preset-expo/build/plugins/server-actions-plugin.js": "3c6c4e572f43b4fd8ed330fca3ac3bb68c0b97dddbbdb36aedf2e6064bee9faf"
+  }
+}
