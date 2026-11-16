@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": ".",
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -17,6 +17,7 @@
     "strict": true,
     "baseUrl": "./",
   },
+  "exclude": ["node_modules", "build", "dist", "worker-compiler"],
   "ts-node": {
     "transpileOnly": true
   }

@@ -7,7 +7,7 @@ type AppetizeConstants = Record<
   Record<AppetizePlatform, Pick<AppetizeSdkConfig, 'publicKey' | 'device'>>
 >;
 
-const appetize: Record<SDKVersion, AppetizeConstants> = {
+const appetize: Partial<Record<SDKVersion, AppetizeConstants>> = {
   // TODO: replace with real SDK 56 Appetize keys once the SDK 56 Expo Go build is uploaded
   // (currently reusing SDK 55 keys for preliminary support).
   '56.0.0': {

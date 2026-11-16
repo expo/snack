@@ -16,6 +16,7 @@ import { URL } from 'url';
 import * as EmbeddedSnackScript from './EmbeddedSnackScript';
 import Document from './pages/Document';
 import getSplitTests from './utils/getSplitTests';
+import { readWorkerRollout, selectWorkerSession } from './workerRollout';
 import { getAuthStorageKey } from '../client/auth/config';
 import PreferencesProvider from '../client/components/Preferences/PreferencesProvider';
 import ClientRouter from '../client/components/Router';
@@ -119,6 +120,10 @@ const render = async (ctx: Context) => {
     },
   };
   const isEmbedded = ctx.url.replace(/^\//, '').split('/')[0].split('?')[0] === 'embedded';
+  Object.assign(defaults, selectWorkerSession(await readWorkerRollout(), queryParams.compiler));
+  // The document contains a per-session rollout snapshot, including embedded launches.
+  ctx.set('Cache-Control', 'private, no-store');
+
   const userAgent = ctx.request.headers['user-agent'];
 
   const index =

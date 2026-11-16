@@ -14,6 +14,7 @@ export const versions: Record<SDKVersion, boolean> = {
   '54.0.0': true,
   '55.0.0': true,
   '56.0.0': false,
+  '58.0.0': false, // Available only behind the worker compiler flag.
 };
 
 export const DEFAULT_SDK_VERSION: SDKVersion = defaultSdkVersion;

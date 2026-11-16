@@ -674,6 +674,7 @@ class EditorView extends React.Component<Props, State> {
                   ) : null}
                 </PanelGroup>
                 <EditorFooter
+                  workerCompilerEnabled={this.props.workerCompilerEnabled}
                   annotations={annotations}
                   connectedDevices={connectedDevices}
                   fileTreeShown={preferences.fileTreeShown}

@@ -8,6 +8,7 @@ import { SDKVersion } from '../types';
 
 type Props = {
   sdkVersion: SDKVersion;
+  workerCompilerEnabled?: boolean;
   isLocalWebPreview: boolean;
   onChange: (sdkVersion: SDKVersion, isLocalhost: boolean) => void;
   selectClassName?: string;
@@ -15,12 +16,18 @@ type Props = {
 
 export default function SDKVersionSwitcher({
   sdkVersion,
+  workerCompilerEnabled,
   isLocalWebPreview,
   onChange,
   selectClassName,
 }: Props) {
   const vers = Object.keys(versions).sort();
-  const options = vers.filter((v) => versions[v as SDKVersion] || v === sdkVersion);
+  const options = process.env.SNACK_BROWSER_BACKEND
+    ? ['58.0.0']
+    : vers.filter(
+        (v) =>
+          versions[v as SDKVersion] || v === sdkVersion || (workerCompilerEnabled && v === '58.0.0')
+      );
   if (process.env.NODE_ENV === 'development' || isLocalWebPreview) {
     options.push('localhost');
   }

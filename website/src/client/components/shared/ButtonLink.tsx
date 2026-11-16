@@ -27,7 +27,10 @@ export default function ButtonLink({
 
   return (
     <a
-      className={classnames(getClassNames({ variant, icon, large, disabled, loading }), className)}
+      className={classnames(
+        getClassNames({ type: 'link', variant, icon, large, disabled, loading }),
+        className
+      )}
       onClick={onClick}
       style={icon ? { backgroundImage: `url(${icon})` } : {}}
       {...rest}

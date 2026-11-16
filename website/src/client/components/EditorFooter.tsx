@@ -25,6 +25,7 @@ type Props = {
   panelsShown: boolean;
   sendCodeOnChangeEnabled: boolean;
   sdkVersion: SDKVersion;
+  workerCompilerEnabled?: boolean;
   isLocalWebPreview: boolean;
   onToggleTheme: () => void;
   onTogglePanels: (panelType?: PanelType) => void;
@@ -166,6 +167,7 @@ export default function EditorFooter(props: Props) {
         }
       />
       <SDKVersionSwitcher
+        workerCompilerEnabled={props.workerCompilerEnabled}
         sdkVersion={sdkVersion}
         isLocalWebPreview={isLocalWebPreview}
         onChange={onChangeSDKVersion}

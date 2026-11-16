@@ -50,6 +50,8 @@ export type SavedSnack = {
 };
 
 export type SnackDefaults = {
+  workerCompiler?: boolean;
+  workerArtifacts?: boolean;
   name: string;
   channel: string;
 };
@@ -85,6 +87,7 @@ export type DeviceLog = {
 };
 
 export type QueryInitParams = {
+  compiler?: 'worker';
   code?: string;
   sourceUrl?: string;
   name?: string;
@@ -161,7 +164,7 @@ export type AnnotationLocation = {
 export type Annotation = {
   message: string;
   severity: AnnotationSeverity;
-  source: 'Device' | 'Web' | 'JSON' | 'ESLint' | 'Dependencies';
+  source: 'Device' | 'Web' | 'JSON' | 'ESLint' | 'Dependencies' | 'Compiler';
   location?: AnnotationLocation;
   action?: AnnotationAction;
 };
