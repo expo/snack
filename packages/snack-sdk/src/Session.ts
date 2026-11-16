@@ -124,7 +124,10 @@ export default class Snack {
 
   constructor(options: SnackOptions) {
     const channel = createChannel(options.channel);
-    const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion);
+    const requestedSDK = options.sdkVersion ?? defaultConfig.sdkVersion;
+    const sdkVersion = options.compiler?.supports(requestedSDK)
+      ? requestedSDK
+      : validateSDKVersion(requestedSDK);
     const dependencies = options.dependencies ? { ...options.dependencies } : {};
     this.options = options;
     this.apiURL = options.apiURL ?? defaultConfig.apiURL;
@@ -229,7 +232,7 @@ export default class Snack {
    * @param sdkVersion Valid SDK version (e.g. "38.0.0")
    */
   setSDKVersion(sdkVersion: SDKVersion) {
-    validateSDKVersion(sdkVersion);
+    if (!this.options.compiler?.supports(sdkVersion)) validateSDKVersion(sdkVersion);
     return this.setState((state) =>
       state.sdkVersion !== sdkVersion
         ? {

@@ -72,3 +72,7 @@ export {
   parseRuntimeUrl,
   setSnackSDKFetch,
 };
+
+export { createWorkerCompiler } from './WorkerCompiler';
+export type { SnackWorkerRPC, WorkerCompilerMetric } from './WorkerCompiler';
+export { createBrowserWorkerHost } from './BrowserWorkerHost';
