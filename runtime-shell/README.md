@@ -1,4 +1,4 @@
-# Snack Runtime
+# Snack Runtime Shell
 
 The Snack runtime is an Expo App that loads and runs the Snack code from https://snack.expo.dev or from any other app using the [snack-sdk](../packages/snack-sdk). The Snack runtime exists in two flavours:
 - A native runtime for Expo Go
@@ -9,7 +9,7 @@ The Snack runtime is an Expo App that loads and runs the Snack code from https:/
 
 To start the runtime in development mode, install the dependencies and start it as a regular Expo app.
 
-- `cd runtime`
+- `cd runtime-shell`
 - `yarn install`
 - `expo start`
 
@@ -28,10 +28,9 @@ This loads the runtime into Expo Go and displays another QR-code scanner. Now, u
 
 ## Deployment
 
-The runtime is auto-deployed to Staging upon mergin to main. 
-To deploy to production, run the `deploy` dispatch trigger of the `RuntimeProduction` Github Action workflow.
+This SDK 58 app hosts the local `snack-runtime` package. The repository's runtime workflow deploys `runtime/`, not this shell.
 
-To manually deploy or learn more about deploying, see the [Deployment guide](./__internal__/DEPLOYING.md).
+Set `EXPO_PROJECT_ID` to the target EAS project before starting or exporting. The `deploy:staging` and `deploy:prod` scripts publish through EAS Update; `deploy:web:staging` and `deploy:web:prod` export and upload the web player. These commands require the corresponding deployment credentials.
 
 
 ## Loading states

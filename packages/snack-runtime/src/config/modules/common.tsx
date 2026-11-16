@@ -22,6 +22,7 @@ export const allPlatformModules: SnackConfig['modules'] = {
   '@shopify/react-native-skia/lib/module/web': SkiaWeb, // Used by @shopify/react-native-skia, defined here for types, but used on web only
   'react-native-gesture-handler': require('react-native-gesture-handler'),
   'react-native-reanimated': require('react-native-reanimated'),
+  'react-native-worklets': require('react-native-worklets'),
   'react-native-safe-area-context': require('react-native-safe-area-context'),
 
   // Asset modules

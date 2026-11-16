@@ -25,7 +25,7 @@ type File = {
 const files: { [key: string]: File } = {};
 
 // Initialize by reading from `extra.code` in manifest if present
-const manifest = Constants.manifest;
+const manifest = Constants.expoConfig;
 
 if (manifest?.extra?.code) {
   updateProjectFiles(manifest.extra.code);

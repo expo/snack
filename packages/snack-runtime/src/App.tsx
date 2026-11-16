@@ -81,7 +81,7 @@ const RELOAD_URL_KEY = 'snack-reload-url';
 const ONE_MINUTE = 1000 * 60;
 
 // Last known Snack state workaround, the App component is too big to incorporate the state updates
-let prevSnackState: SnackState;
+let prevSnackState: SnackState | undefined;
 /** Notify the `onSnackState` event callback whenever the Snack changes its state */
 function notifyStateChange(props: Pick<Props, 'onSnackState'>, state: SnackState) {
   if (state !== prevSnackState) {
@@ -93,7 +93,9 @@ function notifyStateChange(props: Pick<Props, 'onSnackState'>, state: SnackState
 // updates and displays the Snack.
 export default class App extends React.Component<Props, State> {
   static contextType = SnackRuntimeContext;
-  declare context: React.ContextType<typeof SnackRuntimeContext>;
+  get snackConfig() {
+    return this.context as React.ContextType<typeof SnackRuntimeContext>;
+  }
 
   state: State = {
     initialLoad: true,
@@ -124,7 +126,7 @@ export default class App extends React.Component<Props, State> {
     Messaging.init(deviceId);
 
     // Initialize various things
-    this._awaitingModulesInitialization = Modules.initialize(this.context);
+    this._awaitingModulesInitialization = Modules.initialize(this.snackConfig);
     Console.initialize((method: string, payload: unknown[]) => {
       // Send any intercepted console.x calls to the sdk.
       // Errors are made serializable and converted to a string.
@@ -406,7 +408,9 @@ export default class App extends React.Component<Props, State> {
       const data = await response.json();
       return data.url;
     } catch (e) {
-      throw new Error('Unable to upload asset to S3: ' + e.message);
+      throw new Error(
+        'Unable to upload asset to S3: ' + (e instanceof Error ? e.message : String(e)),
+      );
     }
   };
 
@@ -551,7 +555,7 @@ export default class App extends React.Component<Props, State> {
       // Determine if we should render the Expo Router entry component
       const shouldRenderExpoRouter = isExpoRouterEntry(Files.get(Files.entry())?.contents);
       // Determine if the Expo Router entry component is available
-      const ExpoRouterEntry = this.context.experimental?.expoRouterEntry;
+      const ExpoRouterEntry = this.snackConfig.experimental?.expoRouterEntry;
 
       // Provide a helpful message when Expo Router was requested but is not available
       if (shouldRenderExpoRouter && !ExpoRouterEntry) {
@@ -582,7 +586,7 @@ export default class App extends React.Component<Props, State> {
         }
       }
     } catch (e) {
-      Errors.report(e);
+      Errors.report(e instanceof Error ? e : new Error(String(e)));
     } finally {
       this.setState((state) => ({
         rootElement: rootElement ?? state.rootElement,

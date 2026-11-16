@@ -3,8 +3,10 @@
 // with the default asset resolver.
 
 import { PixelRatio } from 'react-native';
-import AssetSourceResolver from 'react-native/Libraries/Image/AssetSourceResolver';
-import { setCustomSourceTransformer } from 'react-native/Libraries/Image/resolveAssetSource';
+
+// These private React Native modules have no public TypeScript declarations.
+const AssetSourceResolver = require('react-native/Libraries/Image/AssetSourceResolver').default;
+const { setCustomSourceTransformer } = require('react-native/Libraries/Image/resolveAssetSource');
 
 export function registerSnackAssetSourceTransformer() {
   setCustomSourceTransformer(

@@ -11,8 +11,6 @@
     "module": "esnext",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
-    "noStrictGenericChecks": false,
     "useUnknownInCatchVariables": false,
     "strict": true,
   },

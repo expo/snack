@@ -1,3 +1,4 @@
+/// <reference path="../../types/AssetRegistry.d.ts" />
 export {
   type AssetDestPathResolver,
   type PackagerAsset,

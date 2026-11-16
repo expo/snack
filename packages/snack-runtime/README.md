@@ -7,6 +7,8 @@ The core system to load and open Snacks within React Native apps.
 
 ## Installation
 
+This source targets Expo SDK 58 (React Native 0.88 and React 19.3). Host apps must provide the declared peer dependencies, including Worklets 0.13.0 to match the vendored compiler.
+
 ```bash
 $ yarn add snack-runtime
 ```
@@ -64,8 +66,8 @@ function onStateChange(state: SnackState) {
 
 Snack virtualizes the whole bundling and module systems, and because of that, requires a few patches to some libraries:
 
-- [`react-native`](../../runtime-shell/patches/react-native+0.71.8.patch) → To avoid "ViewManager is already loaded" errors
-- [`react-native-web`](../../runtime-shell/patches/react-native+0.71.8.patch) → To make sure the assets from Snack are loaded properly
+- [`react-native`](../../runtime-shell/patches/react-native+0.88.1.patch) → To avoid "ViewManager is already loaded" errors
+- [`react-native-web`](../../runtime-shell/patches/react-native-web+0.21.4.patch) → To make sure the assets from Snack are loaded properly
 
 ## Contributing
 

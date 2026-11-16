@@ -22,3 +22,5 @@ The script for building exists at: [expo/babel-standalone](https://github.com/ex
 ## Reanimated Plugin
 
 We need to transpile user provided code to evaluatable using Babel. If this code contains Reanimated, we need to use the Babel plugin. This fork of the Reanimated plugin "rewires" the Babel imports to use our "Babel Standalone" version, which is capable of executing inside React Native.
+
+The Worklets compiler targets `react-native-worklets@0.13.0`. Its header documents the on-device adaptations; regression tests cover serialized closures and Reanimated callbacks using Snack Babel Standalone.
