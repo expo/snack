@@ -1,5 +1,11 @@
 import CodeMessageBuilder, { CodeMessageBuilderCallback } from './CodeMessageBuilder';
-import { ProtocolOutgoingMessage, ProtocolIncomingMessage, ProtocolCodeMessage } from './Protocol';
+import {
+  ProtocolOutgoingMessage,
+  ProtocolIncomingMessage,
+  ProtocolCodeMessage,
+  ProtocolCompiledCodeMessage,
+  ProtocolCompiledReferenceMessage,
+} from './Protocol';
 import {
   SnackTransport,
   SnackTransportListener,
@@ -13,7 +19,11 @@ export default abstract class TransportImplBase implements SnackTransport {
   protected readonly logger?: Logger;
   private callback?: SnackTransportListener;
   private codeMessageBuilder: CodeMessageBuilder;
-  private codeMessage?: ProtocolCodeMessage;
+  private codeMessage?:
+    | ProtocolCodeMessage
+    | ProtocolCompiledCodeMessage
+    | ProtocolCompiledReferenceMessage;
+  private devices = new Map<string, any>();
   private connectionsCount: number = 0;
   protected readonly logSuffix: string;
 
@@ -63,6 +73,11 @@ export default abstract class TransportImplBase implements SnackTransport {
         this.codeMessageBuilder.setCode(message.data);
         break;
       case 'protocol_message':
+        if (
+          message.data.type === 'COMPILED_CODE' ||
+          message.data.type === 'COMPILED_CODE_REFERENCE'
+        )
+          this.codeMessage = message.data;
         this.publish(message.data);
         break;
       case 'synthetic_event':
@@ -116,6 +131,7 @@ export default abstract class TransportImplBase implements SnackTransport {
       try {
         const device = JSON.parse(connectionId);
         this.connectionsCount++;
+        this.devices.set(connectionId, device);
         this.callback?.({
           type: 'connect',
           connectionId,
@@ -129,6 +145,7 @@ export default abstract class TransportImplBase implements SnackTransport {
         // Wasn't from the device
       }
     } else {
+      this.devices.delete(connectionId);
       this.connectionsCount = Math.max(this.connectionsCount - 1, 0);
       this.callback?.({
         type: 'disconnect',
@@ -154,6 +171,35 @@ export default abstract class TransportImplBase implements SnackTransport {
   }
 
   private async publish(message: ProtocolOutgoingMessage) {
+    if (message.type === 'COMPILED_CODE' || message.type === 'COMPILED_CODE_REFERENCE') {
+      let compatible = 0;
+      this.devices.forEach((device, connectionId) => {
+        if (
+          device.compilerProtocols?.includes('snack-worker-graph@1') &&
+          (message.type === 'COMPILED_CODE_REFERENCE' ||
+            message.artifact.platforms[device.platform as 'web' | 'ios' | 'android'])
+        ) {
+          compatible++;
+        } else {
+          this.callback?.({
+            type: 'protocol_message',
+            connectionId,
+            data: {
+              type: 'ERROR',
+              device,
+              error: JSON.stringify({
+                message:
+                  (message.type === 'COMPILED_CODE'
+                    ? message.artifact.errors?.[device.platform as 'web' | 'ios' | 'android']
+                    : undefined) ??
+                  'This preview runtime does not support the selected worker compiler/platform',
+              }),
+            },
+          });
+        }
+      });
+      if (!compatible) return;
+    }
     if (!this.connectionsCount) {
       return;
     }
@@ -184,6 +230,7 @@ export default abstract class TransportImplBase implements SnackTransport {
       const message = JSON.parse(data);
       switch (message.type) {
         case 'CONNECT':
+          this.devices.set(JSON.stringify(message.device), message.device);
           this.connectionsCount++;
           this.callback?.({
             type: 'connect',
@@ -192,6 +239,7 @@ export default abstract class TransportImplBase implements SnackTransport {
           });
           break;
         case 'DISCONNECT':
+          this.devices.delete(JSON.stringify(message.device));
           this.connectionsCount = Math.max(this.connectionsCount - 1, 0);
           this.callback?.({
             type: 'disconnect',

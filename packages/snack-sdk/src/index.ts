@@ -76,3 +76,8 @@ export {
 export { createWorkerCompiler } from './WorkerCompiler';
 export type { SnackWorkerRPC, WorkerCompilerMetric } from './WorkerCompiler';
 export { createBrowserWorkerHost } from './BrowserWorkerHost';
+
+export { createSnackArtifactStore } from './ArtifactStore';
+export { loadCompiledArtifact, validateArtifactReference } from './Artifact';
+export type { SnackArtifactReference, SnackArtifactStore, SnackArtifactDigest } from './Artifact';
+export { loadSavedArtifactReference } from './SavedArtifact';
