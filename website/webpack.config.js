@@ -47,6 +47,11 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
+        SNACK_WORKER_RUNTIME_ENDPOINT: JSON.stringify(
+          process.env.SNACK_WORKER_RUNTIME_ENDPOINT || ''
+        ),
+        SNACK_WORKER_ARTIFACTS: JSON.stringify(process.env.SNACK_WORKER_ARTIFACTS || '0'),
+        SNACK_WORKER_COMPILER: JSON.stringify(process.env.SNACK_WORKER_COMPILER || '0'),
         API_SERVER_URL: JSON.stringify(env('API_SERVER_URL')),
         BUILD_TIMESTAMP: JSON.stringify(Date.now()),
         DEPLOY_ENVIRONMENT: JSON.stringify(env('DEPLOY_ENVIRONMENT')),

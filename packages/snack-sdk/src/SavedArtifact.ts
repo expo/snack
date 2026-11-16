@@ -13,9 +13,9 @@ export async function loadSavedArtifactReference(
     throw new Error('Saved Snack API must be an HTTPS origin');
   if (!/^(?:[A-Za-z0-9_-]{1,100}|@[A-Za-z0-9_-]{1,100}\/[A-Za-z0-9_-]{1,100})$/.test(id))
     throw new Error('Invalid saved Snack identifier');
-  signal.throwIfAborted();
+  if (signal.aborted) throw new Error('Saved artifact request aborted');
   const text = await read(apiURL + '/v2/snack/' + id, signal);
-  signal.throwIfAborted();
+  if (signal.aborted) throw new Error('Saved artifact request aborted');
   if (new TextEncoder().encode(text).byteLength > 16 * 1024 * 1024)
     throw new Error('Saved Snack response exceeds limit');
   const saved: unknown = JSON.parse(text);

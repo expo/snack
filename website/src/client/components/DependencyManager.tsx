@@ -101,7 +101,9 @@ export function withDependencyManager<Props extends EditorViewProps>(
       }
 
       if (
-        !isPackageJson(selectedFile) ||
+        (props.workerCompilerEnabled
+          ? sdkVersion !== state.sdkVersion
+          : !isPackageJson(selectedFile)) ||
         isEqual(packageJson, getPackageJsonFromDependencies(state.dependencies))
       ) {
         const newPackageJson = getPackageJsonFromDependencies(dependencies);

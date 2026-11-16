@@ -5,7 +5,15 @@ import nullthrows from 'nullthrows';
 import Raven from 'raven-js';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Snack, SnackLogEvent, SnackListenerSubscription, isModulePreloaded } from 'snack-sdk';
+import {
+  Snack,
+  SnackLogEvent,
+  SnackListenerSubscription,
+  isModulePreloaded,
+  createBrowserWorkerHost,
+  createWorkerCompiler,
+  createSnackArtifactStore,
+} from 'snack-sdk';
 
 import AppDetails from './AppDetails';
 import { AppetizeDevices } from './DevicePreview/AppetizeFrame';
@@ -99,6 +107,7 @@ type State = {
 class Main extends React.Component<Props, State> {
   _previewRef = React.createRef<Window>();
   private edited: boolean = false;
+  private readonly _workerCompilerEnabled: boolean;
 
   constructor(props: Props) {
     super(props);
@@ -132,11 +141,17 @@ class Main extends React.Component<Props, State> {
           : props.query.sdkVersion ?? sdkVersion;
     }
 
+    const workerCompilerEnabled =
+      process.env.SNACK_WORKER_COMPILER === '1' && props.defaults.workerCompiler === true;
+    this._workerCompilerEnabled = workerCompilerEnabled;
     const initialSdkVersion = sdkVersion;
 
     let wasUpgraded = false;
 
-    if (!versions.hasOwnProperty(sdkVersion)) {
+    if (
+      !versions.hasOwnProperty(sdkVersion) ||
+      (sdkVersion === '58.0.0' && !workerCompilerEnabled)
+    ) {
       sdkVersion = DEFAULT_SDK_VERSION;
       wasUpgraded = true;
     }
@@ -182,7 +197,27 @@ class Main extends React.Component<Props, State> {
     const snackagerURL = nullthrows(process.env.IMPORT_SERVER_URL);
     const isLocalWebPreview = false;
 
+    const compiler = workerCompilerEnabled
+      ? createWorkerCompiler({
+          onMetric: (metric) =>
+            window.dispatchEvent(new CustomEvent('snack-worker-metric', { detail: metric })),
+          call: (message, timeout, options) => {
+            this._compilerHost ??= createBrowserWorkerHost({
+              baseURL: window.location.origin + '/worker-compiler/',
+              project: 'session-' + this._snack.getState().channel,
+            });
+            return this._compilerHost.call(message, timeout, options);
+          },
+        })
+      : undefined;
     this._snack = new Snack({
+      compiler,
+      artifactStore:
+        compiler &&
+        props.defaults.workerArtifacts === true &&
+        process.env.SNACK_WORKER_ARTIFACTS === '1'
+          ? createSnackArtifactStore(nullthrows(process.env.API_SERVER_URL))
+          : undefined,
       disabled: true,
       channel: props.defaults.channel,
       name,
@@ -199,9 +234,14 @@ class Main extends React.Component<Props, State> {
       apiURL: nullthrows(process.env.API_SERVER_URL),
       snackpubURL: process.env.SNACKPUB_URL,
       snackagerURL,
-      runtimeEndpoint: nullthrows(process.env.SNACK_RUNTIME_ENDPOINT),
+      runtimeEndpoint:
+        compiler?.supports(sdkVersion) && process.env.SNACK_WORKER_RUNTIME_ENDPOINT
+          ? process.env.SNACK_WORKER_RUNTIME_ENDPOINT
+          : nullthrows(process.env.SNACK_RUNTIME_ENDPOINT),
       webPreviewRef: typeof window !== 'undefined' ? this._previewRef : undefined,
-      webPlayerURL: this._makeWebPlayerURL(isLocalWebPreview),
+      webPlayerURL: compiler?.supports(sdkVersion)
+        ? new URL('/worker-compiler/sdk-player', process.env.SERVER_URL).href
+        : this._makeWebPlayerURL(isLocalWebPreview),
       snackId: props.snack?.id,
       accountSnackId: props.snack?.accountSnackId,
     });
@@ -371,6 +411,7 @@ class Main extends React.Component<Props, State> {
 
     this._snack.setDisabled(true);
     this._snack.setOnline(false);
+    this._compilerHost?.dispose();
 
     this._broadcastChannel?.close();
 
@@ -392,6 +433,7 @@ class Main extends React.Component<Props, State> {
   }
 
   _snack: Snack;
+  _compilerHost?: ReturnType<typeof createBrowserWorkerHost>;
   _snackStateListener?: SnackListenerSubscription;
   _snackLogListener?: SnackListenerSubscription;
 
@@ -544,6 +586,18 @@ class Main extends React.Component<Props, State> {
           }
         }
 
+        if (state.compilation !== prevState.compilation) {
+          annotations = (annotations ?? st.annotations).filter(
+            (annotation) => annotation.source !== 'Compiler'
+          );
+          if (state.compilation?.status === 'error')
+            annotations.push({
+              message: state.compilation.error.message,
+              severity: 4,
+              source: 'Compiler',
+            });
+        }
+
         // Set save-status to changed if needed
         const saveStatus: SaveStatus =
           state.unsaved &&
@@ -578,8 +632,13 @@ class Main extends React.Component<Props, State> {
   _handleChangeSDKVersion = (sdkVersion: SDKVersion, isLocalWebPreview?: boolean) => {
     this.edited = true;
     this._snack.setSDKVersion(sdkVersion);
-    if (this.state.isLocalWebPreview !== !!isLocalWebPreview) {
-      const webPlayerURL = this._makeWebPlayerURL(!!isLocalWebPreview);
+    if (
+      this.state.isLocalWebPreview !== !!isLocalWebPreview ||
+      this.state.session.sdkVersion !== sdkVersion
+    ) {
+      const webPlayerURL = this._snack.getState().compilation
+        ? new URL('/worker-compiler/sdk-player', process.env.SERVER_URL).href
+        : this._makeWebPlayerURL(!!isLocalWebPreview);
       this._snack.setWebPlayerURL(webPlayerURL);
       this.setState({ isLocalWebPreview: !!isLocalWebPreview });
     }
@@ -833,10 +892,16 @@ class Main extends React.Component<Props, State> {
       );
     }
 
-    let isResolving = false;
+    let isResolving =
+      !!this.state.session.compilation &&
+      (['idle', 'compiling'].includes(this.state.session.compilation.status) ||
+        Object.values(this.state.session.files).some(
+          (file) => file.type === 'ASSET' && typeof file.contents !== 'string'
+        ));
     for (const name in this.state.session.dependencies) {
       const dep = this.state.session.dependencies[name];
       if (
+        !this.state.session.compilation &&
         !dep.handle &&
         !dep.error &&
         !isResolving &&
@@ -891,6 +956,7 @@ class Main extends React.Component<Props, State> {
               payerCode={this.props.query.appetizePayerCode}
               saveHistory={this.state.saveHistory}
               saveStatus={this.state.saveStatus}
+              workerCompilerEnabled={this._workerCompilerEnabled}
               sdkVersion={this.state.session.sdkVersion}
               selectedFile={this.state.selectedFile}
               sendCodeOnChangeEnabled={this.state.sendCodeOnChangeEnabled}

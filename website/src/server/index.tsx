@@ -11,6 +11,7 @@ import Raven from 'raven';
 import routes from './routes';
 import sw from './sw';
 import createLogger from './utils/createLogger';
+import workerCompiler from './workerCompiler';
 
 const startTime = Date.now();
 console.log(`Starting Snack web server using NODE_ENV=${process.env.NODE_ENV} ...`);
@@ -137,6 +138,7 @@ app.use(
 );
 
 app.use(bodyParser());
+app.use(workerCompiler);
 app.use(routes());
 
 const httpServer = app.listen(port, host, backlog, () => {

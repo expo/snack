@@ -94,6 +94,11 @@ export function getDependencyAnnotations(
     sdkVersion: SDKVersion
   ) => AnnotationAction
 ): Annotation[] {
+  const workerCompiler = process.env.SNACK_WORKER_COMPILER === '1' && sdkVersion === '58.0.0';
+  const isCoreModule = (name: string) =>
+    workerCompiler
+      ? ['react', 'react-native'].includes(name)
+      : isModulePreloaded(name, sdkVersion, true);
   const lines = packageJson.contents.split('\n');
   let json: any;
   try {
@@ -147,7 +152,7 @@ export function getDependencyAnnotations(
         source: 'Dependencies',
         action: getDependencyAction(name, version, dependencies, sdkVersion),
       });
-    } else if (!handle && !isModulePreloaded(name, sdkVersion)) {
+    } else if (!workerCompiler && !handle && !isModulePreloaded(name, sdkVersion)) {
       annotations.push({
         message: `Resolving '${name}@${version}' ...`,
         location: getPackageJsonLocation(name, lines, false),
@@ -201,7 +206,7 @@ export function getDependencyAnnotations(
     const fileDeps = filesDependencies[path];
     for (const name in fileDeps) {
       const fileDep = fileDeps[name];
-      if (fileDep.isPackage && !isModulePreloaded(name, sdkVersion, true)) {
+      if (fileDep.isPackage && !isCoreModule(name)) {
         const dep = dependencies[name];
         if (!dep) {
           const isPreloaded = isModulePreloaded(name, sdkVersion);

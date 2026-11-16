@@ -46,6 +46,7 @@ export type EditorViewProps = {
   experienceURL: string;
   experienceName: string;
   sdkVersion: SDKVersion;
+  workerCompilerEnabled?: boolean;
   sendCodeOnChangeEnabled: boolean;
   isLocalWebPreview: boolean;
   onSendCode: () => void;
