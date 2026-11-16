@@ -16,10 +16,19 @@
     "deploy:staging": "EXPO_PUBLIC_SNACK_ENV=staging EXPO_STAGING=1 eas update --auto --branch production --environment production",
     "deploy:prod": "EXPO_PUBLIC_SNACK_ENV=production eas update --auto --branch production --environment production",
     "deploy:web:staging": "EXPO_PUBLIC_SNACK_ENV=staging node ./web/deploy-script.js",
-    "deploy:web:prod": "EXPO_PUBLIC_SNACK_ENV=production node ./web/deploy-script.js"
+    "deploy:web:prod": "EXPO_PUBLIC_SNACK_ENV=production node ./web/deploy-script.js",
+    "build:worker": "node scripts/build-worker.cjs",
+    "prestart": "yarn build:worker",
+    "preweb": "yarn build:worker",
+    "predeploy:staging": "yarn build:worker",
+    "predeploy:prod": "yarn build:worker",
+    "predeploy:web:staging": "yarn build:worker",
+    "predeploy:web:prod": "yarn build:worker",
+    "test:worker": "node scripts/launch-test.cjs && tsc -p tsconfig.worker.json"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
+    "@expo/ui": "~58.0.27",
     "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/drawer": "^7.5.0",
@@ -32,6 +41,7 @@
     "escape-string-regexp": "^5.0.0",
     "expo": "~58.0.0",
     "expo-asset": "~58.0.21",
+    "expo-audio": "~58.0.12",
     "expo-camera": "~58.0.14",
     "expo-constants": "~58.0.16",
     "expo-crypto": "~58.0.8",
@@ -58,9 +68,11 @@
     "react-native-reanimated": "4.7.1",
     "react-native-safe-area-context": "~5.11.1",
     "react-native-screens": "~4.30.1",
+    "react-native-svg": "15.16.0",
     "react-native-view-shot": "6.1.1",
     "react-native-web": "^0.21.4",
     "react-native-worklets": "0.13.0",
+    "react-server-dom-webpack": "19.3.0",
     "snack-babel-standalone": "file:../packages/snack-babel-standalone",
     "snack-content": "file:../packages/snack-content",
     "snack-require-context": "file:../packages/snack-require-context",
@@ -76,6 +88,7 @@
     "@types/react": "~19.3.0",
     "@types/react-dom": "~19.3.0",
     "babel-preset-expo": "~58.0.25",
+    "esbuild": "0.28.2",
     "eslint": "^8.56.0",
     "eslint-config-universe": "^15.0.3",
     "expo-atlas": "^0.4.0",
@@ -97,7 +110,8 @@
   "eslintConfig": {
     "extends": "universe/native",
     "ignorePatterns": [
-      "vendor"
+      "vendor",
+      "src/worker/flight-client.js"
     ],
     "overrides": [
       {

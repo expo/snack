@@ -46,3 +46,14 @@ To manually deploy or learn more about deploying, see the [Deployment guide](./_
 | Update indicator `Updating...`   | New code has been received, runtime is applying updates                                                                     |
 
 > Update indicators are only shown when the operation takes too long (after 3 seconds)
+
+## Opt-in worker runtime
+
+`yarn build:worker` generates the Flight client before bundling. Legacy launches
+continue to load `App`; SDK 58 URLs with `compiler=worker` load the graph client.
+The client negotiates `snack-worker-graph@1`, validates downloaded artifacts, and
+uses the existing Snackpub and saved-Snack APIs. Compiler data stays out of the
+editable source. This entry does not include the standalone prototype relay.
+
+Run `yarn test:worker`, `yarn tsc --noEmit`, and production exports for all platforms
+after installing this runtime's dependencies.

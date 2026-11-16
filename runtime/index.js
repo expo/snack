@@ -1,7 +1,7 @@
 import { registerRootComponent } from 'expo';
 import { LogBox } from 'react-native';
 
-import App from './src/App';
+import App from './src/RuntimeEntry';
 
 // Ignore all deep imports warnings
 LogBox.ignoreLogs([/Deep imports from the 'react-native' package are deprecated/i]);
