@@ -30,6 +30,15 @@ import Snack, {
 import defaultConfig from './defaultConfig';
 import { setSnackSDKFetch } from './utils';
 
+export { selectSnackCompiler } from './Compiler';
+export type {
+  SnackCompilationInput,
+  SnackCompiledArtifact,
+  SnackCompiler,
+  SnackCompilerOptions,
+  SnackCompilerSelection,
+} from './Compiler';
+
 export * from './transports';
 export * from './types';
 export type {
