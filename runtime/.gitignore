@@ -1,3 +1,5 @@
 .expo/
 web-build/
 dist/
+
+src/worker/flight-client.js
