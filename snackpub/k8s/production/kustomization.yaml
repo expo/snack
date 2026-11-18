@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: production
 resources:
   - ../base
+  - pod-disruption-budget.yaml
   - vertical-pod-autoscaler.yaml
   - external-secret-env.yaml
 patchesStrategicMerge:
