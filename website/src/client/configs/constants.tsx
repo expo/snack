@@ -8,8 +8,6 @@ type AppetizeConstants = Record<
 >;
 
 const appetize: Record<SDKVersion, AppetizeConstants> = {
-  // TODO: replace with real SDK 56 Appetize keys once the SDK 56 Expo Go build is uploaded
-  // (currently reusing SDK 55 keys for preliminary support).
   '56.0.0': {
     main: {
       android: {
@@ -17,7 +15,7 @@ const appetize: Record<SDKVersion, AppetizeConstants> = {
         device: 'pixel9pro',
       },
       ios: {
-        publicKey: 'b_ajqa3zzgege6ekdknjk7olwere',
+        publicKey: 'b_ft4v4rr5xsqb4jqjqhmpdamw34',
         device: 'iphone16pro',
       },
     },
@@ -35,7 +33,7 @@ const appetize: Record<SDKVersion, AppetizeConstants> = {
   '55.0.0': {
     main: {
       android: {
-        publicKey: 'b_xruwx7dl5fqkoxxvpclq5fadki',
+        publicKey: 'b_nvvhgrzeviyaw4rfcabjt7mgye',
         device: 'pixel9pro',
       },
       ios: {
@@ -45,11 +43,11 @@ const appetize: Record<SDKVersion, AppetizeConstants> = {
     },
     embed: {
       android: {
-        publicKey: 'b_2kbba42dzbt24ocqb6wismikvq',
+        publicKey: 'b_2ogcm5edf3ceqxbytmzswvdysa',
         device: 'pixel8',
       },
       ios: {
-        publicKey: 'b_7rz6fiv2dm33kjhaab6enspwpq',
+        publicKey: 'b_uu2vk7mf53whz6kysaqbbqdr74',
         device: 'iphone16pro',
       },
     },
