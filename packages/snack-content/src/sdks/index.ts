@@ -222,7 +222,7 @@ const sdks: { [version: string]: SDKSpec } = {
     version: '^56.0.0',
     coreModules: {
       ...assets,
-      expo: '56.0.0-preview.7', // TODO: replace with `~56.0.x` when stable is out
+      expo: '~56.0.24',
       react: '19.2.3',
       'react-dom': '19.2.3',
       'react-native': '0.85.3',
