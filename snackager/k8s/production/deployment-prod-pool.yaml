@@ -6,8 +6,25 @@ spec:
   template:
     spec:
       nodeSelector:
-        pool: prod
+        $patch: replace
+        scheduling.cast.ai/node-template: prod
       tolerations:
       - key: dedicated
         value: prod
         effect: NoSchedule
+      - key: scheduling.cast.ai/scoped-autoscaler
+        operator: Exists
+        effect: NoSchedule
+      - key: castai-opt-in
+        value: prod
+        effect: NoSchedule
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: DoNotSchedule
+        nodeTaintsPolicy: Honor
+        matchLabelKeys:
+        - pod-template-hash
+        labelSelector:
+          matchLabels:
+            app: snackager

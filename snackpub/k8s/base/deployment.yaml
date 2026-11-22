@@ -11,6 +11,7 @@ spec:
       maxSurge: 3
   template:
     spec:
+      terminationGracePeriodSeconds: 120
       restartPolicy: Always
       containers:
         - name: snackpub
@@ -25,6 +26,10 @@ spec:
             requests:
               memory: 420Mi
               cpu: 130m
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "90"]
           livenessProbe:
             httpGet:
               path: /status/live
