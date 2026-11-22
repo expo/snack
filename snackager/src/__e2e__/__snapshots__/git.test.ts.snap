@@ -267,7 +267,7 @@ exports[`git imports repository with too old sdkVersion 1`] = `
         },
         "description": "test3 @ Jan 1, 2020",
         "name": "test3",
-        "sdkVersion": "54.0.0",
+        "sdkVersion": "56.0.0",
       },
     },
     "headers": {
