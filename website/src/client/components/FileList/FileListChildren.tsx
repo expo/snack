@@ -105,6 +105,6 @@ export default class FileListChildren extends React.PureComponent<Props> {
 const styles = StyleSheet.create({
   container: {
     display: 'inline-block',
-    width: '100%',
+    width: '100%',   
   },
 });
