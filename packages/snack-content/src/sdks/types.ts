@@ -9,7 +9,8 @@ export type SDKVersion =
   | '54.0.0'
   | '55.0.0'
   | '56.0.0'
-  | '57.0.0';
+  | '57.0.0'
+  | '58.0.0';
 
 /** @internal */
 export type SDKSpec = {
