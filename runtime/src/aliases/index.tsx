@@ -12,7 +12,6 @@ const aliases: { [key: string]: any } = {
   'react-native/Libraries/BatchedBridge/BatchedBridge': require('react-native/Libraries/BatchedBridge/BatchedBridge'),
   'react-native/Libraries/ReactNative/AppContainer': require('react-native/Libraries/ReactNative/AppContainer'),
   'react-native/Libraries/Utilities/dismissKeyboard': require('react-native/Libraries/Utilities/dismissKeyboard'), // for @react-native-community/viewpager
-  'react-native/Libraries/Renderer/shims/ReactNative': require('react-native/Libraries/Renderer/shims/ReactNative'), // for react-native-reanimated
   'react-native/Libraries/Components/UnimplementedViews/UnimplementedView': require('react-native/Libraries/Components/UnimplementedViews/UnimplementedView'), // for @react-native-picker/picker@1.9.11
   'react-native/Libraries/Components/TextInput/TextInputState': require('react-native/Libraries/Components/TextInput/TextInputState'), // for @stripe/stripe-react-native
   'react-native/Libraries/Core/Devtools/parseErrorStack': require('react-native/Libraries/Core/Devtools/parseErrorStack'), // Used by @sentry/react-native@3.4.2
