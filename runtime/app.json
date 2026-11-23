@@ -17,13 +17,27 @@
   "developmentClient": {
     "silentLaunch": true
   },
-  "platforms": ["android", "ios", "web"],
-  "assetBundlePatterns": ["**/*"],
+  "platforms": [
+    "android",
+    "ios",
+    "web"
+  ],
+  "assetBundlePatterns": [
+    "**/*"
+  ],
   "web": {
     "favicon": "./assets/favicon.png",
     "bundler": "metro"
   },
-  "plugins": ["expo-font", "expo-router", "expo-asset", "expo-image", "expo-splash-screen", "expo-video"],
+  "plugins": [
+    "expo-asset",
+    "expo-status-bar",
+    "expo-font",
+    "expo-image",
+    "expo-router",
+    "expo-splash-screen",
+    "expo-video"
+  ],
   "runtimeVersion": {
     "policy": "sdkVersion"
   }
